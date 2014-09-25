@@ -21,8 +21,8 @@
         <div class="col-md-9 nopadding">
           
                 {assign var=sorting_links value=sorting_links()}
-                <h4 class="smaller lighter pull-left">Browsing All Collections: </h4>
-                <div class="photopadding col-md-8">
+                <h4 class="smaller lighter pull-left mrs">Browsing All Collections: </h4>
+                <div class="">
                     <div class="btn-group">
                         {if $smarty.get.sorting}
                         {foreach from=$sorting_links item=name key=sort}
@@ -94,7 +94,7 @@
                             {/foreach}
                         </ul>
                     </div>
-                       <a class="btn btn-primary pull-right" style="margin-right: -107px" href="{$baseurl}/manage_collections.php?mode=add_new">{lang code='add_new_collection'}</a>
+                       <a class="btn btn-primary pull-right" href="{$baseurl}/manage_collections.php?mode=add_new">{lang code='add_new_collection'}</a>
                 </div>
                 <br>
                 <hr>
