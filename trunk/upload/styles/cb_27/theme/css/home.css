@@ -136,7 +136,7 @@
 }
 /**/
 .grid_view.recent-col{
-	margin:0 0 20px;
+	/*margin:0 0 20px;*/
 	padding: 0 15px 0 0 !important;
 }
 .grid_view.recent-col a.thumb-holder{
