@@ -21,6 +21,11 @@
  * everytime you download a new version
 */
 define ('VERSION', '2.8.14');                                   // Version of this script 
+
+
+if(!defined('BASEDIR'))
+define("BASEDIR",__DIR__.'/../../');
+
 //Load a config file if it exists. Otherwise, use the values below
 if( file_exists(dirname(__FILE__) . '/timthumb-config.php'))  require_once('timthumb-config.php');
 if(! defined('DEBUG_ON') )          define ('DEBUG_ON', false);               // Enable debug logging to web server error log (STDERR)
@@ -29,7 +34,7 @@ if(! defined('MEMORY_LIMIT') )        define ('MEMORY_LIMIT', '30M');           
 if(! defined('BLOCK_EXTERNAL_LEECHERS') )   define ('BLOCK_EXTERNAL_LEECHERS', false);        // If the image or webshot is being loaded on an external site, display a red "No Hotlinking" gif.
 if(! defined('DISPLAY_ERROR_MESSAGES') )  define ('DISPLAY_ERROR_MESSAGES', true);        // Display error messages. Set to false to turn off errors (good for production websites)
 //Image fetching and caching
-if(! defined('ALLOW_EXTERNAL') )      define ('ALLOW_EXTERNAL', TRUE);            // Allow image fetching from external websites. Will check against ALLOWED_SITES if ALLOW_ALL_EXTERNAL_SITES is false
+if(! defined('ALLOW_EXTERNAL') )      define ('ALLOW_EXTERNAL', FALSE);            // Allow image fetching from external websites. Will check against ALLOWED_SITES if ALLOW_ALL_EXTERNAL_SITES is false
 if(! defined('ALLOW_ALL_EXTERNAL_SITES') )  define ('ALLOW_ALL_EXTERNAL_SITES', false);       // Less secure. 
 if(! defined('FILE_CACHE_ENABLED') )    define ('FILE_CACHE_ENABLED', TRUE);          // Should we store resized/modified images on disk to speed things up?
 if(! defined('FILE_CACHE_TIME_BETWEEN_CLEANS')) define ('FILE_CACHE_TIME_BETWEEN_CLEANS', 86400); // How often the cache is cleaned 
@@ -222,7 +227,8 @@ class timthumb {
     
     //$this->src = preg_replace('/https?:\/\/(?:www\.)?' . $this->myHost . '/i', '', $this->src);
     $this->src = 'files/'.$directory.preg_replace('/https?:\/\/(?:www\.)?' . $this->myHost . '/i', '', $this->src);
-    
+   
+    //if(!file_exists($this->src)) exit("Warr gayee");
 
 
     if(strlen($this->src) <= 3){
@@ -276,6 +282,7 @@ class timthumb {
       asort($arr);
       $this->cachefile = $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . implode('', $arr) . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
     } else {
+
       $this->localImage = $this->getLocalImagePath($this->src);
       if(! $this->localImage){
         $this->debug(1, "Could not find the local image: {$this->localImage}");
@@ -839,6 +846,8 @@ class timthumb {
     return true;
   }
   protected function calcDocRoot(){
+    $this->docRoot = BASEDIR;
+    return; 
     $docRoot = @$_SERVER['DOCUMENT_ROOT'];
     if (defined('LOCAL_FILE_BASE_DIRECTORY')) {
       $docRoot = LOCAL_FILE_BASE_DIRECTORY;   
@@ -868,11 +877,13 @@ class timthumb {
       $this->debug(3, "We have no document root set, so as a last resort, lets check if the image is in the current dir and serve that.");
       //We don't support serving images outside the current dir if we don't have a doc root for security reasons.
       $file = preg_replace('/^.*?([^\/\\\\]+)$/', '$1', $src); //strip off any path info and just leave the filename.
+
       if(is_file($file)){
         return $this->realpath($file);
       }
       return $this->error("Could not find your website document root and the file specified doesn't exist in timthumbs directory. We don't support serving files outside timthumb's directory without a document root for security reasons.");
     } else if ( ! is_dir( $this->docRoot ) ) {
+
       $this->error("Server path does not exist. Ensure variable \$_SERVER['DOCUMENT_ROOT'] is set correctly");
     }
     
@@ -904,7 +915,7 @@ class timthumb {
     
     $base = $this->docRoot;
     
-    // account for Windows directory structure
+    /*// account for Windows directory structure
     if (strstr($_SERVER['SCRIPT_FILENAME'],':')) {
       $sub_directories = explode('\\', str_replace($this->docRoot, '', $_SERVER['SCRIPT_FILENAME']));
     } else {
@@ -917,6 +928,7 @@ class timthumb {
       if(file_exists($base . $src)){
         $this->debug(3, "Found file as: " . $base . $src);
         $real = $this->realpath($base . $src);
+
         if(stripos($real, $this->realpath($this->docRoot)) === 0){
           return $real;
         } else {
@@ -924,7 +936,11 @@ class timthumb {
           //And continue search
         }
       }
-    }
+    }*/
+
+    if(file_exists($base .  $src))
+      return $base . $src;
+
     return false;
   }
   protected function realpath($path){
