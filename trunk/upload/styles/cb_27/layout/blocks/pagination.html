@@ -1,14 +1,19 @@
 
-
+ {if $pagination}
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mtl">
 	<ul align="center" class="pagination pagination-center">
-         <li class="prev disabled">
+         <!-- <li class="prev disabled">
              <a href="#">
-                 <i class="icon-double-angle-left"></i></a></li>
-         <li class="active">{if $pagination}
-             {if $first_link !=''}<a class="active" {$first_link}>&laquo;</a>{/if}  {if $pre_link !=''}<a {$pre_link} >&#8249;</a>{/if} {$pagination}  {if $next_link !=''}<a {$next_link}>&#8250;</a>{/if}
-             {/if}</li>
-         <li class="next"> {if $last_link !=''}<a {$last_link}>&raquo;</a>{/if}</li>
+                 <i class="icon-double-angle-left"></i></a></li> -->
+         
+        
+             {if $first_link !=''}<li><a  {$first_link}><i class="icon-double-angle-left"></i></a></li>{/if}  
+             {if $pre_link !=''}<li><a {$pre_link} >&#8249;</a></li>{/if} 
+             {$pagination}  
+             {if $next_link !=''}<li><a {$next_link}>&#8250;</a></li>{/if}
+       
+        </li>
+        {if $last_link !=''} <li class="next"> <a {$last_link}><i class="icon-double-angle-right"></i></a></li>{/if}
      </ul>	
 </div>
-  
+  {/if} 
