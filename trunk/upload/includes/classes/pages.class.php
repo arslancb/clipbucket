@@ -275,10 +275,10 @@ class pages{
 			{
 				if($selected == $i)
 				{
-					$start .= ' <span class ="selected">'.$i.'</span> ';
+					$start .= ' <li class ="active"><a href="#">'.$i.'</a></li> ';
 				}else
 					$start .= $this->create_link($i,$link,$extra_params,$tag);
-				$start_last = $i;
+				$start_last = $i; 
 			}
 			
 			//Starring Last
@@ -289,7 +289,7 @@ class pages{
 				
 				if($selected == $i)
 				{
-					$end .= ' <span class ="selected">'.$i.'</span> ';
+					$end .= ' <li class ="active"><a href="#">'.$i.'</a></li> ';
 				}else
 				$end .= $this->create_link($i,$link,$extra_params,$tag);
 			}
@@ -304,7 +304,7 @@ class pages{
 				{
 					if($selected == $i)
 					{
-						$mid .= ' <span class ="selected">'.$i.'</span> ';
+						$mid .= ' <li class ="active"><a href="#">'.$i.'</a></li> ';
 					}else
 						$mid .= $this->create_link($i,$link,$extra_params,$tag);
 				}
@@ -338,15 +338,19 @@ class pages{
 			{
 				if($i==1)
 				{
-					$pagination_smart .="<li>";
+					//$pagination_smart .="<li>";
 				}
+				
 				if($i == $selected)
-					$pagination_smart .= '<span class ="selected">'.$i.'</span>';
+					$pagination_smart .= '<li class ="active"><a href="#">'.$i.'</a></li>';
 				else
 					$pagination_smart .=$this->create_link($i,$link,$extra_params,$tag);
 
 				if($i==1)
-					$pagination_smart .="</li>";
+				{
+					//$pagination_smart .="</li>";
+				}	
+					
 			}
 			
 			//Previous Page
@@ -370,7 +374,7 @@ class pages{
 	/**
 	 * Function used to create pagination and assign values that can bee used in template
 	 */
-	function paginate($total,$page,$link=NULL,$extra_params=NULL,$tag='<a #params#>#page#</a>')
+	function paginate($total,$page,$link=NULL,$extra_params=NULL,$tag='<li><a #params#>#page#</a></li>')
 	{
 		
 		$this->pagination = $this->pagination($total,$page,$link,$extra_params,$tag);
