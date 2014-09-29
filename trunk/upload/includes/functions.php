@@ -3522,10 +3522,18 @@
 	 */
 	function get_ffmpeg_codecs($data=false)
 	{
+		if (PHP_OS == "Linux")
+		{
+			$a = 'libfaac';
+		}
+		elseif (PHP_OS == "WINNT")
+		{
+			$a = 'libvo_aacenc';
+		}
 		$req_codecs = array
 		('libxvid' => 'Required for DIVX AVI files',
 		 'libmp3lame'=> 'Required for proper Mp3 Encoding',
-		 'libfaac'	=> 'Required for AAC Audio Conversion',
+		 $a	=> 'Required for AAC Audio Conversion',
 		// 'libfaad'	=> 'Required for AAC Audio Conversion',
 		 'libx264'	=> 'Required for x264 video compression and conversion',
 		 'libtheora' => 'Theora is an open video codec being developed by the Xiph.org',
@@ -3668,14 +3676,33 @@
 		$path = get_binaries($path);
 		$matches = array();
 		$result = shell_output($path." -version");
-		if($result) {
+		echo "$result";
+		$myfile = fopen("123.txt", "w") ;
+		fwrite($myfile, $result);
+		fclose($myfile);
+		if($result) 
+		{
 			preg_match("/(?:version\\s)(\\d\\.\\d\\.(?:\\d|[\\w]+))/i", strtolower($result), $matches);
-			if(count($matches) > 0){
+			if(count($matches) > 0)
+			{
 				$version = array_pop($matches);
 				return $version;
 			}
 			return false;
-		}else{
+		}
+		elseif (preg_match("/GPAC version/i", $result))
+			{
+				preg_match('@^(?:GPAC version)?([^-]+)@i',$result, $matches);
+				$host = $matches[1];
+
+				// get last two segments of host name
+				preg_match('/[^.]+\.[^.]+$/', $host, $matches);
+				//echo "{$matches[0]}\n";
+				$version = "{$matches[0]}";
+				return $version;
+			}
+		else
+		{
 			return false;
 		}
 			
@@ -4337,8 +4364,15 @@
 		global $curl;
 		if($rawdecode==true)
 		$snatching_file= rawurldecode($snatching_file);
-		$destination.'/'.$dest_name;
-		$fp = fopen ($destination.'/'.$dest_name, 'w+');
+		if(PHP_OS == "Linux")
+		{
+			$destination.'/'.$dest_name;
+			$fp = fopen ($destination.'/'.$dest_name, 'w+');
+		}
+		elseif (PHP_OS == "WINNT") {
+			$destination.'\\'.$dest_name;
+			$fp = fopen ($destination.'\\'.$dest_name, 'w+');
+		}
 		$ch = curl_init($snatching_file);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 600);
 		curl_setopt($ch, CURLOPT_FILE, $fp);

@@ -561,8 +561,19 @@ function get_video_being_processed($fileName=NULL)
         $fileNameQuery = " AND cqueue_name ='$queueName' AND cqueue_ext ='$ext' ";
     }
 
-    $results = $db->select(tbl("conversion_queue"),"*","cqueue_conversion='p' $fileNameQuery");
-    return $results;
+    //$results = $db->select(tbl("conversion_queue"),"*","cqueue_conversion='p' $fileNameQuery");
+    $query = " SELECT * FROM ".tbl("conversion_queue");
+    $query .= " WHERE cqueue_conversion='p' ";
+
+    if(isset($fileNameQuery))
+        $query .= $fileNameQuery;
+
+    
+
+    $results = db_select($query);
+
+    if($results)
+        return $results;
 }
 
 function get_video_details( $vid = null, $basic = false ) {
@@ -711,6 +722,7 @@ function get_hq_video_file($vdetails,$return_default=true)
  */
 function update_processed_video($file_array,$status='Successful',$ingore_file_status=false,$failed_status='')
 {
+
     global $db;
     $file = $file_array['cqueue_name'];
     $array = explode('-',$file);
@@ -736,8 +748,6 @@ function update_processed_video($file_array,$status='Successful',$ingore_file_st
             array($status,$duration,$failed_status)," file_name='".$file_name."'");
     }else
     {
-        $stats = get_file_details($file_name);
-
         //$duration = $stats['output_duration'];
         //if(!$duration)
         //  $duration = $stats['duration'];
@@ -745,7 +755,9 @@ function update_processed_video($file_array,$status='Successful',$ingore_file_st
         $duration = parse_duration(LOGS_DIR.'/'.$file_array['cqueue_name'].'.log');
 
         $db->update(tbl("video"),array("status","duration","failed_reason"),
-            array('Failed',$duration,$failed_status)," file_name='".$file_name."'");
+            array($status,$duration,$failed_status)," file_name='".$file_name."'");
+
+     
     }
 }
 
@@ -769,8 +781,9 @@ function activate_video_with_file($vid)
  * Function Used to get video file stats from database
  * @param FILE_NAME
  */
-function get_file_details($file_name)
+function get_file_details($file_name,$get_jsoned=false)
 {
+
     global $db;
     //$result = $db->select(tbl("video_files"),"*"," id ='$file_name' OR src_name = '$file_name' ");
     //Reading Log File
@@ -779,8 +792,12 @@ function get_file_details($file_name)
         $file = $file_name;
     if(file_exists($file))
     {
+
         $data = file_get_contents($file);
-        return $data;
+
+        if(!$get_jsoned)
+            return $data;
+        
         //$file = file_get_contents('1260270267.log');
         preg_match_all('/(.*) : (.*)/',trim($data),$matches);
 
