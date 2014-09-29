@@ -3676,10 +3676,6 @@
 		$path = get_binaries($path);
 		$matches = array();
 		$result = shell_output($path." -version");
-		echo "$result";
-		$myfile = fopen("123.txt", "w") ;
-		fwrite($myfile, $result);
-		fclose($myfile);
 		if($result) 
 		{
 			preg_match("/(?:version\\s)(\\d\\.\\d\\.(?:\\d|[\\w]+))/i", strtolower($result), $matches);
