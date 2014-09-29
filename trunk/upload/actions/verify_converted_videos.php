@@ -7,8 +7,10 @@
  
 //Sleeping..
 //sometimes video is inserted after video conversion so in this case, video can get lost
-//if($argv[2]=='sleep')
+
+if($argv[2]=='sleep')
 sleep(10);
+
 
 $in_bg_cron = true;
 
@@ -21,23 +23,33 @@ if($argv[1])
 else
 	$fileName = false;
 
+if(isset($_GET['filename']))
+	$fileName = $_GET['filename'];
+
+
 $files = get_video_being_processed($fileName);
+
+
 
 if(is_array($files))
 foreach($files as $file)
 {
-	$file_details = get_file_details($file['cqueue_name']);
-	//pr($file_details);
+	$file_details = get_file_details($file['cqueue_name'],true);
+	
 	
 	//Thanks to pandusetiawan @ forums.clip-bucket.com
+
 	
 	if($file_details['conversion_status']=='failed' or strpos($file_details['conversion_log'],'conversion_status : failed') >0)
 	{
 		
-		$db->update(tbl("conversion_queue"),
-					array("cqueue_conversion"),
-					array("yes")," cqueue_id = '".$file['cqueue_id']."'");
 		update_processed_video($file,'Failed',$ffmpeg->failed_reason);
+
+
+		$db->update(tbl("conversion_queue"),
+		array("cqueue_conversion"),
+		array("yes")," cqueue_id = '".$file['cqueue_id']."'");
+		
 		
 		/**
 		 * Calling Functions after converting Video
@@ -52,15 +64,17 @@ foreach($files as $file)
 		}
 		
 
-	}elseif($file_details['conversion_status']=='completed' or strpos($file_details['conversion_log'],'conversion_status : completed') >0)
+	}elseif($file_details['conversion_status']=='completed' or strpos($file_details['conversion_log'],'conversion_status : completed') >0 or $file_details['conversion_status']=='Successful' or strpos($file_details['conversion_log'],'conversion_status : Successful') >0)
 	{
 		
-		$db->update(tbl("conversion_queue"),
-					array("cqueue_conversion","time_completed"),
-					array("yes",time())," cqueue_id = '".$file['cqueue_id']."'");
-		
-				
+
+	
 		update_processed_video($file,'Successful');
+
+		$db->update(tbl("conversion_queue"),
+		array("cqueue_conversion","time_completed"),
+		array("yes",time())," cqueue_id = '".$file['cqueue_id']."'");
+		
 		
 		
 		/**

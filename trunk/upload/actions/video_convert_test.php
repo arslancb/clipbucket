@@ -74,52 +74,119 @@ $configs = array(
 	'outputPath' => $fileDir,
 );
 
-require_once(BASEDIR.'/ffmpeg.new.class.php');
+	require_once(BASEDIR.'/ffmpeg.new.class.php');
 
-$ffmpeg = new FFMpeg($configs, $log);
-$ffmpeg->convertVideo($orig_file);
-	
-unlink($orig_file);
+	$ffmpeg = new FFMpeg($configs, $log);
+	$ffmpeg->convertVideo($orig_file);
+
+		
+			
+	////exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
+	if (stristr(PHP_OS, 'WIN'))
+	{
+		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $fileName $dosleep");
+	} else {
+		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $fileName $dosleep &> /dev/null &");
+	}
+
+
+	unlink($orig_file);
 }
+
+
+exit();
 $str = "/".date("Y")."/".date("m")."/".date("d")."/";
 $orig_file1 = BASEDIR.'/files/videos'.$str.$tmp_file.'-sd.'.$ext;
 
 if($orig_file1)
 {
-	$out = shell_exec("ffmpeg -i ".$orig_file1." -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
-	sleep(1);
-	
-	$log->writeLog();
-	$len = strlen($out);
-	$findme = 'Duration';
-	$findme1 = 'start';
-	$pos = strpos($out, $findme);
-	$pos = $pos + 10;
-	$pos1 = strpos($out, $findme1);
-	$bw = $len - ($pos1 - 5);
-	$rest = substr($out, $pos, -$bw);
-	$duration = explode(':',$rest);
-	//Convert Duration to seconds
-	$hours = $duration[0];
-	$minutes = $duration[1];
-	$seconds = $duration[2];
-		
-	$hours = $hours * 60 * 60;
-	$minutes = $minutes * 60;
-				
-	$duration = $hours+$minutes+$seconds;
-	//$duration =  (int) $ffmpeg->videoDetails['duration'];
-	if($duration > 0)
+	$status = "Successful";
+	if(PHP_OS == "Linux")
 	{
+		$ffMpegPath = FFMPEG_BINARY;
+		$out = shell_exec($ffMpegPath." -i ".$orig_file1." -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
+		sleep(1);
+		
+		$log->writeLog();
+		$len = strlen($out);
+		$findme = 'Duration';
+		$findme1 = 'start';
+		$pos = strpos($out, $findme);
+		$pos = $pos + 10;
+		$pos1 = strpos($out, $findme1);
+		$bw = $len - ($pos1 - 5);
+		$rest = substr($out, $pos, -$bw);
+		$duration = explode(':',$rest);
+		//Convert Duration to seconds
+		$hours = $duration[0];
+		$minutes = $duration[1];
+		$seconds = $duration[2];
+			
+		$hours = $hours * 60 * 60;
+		$minutes = $minutes * 60;
+					
+		$duration = $hours+$minutes+$seconds;
+		//$duration =  (int) $ffmpeg->videoDetails['duration'];
+		if($duration > 0)
+		{
 
-			$status = "Successful";
-			$log->writeLine("Conversion Result", "Successful");
+				$status = "Successful";
+				$log->writeLine("Conversion Result", "Successful");
+		}
+		else
+		{
+			$status = "Failure";
+			$log->writeLine("Conversion Result", "Failure");
+		}
 	}
 	else
 	{
-		$status = "Failure";
-		$log->writeLine("Conversion Result", "Failure");
+		$ffMpegPath = FFMPEG_BINARY;
+		$out = shell_exec($ffMpegPath." -i ".$orig_file1." -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
+		sleep(1);
+		
+		$log->writeLog();
+		$len = strlen($out);
+		$findme = 'Duration';
+		$findme1 = 'start';
+		$pos = strpos($out, $findme);
+		$pos = $pos + 10;
+		$pos1 = strpos($out, $findme1);
+		$bw = $len - ($pos1 - 5);
+		$rest = substr($out, $pos, -$bw);
+		$duration = explode(':',$rest);
+		//Convert Duration to seconds
+		$hours = $duration[0];
+		$minutes = $duration[1];
+		$seconds = $duration[2];
+			
+		$hours = $hours * 60 * 60;
+		$minutes = $minutes * 60;
+					
+		$duration = $hours+$minutes+$seconds;
+		//$duration =  (int) $ffmpeg->videoDetails['size'];
+		if($duration > "0")
+		{
+
+				$status = "Successful";
+				
+				$db->update(tbl('video'), array("duration"), array($duration), " file_name = '{$outputFileName}'");
+				$db->update(tbl('video'), array("status"), array($status), " file_name = '{$outputFileName}'");
+			
+				$log->writeLine("Conversion Result", "Successful");
+		}
+		else
+		{
+			$status = "Failed";
+			$db->update(tbl('video'), array("duration"), array($duration), " file_name = '{$outputFileName}'");
+			$db->update(tbl('video'), array("status"), array($status), " file_name = '{$outputFileName}'");
+			$log->writeLine("Conversion Result", "Failed");
+		}
 	}
 }
 // update the video details in the database as successful conversion or not and video duration
-$db->update(tbl('video'), array("duration", "status"), array($duration, $status), " file_name = '{$outputFileName}'");
+$myfile = fopen("123.txt", "w");
+$txt = " file_name = '{$outputFileName}'";
+fwrite($myfile, $duration.$status.$txt);
+fclose($myfile);
+
