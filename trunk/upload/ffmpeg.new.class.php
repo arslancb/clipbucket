@@ -1,6 +1,7 @@
 <?php
 define('FFMPEG_BINARY', get_binaries('ffmpeg'));
 define("thumbs_number",config('num_thumbs'));
+
 $size12 = "0";
 class FFMpeg{
 	private $command = "";
@@ -30,11 +31,11 @@ class FFMpeg{
 	// this is test comment
 
 	private $resolution4_3 = array(
-		'240' => array('320','240'),
-		'360' => array('480','360'),
-		'480' => array('640','480'),
-		'720' => array('960','720'),
-		'1080' => array('1440','1080'),
+		'240' => array('428','240'),
+		'360' => array('640','360'),
+		'480' => array('854','480'),
+		'720' => array('1280','720'),
+		'1080' => array('1920','1080'),
 		);
 
 	/*
@@ -117,7 +118,7 @@ class FFMpeg{
 		if($videoDetails)
 		{
 			$this->hdFile = "{$this->outputFile}-hd.{$this->options['format']}";
-			$out= shell_exec("ffmpeg -i {$this->inputFile} -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
+			$out= shell_exec($this->ffMpegPath ." -i {$this->inputFile} -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
 			$len = strlen($out);
 			$findme = 'Video';
 			$findme1 = 'fps';
@@ -143,11 +144,26 @@ class FFMpeg{
 				$this->log->writeLine("ffmpeg output", $conversionOutput);
 				
 				$this->log->writeLine("MP4Box Conversion for SD", "Starting");
-				$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->sdFile}  -tmp /";
+				$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->sdFile}  -tmp ".TEMP_DIR;
+				if (PHP_OS == "WINNT")
+				{
+					$fullCommand = str_replace("/","\\",$fullCommand);	
+				}
 				$this->log->writeLine("command", $fullCommand);
 				$output = $this->executeCommand($fullCommand);
 				$this->log->writeLine("output", $output);
+				
+				if (file_exists($this->sdFile))
+				{
+					$this->sdFile1 = "{$this->outputFile}.{$this->options['format']}";
+					$path = explode("/", $this->sdFile1);
+					$name = array_pop($path);
+					$name = substr($name, 0, strrpos($name, "."));
+					$status = "Successful";
+					$this->log->writeLine("Conversion Result", 'conversion_status : '.$status);
 
+				
+				}
 				$this->log->newSection("High Resolution Conversion");
 				$this->log->writeLine("Generating high resolution video", "Starting");
 				$this->hdFile = "{$this->outputFile}-hd.{$this->options['format']}";
@@ -156,10 +172,15 @@ class FFMpeg{
 				$conversionOutput = $this->executeCommand($fullCommand);
 				$this->log->writeLine("ffmpeg output", $conversionOutput);
 				$this->log->writeLine("MP4Box Conversion for HD", "Starting");
-				$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->hdFile}  -tmp /";
+				$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->hdFile}  -tmp ".TEMP_DIR;
+				if (PHP_OS == "WINNT")
+				{
+					$fullCommand = str_replace("/","\\",$fullCommand);	
+				}
 				$this->log->writeLine("command", $fullCommand);
 				$output = $this->executeCommand($fullCommand);
 				$this->log->writeLine("output", $output);
+				$this->log->writeLine("Conversion Result", $status);
 			}
 			else
 			{
@@ -174,7 +195,11 @@ class FFMpeg{
 				$this->log->writeLine("ffmpeg output", $conversionOutput);
 				
 				$this->log->writeLine("MP4Box Conversion for SD", "Starting");
-				$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->sdFile}  -tmp /";
+				$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->sdFile}  -tmp ".TEMP_DIR;
+				if (PHP_OS == "WINNT")
+				{
+					$fullCommand = str_replace("/","\\",$fullCommand);	
+				}
 				$this->log->writeLine("command", $fullCommand);
 				$output = $this->executeCommand($fullCommand);
 				$this->log->writeLine("output", $output);
@@ -318,10 +343,18 @@ class FFMpeg{
 	}
 
 	private function setDefaults(){
+		if(PHP_OS == "Linux")
+		{
+			$ac = 'libfaac';
+		}
+		elseif(PHP_OS == "Linux")
+		{
+			$ac = 'libvo_aacenc';
+		}
 		$this->defaultOptions = array(
 			'format' => 'mp4',
 			'video_codec'=> 'libx264',
-			'audio_codec'=> 'libfaac',
+			'audio_codec'=> $ac,
 			'audio_rate'=> '22050',
 			'audio_bitrate'=> '128000',
 			'video_rate'=> '25',
