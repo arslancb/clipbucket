@@ -180,7 +180,17 @@ class FFMpeg{
 				$this->log->writeLine("command", $fullCommand);
 				$output = $this->executeCommand($fullCommand);
 				$this->log->writeLine("output", $output);
-				$this->log->writeLine("Conversion Result", $status);
+				if (file_exists($this->hdFile))
+				{
+					$this->sdFile1 = "{$this->outputFile}.{$this->options['format']}";
+					$path = explode("/", $this->sdFile1);
+					$name = array_pop($path);
+					$name = substr($name, 0, strrpos($name, "."));
+					$status = "Successful";
+					$this->log->writeLine("Conversion Result", 'conversion_status : '.$status);
+
+				
+				}
 			}
 			else
 			{
@@ -203,6 +213,17 @@ class FFMpeg{
 				$this->log->writeLine("command", $fullCommand);
 				$output = $this->executeCommand($fullCommand);
 				$this->log->writeLine("output", $output);
+				if (file_exists($this->sdFile))
+				{
+					$this->sdFile1 = "{$this->outputFile}.{$this->options['format']}";
+					$path = explode("/", $this->sdFile1);
+					$name = array_pop($path);
+					$name = substr($name, 0, strrpos($name, "."));
+					$status = "Successful";
+					$this->log->writeLine("Conversion Result", 'conversion_status : '.$status);
+
+				
+				}
 				
 			}
 		}
