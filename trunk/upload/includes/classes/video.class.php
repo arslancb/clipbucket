@@ -554,10 +554,40 @@ class CBvideo extends CBCategory
 					if(file_exists($file) && is_file($file))
 						unlink($file);
 				}
-			}else{
+				foreach($thumbs as $thumb)
+				{
+					$fn = substr($thumb, 0, -4);
+					$result = db_select("SELECT * FROM ".tbl("video")." WHERE file_name = '$fn'");
+					if($result)
+					{
+						foreach($result as $result1)
+						{
+							$str = '/'.$result1['file_directory'].'/';
+							$file1 = THUMBS_DIR.$str.$thumb;
+							if(file_exists($file1) && is_file($file1))
+								unlink($file1);
+						}
+
+					}
+				}
+			}
+			else
+			{
 				$file = THUMBS_DIR.'/'.$thumbs;
-					if(file_exists($file) && is_file($file))
-						unlink($file);
+				if(file_exists($file) && is_file($file))
+					unlink($file);
+				$fn = substr($thumbs, 0, -4);
+				$result = db_select("SELECT * FROM ".tbl("video")." WHERE file_name = '$fn'");
+				if($result)
+				{
+					foreach($result as $result1)
+					{
+						$str = '/'.$result1['file_directory'].'/';
+						$file1 = THUMBS_DIR.$str.$thumbs;
+						if(file_exists($file1) && is_file($file1))
+							unlink($file1);
+					}
+				}
 			}
 			
 			e(lang("vid_thumb_removed_msg"),'m');
@@ -577,6 +607,18 @@ class CBvideo extends CBCategory
 		$db->execute("DELETE FROM ".tbl("video_file")." WHERE src_name = '$src'");
 		if(file_exists($file))
 			unlink($file);
+		$fn = $vdetails['file_name'];
+		$result = db_select("SELECT * FROM ".tbl("video")." WHERE file_name = '$fn'");
+		if($result)
+		{
+			foreach($result as $result1)
+			{
+				$str = '/'.$result1['file_directory'].'/';
+				$file1 = LOGS_DIR.$str.$vdetails['file_name'].'.log';
+				if(file_exists($file1) && is_file($file1))
+					unlink($file1);
+			}
+		}
 		e(lang("vid_log_delete_msg"),'m');
 	}
 	
@@ -602,10 +644,36 @@ class CBvideo extends CBCategory
 			{
 				if(file_exists(VIDEOS_DIR.'/'.$file) && is_file(VIDEOS_DIR.'/'.$file))
 					unlink(VIDEOS_DIR.'/'.$file);
+				$fn = substr($file, 0, -7);
+				$result = db_select("SELECT * FROM ".tbl("video")." WHERE file_name = '$fn'");
+				if($result)
+				{
+					foreach($result as $result1)
+					{
+						$str = '/'.$result1['file_directory'].'/';
+						if(file_exists(VIDEOS_DIR.$str.$file) && is_file(VIDEOS_DIR.$str.$file))
+						unlink(VIDEOS_DIR.$str.$file);
+					}
+				}
+
 			}
-		}else{
+		}
+		else
+		{
 			if(file_exists(VIDEOS_DIR.'/'.$files) && is_file(VIDEOS_DIR.'/'.$files))
 					unlink(VIDEOS_DIR.'/'.$files);
+			$fn = substr($files, 0, -7);
+			$result = db_select("SELECT * FROM ".tbl("video")." WHERE file_name = '$fn'");
+			if($result)
+			{
+				foreach($result as $result1)
+				{
+					$str = '/'.$result1['file_directory'].'/';
+					if(file_exists(VIDEOS_DIR.$str.$files) && is_file(VIDEOS_DIR.$str.$files))
+						unlink(VIDEOS_DIR.$str.$files);
+				}
+			}
+
 		}
 		e(lang("vid_files_removed_msg"),'m');
 	}
