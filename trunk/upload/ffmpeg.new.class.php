@@ -65,9 +65,9 @@ class FFMpeg{
 			$this->setOptions($this->defaultOptions);
 		}
 		if($log) $this->log = $log;
-
+		$str = "/".date("Y")."/".date("m")."/".date("d")."/";
 		$this->log->writeLine("in class", "ffmpeg");
-		$this->logDir = BASEDIR . "/files/logs/";
+		$this->logDir = BASEDIR . "/files/logs/".$str;
 	}
 
 	public function convertVideo($inputFile = false, $options = array(), $isHd = false){
