@@ -722,7 +722,6 @@ function get_hq_video_file($vdetails,$return_default=true)
  */
 function update_processed_video($file_array,$status='Successful',$ingore_file_status=false,$failed_status='')
 {
-    $con=mysqli_connect("localhost","root","","clipbucket_svn");
     global $db;
     $file = $file_array['cqueue_name'];
     $array = explode('-',$file);
