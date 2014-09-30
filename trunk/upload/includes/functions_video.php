@@ -722,7 +722,7 @@ function get_hq_video_file($vdetails,$return_default=true)
  */
 function update_processed_video($file_array,$status='Successful',$ingore_file_status=false,$failed_status='')
 {
-
+    $con=mysqli_connect("localhost","root","","clipbucket_svn");
     global $db;
     $file = $file_array['cqueue_name'];
     $array = explode('-',$file);
@@ -751,8 +751,16 @@ function update_processed_video($file_array,$status='Successful',$ingore_file_st
         //$duration = $stats['output_duration'];
         //if(!$duration)
         //  $duration = $stats['duration'];
-
-        $duration = parse_duration(LOGS_DIR.'/'.$file_array['cqueue_name'].'.log');
+        $result = db_select("SELECT * FROM ".tbl("video")." WHERE file_name = '$file_name'");
+        if($result)
+        {
+            foreach($result as $result1)
+            {
+                $str = '/'.$result1['file_directory'].'/';
+                $duration = parse_duration(LOGS_DIR.$str.$file_array['cqueue_name'].'.log');
+            }
+        }
+        
 
         $db->update(tbl("video"),array("status","duration","failed_reason"),
             array($status,$duration,$failed_status)," file_name='".$file_name."'");
@@ -787,7 +795,15 @@ function get_file_details($file_name,$get_jsoned=false)
     global $db;
     //$result = $db->select(tbl("video_files"),"*"," id ='$file_name' OR src_name = '$file_name' ");
     //Reading Log File
-    $file = LOGS_DIR.'/'.$file_name.'.log';
+    $result = db_select("SELECT * FROM ".tbl("video")." WHERE file_name = '$file_name'");
+    if($result)
+    {
+        foreach($result as $result1)
+        {
+            $str = '/'.$result1['file_directory'].'/';
+            $file = LOGS_DIR.$str.$file_name.'.log';
+        }
+    }
     if(!file_exists($file))
         $file = $file_name;
     if(file_exists($file))
