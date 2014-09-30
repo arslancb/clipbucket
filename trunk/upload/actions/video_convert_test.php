@@ -80,15 +80,15 @@ $configs = array(
 	$ffmpeg->convertVideo($orig_file);
 
 		
-			
+	exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $orig_file");		
 	////exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
-	if (stristr(PHP_OS, 'WIN'))
+	/*if (stristr(PHP_OS, 'WIN'))
 	{
 		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $fileName $dosleep");
 	} else {
 		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $fileName $dosleep &> /dev/null &");
 	}
-
+*/
 
 	unlink($orig_file);
 }
