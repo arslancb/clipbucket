@@ -342,7 +342,7 @@
                             }
                           var self = $(this).parents("form");
                           var data = $(self).serialize();
-                          data += "&collection_id="+collectionId;
+                          //data += "&collection_id="+collectionId;
                           data += "&server_url=undefined&folder=undefined&updatePhoto=yes";
                           $.ajax({
                               url : baseurl + "/actions/photo_uploader.php",
