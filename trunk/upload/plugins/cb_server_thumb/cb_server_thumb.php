@@ -243,7 +243,8 @@ if(!function_exists('server_thumb'))
                 
                 foreach( $files as $file ) {
 
-                    $thumb_name = end( explode( "/", $file ) );
+                    $thumb_name = explode( "/", $file );
+                    $thumb_name = end( $thumb_name );
                     $thumb_type = $cbphoto->get_image_type( $thumb_name );
 
                     if( $with_original ) {
