@@ -18,7 +18,18 @@
  require 'define_php_links.php';
  include_once 'upload_forms.php';
  
-
+ 	/**
+    * Function used to throw
+    ** @param  $message pointer
+    ** @return message
+    */
+   function throw_error($message,$pointer="")
+    {
+        global $Cbucket;
+        if($pointer)
+        $Cbucket->error_pointer[$pointer] = $message;
+          throw new Exception($message);
+    }
  
 	//This Funtion is use to get CURRENT PAGE DIRECT URL
 	function curPageURL()
@@ -4973,6 +4984,19 @@
             echo 'In file ';
             echo $e->getFile();
         }
+
+        function view_image( $args = array() ) {
+
+			if ( empty( $args[ 'src' ] ) ) {
+				return false;
+			}
+
+			$tim = BASEURL.'/image.php';
+			$string = http_build_query( $args, null, '&' );
+
+			return $tim.'?'.$string;
+		}
+		
 		/**
 		 * Returns This page name or boolean for the given string
 		 * @param STRING $name
