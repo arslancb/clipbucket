@@ -12,7 +12,7 @@
 # Last Modified:    $Date: 2013-05-22 13:26:28 +0500 (Wed, 22 May 2013) $
 # Notice:           Please maintain this section
 ####################################################################
-*/
+**/
 
  define("SHOW_COUNTRY_FLAG",TRUE);
  require 'define_php_links.php';
@@ -4899,6 +4899,8 @@
 	{
 		global $Cbucket;
 		$Cbucket->modules_list[$mod_name][] = $file;
+
+		
 		
 	}
 	
@@ -4907,16 +4909,25 @@
 	 */
 	function load_modules()
 	{
+
+
 		global $Cbucket,$lang_obj,$signup,$Upload,$cbgroup,
 		$adsObj,$formObj,$cbplugin,$eh,$sess,$cblog,$imgObj,
 		$cbvideo,$cbplayer,$cbemail,$cbpm,$cbpage,$cbindex,
 		$cbcollection,$cbphoto,$cbfeeds,$userquery,$db,$pages,$cbvid;
+
+
+		
 		
 		foreach($Cbucket->modules_list as $cbmod)
 		{
+
 			foreach($cbmod as $modfile)
+			{
+				
 				if(file_exists($modfile))
 					include($modfile);
+			}
 		}
 	}
         
