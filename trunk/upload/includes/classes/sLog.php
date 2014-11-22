@@ -37,6 +37,7 @@ class SLog{
 	}
 
 	public function writeLog(){
+		if(!$this->logFile) return;
 		$this->fileHandle = fopen($this->logFile, "w+");
 		fwrite($this->fileHandle, $this->logData);
 		fclose($this->fileHandle);

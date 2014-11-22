@@ -32,8 +32,26 @@ if($file_details)
 {
 	$fileDetailsArray = explode("\n", $file_details);
 	$file_details = implode("<br>", $fileDetailsArray);
-	$videoDetails = json_decode($fileDetailsArray[187]);
+
+	$video_details = '[]';
+	$start = 0;
+	foreach($fileDetailsArray as $key => $value)
+	{
+		if($start) $start++;
+
+		if($value=='videoDetails')
+		{
+			$start = 1;
+		}
+
+		if($start==3)
+		{
+			$video_details = $value;
+		}
+	}
+	$videoDetails = json_decode($video_details);
 	$videoDetails->file_name = $file_name;
+
 	assign('data',$file_details);
 	assign('videoDetails',$videoDetails);
 }

@@ -154,7 +154,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (151, 'player_logo_file', 'logo.jpg'),
 (152, 'logo_placement', 'tl'),
 (153, 'buffer_time', '5'),
-(155, 'use_ffmpeg_vf', 'no'),
+(155, 'use_ffmpeg_vf', 'yes'),
 (224, 'own_photo_rating', ''),
 (157, 'mail_type', 'mail'),
 (158, 'smtp_host', ''),

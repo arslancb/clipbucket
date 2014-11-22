@@ -3852,9 +3852,11 @@
 
 	function get_db_size()
 	{
-		$result = mysql_query("SHOW TABLE STATUS");
-		$dbsize = 0;
-		while( $row = mysql_fetch_array( $result ) )
+		global $db;
+		$results = $db->_select("SHOW TABLE STATUS");
+
+
+		foreach($results as $row)
 		{
 			$dbsize += $row[ "Data_length" ] + $row[ "Index_length" ];
 		}

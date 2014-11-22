@@ -837,8 +837,11 @@ function parse_duration($log)
 {
     $duration = false;
     $log_details = get_file_details($log);
+
+    if(isset($log['output_duration']))
     $duration = $log['output_duration'];
-    if(!$duration || !is_numeric($duration))
+
+    if((!$duration || !is_numeric($duration)) && isset($log['duration']))
         $duration = $log['duration'];
 
     if(!$duration || !is_numeric($duration))
