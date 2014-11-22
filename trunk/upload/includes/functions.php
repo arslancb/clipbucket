@@ -497,9 +497,11 @@
 			$cmd = "PATH=\$PATH:/bin:/usr/bin:/usr/local/bin bash -c \"$cmd\"";
 		}
 		$data = shell_exec( $cmd );
-		if( $data === false )
-			echo "<p>FAILED: $cmd</p></div>";
-		echo '<p><pre>' . htmlentities( $data ) . '</pre></p></div>';
+		
+		return $data;
+		// if( $data === false )
+		// 	echo "<p>FAILED: $cmd</p></div>";
+		// echo '<p><pre>' . htmlentities( $data ) . '</pre></p></div>';
 	}
 	
 	/**
@@ -3977,6 +3979,9 @@
 
     function check_install($type)
     {
+
+    	if(DEVELOPMENT_MODE) return true;
+
 		global $while_installing,$Cbucket;
 		switch($type)
 		{

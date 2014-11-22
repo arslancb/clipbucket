@@ -31,7 +31,7 @@ if(isset($_POST['experiment']))
 	switch($mode)
 	{
 		default:
-		echo json_encode(array("err"=>"DUDE!!Why The Hell You Are Playing With The Code :/"));
+		echo json_encode(array("err"=>"Well hellow :/"));
 		break;
 		
 		case "getPreDetails":
