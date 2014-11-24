@@ -1537,6 +1537,7 @@ class userquery extends CBCategory{
 	 */
 	function getUserThumb($udetails,$size='',$uid=NULL,$just_file=false)
 	{
+		global $Cbucket;
 		$remote = false;
 		if(empty($udetails['userid']) && $uid)
 			$udetails = $this->get_user_details($uid);
@@ -1546,7 +1547,7 @@ class userquery extends CBCategory{
 		
 		
 		if(file_exists($thumb_file) && $thumbnail)
-			$thumb_file = USER_THUMBS_URL.'/'.$thumbnail;
+			$thumb = USER_THUMBS_URL.'/'.$thumbnail;
 		elseif(!empty($udetails['avatar_url']))
 		{
 			$thumb = $udetails['avatar_url'];
@@ -1587,22 +1588,55 @@ class userquery extends CBCategory{
 
 		$ext = GetExt($thumb_file);
 		$file = getName($thumb_file);
-		
+
+				
 		if(!$remote)
 		{
 			if(!empty($size) && !$thumb)
+			{
 				$thumb = USER_THUMBS_URL.'/'.$file.'-'.$size.'.'.$ext;
+				$thumb_path = $file.'.'.$ext;
+			}
 			elseif(!$thumb)
+			{
 				$thumb = USER_THUMBS_URL.'/'.$file.'.'.$ext;
+				$thumb_path = "";
+			}
 		}
+
+
+		$thumb_name = $file.'.'.$ext;
+
+
 		
 		if($just_file)
 			return $file.'.'.$ext;
 		
 		if($size){
 
-			$thumb = USER_THUMBS_URL.'/'.$file.'.'.$ext;
-			return $this->resizer($size,$thumb);
+			$params = array(
+				'size'=> $size,
+				'thumb_path'=>"images/avatars/",
+				'thumb_name' => $thumb_name,
+				'just_file' => $just_file,
+				'is_remote' => $remote,
+			);
+
+			if( count( $Cbucket->custom_user_thumb ) > 0 ) {
+				
+		        $functions = $Cbucket->custom_user_thumb;
+		        foreach( $functions as $func ) {
+		            if( function_exists( $func ) ) {
+		                $func_data = $func( $params );
+		                if( $func_data ) {
+		                    return $func_data;
+		                }
+		            }
+		        }
+		    }
+
+			return $thumb = USER_THUMBS_URL.'/'.$file.'.'.$ext;
+			//return $this->resizer($size,$thumb);
 			
 		}
 		return $thumb;
