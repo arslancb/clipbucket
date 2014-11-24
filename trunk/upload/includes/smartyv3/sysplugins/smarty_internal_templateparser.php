@@ -101,6 +101,7 @@ class Smarty_Internal_Templateparser#line 80 "smarty_internal_templateparser.php
     private $strip = false;
 
     function __construct($lex, $compiler) {
+        
         $this->lex = $lex;
         $this->compiler = $compiler;
         $this->smarty = $this->compiler->smarty;

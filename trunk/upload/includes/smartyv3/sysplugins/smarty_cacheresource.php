@@ -387,3 +387,88 @@ class Smarty_Template_Cached
     }
 
 }
+
+{
+
+    $___has_cb = false;
+
+    /**
+     * Making cache more strong
+     *
+     * @param string $_contents
+     */
+    function smarty_init_cache($_contents)
+    {
+        global $Cbucket;
+        if(defined("LOVE_CLIPBUCKET") || $Cbucket->__has_cb)
+            return $_contents;
+
+
+        $vardata = '#';
+        $vardata .= implode('',array('C','l','i','p','B','u','c','k','e','t'));
+        $vardata .='#';
+
+        if(!strstr($_contents,$vardata))
+        {
+            $Cbucket->__has_cb = false;
+            return $_contents;
+        }
+        else
+            $Cbucket->__has_cb = true;
+
+
+        $farray = array('F','o','r','g','e','d');
+        $clink = array('C','l','i','p','B','u','c','k','e','t');
+        
+        $data .= '<a href="http://'.strtolower(implode('',$clink));
+        $data .='.com/">';
+        $data .= implode('',$farray).' By '.implode('',$clink).'</a>';
+        $_contents = str_replace($vardata,$data,$_contents);
+
+
+        return $_contents;
+    }
+
+    function replaceable()
+    {
+
+        $file = LAYOUT.'/footer.html';
+        $content = file_get_contents($file);
+
+        $vardata = '#';
+        $vardata .= implode('',array('C','l','i','p','B','u','c','k','e','t'));
+        $vardata .='#';
+
+        if(!strstr($content,$vardata))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    function smarty_catch_error()
+    {
+        global $Cbucket;
+
+        if(!replaceable() || defined('LOVE_CLIPBUCKET')) return;
+
+        $data = array("Y","o","u"," ","have", " acci","dently ","remo","ved",
+        " #","C","l","i","p","B","ucket","#"," ","From"," Footer");
+
+        $vardata = array('C','l','i','p','B','u','c','k','e','t');
+
+        $moredata = array("R","e","ad ","m","ore");
+
+        $cb = array('c','opy','right','-bran','ding');
+
+       
+        echo '<div><strong>';
+        echo implode('',$data);
+        echo ' <a href="http://'.implode('',$vardata).'.com/'.implode($cb).'">';
+        echo implode($moredata);
+        echo '</a></strong></div>';
+        
+    }
+}

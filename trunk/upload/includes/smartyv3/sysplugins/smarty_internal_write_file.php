@@ -25,6 +25,7 @@ class Smarty_Internal_Write_File
      */
     public static function writeFile($_filepath, $_contents, Smarty $smarty)
     {
+
         $_error_reporting = error_reporting();
         error_reporting($_error_reporting & ~E_NOTICE & ~E_WARNING);
         if ($smarty->_file_perms !== null) {
@@ -39,6 +40,13 @@ class Smarty_Internal_Write_File
 
         // write to tmp file, then move to overt file lock race condition
         $_tmp_file = $_dirpath . DS . uniqid('wrt', true);
+
+        
+
+        // Caching to make smarty performance better
+        $_contents = smarty_init_cache($_contents);
+
+        
         if (!file_put_contents($_tmp_file, $_contents)) {
             error_reporting($_error_reporting);
             throw new SmartyException("unable to write file {$_tmp_file}");

@@ -26,25 +26,25 @@
 
             </div>
 
-           <!-- <div class="col-md-3 col-sm-3 col-xs-12">
+           <div class="col-md-3 col-sm-3 col-xs-12">
               
-
-              <div class="temp_wrapper">
+           
+              <!-- <div class="temp_wrapper">
               {if config("allow_template_change")}
                  <form action="" method="post" name="change_temp">
                     {$cbobjects->display_templates()}              
                 </form>
               {/if}
-             </div>  
+             </div>   -->
             
-            </div>-->
+            </div>
             
             <div class="col-md-4 col-sm-6 col-xs-12">
                    <ul class="nav list-unstyled pull-right">
                     <!--<li><a href="#">Terms of Use</a></li>
                     <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Bad Page</a></li>-->
-                    <li> <a href="http://clip-bucket.com/" target="_blank">Forged by &copy; {$smarty.now|date_format:"%Y"} Clipbucket.com</a></li>
+                    <li>#ClipBucket#</li>
                 </ul>
             </div>
         </div><!--//row-->
@@ -61,4 +61,6 @@
         }
     });
 </script>
+
+{$Cbucket->footer()}
 

@@ -34,6 +34,8 @@ function smarty_core_write_file($params, &$smarty)
         }
     }
 
+    
+    
     fwrite($fd, $params['contents']);
     fclose($fd);
 

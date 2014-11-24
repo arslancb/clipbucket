@@ -538,12 +538,7 @@
 				//Dear user, i have spent too much time of my life on developing
 				//This software and if you want to return me in this way, 
 				//its ok for me, but for those who told you how to do this...
-				echo "<!-- Sherif Abdou and Thomas Logan 'Fooled you assholes',
-						if you think giving credit to someones hardwork pisses you off,
-							then you better remove your FATHER'S NAME from your LIFE , 
-								Good Luck, Arslan Hassan -->";
-				echo 'i dont care if you try to play with my code, but what really pisses me off
-						is INSULT';
+				
 		}
 	}
 
