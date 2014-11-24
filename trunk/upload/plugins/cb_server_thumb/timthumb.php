@@ -226,7 +226,20 @@ class timthumb {
     $directory = $this->param('directory');
     
     //$this->src = preg_replace('/https?:\/\/(?:www\.)?' . $this->myHost . '/i', '', $this->src);
-    $this->src = 'files/'.$directory.preg_replace('/https?:\/\/(?:www\.)?' . $this->myHost . '/i', '', $this->src);
+    /*if( !isset( $_GET['user_thumb'] ) )
+    {
+
+    }
+    else*/
+
+    if($_GET['type']=='users')
+    {
+      $this->src = $directory.preg_replace('/https?:\/\/(?:www\.)?' . $this->myHost . '/i', '', $this->src);
+    }else
+    {
+      $this->src = 'files/'.$directory.preg_replace('/https?:\/\/(?:www\.)?' . $this->myHost . '/i', '', $this->src);
+    }  
+    
    
     //if(!file_exists($this->src)) exit("Warr gayee");
 

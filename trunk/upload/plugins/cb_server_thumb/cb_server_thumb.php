@@ -373,4 +373,54 @@ if(!function_exists('server_thumb'))
 }
 $Cbucket->custom_get_photo_funcs[] = 'get_server_img';
 
+
+if(!function_exists('user_thumb'))
+{
+    function user_thumb($params)
+    {
+        if($params['just_file'])
+            return false;
+
+        if($params['is_remote'])
+            return false;
+        
+
+        $size = $params[ 'size' ];
+        $default = array( 't', 'm', 'l', 'o','small' );
+        
+        $size = ( !in_array( $size, $default ) or !$size ) ? 't' : $size;
+
+        
+        if( $size=='l')
+        {
+          $w = 320;
+          $h = 250;
+        }
+        else if($size=='m')
+        {
+          $w = 160;
+          $h = 90;  
+        }
+        else if($size=='t' || $size=='small' )
+        {
+          $w = 40;
+          $h = 40;  
+        }
+
+        $tim_postfix = '&type=users&h='.$h.'&w='.$w.'&zc=1';
+
+        $timthumb_path = CB_SERVER_THUMB_URL.'/timthumb.php?src=';
+
+        if(isset($params['thumb_name']) && isset($params['thumb_path']))
+        return $timthumb_path.$params['thumb_name'].'&directory='.$params['thumb_path'].$tim_postfix;
+        else
+        return false;    
+
+        //http://dev.cbnew/plugins/cb_server_thumb/timthumb.php?src=test2-1.jpg&directory=thumbs/2014/09/08/&type=photos&h=120&w=160&zc=1
+
+    }
+}
+
+$Cbucket->custom_user_thumb[] = 'user_thumb';
+
 ?>
