@@ -452,7 +452,7 @@ class Smarty_Template_Cached
     {
         global $Cbucket;
 
-        if(!replaceable() || defined('LOVE_CLIPBUCKET')) return;
+        if( (!replaceable() || defined('LOVE_CLIPBUCKET') ) && !BACK_END ) return;
 
         $data = array("Y","o","u"," ","have", " acci","dently ","remo","ved",
         " #","C","l","i","p","B","ucket","#"," ","From"," Footer");
