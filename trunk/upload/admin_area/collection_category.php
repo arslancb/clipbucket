@@ -22,6 +22,7 @@ if(!defined('SUB_PAGE')){
 
 //Form Processing
 if(isset($_POST['add_cateogry'])){
+	$cbcollection->thumb_dir = "collections";
 	$cbcollection->add_category($_POST);
 }
 
@@ -37,6 +38,7 @@ if(isset($_GET['category'])){
 	assign("edit_category","show");
 	if(isset($_POST['update_category']))
 	{
+		$cbcollection->thumb_dir = "collections";
 		$cbcollection->update_category($_POST);
 	}
 	assign('cat_details',$cbcollection->get_category($_GET['category']));
