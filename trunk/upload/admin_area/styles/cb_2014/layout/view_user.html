@@ -4,19 +4,43 @@
 <div class="row">
 <div class="lead dropdown">
 <div class="heading clearfix">
-    <h3 class="paddingLeftLarge pull-left">Editing <small>&gt; {$u.username}</small></h3>
+    <h3 class="paddingLeftLarge pull-left">Editing <small>&gt; {$u.username}</small>
+    <!-- peecha show action button here -->
+    <div class="actionBox clearfix">
+    <a class="btn btn-primary btn-sm dropdown-toggle pull-left" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
+    <ul class="dropdown-menu pull-left actionDropmenu" role="menu" aria-labelledby="dropdownMenu1">
+        <li><a role="menuitem" tabindex="-1" href="{$userquery->profile_link($u)}">View {$u.username} channel</a></li>
+        <li><a role="menuitem" tabindex="-1" href="login_as_user.php?uid={$u.userid}">Login as user</a></li>
+        {if $u.usr_status=="Ok"}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;deactivate=yes">Deactivate</a></li>
+        {else}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;activate=yes">Activate</a></li>
+        {/if}
+        {if $u.ban_status=="yes"}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;unban=yes">Unban</a></li>
+        {else}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;ban=yes">Ban</a></li>
+        {/if}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete=yes">Delete</a></li>
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_vids=yes">Delete Videos</a></li>
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_contacts=yes">Delete Contacts</a></li>
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_pm=yes">Delete Private Messages</a></li>
+    </ul>
+</div>
+    </h3>
+
     <div class="pull-right marginBottomLarge">
-        <span class="btn btn-app btn-sm btn-light no-hover">
-            <span class="line-height-1 blue">{$u.num_visits}</span>
+         <!--<span class="btn btn-app btn-sm btn-light no-hover">
+            <span class="line-height-1 blue">{*$u.num_visits*}</span>
             <br>
-            <span class="line-height-1 smaller-90"> Views </span>
-        </span>
-        <span class="btn btn-app btn-sm btn-yellow no-hover">
-            <span class="line-height-1"> {$u.total_comments} </span>
+            <span class="line-height-1 smaller-90"> Views </span>  
+        </span> -->
+        <!-- <span class="btn btn-app btn-sm btn-yellow no-hover">
+            <span class="line-height-1"> {*$u.total_comments*} </span>
 
             <br>
             <span class="line-height-1 smaller-90"> Comments </span>
-        </span>
+        </span> -->
         <span class="btn btn-app btn-sm btn-pink no-hover">
             <span class="line-height-1"> {if $u.usr_status=='Ok'}<span class="glyphicon glyphicon-ok"></span>
                 {else}<span class="glyphicon glyphicon-remove">{/if}</span>
@@ -32,16 +56,16 @@
                 <span class="line-height-1 smaller-90">Banned</span>
             </span>
         </span>
-        <span class="btn btn-app btn-sm btn-primary no-hover">
+        <!-- <span class="btn btn-app btn-sm btn-primary no-hover">
 
-            <span class="line-height-1"> {$u.total_flags} </span>
+            <span class="line-height-1"> {*$u.total_flags*} </span>
 
             <br>
             <span class="line-height-1 smaller-90"> Flagged </span>
-        </span>
+        </span> -->
     </div>
 </div>
-<div class="alignRight clearfix">
+<!-- <div class="alignRight clearfix">
     <a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
     <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
         <li><a role="menuitem" tabindex="-1" href="{$userquery->profile_link($u)}">View {$u.username} channel</a></li>
@@ -61,7 +85,7 @@
         <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_contacts=yes">Delete Contacts</a></li>
         <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_pm=yes">Delete Private Messages</a></li>
     </ul>
-</div>
+</div> -->
 </div>
 
 <form action="" method="post" enctype="multipart/form-data" name="form1" id="form1" class="cbform">
