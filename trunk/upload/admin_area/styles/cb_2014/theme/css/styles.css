@@ -433,7 +433,26 @@ ul.mainTabs{
 .alignLeft{
     text-align: left;
 }
-
+.actionBox{
+    margin-left: 200px;
+    margin-top: -20px;
+    text-align: left;
+}
+.actionDropmenu{
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    font-size: 14px;
+    left: 212px;
+    list-style: none outside none;
+    margin-top: -30px;
+    min-width: 160px;
+    padding: 5px 0;
+    position: absolute;
+    top: 100%;
+    z-index: 1000;
+}
 .ralative{
     position: relative;
 }
