@@ -23,6 +23,7 @@ if(!defined('SUB_PAGE')){
 
 //Form Processing
 if(isset($_POST['add_cateogry'])){
+	$userquery->thumb_dir = 'users';
 	$userquery->add_category($_POST);
 }
 
@@ -38,6 +39,7 @@ if(isset($_GET['category'])){
 	assign("edit_category","show");
 	if(isset($_POST['update_category']))
 	{
+		$userquery->thumb_dir = 'users';
 		$userquery->update_category($_POST);
 	}
 	assign('cat_details',$userquery->get_category($_GET['category']));
