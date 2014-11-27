@@ -239,8 +239,11 @@
                             file_name : fileName
                         }
                     }).success(function(msg){
-                        fileId = msg;
-                        
+                        console.log(msg);
+                        res = $.parseJSON(msg);
+                        console.log(res);
+                        fileId = res.videoid;
+
                         // creating the hidden form fields
                         var hiddenVideoIdField = document.createElement('input');
                         hiddenVideoIdField.name = 'videoid';
