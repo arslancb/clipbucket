@@ -488,7 +488,8 @@ class CBPhotos
 		
 		if($p['title'])
 		{
-			$title_tag = " ".tbl('photos.photo_title')." LIKE '%".$p['title']."%'";		
+			// $title_tag = " ".tbl('photos.photo_title')." LIKE '%".$p['title']."%'";		
+			$title_tag = " ".('photos.photo_title')." LIKE '%".$p['title']."%'";		
 		}
 		
 		if($p['tags'])
@@ -669,7 +670,7 @@ class CBPhotos
 			$result = $db->count(table("photos"),"photo_id",$cond);	
 		}
 
-        #pr( $query, true );
+        ##pr( $query, true );
 
 		if($p['assign'])
 			assign($p['assign'],$result);
