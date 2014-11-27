@@ -70,7 +70,7 @@
             {/if}
         {/if}
         
-        {$comment.comment|comment}
+        {wordwrap($comment.comment|comment,8, "\n", true)}
 
     </div>
         <div class="tools blue">
