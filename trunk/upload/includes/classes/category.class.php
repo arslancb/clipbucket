@@ -652,13 +652,13 @@ abstract class CBCategory
 	/**
 	 * Function used to get category thumb
 	 */
-	function get_cat_thumb($cat_details)
+	function get_cat_thumb($cat_details, $dir="")
 	{
 		//Checking for category thumbs direcotry
-		if(isset($this->thumb_dir))
+		/*if(isset($this->thumb_dir))
 			$dir = $this->thumb_dir;
 		else
-			$dir = $this->section_tbl;
+			$dir = $this->section_tbl;*/
 		
 		$cid = $cat_details['category_id'];
 		$path = CAT_THUMB_DIR.'/'.$dir.'/'.$cid.'.';
@@ -680,9 +680,9 @@ abstract class CBCategory
 		else
 			return $this->default_thumb();
 	}
-	function get_category_thumb($i)
+	function get_category_thumb($i, $dir)
 	{
-		return $this->get_cat_thumb($i);
+		return $this->get_cat_thumb($i, $dir);
 	}
 	
 	/**
