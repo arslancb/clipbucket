@@ -37,7 +37,7 @@ if(!defined('SUB_PAGE')){
 	}else
 		e("Group does not exist");
 
-
+assign("random_number", rand(1,5000));
 subtitle("Edit Group");
 template_files('edit_group.html');
 display_it();
