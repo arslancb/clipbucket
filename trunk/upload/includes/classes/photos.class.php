@@ -488,8 +488,7 @@ class CBPhotos
 		
 		if($p['title'])
 		{
-			// $title_tag = " ".tbl('photos.photo_title')." LIKE '%".$p['title']."%'";		
-			$title_tag = " ".('photos.photo_title')." LIKE '%".$p['title']."%'";		
+			$title_tag = " ".('photos.photo_title')." LIKE '%".$p['title']."%'";
 		}
 		
 		if($p['tags'])
