@@ -1464,6 +1464,7 @@ class CBPhotos
 				$query_field[] = "file_directory";
 				$query_val[] = $array['folder'];
 			}
+			$query_val['0'] = $array['title'];
 			
 			$insert_id = $db->insert(tbl($this->p_tbl),$query_field,$query_val);
 			$photo = $this->get_photo($insert_id);
