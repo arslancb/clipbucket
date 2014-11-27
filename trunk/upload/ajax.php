@@ -563,7 +563,9 @@ if(!empty($mode))
 			echo json_encode($ajax);
 		}
 		break;
-		
+		case 'count_comments';
+			echo '5';
+		break;
 		case 'add_comment';
 		{
 			$type = $_POST['type'];
@@ -1466,7 +1468,7 @@ if(!empty($mode))
 					echo '</div>';
 			}
 			else
-			echo '<div align="center"><em><strong>Unable to fetch news</strong></em></div>';
+			echo '<div align="center"><em><strong>Connect with Internet to get News</strong></em></div>';
 		}
 		break;
 		
