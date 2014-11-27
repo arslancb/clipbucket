@@ -12,10 +12,11 @@
                     Your photo thumb and medium size thumb will be resized according to these ratios
                 </small></P>
             </label>
-            <select class="form-control">
-                <option class="form-control" name="photo_ratio" id="ratio_1" {if $row.photo_ratio == '4:3'} checked{/if} >4:3</option>
-                <option class="form-control" name="photo_ratio" id="ratio_3" {if $row.photo_ratio == '16:9'} checked{/if}>16:9</option>
-                <option class="form-control" name="photo_ratio" id="ratio_2" {if $row.photo_ratio == '16:10'} checked{/if}>16:10</option>
+            <select class="form-control" name="photo_ratio">
+                <option value="4:3" class="form-control"  id="ratio_1" {if $row.photo_ratio == '4:3'} selected{/if} >4:3</option>
+                <option value="16:9" class="form-control"  id="ratio_3" {if $row.photo_ratio == '16:9'} selected{/if}>16:9</option>
+               
+                <option value="16:10" class="form-control" id="ratio_2" {if $row.photo_ratio == '16:10'} selected  {/if}>16:10</option>
             </select>
         </div>
         <div class="col-md-4">
