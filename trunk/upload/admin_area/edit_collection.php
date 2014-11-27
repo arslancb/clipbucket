@@ -70,7 +70,7 @@ Assign('flaggedPhoto', $FlaggedPhotos);
 $comments = getComments($comment_cond);
 assign("comments",$comments);
 
-
+assign('randon_number', rand(-5000, 5000));
 subtitle("Edit Collection");
 template_files('edit_collection.html');
 display_it();
