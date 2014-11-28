@@ -4,6 +4,7 @@
 <form action="" method="post" name="edit_video" id="edit_video" enctype="multipart/form-data">
 <div class="row">
     <div class="heading clearfix">
+
             <h2 class="pull-left paddingLeftLarge">Editing <small>&gt; {$data.title|truncate:80}</small>
 <div class="btn-group">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -49,7 +50,7 @@
           
 
                 <span class="btn btn-app btn-sm btn-grey no-hover">
-                <span class="line-height-1"> {if $data.featured=='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
+                <span class="line-height-1"> {if $data.featured!='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
                 {else}<span class="glyphicon glyphicon-remove">{/if}</span>
                 <br>
                 <span class="line-height-1 smaller-90">Featured</span>
