@@ -23,13 +23,15 @@ class AdsManager
 		global $LANG,$db;
 		if(!$array)
 			$array = $_POST;
-			
+		 
 		$name		= mysql_clean($array['name']);
-		$code		= mysql_real_escape_string(htmlspecialchars($array['code']));
+		// $code		= mysql_real_escape_string(htmlspecialchars($array['code']));
+		$code		= mysql_clean(htmlspecialchars($array['code']));
 		$placement 	= mysql_clean($array['placement']);
 		$category  	= $array['category'];
 		$status		= $array['status'];
 		
+		 
 		if(empty($name))
 		{
 			$msg = e(lang('ad_name_error'));
@@ -170,7 +172,7 @@ class AdsManager
 	* return advertisment
 	*/
 	function getAd($placement_code,$limit=1)
-	{
+	{	
 		global $db,$ads_array;
 		if($limit==1)
 		{
@@ -183,7 +185,7 @@ class AdsManager
 			$limit_query = ' LIMIT 1';
 			$order = ' ORDER BY ad_impressions ASC ';
 			//Return Ad
-			$query = "SELECT ad_id,ad_code FROM ".tbl("ads_data")." 
+			 $query = "SELECT ad_id,ad_code FROM ".tbl("ads_data")." 
 			WHERE ad_placement = '".$placement_code."'
 			AND ad_status='1'
 			";
