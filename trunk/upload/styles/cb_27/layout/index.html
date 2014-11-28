@@ -284,7 +284,7 @@
 				<!-- ******************************************* //-->
 		        <!-- ************* USER BLOCK END ************ //-->
 		        <!-- ******************************************* //-->
-				{$collections = $cbcollection->get_collections(['limit'=>5])}
+				{$collections = $cbcollection->get_collections(['limit'=>5, 'active'=>'yes'])}
 				<div class="col-md-4 comment_home side_user_home" >
 					<h4 class="home-side-heading">{lang code="Top Collections"}</h4>
 		        	{if $collections}        
