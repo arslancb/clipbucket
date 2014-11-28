@@ -9,15 +9,14 @@
                 href="{$cbphoto->photo_links($nextItem.0,'view_item')}">{get_photo details=$photo size='l' class='img-responsive center-block' output='html' height="100"}</a>
                 {assign var=objctid value=$object.ci_id}
                 {assign var=collid value=$object.collection_id}
+                
                 {assign var=preLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'prev')}
-                <a class="btn btn-danger btn-lg view-photo-nxt mouse_hover_on" href="{$cbphoto->photo_links($preLink.0,'view_item')}">
-                    <i class="glyphicon glyphicon-chevron-left"></i>Previous
-                </a>
+
                 {assign var=nextLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'next')}
-                <a class="btn btn-primary btn-lg view-photo-pre mouse_hover_on" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">
-                Next
-                    <i class="glyphicon glyphicon-chevron-right"> </i>
-                </a>
+                
+                <a class="btn btn-primary btn-lg view-photo-nxt mouse_hover_on" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">Next<i class="glyphicon glyphicon-chevron-right"> </i></a>
+
+                <a class="btn btn-danger btn-lg view-photo-pre mouse_hover_on" href="{$cbphoto->photo_links($preLink.0,'view_item')}"><i class="glyphicon glyphicon-chevron-left"></i>Previous</a>
                 <hr>
             </div>
             <div class="watch-vid-title mbl">
@@ -31,12 +30,13 @@
                     <div class="watch-vid-user-name">
                         <a href="{$userquery->profile_link($user)}"> {$user.username}</a>
                     </div>
-                    <button class="btn btn-primary btn-sm btn-xs" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>   
+                    {if !$user.username}
+                    <button class="btn btn-primary btn-sm btn-xs" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>{/if}
                 </div>
                 <div class="watch-vid-rating-sec">
                     <div class="watch-vid-rating-view">
                         {$vdo.views|number_format}
-                        <span class="small font18">{lang('views')}</span>
+                        <span class="small font18">{lang('View')}{if $vdo.views > 1}{lang('s')}{/if}</span>
                     </div>
                     <div class="watch-vid-thumbsupdown-sec" id="rating_container">
                         {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
@@ -76,7 +76,7 @@
                                     <div class="watch-vid-tag">
                                         <strong class="pull-left">{lang('Category')}</strong>
                                         <h1 class="pull-left mls"><a>{assign var=category value=$userquery->get_category($user.category)}
-                                        {$category.category_name}</a>
+                                            {$category.category_name}</a>
                                         </h1>
 
                                     </div>
@@ -92,7 +92,7 @@
                                         <strong>{lang code='comments'}</strong> : {$photo.total_comments}    
                                     </div> -->
 
-        
+
                                 </div>
 
 
@@ -106,7 +106,7 @@
                                     </a>
                                     <a class="cb-item-social-icon facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
                                         <i class="fa fa-facebook"></i>
-                                          
+
                                     </a>
                                 </div>           
 
@@ -125,8 +125,8 @@
                                 {/foreach}
                             </div>
                             <div id="preport" class="tab-pane">
-                                    <br>
-                                    {show_flag_form id=$photo.photo_id type=Photo}
+                                <br>
+                                {show_flag_form id=$photo.photo_id type=Photo}
                             </div>
 
                         </div>
@@ -147,7 +147,7 @@
             <div id="comments"></div>
             <div id="userCommentsList"></div>
         </div>
-            
+
         
     </div>
     <div class="cb-box col-lg-4 col-md-4 visible-lg visible-md side-video pull-right" >
@@ -158,7 +158,7 @@
         {sectionelse}
         {lang code='no_results_found'}
         {/section}
-            <div class="clearfix"></div>
+        <div class="clearfix"></div>
         <br>
         <h3>{lang code='Top Collections'}</h3>
         {section name=c_list loop=$collections}
@@ -181,67 +181,67 @@
 <div style="height:20px"> </div>
 <script>
     $(document).ready(function()
-    {ldelim}
+        {ldelim}
 
 
 
-    $(".clip_read").click(function() {
-    $(this).toggleClass('clip_hide');
-    if(!$(this).hasClass('clip_hide')) 
+        $(".clip_read").click(function() {
+            $(this).toggleClass('clip_hide');
+            if(!$(this).hasClass('clip_hide')) 
 
-          {
-          $('.not_show').show();
-          $('.will_show').hide();
-          $(".clip_read").text("Show Less");
+            {
+              $('.not_show').show();
+              $('.will_show').hide();
+              $(".clip_read").text("Show Less");
           }
 
-    else
+          else
           {
-         $('.not_show').hide();
-          $('.will_show').show();
-          $(".clip_read").text("Show More");
-          }
+           $('.not_show').hide();
+           $('.will_show').show();
+           $(".clip_read").text("Show More");
+       }
 
-    });
+   });
 
 
-    comments_voting = 'no';
-    getComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}')
-    {rdelim}
-    );
+        comments_voting = 'no';
+        getComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}')
+        {rdelim}
+        );
 </script>
 
 {literal}
 <style>
-.clip_read:hover{
-  cursor: pointer;
+    .clip_read:hover{
+      cursor: pointer;
+  }
+  .glyphicon-thumbs-down:hover{ 
+    color:#0088D6; 
 }
-.glyphicon-thumbs-down:hover{ 
-color:#0088D6; 
- }
 .glyphicon-thumbs-up:hover{ 
-color:#0088D6; 
- }
- 
- .cb-item-social-icon.twitter {
+    color:#0088D6; 
+}
+
+.cb-item-social-icon.twitter {
   background-color: #598dca;
-color: #fff;
-margin-right: 5px;
-margin-top: 2px;
-padding: 7px 7px 7px 7px;
+  color: #fff;
+  margin-right: 5px;
+  margin-top: 2px;
+  padding: 7px 7px 7px 7px;
 }
 .cb-item-social-icon.googlep {
-background-color: #d6492f;
-color: #fff;
-margin-right: 5px;
-margin-top: 2px;
-padding: 7px 6px 7px 6px;
+    background-color: #d6492f;
+    color: #fff;
+    margin-right: 5px;
+    margin-top: 2px;
+    padding: 7px 6px 7px 6px;
 }
 .cb-item-social-icon.facebook {
-background-color: #3a589b;
-color: #fff;
-margin-top: 2px;
-padding: 7px 13px 7px 13px;
+    background-color: #3a589b;
+    color: #fff;
+    margin-top: 2px;
+    padding: 7px 13px 7px 13px;
 }
 </style>
 {/literal}
