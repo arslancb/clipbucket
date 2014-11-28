@@ -1,10 +1,30 @@
 {assign var='custom_upload_fields' value=$Upload->load_custom_upload_fields($data,TRUE)}
 {assign var='video_fields' value=$Upload->load_video_fields($data)}
 {if $data.title neq ""}
-<form action="" method="post" name="edit_video" id="edit_video">
+<form action="" method="post" name="edit_video" id="edit_video" enctype="multipart/form-data">
 <div class="row">
     <div class="heading clearfix">
-            <h2 class="pull-left paddingLeftLarge">Editing <small>&gt; {$data.title|truncate:80}</small></h2>
+            <h2 class="pull-left paddingLeftLarge">Editing <small>&gt; {$data.title|truncate:80}</small>
+<div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Actions <span class="caret caret_margin"></span>
+                  </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                <li><a href="{videoLink vdetails=$data}">Watch this video</a></li>
+                {if $data.active!='yes'}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=activate">Activate</a></li>
+                {else}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=deactivate">Deactivate</a></li>
+                {/if}
+                {if $data.featured!='yes'}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=featured">Make Featured</a></li>
+                {else}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=unfeature">Make Unfeatured</a></li>
+                {/if}
+                <li><a href="javascript:void(0)" onClick="javascript:Confirm_Delete('video_manager.php?delete_video={$data.videoid}')">Delete This Video</a></li>
+                </ul>
+                </div>
+            </h2>
             <div class="pull-right marginBottomLarge paddingBottomLarge" style="margin-right:50px;">
 
                
@@ -66,7 +86,7 @@
                 </span>
 
 
-                <div class="btn-group">
+                <!-- <div class="btn-group">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     Actions <span class="caret caret_margin"></span>
                   </button>
@@ -84,7 +104,7 @@
                 {/if}
                 <li><a href="javascript:void(0)" onClick="javascript:Confirm_Delete('video_manager.php?delete_video={$data.videoid}')">Delete This Video</a></li>
                 </ul>
-                </div>
+                </div> -->
 
 
 
@@ -479,6 +499,10 @@
             </a>
         </div>
     </div>
+    <!-- Add Artist's anchor here -->
+     {ANCHOR place="after_video_edit" data=$data.videoid}
+  </br>
+    </div>
     <div class="widget-body">
         <div class="widget-main">
             <div class="slimScrollDiv">
@@ -507,8 +531,10 @@
                 </div>
                 {/foreach}
             </div>
+
         </div><!-- /widget-main -->
-    </div>
+
+        
 
 
     <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
