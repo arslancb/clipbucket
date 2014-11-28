@@ -2098,60 +2098,60 @@ Licensed under the MIT license.
 
 
             // draw border
-            if (bw) {
-                // If either borderWidth or borderColor is an object, then draw the border
-                // line by line instead of as one rectangle
-                bc = options.grid.borderColor;
-                if(typeof bw == "object" || typeof bc == "object") {
-                    if (typeof bw !== "object") {
-                        bw = {top: bw, right: bw, bottom: bw, left: bw};
-                    }
-                    if (typeof bc !== "object") {
-                        bc = {top: bc, right: bc, bottom: bc, left: bc};
-                    }
+            // if (bw) {
+            //     // If either borderWidth or borderColor is an object, then draw the border
+            //     // line by line instead of as one rectangle
+            //     bc = options.grid.borderColor;
+            //     if(typeof bw == "object" || typeof bc == "object") {
+            //         if (typeof bw !== "object") {
+            //             bw = {top: bw, right: bw, bottom: bw, left: bw};
+            //         }
+            //         if (typeof bc !== "object") {
+            //             bc = {top: bc, right: bc, bottom: bc, left: bc};
+            //         }
 
-                    if (bw.top > 0) {
-                        ctx.strokeStyle = bc.top;
-                        ctx.lineWidth = bw.top;
-                        ctx.beginPath();
-                        ctx.moveTo(0 - bw.left, 0 - bw.top/2);
-                        ctx.lineTo(plotWidth, 0 - bw.top/2);
-                        ctx.stroke();
-                    }
+            //         if (bw.top > 0) {
+            //             ctx.strokeStyle = bc.top;
+            //             ctx.lineWidth = bw.top;
+            //             ctx.beginPath();
+            //             ctx.moveTo(0 - bw.left, 0 - bw.top/2);
+            //             ctx.lineTo(plotWidth, 0 - bw.top/2);
+            //             ctx.stroke();
+            //         }
 
-                    if (bw.right > 0) {
-                        ctx.strokeStyle = bc.right;
-                        ctx.lineWidth = bw.right;
-                        ctx.beginPath();
-                        ctx.moveTo(plotWidth + bw.right / 2, 0 - bw.top);
-                        ctx.lineTo(plotWidth + bw.right / 2, plotHeight);
-                        ctx.stroke();
-                    }
+            //         if (bw.right > 0) {
+            //             ctx.strokeStyle = bc.right;
+            //             ctx.lineWidth = bw.right;
+            //             ctx.beginPath();
+            //             ctx.moveTo(plotWidth + bw.right / 2, 0 - bw.top);
+            //             ctx.lineTo(plotWidth + bw.right / 2, plotHeight);
+            //             ctx.stroke();
+            //         }
 
-                    if (bw.bottom > 0) {
-                        ctx.strokeStyle = bc.bottom;
-                        ctx.lineWidth = bw.bottom;
-                        ctx.beginPath();
-                        ctx.moveTo(plotWidth + bw.right, plotHeight + bw.bottom / 2);
-                        ctx.lineTo(0, plotHeight + bw.bottom / 2);
-                        ctx.stroke();
-                    }
+            //         if (bw.bottom > 0) {
+            //             ctx.strokeStyle = bc.bottom;
+            //             ctx.lineWidth = bw.bottom;
+            //             ctx.beginPath();
+            //             ctx.moveTo(plotWidth + bw.right, plotHeight + bw.bottom / 2);
+            //             ctx.lineTo(0, plotHeight + bw.bottom / 2);
+            //             ctx.stroke();
+            //         }
 
-                    if (bw.left > 0) {
-                        ctx.strokeStyle = bc.left;
-                        ctx.lineWidth = bw.left;
-                        ctx.beginPath();
-                        ctx.moveTo(0 - bw.left/2, plotHeight + bw.bottom);
-                        ctx.lineTo(0- bw.left/2, 0);
-                        ctx.stroke();
-                    }
-                }
-                else {
-                    ctx.lineWidth = bw;
-                    ctx.strokeStyle = options.grid.borderColor;
-                    ctx.strokeRect(-bw/2, -bw/2, plotWidth + bw, plotHeight + bw);
-                }
-            }
+            //         if (bw.left > 0) {
+            //             ctx.strokeStyle = bc.left;
+            //             ctx.lineWidth = bw.left;
+            //             ctx.beginPath();
+            //             ctx.moveTo(0 - bw.left/2, plotHeight + bw.bottom);
+            //             ctx.lineTo(0- bw.left/2, 0);
+            //             ctx.stroke();
+            //         }
+            //     }
+            //     else {
+            //         ctx.lineWidth = bw;
+            //         ctx.strokeStyle = options.grid.borderColor;
+            //         ctx.strokeRect(-bw/2, -bw/2, plotWidth + bw, plotHeight + bw);
+            //     }
+            // }
 
             ctx.restore();
         }
