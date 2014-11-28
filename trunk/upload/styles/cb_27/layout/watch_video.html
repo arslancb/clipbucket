@@ -22,14 +22,15 @@
                         <div class="watch-vid-user-name">
                             <a href="{$userquery->profile_link($video)}">{$video.username}</a>
                         </div>
+                        {if !$video.username}
                         <a id="subscribeUser" class="btn btn-xs btn-primary">
 	                    {lang('Subscribe')}
-	                    </a>   
+	                    </a>{/if}
                     </div>
                     <div class="watch-vid-rating-sec">
                         <div class="watch-vid-rating-view">
                             {$vdo.views|number_format}
-                            <span class="small" style="font-size:18px;">{lang('views')}</span>
+                            <span class="small" style="font-size:18px;">{lang('view')}{if $vdo.views > 1}{lang('s')}{/if}</span>
                         </div>
                         <div class="watch-vid-thumbsupdown-sec" id="rating_container">
                             {show_video_rating  rating=$vdo.rating ratings=$vdo.rated_by total='10' id=$vdo.videoid type=video}
