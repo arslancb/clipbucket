@@ -2575,3 +2575,14 @@ padding-right: 0px;
   border: none;
 }
 /* default standard classes end usman */
+.dragDropContainer {
+    background-color: #e0dedf;
+    border: 3px dashed #c5c3c4;
+    color: #555;
+    font-size: 1.2em;
+    margin: 10px auto;
+    padding: 30px;
+    text-align: center;
+    width: 60%;
+    position: relative;
+}

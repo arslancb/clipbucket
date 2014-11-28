@@ -79,7 +79,7 @@
   top: 1px;
 }
 
-.dragDropContainer{
+/*.dragDropContainer{
   width: 60%;
   margin: 10px auto 10px;
   background-color: #E0DEDF;
@@ -88,7 +88,8 @@
   text-align: center;
   color: #555;
   font-size: 1.2em;
-}
+  position: relative;
+}*/
 
 .selectButtonContainer{
   text-align: center;
