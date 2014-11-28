@@ -96,6 +96,7 @@ $('#cover_info').show();
         var totalVotes = parseInt($("#totalVotes").text()) + 1;
         if(this.id == "channelVoteDown"){
           vote  = "no";
+           likes = likes - 1;
 
         }else{
           vote = "yes";
