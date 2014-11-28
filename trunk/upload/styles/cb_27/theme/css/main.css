@@ -1310,13 +1310,13 @@ ul#photos li.photo-land-no{
 
 .view-photo-nxt {
     position: absolute;
-    top: 25%;
+    top: 82%;
     right: -10px;
 }
 .view-photo-pre {
 
     position: absolute;
-    top:25%;
+    top:82%;
     left:-10px;
 }
 .font14{
