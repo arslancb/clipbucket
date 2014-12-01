@@ -116,8 +116,9 @@ if($cbcollection->is_viewable($cid))
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,COLLPP);
 $clist = $cond;
-$clist['limit'] = $get_limit;
-$collections = $cbcollection->get_collections($clist);
+$clist['active'] 	=	"yes";
+$clist['limit'] 	=	$get_limit;
+$collections 		=	$cbcollection->get_collections($clist);
 
 Assign('collections', $collections);
 
