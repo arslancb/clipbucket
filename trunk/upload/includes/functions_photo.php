@@ -218,7 +218,8 @@ function get_image_file( $params ) {
 
         foreach( $files as $file ) {
 
-            $thumb_name = end( explode( "/", $file ) );
+            $splitted   = explode( "/", $file );
+            $thumb_name = end( $splitted );
             $thumb_type = $cbphoto->get_image_type( $thumb_name );
 
             if( $with_original ) {
