@@ -795,7 +795,16 @@ class myquery {
 			return $db->count(tbl("comments"),"*"," type='$type' $typeid_query $cond");
 		}
 	}
-	
+	 
+	/**
+	 * Function used to count comments
+	 * @param type id
+	 */	
+	 function count_comment($type_id){
+	 	global $db;
+	 	return $results = $db->count(tbl("comments"),"*","type_id = $type_id");
+
+	 }
 	
 	/**
 	 * Function used to get from database
