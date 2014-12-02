@@ -78,13 +78,31 @@
         });
         }
 
-      
+        // function count_comments(cid){
+        //     // alert("im count function");
+        //     // var count_com = '66';
+        //     // return count_com;
+        //     //start ajax req
+        //     var ajaxPage = baseurl+'/ajax.php?mode=count_comment';
+        //     $.ajax({ 
+        //         type: 'POST', 
+        //         url : ajaxPage,
+                 
+        //         success     : function(com_count) {
+        //               var res =  com_count;
+                     
+                                 
+        //         }
+                                   
+        //     }); 
+
+        // }//end of function
         var ajaxPage = baseurl+'/ajax.php';
         $('#addCommentButton').on('click',function(e){
                 e.preventDefault();
                 var btn =$(this);
-btn.button('loading');
-
+                btn.button('loading');
+        
 
                 $('#comment-add-err').hide();
                
@@ -95,7 +113,9 @@ btn.button('loading');
                     data: data,
                     dataType : 'json',
                 }).success(function(response){
+
                     //var response = $.parseJSON(response);
+                    //peecha working here
                     var cid = parseInt(response.cid);
                     if(cid > 1){
                         $.ajax({
@@ -103,12 +123,21 @@ btn.button('loading');
                             type: "post",
                             data: {
                                 mode: "get_comment",
-                                cid: cid
+                                cid: cid,
+                                 
                             },
                         }).success(function(comment){
                             $("#comment_text").val('');
                             //comments = $("#userCommentsList").html();
                             $("#userCommentsList").prepend(comment);
+                            
+                            var count_comments =  $("#comment_counter").val();
+                            
+                            $("#com_count").html("");
+                             $("#com_count").append(count_comments);
+                             
+
+                            
                         });
                     }else{
                         if(response.msg){
