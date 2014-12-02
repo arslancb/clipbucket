@@ -21,8 +21,11 @@
 ul.mainTabs{
     height: 50px;
     margin-bottom: 20px;
+    border: solid 1px #ddd;
 }
-
+.todotab{
+    width:100%
+}
 .main_page_div .form-group{
     border: solid 1px #ccc;
     margin-bottom: 10px;
