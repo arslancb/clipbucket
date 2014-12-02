@@ -78,25 +78,7 @@
         });
         }
 
-        // function count_comments(cid){
-        //     // alert("im count function");
-        //     // var count_com = '66';
-        //     // return count_com;
-        //     //start ajax req
-        //     var ajaxPage = baseurl+'/ajax.php?mode=count_comment';
-        //     $.ajax({ 
-        //         type: 'POST', 
-        //         url : ajaxPage,
-                 
-        //         success     : function(com_count) {
-        //               var res =  com_count;
-                     
-                                 
-        //         }
-                                   
-        //     }); 
-
-        // }//end of function
+       
         var ajaxPage = baseurl+'/ajax.php';
         $('#addCommentButton').on('click',function(e){
                 e.preventDefault();
@@ -134,7 +116,7 @@
                             var count_comments =  $("#comment_counter").val();
                             
                             $("#com_count").html("");
-                             $("#com_count").append(count_comments);
+                            $("#com_count").append(count_comments);
                              
 
                             
