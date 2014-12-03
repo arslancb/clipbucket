@@ -9,8 +9,10 @@
 
 class Collections extends CBCategory
 {
-	var $collect_thumb_width = 160;
-	var $collect_thumb_height = 120;
+	var $collect_thumb_width = 360;
+	var $collect_thumb_height = 680;
+	var $collect_orignal_thumb_width = 1399;
+	var $collect_orignal_thumb_height = 800;
 	var $collect_small_thumb_width = 120;
 	var $collect_small_thumb_height = 90;
 	var $items = 'collection_items'; // ITEMS TABLE
@@ -1172,11 +1174,13 @@ class Collections extends CBCategory
 			{
 				$thumb = COLLECT_THUMBS_DIR."/".$cid.".".$ext;
 				$sThumb = COLLECT_THUMBS_DIR."/".$cid."-small.".$ext;
+				$oThumb = COLLECT_THUMBS_DIR."/".$cid."-orignal.".$ext;
 				foreach($exts as $un_ext)
-					if(file_exists(COLLECT_THUMBS_DIR."/".$cid.".".$un_ext) && file_exists(COLLECT_THUMBS_DIR."/".$cid."-small.".$un_ext))
+					if(file_exists(COLLECT_THUMBS_DIR."/".$cid.".".$un_ext) && file_exists(COLLECT_THUMBS_DIR."/".$cid."-small.".$un_ext)&& file_exists(COLLECT_THUMBS_DIR."/".$cid."-orignal.".$un_ext))
 					{
 						unlink(COLLECT_THUMBS_DIR."/".$cid.".".$un_ext); 
 						unlink(COLLECT_THUMBS_DIR."/".$cid."-small.".$un_ext);
+						unlink(COLLECT_THUMBS_DIR."/".$cid."-orignal.".$un_ext);
 					}
 				move_uploaded_file($file['tmp_name'],$thumb);
 				if(!$imgObj->ValidateImage($thumb,$ext))
@@ -1184,7 +1188,8 @@ class Collections extends CBCategory
 				else
 				{
 					$imgObj->createThumb($thumb,$thumb,$this->collect_thumb_width,$ext,$this->collect_thumb_height);
-					$imgObj->createThumb($thumb,$sThumb,$this->collect_small_thumb_width,$ext,$this->collect_small_thumb_height);	
+					$imgObj->createThumb($thumb,$sThumb,$this->collect_small_thumb_width,$ext,$this->collect_small_thumb_height);
+					$imgObj->createThumb($thumb,$oThumb,$this->collect_orignal_thumb_width,$ext,$this->collect_orignal_thumb_height);	
 				}
 			}
 		}
