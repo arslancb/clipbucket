@@ -342,10 +342,10 @@ class FFMpeg{
 					$videoBitrate = (int)($this->options['video_bitrate_hd']);
 					//logData($this->options);
 				}
-				$commandSwitches .= " -b:v " . $videoBitrate;
+				$commandSwitches .= " -b:v " . $videoBitrate." -minrate ".$videoBitrate. " -maxrate ".$videoBitrate;
 			}
 			if(isset($this->options['audio_bitrate'])){
-				$commandSwitches .= " -b:a " .$this->options['audio_bitrate'];
+				$commandSwitches .= " -b:a " .$this->options['audio_bitrate']." -minrate ".$this->options['audio_bitrate']. " -maxrate ".$this->options['audio_bitrate'];
 			}
 			if(isset($this->options['video_rate'])){
 				$commandSwitches .= " -r " .$this->options['video_rate'];
