@@ -1402,6 +1402,7 @@ if(!empty($mode))
 		case "getComments":
 		{
 			$params = array();
+			 
 			$limit = config('comments_per_page');
 			$page = $_POST['page'];
 			$params['type'] = mysql_clean($_POST['type']);
@@ -1439,11 +1440,13 @@ if(!empty($mode))
 			Template('blocks/comments/comments.html');
 			
 			assign('commentPagination','yes');
-
+			 
             if(SMARTY_VERSION > 2 )
-                Template('blocks/common/pagination.html');
+            	Template('blocks/pagination.html');
+                // Template('blocks/common/pagination.html');
             else
 			    Template('blocks/pagination.html');
+
 		}
 		break;
 		
