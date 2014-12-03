@@ -80,7 +80,7 @@
 
        
         var ajaxPage = baseurl+'/ajax.php';
-        $('#addCommentButton').on('click',function(e){
+        $('#addCommentButton').on('click',function(e){  
                 e.preventDefault();
                 var btn =$(this);
                 btn.button('loading');
@@ -95,9 +95,9 @@
                     data: data,
                     dataType : 'json',
                 }).success(function(response){
-
+                     
                     //var response = $.parseJSON(response);
-                    //peecha working here
+                   
                     var cid = parseInt(response.cid);
                     if(cid > 1){
                         $.ajax({
@@ -110,11 +110,9 @@
                             },
                         }).success(function(comment){
                             $("#comment_text").val('');
-                            //comments = $("#userCommentsList").html();
                             $("#userCommentsList").prepend(comment);
                             
                             var count_comments =  $("#comment_counter").val();
-                            
                             $("#com_count").html("");
                             $("#com_count").append(count_comments);
                              
