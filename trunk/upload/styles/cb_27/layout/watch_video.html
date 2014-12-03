@@ -123,16 +123,17 @@
     		<div id="reply"> 
     		    <div class="cb-box pad-bottom">
                     <div  class="addComment clearfix">
-                        <h3 >{lang('Comments')} <!--{$vdo.comments_count}--></h3>
+                        <h3 >{lang('Comments')} 
+                        <div class="com_count" id="com_count">{$vdo.comments_count}</div>
+                        <!--{$vdo.comments_count}--></h3>
                         {if $myquery->is_commentable($vdo,'v')}
                             {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
                         {else}
                         <div class="alert alert-warning">{lang code='comm_disabled_for_vid'}</div>
                         {/if}
                     </div>
-                    <div class="userComments">
-                        <ul class="list-unstyled" id="userCommentsList"></ul>
-    	            </div>
+                   <div id="comments">
+           <ul class="list-unstyled" id="userCommentsList"></ul></div>
     		    </div>
     		</div> 
         </div>
