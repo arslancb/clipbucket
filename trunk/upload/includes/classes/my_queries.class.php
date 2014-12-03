@@ -802,7 +802,10 @@ class myquery {
 	 */	
 	 function count_comment($type_id){
 	 	global $db;
+	 	// $query = "select count(*) From cb_comments where type_id = $type_id";
+	 	// echo $query;
 	 	return $results = $db->count(tbl("comments"),"*","type_id = $type_id");
+
 
 	 }
 	
