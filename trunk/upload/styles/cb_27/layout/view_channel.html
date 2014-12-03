@@ -13,6 +13,24 @@
             {FlashPlayer vdetails=$firstVideo width='100%' height='355'}
         </div>
         <hr class="hr">
+
+        <div class="cb-item-desc-container">
+
+                    <ul class="nav nav-tabs">
+                     <li class="active">
+                           
+                        </li>
+                    <li>
+                            <a id="reportVideo" href="#cb-item-report" data-toggle="tab">{lang('Report')}</a>
+                        </li>
+                    </ul>
+                     
+                      <div class="tab-pane" id="cb-item-report">
+                            {show_flag_form id=$user.userid type=user}
+                        </div>
+      </div>
+      </br>
+  
         {if $videos}
         <div class="row">
           {foreach from=$videos item=video}
@@ -25,6 +43,8 @@
       <div class="col-md-4 col-sm-4  hidden-xs">
         {include file="$style_dir/blocks/view_channel/channel_right.html" }
       </div>
+
+      
     </div>
   </div>
 </div>
@@ -41,6 +61,12 @@ $('#cover_info').show();
 
 (function(window){
   $(document).ready(function(){
+    $("#reportVideo").on({
+            click : function(e){
+                e.preventDefault();
+                $("#flag_item").show();
+            }
+        });
     var extensions = "{$extensions}";
     var baseurl = '{$baseurl}';
     var channelId = "{$user['userid']}";
