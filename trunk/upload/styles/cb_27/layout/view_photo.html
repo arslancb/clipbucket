@@ -142,8 +142,8 @@
         <div class="cb-box pad-bottom">
          <div  class="addComment clearfix">
             <h2>{lang code='comments'} 
-            </h2>
-<div class="com_count" id="com_count">({$photo.total_comments})</div>
+            <div class="com_count" id="com_count"> {$photo.total_comments}</div></h2>
+
             {if $myquery->is_commentable($photo,'p')}
             {include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
             {else}
