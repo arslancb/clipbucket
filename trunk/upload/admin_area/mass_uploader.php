@@ -23,7 +23,7 @@ if(!defined('SUB_PAGE')){
 if(isset($_POST['mass_upload_video']))
 {
 	$files = $cbmass->get_video_files();
-	
+	$vtitle=$_POST['title'];
 	$total = count($_POST['mass_up']);
 	for($i=0;$i<$total;$i++)
 	{	
@@ -61,9 +61,30 @@ if(isset($_POST['mass_upload_video']))
 		
 		if($vid)
 		{
+			$dosleep=0;
 			//Moving file to temp dir and Inserting in conversion queue..
 			$file_name = $cbmass->move_to_temp($file_arr,$file_key);
-			$Upload->add_conversion_queue($file_name);
+			$results=$Upload->add_conversion_queue($file_name);
+			$str = "/".date("Y")."/".date("m")."/".date("d")."/";
+			$str1 = date("Y")."/".date("m")."/".date("d");
+			mkdir(BASEDIR.'/files/videos'.$str);
+			$tbl=tbl("video");
+			$fields['file_directory']=$str1;
+			$fname=explode('.', $file_name);
+			$cond='file_name='.'\''.$fname[0].'\'';
+			$result=db_update($tbl, $fields, $cond);
+			$result=exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $file_name $dosleep &> /dev/null &");
+			if(file_exists(CON_DIR.'/'.$file_name))
+			{
+				unlink(CON_DIR.'/'.$file_name);
+				foreach ($vtitle as &$title) 
+				{
+					$resul1=glob(BASEDIR.'/files/videos/'.$title.".*");
+					unlink($resul1[0]);
+				}
+				
+			}
+
 		}
 	}
 }
