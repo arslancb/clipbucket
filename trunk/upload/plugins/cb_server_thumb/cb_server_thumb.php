@@ -35,6 +35,7 @@ if(!function_exists('server_thumb'))
 {
 	function server_thumb($vdetails, $array)
 	{
+
         global $__resize_thumbs;
 
         if(!$__resize_thumbs) return;
@@ -159,6 +160,7 @@ if(!function_exists('server_thumb'))
     {
         function get_server_img($params)
         {
+            
             global $__resize_thumbs;
 
             if(!$__resize_thumbs) return;
@@ -173,6 +175,7 @@ if(!function_exists('server_thumb'))
             $details = $params[ 'details' ];
             $output = $params[ 'output' ];
             $size = $params[ 'size' ];
+
             $default = array( 't', 'm', 'l', 'o' );
             $thumbs = array();
             if( !$details ) {
@@ -220,7 +223,7 @@ if(!function_exists('server_thumb'))
               $h = 60;  
             }
 
-            list($width,$height) = explode('x',$array['size']);
+            list($width,$height) = explode('x',$params['size']);
             if(isset($width) && is_numeric($width) && isset($height) && is_numeric($height) )
             {
                 $w = $width;
