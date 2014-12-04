@@ -86,11 +86,13 @@ class mass_upload extends Upload
 	{
 		$file = $file_arr['file'];
 		$mass_file  = MASS_UPLOAD_DIR.'/'.$file;
+		$con_que=CON_DIR.'/'.$file_key.'.mp4';
 		$temp_file = TEMP_DIR.'/'.$file_key.'.'.getExt($file);
 		if(file_exists($mass_file) && is_file($mass_file))
 		{
-			rename($mass_file,$temp_file);
-			//copy($mass_file,$temp_file);
+			//rename($mass_file,$temp_file);
+			copy($mass_file,$temp_file);
+			copy($temp_file,$con_que);
 			return $file_key.'.'.getExt($file);
 		}
 		return false;		
