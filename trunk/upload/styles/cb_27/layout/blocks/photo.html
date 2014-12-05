@@ -1,18 +1,29 @@
 {if $display_type == ""}
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 mbm">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 mbm ft-hover">
         <!--<span class="photoname" id="avatar1_file" style="height: 45px; overflow: hidden;" >{$photo.photo_title|truncate:30}</span>-->
         
         <a class="searchresult-photo" href="{$cbphoto->photo_links($photo,'view_item')}" title="Tolpis barbata (mariluzpicado)">
             {get_photo details=$photo size='l' class='photo-land' output='html'}
 
            <!-- <img alt="{$photo.photo_title}" title="{$photo.photo_title}" class="photo-land" id="photo_{$photo.photo_id}" src="{$baseurl}/styles/cbv2.7/timthumb.php?src={get_photo details=$photo size='o'}&h=150&w=150&zc=1"> -->
-        <span class="photoname">
+        <!-- <span class="photoname">
         {if $photo.photo_title=='no-tag'}no-title
         {else}
         {$photo.photo_title|truncate:25}
         {/if}
-        </span>
+        </span> -->
         </a>
+        <div class="hover">
+			<a href="{$cbphoto->photo_links($photo,'view_item')}" title="Tolpis barbata (mariluzpicado)">
+				<span class="photo-title">
+				{if $photo.photo_title=='no-tag'}no-title
+		        {else}
+		        {$photo.photo_title|truncate:25}
+		        {/if}
+        		</span>
+				<span class="plus">plus</span>
+			</a>
+		</div>
     </div>
 
 {/if}

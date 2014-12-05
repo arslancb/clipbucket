@@ -13,8 +13,11 @@
         </span>
 	</a>
     <h5><a href="{videoLink($video)}" title="{$video.title|title}"><b>{$video.title|truncate:16}</b></a></h5>
-    <span class="font1 new1"><b>{lang code='views'} :{$video.views}</b></span>
-    <span class="font2 new1"><b>{$video.date_added|niceTime}</b></span>	
+
+    <div class="clearfix views-time">
+    	<span class="font1"><span class="bg-eye"></span>&nbsp;{lang code='views'} :{$video.views}</span>
+    	<span class="font2"><span class="bg-time"></span>&nbsp;{$video.date_added|niceTime}</span>
+    </div>
 	</div>
     
 
