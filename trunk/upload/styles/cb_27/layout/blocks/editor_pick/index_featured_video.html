@@ -6,15 +6,15 @@
 	</div> <!--VIDEO_THUMB END-->
 
 <div class="details_block">
-	<div class="title" style="font-family:Tahoma, Geneva, sans-serif; font-weight:normal;">
-	<a href="#" style="color:#000; text-decoration:none; font-weight:bold; font-size:12px;">{$video.title|truncate:20}</a>
+	<div class="title">
+	<a href="#">{$video.title|truncate:20}</a>
     </div>
-	<div class="title" style="font-family:Tahoma, Geneva, sans-serif; font-size:12px; font-weight:normal;">
+	<!-- <div class="title">
 	{$video.description|description|truncate:30}
-	</div>
-	<div class="small" style="padding-top: 20px; font-size:11px; font-family:'Trebuchet MS', Arial, Helvetica, sans-serif; font-weight:normal;">
-    {$video.date_added|niceTime}
-	</div>
+	</div> -->
+	<time datetime="2014-12-04" class="time-duration">
+	<span class="bg-time"></span>&nbsp; {$video.date_added|niceTime}
+	</time>
 </div>
 
 </div> <!--DETAILS_BLOCK END-->
