@@ -73,7 +73,7 @@
 		<!-- *********** LATEST VIDEOS START *********** //-->
 		<!-- ******************************************* //-->
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-12 clearfix">
 				<div class="col-md-8 nopadding padding-right-10 featuredvideos-wrapper">
 					<h2 class="myHeading theme_color">{lang code="Featured Videos"}</h2>
 					{$featured_videos=get_videos(['featured' => 'yes','limit'=>6])}
@@ -102,7 +102,7 @@
 								{if $video_02@iteration >1 && $video_02@iteration < 4}
 								<div class="col-md-12 text-center nopadding mouse_hover1 featured-video" style="{if not $smarty.foreach.foo.last} {/if} " >
 									<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
-										<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='big' }" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
+										<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='240x133' }" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
 										<div class="cbHomeVidTitle mouse_hover_on1">{$video_02.title|truncate:10}</div>
 										<div class="cbHomeVidDuration mouse_hover_on1">
 						            		{$video_02.duration|date_format:$config.time}
@@ -117,18 +117,15 @@
 							{foreach $featured_videos as $video_02}
 							{if $video_02@iteration >3}
 								<div class="col-lg-4 col-md-4 col-sm-6 hidden-xs text-center nopadding-right mouse_hover featured-video {if $video_02@iteration==4}nopadding{/if} ">
-								<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
-									<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='big'}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
-								
-									<div class="cbHomeVidTitle mouse_hover_on">{$video_02.title|truncate:10}</div>
+									<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
+										<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='240x133'}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
+									
+										<div class="cbHomeVidTitle mouse_hover_on">{$video_02.title|truncate:10}</div>
 
-									<div class="cbHomeVidDuration mouse_hover_on">
-						            {$video_02.duration|date_format:$config.time}
-						            </div>
-								</a>
-
-					            
-				                
+										<div class="cbHomeVidDuration mouse_hover_on">
+							            {$video_02.duration|date_format:$config.time}
+							            </div>
+									</a>
 								</div>
 							{/if}
 							{/foreach}
@@ -145,12 +142,13 @@
 			        <div class="row nopadding">
 			        	<h3 class="myHeading theme_color">{lang('Recent videos')}</h3>
 			        	{$videos=get_videos(["order" =>"date_added DESC", "limit" =>12])}
-
-			        	{foreach $videos as $video}
-			        		<div class="marginBottom grid_view recent-col list_view nopadding-right">
-							{include file="$style_dir/blocks/video.html"}
-							</div>
-			        	{/foreach}	
+						<div class="clearfix recent-videos row">
+				        	{foreach $videos as $video}
+				        		<!-- <div class="marginBottom grid_view recent-col list_view nopadding-right"> -->
+								{include file="$style_dir/blocks/video.html"}
+								<!-- </div> -->
+				        	{/foreach}
+			        	</div>
 			        </div>
 					
 	              	<div class="ad">{AD place='ad_468x60'}</div>
@@ -158,29 +156,82 @@
 			    		{if $row.photosSection=='yes' }
 						<div class="col-md-12 clearfix nopadding ">
 			        		<h2 class="myHeading theme_color">{lang code="Featured Photos"}</h2>
-							{$result_photos1_01 = get_photos(['order'=>' RAND() LIMIT 1 '])}		
+							{$result_photos1_01 = get_photos(['order'=>' RAND() LIMIT 15 '])}		
 			        		{if $result_photos1_01}
 	        				<!-- *********** FIRST PHOTOS START ************ //-->
-							<div class="col-md-12 fill-background clearfix lg-img">
-								<div class="col-md-7 big_img">
-								{foreach from=$result_photos1_01 item=result_photo1_01}
-					            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
-					            	{get_photo details=$result_photo1_01 output='html' width="420" height="235" size="l" class="cb_img_thum"}
+	        				<!-- <div class="row clearfix fill-background lg-img"> -->
+							<div class="clearfix featured-images">
+								<div class="clearfix">
+								{foreach from=$result_photos1_01 key=i item=result_photo1_01}
+									
+								{if $i==0}			
 
-					            	</a>
-					            {/foreach}
-					            </div>
-					            {$result_photos1_08 = get_photos(['order'=>'  photo_id DESC LIMIT 4 '])}
-					            <div class="col-md-5 nopadding sm-imgs">
-								{foreach from=$result_photos1_08 item=result_photo1_08}
-									<div class="col-md-6 col-sm-6" >
-					            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
-					            	{get_photo details=$result_photo1_08 output='html' width="128" height="118" size="l" class='photoThumbBox moveL cb_img_thum'}
-					            	</a>
-					            {if $photos@iteration > 1}{break}{/if}
-					       	    </div>
-					            {/foreach}
-								</div>
+									<div class="ft-img col-md-7">
+									
+
+						            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+						            	{get_photo details=$result_photo1_01 output='html' size="l" class="cb_img_thum"}
+						            	</a>
+						            	<div class="hover">
+						            		<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+						            			<span class="photo-title">{$result_photo1_01.photo_title}</span>
+						            			<span class="plus">plus</span>
+						            		</a>
+						            	</div>
+						          
+						            </div>
+						        {else if $i < 3}    
+
+						           
+						            
+									
+									<div class="ft-img col-md-5">
+						            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
+						            	{get_photo details=$result_photo1_01 output='html' size="l" class='photoThumbBox moveL cb_img_thum'}
+						            	</a>
+						            	<div class="hover">
+						            		<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+						            			<span class="photo-title">{$result_photo1_01.photo_title}</span>
+						            			<span class="plus">plus</span>
+						            		</a>
+						            	</div>
+						           
+						       	    </div>
+						           
+								{else if $i < 7}
+						           
+									<div class="ft-img col-md-6">
+						            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
+						            	{get_photo details=$result_photo1_01 output='html' size="l" class='photoThumbBox moveL cb_img_thum'}
+						            	</a>
+						            	<div class="hover">
+						            		<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+						            			<span class="photo-title">{$result_photo1_01.photo_title}</span>
+						            			<span class="plus">plus</span>
+						            		</a>
+						            	</div>
+						            
+						       	    </div>
+						            
+								{else}			
+						           
+									<div class="ft-img col-md-3" style="height:140px;">
+						            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
+						            	{get_photo details=$result_photo1_01 output='html' size="l" class='photoThumbBox moveL cb_img_thum'}
+						            	</a>
+						            	<div class="hover">
+						            		<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+						            			<span class="photo-title">{$result_photo1_01.photo_title}</span>
+						            			<span class="plus">plus</span>
+						            		</a>
+						            	</div>
+						            
+						       	    </div>
+						         {/if}   
+						        
+						        {/foreach}
+						        </div>
+								<!-- </div> -->
 							</div>
 					        <!-- *********** FIRST PHOTOS END ************ //-->
 				     		{/if}
@@ -189,7 +240,7 @@
 						    
 						    {if $result_photos2_08} 		
 					        <!-- *********** SECOND PHOTOS START ************ //-->
-							<div class="col-md-12 fill-background clearfix lg-img">
+							<!-- <div class="col-md-12 fill-background clearfix lg-img">
 						        <div class="col-md-5 nopadding sm-imgs clearfix left-aligned">
 								{foreach from=$result_photos2_08 item=result_photo2_08}
 									<div class="col-md-6 col-sm-6">
@@ -208,7 +259,7 @@
 						        	</a>
 						        {/foreach}
 						        </div>
-							</div>
+							</div> -->
 							<!-- *********** SECOND PHOTOS END ************ //-->
 							{/if}
 						</div>
@@ -242,21 +293,20 @@
 				{$feature_users=get_users(['featured'=>'yes','limit'=>5])}
 				{if $feature_users}
 	     		<div class="col-md-4 side_user_home">
-					<h4 class="home-side-heading">{lang code="Featured Users"}</h4>
+					<h2 class="myHeading theme_color">{lang code="Featured Users"}</h2>
 	               
-					{section name=result_users loop=$feature_users}
-
+	               {foreach $feature_users as $user}
+					
 	                <div class="col-md-12 nopadding clearfix user-view-home">
 						<div class="col-md-3 nopadding">
-							<img src="{$userquery->getuserthumb($result_users[result_users],'small')}" width="65" height="65" class="img-circle" />
+							<img src="{$userquery->getuserthumb($user,'small')}" width="56" height="56" class="img-circle" />
 						</div>
 						<div class="col-md-9 nopadding">
-							<div class="min-height-35">
-								<h4 class="nopadding "><a href="{$userquery->profile_link($result_users[result_users])}">{$result_users[result_users].username}</a></h4>
-							</div>
+							<h4 class="nopadding "><a href="{$userquery->profile_link($user)}">{$user.username}</a></h4>
+
 							<div class=" nopadding col-md-6 min-height-20">
-								<div class="pull-left small"><span>{$result_users[result_users].profile_hits|number_format} {lang code='views'}</span></div>
-								<div class="pull-right small"><span>{$result_users[result_users].total_videos|number_format} {lang code='Videos'}</span></div>
+								<div class="pull-left small"><span class="bg-eye"></span>&nbsp;<span>{$user.profile_hits|number_format} {lang code='views'}</span></div>
+								<div class="pull-right small"><span class="bg-videocam"></span>&nbsp;<span>{$user.total_videos|number_format} {lang code='Videos'}</span></div>
 							</div>
 		                    <br>
 		                    <div class="row pull-left" style="margin-left: 0px; width: 99%;">
@@ -273,12 +323,12 @@
 			    			</div>-->
 						</div>
 						<div class="user_icon">
-							<a href="{$userquery->profile_link($result_users[result_users])}">
+							<a href="{$userquery->profile_link($user)}">
 							<img class="" src="{$imageurl}/user_next_icon.png" width="25" height="25" />
 							</a>
 						</div>
 					</div>
-					{/section}
+					{/foreach}
 				</div>
 				{/if}
 				<!-- ******************************************* //-->
@@ -286,33 +336,76 @@
 		        <!-- ******************************************* //-->
 				{$collections = $cbcollection->get_collections(['limit'=>5, 'active'=>'yes'])}
 				<div class="col-md-4 comment_home side_user_home" >
-					<h4 class="home-side-heading">{lang code="Top Collections"}</h4>
+					<h2 class="myHeading">{lang code="Top Collections"}</h2>
+					{$limit=10}
 		        	{if $collections}        
 					{foreach from=$collections item=collection}
-					<div class="collection_home mouse_hover">
+					<div class="clearfix collection-section">
+						<div class="category-header row clearfix">
+							<div class="col-sm-6 clearfix">{$collection.collection_name}</div>
+							<div class="col-sm-6 clearfix"><span class="total-obj">{$collection.total_objects}</span></div>
 
-						<a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
-							<div class="details mouse_hover_on">
-								<div align="center" class="collection_name">{$collection.collection_name}</div>
-								<div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
-							</div>
-
-							<img
-
-							style="background:url('{$cbcollection->get_thumb($collection,'',TRUE)}')"
-							 class="cb_img_thum" src="{$imageurl}/dot.gif"/>
-						</a>
-						
+							<!-- {*{$collection.type}*} -->
+							<!-- <div class="col-sm-6 clearfix"><span class="total-obj">{$limit}</span></div> -->
+						</div>
+						<div class="collection-grid clearfix"> 
+						{$items = $cbphoto->collection->get_collection_items_with_details($collection.collection_id,0,$limit,false)}
+						{if $items}
+							{foreach from=$items item=item}
+								<div class="collection-item">
+									<a href="{$cbphoto->photo_links($item,'view_item')}">
+										{get_photo details=$item output='html' size="l" class="cb_img_thum"}
+									</a>
+								</div>
+							{/foreach}
+						{/if}
+						</div>
 					</div>
+
 					{/foreach}
 					{else}
 					<div class="col-md-12 nopadding">No Collection</div>
 					{/if}
-				</div>
+		    	</div>
+				
+				{$collections = $cbcollection->get_collections(['limit'=>5, 'active'=>'yes'])}
+
+				<div class="col-md-4 comment_home side_user_home video-collection" >
+					<h2 class="myHeading">{lang code="Top Playlist"}</h2>
+					{$limit=10}
+		        	{if $collections}        
+					{foreach from=$collections item=collection}
+					<div class="clearfix collection-section">
+						<div class="category-header row clearfix">
+							<div class="col-sm-6 clearfix">{$collection.collection_name}</div>
+							<div class="col-sm-6 clearfix"><span class="total-obj">{$collection.total_objects}</span></div>
+
+							<!-- {*{$collection.type}*} -->
+							<!-- <div class="col-sm-6 clearfix"><span class="total-obj">{$limit}</span></div> -->
+						</div>
+						<div class="collection-grid clearfix"> 
+						{$items = $cbphoto->collection->get_collection_items_with_details($collection.collection_id,0,$limit,false)}
+						{if $items}
+							{foreach from=$items item=item}
+								<div class="collection-item">
+									<a href="{$cbphoto->photo_links($item,'view_item')}">
+										<span class="glyphicon glyphicon-play-circle white paly_on"></span>
+									</a>
+									{get_photo details=$item output='html' size="l" class="cb_img_thum"}
+								</div>
+							{/foreach}
+						{/if}
+						</div>
+					</div>
+
+					{/foreach}
+					{else}
+					<div class="col-md-12 nopadding">No Collection</div>
+					{/if}
+		    	</div>
+
 
 		    </div>
-			
-
 		</div>
 	</div>
 	{*include file="$style_dir/blocks/videos/video-home-sliders2.html" video_06_da=$video_06_da slider3='slider3'*}

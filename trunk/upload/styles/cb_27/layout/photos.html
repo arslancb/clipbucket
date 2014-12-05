@@ -96,7 +96,7 @@
             <div class="pull-left">
 
                 <!--Sorting By View-->
-                <div class="btn-group"> 
+                <div class="btn-group custom-dropdown"> 
                     {if $smarty.get.sorting}
                     {foreach from=$sorting_links item=name key=sort}
                         {if $smarty.get.time==$sort && isset($smarty.get.sort)} 
@@ -104,7 +104,7 @@
                         {$name}
                         </button>
                         <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                        <span class="caret"></span>
+                        <span class="arrow-drop"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button><!--<span class="glyphicon glyphicon-sort"></span> Most {$name}-->
                         {/if}
@@ -114,7 +114,7 @@
                         {$smarty.get.sort}
                         </button>
                         <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                        <span class="caret"></span>
+                        <span class="arrow-drop"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
 
@@ -128,14 +128,15 @@
                     </ul>-->
                     <ul role="menu" class="dropdown-menu">
                         {foreach from=$sorting_links item=name key=sort}
-                      <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=photos}">{$name}</a></li>
+						<li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=photos}">{$name}</a></li>
+						<li role="presentation" class="divider"></li>
                       {/foreach}
                       </ul>
                 </div>
 
                 <!--Sorting By time-->
                 {assign var=time_links value=time_links()}
-                <div class="btn-group">
+                <div class="btn-group custom-dropdown">
                     {if $smarty.get.timing} 
 
                     {foreach from=$time_links item=name key=sort name=times}
@@ -145,7 +146,7 @@
                         {$name}
                         </button>
                         <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                        <span class="caret"></span>
+                        <span class="arrow-drop"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button><!--<span class="glyphicon glyphicon-sort"></span> Most {$name}-->
                         {/if}
@@ -155,13 +156,14 @@
                         All Time
                         </button>
                         <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                        <span class="caret"></span>
+                        <span class="arrow-drop"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                     {/if}  
                       <ul role="menu" class="dropdown-menu">
                         {foreach from=$time_links item=name key=sort name=times}
                             <li><a href="{link name=time sort=$sort type=photos}&timing=time" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+                            <li role="presentation" class="divider"></li>
                         {/foreach}
                       </ul>
                 </div>
@@ -185,7 +187,7 @@
         </div>
 
         <!-- /Page Heading -->
-        <div class="col-md-12 photos nopadding">
+        <div class="col-md-12 clearfix photos nopadding">
 
             {$counter=0}
             <ul class="list-unstyled row" id="photos"> <!-- remove photos id to remove photo land styling --></ul>
@@ -204,12 +206,12 @@
              
             <!-- /Pagination-->
         </div>
-        <div class="col-md-2 pull-right paddingright0">
-            <div class="ad">{AD place='ad_160x600'}</div>
+        <!--<div class="col-md-2 pull-right paddingright0">
+            <div class="ad">{AD place='ad_160x600'}</div>-->
             <!--<img src="http://www.ryangiggs.cc/system/files/banner-160x600-pride-tee_0.jpg">
             <a href="http://www.arvixe.com/clipbucket_hosting"><img class="banner pull-right" src="{$theme}/assets/images/ad-box-160x600.jpg" ></a>-->
-        </div>
-        <div align="center" class="col-md-10">
+        <!--</div>-->
+        <div align="center" class="col-md-12 clearfix">
                 {include file="$style_dir/blocks/pagination.html"}
         </div>
         
