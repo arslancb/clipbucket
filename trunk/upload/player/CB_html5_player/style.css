@@ -8,9 +8,6 @@
 }
 
 
-
-
-
 .myVideo{
     background:#000;
 	width: 100% ;
@@ -27,11 +24,10 @@
 	}
 
 .cont:-webkit-full-screen {
- width: 100% !important;
+    width: 100% !important;
 	height: 100% !important;
  
 }
-
 
 
 .cont{
@@ -74,6 +70,43 @@
 	z-index: 2;
 	background:url(skin/caption.png)  repeat-x;
 	
+}
+
+.video_files
+{
+  
+    display: none;
+    position:absolute;
+	bottom:0;
+	right:0;
+	background: #fff;
+    width: 100px;
+	padding-bottom: -10%;
+    margin-bottom: 5.5%;
+    margin-right: 5%;
+    z-index: 10;
+
+}
+
+
+#ul_files
+{
+	list-style-type: none;
+	background:#1D1D1D;
+	margin-left: 0%;
+	z-index: 1000;
+	padding: 0px;
+	margin:0;
+}
+
+
+.selected_player
+{
+	font-style: italic;	
+	font-family: sans-serif;
+	background :#09C;
+	color: #fff;
+    background:url(skin/check.png) no-repeat -3.5px -7px ;
 }
 
 /*** VIDEO CONTROLS CSS ***/
@@ -219,6 +252,23 @@
 
 }
 
+.control div.res{
+	background:url(skin/res.png) no-repeat -3.5px -7px ;
+	float:right;
+	margin-right: 5px;
+	
+
+}
+
+.control div.ress{
+	background:url(skin/res.png) no-repeat -3.5px -7px ;
+	float:right;
+	margin-right: 5px;
+	
+
+}
+
+
 
 .control div.hdoff{
 	background:url(skin/hd.png) no-repeat -5px -6px !important;
@@ -338,7 +388,7 @@ color: #fff;
 	border-left: 4px solid rgba(0, 0, 0, .0);
 	width:100%;
 	height:100%;
-	background:url(skinloading.gif) no-repeat 50% 50% !important;
+	/*background:url(skinloading.gif) no-repeat 50% 50% !important;*/
 	z-index:4;
 	display:none;
 
@@ -375,60 +425,47 @@ float: left;
 }
 
 
-#itemsr
-{
-  list-style: none;      
-  padding: 0px;
-  margin: 5px 0 0 5px;
-  font-size: 20px; 
-  }     
+
 #rightcmenu
 {
   display: none;        
   position: fixed;       
-  font-size: 12px;
+  font-size: 14px;
   height: 20px;
-  width: 250px;
-  background: #E4E4E4 ;
-  color: #000; 
- border-bottom: 1px solid #BBBBBB; 
- z-index: 100;  
-   text-align: center;
+  width: 180px;
+  background: #E4E4E4;
+  color: #393939; 
+  
+  z-index: 100;  
+
+   
 }
 
-#ritems{
-     background: #fff;
-   margin-top: 0px;
-	  
-	 
+#ritems
+{
+ background: #fff;
+ margin-top: 0px;
+ left : -5;
 }
 
-.rlist{
-
-
-border-left: 1px solid #DFDFDF; 
-
-text-align: left;
-margin-left: -5px;
-
+.rlist
+{
+ 
+margin-left: -25px;
 height: 22px;
 list-style-type:none;
-
+cursor: pointer;
 }
 
 .rlist:hover                       
 {
-  background-color: rgba(92, 161, 255, 0.1);
-  
- 
+  background-color: #428BCA;
+  color: #fff;
+
 }
 
 
-#op{
 
-	
-	text-align: center;
-}
 
 
 

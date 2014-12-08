@@ -1,7 +1,7 @@
 <?php
 /*
 	Player Name: CB HTML5 Player 2.7
-	Description: New html5 ClipBucket Player with all required features
+	Description: New Official CB html5 ClipBucket Player with all required features
 	Author: Fahad Abbas
 	ClipBucket Version: 2.7
 	
@@ -31,8 +31,9 @@ if(!function_exists('html5_player'))
 		$html5_player = true;
 		
 		$vdetails = $in['vdetails'];
-		$video_file = get_video_file($vdetails,true,true);
-		$vid_file = get_normal_vid($vdetails,true,true);
+		$video_play = get_video_files($vdetails,true,true);
+	
+	
 		
 		if(function_exists('get_refer_url_from_embed_code'))
 		{
@@ -40,11 +41,11 @@ if(!function_exists('html5_player'))
 			$ytcode = $ref_details['ytcode'];
 		}
 		
-		if($vid_file || $ytcode)
+		if($video_play || $ytcode)
 		{
 			$hd = $data['hq'];
 		
-			if($hd=='yes') $file = get_hq_video_file($vdetails); else $file = get_normal_vid($vdetails,true,true);
+			if($hd=='yes') $file = get_hq_video_file($vdetails); else $file = get_video_files($vdetails,true,true);
 			$hd_file = get_hq_video_file($vdetails);
 			
 			
@@ -59,17 +60,17 @@ if(!function_exists('html5_player'))
 			if(!strstr($in['height'],"%"))
 				$in['height'] = $in['height'].'px';
 		
-			if($in['autoplay'] =='yes' || $in['autoplay']===true || 
-			($_COOKIE['auto_play_playlist'] && ($_GET['play_list'] || $_GET['playlist'])))
-			{
-				$in['autoplay'] = true;
-			}else{
-				$in['autoplay'] = false;
-			}
-		
-           // include('../../../../includes/config.inc.php');
-            //$related_videos = get_videos(array('title'=>$title,'tags'=>$tags,'exclude'=>$videoid,'show_related'=>'yes','limit'=>8,'order'=>'date_added DESC'));
-          
+            // Allowing CB defalut player settings to Html5player
+			if($in['autoplay'] =='yes')
+			assign('autoplay','true');
+
+
+			assign('vdata',$vdetails);
+            assign('height',$in['height']);
+            assign('width',$in['width']);
+
+
+		  
             $v_cat = $vdo['category'];
             if($v_cat[2] =='#') {
             $video_cat = $v_cat[1];
@@ -83,19 +84,15 @@ if(!function_exists('html5_player'))
             $videos = get_videos($vlist);
             Assign('related', $videos);
 
-            
-			
 			$l_details = BASEURL.'/images/icons/country/hp.png';
 			$l_convert = base64_encode(file_get_contents($l_details));
 			assign('display',$l_convert);
+            
+			if (THIS_PAGE == 'watch_video')
+			 assign('enlarge_small','true');
+		    else
+		     assign('enlarge_small','false');	
 			
-
-			$ov_details = BASEURL.'/images/icons/country/ov.png';
-			$ov_convert = base64_encode(file_get_contents($ov_details));
-			assign('ov',$ov_convert);
-
-		   
-
             assign('about',BASEURL);
             
             $jquery = BASEDIR.'/js/jquery.js';
@@ -128,7 +125,7 @@ if(!function_exists('html5_player'))
 		    }
 		
             //getting hq test for HD button
-            $hq_file = get_hq_vid($vdetails,true,true);
+            $hq_file = $video_play[1];
             assign('testing',$hq_file);
 		
             assign('top',$position["top"]);
@@ -144,25 +141,44 @@ if(!function_exists('html5_player'))
 
 			assign('player_data',$in);
              
+            // setting flash player fallback for Flashplayer Videos 
+            $ext = getExt($video_play[0]);
+              
+            if ( $ext == 'flv' ){
+	            assign('player_data',$in);	
+	            assign('cb_skin','glow/glow.xml');
+	            assign('player_url',PLAYER_URL);	
+	            assign('flashplayer',true); 
+            }
+          
+            if($video_play[0])
+            {
+	            assign('application_videos',$video_play[0]);
 
-             
-			if (!$vid_file){
-			assign('normal_vid_file',$video_file);
-            assign('hq_vid_file',$video_file);
-			
-		    }
-		    else{
-            assign('normal_vid_file',$vid_file.'-sd.mp4');
-			assign('hq_vid_file',$vid_file.'-hd.mp4');
-		    }
-			
-			assign('vdata',$vdetails);
-            assign('height',$in['height']);
-            assign('width',$in['width']);
+	            if ($video_play[1] == '')
+	            {	
+		            assign('normal_vid_file',$video_play[0]);
+		            assign('hq_vid_file','');
+	            }
+	            else
+	            {
+		            assign('normal_vid_file',$video_play[1]);	
+		            assign('hq_vid_file',$video_play[0]);
+	            }
+            }
+            else
+            {	
+            $json_array = json_encode($video_play);
+            assign('json_videos',$json_array);
+            $video_play = array_reverse($video_play, true);
+            assign('ms_videos',$video_play);
+            }
 
-			
+		
+		
+		
 			Template(HTML5_PLAYER_DIR.'/html5_player.html',false);
-			Template(HTML5_PLAYER_DIR.'/html5_player_header.html',false);
+			
 			
 			return true;
 		}
@@ -172,12 +188,18 @@ if(!function_exists('html5_player'))
 
      
 	register_actions_play_video('html5_player');
-
+  // $Cbucket->add_header(HTML5_PLAYER_DIR.'/html5_player_header.html');
+  
+     
 	
 }
 
 
+//overlay 
 
+/*$ov_details = BASEURL.'/images/icons/country/ov.png';
+  $ov_convert = base64_encode(file_get_contents($ov_details));
+  assign('ov',$ov_convert);*/
 
  
 

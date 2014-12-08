@@ -1,52 +1,112 @@
+isFullScreen = false;
+isButtonFullscreen = false;
+$(document).ready(function()
+{
 
-$(document).ready(function(){
 	//INITIALIZE
 	var video = $('#myVideo');
 	var container = $('.cont');
 	var test = $(".cont,.myVideo");
+	var loadmetadata = true;
 
+	attachEvents();
 
-	 video[0].removeAttribute("controls");
-	$('.control').show().css({'bottom':-60});
-	$('.caption').show().css({'top':-200});
 	$('.loading').fadeIn(500);
-	$('.caption').fadeIn(500);
- 
-
 	
-	//before everything get started
-	    video.on('loadedmetadata', function() {
-		//set video properties	
-		video.attr('poster', '');
+
+    // setting player controls when video gets ready :)
+  	var test =  setInterval(function(){
+
+		var vid = document.getElementById("myVideo");
+		var rdy = vid.readyState;
+
+			if (rdy >= '2')
+			{
+				if (loadmetadata == true)
+				{
+						$('.loading').fadeOut(500);
+						if( autoplay == '' ){
+							$('.init').fadeIn(2500);
+							$('.btnPlay').addClass('paused');
+							
+					    }
+					    if( autoplay == 'true'){
+					    	setTimeout(startBuffer, 10);
+					    	$('.btnPlay').addClass('paused');
+					    }
+						$('.caption').fadeIn(500);
+	                    $('.fduration').text(timeFormat(video[0].duration));
+				        $('.fcurrent').text(timeFormat(0));
+				        updateVolume(0, 0.7);
+	                    loadmetadata = false;
+	             }
+	        }
+    },1000);
+
+    container.one("click",function(){
+     	clearTimeout(test);
+    });
+
+      
+
+    //before everything get started
+    video.on('loadedmetadata', function() {
+	    if (time_var == true){
+		    video[0].currentTime = start_time;
+		    video[0].play();
+	    }
+
+	    //set video properties	
 		$('.fcurrent').text(timeFormat(0));
 		$('.fduration').text(timeFormat(video[0].duration));
+		$('.caption').fadeIn(500);
 		updateVolume(0, 0.7);
-		$('.buffer').hide();
-			
-		//bind video events
-		$('.cont')
-		.hover(function() {
+		$('.loading').fadeOut(500);
+        if( autoplay == 'true'){
+		    setTimeout(startBuffer, 10);
+		    $('.btnPlay').addClass('paused');
+	    }
+
+        if(time_var  == true){
+			$('.init').hide();
+		}	
+		else{
+
+	   	    if( autoplay == '' ){
+				$('.init').fadeIn(2500);
+				$('.btnPlay').addClass('paused');
+			}
+	   	}    
+		loadmetadata = false;
+    });
+      
+   /*video[0].removeAttribute("controls");
+   $('.control').show().css({'bottom':-60});
+   $('.caption').show().css({'top':-200}); */
+		
+
+    $('.cont').hover(function() {
 			$('.control').stop().animate({'bottom':0}, 100);
 			$('.caption').stop().animate({'top':-7}, 600);
-		}, function() {
-			if(!volumeDrag && !timeDrag){
+	}, function() {
+		   if(!volumeDrag && !timeDrag){
 				$('.control').stop().animate({'bottom':-51}, 500);
 				$('.caption').stop().animate({'top':-200}, 500);
 			}
 		})
 		.on('click', function() {
-			$('.init').hide();
-			$('.btnPlay').addClass('paused');
-			$(this).unbind('click');
-			video[0].play();
-			$('.buffer').show();
-			//set video properties
-		    //start to get video buffering data 
-		    setTimeout(startBuffer, 150);
-			});
-		$('.init').fadeIn(2500);
+			if( autoplay == ''){
+				$('.init').hide();
+				$('.btnPlay').addClass('paused');
+				$(this).unbind('click');
+				video[0].play();
+				$('.buffer').show();
+			    //start to get video buffering data 
+			    setTimeout(startBuffer, 10);
+		    }   
 	});
-	
+
+
 	//display video buffering bar
 	var startBuffer = function() {
 		var currentBuffer = video[0].buffered.end(0);
@@ -79,6 +139,7 @@ $(document).ready(function(){
             $('.init').hide();
 			$('.btnPlay').addClass('paused');
 			video[0].play();
+			
 			
 		}
 		else {
@@ -130,89 +191,40 @@ $(document).ready(function(){
 
 
 $('.btnFS').on('click', function() {
-$(this).toggleClass('enterbtnFS');
-    if($.isFunction(container[0].webkitRequestFullScreen)) {
-              if($(this).hasClass("enterbtnFS")) 
-                   {
-                     container[0].webkitRequestFullScreen(); 
-
-                     $('.caption').hide();
-                 	 $(".largescr").hide();
-                 	
-
-                     $(".control").hover(
-                     function() {
-                     $('.control').stop().animate({'bottom':0}, 100);
-                     },
-                     function() {
-                     $('.control').stop().animate({'bottom':-40}, 1000);
-                     });
-                      
-                   
-                    
-                   }   
-                   else 
-                   { 
-                     document.webkitCancelFullScreen(); 
-                     $('.caption').show();
-               	   	 $(".largescr").show(); 
-               	   	 $('.cb-item-title-container').css({'margin-top':0}); 
-               	   	
-               	   	   $(".control").hover(
-                       function() {
-                       $(this).unbind('mouseenter').unbind('mouseleave');
-                       });
-
-
-
-                   }  
-                 
-    }  
-    else if ($.isFunction(container[0].mozRequestFullScreen)) {
-              if($(this).hasClass("enterbtnFS"))
-                  { 
-                 	 container[0].mozRequestFullScreen();
-                     $('.caption').hide();
-                 	 $(".largescr").hide();
-
-                      $(".control").hover(
-                     function() {
-                     $('.control').stop().animate({'bottom':0}, 100);
-                     },
-                     function() {
-                     $('.control').stop().animate({'bottom':-40}, 1000);
-                     });
-
-
-
-
-
-                  }
-               else 
-                  {  
-                     document.mozCancelFullScreen();
-               	     $('.caption').show();
-               	   	 $(".largescr").show();
-               	   	 $('.cb-item-title-container').css({'margin-top':0});
-               	   
-                       $(".control").hover(
-                       function() {
-                       $(this).unbind('mouseenter').unbind('mouseleave');
-                       });
-                    
-               	  } 
+	$(this).toggleClass('enterbtnFS');
+    
+    isButtonFullscreen = true;
+    if($.isFunction(container[0].webkitRequestFullScreen)) 
+    {
+    		if(isFullScreen)
+    		{
+    			isFullScreen = false;
+				document.webkitCancelFullScreen();
+    		}
+             else
+             {
+             	isFullScreen = true;
+             	container[0].webkitRequestFullScreen();	
+             }
     
     }
-             else { 
-                     alert('Your browsers doesn\'t support fullscreen');
-    }
-});
 
-
-
+    else if($.isFunction(container[0].mozRequestFullScreen)) 
+    {
+    		if(isFullScreen)
+    		{
+    			isFullScreen = false;
+				document.mozCancelFullScreen();
+    		}
+             else
+             {
+             	isFullScreen = true;
+             	container[0].mozRequestFullScreen();	
+             }              
+    }  
    
-
-
+   
+});
 
 
 
@@ -223,8 +235,6 @@ $(this).toggleClass('hdoff');
     $('source', '#myVideo').eq(1).prependTo('#myVideo');
     $('#myVideo')[0].load();
     $('#myVideo')[0].play();
-    
-
     $('.btnPlay').addClass('paused');
     video[0].pause();
     
@@ -267,7 +277,6 @@ $(this).toggleClass('hdoff');
 		$('.caption').hide();
 		$('#web').hide();
 	});
-
 	//video seeking event
 	video.on('seeking', function() {
 		//if video fully loaded, ignore loading screen
@@ -277,7 +286,10 @@ $(this).toggleClass('hdoff');
 	});
 	
 	//video seeked event
-	video.on('seeked', function() { });
+	video.on('seeked', function() {
+       $('.loading').fadeOut(200);
+		
+	 });
 	
 	//video waiting for more data event
 	video.on('waiting', function() {
@@ -383,19 +395,11 @@ $(this).toggleClass('hdoff');
 
 
 //getting large screen button only for watch video page 
-if (window.location == homepath+'/watch_video.php?v='+key)
-
+if (enlarge_small == 'true')
 {
-
 $('.btmControl').append('<div class="smallscr largescr hbtn" id="largescr" title="Enlarge/Small Size"></div>');
 $('#largescr').insertAfter("#fs");
-
 }
-
-else
-{}
-
-
 
 
 
@@ -408,26 +412,26 @@ $(".largescr").click(function() {
 if(!$(this).hasClass('smallscr')) {
 			$(".cont").animate({height:'+=220px',width:'+=390px'},"fast");
             $(".player").animate({width:'+=390px'},"fast");
-			$('.cb-item-title-container').css({'margin-top':+250});	
+			$('.watch-vid-title').css({'margin-top':+250});
+			//$('.video_files').css({'margin-bottom':'3.5%'});
+
 			 
 		}
 		
-		                     else{
+		    else{
 			$(".cont").animate({height:'-=220px',width:'-=390px'},"fast");
 		    $(".player").animate({width:'-=390px'},"fast");
-		    $('.cb-item-title-container').css({'margin-top':'0px'});
+		    $('.watch-vid-title').css({'margin-top':'0px'});
+		    //$('.video_files').css({'margin-bottom':'5.5%'});
 			
 		}
 });
 
 
-//Right click Menu 
-
-
 //Right Click Menu
 
 $('#cont').append('<div id="rightcmenu"></div>');
-$('#rightcmenu').append('<span id="op">CB Html5 menu</span>');
+//$('#rightcmenu').append('<span id="op">CB Html5 menu</span>');
 $('#rightcmenu').append('<ul id="ritems"></ul>');
 $('#ritems').append('<li id="copy"  class="rlist copy">Show Video link</li>');
 $('#ritems').append('<li class="rlist about">About</li>');
@@ -449,12 +453,12 @@ function startFocusOut() {
 }
 
 $(".clip").click(function(event) {
-  window.location = 'http://clip-bucket.com/';
+   window.open('http://clip-bucket.com/', '_blank');
  });
 
 
 $(".about").click(function(event) {
-  window.location = homepath;
+  window.open(homepath, '_blank');
           
 });
 
@@ -487,25 +491,6 @@ $('#path').css({
   });
 
 
-
-//website logo
-
-/*$('.cont').append('<div><img id="web"  src=data:image/png;base64,'+ web +'> </div>');
-$('#web').css({
-	            'top' :  $top,
-	            'left' :  $left,
-	            'bottom' : $bottom,
-	            'right' :  $right  ,
-				'position': 'absolute',
-	            'width': '100px',
-	            'height': '30px',
-	           
-				
-				
-			});
-
-*/
-
 $('#name_v,#thumb_v').mouseover(function() {
 	$(this).css({'opacity':'1',
 'border': '0px solid #000',
@@ -524,7 +509,73 @@ $('#name_v,#thumb_v').mouseout(function() {
 
 
 
+  //For multiserver plugin videos :)
+if(files)
+{
+     var toggle = false;
+     var time_var = false;
+     var start_time = 0;
 
+     $('#res').on('click',function(event){
+         if(toggle == false) 
+			     {
+			     	 $('.video_files').show(10);
+			     	 toggle = true;
+		         }
+	     else
+			     {
+			     	 $('.video_files').hide(10);
+			     	 toggle = false;
+			     }
+	     event.stopPropagation();
+     });
+     
+
+
+
+     $('html').click(function() {
+     	$('.video_files').hide(100);
+     	toggle =false;
+	});
+
+     // All multiserver Video Files (Json) 
+	var jsonData = JSON.parse(files);
+
+    // cheking for if 360 resolution is not available 
+	if(!jsonData["360"])
+	{
+	    video.attr('src',jsonData["240"]);
+	    $('#li_240').addClass('selected_player');
+	}
+	else
+    $('#li_360').addClass('selected_player');
+	
+
+	$.each(jsonData, function (key, data) {
+
+		$('#li_' + key).on('mouseenter', function(){
+        	$(this).css({'background-color':'#000'});
+         });
+        $('#li_' + key).on('mouseleave', function(){
+        	$(this).css({'background-color':'#1D1D1D'});
+         });
+        $('#li_' + key).on('click', function(){
+		//getting current time variable for video to play .. on change resolution and passing to loadmetadata	
+	    start_time = video[0].currentTime;
+        //Changing source attribute for the required resolution .. 
+        video.attr('src',jsonData[key]);
+		$('.ress').toggleClass('res');
+        time_var = true;
+		});
+    });
+
+	$('#ul_files .list_player').click(function() {
+    $('#ul_files .list_player.selected_player').removeClass('selected_player');
+    $(this).closest('li').addClass('selected_player');
+    });
+
+
+}
 
 
 
@@ -534,6 +585,100 @@ $('#name_v,#thumb_v').mouseout(function() {
 		var s = Math.floor(seconds-(m*60))<10 ? "0"+Math.floor(seconds-(m*60)) : Math.floor(seconds-(m*60));
 		return m+":"+s;
 	};
+
+
+/**  
+* Following function is used to attach fullscreen events to document
+*/
+function attachEvents (){
+   
+   $( document ).on( 'fullscreenchange', toggleFullScreen );
+   $( document ).on( 'webkitfullscreenchange', toggleFullScreen );
+   $( document ).on( 'mozfullscreenchange', toggleFullScreen );
+   $( document ).on( 'MSFullscreenchange', toggleFullScreen );
+}
+
+
+/**  
+* Following events are used to check fullscreen events
+*/
+document.addEventListener("fullscreenchange", function (e) {
+   toggleFullScreen(e);
+}, false);
+document.addEventListener("mozfullscreenchange", function (e) {
+    toggleFullScreen(e);
+}, false);
+document.addEventListener("webkitfullscreenchange", function (e) {
+    toggleFullScreen(e);
+}, false);
+
+
+
+/**  
+* Following function is used to show controls on exit fullscreen 
+*/
+function showControl(){
+	$('.caption').hide();
+    $(".largescr").hide();
+    $(".control").hover(
+        function() {
+            $('.control').stop().animate({'bottom':0}, 100);
+        },
+        function() {
+        	$('.control').stop().animate({'bottom':-40}, 1000);
+        });
+}
+
+
+/**  
+* Following function is used to show controls on enter fullscreen 
+*/
+function hideControl()
+{
+	$('.caption').show();
+    $(".largescr").show();
+    $('.cb-item-title-container').css({'margin-top':0});
+    $(".control").hover(
+        function() {
+            $(this).unbind('mouseenter').unbind('mouseleave');
+        });
+}
+
+
+/**  
+* Following function is used to call events on toggle screen 
+*/
+function toggleFullScreen (e) {
+
+    isFullScreen = ( document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement );
+
+	    if ( isFullScreen ) {
+	    	showControl();
+	    } else {
+	    	hideControl();
+	     	
+	    }
+}
+
+  
 });
 
+
+/******CAUTION*****\
+DO NOT REMOVE THIS COMMENTED CODE 
+
+/***website logo***\
+
+/*$('.cont').append('<div><img id="web"  src=data:image/png;base64,'+ web +'> </div>');
+$('#web').css({
+	            'top' :  $top,
+	            'left' :  $left,
+	            'bottom' : $bottom,
+	            'right' :  $right  ,
+				'position': 'absolute',
+	            'width': '100px',
+	            'height': '30px',
+	           });
+
+*/
 

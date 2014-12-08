@@ -1,58 +1,87 @@
-<html>
+{if $flashplayer}
+<div id="mediaplayer">loading player.....</div>
 
-<head>
+<script type="text/javascript" src="{$html5_player_url}/flashplayer.js"></script>
+<script type="text/javascript">
+
+
+var cb_player_file = '{$html5_player_url}/fallback.swf';
+var normal_vid_file = '{$normal_vid_file}';
+var hq_vid_file = '{$hq_vid_file}';
+var player_url = '{$player_url}' + '/cbplayer';
+
+
+jwplayer("mediaplayer").setup( {ldelim}
+
+    flashplayer: cb_player_file,
+    file:  normal_vid_file,
+    skin : player_url+'/skins/{$cb_skin}',
+    height: '{$height}',
+    width: '{$width}',
+    autostart : '{$player_data.autoplay}',
+
+    <!-- Setting Plugins -->
+    'plugins':
+    {ldelim}
+      
+      <!-- Loading HQ Plugin -->
+      'hd-2':
+      {ldelim}
+        'file': '{$hq_vid_file}'
+      {rdelim},
+      <!-- End Loading HQ Plugin -->
+
+
+      <!-- Loading Related Plugin -->
+      '{$html5_player_url}/plugins/related/related.swf':
+      
+      {ldelim}
+              file: '{$html5_player_url}/plugins/related/related_videos.php'+
+        '?vid={$vdo.videoid}&title={$vdo.title|urlencode}&tags={$vdo.tags|urlencode}',
+        usedock :false,
+        heading :'More suggested videos'
+          {rdelim}
+      <!-- End Loading Related plugin -->
+      
+
+    {rdelim}
+    
+ {rdelim} );
+
+</script>
+
+     
+{else}
+
 
 <link rel="stylesheet" href="{$html5_player_url}/style.css" />
-<script type="text/javascript" src="{$jquery}"></script>
-<script type="text/javascript" src="{$html5_player_url}/html5_player.js"></script>
 
-
-
-
-
-</head>
-
-
-
-
-
-
-
-<body>
-
-
-
-   
-  <div class="cont fahad" id="cont" style="height:{$height};width:{$width};">
- 
-     {ANCHOR place='overlay_ads'}
-
-  <video id="myVideo" class="myVideo largevid"    preload="auto" poster="" >
-
-    <source src="{$normal_vid_file}" type="video/mp4" />
-    <source src="{$hq_vid_file}" type="video/mp4" data-quality="hd" />
-    
-      <!--<source src="{$normal_vid_file}" type="video/webm" />
-    <source src="{$hq_vid_file}" type="video/webm" data-quality="hd" />
-
-    <source src="{$normal_vid_file}" type="video/ogg" />
-    <source src="{$hq_vid_file}" type="video/ogg" data-quality="hd" />-->
-
+<div class="cont fahad" id="cont" style="height:{$height};width:{$width};">
   
+   <video id="myVideo" class="myVideo largevid" {if $autoplay==true}autoplay{else}{/if}>
+     {if $ms_videos}
+     <source src="{$ms_videos.360}" type="video/mp4" data-res="" id=""/>
+     {else}
+     {/if}
+
+     {if $application_videos}
+     <source src="{$normal_vid_file}" type="video/mp4"/>
+     <source src="{$hq_vid_file}" type="video/mp4" data-quality="hd" />
+     {else}
+     {/if}   
     
-     <p>Your browser does not support the video tag.</p>
-
-
+    
+      <p>Your browser does not support the video tag.</p>
+     
       <!-- Fallback to Flash. -->
       <!-- Add 24px to the height for the video player -->
 
      <object width="800" height="374" type="application/x-shockwave-flash" data="{$html5_player_url}/fallback.swf">
 
   <!-- Firefox uses the `data` attribute above, IE/Safari uses the param below -->
-
-     <param name="movie" value="{$html5_player_url}/fallback.swf"/>
-     <param name="allowFullScreen" value="true"/>
-     <param name="flashvars" value="autostart=true&amp;file={$normal_vid_file}"/>
+       <param name="movie" value="{$html5_player_url}/fallback.swf"/>
+       <param name="allowFullScreen" value="true"/>
+       <param name="flashvars" value="autostart=true&amp;file={$normal_vid_file}"/>
 
      </object>
 
@@ -60,107 +89,124 @@
    </video>
 
 
-  <div class="caption"><span class="title">{$title|truncate:30}</span></br><span class="user">Uploaded By {if !$username} Anonymous {else} {$username} {/if}  
-  </span></div>
+  <div class="caption">
+      <span class="title">{$title|truncate:30}</span><br>
+      <span class="user">Uploaded By {if !$username} Anonymous {else} {$username} {/if}  </span>
+  </div>
 
 
-<div class="init"> </div>
+  <div class="init"></div>
 
 
-<div id="opacity">
-  <div id="cancel_v"></div>
-<div id="replay_v"></div>
+  <div id="opacity">
+    <div id="cancel_v"></div>
+    <div id="replay_v"></div>
+  </div>
 
-
-</div>
   <div id="related_1" >
-
      <h4 id="h_4">Most Popular</h4>
               {foreach $related as $video}
-                        
                         <a id="link_v" href="{videoLink($video)}" >
-                         
                         <img id="thumb_v" src="{getThumb vdetails=$video}" border="1" height="100" width="160"/>
-                          <p id="name_v"> {$video.title|truncate:20}</p>
-                    </a>
-
-                {/foreach}
-                 
-                
- </div>
+                        <p id="name_v"> {$video.title|truncate:20}</p>
+                        </a>
+              {/foreach}
+  </div>
 
 
 
-  <div class="control">
+  {if $ms_videos}
+  <div id="files" class="video_files hbtn" title="files">
+          <ul id="ul_files">
+            {foreach $ms_videos as $res=>$video}
+            <li id="li_{$res}" class="list_player" style="color:#fff;cursor:pointer;text-align:center;font-family:'Lucida' Grande, sans-serif;font-size:15px;">
+             {$res}
+            </li>
+            {/foreach}
+          </ul>
+   </div>
 
-   <div class="topControl">
-       <div class="test">
-      <div class="progress">
-       
-        <span class="bufferBar"> </span>
-        <span class="timeBar"><div class="buffer btn"></div></span>
+  {else}
+  {/if}
+
+
+   <div class="control">
+
+      <div class="topControl">
+           <div class="">
+             <div class="progress">
+                <span class="bufferBar"> </span>
+                <span class="timeBar"><div class="buffer btn"></div></span>
+             </div>
+          </div>
       </div>
-      </div>
-    </div>
+
     
-    <div class="btmControl">
+   <div class="btmControl">
       <div class="btnPlay hbtn" title="Play/Pause video"></div>
       <div class="sound sound2 hbtn" title="Mute/Unmute sound"></div>
       <div class="volume" title="Set volume">
         <span class="volumeBar"></span>
       </div>
       <div class="time">
-        <span class="fcurrent"></span> / 
-       <span class="fduration"></span>
+        <span class="fcurrent">00:00</span> / 
+        <span class="fduration">00:00</span>
       </div>
 
-
-
       <div class="btnFS enterbtnFs hbtn" id="fs" title="Switch to full screen"></div>
+      {if $testing }
+         <div id="hd" class="hdoff hdon hbtn" title="HD On/Off"></div>
+      {else}{/if}
 
-      <!--<div class="smallscr largescr hbtn" title="Enlarge/Small Size"></div>-->
-       
-      {if $testing }<div id="hd" class="hdoff hdon hbtn" title="HD On/Off"></div>{else}{/if}
-
-      
-    
-    
-    
-     
-    </div>
+      {if $ms_videos}
+         <div id="res" class="res ress hbtn" title="Resolution Selector"></div>
+      {else}{/if}
+   </div>
     
   </div>
+
+
 <div class="loading"> 
-
-
       <div class="windows8" align="center">
-<div class="wBall" id="wBall_1">
-<div class="wInnerBall">
-</div>
-</div>
-<div class="wBall" id="wBall_2">
-<div class="wInnerBall">
-</div>
-</div>
-<div class="wBall" id="wBall_3">
-<div class="wInnerBall">
-</div>
-</div>
-<div class="wBall" id="wBall_4">
-<div class="wInnerBall">
-</div>
-</div>
-<div class="wBall" id="wBall_5">
-<div class="wInnerBall">
-</div>
-</div>
-</div> 
+          <div class="wBall" id="wBall_1">
+          <div class="wInnerBall">
+          </div>
+          </div>
+          <div class="wBall" id="wBall_2">
+          <div class="wInnerBall">
+          </div>
+          </div>
+          <div class="wBall" id="wBall_3">
+          <div class="wInnerBall">
+          </div>
+          </div>
+          <div class="wBall" id="wBall_4">
+          <div class="wInnerBall">
+          </div>
+          </div>
+          <div class="wBall" id="wBall_5">
+          <div class="wInnerBall">
+          </div>
+          </div>
+      </div> 
 </div>
  
 
 </div>
 
- 
 
-</body>
-</html>
+
+<script type="text/javascript">
+var webpath="{$display}";var homepath="{$about}";var web="{$ov}";var $top="{$top}";
+var $left="{$left}";var $bottom="{$bottom}";var $right="{$right}";var key ="{$key}" ;
+var nor_vid = "{$normal_vid_file}"; var hq_vid = "{$hq_vid_file}";
+var enlarge_small = "{$enlarge_small}"; var autoplay = "{$autoplay}";
+//For multiserver, video files to html5_player.js (Json) 
+if('{$json_videos}')
+var files = '{$json_videos}';
+</script>
+
+<script type="text/javascript" src="{$html5_player_url}/html5_player.js"></script>
+
+{/if}
+

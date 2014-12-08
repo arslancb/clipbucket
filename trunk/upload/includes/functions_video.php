@@ -1206,3 +1206,63 @@ function get_hq_vid($vdetails,$return_default=true,$with_path=true,$multi=false,
 
 
 }
+
+ 
+/**
+ * Function used to get list of videos files
+ * ..
+ * ..
+ * @since 2.7*/
+
+function get_video_files($vdetails,$return_default=true,$with_path=true,$multi=false,$count_only=false,$hq=false){
+
+   global $Cbucket;
+    # checking if there is any other functions
+    # available
+    if(is_array($Cbucket->custom_video_file_funcs))
+        foreach($Cbucket->custom_video_file_funcs as $func)
+            if(function_exists($func))
+            {
+                $func_returned = $func($vdetails, $hq);
+                if($func_returned)
+                    return $func_returned;
+            }
+
+
+            $fileDirectory = "";
+            if(isset($vdetails['file_directory']) && !empty($vdetails['file_directory'])){
+                $fileDirectory = "{$vdetails['file_directory']}/";
+            }
+            //dump($vdetails['file_name']);
+
+    #Now there is no function so lets continue as
+    if(isset($vdetails['file_name']))
+        $vid_files = glob(VIDEOS_DIR."/".$fileDirectory . $vdetails['file_name']."*");
+    // if($hq){
+    //     var_dump(glob(VIDEOS_DIR."/".$fileDirectory . $vdetails['file_name']."*"));
+    // }
+
+    #replace Dir with URL
+    if(is_array($vid_files))
+        foreach($vid_files as $file)
+        {
+            // if($hq){
+            //     echo "filesize = " . filesize($file);   
+            // }
+            if(filesize($file) < 100) continue;
+            $files_part = explode('/',$file);
+            $video_file = $files_part[count($files_part)-1];
+
+            if($with_path)
+                $files[]    = VIDEOS_URL.'/' . $fileDirectory. $video_file ;
+            else
+                $files[]    = $video_file;
+        }
+           
+           
+           //echo $files;
+           return $files;
+    
+
+
+}
