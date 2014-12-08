@@ -28,16 +28,24 @@
 
 {/if}
 {if $block_type=='groups_show'}
-<div class="row" id="user-{$user.userid}">
-    <div class="cb-user-thumb pull-left">
+<div class="clearfix" id="user-{$user.userid}">
+    <div class="cb-user-thumb inline-block pull-left">
         <a href="{$userquery->profile_link($user)}">
-            <img src="{$userquery->getuserthumb($user)}" class="img-circle img-circle full-width">
+            <img src="{$userquery->getuserthumb($user)}" class="full-width">
         </a>
     </div>
-    <div class="col-md-9 col-sm-9  col-xs-8">
-        <div class="pull-left">
+    <div class="col-md-9 col-sm-9 col-xs-8 inline-block">
+        <div class="clearfix">
             <h4><a class="show" href="{$userquery->profile_link($user)}">{$user.username}</a></h4>
-            <ul class="list-unstyled ">
+            <div class="clearfix info-box">
+				<div class="pull-left small"><span class="bg-eye"></span>&nbsp;<span>{$user.profile_hits|number_format} {lang code='views'}</span></div>
+				<div class="pull-right small"><span class="bg-videocam"></span>&nbsp;<span>{$user.total_videos|number_format} {lang code='Videos'}</span></div>
+			</div>
+			<div class="clearfix">
+				<div class="pull-left small"><span class="bg-photos"></span>&nbsp;<span>{$user.total_photos|number_format} {lang code="photos"}</span></div>
+				<div class="pull-right btn btn-xs btn-primary"><span>{$user.subscribers|number_format} {lang code="subscribers"}</span></div>
+			</div>
+            <!--<ul class="list-unstyled ">
                 {if isSectionEnabled('videos')}
                 <li class="label " style="display: inline">{$user.total_videos|number_format} {lang code="videos"}</li>
                 {/if}
@@ -46,15 +54,21 @@
                 {/if}
                 <li class="label" style="display: inline">{$user.profile_hits|number_format} {lang code="views"}</li>
                 <li class="label" style="display: inline">{$user.subscribers|number_format} {lang code="subscribers"}</li>
-                <!--<li>{lang code="last_active"} : {$user.last_active|nicetime}</li>-->
-            </ul>
+                *<li>{lang code="last_active"} : {$user.last_active|nicetime}</li>-->
+            <!--</ul>-->
+
+
+
+
+
+
         </div>
     </div>
-    <div class="user_icon">
+    <!-- <div class="user_icon">
         <a href="{$userquery->profile_link($user)}">
         <img class="opacity_low" src="{$imageurl}/user_next_icon.png" width="25" height="25" />
         </a>
-    </div>
+    </div> -->
 </div>
 {/if}
 
