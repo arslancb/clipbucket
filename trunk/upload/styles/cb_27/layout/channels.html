@@ -3,18 +3,18 @@
 
 <div class="container marginBottom">
     {*include file="$style_dir/blocks/manage/account_menu.html"*}
-    <div class="cb-box clearfix row">
+    <div class="cb-box row">
         <!-- Listing Categories -->
         {include file="$style_dir/blocks/category_list.html" type='channels'}
         <!-- Listing Categories End -->
-        <div class="col-md-7 col-sm-12  col-xs-12 clearfix paddingright0">
+        <div class="col-md-9 nopadding">
             <!-- Page Heading -->
             <div class="page-hidding hidden-xs ">
                 {assign var=sorting_links value=sorting_links()}
                 <h4 class="smaller lighter pull-left">Browsing All Categories: </h4>
                 <div class="pull-left">
                     <!--Sorting By View-->
-                    <div class="btn-group">
+                    <div class="btn-group custom-dropdown">
                         {if $smarty.get.sorting}
                         {foreach from=$sorting_links item=name key=sort}
                         {if $smarty.get.time==$sort && isset($smarty.get.sort)}
@@ -22,7 +22,7 @@
                             {$name}
                         </button>
                         <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                            <span class="caret"></span>
+                            <span class="arrow-drop"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button><!--<span class="glyphicon glyphicon-sort"></span> Most {$name}-->
                         {/if}
@@ -32,7 +32,7 @@
                             {$smarty.get.sort}
                         </button>
                         <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                            <span class="caret"></span>
+                            <span class="arrow-drop"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         {/if}
@@ -53,7 +53,7 @@
 
                     <!--Sorting By time-->
                     {assign var=time_links value=time_links()}
-                    <div class="btn-group">
+                    <div class="btn-group custom-dropdown">
                         {if $smarty.get.timing}
 
                         {foreach from=$time_links item=name key=sort name=times}
@@ -63,7 +63,7 @@
                             {$name}
                         </button>
                         <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                            <span class="caret"></span>
+                            <span class="arrow-drop"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button><!--<span class="glyphicon glyphicon-sort"></span> Most {$name}-->
                         {/if}
@@ -73,7 +73,7 @@
                             All Time
                         </button>
                         <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                            <span class="caret"></span>
+                            <span class="arrow-drop"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         {/if}
@@ -94,8 +94,10 @@
                     {/foreach}
                 </div>
                 {section name=u_list loop=$users}
-                <div class="col-md-5 col-sm-5  col-xs-5 marginBottom grid_view list_view channels-view">
-                    {include file="$style_dir/blocks/user.html" user=$users[u_list]  block_type="groups_show"}
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 marginBottom grid_view list_view channels-view">
+                    <div class="user-block user-view-home clearfix">
+                    	{include file="$style_dir/blocks/user.html" user=$users[u_list]  block_type="groups_show"}
+                    </div>
                 </div>
                 {sectionelse}
                 {lang code='no_results_found'}
