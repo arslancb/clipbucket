@@ -82,10 +82,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
 /*Sidebar of categories*/
 .navbar-stacked{
 	padding:11px 0 0 !important;
+	font:17px/20px 'Roboto', sans-serif;
 }
 .navbar-stacked li a{
-color: #575757;
-
+/*color: #575757;*/
+	color: #000;
 }
 .nav > li.wv_heading > a:hover,
 .nav > li.wv_heading > a:focus .cbCategoryItem > ul > li.wv_heading > a:hover,
@@ -129,10 +130,12 @@ padding: 7px 15px;
 .navbar-stacked li.wv_heading> a{
 /*color: #fff;
 font-weight: 200;*/
+font-family: 'Roboto', sans-serif;
 font-weight: 500;
-font-size: 18px;
-color: #444;
-padding: 7px 15px 10px !important;
+font-size: 20px;
+color: #000;
+border: none;
+padding: 7px 15px 10px 0 !important;
 }
 .nav.navbar-stacked .caret{
   color: #575757;
@@ -140,8 +143,7 @@ padding: 7px 15px 10px !important;
     border-top-color: #575757;
 }
 .navbar-stacked li.wv_heading a:hover{
-/*color: #575757;*/
-border-left-color: #fff;
+border: none;
 }
 .navbar-toggle {
     width: 100%;
