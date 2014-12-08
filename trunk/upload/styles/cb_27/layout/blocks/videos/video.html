@@ -9,11 +9,13 @@
             <img class="" src="{getThumb vdetails=$video  size='171x120'} " border="1" />
         </a>
         </div>
-        <div class="item_text"  style="height: 45px; overflow: hidden;">
+        <h5>
            <a href="{videoLink($video)}">{$video.title|truncate:30}</a>
-        </div>
-        <span class="pull-left"><h5><small>{$video.views} views</small></h5></span>
-        <span class="pull-right"><h5><small>{$video.date_added|niceTime}</small></h5></span>
+        </h5>
+        <div class="clearfix views-time">
+			<span class="font1"><span class="bg-eye"></span>&nbsp;{$video.views} views</span>
+			<span class="font2"><span class="bg-time"></span>&nbsp;{$video.date_added|niceTime}</span>
+		</div>
     </div>
 </div>
 {/if}
