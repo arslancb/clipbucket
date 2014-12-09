@@ -2,21 +2,24 @@
       /*display: none;*/
   }
 
-  .uploadFormDiv{
-      border: solid 1px #CBCFD2;
-      padding: 20px 10px 10px 10px;
-      position: relative;
-      bottom: 2px;
-      z-index: 1;
-      margin-bottom: 10px;
-  }
+.uploadFormDiv{
+  border: solid 1px #CBCFD2;
+  padding: 20px 10px 10px 10px;
+  position: relative;
+  bottom: 2px;
+  z-index: 1;
+  margin-bottom: 10px;
+}
+.tabs-bar-style .uploadFormDiv{
+	border-color: #f3f3f3 !important;
 
+}
   .uploadForm{
 
   }
 
   .uploadForm .uploaderContainer{
-    background-color: #F3F3F3;
+    /*background-color: #F3F3F3;*/
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -59,6 +62,11 @@
   z-index: 100;
   border-bottom: solid 1px #CBCFD2;
 }
+.tabs-bar-style .uploaderTabs{
+	font-size: 15px;
+	font-weight: 600;
+	font-family: 'Roboto', sans-serif;
+}
 
 .uploaderTabs li{
   margin: 0;
@@ -68,6 +76,10 @@
   border-radius: 0;
   margin: 0;
   position: relative;
+}
+.tabs-bar-style .uploaderTabs li a{
+	/*color:#3e3e3e;*/
+	color: #5f5f5f;
 }
 
 .uploaderTabs li.active a, .uploaderTabs li.active a:focus, .uploaderTabs li.active a:hover{
@@ -79,6 +91,15 @@
   top: 1px;
 }
 
+.tabs-bar-style .uploaderTabs li.active a,
+.tabs-bar-style .uploaderTabs li.active a:focus,
+.tabs-bar-style .uploaderTabs li.active a:hover{
+	border-top:0;
+	border-bottom: solid 3px #4E8EBE;
+	border-left: solid 1px #fff;
+	border-right: solid 1px #fff;
+	color: #000;
+}
 /*.dragDropContainer{
   width: 60%;
   margin: 10px auto 10px;

@@ -10,7 +10,8 @@
 }
 .watch-vid-title h1{
   width:77%;
-  font-size:18px; 
+  font-family: 'Roboto', sans-serif;
+  font-size:20px; 
   color:#000;
   float: left;
   margin:0px; 
@@ -28,15 +29,63 @@
 .watch-vid-user-name{
   float: left;
   font-size: 18px;
-  margin-top:18px;
+  /*margin-top:18px;*/
   text-align: left;
   width: 99%;
 }
+.watch-vid-user-name .title{
+	display: block;
+	margin: 0 0 2px;
+}
+.watch-vid-user-name .title a{
+	color: #000;
+}
 .watch-vid-rating-sec{
   float:right;
-  width:98px;
+  width:200px;
 }
-
+.like-dislike-block{
+	display: table;
+	width: 100%;
+	border-radius: 4px;
+	list-style: none;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	font:600 13px/20px 'Roboto', sans-serif;
+	/*-webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.5);
+	box-shadow: 0 1px 2px 0 rgba(0,0,0,0.5);*/
+}
+.like-dislike-block li{
+	display: table-cell;
+	background: #fff;
+	min-width: 60px;
+}
+.like-dislike-block li:first-child{
+	border-radius: 4px 0 0 4px;
+	-webkit-box-shadow: -1px 1px 1px rgba(0,0,0,.2);
+	box-shadow: -1px 1px 1px rgba(0,0,0,.2);
+}
+.like-dislike-block li:last-child{
+	border-radius: 0 4px 4px 0;
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+	box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+}
+.like-dislike-block li span,
+.like-dislike-block li a{
+	padding: 5px;
+	display: block;
+	height: 100%;
+	font-weight: 700;
+}
+.like-dislike-block li a{
+	color: #3d3d3d;
+}
+.like-dislike-block li span{
+	 background: #428bca;
+	 color: #fff;
+	 font-size: 17px;
+}
 .watch-vid-rating-view{
   border-bottom: 2px solid green;
   text-align: center;
@@ -47,6 +96,11 @@
   margin-top:5px;
   float: left;
   position: relative;
+}
+.like-dislike-text{
+	color: #898888;
+	font-size: 13px;
+	text-align: center;
 }
 .newLike{
   float: left;
@@ -72,13 +126,32 @@
     width:100%;
     float: left;
     margin-top: 10px;
+    line-height: 22px;
+    font-size: 16px;
+}
+.watch-vid-tag span a{
+	color:#363636;
+}
+.watch-vid-catg span a{
+	background:#ececec;
+	display: inline-block;
+	vertical-align: top;
+	padding: 0 5px;
+	margin: 0 10px 10px 0;
+	color: #000;
 }
 .watch-vid-catg{
     width:100%;
     float: left;
     margin-top: 10px;
+    font-size: 12px;
+    line-height: 18px;
 }
-.watch-vid-tag strong, .watch-vid-catg strong{ font-size: 16px;}
+.watch-vid-tag strong,
+.watch-vid-catg strong{
+	font-size: 18px;
+	font-weight: 600;
+}
 .watch-vid-tag h1, .watch-vid-catg h2{font-size: 16px; margin:0px 0px 0px 2px; }
 .watch-vid-social-sec{
     width:116px;
