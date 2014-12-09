@@ -30,7 +30,7 @@
 
 
 {if $comment}
-<div class="itemdiv dialogdiv" style="margin-bottom:20px;">
+<div class="itemdiv dialogdiv">
   
 {$count_comments = $myquery->count_comment($comment.type_id)}
 <input type="hidden" id="comment_counter" value={$count_comments}>
@@ -44,17 +44,16 @@
         </a>
     </div>
     <div class="body">
-        <div class="time">
-            <i class="glyphicon glyphicon-time"></i>
-            <span class="small">{$comment.date_added|niceTime}</span>
-        </div>
         <div class="name">
             <a class="commentorName" href="{$user_link}">{name($comment)}</a>
+            <span class="time">
+            	{$comment.date_added|niceTime}
+        	</span>
         </div>
-        <div class="text" style="margin-bottom:5x;">
+        <div class="text">
 
              {if $reply}
-            <div style="padding:3px; margin:5px; background-color:#E2F2FF">
+            <div class="clearfix">
             {$reply}
             </div>
             {/if}
@@ -66,7 +65,7 @@
             {assign var=thisParent value=$parents.$parentid}
             
             {if $thisParent}
-            <div style="padding:3px; margin:5px; background-color:#E2F2FF">
+            <div class="clearfix">
                 
                 {if $thisParent.username}@{$thisParent.username} : 
                 {/if}{$thisParent.comment|comment}
@@ -74,7 +73,14 @@
             {/if}
         {/if}
         
-        {wordwrap($comment.comment|comment,8, "\n", true)}
+       <div class="clearfix  {if $thisParent}reply-text{/if}">
+       		{if $thisParent}
+	       		<div class="clearfix reply-name-time">
+	       			{name($comment)}<span class="time">{$comment.date_added|niceTime}</span>
+	       		</div>
+       		{/if}
+			{wordwrap($comment.comment|comment,8, "\n", true)}
+       </div>
 
     </div>
         <div class="tools blue">
