@@ -20,7 +20,8 @@
                     </div> 
                     <div class="watch-vid-user-sec">
                         <div class="watch-vid-user-name">
-                            <a href="{$userquery->profile_link($video)}">{$video.username}</a>
+                            <span class="title"><a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
+                            <a class="btn btn-xs btn-primary" href="javascript:void(0)">Subscribe</a>
                         </div>
                         {if !$video.username}
                         <a id="subscribeUser" class="btn btn-xs btn-primary">
@@ -34,12 +35,12 @@
                         </div>
                         <div class="watch-vid-thumbsupdown-sec" id="rating_container">
                             {show_video_rating  rating=$vdo.rating ratings=$vdo.rated_by total='10' id=$vdo.videoid type=video}
-                        </div>    
+                        </div>
                     </div>         
                 </div>
                 <!-- vid-detail-sec end -->
 
-                <div class="cb-item-desc-container">
+                <div class="cb-item-desc-container clearfix grey-tabs">
 
                     <ul class="nav nav-tabs">
                         <li class="active">
@@ -62,12 +63,12 @@
 
                             	<p id="videoDescription">{description($video.description)}</p>
                                 <div class="watch-vid-tag">
-                                    <strong class="pull-left">{lang('Category:')}</strong>
-                                    <h1 class="pull-left mls">{$vdo.category|categories:video}</h1>
+                                    <strong class="pull-left">{lang('Category:')}&nbsp;</strong>
+                                    <span class="pull-left">{$vdo.category|categories:video}</span>
                                 </div>
                                 <div class="watch-vid-catg">
-                                    <strong class="pull-left">{lang('Tags:')}</strong>
-                                    <h2 class="pull-left mls">{$vdo.tags|tags:videos}</h2>
+                                    <strong class="pull-left">{lang('Tags:')}&nbsp;</strong>
+                                    <span class="pull-left">{$vdo.tags|tags:videos}</span>
                                 </div>
 
                                 <!-- view sec hide on told arslan bhai -->
@@ -115,27 +116,27 @@
 
                     </div>
                 </div>
-                <div class="clearfix"></div>
+                
                 <div id="messageFav" class="alert alert-info marginTop" style="display:none"></div>
+                <div id="test1"></div>
+	    		<div id="reply" class="clearfix"> 
+	    		    <div class="pad-bottom">
+	                    <div  class="addComment clearfix">
+	                        <h3 >{lang('Comments')}:&nbsp; 
+	                        <span class="com_count" id="com_count">{$vdo.comments_count}</span>
+	                        <!--{$vdo.comments_count}--></h3>
+	                        {if $myquery->is_commentable($vdo,'v')}
+	                            {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
+	                        {else}
+	                        <div class="alert alert-warning">{lang code='comm_disabled_for_vid'}</div>
+	                        {/if}
+	                    </div>
+	                   	<div id="comments">
+	           				<ul class="list-unstyled" id="userCommentsList"></ul>
+	           			</div>
+	    		    </div>
+	    		</div> 
             </div>
-  
-            <div id="test1"></div>
-    		<div id="reply"> 
-    		    <div class="cb-box pad-bottom">
-                    <div  class="addComment clearfix">
-                        <h3 >{lang('Comments')} 
-                        <div class="com_count" id="com_count">{$vdo.comments_count}</div>
-                        <!--{$vdo.comments_count}--></h3>
-                        {if $myquery->is_commentable($vdo,'v')}
-                            {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
-                        {else}
-                        <div class="alert alert-warning">{lang code='comm_disabled_for_vid'}</div>
-                        {/if}
-                    </div>
-                   <div id="comments">
-           <ul class="list-unstyled" id="userCommentsList"></ul></div>
-    		    </div>
-    		</div> 
         </div>
         
 		<!--Side bar start--> 
@@ -144,7 +145,7 @@
                  <div class="ad">{AD place='ad_320x250'}</div>
                 <!-- <a href="http://www.arvixe.com/clipbucket_hosting?utm_campaign=300x250_Demo&utm_medium=banner&utm_source=clipbucket.com"><img class="banner" src="{$theme}/assets/images/add320x250.png" style="margin-bottom: 10px; width: 100%;" >
                 </a>-->
-                <h3>{lang code="Most Popular"}</h3>
+                <!-- <h3>{lang code="Most Popular"}</h3> -->
                 {foreach $videos as $video}
                  {include file="$style_dir/blocks/videos/video_popular.html"}
                 {/foreach}
