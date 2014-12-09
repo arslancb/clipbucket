@@ -1709,7 +1709,8 @@ font-size: 14px;
 
 .cb-user-thumb{
     width:65px;
-    height:65px
+    height:65px;
+    margin: 0 10px 0 0;
 }
 .cb-user-thumb a{
 	display: block;
@@ -2156,6 +2157,10 @@ h2.myHeadingBLK {
 	background: #fafafa;
 	padding:12px 8px !important;
 }
+.user-view-home .user-detail-block{
+	overflow: hidden;
+
+}
 .user-view-home h4{
 	margin: 0 0 5px !important;
 	font-weight: 400;
@@ -2166,6 +2171,9 @@ h2.myHeadingBLK {
 }
 .user-block .info-box{
 	margin: 0 0 5px;
+}
+.user-block .info-box .small{
+	width: 49%;
 }
 .user-view-home .progress{
     height: 5px;
