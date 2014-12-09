@@ -10,6 +10,9 @@
   z-index: 1;
   margin-bottom: 10px;
 }
+.uploadFormDiv .alert{
+	border-radius: 0 !important;
+}
 .tabs-bar-style .uploadFormDiv{
 	border-color: #f3f3f3 !important;
 
@@ -169,6 +172,9 @@
   .marginTop{
     margin-top: 10px;
     margin-bottom: 0;
+  }
+  .alert-block{
+  	border-radius: 0 !important;
   }
 
   .photoFormContainer{
