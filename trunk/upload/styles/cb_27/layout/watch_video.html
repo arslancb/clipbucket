@@ -21,12 +21,12 @@
                     <div class="watch-vid-user-sec">
                         <div class="watch-vid-user-name">
                             <span class="title"><a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
-                            <a class="btn btn-xs btn-primary" href="javascript:void(0)">Subscribe</a>
+                            {if $video.userid != userid()}
+	                        <a id="subscribeUser" class="btn btn-xs btn-primary" href="javascript:void(0)">
+		                    {lang('Subscribe')}
+		                    </a>{/if}
                         </div>
-                        {if !$video.username}
-                        <a id="subscribeUser" class="btn btn-xs btn-primary">
-	                    {lang('Subscribe')}
-	                    </a>{/if}
+                        
                     </div>
                     <div class="watch-vid-rating-sec">
                         <div class="watch-vid-rating-view">
