@@ -87,6 +87,18 @@
     </select>
 </div>
 
+
+<div class="col-md-4">
+  <label for="enlarge_button">
+    Enlarge/small Button<br>
+    <small>this will let you enable enlarge/small button in your player</small>
+  </label>
+    <select class="form-control" name="enlarge_button" id="enlarge_button">
+        <option value="yes"  {if $row.enlarge_button=='yes'} selected="selected" {/if}>Yes</option>
+        <option value="no"  {if $row.enlarge_button=='no'} selected="selected" {/if}>No</option>
+    </select>
+</div>
+
 </div>
         <div class="row">
 <div class="col-md-4">

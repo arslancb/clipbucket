@@ -222,6 +222,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (222, 'own_collection_rating', '1'),
 (223, 'own_video_rating', '1'),
 (224, 'vbrate_hd', '500000'),
+(225, 'enlarge_button', 'no'),
 (NULL,'feedsSection','yes'),
 (NULL,'max_topic_length','1500'),
 (NULL,'max_topic_title','300');

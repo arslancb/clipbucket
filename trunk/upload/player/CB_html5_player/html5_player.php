@@ -54,6 +54,8 @@ if(!function_exists('html5_player'))
 				assign('youtube',true);
 				assign('ytcode',$ytcode);
 			}
+
+
 			
 			if(!strstr($in['width'],"%"))
 				$in['width'] = $in['width'].'px';
@@ -88,13 +90,15 @@ if(!function_exists('html5_player'))
 			$l_convert = base64_encode(file_get_contents($l_details));
 			assign('display',$l_convert);
             
-			if (THIS_PAGE == 'watch_video')
+            //Enable disable enlarge/smaal button 
+            $enlarge_button = $in['enlarge_button'];
+            if (THIS_PAGE == 'watch_video' &&  $enlarge_button == 'yes')
 			 assign('enlarge_small','true');
 		    else
 		     assign('enlarge_small','false');	
 			
-            assign('about',BASEURL);
             
+            assign('about',BASEURL);
             $jquery = BASEDIR.'/js/jquery.js';
             assign('jquery',$jquery);
 			
