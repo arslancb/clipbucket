@@ -81,15 +81,16 @@
 .like-dislike-block li a{
 	color: #3d3d3d;
 }
-.like-dislike-block li span{
+/*.like-dislike-block li span{
 	 background: #428bca;
 	 color: #fff;
 	 font-size: 17px;
-}
+}*/
 .watch-vid-rating-view{
-  border-bottom: 2px solid green;
+ margin-left: 20px;
   text-align: center;
   width:100%;
+  background-color: rgba(247,247,247,0.7);
 }
 .watch-vid-thumbsupdown-sec{
   width:100%;
@@ -178,6 +179,17 @@
   border:1px solid #ccc; 
   width:95%;
   }
+  .likes_perc_less{
+   background: #D00101;
+   color: #fff;
+   font-size: 17px;
+}
+ .likes_perc_more{
+   background: #00A650;
+   color: #fff;
+   font-size: 17px;
+}
+
 
 
 @media (max-width: 479px) {

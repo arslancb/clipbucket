@@ -7,7 +7,7 @@
     <div class="newRating clearfix mbm">
     	<ul class="like-dislike-block clearfix">
     		<li><a {if !$disable} onclick="rate('{$id}','5','{$type}')"{/if} href="javascript:voide(0)">Like</a></li>
-    		<li><span>94%</span></li>
+    		<li><span class="_percentage">{$perc}</span></li>
     		<li><a {if !$disable} onclick="rate('{$id}','1','{$type}')"{/if} href="javascript:voide(0)">Dislike</a></li>
     	</ul>
         <!-- <div   class="newLike">
@@ -34,7 +34,7 @@
     <div class="newRating clearfix mbm">
     	<ul class="like-dislike-block clearfix">
     		<li><a {if !$disable} onclick="rate('{$id}','5','{$type}')"{/if} href="javascript:voide(0)">Like</a></li>
-    		<li><span>94%</span></li>
+    	   <li><span class="_percentage">{$perc}</span></li>
     		<li><a {if !$disable} onclick="rate('{$id}','1','{$type}')"{/if} href="javascript:voide(0)">Dislike</a></li>
     	</ul>
         <!-- <div class="newLike"> <i class="glyphicon glyphicon-thumbs-up big"></i>
@@ -56,27 +56,12 @@
 
  
 
- {literal}
-<style>
-.glyphicon-thumbs-down{
 
-    color: grey;
-
-}
-
-.glyphicon-thumbs-up{
-
-    color: grey;
-}
-
-    .glyphicon-thumbs-down:hover{ 
-        color:#0088D6; 
-         cursor: pointer;
-     }
- .glyphicon-thumbs-up:hover{ 
-        color:#0088D6; 
-         cursor: pointer;
-     }
-
-     </style>
-{/literal}
+<script type="text/javascript">
+var _percent = '{$perc}';
+var _numb = parseInt(_percent);
+if ( _numb > 49 )
+$('._percentage').addClass('likes_perc_more');
+else
+$('._percentage').addClass('likes_perc_less');
+</script>
