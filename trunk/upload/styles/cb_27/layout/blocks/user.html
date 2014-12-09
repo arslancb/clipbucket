@@ -29,12 +29,12 @@
 {/if}
 {if $block_type=='groups_show'}
 <div class="clearfix" id="user-{$user.userid}">
-    <div class="cb-user-thumb inline-block pull-left">
+    <div class="cb-user-thumb pull-left">
         <a href="{$userquery->profile_link($user)}">
             <img src="{$userquery->getuserthumb($user)}" class="full-width">
         </a>
     </div>
-    <div class="col-md-9 col-sm-9 col-xs-8 inline-block">
+    <div class="user-detail-block">
         <div class="clearfix">
             <h4><a class="show" href="{$userquery->profile_link($user)}">{$user.username}</a></h4>
             <div class="clearfix info-box">
