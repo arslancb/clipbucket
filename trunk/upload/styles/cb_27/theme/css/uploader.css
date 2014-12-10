@@ -146,9 +146,11 @@
 .formSection h4{
   background-color: #E8E8E8;
   padding: 8px 12px;
-  font-size: 1em;
-  color: #666;
   cursor: pointer;
+  border-radius: 2px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #434343;
 }
 
 .align-right{
@@ -192,3 +194,30 @@
   .h_200{
     height: 200px;
   }
+.upload_form{
+	font-family: 'Roboto', sans-serif;
+}
+.upload_form h3{
+	font-size: 22px;
+	color: #428bca;
+	margin: 0 0 20px;
+}
+.upload_form label{
+	color: #1e1e1e;
+	font-weight: 400;
+	font-size: 18px;
+}
+.upload_form label.radio{
+	font-size: 16px;
+	color: #000;
+}
+.upload_form textarea{
+	resize:none !important;
+}
+.upload_form .right-col{
+	padding: 0 15px 0 0;
+}
+.upload_form small{
+	color:#949494;
+	font-size: 14px;
+}
