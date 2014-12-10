@@ -68,7 +68,7 @@ switch($mode)
 		//Adding New Playlist
 		if(isset($_POST['add_playlist']))
 		{
-			$cbvid->action->create_playlist();
+			$cbvid->action->create_playlist($_POST);
 		}
 		
 		assign('mode','manage_playlist');
