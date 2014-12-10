@@ -8,38 +8,36 @@
 
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
             {if $mode=='uploaded'}
-            <div class="tabbable">
-                <ul class="nav nav-tabs" id="myTab2">
+            <div class="tabbable managevideo-tabarea">
+                <ul class="nav nav-tabs manageTabs" id="myTab2">
                     <li class="active">
-
                         <a data-toggle="tab" href="#myvideos">
-                            <h5>{lang code='Uploaded Videos'}</h5>
+                            {lang code='Uploaded Videos'}
                         </a>
                     </li>
                 </ul>
                 <div class="tab-content">
                     <div id="myvideos" class="tab-pane active">
                         {if $mode =='uploaded'}
-                        <h2>{lang code='com_manage_vids'}</h2>
-                        <div>
-                            <form clasws="form-inline" id="form1" name="form1" method="get" action="">
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-3">
-                                        <div class="col-md-11">
-                                            <div class="form-group">
-                                                <input name="query" type="text" class="form-control" id="query" value="{$smarty.get.query|form_val}" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div class="form-group text-right">
-                                                <input name="input" type="submit" class="btn btn-primary" value="{lang code='search'}"/>
-                                                <input name="mode" value="{$mode}" type="hidden" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                        <header class="clearfix manage-tab-header">
+                        	<div class="no-padding col-lg-6 col-md-6 col-sm-12">
+                        		<h2>{lang code='com_manage_vids'}</h2>
+                        	</div>
+                        	
+                        	<div class="pull-right col-lg-6 col-md-6 col-sm-12">
+                        	<div class="row">
+                        	    <form clasws="clearfix" id="form1" name="form1" method="get" action="">
+                        	    	<div class="input-group">
+                	                	<input name="query" type="text" class="form-control" id="query" value="{$smarty.get.query|form_val}" />
+            	                    	<span class="input-group-btn">
+            	                        	<input name="mode" value="{$mode}" type="hidden" />
+            	                        	<button class="btn btn-primary" type="submit" name="input">{lang code='search'}</button>
+            	                    	</span>
+            	                    </div>
+                        	    </form>
+                        	</div>
+                        	</div>
+                        </header>
                         <table class="table table-bordered table-striped manageUsersTable">
                             <tr>
                                 <td><i class="icon-facetime-video"></i> Videos Details</td>
