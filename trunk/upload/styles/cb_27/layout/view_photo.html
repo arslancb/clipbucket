@@ -14,9 +14,9 @@
 
                 {assign var=nextLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'next')}
                 
-                <a class="btn btn-primary btn-lg view-photo-nxt mouse_hover_on" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">Next<i class="glyphicon glyphicon-chevron-right"> </i></a>
+                <a class="btn btn-primary btn-lg view-photo-nxt mouse_hover_on" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">Next<i class="bg-next"> </i></a>
 
-                <a class="btn btn-danger btn-lg view-photo-pre mouse_hover_on" href="{$cbphoto->photo_links($preLink.0,'view_item')}"><i class="glyphicon glyphicon-chevron-left"></i>Previous</a>
+                <a class="btn btn-danger btn-lg view-photo-pre mouse_hover_on" href="{$cbphoto->photo_links($preLink.0,'view_item')}"><i class="bg-prev"></i>Previous</a>
                 <hr>
             </div>
             <div class="watch-vid-title mbl">
