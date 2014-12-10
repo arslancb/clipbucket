@@ -1437,14 +1437,18 @@ ul#photos li.photo-land-no{
 
 .view-photo-nxt {
     position: absolute;
-    top: 82%;
-    right: -10px;
+    /*top: 82%;
+    right: -10px;*/
+    bottom: 10px;
+    right: 0;
 }
 .view-photo-pre {
 
     position: absolute;
-    top:82%;
-    left:-10px;
+    /*top:82%;
+    left:-10px;*/
+    bottom: 10px;
+    left: 0;
 }
 .font14{
     font-size: 14px;
@@ -2344,6 +2348,22 @@ opacity: 1;
 	text-indent: -9999px;
 	overflow: hidden;
 }
+.bg-next,
+.bg-prev{
+	background: url(../../images/icons-sprite.png) no-repeat -45px -168px;
+	width: 10px;
+	height: 17px;
+	display: inline-block;
+	vertical-align: middle;
+	margin: -2px 5px 0;
+	font-size: 0;
+	line-height: 0;
+	text-indent: -9999px;
+	overflow: hidden;
+}
+.bg-next{
+	background-position: -45px -192px;
+}
 .paly_on{
     font-size: 22px;
     left: 16%;
@@ -3102,6 +3122,8 @@ padding-right: 0px;
 }
 /**/
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 100dpi) {
+	.bg-next,
+	.bg-prev,
 	.upload-logo,
 	.arrow-drop,
 	.bg-photos,
