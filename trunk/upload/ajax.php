@@ -1422,10 +1422,13 @@ if(!empty($mode))
 			$total_pages = count_pages($_POST['total_comments'],$limit);
 			assign('object_type',mysql_clean($_POST['object_type']));		
 			//Pagination
-			$pages->paginate($total_pages,$page,NULL,NULL,'<a href="javascript:void(0)"
+			$pages->paginate($total_pages,$page,NULL,NULL,'<li><a href="javascript:void(0)"
 			onClick="getComments(\''.$params['type'].'\',\''.$params['type_id'].'\',\''.$params['last_update'].'\',
-			\'#page#\',\''.$_POST['total_comments'].'\',\''.mysql_clean($_POST['object_type']).'\',\''.$admin.'\')">#page#</a>');
+			\'#page#\',\''.$_POST['total_comments'].'\',\''.mysql_clean($_POST['object_type']).'\',\''.$admin.'\')">#page#</a></li>');
 			
+          
+            
+
 			assign('comments',$comments);
 			assign('type',$params['type']);
 			assign('type_id',$params['type_id']);

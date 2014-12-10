@@ -7,13 +7,32 @@
                  <i class="icon-double-angle-left"></i></a></li> -->
          
         
-             {if $first_link !=''}<li><a  {$first_link}><i class="icon-double-angle-left"></i></a></li>{/if}  
-             {if $pre_link !=''}<li><a {$pre_link} >&#8249;</a></li>{/if} 
+        {if $first_link !=''}
+        <li>  <a href="javascript:void(0)"
+          onclick="getComments('{$type}','{$type_id}','{$last_update}','1','{$total}','{$object_type}')" >
+          <i class="icon-double-angle-left"></i></a></li>
+         {/if}
+
+
+      
+       {if $pre_link !=''}<li><a href="javascript:void(0)" 
+       onclick="getComments('{$type}','{$type_id}','{$last_update}','{$pre_page}','{$total}','{$object_type}')" >
+       <i class="icon-angle-left"></i></a>
+       </li>{/if} 
+
              {$pagination}  
-             {if $next_link !=''}<li><a {$next_link}>&#8250;</a></li>{/if}
+
+
+       {if $next_link !=''}<li><a href="javascript:void(0)" 
+       onclick="getComments('{$type}','{$type_id}','{$last_update}','{$next_page}','{$total}','{$object_type}')" >
+       <i class="icon-angle-left"></i></a>
+       </li>{/if}
        
-        </li>
-        {if $last_link !=''} <li class="next"> <a {$last_link}><i class="icon-double-angle-right"></i></a></li>{/if}
+        {if $last_link !=''}
+        <li>  <a href="javascript:void(0)"
+          onclick=" getComments('{$type}','{$type_id}','{$last_update}','{$total_pages}','{$total}','{$object_type}')" >
+          <i class="icon-double-angle-right"></i></a></li>
+         {/if}
      </ul>	
 </div>
   {/if} 

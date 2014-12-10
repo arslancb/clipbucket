@@ -2,7 +2,7 @@
 .vid-detail-sec{
   width:100%;
   float: left;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .watch-vid-title{
   width:100%;
@@ -18,8 +18,8 @@
 }
 .watch-vid-thumb{
   float:left;
-  /*height: 70px;*/
-  width: 60px;
+  height: 90px;
+  width: 90px;
   margin-right: 10px;
 }
 .watch-vid-user-sec{
@@ -128,7 +128,7 @@
     float: left;
     margin-top: 10px;
     line-height: 22px;
-    font-size: 14px;
+    font-size: 16px;
 }
 .watch-vid-tag span a{
 	color:#363636;
@@ -150,7 +150,7 @@
 }
 .watch-vid-tag strong,
 .watch-vid-catg strong{
-	/*font-size: 18px;*/
+	font-size: 18px;
 	font-weight: 600;
 }
 .watch-vid-tag h1, .watch-vid-catg h2{font-size: 16px; margin:0px 0px 0px 2px; }

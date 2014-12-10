@@ -219,7 +219,8 @@ $('.btnFS').on('click', function() {
              else
              {
              	isFullScreen = true;
-             	container[0].mozRequestFullScreen();	
+             	container[0].mozRequestFullScreen();
+             		
              }              
     }  
    
@@ -412,7 +413,7 @@ $(".largescr").click(function() {
 if(!$(this).hasClass('smallscr')) {
 			$(".cont").animate({height:'+=220px',width:'+=390px'},"fast");
             $(".player").animate({width:'+=390px'},"fast");
-			$('.watch-vid-title').css({'margin-top':+250});
+			$('.watch-vid-title,.watch-vid-rating-view').css({'margin-top':+250});
 			//$('.video_files').css({'margin-bottom':'3.5%'});
 
 			 
@@ -421,7 +422,7 @@ if(!$(this).hasClass('smallscr')) {
 		    else{
 			$(".cont").animate({height:'-=220px',width:'-=390px'},"fast");
 		    $(".player").animate({width:'-=390px'},"fast");
-		    $('.watch-vid-title').css({'margin-top':'0px'});
+		    $('.watch-vid-title,.watch-vid-rating-view').css({'margin-top':'0px'});
 		    //$('.video_files').css({'margin-bottom':'5.5%'});
 			
 		}
@@ -577,6 +578,9 @@ if(files)
 
 }
 
+/** 
+* For multiserver plugin videos  <<--END-->> :)
+*/
 
 
 //Time format converter - 00:00
