@@ -39,6 +39,7 @@
                 <div class="form-group">
                     <label for="featured">Featured</label>
                     <select class="form-control" name="featured" id="featured">
+                            <option value=""> </option>
                             <option value="no" {if $smarty.get.featured=='no'} selected="selected"{/if}>No</option>
                             <option value="yes" {if $smarty.get.featured=='yes'} selected="selected"{/if}>Yes</option>
                            
@@ -47,8 +48,10 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group">
+
                     <label for="active">Active</label>
                     <select class="form-control" name="active" id="active">
+                    <option value=""> </option>
                         <option value="yes" {if $smarty.get.active=='yes'} selected="selected"{/if}>Yes</option>
                         <option value="no" {if $smarty.get.active=='no'} selected="selected"{/if}>No</option>
                     </select>
@@ -58,7 +61,7 @@
                 <div class="form-group">
                     <label for="status">Conversion Status</label>
                     <select class="form-control" name="status" id="status">
-                     
+                     <option value=""> </option>
                         <option value="Successful" {if $smarty.get.status=='Successful'} selected="selected"{/if}>Successful</option>
                         <option value="Processing" {if $smarty.get.status=='Processing'} selected="selected"{/if}>Processing</option>
                         <option value="Failed" {if $smarty.get.status=='Failed'} selected="selected"{/if}>Failed</option>
