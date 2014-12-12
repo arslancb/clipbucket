@@ -2445,6 +2445,7 @@ ul#myTab_home li:first-child + li {
 }
 .ft-hover{
 	position: relative;
+	padding: 0 5px;
 }
 .ft-hover img{
 	display: block;
