@@ -2690,6 +2690,7 @@ padding-right: 0px;
 	font-size: 15px;
 	text-transform: capitalize;
 }
+#videosDIV h5 a,
 .item_video h5 a,
 .recent-videos h5 a{
 	color: #000;
@@ -3124,11 +3125,11 @@ padding-right: 0px;
 	font-family: "Roboto",sans-serif;
 	font-size: 15px;
 	font-weight: 600;
-
 	background-color: #fff;
 	border-bottom: 1px solid #cbcfd2;
 	position: relative;
 	z-index: 100;
+	margin: 0 0 20px;
 }
 .viewChanelTabs li{
 	margin: 0;
