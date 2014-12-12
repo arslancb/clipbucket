@@ -710,7 +710,7 @@ class cbactions
 	/**
 	 * Function used to get playlist
 	 */
-	/*function get_playlist( $id, $user = null )
+	function get_playlist( $id, $user = null )
 	{
 		global $db, $cb_columns;
 
@@ -774,25 +774,17 @@ class cbactions
 
         return false;
 
-        /*
-		if($user)
-			$user_cond = " AND userid='$user'";
-			
-		$result = $db->select(tbl($this->playlist_tbl),"*"," playlist_id='$id' $user_cond");
-		if($db->num_rows>0)
-			return $result[0];
-		else
-			return false;
+ 
         
 	}
 	
-	*/
+	
 
 
 	/**
 	 * Function used to get playlist
 	 */
-function get_playlist($id,$user=NULL)
+/*function get_playlist($id,$user=NULL)
 	{
 		global $db;
 		
@@ -805,7 +797,7 @@ function get_playlist($id,$user=NULL)
 			return $result[0];
 		else
 			return false;
-	}
+	}*/
 	
 
 
@@ -1131,10 +1123,10 @@ function get_playlist($id,$user=NULL)
 	 * Function used to get playlists
 	 */
 
-	/*
+	
 	function get_playlists( $params = array() )
 	{
-        global $cb_columns;
+        global $cb_columns, $db;
 
         $fields = array(
             'playlists' => $cb_columns->object( 'playlists' )->get_columns()
@@ -1203,6 +1195,11 @@ function get_playlist($id,$user=NULL)
             $condition .= " playlists.total_items > '0' ";
         }
 
+        if($params['count_only']){
+              $result = $db->count( cb_sql_table('playlists') , 'playlist_id'  );
+            	return $result;
+		}
+
         if ( $condition ) {
             $query .= " WHERE ".$condition;
         }
@@ -1238,9 +1235,15 @@ function get_playlist($id,$user=NULL)
         return false;
 	}
 
-	*/
-     function get_playlists()
+	
+
+     /**
+     * this method has been deprecated 
+      */
+	
+     function get_playlists_no_more_cb26()
 	{
+
 		global $db;
 		$result = $db->select(tbl($this->playlist_tbl),"*"," playlist_type='".$this->type."' AND userid='".userid()."'");
 		

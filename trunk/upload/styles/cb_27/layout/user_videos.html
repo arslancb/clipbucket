@@ -24,8 +24,38 @@
             <br><br>
             <hr style="margin-bottom: 6px; margin-top: 8px">
          <div class="col-md-3">
-             {include file="$style_dir/blocks/view_channel/channel_left.html"}
+             {include file="$style_dir/blocks/view_channel/channel_right.html"}
          </div>
+       
+        {if $playlist_mode == 'on'}
+            {if $playlists}
+             <div class="col-md-9">
+                {foreach $playlists as $playlist}
+            <div class="row" >
+            <div class="col-md-10" style="border-bottom: 1px solid #E3E3E3;  margin:20px 20px 20px 30px;">
+                <div class="row">
+                    <div class="col-md-3" style="margin-bottom:10px;">
+                        <label class="label label-info">{$playlist.playlist_name}</label>
+                    </div>
+                    
+                    <div class="col-md-9">
+                        
+                         <span class="maccountlabels"> <strong>{$playlist.date_added|niceTime}</strong>
+                            </span>
+                       
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+                {/foreach}
+                <div class="col-md-4 pull-right">
+                    {include file="$style_dir/blocks/pagination.html"}
+                </div>
+                  </div>
+            {/if}
+      
+        {else}
             <div class="col-md-9">
                 <h3>User Videos </h3>
                 {section name=v_list loop=$videos}
@@ -36,6 +66,7 @@
                 {include file="$style_dir/blocks/pagination.html"}
             </div>
                 </div>
+                {/if}
         </div>
         <div class="footer">
             &copy; {$title} {$smarty.now|date_format:"%Y"}

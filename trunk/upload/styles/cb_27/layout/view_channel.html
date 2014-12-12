@@ -9,26 +9,184 @@
     {include file="$style_dir/blocks/view_channel/channel_header.html" }
     <div class="row">
       <div class="col-md-8 col-sm-8  col-xs-12 view_chnl">
+        
+
+
+
+
+
+
+
+
         <div id="cb_player">
             {FlashPlayer vdetails=$firstVideo width='100%' height='355'}
         </div>
         <hr class="hr">
 
-        <div class="cb-item-desc-container">
 
-                    <ul class="nav nav-tabs">
-                     <li class="active">
-                           
-                        </li>
-                    <li>
-                            <a id="reportVideo" href="#cb-item-report" data-toggle="tab">{lang('Report')}</a>
-                        </li>
-                    </ul>
-                     
-                      <div class="tab-pane" id="cb-item-report">
-                            {show_flag_form id=$user.userid type=user}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="tabbable" style="margin-bottom:15px;">
+   <ul class="nav nav-tabs" id="myTab">
+      <li><a href="#" rel="infoDIV"  id="infoTab" onClick="channelObjects(this,'#channelDetailsBox','info','{$u.userid}'); return false;">{lang code='info'}</a></li>
+                {if isSectionEnabled('videos')}
+                <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','videos','{$u.userid}'); return false;">{lang code='videos'}</a></li>{/if}
+                {if isSectionEnabled('groups')}
+                <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','groups','{$u.userid}'); return false;">{lang code='groups'}</a></li>{/if}
+                {if isSectionEnabled('photos')}
+                <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','photos','{$u.userid}'); return false;">{lang code='photos'}</a></li>{/if}
+                <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','playlists','{$u.userid}'); return false;">{lang code='Playlists'}</a></li>
+    </ul>
+
+      <div class="tab-content" id="channelDetailsBox">
+
+        <div class="tab-pane active" id="infoDIV" class="channelInnerPadding clearfix" style="display:none">
+           <fieldset class="channelFieldset">
+              <div style="width:500px; float:left; margin-right:10px; padding-right:10px;">
+                    
+                    
+                    <div class="channelLegend" style="margin-top:5px">{lang code='user_activity'}</div>
+                <div class="channelRow">
+                            <div class="channelLabel">{lang code='joined'}</div>
+                            <div class="channelDetail">{$u.doj|niceTime}</div>
                         </div>
+                        
+                        <div class="channelRow">
+                            <div class="channelLabel">{lang code='user_last_login'}</div>
+                            <div class="channelDetail">{$u.last_logged|niceTime}</div>
+                        </div>
+                        
+                        
+                        <div class="channelRow">
+                            <div class="channelLabel">{lang code='online_status'}</div>
+                            <div class="channelDetail">
+                            {if $userquery->isOnline($u.last_active,$p.online_status)}
+                              <span style="color:#060">{lang code='online'}</span>
+                            {else}
+                              <span style="color:#ed0000">{lang code='offline'}</span>
+                            {/if}
+                            </div>
+                        </div>
+                       
+                        
+                </div>
+                
+               
+                
+                <div class="clear"></div>
+                
+                
+            </fieldset>
+            {assign var='channel_profile_fields' value=$userquery->load_user_fields($p,'profile')}
+            {foreach from=$channel_profile_fields item=field_group name=profile_groups}
+                {if $smarty.foreach.profile_groups.iteration==2}
+                  <div id="moreDetailsDIV" style="display:none">
+                {/if}
+                {if $field_group.channel_view !='no'}              
+                    <fieldset class="channelFieldset">
+                        <legend class="channelLegend">{$field_group.group_name}</legend>
+                        
+                        {if $field_group.group_id=='profile_location'}
+                          <div class="channelRow">
+                                <div class="channelLabel">{lang code='country'}</div>
+                                <div class="channelDetail">{$u.country|country}</div>
+                            </div>
+                        {/if}
+                        
+                       
+                        
+                        {foreach from=$field_group.fields item=field}
+                        {if $field.auto_view=='yes' && $field.value}
+                            <div class="channelRow">
+                            {if $field.type !='textarea' && $field.type !='text' && $field.type !='textfield'}
+                                <div class="channelLabel">{$field.title}</div>
+                                <div class="channelDetail">{input_value input=$field}</div>
+                            {elseif $field.type =='textarea'}
+                                <div class="channelLabel">{$field.title}</div>
+                                <div class="channelDetail">{$field.value|nl2br}</div>
+                            {else}
+                                <div class="channelLabel">{$field.title}</div>
+                                <div class="channelDetail">{input_value input=$field}</div>                    
+                            {/if}                                                
+                            </div>
+                        {/if}
+                        {if $field_group.group_id=='profile_basic_info' 
+                          && $field.name=='relation_status'
+                              && $p.show_dob!='no'}
+                          <div class="channelRow">
+                                <div class="channelLabel">{lang code='user_date_of_birth'}</div>
+                                <div class="channelDetail">{$u.dob}</div>
+                            </div>
+                         {/if} 
+                        {/foreach}                                       
+                    </fieldset>
+                  
+                {/if}
+               {if $smarty.foreach.profile_groups.last}
+                </div>
+                {/if}
+            {/foreach}
+            
+      <fieldset id="moreDetails" class="channelFieldset">
+              <legend class="channelLegend" style=" margin-bottom:0px;" onClick="$('#moreDetails').hide(); $('#moreDetailsDIV').show();">{lang code='more'}</legend>
+            </fieldset>
+        </div>
+
       </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+          <div class="cb-item-desc-container" style="">
+            <ul class="nav nav-tabs" id="myTab">
+              
+              <li>
+                <a id="reportVideo" href="#cb-item-report" data-toggle="tab">{lang('Report')}</a>
+              </li>
+            </ul>
+
+            <div class="tab-content">
+             
+            <div class="tab-pane" id="cb-item-report">
+               {show_flag_form id=$user.userid type=user}
+            </div>
+
+          </div>
+        </div>
+
+
       </br>
   
         {if $videos}

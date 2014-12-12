@@ -1222,6 +1222,30 @@ if(!empty($mode))
 					}
 				}
 				break;
+
+				case "playlists":
+				{
+
+					$playlists = get_playlists(array("user"=>$u['userid'],"order"=>" date_added DESC","limit"=>5));
+					
+					if($playlists)
+					{
+						$content['html'] = "<div class='row'>";
+						foreach($playlists as $playlist)
+						{
+							assign('playlist',$playlist);
+							assign('channelplaylist',true);
+							$content['html'] .= Fetch("/blocks/playlist.html");
+						}
+						$content['html'] .= "</div>";
+						$content['html'] .= '<div align="right" class="clearfix channelAjaxMoreLink videosMoreLink" style="clear:both; display:block;">';
+						$content['html'] .= '<a href="'.cblink(array("name"=>"user_playlists")).$u['username'].'">'.lang('more').'</a> ';
+						$content['html'] .= '</div>';
+					} else {
+						$content['html'] = '<div align="center"><em>'.lang('user_have_no_playlists').'</em></div>';	
+					}
+				}
+				break;
 				
 				case "collections":
 				{

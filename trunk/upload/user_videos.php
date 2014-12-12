@@ -56,7 +56,36 @@ if($udetails)
 			$total_rows = $cbvid->action->get_favorites($params);
 			subtitle(sprintf(lang("title_usr_fav_vids"),$udetails['username']));
 			$total_pages = count_pages($total_rows,config('videos_items_ufav_page'));
+			//pr($total_pages,true);
 		}
+		break;
+		case 'playlists':
+		{
+			$get_limit = create_query_limit($page,10);
+			$params = array('userid'=>$udetails['userid'],'limit'=>$get_limit);
+			$playlists = get_playlists($params);
+			/*$first_item = array();
+			foreach ($playlists as $playlist) {
+				
+				$first_item_  = json_decode($playlist['first_item'],true);
+				$first_item[] = $first_item_;
+			}
+
+			//pr($first_item,true);
+			//pr($playlists,true);
+			//$result = array_merge($first_item,$playlists);
+			*/
+
+            assign('playlist_mode','on');
+			assign('playlists', $playlists);
+			$params['count_only'] = true;
+			$total_rows = get_playlists($params);
+			$total_pages = count_pages($total_rows,config('videos_items_ufav_page'));
+			
+			//pr($videos,true);
+			
+		}
+		break;
 	}
 	
 Assign('videos', $videos);
