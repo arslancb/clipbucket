@@ -2944,7 +2944,9 @@ padding-right: 0px;
 	color:#000;
 }
 .itemdiv > .body > .name .time{
-	display: inline-block;
+	float: none;
+	width: auto;
+	display: inline-block !important;
 	vertical-align: middle;
 	margin: 0 0 0 5px;
 	color:#a7a7a7;
@@ -2993,6 +2995,8 @@ padding-right: 0px;
 .itemdiv > .body > .text .reply-name-time .time{
 	font-size: 10px;
 	color: #a8a8a8;
+	float: none;
+	width: auto;
 	display: inline-block;
 	vertical-align: middle;
 	margin: 0 0 0 5px;
