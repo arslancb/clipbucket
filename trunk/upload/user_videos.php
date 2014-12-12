@@ -64,17 +64,10 @@ if($udetails)
 			$get_limit = create_query_limit($page,10);
 			$params = array('userid'=>$udetails['userid'],'limit'=>$get_limit);
 			$playlists = get_playlists($params);
-			/*$first_item = array();
-			foreach ($playlists as $playlist) {
-				
-				$first_item_  = json_decode($playlist['first_item'],true);
-				$first_item[] = $first_item_;
-			}
-
-			//pr($first_item,true);
-			//pr($playlists,true);
-			//$result = array_merge($first_item,$playlists);
-			*/
+            
+			/*$items = $cbvid->get_playlist_items( $pid, 'playlist_items.date_added DESC' );
+			pr($items,true);
+            assign('items',$items);*/
 
             assign('playlist_mode','on');
 			assign('playlists', $playlists);

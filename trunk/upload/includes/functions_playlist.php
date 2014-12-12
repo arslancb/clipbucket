@@ -109,7 +109,7 @@ function get_playlist_thumb ( $playlist ) {
 
         $thumb = get_thumb( $first_item, 'big' );
 
-        if ( strpos( 'processing', $thumb ) !== false ) {
+        if ( strpos( $thumb, 'processing' ) === false ) {
             return $thumb;
         }
     }
