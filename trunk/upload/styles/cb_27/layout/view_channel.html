@@ -15,7 +15,7 @@
 				<hr class="hr">
 				<div class="tabbable viewChanelTabs">
 					<ul class="nav nav-tabs" id="myTab">
-						<li><a href="javascript:void(0)" rel="infoDIV"  id="infoTab" onClick="channelObjects(this,'#channelDetailsBox','info','{$u.userid}'); return false;">{lang code='info'}</a></li>
+						<li class="active"><a href="javascript:void(0)" class="selected" rel="infoDIV"  id="infoTab" onClick="channelObjects(this,'#channelDetailsBox','info','{$u.userid}'); return false;">{lang code='info'}</a></li>
 				                {if isSectionEnabled('videos')}
 						<li><a href="javascript:void(0)" onClick="channelObjects(this,'#channelDetailsBox','videos','{$u.userid}'); return false;">{lang code='videos'}</a></li>{/if}
 						{if isSectionEnabled('groups')}
@@ -25,8 +25,8 @@
 						<li><a href="javascript:void(0)" onClick="channelObjects(this,'#channelDetailsBox','playlists','{$u.userid}'); return false;">{lang code='Playlists'}</a></li>
 					</ul>
 
-					<div class="tab-content" id="channelDetailsBox">
-						<div class="tab-pane active" id="infoDIV" style="display:none">
+					<div  id="channelDetailsBox">
+						<div class="" id="infoDIV" style="display:block;">
 							
 							<div class="clearfix">
 				            	<h2>{lang code='user_activity'}</h2>
@@ -108,21 +108,14 @@
 				</div>
 
 				
-				</br>
-				{if $videos}
-				<div class="row">
-				{foreach from=$videos item=video}
-					{include file="$style_dir/blocks/videos/video.html"  display_type='user_videos'}
-				{/foreach}
-				</div>
-			<div align="center">{include file="$style_dir/blocks/pagination.html"}</div>
-			{/if}
+				
+				
 		</div>
 		<div class="col-md-4 col-sm-4  hidden-xs">
 			{include file="$style_dir/blocks/view_channel/channel_right.html" }
 
 			<div class="cb-item-desc-container report-video-area clearfix viewChanelTabs">
-				<ul class="nav nav-tabs" id="myTab">
+				<ul class="nav nav-tabs" id="reportTab">
 					<li>
 						<a id="reportVideo" href="#cb-item-report" data-toggle="tab">{lang('Report')}</a>
 					</li>
@@ -241,7 +234,7 @@ $('#cover_info').show();
 		});
 	});
 
-	$('#myTab a').click(function (e) {
+	$('#myTab a, #reportTab a').click(function (e) {
 		e.preventDefault()
 		$(this).tab('show')
 	});
