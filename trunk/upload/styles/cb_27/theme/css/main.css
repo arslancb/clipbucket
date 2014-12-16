@@ -1205,8 +1205,8 @@ a:hover {
     margin-top: 0px;
     margin-left: 0;
     border-bottom:1px solid #dadada;
-    border-left:1px solid #dadada;
-    border-right:1px solid #dadada;
+    /*border-left:1px solid #dadada;
+    border-right:1px solid #dadada;*/
 }
 
 .active2 {
