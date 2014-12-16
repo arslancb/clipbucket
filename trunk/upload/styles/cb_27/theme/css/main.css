@@ -2766,7 +2766,8 @@ padding-right: 0px;
 
 }
 .nav.navbar-stacked > li > a{
-	border-left: 5px solid #fff;
+	/*border-left: 5px solid #fff;*/
+	border-left: 2px solid #fff;
 	/*color: #444;*/
 	color: #000;
 }
@@ -2781,7 +2782,8 @@ padding-right: 0px;
 .nav.navbar-stacked> li.selected >a,
 .nav.navbar-stacked> li > a:focus,
 .nav.navbar-stacked> li > a:hover{
-	border-left: 5px solid #428bca;
+	/*border-left: 5px solid #428bca;*/
+	border-left: 2px solid #428bca;
 	background: #fff;
 	/*color:#444;*/
 	color: #000;
