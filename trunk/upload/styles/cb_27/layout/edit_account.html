@@ -2,27 +2,28 @@
 <div class="container marginBottom">
   {include file="$style_dir/blocks/manage/account_menu.html"}
 
-  {if $mode=='profile_settings'}
+  {if $mode=='profile_settings' || $mode=='account_settings'}
     <div class="cb-box row">
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
         {include file="$style_dir/blocks/manage/userMenuLeft.html"}
       </div>
       <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
           <div class="tabbable">
+
               <ul class="nav nav-tabs" id="myTab">
-                  <li class="active">
-                      <a data-toggle="tab" href="#cpsetting">
+                  <li class="{if $mode=='profile_settings'}active{/if}">
+                      <a  href="{$baseurl}/edit_account.php?mode=profile">
                           <h5>{lang code='channel_profile_settings'}</h5>
                       </a>
                   </li>
-                  <li class="">
-                      <a data-toggle="tab" href="#asettings">
+                  <li class="{if $mode=='account_settings'}active{/if}">
+                      <a  href="{$baseurl}/edit_account.php?mode=account">
                           <h5>{lang code='account_settings'}</h5>
                       </a>
                   </li>
               </ul>
               <div class="tab-content">
-                  <div id="cpsetting" class="tab-pane active">
+                  <div id="cpsetting" class="tab-pane {if $mode=='profile_settings'}active{/if}">
                       <form method="post" class="accountForm">
                           <div class="channelSettings col-md-10">
                               {$channel_profile_fields = $userquery->load_user_fields($p)}
@@ -56,7 +57,7 @@
                           </div>
                           </form>
                   </div>
-                  <div id="asettings" class="tab-pane">
+                  <div id="asettings" class="tab-pane {if $mode=='account_settings'}active{/if}">
                       <form method="post" class="accountForm">
                       <div  class="accountSettings col-md-6">
                           <!--- CHANGING USER ACCOUNT AND PROFILE -->
@@ -147,7 +148,7 @@
       </div>
     </div>
   {/if}
-  {if $mode == 'avatar_bg'}
+  {if $mode == 'avatar_bg' || $mode == 'channel_bg'}
     <div class="row cb-box">
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
         {include file="$style_dir/blocks/manage/userMenuLeft.html"}
@@ -155,19 +156,19 @@
       <div class="col-md-9">
         <div class="tabbable">
           <ul class="nav nav-tabs" id="myTab1">
-              <li class="active">
-                  <a data-toggle="tab" href="#uavatar">
+              <li class="{if $mode == 'avatar_bg'} active {/if}">
+                  <a  href="{$baseurl}/edit_account.php?mode=avatar_bg">
                       <h5>{lang code='User Avatar'}</h5>
                   </a>
               </li>
-              <li class="">
-                  <a data-toggle="tab" href="#cbackground">
+              <li class="{if $mode == 'channel_bg'} active {/if}">
+                   <a  href="{$baseurl}/edit_account.php?mode=channel_bg">
                       <h5>{lang code='Channel Background'}</h5>
                   </a>
               </li>
           </ul>
           <div class="tab-content">
-            <div id="uavatar" class="tab-pane active">
+            <div id="uavatar" class="tab-pane {if $mode == 'avatar_bg'} active {/if}">
                 <form method="post" enctype="multipart/form-data">
                     <legend>{lang code='user_user_avatar'}</legend>
                     <div class="show-image">
@@ -200,7 +201,7 @@
                     </div>
                   </form>
               </div>
-              <div id="cbackground" class="tab-pane">
+              <div id="cbackground" class="tab-pane {if $mode == 'channel_bg'} active {/if}">
                   <form method="post" enctype="multipart/form-data">
                   <div class="avatar_bg">
 
@@ -290,31 +291,32 @@
       <div class="col-md-8">
           <div class="tabbable">
               <ul class="nav nav-tabs" id="myTab2">
-                  <li class="active">
-                      <a data-toggle="tab" href="#busers">
+
+
+                  <li class="{if $mode =='block_users'}active {/if}">
+                      <a href="{$baseurl}/edit_account.php?mode=block_users">
                           <h5>{lang code='Block Users'}</h5>
                       </a>
                   </li>
-                  <li class="">
-
-                      <a data-toggle="tab" href="#cpassword">
+                  <li class="{if $mode =='change_password'}active {/if}">
+                       <a href="{$baseurl}/edit_account.php?mode=change_password">
                           <h5>{lang code='Change Password'}</h5>
                       </a>
 
                   </li>
-                  <li class="">
-                      <a data-toggle="tab" href="#cemail">
+                  <li class="{if $mode =='change_email'}active {/if}">
+                     <a href="{$baseurl}/edit_account.php?mode=change_email">
                           <h5>{lang code='Change Email'}</h5>
                       </a>
                   </li>
-                  <li class="">
-                      <a data-toggle="tab" href="#msubscription">
+                  <li class="{if $mode =='subs'}active {/if}">
+                        <a href="{$baseurl}/edit_account.php?mode=subscriptions">
                           <h5>{lang code='Manage  Subscription'}</h5>
                       </a>
                   </li>
               </ul>
               <div class="tab-content">
-                  <div id="busers" class="tab-pane active">
+                  <div id="busers" class="tab-pane {if $mode =='block_users'}active {/if}">
 
                       <h2>{lang code='block_users'}</h2>
                       <form method="post" name="ban_users">
@@ -331,7 +333,7 @@
                       </form>
 
                   </div>
-                  <div id="cpassword" class="tab-pane">
+                  <div id="cpassword" class="tab-pane {if $mode =='change_password'}active {/if}">
                       <h2>{lang code='user_change_pass'}</h2>
                       <form method="post" name="edit_profile">
                           <div class="form-group">
@@ -356,7 +358,7 @@
                           </div>
                       </form>
                   </div>
-                  <div id="cemail" class="tab-pane">
+                  <div id="cemail" class="tab-pane {if $mode =='change_email'}active {/if}">
                       <h2>{lang code='user_change_email'}</h2>
                       <form method="post" name="edit_profile">
                           <div class="form-group">
@@ -382,7 +384,7 @@
                           </div>
                       </form>
                   </div>
-                  <div id="msubscription" class="tab-pane">
+                  <div id="msubscription" class="tab-pane {if $mode =='subs'}active {/if}">
                       <h2>{lang code='com_manage_subs'}</h2>
                       {if $subs}
                       <table class="table table-striped table-bordered">

@@ -74,7 +74,7 @@ switch($mode)
 	case 'account':
 	{
 		assign('on','account');
-		assign('mode','profile_settings');
+		assign('mode','account_settings');
 	}
 	break;
 	case 'profile':
@@ -89,6 +89,14 @@ switch($mode)
 		Assign('extensions', $Cbucket->get_extensions());
 		assign("coverPhoto", $userquery->getCover(userid()));
 		assign('mode','avatar_bg');
+	}
+	break;
+
+	case 'channel_bg':
+	{
+		Assign('extensions', $Cbucket->get_extensions());
+		assign("coverPhoto", $userquery->getCover(userid()));
+		assign('mode','channel_bg');
 	}
 	break;
 

@@ -3107,7 +3107,7 @@ class userquery extends CBCategory{
             lang('account_settings') =>'edit_account.php?mode=account',
             lang('user_profile_settings') =>'edit_account.php?mode=profile',
             lang('change_avatar') 	=> 'edit_account.php?mode=avatar_bg',
-            lang('change_bg') => 'edit_account.php?mode=avatar_bg',
+            lang('change_bg') => 'edit_account.php?mode=channel_bg',
         );
 
         if(isSectionEnabled('videos'))

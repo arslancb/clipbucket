@@ -3,6 +3,7 @@
 var page = baseurl+'/ajax.php';
 var loading_img = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-loader.gif'>";
 var loading = loading_img+" Loading...";
+var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-loader-big.gif'>";
 
 	function Confirm_Delete(delUrl) {
 	  if (confirm("Are you sure you want to delete")) {
@@ -1372,7 +1373,7 @@ function channelObjects(object,div,type,user,assign)
 		 type : "POST",
 		 dataType : "json",
 		 data : ({ mode : "channelObjects", content : type, user : user, assign : assign}),
-		 beforeSend : function() { obj.append(loading_img) },
+		 beforeSend : function() { obj.append(loading_img_2) },
 		 success : function(data)
 		 {
 			obj.find('img').remove();
