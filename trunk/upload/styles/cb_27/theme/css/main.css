@@ -2705,6 +2705,7 @@ padding-right: 0px;
 .item_video{
     margin-bottom: 10px;
     font-family: 'Roboto', sans-serif;
+    position: relative;
 }
 .item_video img{
     width: 100%;
@@ -3167,7 +3168,17 @@ padding-right: 0px;
 .viewChanelTabs.report-video-area li a{
 	color: #09c;
 }
-
+.group-tab .group-thumb{
+	width: 50px;
+	margin: 0 10px 0 0;
+	float: left;
+}
+.group-tab .group-info{
+	overflow: hidden;
+}
+.group-tab .group-info .clearfix{
+	margin: 0 0 5px;
+}
 /* end of viewChanelTabs */
 @media only screen and (max-width: 991px) {
 	.ft-img{
