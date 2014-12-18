@@ -6,7 +6,7 @@
             <span class="video_duration">{if
             $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}{*$video.duration|date_format:$config.time*}
             </span>
-            <img class="" src="{getThumb vdetails=$video  } " border="1" height="110" width="171" />
+            <img class="" src="{getThumb vdetails=$video size=160x90 } " border="1" />
         </a>
         </div>
         <h5>
