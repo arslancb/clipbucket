@@ -284,6 +284,17 @@
 	{
 		if(!is_string($file))
 			return false;
+		
+		//for srever thumb files 
+		$parts = parse_url($file);
+        parse_str($parts['query'], $query);
+        $get_file_name = $query['src'];
+        $path = explode('.',$get_file_name);
+        $server_thumb_name = $path[0];
+        if (!empty($server_thumb_name))
+        	return $server_thumb_name;
+        /*srever thumb files END */
+
 		$path = explode('/',$file);
 		if(is_array($path))
 			$file = $path[count($path)-1];
