@@ -368,44 +368,46 @@
 					{/if}
 		    	</div>
 				
-				{$collections = $cbcollection->get_collections(['limit'=>5, 'active'=>'yes'])}
+				{$playlists = get_playlists(['limit'=>5, 'order'=>'total_items DESC'])}
+                <div class="col-md-4 comment_home side_user_home " >
+                	<h2 class="myHeading">{lang code="Top Playlists"}</h2>
+                	{if $playlists}
+					{foreach $playlists as $playlist}
 
-				<div class="col-md-4 comment_home side_user_home video-collection" >
-					<h2 class="myHeading">{lang code="Top Playlist"}</h2>
-					{$limit=10}
-		        	{if $collections}        
-					{foreach from=$collections item=collection}
-					<div class="clearfix collection-section">
-						<div class="category-header row clearfix">
-							<div class="col-sm-6 clearfix">{$collection.collection_name}</div>
-							<div class="col-sm-6 clearfix"><span class="total-obj">{$collection.total_objects}</span></div>
+						<div class="clearfix collection-section">
+							<div class="category-header row clearfix">
+								<div class="col-sm-6 clearfix"><span class="">{$playlist.playlist_name}</span></div>
+								<div class="col-sm-6 clearfix"><span class="total-obj">{$playlist.total_items}</span></div>
+                            </div>
 
-							<!-- {*{$collection.type}*} -->
-							<!-- <div class="col-sm-6 clearfix"><span class="total-obj">{$limit}</span></div> -->
-						</div>
-						<div class="collection-grid clearfix"> 
-						{$items = $cbphoto->collection->get_collection_items_with_details($collection.collection_id,0,$limit,false)}
-						{if $items}
-							{foreach from=$items item=item}
-								<div class="collection-item">
-									<a href="{$cbphoto->photo_links($item,'view_item')}">
-										<span class="glyphicon glyphicon-play-circle white paly_on"></span>
-									</a>
-									{get_photo details=$item output='html' size="l" class="cb_img_thum"}
-								</div>
-							{/foreach}
-						{/if}
-						</div>
-					</div>
+							<div class="collection-grid clearfix"> 
+							{$items = get_playlist_items($playlist.playlist_id)}
+								{foreach $items as $item}
+								    <div class="collection-item">
+										    {$videoid = $item.videoid}
+										    {if $videoid}
+		                                    {$videos = get_videos(['videoid'=>$videoid,'limit'=>'4'])}
+											    {foreach $videos as $video}
+				                                    <a href="{videoLink($video)}">
+														{$thumb = get_thumb($video)}
+				                                        <img src="{$thumb}" />
+						                            </a>
+												{/foreach}
+											{else}
+											<span class="label label-default">no items</span>
+											{/if}
+                                    </div>
+								{/foreach}
+							</div>
+						</div>	
 
-					{/foreach}
-					{else}
-					<div class="col-md-12 nopadding">No Collection</div>
+                    {/foreach}
+                    {else}
+						<div class="col-md-12 nopadding">No Playlists</div>
 					{/if}
-		    	</div>
+				</div>
 
-
-		    </div>
+			</div>
 		</div>
 	</div>
 	{*include file="$style_dir/blocks/videos/video-home-sliders2.html" video_06_da=$video_06_da slider3='slider3'*}
