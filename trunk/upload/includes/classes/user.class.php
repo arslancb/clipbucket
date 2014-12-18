@@ -62,7 +62,9 @@ class userquery extends CBCategory{
 
         $basic_fields = array(
             'userid', 'username', 'email', 'avatar', 'sex', 'avatar_url',
-            'dob', 'level', 'usr_status', 'user_session_key','featured','ban_status','total_photos','profile_hits','total_videos','total_subscriptions'
+            'dob', 'level', 'usr_status', 'user_session_key','featured',
+            'ban_status','total_photos','profile_hits','total_videos',
+            'subscribers','total_subscriptions'
         );
 
         $cb_columns->object( 'users' )->register_columns( $basic_fields );
