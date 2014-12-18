@@ -940,10 +940,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video` (
   `uploader_ip` varchar(20) NOT NULL,
   `mass_embed_status` enum('no','pending','approved') NOT NULL DEFAULT 'no',
   `is_hd` enum('yes','no') NOT NULL DEFAULT 'no',
-  `ebay_epn_keywords` varchar(255) NOT NULL,
-  `ebay_pre_desc` text NOT NULL,
   `unique_embed_code` varchar(50) NOT NULL,
-  `mature_content` enum('yes','no') NOT NULL DEFAULT 'no',
   `remote_play_url` text NOT NULL,
   `server_ip` varchar(20) NOT NULL,
   `file_server_path` text NOT NULL,
@@ -954,6 +951,9 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video` (
   `filegrp_size` varchar(30) NOT NULL,
   `process_status` bigint(30) NOT NULL DEFAULT '0',
   `has_hd` enum('yes','no') NOT NULL DEFAULT 'no',
+  `has_hd` enum('yes','no') NOT NULL DEFAULT 'no',
+  `video_version` varchar(30) NOT NULL DEFAULT '2.7',
+  `extras` varchar(225) NOT NULL DEFAULT ,
   PRIMARY KEY (`videoid`),
   FULLTEXT KEY `description` (`description`,`title`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=960 ;
@@ -1178,3 +1178,4 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}admin_todo` (
 
 ALTER TABLE `{tbl_prefix}action_log` DROP `action_link`; 
 ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 10 ) NOT NULL AFTER  `file_server_path`
+

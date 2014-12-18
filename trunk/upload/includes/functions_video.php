@@ -1219,6 +1219,8 @@ function get_video_files($vdetails,$return_default=true,$with_path=true,$multi=f
    global $Cbucket;
     # checking if there is any other functions
     # available
+    define('VIDEO_VERSION',$vdetails['video_version']);
+
     if(is_array($Cbucket->custom_video_file_funcs))
         foreach($Cbucket->custom_video_file_funcs as $func)
             if(function_exists($func))
@@ -1227,17 +1229,26 @@ function get_video_files($vdetails,$return_default=true,$with_path=true,$multi=f
                 if($func_returned)
                     return $func_returned;
             }
-
-
+       
+           
             $fileDirectory = "";
             if(isset($vdetails['file_directory']) && !empty($vdetails['file_directory'])){
                 $fileDirectory = "{$vdetails['file_directory']}/";
             }
             //dump($vdetails['file_name']);
 
-    #Now there is no function so lets continue as
-    if(isset($vdetails['file_name']))
-        $vid_files = glob(VIDEOS_DIR."/".$fileDirectory . $vdetails['file_name']."*");
+   
+   
+     #Now there is no function so lets continue as
+
+    if(isset($vdetails['file_name'])){
+        if(VIDEO_VERSION == '2.7'){
+            $vid_files = glob(VIDEOS_DIR."/".$fileDirectory . $vdetails['file_name']."*");
+        }
+        else{
+            $vid_files = glob(VIDEOS_DIR."/".$vdetails['file_name']."*");    
+        }
+   }
     // if($hq){
     //     var_dump(glob(VIDEOS_DIR."/".$fileDirectory . $vdetails['file_name']."*"));
     // }
@@ -1253,8 +1264,12 @@ function get_video_files($vdetails,$return_default=true,$with_path=true,$multi=f
             $files_part = explode('/',$file);
             $video_file = $files_part[count($files_part)-1];
 
-            if($with_path)
-                $files[]    = VIDEOS_URL.'/' . $fileDirectory. $video_file ;
+            if($with_path){
+                if(VIDEO_VERSION == '2.7')
+                    $files[]    = VIDEOS_URL.'/' . $fileDirectory. $video_file ;
+                else if(VIDEO_VERSION == '2.6')
+                    $files[]    = VIDEOS_URL.'/' . $video_file ;
+            }
             else
                 $files[]    = $video_file;
         }

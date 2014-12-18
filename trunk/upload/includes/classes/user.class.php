@@ -5531,8 +5531,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 				else
 					$voted = json_decode($votedDetails[0]['voted'],TRUE);
 				
-			//$votedArray = $voted;
-			$voted[] = $array;
+			
 			
 			if(!empty($js))
 				$votedEncode = $js->json_encode($voted);

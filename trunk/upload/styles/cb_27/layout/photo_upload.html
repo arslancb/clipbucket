@@ -300,6 +300,7 @@
                     */
                     var fileId = false;
                    var collectionId = $("#SelectionDIV select").val();
+                   var stored_cid = collectionId;
                    $.ajax({
                        url : baseurl + "/actions/photo_uploader.php",
                        type : "post",
@@ -337,15 +338,16 @@
                           e.preventDefault();
                           var cid = $('.cid').val();
                           var collectionId = $("#SelectionDIV select").val();
-
+                          
                           if(cid !== '')
                             {
                               collectionId = cid;
                             }
                           var self = $(this).parents("form");
                           var data = $(self).serialize();
-                          //data += "&collection_id="+collectionId;
+                          data += "&collection_id="+stored_cid;
                           data += "&server_url=undefined&folder=undefined&updatePhoto=yes";
+                          
                           $.ajax({
                               url : baseurl + "/actions/photo_uploader.php",
                               type : "post",

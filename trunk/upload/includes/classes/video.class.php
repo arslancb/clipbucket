@@ -1502,6 +1502,7 @@ class CBvideo extends CBCategory
 			if($total<=10)
 				$total = 10;
 			$perc = $rating*100/$total;
+			$perc = round($perc);
 			$disperc = 100 - $perc;
 			if($ratings <= 0 && $disperc == 100)
 				$disperc = 0;
