@@ -10,7 +10,7 @@ $todayUsers['active'] = $userquery->get_users(array("count_only"=>true,"date_spa
 $userTodayStats = array(
 	"label" => "User Today Stats", 
 	"data" => array(
-		array('signups', ['signups']),
+		array('signups', $todayUsers['signups']),
 		array('inactive',  $todayUsers['inactive']),
 		array('active', $todayUsers['active']),
 		)
