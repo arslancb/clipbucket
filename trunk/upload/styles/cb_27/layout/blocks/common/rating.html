@@ -1,31 +1,4 @@
-
-
-
-{if $vdo}
-<!--videos likes section-->
-<div>
-    <div class="newRating clearfix mbm">
-    	<ul class="like-dislike-block clearfix">
-    		<li><a {if !$disable} onclick="rate('{$id}','5','{$type}')"{/if} href="javascript:void(0)">Like</a></li>
-    		<li><span class="_percentage">{$perc}</span></li>
-    		<li><a {if !$disable} onclick="rate('{$id}','1','{$type}')"{/if} href="javascript:void(0)">Dislike</a></li>
-    	</ul>
-    </div>
-    <div  class="cleafix like-dislike-text">
-    {$likes} Likes &nbsp;|&nbsp; {$dislikes} Dislikes
-    </div>
-    <div id="rating_result_container" class="watch-vid-error">
-     {if $rating_msg}{$rating_msg}{/if}   
-    </div>
-</div>
-
-
-
-
-{else}
-
-
-<!--photos likes section-->
+<!--CB like and dislike section-->
 <div id="" class="pull-right clearfix full-width">
     <div class="newRating clearfix mbm">
     	<ul class="like-dislike-block clearfix">
@@ -33,7 +6,6 @@
     	   <li><span class="_percentage">{$perc}</span></li>
     		<li><a {if !$disable} onclick="rate('{$id}','1','{$type}')"{/if} href="javascript:void(0)">Dislike</a></li>
     	</ul>
-       
     </div>
     <div  class="clearfix like-dislike-text">
     {$likes} Likes &nbsp;|&nbsp; {$dislikes} Dislikes
@@ -42,12 +14,6 @@
      {if $rating_msg}{$rating_msg}{/if}   
     </div>
 </div>
-
-
-{/if}
-
-
- 
 
 <script type="text/javascript">
 var _percent = '{$perc}';

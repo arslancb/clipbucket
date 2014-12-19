@@ -1700,6 +1700,15 @@ font-size: 14px;
     color: #A94442;
 }
 
+.msg{
+border: 1px solid #9BEF9B;
+border-radius: 4px;
+margin-bottom: 20px;
+padding: 15px;
+background-color: #BEFFB7;
+color: #078127;
+}
+
 .ad{
     /*background: none repeat scroll 0 0 #F3F3F3;*/
    /* border: 1px solid #CCCCCC;
