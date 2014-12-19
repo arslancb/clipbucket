@@ -76,25 +76,24 @@
                                 </li>
                             </ul>
                         </li>
+                        
 
-                <li class="blue">
+                <li class="dropdown blue">
                     <a data-toggle="dropdown" class="dropdown-toggle clickable" href="#">
                         <i class="glyphicon glyphicon-arrow-down"></i>
                         <span class="badge badge-important">Display Option</span>
                     </a>
-            <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close onclick">
-                <li class="dropdown-header">
-                      <i class="icon-info-sign"></i>
+                    <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu1">
+                        <li class="dropdown-header">
+                            <i class="icon-info-sign"></i>
                             <form id="display_opts" name="display_opts" method="post" action="">
                                 Results Per Page :
                                 <input name="admin_pages" type="text" style="width:50px" value="{$Cbucket->configs.admin_pages}"/>
                                 <input type="submit" name="update_dp_options" id="button" value="Update"  class="btn btn-primary btn-xs"/>
                             </form>
                         </li>
-                        </ul>
+                    </ul>
                 </li>
-
-
 
                 <li class="blue">
                     <a target="_blank" href="{$baseurl}">
@@ -145,30 +144,3 @@
     </div>
                         <!-- /.navbar-header -->
 <!-- /.container -->
-
-
-
-<script type="text/javascript">
-       
-
-        $(document).ready(function () {
-          $('.clickable').click(function() {
-          $('.onclick').show();
-        
-         });
-          
-
-       })
-       
-</script >
-
-
-
-
-
-
-
-
-
-
-
