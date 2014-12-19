@@ -1,5 +1,6 @@
 {if $flashplayer}
-<div id="mediaplayer">loading player.....</div>
+<div id="mediaplayer">
+</div>
 
 <script type="text/javascript" src="{$html5_player_url}/flashplayer.js"></script>
 <script type="text/javascript">
@@ -56,9 +57,10 @@ jwplayer("mediaplayer").setup( {ldelim}
 
 <link rel="stylesheet" href="{$html5_player_url}/style.css" />
 
-<div class="cont fahad" id="cont" style="height:{$height};width:{$width};">
+<div class="cont" id="cont" style="height:{$height};width:{$width};">
   
    <video id="myVideo" class="myVideo largevid" {if $autoplay==true}autoplay{else}{/if}>
+     
      {if $ms_videos}
      <source src="{$ms_videos.360}" type="video/mp4" data-res="" id=""/>
      {else}
@@ -69,22 +71,8 @@ jwplayer("mediaplayer").setup( {ldelim}
      <source src="{$hq_vid_file}" type="video/mp4" data-quality="hd" />
      {else}
      {/if}   
-    
-    
-      <p>Your browser does not support the video tag.</p>
      
-      <!-- Fallback to Flash. -->
-      <!-- Add 24px to the height for the video player -->
-
-     <object width="800" height="374" type="application/x-shockwave-flash" data="{$html5_player_url}/fallback.swf">
-
-  <!-- Firefox uses the `data` attribute above, IE/Safari uses the param below -->
-       <param name="movie" value="{$html5_player_url}/fallback.swf"/>
-       <param name="allowFullScreen" value="true"/>
-       <param name="flashvars" value="autostart=true&amp;file={$normal_vid_file}"/>
-
-     </object>
-
+     <p>Your browser does not support the video tag.</p>
 
    </video>
 
@@ -96,53 +84,45 @@ jwplayer("mediaplayer").setup( {ldelim}
 
 
   <div class="init"></div>
-
-
+  
   <div id="opacity">
     <div id="cancel_v"></div>
     <div id="replay_v"></div>
   </div>
-
   <div id="related_1" >
-     <h4 id="h_4">Most Popular</h4>
-              {foreach $related as $video}
-                        <a id="link_v" href="{videoLink($video)}" >
-                        <img id="thumb_v" src="{getThumb vdetails=$video}" border="1" height="100" width="160"/>
-                        <p id="name_v"> {$video.title|truncate:20}</p>
-                        </a>
-              {/foreach}
+    <h4 id="h_4">Most Popular</h4>
+    {foreach $related as $video}
+      <a id="link_v" href="{videoLink($video)}" >
+      <img id="thumb_v" src="{getThumb vdetails=$video}" border="1" height="100" width="160"/>
+      <p id="name_v"> {$video.title|truncate:20}</p>
+      </a>
+    {/foreach}
   </div>
-
-
 
   {if $ms_videos}
   <div id="files" class="video_files hbtn" title="files">
-          <ul id="ul_files">
-            {foreach $ms_videos as $res=>$video}
-            <li id="li_{$res}" class="list_player" style="color:#fff;cursor:pointer;text-align:center;font-family:'Lucida' Grande, sans-serif;font-size:15px;">
-             {$res}
-            </li>
-            {/foreach}
-          </ul>
-   </div>
-
-  {else}
+    <ul id="ul_files">
+      {foreach $ms_videos as $res=>$video}
+        <li id="li_{$res}" class="list_player" style="color:#fff;cursor:pointer;text-align:center;font-family:'Lucida' Grande, sans-serif;font-size:15px;">
+        {$res}
+        </li>
+        {/foreach}
+    </ul>
+  </div>
   {/if}
 
-
-   <div class="control">
-
-      <div class="topControl">
-           <div class="">
-             <div class="progress">
-                <span class="bufferBar"> </span>
-                <span class="timeBar"><div class="buffer btn"></div></span>
-             </div>
-          </div>
+  <div class="control">
+    <div class="topControl">
+      <div class="">
+        <div class="progress">
+          <span class="bufferBar"> </span>
+          <span class="timeBar"><div class="buffer btn"></div></span>
+        </div>
       </div>
+    </div>
 
     
-   <div class="btmControl">
+    <div class="btmControl">
       <div class="btnPlay hbtn" title="Play/Pause video"></div>
       <div class="sound sound2 hbtn" title="Mute/Unmute sound"></div>
       <div class="volume" title="Set volume">
@@ -152,46 +132,37 @@ jwplayer("mediaplayer").setup( {ldelim}
         <span class="fcurrent">00:00</span> / 
         <span class="fduration">00:00</span>
       </div>
-
       <div class="btnFS enterbtnFs hbtn" id="fs" title="Switch to full screen"></div>
       {if $testing }
-         <div id="hd" class="hdoff hdon hbtn" title="HD On/Off"></div>
-      {else}{/if}
-
+        <div id="hd" class="hdoff hdon hbtn" title="HD On/Off"></div>
+      {/if}
       {if $ms_videos}
-         <div id="res" class="res ress hbtn" title="Resolution Selector"></div>
-      {else}{/if}
-   </div>
-    
+        <div id="res" class="res ress hbtn" title="Resolution Selector"></div>
+      {/if}
+    </div>
   </div>
 
 
-<div class="loading"> 
-      <div class="windows8" align="center">
-          <div class="wBall" id="wBall_1">
-          <div class="wInnerBall">
-          </div>
-          </div>
-          <div class="wBall" id="wBall_2">
-          <div class="wInnerBall">
-          </div>
-          </div>
-          <div class="wBall" id="wBall_3">
-          <div class="wInnerBall">
-          </div>
-          </div>
-          <div class="wBall" id="wBall_4">
-          <div class="wInnerBall">
-          </div>
-          </div>
-          <div class="wBall" id="wBall_5">
-          <div class="wInnerBall">
-          </div>
-          </div>
-      </div> 
-</div>
- 
-
+  <div class="loading"> 
+    <div class="windows8" align="center">
+      <div class="wBall" id="wBall_1">
+        <div class="wInnerBall"></div>
+      </div>
+      <div class="wBall" id="wBall_2">
+        <div class="wInnerBall"></div>
+      </div>
+      <div class="wBall" id="wBall_3">
+        <div class="wInnerBall"></div>
+      </div>
+      <div class="wBall" id="wBall_4">
+        <div class="wInnerBall"></div>
+      </div>
+      <div class="wBall" id="wBall_5">
+        <div class="wInnerBall"></div>
+      </div>
+    </div> 
+  </div>
+  
 </div>
 
 
