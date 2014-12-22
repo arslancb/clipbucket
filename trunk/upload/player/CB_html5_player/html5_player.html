@@ -55,8 +55,6 @@ jwplayer("mediaplayer").setup( {ldelim}
 {else}
 
 
-<link rel="stylesheet" href="{$html5_player_url}/style.css" />
-
 <div class="cont" id="cont" style="height:{$height};width:{$width};">
   
    <video id="myVideo" class="myVideo largevid" {if $autoplay==true}autoplay{else}{/if}>
@@ -90,13 +88,21 @@ jwplayer("mediaplayer").setup( {ldelim}
     <div id="replay_v"></div>
   </div>
   <div id="related_1" >
-    <h4 id="h_4">Most Popular</h4>
-    {foreach $related as $video}
-      <a id="link_v" href="{videoLink($video)}" >
-      <img id="thumb_v" src="{getThumb vdetails=$video}" border="1" height="100" width="160"/>
-      <p id="name_v"> {$video.title|truncate:20}</p>
-      </a>
-    {/foreach}
+    <h4 id="h_4">Related Videos</h4>
+    {$id=$vdata.videoid}
+    {$title=$vdata.title}
+    {$tags=$vdata.tags}
+    {$final_related=get_videos(['title'=>$title,'tags'=>$tags,'show_related'=>'yes','exclude'=>$id,'limit'=>'4','order'=>'date_added DESC'])}
+    {if $final_related}
+      {foreach $final_related as $video}
+        <a id="link_v" href="{videoLink($video)}" >
+        <img id="thumb_v" src="{getThumb vdetails=$video}" border="1" height="100" width="160"/>
+        <p id="name_v"> {$video.title|truncate:20}</p>
+        </a>
+      {/foreach}
+    {else}
+      <p>No Related Videos</p>
+    {/if}
   </div>
 
   {if $ms_videos}
@@ -178,6 +184,7 @@ var files = '{$json_videos}';
 </script>
 
 <script type="text/javascript" src="{$html5_player_url}/html5_player.js"></script>
+<link rel="stylesheet" href="{$html5_player_url}/style.css" />
 
 {/if}
 

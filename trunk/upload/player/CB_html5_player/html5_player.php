@@ -66,25 +66,10 @@ if(!function_exists('html5_player'))
 			if($in['autoplay'] =='yes')
 			assign('autoplay','true');
 
-
+              
 			assign('vdata',$vdetails);
             assign('height',$in['height']);
             assign('width',$in['width']);
-
-
-		  
-            $v_cat = $vdo['category'];
-            if($v_cat[2] =='#') {
-            $video_cat = $v_cat[1];
-            }else{
-            $video_cat = $v_cat[1].$v_cat[2];}
-            $vid_cat = str_replace('%#%','',$video_cat);
-            assign('vid_cat',$vid_cat);
-            $vid_cond['order'] = " date_added DESC ";
-            $vlist = $vid_cond;
-            $vlist['limit'] = 4;
-            $videos = get_videos($vlist);
-            Assign('related', $videos);
 
 			$l_details = BASEURL.'/images/icons/country/hp.png';
 			$l_convert = base64_encode(file_get_contents($l_details));

@@ -1081,7 +1081,10 @@ class CBvideo extends CBCategory
                 $query = " SELECT ".$fields." FROM ".cb_sql_table('video');
                 $query .= " LEFT JOIN ".cb_sql_table('users');
                 $query .= " ON video.userid = users.userid ";
-
+                
+                if( $cond ) {
+                $query .= " WHERE ".$cond;
+                 }
 
                 $query .= $order ? " ORDER BY ".$order : false;
                 $query .= $limit ? " LIMIT ".$limit : false;
@@ -1091,6 +1094,7 @@ class CBvideo extends CBCategory
 				#$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),
 				#$cond." AND ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);
 			}
+			
 			assign($params['assign'],$result);
 		}
 		
