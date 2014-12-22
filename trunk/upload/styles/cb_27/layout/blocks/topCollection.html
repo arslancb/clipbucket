@@ -2,11 +2,12 @@
 <div class="col-md-12 photo_view nopadding">
     <div class="collection_home mouse_hover">
         <a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
+             <img class="cb_img_thum" src="{$cbcollection->get_thumb($collection,'',TRUE)}"/>
             <div class="details mouse_hover_on">
                 <div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
             </div>
         </a>
-        <img class="cb_img_thum" src="{$cbcollection->get_thumb($collection,'',TRUE)}"/>
+       
     </div>
 </div>
 {/if}
