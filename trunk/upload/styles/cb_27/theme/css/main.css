@@ -1801,11 +1801,17 @@ color: #078127;
 	font-size: 14px;
 	font-weight: 300;
 }
+.font1, .font2 {
+    font-size: 11px;    
+}
 .font1 {
-    padding-right: 5px;
+     text-align: left;
 }
 .font2 {
-    padding-left: 20px;
+    float: right;
+    font-size: 11px;
+    padding-right: 5px;
+    text-align: right;
     
 }
 
