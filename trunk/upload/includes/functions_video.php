@@ -1273,11 +1273,26 @@ function get_video_files($vdetails,$return_default=true,$with_path=true,$multi=f
             else
                 $files[]    = $video_file;
         }
-           
-           
-           //echo $files;
-           return $files;
-    
+
+    if(count($files)==0 && !$multi && !$count_only)
+    {
+        if($return_default)
+        {
+
+            if($with_path)
+                return VIDEOS_URL.'/no_video.mp4';
+            else
+                return 'no_video.mp4';
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+     return $files;
+    }
 
 
 }

@@ -33,7 +33,7 @@ if(!function_exists('html5_player'))
 		$vdetails = $in['vdetails'];
 		$video_play = get_video_files($vdetails,true,true);
 	
-	
+	  
 		
 		if(function_exists('get_refer_url_from_embed_code'))
 		{
@@ -87,11 +87,7 @@ if(!function_exists('html5_player'))
             $jquery = BASEDIR.'/js/jquery.js';
             assign('jquery',$jquery);
 			
-			$v_details = extract($vdetails);
-		    $v_details;
-            assign('v_details',$v_details);
-
-
+			
             // logo placement
             $pos = config('logo_placement');
 		    switch($pos)
@@ -115,7 +111,7 @@ if(!function_exists('html5_player'))
 		
             //getting hq test for HD button
             $hq_file = $video_play[1];
-            assign('testing',$hq_file);
+            assign('HQ',$hq_file);
 		
             assign('top',$position["top"]);
             assign('left',$position["left"]);
@@ -139,28 +135,35 @@ if(!function_exists('html5_player'))
 	            assign('player_url',PLAYER_URL);	
 	            assign('flashplayer',true); 
             }
-          
-            if($video_play[0])
-            {
-	            assign('application_videos',$video_play[0]);
-
-	            if ($video_play[1] == '')
-	            {	
-		            assign('normal_vid_file',$video_play[0]);
-		            assign('hq_vid_file','');
-	            }
-	            else
-	            {
-		            assign('normal_vid_file',$video_play[1]);	
-		            assign('hq_vid_file',$video_play[0]);
-	            }
+            if (!is_array($video_play))
+            {	
+            	assign('normal_vid_file',$video_play);
+                assign('application_videos',true);
             }
             else
-            {	
-            $json_array = json_encode($video_play);
-            assign('json_videos',$json_array);
-            $video_play = array_reverse($video_play, true);
-            assign('ms_videos',$video_play);
+            {
+	            if($video_play[0])
+	            {
+		            assign('application_videos',$video_play[0]);
+
+		            if ($video_play[1] == '')
+		            {	
+			            assign('normal_vid_file',$video_play[0]);
+			            assign('hq_vid_file','');
+		            }
+		            else
+		            {
+			            assign('normal_vid_file',$video_play[1]);	
+			            assign('hq_vid_file',$video_play[0]);
+		            }
+	            }
+	            else
+	            {	
+		            $json_array = json_encode($video_play);
+		            assign('json_videos',$json_array);
+		            $video_play = array_reverse($video_play, true);
+		            assign('ms_videos',$video_play);
+	            }
             }
 
 		

@@ -76,8 +76,8 @@ jwplayer("mediaplayer").setup( {ldelim}
 
 
   <div class="caption">
-      <span class="title">{$title|truncate:30}</span><br>
-      <span class="user">Uploaded By {if !$username} Anonymous {else} {$username} {/if}  </span>
+      <span class="title">{if !$vdata.title} No Video Found {else}{$vdata.title|truncate:30} {/if}</span><br>
+      <span class="user">Uploaded By {if !$vdata.username} Anonymous {else} {$vdata.username} {/if}  </span>
   </div>
 
 
@@ -139,7 +139,7 @@ jwplayer("mediaplayer").setup( {ldelim}
         <span class="fduration">00:00</span>
       </div>
       <div class="btnFS enterbtnFs hbtn" id="fs" title="Switch to full screen"></div>
-      {if $testing }
+      {if $HQ }
         <div id="hd" class="hdoff hdon hbtn" title="HD On/Off"></div>
       {/if}
       {if $ms_videos}
