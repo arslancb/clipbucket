@@ -1812,6 +1812,7 @@ color: #078127;
     font-size: 11px;
     padding-right: 5px;
     text-align: right;
+    margin-top: 4px;
     
 }
 
@@ -2323,7 +2324,7 @@ opacity: 1;
 	background: url(../../images/icons-sprite.png) no-repeat -42px -64px;
 	width: 16px;
 	height: 15px;
-	margin: 0 0 4px;
+	margin: 0px;
 	text-indent: -9999px;
 	overflow: hidden;
 }
