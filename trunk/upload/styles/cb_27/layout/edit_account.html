@@ -283,7 +283,7 @@
         </div>
       </div>
     </div>
-    {elseif $mode != 'profile_settings'}
+    {else if $mode != 'profile_settings' && $mode != 'account_settings'}
     <div class="cb-box row">
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
           {include file="$style_dir/blocks/manage/userMenuLeft.html"}
