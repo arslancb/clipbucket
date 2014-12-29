@@ -1,13 +1,14 @@
 {if $display_type=='normal' || $display_type==''}
 <div class="item_video">
     <div class="cb_item_container clearfix">
-        <div class="cb_item_thumb video_thumb" >
+        <div class="cb_item_thumb video_thumb relative" >
         <a href="{videoLink($video)}" title="{$video.title|title}">
             <span class="video_duration">{if
             $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}{*$video.duration|date_format:$config.time*}
             </span>
             <img class="" src="{getThumb vdetails=$video size=160x90 } " border="1" />
         </a>
+        <img src="{$imageurl}/dot.gif" class="add_icon cb_quickie" onclick="add_quicklist(this,'{$video.videoid}')" title="Add {$video.title} to Quicklist" alt="Quicklist" />
         </div>
         <h5>
            <a href="{videoLink($video)}">{$video.title|truncate:30}</a>
