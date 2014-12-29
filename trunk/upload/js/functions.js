@@ -753,11 +753,14 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 	 * Function used to add and remove video from qucklist
 	 * THIS FEATURE IS SPECIALLY ADDED ON REQUEST BY JAHANZEB HASSAN
 	 */
+	
+	
 	function add_quicklist(obj,vid)
 	{
 		
 		$(obj).attr('src',imageurl+"/ajax-loader.gif");
 		$(obj).css('background-position',"-200px 200px");
+		$.cookie("btn-q-"+vid, "yes", { expires : 10 });
 		
 		$.post(page, 
 		{ 	
@@ -784,9 +787,11 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 	/**
 	 * Function used to remove video from qucklist
 	 */
+	
 	function remove_qucklist(obj,vid)
 	{
 		
+		$.cookie("btn-q-"+vid, null);
 		$.post(page, 
 		{ 	
 			mode : 'quicklist',
@@ -828,6 +833,11 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 				if($.cookie("quick_list_box")!="hide")
 				{
 					$("#quicklist_cont").css("display","block");
+					$('.ql_show-hide').html("hide");
+				}
+				else
+				{
+                    $('.ql_show-hide').html("show");
 				}
 			}
 		},'text');
@@ -850,9 +860,15 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 		$(obj).slideToggle()
 		
 		if($.cookie("quick_list_box")=="show")
-			$.cookie("quick_list_box","hide")	
+			{
+				$.cookie("quick_list_box","hide");
+			    $('.ql_show-hide').html("show");
+			}		
 		else
-			$.cookie("quick_list_box","show")
+		    {
+				$.cookie("quick_list_box","show")
+                  $('.ql_show-hide').html("hide");
+		    }
 	}
 	
 	/**
