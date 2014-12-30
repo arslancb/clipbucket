@@ -8,7 +8,7 @@
             </span>
             <img class="" src="{getThumb vdetails=$video size=160x90 } " border="1" />
         </a>
-        <img src="{$imageurl}/dot.gif" data-quick="quick-{$video.videoid}"
+         <img src="{$imageurl}/dot.gif" data-quick="quick-{$video.videoid}"
          class="add_icon cb_quickie cb-btn-quick-{$video.videoid}" onclick="add_quicklist(this,'{$video.videoid}')" title="Add {$video.title} to Quicklist" alt="Quicklist" />
         </div>
         <h5>
@@ -43,7 +43,7 @@
 
 
 <script type="text/javascript">
-
+/* this script is added for check if video is in quicklist or not */
 $(document).ready(function() {  
 
      if($.cookie("btn-q-{$video.videoid}")=="yes")

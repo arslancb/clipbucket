@@ -1,13 +1,17 @@
+{assign var=quicklist value=$cbvid->get_quicklist()}
+{assign var=quicklist_json value=$quicklist|@json_encode}
+
 <div  class="quicklist_box">
 	<div class="quicklist_box_head">
 		<a class="ql_show-hide" href="javascript:void(0)" onClick="quick_show_hide_toggle('#quicklist_cont')">{lang code='Hide'}</a>
-		<a class="ql_rem" href="javascript:void(0)" onClick="clear_quicklist()" >{lang code='remove'}</a>
+		<a class="ql_rem" href="javascript:void(0)" onClick='clear_quicklist({$quicklist_json})' >{lang code='remove'}</a>
 		<h1>{lang code='quicklists'}({$cbvid->total_quicklist()})</h1>
 	</div>
 	<div id="quicklist_cont" class="quicklist_cont">
-	{assign var=quicklist value=$cbvid->get_quicklist()}
+	
 	{if $quicklist}
 		<div id="my_quicklist" class="my_quicklist">
+			
 			<!-- Getting Playlist Items-->
 			{assign var='bg' value='fff'}
 			{foreach from=$quicklist item=vid}

@@ -806,7 +806,10 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 			{
 				$(obj).slideUp();
 				$(obj).hide();
-			}
+				$('.cb-btn-quick-'+vid).addClass('add_icon');
+		        $('.cb-btn-quick-'+vid).removeClass('check_icon');
+		        $('.cb-btn-quick-'+vid).attr('onClick');
+            }
 		},'text');
 	}
 	
@@ -842,16 +845,22 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 			}
 		},'text');
 	}
-	
-	function clear_quicklist()
-	{
-		$.post(page, 
+	 //$.cookie("btn-q-977", null);
+	function clear_quicklist(ids)
+	{    
+        $.post(page, 
 		{ 	
 			mode : 'clear_quicklist'
 		},
 		function(data)
 		{
 			load_quicklist_box();
+			$.each(ids, function() {
+		        $.cookie("btn-q-"+this, null);
+		        $('.cb-btn-quick-'+this).addClass('add_icon');
+		        $('.cb-btn-quick-'+this).removeClass('check_icon');
+		        $('.cb-btn-quick-'+this).attr('onClick');
+        });
 		},'text');
 	}
 	
