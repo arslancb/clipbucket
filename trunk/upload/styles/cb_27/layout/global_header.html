@@ -106,10 +106,13 @@
         <script src="{$theme}/js/uslider_js/jquery.ulslide.js?v=4"></script>
 		<!-- Script For Home Page Videos Slider //-->
 
-
-
+        {assign var=quicklist value=$cbvid->get_quicklist()|@json_encode}
+        
         <script>
             $(document).ready(function(){
+                var quicklist_videos = '{$quicklist}';
+                if (quicklist_videos)
+                quicklist_videos_check(quicklist_videos);
 
                 loading = '<i class="fa fa-spinner fa-spin"></i> {lang code="loading"}...';
                /* var container = document.querySelector('.the_');

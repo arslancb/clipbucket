@@ -4984,7 +4984,7 @@
         }
 
         function logData($data){
-				$logFilePath = "/home/sajjad/Desktop/ffmpegLog.txt";
+				$logFilePath = BASEDIR."/Log.txt";
 				if(is_array($data)) $data = json_encode($data);
 				$text = file_get_contents($logFilePath);
 				$text .= " \n {$data}";

@@ -778,7 +778,6 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 				$(obj).css('background-position',"-0px -0px");
 				$(obj).removeClass('add_icon');
 				$(obj).addClass('check_icon');
-				$(obj).removeAttr('onClick');
 				load_quicklist_box();
 			}
 		},'text');
@@ -808,11 +807,36 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 				$(obj).hide();
 				$('.cb-btn-quick-'+vid).addClass('add_icon');
 		        $('.cb-btn-quick-'+vid).removeClass('check_icon');
-		        $('.cb-btn-quick-'+vid).attr('onClick');
             }
 		},'text');
 	}
-	
+     
+
+    /**
+	 * Function used to chek if video is added in quicklist
+	 */
+	function quicklist_videos_check(videoids)
+	{  
+		
+	    var ids = JSON.parse(videoids.trim());
+        if (!ids)
+        {
+        	// do nothing //
+	 	}
+        else
+        {
+            $.each(ids, function() {
+	        if($.cookie("btn-q-"+this)=="yes")
+	        {    
+	            $('.cb-btn-quick-'+this).removeClass('add_icon');
+	            $('.cb-btn-quick-'+this).addClass('check_icon');
+	        }
+        });
+        }
+
+    }
+
+
 	/**
 	 * Function used to load quicklist
 	 */
@@ -845,7 +869,12 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 			}
 		},'text');
 	}
-	 //$.cookie("btn-q-977", null);
+	 
+
+
+	/**
+	 * Function used to clear all the videos from quicklist
+	 */
 	function clear_quicklist(ids)
 	{    
         $.post(page, 
@@ -859,7 +888,6 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 		        $.cookie("btn-q-"+this, null);
 		        $('.cb-btn-quick-'+this).addClass('add_icon');
 		        $('.cb-btn-quick-'+this).removeClass('check_icon');
-		        $('.cb-btn-quick-'+this).attr('onClick');
         });
 		},'text');
 	}

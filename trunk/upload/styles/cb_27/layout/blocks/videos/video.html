@@ -40,21 +40,3 @@
     <span class="pull-right"><h5><small>{$video.date_added|niceTime}</small></h5></span>
 </div>
 {/if}
-
-
-<script type="text/javascript">
-/* this script is added for check if video is in quicklist or not */
-$(document).ready(function() {  
-
-     if($.cookie("btn-q-{$video.videoid}")=="yes")
-       {    
-             $('.cb-btn-quick-{$video.videoid}').attr('src',imageurl+"/dot.gif");
-             $('.cb-btn-quick-{$video.videoid}').css('background-position',"-0px -0px");
-             $('.cb-btn-quick-{$video.videoid}').removeClass('add_icon');
-             $('.cb-btn-quick-{$video.videoid}').addClass('check_icon');
-             $('.cb-btn-quick-{$video.videoid}').removeAttr('onClick');
-
-        }
-});
-
-</script>
