@@ -9,7 +9,7 @@
         </a>
     </div>
     <div class="pl_details" onclick="window.location='{$videoLink}'">
-        <a href="{$videoLink}">{$video.title|truncate:25}</a>
+        <a href="{videoLink($video)}" target="self" >{$video.title|truncate:25}</a>
     </div>
     {if $show_delete=='yes'}
     <div class="ql_delete">
