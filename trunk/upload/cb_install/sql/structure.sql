@@ -951,9 +951,8 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video` (
   `filegrp_size` varchar(30) NOT NULL,
   `process_status` bigint(30) NOT NULL DEFAULT '0',
   `has_hd` enum('yes','no') NOT NULL DEFAULT 'no',
-  `has_hd` enum('yes','no') NOT NULL DEFAULT 'no',
   `video_version` varchar(30) NOT NULL DEFAULT '2.7',
-  `extras` varchar(225) NOT NULL DEFAULT ,
+  `extras` varchar(225) NOT NULL,
   PRIMARY KEY (`videoid`),
   FULLTEXT KEY `description` (`description`,`title`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=960 ;

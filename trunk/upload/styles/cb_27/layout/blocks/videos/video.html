@@ -8,6 +8,7 @@
             </span>
             <img class="" src="{getThumb vdetails=$video size=160x90 } " border="1" />
         </a>
+         {premium_video_thumb($video)}
          <img src="{$imageurl}/dot.gif" data-quick="quick-{$video.videoid}"
          class="add_icon cb_quickie cb-btn-quick-{$video.videoid}" onclick="add_quicklist(this,'{$video.videoid}')" title="Add {$video.title} to Quicklist" alt="Quicklist" />
         </div>
