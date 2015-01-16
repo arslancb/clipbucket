@@ -1232,13 +1232,30 @@ a:hover {
     font-size: 12px;
     color: #fff;
     position: absolute;
-    top: 4px;
-    left: auto !important;
-    right: 16px !important;
+    bottom: 4px;
+    right: 5px;
     padding: 2px;
-    right: 100px;
     width: 40px;
     text-align: center;
+}
+.vid-type{
+    background: #d6492f;
+    font-size: 12px;
+    color: #fff;
+    position: absolute;
+    top: 0px;
+    left:1px;
+    padding: 4px;
+    width: 99.1%;
+    text-align: center;
+}
+.white-premium-icon {
+    color: #fff !important;
+    padding-right: 5px;
+}
+.ppv-icon {
+    color: #fff !important;
+    padding-right: 5px;
 }
 
 .maccountlabels {

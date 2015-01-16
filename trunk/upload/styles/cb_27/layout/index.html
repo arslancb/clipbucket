@@ -144,6 +144,7 @@
 			        	{$videos=get_videos(["order" =>"date_added DESC", "limit" =>12])}
 						<div class="clearfix recent-videos row">
 				        	{foreach $videos as $video}
+				        		
 				        		<!-- <div class="marginBottom grid_view recent-col list_view nopadding-right"> -->
 								{include file="$style_dir/blocks/video.html"}
 								<!-- </div> -->

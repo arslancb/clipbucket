@@ -72,11 +72,7 @@
     padding: 6px 0px 6px 30px;
 }
 .premium-icon {
-    background-image: url("../../images/star-icon.png");
-    background-repeat: no-repeat;
-    color: #333;
-    padding: 6px 0px 6px 20px;
-    background-position: 0px 8px;
+    color: #d4aa0d !important;
 }
 .upload-dropdown{
   min-width:140px;

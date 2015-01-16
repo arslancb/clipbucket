@@ -11,6 +11,8 @@
         <span class="duration">{if
         $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}
         </span>
+        <!-- <div class="vid-type"><span class="glyphicon glyphicon-star white-premium-icon"></span>Premium</div> -->
+        <div class="vid-type"><span class="glyphicon glyphicon-usd ppv-icon"></span>PPV</div>
 	</a>
     <h5><a href="{videoLink($video)}" title="{$video.title|title}"><b>{$video.title|truncate:16}</b></a></h5>
 
