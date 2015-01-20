@@ -1139,7 +1139,7 @@ ALTER TABLE  `{tbl_prefix}photos` ADD  `file_directory` VARCHAR( 25 ) CHARACTER 
 ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `file_name`;
 
 -- Updating playlist tables
-ALTER TABLE  `{tbl_prefix}playlists` ADD  `catgory` enum('normal','favorites','likes','history','quicklist','watch_later') NOT NULL DEFAULT 'normal' AFTER  `playlist_type`;
+ALTER TABLE  `{tbl_prefix}playlists` ADD  `category` enum('normal','favorites','likes','history','quicklist','watch_later') NOT NULL DEFAULT 'normal' AFTER  `playlist_type`;
 ALTER TABLE  `{tbl_prefix}playlists` ADD  `description` mediumtext CHARACTER SET utf8 NOT NULL AFTER  `category`;
 ALTER TABLE  `{tbl_prefix}playlists` ADD  `tags` mediumtext CHARACTER SET utf8 NOT NULL AFTER  `description`;
 ALTER TABLE  `{tbl_prefix}playlists` ADD  `played` int(255) NOT NULL AFTER  `tags`;
