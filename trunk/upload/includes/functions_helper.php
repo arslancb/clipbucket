@@ -61,7 +61,13 @@ function createDataFolders($headFolder = NULL, $custom_date = NULL)
     $time = time();
 
     if ($custom_date)
-        $time = strtotime($custom_date);
+    {
+        if(!is_numeric($custom_date))
+            $time = strtotime($custom_date);
+        else
+            $time = $custom_date;
+    }
+        
 
     $year = date("Y", $time);
     $month = date("m", $time);

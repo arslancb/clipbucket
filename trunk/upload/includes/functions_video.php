@@ -1296,3 +1296,41 @@ function get_video_files($vdetails,$return_default=true,$with_path=true,$multi=f
 
 
 }
+
+
+function upload_thumb($array)
+{
+
+    global $file_name,$LANG;
+    
+    //Get File Name
+    $file       = $array['name'];
+    $ext        = getExt($file);
+    $image = new ResizeImage();
+    
+    if(!empty($file) && file_exists($array['tmp_name']) && !error())
+    {
+
+        $file_directory = "";
+        if(isset($_REQUEST['time_stamp']))
+        {
+            $file_directory = create_dated_folder(NULL,$_REQUEST['time_stamp']);
+            $file_directory .='/';
+            //exit($file_directory);
+        }
+        if($image->ValidateImage($array['tmp_name'],$ext)){
+            $file = BASEDIR.'/files/thumbs/'.$file_directory.$_POST['file_name'].'.'.$ext;
+            $bfile = BASEDIR.'/files/thumbs/'.$file_directory.$_POST['file_name'].'.-big.'.$ext;
+            if(!file_exists($file))
+            {
+                move_uploaded_file($array['tmp_name'],$file);
+                $image->CreateThumb($file,$bfile,config('big_thumb_width'),$ext,config('big_thumb_height'),false);
+                $image->CreateThumb($file,$file,THUMB_WIDTH,$ext,THUMB_HEIGHT,false);
+            }
+        }else{
+            e(lang('vdo_thumb_up_err'));
+        }
+    }else{
+        return true;
+    }
+}

@@ -77,6 +77,7 @@ var fileExt = '{$Cbucket->list_extensions()|replace:",":";"}';
 var uploadSwfPath = '{$uploaderDetails.uploadSwfPath}';
 var uploadScriptPath = '{$uploaderDetails.uploadScriptPath}';
 
+var time_stamp = {time()};
 
 {literal}
 
@@ -171,7 +172,7 @@ $(document).ready(function()
 			$.ajax({
 				  url: baseurl+'/actions/file_uploader.php',
 				  type: "POST",
-				  data:({"insertVideo":"yes","title":fileObj.name,"file_name":file_name}),
+				  data:({"insertVideo":"yes","title":fileObj.name,"file_name":file_name,'time_stamp' : time_stamp}),
 				  dataType: "text",
 				  success: function(data)
 				  {

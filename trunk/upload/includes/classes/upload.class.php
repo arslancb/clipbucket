@@ -146,9 +146,26 @@ class Upload{
 			$query_field[] = "videokey";
 			$query_val[] = $this->video_keygen();
 
-			$query_field[] = "file_directory";
-			$file_directory = mysql_clean($array['file_directory']);
-			$query_val[] = $file_directory;
+
+			
+
+
+
+			if(!isset($array['file_directory']) && isset($array['time_stamp']))
+			{
+				$query_field[] = "file_directory";
+				$file_directory = create_dated_folder(NULL,$array['time_stamp']);
+				$query_val[] = $file_directory;
+
+				//pr($array,true);exit();
+
+			}elseif(isset($array['file_directory']))
+			{
+				$query_field[] = "file_directory";
+				$file_directory = mysql_clean($array['file_directory']);
+				$query_val[] = $file_directory;
+			}
+			
 			
 			
 			//Userid

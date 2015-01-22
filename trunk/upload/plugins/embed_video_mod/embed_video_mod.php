@@ -185,42 +185,7 @@ if (!function_exists('validate_embed_code'))
         return $input;
     }
 
-    if (!function_exists('upload_thumb'))
-    {
-
-        function upload_thumb($array)
-        {
-
-            global $file_name, $LANG;
-
-            //Get File Name
-            $file = $array['name'];
-            $ext = getExt($file);
-            $image = new ResizeImage();
-            $file_directory = createDataFolders();
-            if (!empty($file) && file_exists($array['tmp_name']) && !error())
-            {
-                if ($image->ValidateImage($array['tmp_name'], $ext))
-                {
-                    $file = BASEDIR . '/files/thumbs/' . $file_directory . '/' . $_POST['file_name'] . '.' . $ext;
-                    $bfile = BASEDIR . '/files/thumbs/' . $file_directory . '/'  . $_POST['file_name'] . '.-big.' . $ext;
-                    if (!file_exists($file))
-                    {
-                        move_uploaded_file($array['tmp_name'], $file);
-                        $image->CreateThumb($file, $bfile, config('big_thumb_width'), $ext, config('big_thumb_height'), false);
-                        $image->CreateThumb($file, $file, THUMB_WIDTH, $ext, THUMB_HEIGHT, false);
-                    }
-                } else
-                {
-                    e(lang('vdo_thumb_up_err'));
-                }
-            } else
-            {
-                return true;
-            }
-        }
-
-    }
+    
 
     /**
      * Function used to check embed video
