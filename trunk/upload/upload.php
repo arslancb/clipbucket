@@ -92,13 +92,6 @@ if(has_access('allow_video_upload',false,$verify_logged_user))
 	$userquery->logincheck('allow_video_upload',true);
 }
 
-
-	if(isset($_POST['submit_upload'])){
-   
-    echo '<div class="alert alert-success embed_video">
-   			Video has been Embeded succesfully ..
-    			</div>';
-	}
 Assign('step',$step);
 Assign('extensions', $Cbucket->get_extensions());
 subtitle(lang('upload'));
