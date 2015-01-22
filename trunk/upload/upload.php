@@ -64,14 +64,16 @@ if(has_access('allow_video_upload',false,$verify_logged_user))
 
 		if(!$_POST['file_name'])
 			$_POST['file_name'] = time().RandomString(5);
-		//$Upload->validate_video_upload_form(NULL,TRUE);
-		/*dump($_POST);
-		die();*/
 		{
 			$vid = $Upload->submit_upload();
 			//echo $db->db_query;
 			//Call file so it can activate video
 			$Upload->do_after_video_upload($vid);
+            $query = $db->update(tbl("video"),array("file_directory"),array( date("Y/m/d")),"videoid='$vid'");
+			echo '<div class="alert alert-success embed_video">
+   			Video has been Embeded succesfully ..
+    			</div>';
+    			
 			if(!error())
 			$step=3;
 		}

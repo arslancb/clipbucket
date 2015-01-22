@@ -34,6 +34,7 @@ switch($mode)
 			'file_name' => $file_name,
 			'file_directory' => $file_directory,
 			'userid' => userid(),
+			'video_version' => '2.7',
 		);
 		
 		$vid = $Upload->submit_upload($vidDetails);
