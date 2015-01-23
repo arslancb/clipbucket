@@ -1099,6 +1099,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}mass_emails` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+
 -- naveed
 -- added photo_details
 ALTER TABLE `photos` ADD `{tbl_prefix}photo_details` TEXT NOT NULL AFTER `photo_id`;
@@ -1138,6 +1139,14 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_views` (
 ALTER TABLE  `{tbl_prefix}photos` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `filename`;
 ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `file_name`;
 
+
+--
+-- cb_video video table change
+--
+ALTER TABLE  `{tbl_prefix}video` ADD  `video_version` varchar(30)  NOT NULL DEFAULT  "2.7";
+ALTER TABLE  `{tbl_prefix}video` ADD  `extras` varchar(225)  NOT NULL;
+
+
 -- Updating playlist tables
 ALTER TABLE  `{tbl_prefix}playlists` ADD  `category` enum('normal','favorites','likes','history','quicklist','watch_later') NOT NULL DEFAULT 'normal' AFTER  `playlist_type`;
 ALTER TABLE  `{tbl_prefix}playlists` ADD  `description` mediumtext CHARACTER SET utf8 NOT NULL AFTER  `category`;
@@ -1166,6 +1175,7 @@ ALTER TABLE `{tbl_prefix}photos` ADD `photo_details` VARCHAR( 255 ) CHARACTER SE
 --
 -- Table structure for table `cb_admin_todo`
 --
+
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}admin_todo` (
   `todo_id` int(225) NOT NULL AUTO_INCREMENT,
