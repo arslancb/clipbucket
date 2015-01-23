@@ -951,7 +951,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video` (
   `filegrp_size` varchar(30) NOT NULL,
   `process_status` bigint(30) NOT NULL DEFAULT '0',
   `has_hd` enum('yes','no') NOT NULL DEFAULT 'no',
-  `video_version` varchar(30) NOT NULL DEFAULT '2.7',
+  `video_version` varchar(30) NOT NULL DEFAULT '2.6',
   `extras` varchar(225) NOT NULL,
   PRIMARY KEY (`videoid`),
   FULLTEXT KEY `description` (`description`,`title`)
@@ -1143,7 +1143,7 @@ ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 25 ) CHARACTER S
 --
 -- cb_video video table change
 --
-ALTER TABLE  `{tbl_prefix}video` ADD  `video_version` varchar(30)  NOT NULL DEFAULT  "2.7";
+ALTER TABLE  `{tbl_prefix}video` ADD  `video_version` varchar(30)  NOT NULL DEFAULT  "2.6";
 ALTER TABLE  `{tbl_prefix}video` ADD  `extras` varchar(225)  NOT NULL;
 
 

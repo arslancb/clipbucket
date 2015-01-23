@@ -176,6 +176,11 @@ class Upload{
 			else
 				$query_val[] = $array['userid'];
 			
+
+			//video_version
+            $query_field[] = "video_version";
+            $query_val[] = '2.7';
+
 			
 			//Upload Ip
 			$query_field[] = "uploader_ip";
