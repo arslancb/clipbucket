@@ -4,12 +4,12 @@
 <div class="qlist_item" style="background-color:#{$bg}; {if $selected==$video.videoid} border:1px solid #999{/if}"  id="{$unique_id}playlist_cont_{$video.videoid}">
 	<div class="pl_num">{$smarty.section.item.iteration}</div>
     <div class="pl_thumb">
-        <a href="{$videoLink}">
+        <a href="{videoLink($video)}" target="blank">
             <img src="{getThumb vdetails=$video}"/>
         </a>
     </div>
     <div class="pl_details" onclick="window.location='{$videoLink}'">
-        <a href="{videoLink($video)}" target="self" >{$video.title|truncate:25}</a>
+        <a href="{videoLink($video)}" target="blank" >{$video.title|truncate:25}</a>
     </div>
     {if $show_delete=='yes'}
     <div class="ql_delete">
