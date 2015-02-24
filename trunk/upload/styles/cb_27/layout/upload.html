@@ -1,9 +1,5 @@
-{if $msg}
-<div class="alert alert-block alert-info">
-    {$msg}
-</div>
-{/if}
-<div id="uploadMessage" class=""></div>
+
+
 <div class="container uploadVideos">
     <div class="cb-box pad-bottom-sm progress-container allProgress hidden">  
         <div class="row">
@@ -19,6 +15,15 @@
             </div>
         </div>
     </div>
+
+    <div id="uploadMessage" class="">
+    {if $msg}
+        <div class="alert alert-block alert-info">
+            {$msg}
+        </div>
+    {/if}   
+    </div>
+    
     <div class="cb-box" id="mainUploadContainer">
         <div class="pad-bottom video-info-container tabs-bar-style">
             <ul class="nav nav-tabs uploaderTabs">
