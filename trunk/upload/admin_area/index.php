@@ -51,9 +51,22 @@ switch($mode)
     break;
     case 'update_todo':
     {
+       
         $id = $_POST["pk"];
         $value = trim($_POST["value"]);
         $myquery->update_todo($value, $id);
+        echo json_encode(array(
+            "msg" => "success",
+            ));
+        die();
+    }
+    break;
+    case 'update_pharse':
+    {
+       
+        $id = $_POST["pk"];
+        $value = trim($_POST["value"]);
+        $myquery->update_pharse($value, $id);
         echo json_encode(array(
             "msg" => "success",
             ));
