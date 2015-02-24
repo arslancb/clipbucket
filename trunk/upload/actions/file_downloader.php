@@ -68,8 +68,8 @@ if(isset($_POST['youtube']))
 	}
 	
 	//for devolpment
-	$content = json_decode('{"apiVersion":"2.1","data":{"id":"QfRAHfquzM0","uploaded":"2008-01-01T09:21:43.000Z","updated":"2014-04-18T22:16:28.000Z","uploader":"thegreatpakistani","category":"Education","title":"Pakistan National Anthem","description":"The Beautiful Pakistan National Anthem.","thumbnail":{"sqDefault":"http://i1.ytimg.com/vi/QfRAHfquzM0/default.jpg","hqDefault":"http://i1.ytimg.com/vi/QfRAHfquzM0/hqdefault.jpg"},"player":{"default":"http://www.youtube.com/watch?v=QfRAHfquzM0&feature=youtube_gdata_player","mobile":"http://m.youtube.com/details?v=QfRAHfquzM0"},"content":{"5":"http://www.youtube.com/v/QfRAHfquzM0?version=3&f=videos&app=youtube_gdata","1":"rtsp://r2---sn-5hn7su7z.c.youtube.com/CiILENy73wIaGQnNzK76HUD0QRMYDSANFEgGUgZ2aWRlb3MM/0/0/0/video.3gp","6":"rtsp://r2---sn-5hn7su7z.c.youtube.com/CiILENy73wIaGQnNzK76HUD0QRMYESARFEgGUgZ2aWRlb3MM/0/0/0/video.3gp"},"duration":71,"rating":4.2875,"likeCount":"789","ratingCount":960,"viewCount":503860,"favoriteCount":0,"commentCount":1146,"accessControl":{"comment":"allowed","commentVote":"allowed","videoRespond":"moderated","rate":"allowed","embed":"allowed","list":"allowed","autoPlay":"allowed","syndicate":"allowed"}}}'); 
-	//$content = json_decode('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId.'?v=2&alt=jsonc');
+	$youtube_content = file_get_contents('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId.'?v=2&alt=jsonc');
+	$content = json_decode($youtube_content);
 	
 	//$content = xml2array('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId);
 	$content = $content->data;
@@ -102,18 +102,14 @@ if(isset($_POST['youtube']))
 	array('http://i3.ytimg.com/vi/'.$YouTubeId.'/1.jpg','http://i3.ytimg.com/vi/'.
 	$YouTubeId.'/2.jpg','http://i3.ytimg.com/vi/'.$YouTubeId.'/3.jpg',
 	'big'=>'http://i3.ytimg.com/vi/'.$YouTubeId.'/0.jpg');
-	$vid_array['embed_code'] = '<object width="425" height="344">
-	<param name="movie" value="http://www.youtube.com/v/'.$YouTubeId.'">
-	</param><param name="allowFullScreen" value="true"></param>
-	<param name="allowscriptaccess" value="always"></param>
-	<embed src="http://www.youtube.com/v/'.$YouTubeId.'" 
-	type="application/x-shockwave-flash" 
-	width="425" height="344" 
-	allowscriptaccess="always"
-	 allowfullscreen="true">
-	</embed></object>';
 	
-	
+
+
+	$vid_array['embed_code'] = '<iframe width="560" height="315"';
+	$vid_array['embed_code'] .= ' src="//www.youtube.com/embed/'.$YouTubeId.'" ';
+	$vid_array['embed_code'] .= 'frameborder="0" allowfullscreen></iframe>';
+	$file_directory = createDataFolders();
+	$vid_array['file_directory'] = $file_directory;
 	$vid_array['category'] = array($cbvid->get_default_cid());
 	$vid_array['file_name'] = $filename;
 	$vid_array['userid'] = userid();
@@ -149,7 +145,7 @@ if(isset($_POST['youtube']))
 			$thumbId = $tid+1;
 		else
 			$thumbId = 'big';
-		snatch_it(urlencode($thumb),THUMBS_DIR,$filename."-$thumbId.jpg");
+		snatch_it(urlencode($thumb),THUMBS_DIR.'/'.$file_directory,$filename."-$thumbId.jpg");
 	}
 	
 	exit(json_encode(array('vid'=>$vid,
