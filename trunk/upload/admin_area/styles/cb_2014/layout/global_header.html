@@ -73,11 +73,12 @@
     $(document).ready(function() {
         $('.xedit').editable({
             mode: 'inline',
-            url: "{$baseurl}/admin_area/index.php?mode=update_todo",
+            url:baseurl+'/admin_area/index.php?mode=update_pharse',
             pk: function(){
                 var id = $(this).attr("id");
+                
                 id = id.match(/([0-9]+)$/g);
-                return id.pop();
+               return id.pop();
             },
         });
     });
@@ -86,6 +87,14 @@
 
 </script>
 <script>
+$(document).ready(function() {
+             $('.edit_lang').editable(baseurl+'/actions/update_phrase.php', {  alert('yu');
+            // cancel    : 'Cancel',
+            // submit    : 'OK',
+             indicator : '<img src="'+baseurl+'/images/icons/progIndicator.gif">',
+             tooltip   : 'Click to edit...',
+            });
+        });
     $(document).ready(function(){
         $(".drop").on({
             click: function(e){
