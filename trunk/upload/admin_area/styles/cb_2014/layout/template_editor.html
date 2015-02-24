@@ -28,10 +28,15 @@
             {/foreach}
         </ul>
         <h3>CSS Files</h3>
+        {if $sel_dir == 'cb_27'}
+        {$css_path = 'theme\css'}
+        {else}
+        {$css_path = 'theme'}
+        {/if}
         <ul class="nav nav-pills nav-stacked tabs horizontalTabs">
         {foreach from=$css_files item=cssfile}
             {if !is_array($cssfile)}
-                <li {if $smarty.get.file == $cssfile} class="sel_file"{/if}><a href="?dir={$sel_dir}&file={$cssfile}&folder=theme">{$cssfile}</a></li>
+                <li {if $smarty.get.file == $cssfile} class="sel_file"{/if}><a href="?dir={$sel_dir}&file={$cssfile}&folder={$css_path}">{$cssfile}</a></li>
             {/if}
         {/foreach}
         </ul>
@@ -40,7 +45,7 @@
         <form name="file_content" action="" method="post">
             <div class="form-group">
                 <label for="file_content"><h3>Edit Template</h3></label>
-                <textarea rows="30" class="form-control" name="thecontent" class="file_content" id="desc">
+                <textarea rows="30" class="form-control" name="thecontent" class="file_content" id="">
                     {if $content}{$content}{else}<em>No File Selected</em>{/if}
                 </textarea>
             </div>
@@ -60,8 +65,3 @@
         </form>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        $('#desc').summernote();
-    });
-</script>

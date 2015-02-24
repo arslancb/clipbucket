@@ -313,8 +313,11 @@ class CBTemplate {
 			}
 			break;
 			case "theme":
-			{
-				$style_dir = STYLES_DIR."/$template/theme/";
+			{	
+				if ($template == 'cb_27')
+					$style_dir = STYLES_DIR."/$template/theme/css/";
+				else 
+					$style_dir = STYLES_DIR."/$template/theme/";
 				$files_patt = $style_dir."*.css";
 				$files = glob($files_patt);
 				/**
