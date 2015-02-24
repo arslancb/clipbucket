@@ -961,6 +961,16 @@ class myquery {
     }
     /**
      *
+     * Function used to update phrased
+     */
+
+    function update_pharse($varname, $id){
+
+    	global $db;
+        $db->update(tbl('phrases'),array('text'),array($varname), "id = {$id}");	
+    }
+    /**
+     *
      * Function used to get todolist
      */
     function get_todos()
