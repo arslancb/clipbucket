@@ -134,6 +134,9 @@ if(!@$in_bg_cron)
 	}
 
 
+	require 'defined_links.php';
+
+
 	$pages 		= new pages();	
 	$ClipBucket = $Cbucket	= new ClipBucket();
 	
@@ -237,7 +240,6 @@ if(!@$in_bg_cron)
 //	$cbmenu		= new MenuHandler();
 
 	check_install('after');
-	require 'defined_links.php';
 	
 	@include("clipbucket.php");
 	$Cbucket->cbinfo = array("version"=>VERSION,"state"=>STATE,"rev"=>REV,"release_date"=>RELEASED);

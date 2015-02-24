@@ -284,6 +284,11 @@ abstract class CBCategory
 						
 			if($params['class'])
 				$class = $params['class'];
+
+
+			$class = form_val($class);
+			$add_class = form_val($add_class);
+			//$selected = form_val($selected);
 										
 			$html .= "<li class='cbCategoryItem ".$class.$selected.$add_class."'";
 			if($params['id'])
