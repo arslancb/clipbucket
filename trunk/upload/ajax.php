@@ -576,7 +576,7 @@ if(!empty($mode))
 				default:
 				{
 					$id = mysql_clean($_POST['obj_id']);
-					$comment = $_POST['comment'];
+					$comment = mysql_clean($_POST['comment']);
 					if($comment=='undefined')
 						$comment = '';
 					$reply_to = $_POST['reply_to'];

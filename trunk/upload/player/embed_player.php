@@ -46,6 +46,7 @@ if(!$vdetails)
 <title><?=$vdetails['title']?></title>
 <?php
 Template(STYLES_DIR.'/global/head.html',false);
+Template(STYLES_DIR.'/global/html5_player_header.html',false);
 ?>
 </head>
 
