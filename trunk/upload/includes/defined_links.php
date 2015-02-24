@@ -43,39 +43,4 @@ $cbLinks = array
 if(is_array($Cbucket->links))
 	$Cbucket->links  =  array_merge($Cbucket->links,$cbLinks);
 
-/**
- * Sortings
- */
-function sorting_links()
-{
-	if(!isset($_GET['sort']))
-		$_GET['sort'] = 'most_recent';
-	if(!isset($_GET['time']))
-		$_GET['time'] = 'all_time';
-
-	$array = array
-	('most_recent' 	=> lang('recent'),
-	 'most_viewed'	=> lang('viewed'),
-	 'featured'		=> lang('featured'),
-	 'top_rated'	=> lang('top_rated'),
-	 'most_commented'	=> lang('commented'),
-	 );
-	return $array;
-}
-
-function time_links()
-{
-	$array = array
-	('all_time' 	=> lang('alltime'),
-	 'today'		=> lang('today'),
-	 'yesterday'	=> lang('yesterday'),
-	 'this_week'	=> lang('thisweek'),
-	 'last_week'	=> lang('lastweek'),
-	 'this_month'	=> lang('thismonth'),
-	 'last_month'	=> lang('lastmonth'),
-	 'this_year'	=> lang('thisyear'),
-	 'last_year'	=> lang('lastyear'),
-	 );
-	return $array;
-}
 ?>

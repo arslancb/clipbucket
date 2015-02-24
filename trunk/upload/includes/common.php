@@ -134,7 +134,7 @@ if(!@$in_bg_cron)
 	}
 
 
-	require 'defined_links.php';
+	
 
 
 	$pages 		= new pages();	
@@ -205,7 +205,7 @@ if(!@$in_bg_cron)
 
 	//Adding Gravatar
 	require_once('classes/gravatar.class.php');
-
+	require 'defined_links.php';
 	require_once 'languages.php';
 	
 	$lang_obj->init();
