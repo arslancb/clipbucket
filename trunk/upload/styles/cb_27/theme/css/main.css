@@ -2225,10 +2225,15 @@ opacity: 1;
     float: none !important;
     margin: 0 0 0 -3px;
 }
+.bg-time, .bg-eye, .bg-videocam, .bg-photos, .bg-next, .bg-prev, .hover .plus, .arrow-drop, .upload-logo{
+    background: url(../../images/icons-sprite.png) no-repeat;
+}
+
+
 .bg-time{
     display: inline-block;
     vertical-align: middle;
-    background: url(../../images/icons-sprite.png) no-repeat -42px -64px;
+    background-position:-42px -64px; 
     width: 16px;
     height: 15px;
     margin: 0px;
@@ -2236,7 +2241,7 @@ opacity: 1;
     overflow: hidden;
 }
 .bg-eye{
-    background: url(../../images/icons-sprite.png) no-repeat -42px -88px;
+    background-position: -42px -88px; 
     width: 16px;
     height: 10px;
     display: inline-block;
@@ -2248,7 +2253,7 @@ opacity: 1;
     overflow: hidden;
 }
 .bg-videocam{
-    background: url(../../images/icons-sprite.png) no-repeat -42px -104px;
+    background-position:-42px -104px; 
     width: 16px;
     height: 10px;
     display: inline-block;
@@ -2260,7 +2265,7 @@ opacity: 1;
     overflow: hidden;
 }
 .bg-photos{
-    background: url(../../images/icons-sprite.png) no-repeat -42px -147px;
+    background-position: -42px -147px; 
     width: 16px;
     height: 13px;
     display: inline-block;
@@ -2273,7 +2278,6 @@ opacity: 1;
 }
 .bg-next,
 .bg-prev{
-    background: url(../../images/icons-sprite.png) no-repeat -45px -168px;
     width: 10px;
     height: 17px;
     display: inline-block;
@@ -2283,6 +2287,9 @@ opacity: 1;
     line-height: 0;
     text-indent: -9999px;
     overflow: hidden;
+}
+.bg-prev{
+    background-position:-45px -168px;
 }
 .bg-next{
     background-position: -45px -192px;
@@ -2414,7 +2421,7 @@ ul#myTab_home li:first-child + li {
 }
 
 .hover .plus{
-    background: url(../../images/icons-sprite.png) no-repeat -22px 0;
+    background-position:-22px 0; 
     width: 57px;
     height: 57px;
     position: absolute;
@@ -2452,7 +2459,7 @@ ul#myTab_home li:first-child + li {
     border-width: 1px 1px 1px 0 !important;
 }
 .arrow-drop{
-    background: url(../../images/icons-sprite.png) no-repeat -45px -128px;
+    background-position:-45px -128px; 
     width: 11px;
     height: 6px;
     display: inline-block;
@@ -2979,7 +2986,7 @@ padding-right: 0px;
     margin: 0 0 5px;
 }
 .upload-logo{
-    background: url(../../images/icons-sprite.png) no-repeat -4px -236px;
+    background-position:-4px -236px; 
     width: 92px;
     height: 64px;
     display: block;
@@ -3357,7 +3364,7 @@ padding-right: 0px;
     .bg-videocam,
     .bg-eye,
     .bg-time,
-    .ft-img .hover .plus{
+    .hover .plus{
         background-image:url('../../images/icons-sprite@2x.png') !important;
         background-size: 100px 150px !important;
     }
