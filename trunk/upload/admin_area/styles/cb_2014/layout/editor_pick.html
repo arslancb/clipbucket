@@ -18,7 +18,8 @@
         <tr>
             <td>
                 <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
-            <td>VID</td>
+          <!--   <td>Order</td> -->
+            <td>Order</td>
             <td>Videos Details</td>
             <td style="width: 200px">&nbsp;</td>
         </tr>
@@ -29,7 +30,7 @@
             <td>
                 <input name="check_video[]" type="checkbox" id="check_video" value="{$video.videoid}"/>
             </td>
-            <td>{$video.sort}</td>
+           <td><input name="ep_order_{$video.pick_id}" type="text" id="order" style="border:1px solid #999; padding:2px; width:30px" value="{$video.sort}" size="5" maxlength="5" /></td>
             <td>
                 <div class="row">
                     <div class="col-md-10">
