@@ -238,28 +238,27 @@
                 </div>
            
             <div class="widget-main">
+                <hr>
+                <table class="table table-stripped table-bordered">
+                    <tr>
+                        <td>
+                            <div class="stats_subitem_d">Total Videos : <strong>{get_videos|number_format count_only=yes}</strong> </div>
+                        </td>
+                        <td>
+                            <div class="stats_subitem_d">Total Groups : <strong>{get_groups count_only=yes}</strong> </div>
+                        </td>
+                        <td>
+                            <div class="stats_subitem_d">Total Collection : <strong>{get_collections count_only=yes}</strong> </div>
+                        </td>
+                        <td>
+                            <div class="stats_subitem_d">Total Users : <strong>{get_users count_only=yes}</strong> </div>
+                        </td>
+                        <td>
+                            <div class="stats_subitem_d">Total Photos: <strong>{get_photos count_only=yes}</strong> </div>
+                        </td>
+                </table>
 
-                                <hr>
-                                <table class="table table-stripped table-bordered">
-                                    <tr>
-                                        <td>
-                                            <div class="stats_subitem_d">Total Videos : <strong>{get_videos|number_format count_only=yes}</strong> </div>
-                                        </td>
-                                        <td>
-                                            <div class="stats_subitem_d">Total Groups : <strong>{get_groups count_only=yes}</strong> </div>
-                                        </td>
-                                        <td>
-                                            <div class="stats_subitem_d">Total Collection : <strong>{get_collections count_only=yes}</strong> </div>
-                                        </td>
-                                        <td>
-                                            <div class="stats_subitem_d">Total Users : <strong>{get_users count_only=yes}</strong> </div>
-                                        </td>
-                                        <td>
-                                            <div class="stats_subitem_d">Total Photos: <strong>{get_photos count_only=yes}</strong> </div>
-                                        </td>
-                                </table>
-
-                            </div>
+            </div>
 
  </div>
         </div>
@@ -290,7 +289,7 @@
 
              
         </div>
-        </div>
+    </div>
         <hr>
        <!--  <div class="tabbable tabs-left" > -->
         <div class=" col-md-8 todotab" >
@@ -320,7 +319,7 @@
                                 <div class="from-group col-md-10">
                                     <input type="text" name="addTodo" class="form-control">
                                 </div>
-                                <div class="from-group col-md-2 relative">
+                                <div class="from-group  relative">
                                     <div class="addTodoButton">
                                         <button id="addTodo" class="btn btn-primary btn-sm">Add</button>
                                     </div>
@@ -336,7 +335,7 @@
                                         <p class="oneTodo paddingLeftSmall col-md-10" id="{$note.todo_id}">
                                             {$note.todo}
                                         </p>
-                                        <a href="#" class="col-md-2 btn btn-danger btn-xs delete">Delete</a>
+                                        <a href="#" class="btn btn-danger btn-xs delete">Delete</a>
                                     </div>
                                 </li>
                             {/foreach}
@@ -429,387 +428,8 @@
         </div>
     </div>
 </div>
-<!-- <div class="row">
-    <div class="col-md-6">
-        <div class="tabbable">
-            <ul class="nav nav-tabs" id="myTab">
-                <li class="active">
-                    <a data-toggle="tab" href="#wactivity">
-                        <h5>Statistics</h5>
-                    </a>
-                </li>
-                <li class="">
-                    <a data-toggle="tab" href="#nusers">
-                        <h5>New Users</h5>
-                    </a>
-                </li>
-                <li class="">
-                    <a data-toggle="tab" href="#mvideos">
-                        <h5>Most Viewed Videos</h5>
-                    </a>
-                </li>
-                <li class="">
-                    <a data-toggle="tab" href="#fobjects">
-                        <h5>Flagged Objects</h5>
-                    </a>
-                </li>
-
-            </ul>
-            <div class="tab-content">
-                <div id="wactivity" class="tab-pane active">
-                    <div class="widget-box">
-                        <div class="widget-header">
-                            <h5><i class="glyphicon glyphicon-stats"></i>Site Stats</h5>
-                            <div class="widget-toolbar">
-                                <a href="#" data-action="collapse">
-                                    <i class="icon-chevron-down"></i>
-                                </a>
-                                <a href="#" data-action="close">
-                                    <i class="icon-remove"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="widget-body">
-                            <div class="tabbable tabs-left">
-                                <ul class="nav nav-tabs" id="myTab">
-                                    <li class="active">
-                                        <a data-toggle="tab" href="#tweek">
-                                            This Week
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a data-toggle="tab" href="#tmonth">
-                                            This Month
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a data-toggle="tab" href="#today">
-                                            Today
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div id="tweek" class="tab-pane active">
-                                        <div id="weekly_chart_id" class="flot_chart1"><img class="loading-image" src="./styles/cb_2014/images/ajax-loader.gif"/></div>
-                                    </div>
-                                    <div id="tmonth" class="tab-pane">
-                                        <div id="monthly_chart_id"  class="flot_chart1"><img class="loading-image" src="./styles/cb_2014/images/ajax-loader.gif"/></div>
-                                    </div>
-                                    <div id="today" class="tab-pane">
-                                        <div id="daily_chart_id" class="flot_chart1">
-                                            <img class="loading-image" src="./styles/cb_2014/images/ajax-loader.gif"/></div>
-                                    </div>
 
 
-                                </div>
-                            </div>
-
-                            <div class="widget-main">
-
-                                <hr>
-                                <table class="table table-stripped table-bordered">
-                                    <tr>
-                                        <td>
-                                            <div class="stats_subitem_d">Total Videos : <strong>{get_videos|number_format count_only=yes}</strong> </div>
-                                        </td>
-                                        <td>
-                                            <div class="stats_subitem_d">Total Groups : <strong>{get_groups count_only=yes}</strong> </div>
-                                        </td>
-                                        <td>
-                                            <div class="stats_subitem_d">Total Collection : <strong>{get_collections count_only=yes}</strong> </div>
-                                        </td>
-                                        <td>
-                                            <div class="stats_subitem_d">Total Users : <strong>{get_users count_only=yes}</strong> </div>
-                                        </td>
-                                        <td>
-                                            <div class="stats_subitem_d">Total Photos: <strong>{get_photos count_only=yes}</strong> </div>
-                                        </td>
-                                </table>
-
-                            </div>
-                       </div>
-                    </div>
-                </div>
-                <div id="nusers" class="tab-pane">
-                    <div class="widget-box">
-                        <div class="widget-header">
-                            <h5><i class="glyphicon glyphicon-user"></i>New Users</h5>
-                            <div class="widget-toolbar">
-                                <a href="#" data-action="collapse">
-                                    <i class="icon-chevron-down"></i>
-                                </a>
-                                <a href="#" data-action="close">
-                                    <i class="icon-remove"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="widget-body">
-                            <div class="tabbable tabs-left">
-                                <ul class="nav nav-tabs" id="myTab">
-                                    <li class="active">
-                                        <a data-toggle="tab" href="#tuweek">
-                                            This Week
-
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a data-toggle="tab" href="#tumonth">
-
-                                            This Month
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a data-toggle="tab" href="#utoday">
-
-                                            Today
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div id="tuweek" class="tab-pane active">
-                                        <div id="users_weekly_chart_id" class="flot_chart1"><img class="loading-image" src="./styles/cb_2014/images/ajax-loader.gif"/></div>
-                                    </div>
-                                    <div id="tumonth" class="tab-pane">
-                                        <div id="users_monthly_chart_id"  class="flot_chart1"><img class="loading-image" src="./styles/cb_2014/images/ajax-loader.gif"/></div>
-                                    </div>
-                                    <div id="utoday" class="tab-pane">
-                                        <div id="daily_users_chart_id" class="flot_chart1"><img class="loading-image" src="./styles/cb_2014/images/ajax-loader.gif"/></div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                            <div class="widget-main">
-                                {if $users}
-                                {foreach from=$users item=u}
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row marginBottom">
-                                            <div class="col-md-2">
-                                                <a href="view_user.php?uid={$u.userid}"> <img src="{$userquery->getUserThumb($u,'small')}" class="img-thumbnail oneUserImage" />
-                                                </a>
-                                            </div>
-                                            <div class="col-md-10">
-                                                <a href="view_user.php?uid={$u.userid}" target="_blank">{$u.username}        </a>({$u.email})
-                                                <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle pull-right" data-toggle="dropdown">
-                                                    <i class="glyphicon glyphicon-cog"></i><i class="icon-angle-down icon-on-right"></i>
-                                                </button>
-                                                <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
-                                                    {if $u.ban_status == yes}
-                                                    <li><a role="menuitem" tabindex="-1" href="?unban={$u.userid}">Unban Member</a></li>
-                                                    {/if}
-                                                    {if $u.ban_status == no}
-                                                    <li><a role="menuitem" tabindex="-1" href="?ban={$u.userid}">Ban Member</a></li>
-                                                    {/if}
-                                                    <li><a role="menuitem" tabindex="-1" href="view_user.php?uid={$u.userid}">Edit</a></li>
-                                                    <li><a role="menuitem" tabindex="-1" href="members.php?deleteuser={$u.userid}">Delete</a></li>
-                                                </ul>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/foreach}
-                                {/if}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="mvideos" class="tab-pane">
-                    <div class="widget-box">
-                        <div class="widget-header">
-                            <h5><i class="glyphicon glyphicon-eye-open"></i>Most Viewed Videos & Stats</h5>
-                            <div class="widget-toolbar">
-                                <a href="#" data-action="collapse">
-                                    <i class="icon-chevron-down"></i>
-                                </a>
-                                <a href="#" data-action="close">
-                                    <i class="icon-remove"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="widget-body">
-                            <div class="tabbable tabs-left">
-                                <ul class="nav nav-tabs" id="myTab">
-                                    <li class="active">
-                                        <a data-toggle="tab" href="#tvweek">
-                                            This Week
-
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a data-toggle="tab" href="#tvmonth">
-
-                                            This Month
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a data-toggle="tab" href="#vtoday">
-
-                                            Today
-                                        </a>
-                                    </li>
-                                    </li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div id="tvweek" class="tab-pane active">
-                                        <div id="videos_weekly_chart_id" class="flot_chart1"><img class="loading-image" src="./styles/cb_2014/images/ajax-loader.gif"/></div>
-                                    </div>
-                                    <div id="tvmonth" class="tab-pane">
-                                        <div id="videos_monthly_chart_id"  class="flot_chart1"><img class="loading-image" src="./styles/cb_2014/images/ajax-loader.gif"/></div>
-                                    </div>
-                                    <div id="vtoday" class="tab-pane">
-                                        <div id="videos_daily_chart_id" class="flot_chart1"><img class="loading-image" src="./styles/cb_2014/images/ajax-loader.gif"/></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="widget-main">
-                                {if $videos}
-                                {foreach from=$videos item=video}
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <img src="{getThumb vdetails=$video}" height="80" class="img-thumbnail" id="thumbs_{$video.videoid}" title="{$video.title}"/>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <a href="{$baseurl}/watch_video.php?v={$video.videokey}"target="_blank">
-                                            {$video.title|truncate:45} </a>
-                                        <strong class="btn btn-primary btn-xs pull-right"> {lang code='views'} : {$video.views|format_number}</strong>
-                                    </div>
-                                </div>
-                                <hr>
-                                {/foreach}
-                                {/if}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="fobjects" class="tab-pane">
-                    <div class="widget-box">
-                        <div class="widget-header">
-                            <h5><i class="glyphicon glyphicon-flag"></i>Flagged Objects</h5>
-                            <div class="widget-toolbar">
-                                <a href="#" data-action="collapse">
-                                    <i class="icon-chevron-down"></i>
-                                </a>
-
-                                <a href="#" data-action="close">
-                                    <i class="icon-remove"></i>
-                                </a>
-                            </div>
-
-                            <div class="widget-toolbar no-border">
-                            </div>
-                        </div>
-
-                        <div class="widget-body">
-
-                            <div class="tabbable tabs-left">
-                                <ul class="nav nav-tabs" id="myTab">
-                                    <li class="active">
-                                        <a data-toggle="tab" href="#fvideos">Videos</a>
-                                    </li>
-
-                                    <li class="photos">
-                                        <a data-toggle="tab" href="#fphotos">Photos</a>
-                                    </li>
-
-                                    <li class="users">
-                                        <a data-toggle="tab" href="#fusers">Users</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div id="fvideos" class="tab-pane active" style=" margin-top: -31px;">
-                                        {section name=list loop=$flaggedVideos}
-                                        <div class="row">
-                                            <br>
-                                            <div class="col-md-3">
-                                                <img src="{getThumb vdetails=$flaggedVideos[list]}" width="85" height="70" id="thumbs_{$flaggedVideos[list].videoid}" title=""/>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {$flaggedVideos[list].title|truncate:50}
-                                            </div>
-                                            <div class="col-md-2">
-                                                <strong class="btn btn-primary btn-xs pull-right"> Flags:{$flaggedVideos[list].total_flags}</strong>
-                                            </div>
-                                            <div class="col-md-7">
-                                                <label class="label label-danger">Uploaded  {$flaggedVideos[list].date_added|niceTime}</label>
-                                                <label class="label label-default"> {lang code='views'} : {$flaggedVideos[list].views|number_format}</label>
-
-                                            </div>
-                                        </div>
-                                        {/section}
-                                    </div>
-                                    <div id="fphotos" class="tab-pane" style=" margin-top: -31px;">
-                                        {section name=list loop=$flaggedPhotos}
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <img src="{get_photo details=$flaggedPhotos[list]}" width="85" height="70" id="thumbs_{$flaggedPhotos[list].photoid}" title=""/>
-                                            </div>
-                                            <div class="col-md-6">
-                                                {$flaggedPhotos[list].photo_title}
-                                            </div>
-                                            <div class="col-md-2">
-                                                <strong class="btn btn-primary btn-xs pull-right"> Flags:{$flaggedPhotos[list].total_flags}</strong>
-                                            </div>
-                                            <div class="col-md-7">
-                                                <label class="label label-danger">Uploaded  {$flaggedPhotos[list].date_added|niceTime}</label>
-                                                <label class="label label-default"> {lang code='views'} : {$flaggedPhotos[list].views|number_format}</label>
-
-                                            </div>
-                                        </div>
-                                        {/section}
-                                    </div>
-
-                                    <div id="fusers" class="tab-pane">
-                                        {foreach from=$flaggedUsers item=u}
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <a href="view_user.php?uid={$u.userid}"> <img src="{$userquery->getUserThumb($u,'small')}" class="oneUserImage" width="85" />
-                                                </a>
-                                            </div>
-                                            <div class="col-md-6">
-                                                ({$u.email}) {$u.username}
-                                            </div>
-
-                                            <div class="col-md-7">
-                                                <label class="label label-danger">Last Active  {$u.last_active|niceTime}</label>
-                                                <label class="label label-primary"> {lang code='Flags'} : {$u.flag_type}</label>
-
-                                            </div>
-                                        </div>
-                                        {/foreach}
-                                    </div>
-                                </div>
-                            </div>
-                            /widget-main
-                        </div>/widget-body
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
- -->
-
-<!--
-<div class="well" style="margin-top: 14px">
-    <h3>WE ARE GOING TO SHOW THEM WHO WE ARE</h3>
-    <p>ClipBucket is  developed by <strong><a href="http://arslanhassan.com">Arslan Hassan</a></strong> and <strong><a href="http://clip-bucket.com/fawaz-tahir">Fawaz Tahir</a></strong>, we started with a small website application with only functionality of serving videos to the community later on we decided to add every possible social networking feature to make social communities more interactive. We didn't have any milestones, no road map, no charts, no nothing. Only thing we had was a vision as of our captain <strong><a href="http://clip-bucket.com/jahanzeb-hassan">Jahanzeb Hassan</a></strong> and plenty of hard work. </p>
-    <p>We also have two more members named <a href="http://clip-bucket.com/ruman-malik">Ruman Malik</a> and <a href="http://clip-bucket.com/zomail-tahir">Zomail Tahir</a> who manage sales and support department.</p>
-    <p><strong>ClipBucket team gives special thanks to</strong><br />
-        <br />
-        * Frank White for helping us knowing the basics of professional application development<br />
-        * Christian Russemen for keep our community active<br />
-        * BigStack for his great forum support
-        <br />
-        * You for using ClipBucket.</p>
-    <h3>Where in the world we belong to?</h3>
-    <p>We belong to <a href="http://clip-bucket.com/pakistan">Islamic Republic of Pakistan</a> :) you may have seen many negative news about Pakistan on television but there are still <a href="http://clip-bucket.com/pakistan#the_truth">some facts</a> you should know about. Its a great country for us and we will always love it.<br />
-        <strong>Pakistan Zindabad </strong></p>
-</div>
--->
 
 
 
@@ -818,7 +438,7 @@
     <h3>WHO WE ARE</h3>
     <p style="text-align:left;"><strong><a href="http://clip-bucket.com/" target="self">ClipBucket</a></strong> would not been possible without its team hardwork and determination for the betterment of the products quality and its services. We are proud that over _____ users are using worlds most popular open source video,audio and photo sharing script named
     <strong>ClipBucket</strong>. We are team who is  determined to deliver the best  features to the open source community.
-</p>
+    </p>
 
 
     <p style="text-align:left;margin-top:20px; "><strong>Clipbucket</strong> was made in the year 2006 with the idea to bring a better platform for organizations and companies interested in launching their own video,audio or photo sharing website. In every version our mission and goal is to simplify the technology by adopting new technological methods and techniques to cut down several frontend and backend issues faced. The idea is to give the user a chance to explore more with the flexibility of our product.
@@ -832,29 +452,19 @@
  <p style="text-align:left;padding-bottom:20px;">However the team behind ClipBucket always kept their heads and nerves, though they faced many difficulties and problems in meeting the requirements. But team’s coordination and their creative techniques of solving issues and overcoming them with the best possible solution helped us in presenting  Pakistan on international platform in the field of technology by bringing “Clip Bucket” A complete open source multimedia management script.
 </p>
 
-
-
-
 <div class="to_display">
-<p>Founders <strong><a href="http://www.linkedin.com/profile/view?id=273050157" target="blank">Jahanzeb Hassan</a></strong> and <strong><a href="http://www.linkedin.com/profile/view?id=37419812" target="blank">Arslan Hassan</a></strong></p>
+    <p>Founders <strong><a href="http://www.linkedin.com/profile/view?id=273050157" target="blank">Jahanzeb Hassan</a></strong> and <strong><a href="http://www.linkedin.com/profile/view?id=37419812" target="blank">Arslan Hassan</a></strong></p>
 
- <strong><a href="http://www.linkedin.com/profile/view?id=324544384" target="self">Fawaz Tahir</a></strong> - Web Application Team Lead<br>
- <strong><a href="http://www.linkedin.com/profile/view?id=78646794" target="self">Ruman Malik</a></strong> - Project Manager<br>
- <strong><a href="http://www.linkedin.com/profile/view?id=325944697" target="self">Muneeb</a></strong> - Mobile Application Team Lead<br>
- <strong><a href="http://www.linkedin.com/profile/view?id=324542682" target="self">Zomail</a></strong> - Sales and Support<br>
- <strong><a href="http://www.linkedin.com/profile/view?id=324542554" target="self">Shahzaib</a></strong> - Network Engineer<br>
- <strong><a href="http://www.linkedin.com/profile/view?id=324542025" target="self">Zunair</a></strong> - SEO and Publishing Manager<br>
-<br>
- <h5><strong>We are from Pakistan with high heads and soft hearts</strong></h5>
+     <strong><a href="http://www.linkedin.com/profile/view?id=324544384" target="self">Fawaz Tahir</a></strong> - Web Application Team Lead<br>
+     <strong><a href="http://www.linkedin.com/profile/view?id=78646794" target="self">Ruman Malik</a></strong> - Project Manager<br>
+     <strong><a href="http://www.linkedin.com/profile/view?id=325944697" target="self">Muneeb</a></strong> - Mobile Application Team Lead<br>
+     <strong><a href="http://www.linkedin.com/profile/view?id=324542682" target="self">Zomail</a></strong> - Sales and Support<br>
+     <strong><a href="http://www.linkedin.com/profile/view?id=324542554" target="self">Shahzaib</a></strong> - Network Engineer<br>
+     <strong><a href="http://www.linkedin.com/profile/view?id=324542025" target="self">Zunair</a></strong> - SEO and Publishing Manager<br>
+    <br>
+     <h5><strong>We are from Pakistan with high heads and soft hearts</strong></h5>
 
-<p style="padding-bottom:20px;">Pakistan is always been in the news for the bad reasons and has been criticized by the rest of the world,even then the people of Pakistan are patriotic and stand united for the goodwill of their country.no matter how worst the situation gets the youth is eager enough to bring out the best in all the fields like media,communication, IT and science. IT industry is fast growing with a large potential and is regarded as a successful sector even in country’s worst financial crisis. as the IT industry in Pakistan is growing like wise the demand for the softwares and programmes has taken up a rapid growth. ClipBucket is one of the fastest and the most used media sharing script with all the latest features and enhancements in the social media. We as Pakistani feel proud on creating this product which will lead our country to the highest levels in the international market.</p>
-
-
-
-
-
-
-
+    <p style="padding-bottom:20px;">Pakistan is always been in the news for the bad reasons and has been criticized by the rest of the world,even then the people of Pakistan are patriotic and stand united for the goodwill of their country.no matter how worst the situation gets the youth is eager enough to bring out the best in all the fields like media,communication, IT and science. IT industry is fast growing with a large potential and is regarded as a successful sector even in country’s worst financial crisis. as the IT industry in Pakistan is growing like wise the demand for the softwares and programmes has taken up a rapid growth. ClipBucket is one of the fastest and the most used media sharing script with all the latest features and enhancements in the social media. We as Pakistani feel proud on creating this product which will lead our country to the highest levels in the international market.</p>
 </div>
 
 <p><button id="addTodo" class="btn btn-primary btn-sm clip_read clip_hide" style="float:right;margin-right:10px;margin-top:-30px;">Read More</button></p>

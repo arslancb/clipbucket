@@ -1,34 +1,12 @@
 <!doctype html>
 <html lang="en">
-<head>
-	{include file="$layout_dir/global_header.html" }
-</head>
-<body>
-
-	{*
-	<div class="navbar navbar-default" id="navbar">
-		<div id="navbar-container" class="navbar-container container">
-			navbar
-		</div>
-	</div>
-
-	<div class="main-container container" id="main-container">
-		<div class="main-container-inner">
-			<div id="sidebar" class="sidebar">
-				sidebar
-			</div>
-			<div class="page-content">
-				abc
-			</div>
-		</div>
-	</div>
-	*}
-	
-	{include file="$layout_dir/header.html"}
-
+	<head>
+		{include file="$layout_dir/global_header.html" }
+	</head>
+	<body>	
+		{include file="$layout_dir/header.html"}
 		<div class="main-container container" id="main-container">
-
-            <div class="main-container-inner">
+	        <div class="main-container-inner">
 				<div class="sidebar" id="sidebar">
 					{include file="$layout_dir/left_menu.html"}
 				</div>
@@ -53,12 +31,12 @@
 						</div><!-- #nav-search -->
 					</div>
 					<div class="page-content">
-                        {include file="$style_dir/msg.html" }
+	                    {include file="$style_dir/msg.html" }
 						<!-- Setting Body File -->
 						{if $Cbucket->show_page}
-                            {foreach from=$template_files item=file}
-                                {include_template_file file=$file}
-                            {/foreach}
+	                        {foreach from=$template_files item=file}
+	                            {include_template_file file=$file}
+	                        {/foreach}
 						{/if}
 						<!-- Setting Body File -->
 					</div>
@@ -66,7 +44,5 @@
 			</div>
 			{include file="$layout_dir/footer.html" }
 		</div>
-
-		
-</body>
+	</body>
 </html>
