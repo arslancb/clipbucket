@@ -12,9 +12,9 @@ define("PARENT_PAGE",'collections');
 
 require 'includes/config.inc.php';
 
-$item = $_GET['item'];	
-$type = $_GET['type'];
-$cid  = $_GET['collection'];
+$item = (string) mysql_clean($_GET['item']);	
+$type = (string) mysql_clean($_GET['type']);
+$cid  = (int) mysql_clean($_GET['collection']);
 $order = tbl("collection_items").".ci_id DESC";
 
 if($cbcollection->is_viewable($cid))
