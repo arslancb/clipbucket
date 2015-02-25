@@ -406,26 +406,17 @@ $('#largescr').insertAfter("#fs");
 
 //Large screen function
 $(".largescr").click(function() {
-	
- $(this).toggleClass('smallscr');
-
-
-if(!$(this).hasClass('smallscr')) {
-			$(".cont").animate({height:'+=220px',width:'+=390px'},"fast");
-            $(".player").animate({width:'+=390px'},"fast");
-			$('.watch-vid-title,.watch-vid-rating-view').css({'margin-top':+250});
-			//$('.video_files').css({'margin-bottom':'3.5%'});
-
-			 
-		}
-		
-		    else{
-			$(".cont").animate({height:'-=220px',width:'-=390px'},"fast");
-		    $(".player").animate({width:'-=390px'},"fast");
-		    $('.watch-vid-title,.watch-vid-rating-view').css({'margin-top':'0px'});
-		    //$('.video_files').css({'margin-bottom':'5.5%'});
-			
-		}
+	$(this).toggleClass('smallscr');
+	if(!$(this).hasClass('smallscr')) 
+	{
+		$(".cb_player").animate({height:'+=220px',width:'+=390px'},"fast");
+		$('.html5_player_enlarge').addClass('col-lg-12').removeClass('col-lg-8');
+	}
+	else
+	{
+		$(".cb_player").animate({height:'-=220px',width:'-=390px'},"fast");
+		$('.html5_player_enlarge').removeClass('col-lg-12').addClass('col-lg-8');
+	}
 });
 
 
