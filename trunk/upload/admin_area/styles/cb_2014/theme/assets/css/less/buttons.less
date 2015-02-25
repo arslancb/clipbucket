@@ -1,4 +1,6 @@
 /** buttons */
+
+@border-radius:2px;
 .btn {
  display:inline-block;
 
@@ -7,7 +9,7 @@
 
  background-image:none !important;
  border:5px solid #FFF;
- border-radius:0;
+ border-radius:@border-radius;
  box-shadow:none !important;
 
  .transition(~"all ease .15s");
@@ -315,7 +317,7 @@ button.btn:active  {
 		margin:0 1px 0 0;
 	  }
 	  &:first-child , &:last-child {
-		border-radius:0;
+		border-radius:@border-radius;
 	  }
 	  
 	  /* caret inside buttons */
@@ -355,7 +357,7 @@ button.btn:active  {
 
   }
   .dropdown-toggle {
-	border-radius:0;
+	border-radius:@border-radius;
   }
 
 
@@ -390,7 +392,7 @@ button.btn:active  {
 }
 
 .btn-group > .btn {
-  border-radius:0 !important;
+  border-radius:@border-radius !important;
 }
 .btn-group-vertical > .btn , .btn-group-vertical > .btn + .btn {
  margin:1px 0 0;

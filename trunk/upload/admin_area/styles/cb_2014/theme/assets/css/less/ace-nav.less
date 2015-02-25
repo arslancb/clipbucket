@@ -17,12 +17,14 @@
 	  min-height:@navbar-mh;
 	  position:relative;
 
-	  background:@navbar-bg;
+	  .gradient(#eee, #eee, #FFF);
  // }
 
   > .container {
 	padding-left:0;
 	padding-right:0;
+
+	 border-bottom : 1px solid #CCC;
   }
 
   .navbar-text, .navbar-link {
@@ -81,7 +83,7 @@
 	line-height:@navbar-mh;
 	height:@navbar-mh;
 
-	border-left:1px solid #DDD;
+	border:0px;
 	padding:0;
 
 	position:relative;
@@ -92,8 +94,12 @@
 	}
 	
 	> a {
-		background-color: @ace-nav-default;
-		color: #FFF;
+		.gradient(#fff,#fff,#eee);
+		//box-shadow: inset 0px 0px 6px rgba(0,0,0,0.1);
+		color: #222;
+
+
+	    border-left: 1px solid #ccc;
 
 		display: block;
 		line-height: inherit;
@@ -108,7 +114,7 @@
 
 		> [class*="icon-"] {
 			font-size: 16px;
-			color: #FFF;
+			color: #222;
 			display: inline-block;
 			width: 20px;
 			text-align: center;
