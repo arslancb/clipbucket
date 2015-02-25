@@ -7,7 +7,7 @@
     <div class="cb-box clearfix row">
         {*include file="$style_dir/blocks/manage/left_side_bar.html"*}
         <!-- Listing Categories -->
-        <div class="display-hidden">
+        <div class="hidden-xs">
         {include file="$style_dir/blocks/category_list.html" type='video'}    
         </div>
         
@@ -189,33 +189,7 @@
                         <ul role="menu" class="dropdown-menu">
                         {$cbvid->cbCategories(["type"=>$type,"echo"=>"TRUE","output"=>"list","with_all"=>"TRUE"]) }
                         </ul>
-                    </div>
-
- 
-                    <!-- multilevel dropdown menu -->
-                    <div class="dropdown pull-left resp-full-wdth480 hidden-xs">
-                        <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-default" data-target="#" href="/page.html">
-                            Dropdown <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                            <li><a href="#">Pahla action</a></li>
-                            <li><a href="#">Dosera action</a></li>
-                            <li class="divider"></li>
-                            <li class="dropdown-submenu">
-                                <a tabindex="-1" href="#">Hover kro</a>
-                                <ul class="dropdown-menu">
-                                    <li><a tabindex="-1" href="#">Second level</a></li>
-                                    <li><a href="#">Second level</a></li>
-                                    <li><a href="#">Second level</a></li>
-                                </ul>
-                          </li>
-                        </ul>
-                    </div>
-
-
-
-                    
-                    
+                    </div>                    
                 </div>
             </div>
 
