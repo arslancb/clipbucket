@@ -916,11 +916,38 @@ class CBPhotos
 			echo "No Array Provided";	
 		}
 	}
-	
+
+	/**
+	 * Used to crop the image using imagemagic class
+	 * Image will be crop to dead-center
+	 */
+	function image_magic($image,$file,$width,$height){
+		
+		$thumb = new Imagick();
+		$thumb->readImage($image);    
+		$can = $thumb->resizeImage($width,$height,Imagick::FILTER_LANCZOS,1);
+		$can = $thumb->writeImage($file);
+	}
+
+	/**
+	 * Used to crop the image using imagemagic class
+	 * Image will be crop to dead-center
+	 */
+	function image_magick_watermark($input,$watermark_file,$ww,$wh){
+		$image = new Imagick();
+		$image->readImage($input);
+		$watermark = new Imagick();
+		$watermark->readImage($watermark_file);
+		$image->compositeImage($watermark, imagick::COMPOSITE_OVER, 0, 0);
+		$image->resizeImage($ww,$wh,Imagick::FILTER_LANCZOS,1);
+		$image->writeImage($input);
+	 }
+
 	/**
 	 * Used to crop the image
 	 * Image will be crop to dead-center
 	 */
+
 	function crop_image($input,$output,$ext,$width,$height)
 	{
 		$info = getimagesize($input);
@@ -950,6 +977,8 @@ class CBPhotos
 				$image = imagecreatefrompng($input);
 				imagecopy($canvas, $image, 0, 0, $left_padding, $top_padding, $width, $height);
 				imagepng($canvas,$output,9);
+
+				
 			}
 			break;
 			
@@ -1065,69 +1094,142 @@ class CBPhotos
 	 */
 	function createThumb($from,$to,$ext,$d_width=NULL,$d_height=NULL,$force_copy=false)
 	{
-		$file = $from;
-		$info = getimagesize($file);
-		$org_width = $info[0];
-		$org_height = $info[1];
-		
-		if($org_width > $d_width && !empty($d_width))
+
+
+		if( class_exists("Imagick") )
 		{
-			$ratio = $org_width / $d_width; // We will resize it according to Width
-			
-			$width = $org_width / $ratio;
-			$height = $org_height / $ratio;
-			
-			$image_r = imagecreatetruecolor($width, $height);
-			if(!empty($d_height) && $height > $d_height && $this->cropping == 1)
+    		$file = $from;
+			$info = getimagesize($file);
+			$org_width = $info[0];
+			$org_height = $info[1];
+			if($org_width > $d_width && !empty($d_width))
 			{
-				$crop_image = TRUE;
-			}
-			
-			switch($ext)
-			{
-				case "jpeg":
-				case "jpg":
-				case "JPG":
-				case "JPEG":
+				$ratio = $org_width / $d_width; // We will resize it according to Width
+				
+				$width = $org_width / $ratio;
+				$height = $org_height / $ratio;
+
+				$image_r = imagecreatetruecolor($width, $height);
+				if(!empty($d_height) && $height > $d_height && $this->cropping == 1)
 				{
-					$image = imagecreatefromjpeg($file);
-					imagecopyresampled($image_r, $image, 0, 0, 0, 0, $width, $height, $org_width, $org_height);
-					imagejpeg($image_r, $to, 90);
+					$crop_image = TRUE;
+				}
+				
+				switch($ext)
+				{
+					case "jpeg":
+					case "jpg":
+					case "JPG":
+					case "JPEG":
+					{
+						// $image = imagecreatefromjpeg($file);
+						// imagecopyresampled($image_r, $image, 0, 0, 0, 0, $width, $height, $org_width, $org_height);
+						// imagejpeg($image_r, $to, 90);
+							
+						$this->image_magic($image,$file,$width,$height);
+
+					}
+					break;
 					
-					if(!empty($crop_image))
-						$this->crop_image($to,$to,$ext,$width,$d_height);	
+					case "png":
+					case "PNG":
+					{
+						$image = ($file);
+						$this->image_magic($image,$file,$width,$height);
+						
+						 
+
+					}
+					break;
+					
+					case "gif":
+					case "GIF":
+					{
+						$image = imagecreatefromgif($file);
+						imagecopyresampled($image_r, $image, 0, 0, 0, 0, $width, $height, $org_width, $org_height);
+						imagegif($image_r,$to,90);
+						$this->image_magic($image,$file,$width,$height);
+						
+					}
+					break;
 				}
-				break;
-				
-				case "png":
-				case "PNG":
-				{
-					$image = imagecreatefrompng($file);
-					imagecopyresampled($image_r, $image, 0, 0, 0, 0, $width, $height, $org_width, $org_height);
-					imagepng($image_r,$to,9);
-					if(!empty($crop_image))
-						$this->crop_image($to,$to,$ext,$width,$d_height);	
-				}
-				break;
-				
-				case "gif":
-				case "GIF":
-				{
-					$image = imagecreatefromgif($file);
-					imagecopyresampled($image_r, $image, 0, 0, 0, 0, $width, $height, $org_width, $org_height);
-					imagegif($image_r,$to,90);
-					if(!empty($crop_image))
-						$this->crop_image($to,$to,$ext,$width,$d_height);
-				}
-				break;
+				imagedestroy($image_r);
+			} else {
+				if(!file_exists($to) || $force_copy === true)
+					if(!is_dir($from)){
+						copy($from,$to);
+					}
 			}
-			imagedestroy($image_r);
-		} else {
-			if(!file_exists($to) || $force_copy === true)
-				if(!is_dir($from)){
-					copy($from,$to);
+
+
+
+		}else{
+			$file = $from;
+			$info = getimagesize($file);
+			$org_width = $info[0];
+			$org_height = $info[1];
+			
+			if($org_width > $d_width && !empty($d_width))
+			{
+				$ratio = $org_width / $d_width; // We will resize it according to Width
+				
+				$width = $org_width / $ratio;
+				$height = $org_height / $ratio;
+				
+				$image_r = imagecreatetruecolor($width, $height);
+				if(!empty($d_height) && $height > $d_height && $this->cropping == 1)
+				{
+					$crop_image = TRUE;
 				}
-		}
+				
+				switch($ext)
+				{
+					case "jpeg":
+					case "jpg":
+					case "JPG":
+					case "JPEG":
+					{
+						$image = imagecreatefromjpeg($file);
+						imagecopyresampled($image_r, $image, 0, 0, 0, 0, $width, $height, $org_width, $org_height);
+						imagejpeg($image_r, $to, 90);
+						
+						if(!empty($crop_image))
+							$this->crop_image($to,$to,$ext,$width,$d_height);	
+					}
+					break;
+					
+					case "png":
+					case "PNG":
+					{
+						$image = imagecreatefrompng($file);
+						imagecopyresampled($image_r, $image, 0, 0, 0, 0, $width, $height, $org_width, $org_height);
+						imagepng($image_r,$to,9);
+						if(!empty($crop_image))
+							$this->crop_image($to,$to,$ext,$width,$d_height);	
+					}
+					break;
+					
+					case "gif":
+					case "GIF":
+					{
+						$image = imagecreatefromgif($file);
+						imagecopyresampled($image_r, $image, 0, 0, 0, 0, $width, $height, $org_width, $org_height);
+						imagegif($image_r,$to,90);
+						if(!empty($crop_image))
+							$this->crop_image($to,$to,$ext,$width,$d_height);
+					}
+					break;
+				}
+				imagedestroy($image_r);
+			} else {
+				if(!file_exists($to) || $force_copy === true)
+					if(!is_dir($from)){
+						copy($from,$to);
+					}
+			}
+
+		} //end of else 
+		
 	}
 	
 	/**
@@ -1210,7 +1312,7 @@ class CBPhotos
 	 */
 	function watermark_image($input,$output)
 	{
-		$watermark_file = $this->watermark_file();
+		 $watermark_file = $this->watermark_file();
 		if(!$watermark_file)
 			return false;
 		else
@@ -1241,9 +1343,15 @@ class CBPhotos
 				
 				case 3: //PNG
 				{
-					$sImage = imagecreatefrompng($input);
-					imagecopy($sImage,$wImage,$paddings[0],$paddings[1],0,0,$ww,$wh);
-					imagepng($sImage,$output,9);
+				  if( class_exists("Imagick") ){
+				  	 $this->image_magick_watermark($input,$watermark_file,$wImage,$wImage);
+				  	}else{
+				  		$sImage = imagecreatefrompng($input);
+						imagecopy($sImage,$wImage,$paddings[0],$paddings[1],0,0,$ww,$wh);
+						imagepng($sImage,$input,9);
+				  	}
+					
+							
 				}
 				break;
 			}
