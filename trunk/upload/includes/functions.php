@@ -5104,6 +5104,17 @@
 		return $array;
 	}
 
+	/**
+	 * Get language locale
+	 *
+	 * @return String
+	 */
+	function get_locale()
+	{
+		global $lang_obj;
+		return $lang_obj->lang_iso;
+	}
+
         include( 'functions_db.php' );
         include( 'functions_filter.php' );
         include( 'functions_player.php' );
