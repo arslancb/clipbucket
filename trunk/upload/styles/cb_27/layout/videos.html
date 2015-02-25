@@ -19,23 +19,23 @@
                 <h4 class="smaller lighter pull-left">{lang code="Browsing All Categories"}: </h4>
                 <div class="pull-right">
 
-
+    
                     <div class="btn-group custom-dropdown">
-                        {if $smarty.get.sorting}   
+                        {if $smarty.get.sort}
                         {foreach from=$sorting_links item=name key=sort}
-                            {if $smarty.get.time==$sort && isset($smarty.get.sort)} 
+                            {if $smarty.get.sort==$sort && isset($smarty.get.sort)} 
                             <button class="btn btn-default" type="button">
                             {$name}
                             </button>
                             <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
                                 <span class="arrow-drop"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
-                            </button><span class="glyphicon glyphicon-sort"></span> Most {$name}
+                            </button>
                             {/if}
                         {/foreach}
                         {else}
                             <button class="btn btn-default" type="button">
-                            {$smarty.get.sort}
+                            Recent
                             </button>
                             <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
                                 <span class="arrow-drop"></span>
@@ -75,7 +75,7 @@
                             <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
                                 <span class="arrow-drop"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
-                            </button><span class="glyphicon glyphicon-sort"></span> Most {$name}
+                            </button>
                             {/if}
                         {/foreach}
                         {else}
