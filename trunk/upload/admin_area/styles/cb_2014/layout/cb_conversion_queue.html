@@ -46,8 +46,8 @@
         <span class="vdo_sets">
            <label class="label label-primary"> File Type :<strong>{$queue.cqueue_ext}</strong> &#8226;</label>
              <label class="label label-danger">Temp Ext : <strong>{$queue.cqueue_tmp_ext}</strong> &#8226;</label>
-             <label class="label {if $queue.cqueue_conversion=='yes'}label-success{elseif $queue.cqueue_conversion=='no'}label-warning{else}label-info{/if}">Conversion Process :
-                 {if $queue.cqueue_conversion=='yes'}Proccessed{elseif $queue.cqueue_conversion=='no'}Pending{else}Active{/if}</label>
+             <label class="label {if $queue.cqueue_conversion=='yes'}label-success{elseif $queue.cqueue_conversion=='no'}label-info{else}label-warning{/if}">Conversion Process :
+                 {if $queue.cqueue_conversion=='yes'}Proccessed{elseif $queue.cqueue_conversion=='no'}Pending{else}Processing{/if}</label>
 
             {if $queue.time_started}
              <label class="label label-info">Started : <strong>{"Y-m-d H:i:s"|date:$queue.time_started|niceTime}</strong> &#8226;</label>
