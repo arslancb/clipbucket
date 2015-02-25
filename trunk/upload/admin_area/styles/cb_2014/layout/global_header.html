@@ -1,6 +1,6 @@
 <meta charset="UTF-8">
 <title>{cbtitle}</title>
-<link rel="stylesheet" href="{$theme_url}/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="{$theme_url}/bootstrap/css/bootstrap.css">
 <link rel="stylesheet" href="{$theme_url}/assets/css/font-awesome.min.css" />
 <link rel="stylesheet" href="{$theme_url}/css/styles.css" />
 
@@ -15,10 +15,11 @@
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
 
 <!-- ace styles -->
-
+{if !this_page('admin_login')} <!-- these css file not includes in admin area login.html -->
 <link rel="stylesheet" href="{$theme_url}/assets/css/ace.min.css" />
 <link rel="stylesheet" href="{$theme_url}/assets/css/ace-rtl.min.css" />
 <link rel="stylesheet" href="{$theme_url}/assets/css/ace-skins.min.css" />
+{/if}
 
 <!--[if lte IE 8]>
   <link rel="stylesheet" href="{$theme_url}/assets/css/ace-ie.min.css" />
