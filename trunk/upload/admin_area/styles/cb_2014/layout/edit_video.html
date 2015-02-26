@@ -327,15 +327,14 @@
                 <legend>Custom Upload Fields</legend>
                 {foreach from=$custom_upload_fields item=field}
                 <div class="form-group">
-                    <table class="table">
-                        <tr>
-                            <td class="alert-info">
-                                <label><b>{$field.title|truncate:80}</b></label></td>
-                        </tr>
-                    </table>
+                    <div class="col-md-12">
+                        <label for="rated_by">{$field.title}</label>
+                    </div>
+
+                    <div class="col-md-12">
                     {$field.class='form-control'}
-                    {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-                    <br>
+                    {$field.hint_1}<br>{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    </div><br>
                     {$field.hint_2}
                 </div>
                 {/foreach}
