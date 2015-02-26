@@ -438,6 +438,9 @@ a:focus{outline: none !important;}
 }
 .display-block{ display: block;}
 .display-hidden{ display: none;}
+.white-bg{
+    background-color: #fff;
+}
 /*---------------------------------------------------
     LESS Elements 0.9
   ---------------------------------------------------
@@ -3288,6 +3291,47 @@ padding-right: 0px;
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
+
+/* 404 page css start */
+.error-pix-sec{
+    width: 100%;
+    margin-top: 100px;
+}
+
+.error-pix-403{
+    width: 312px;
+    height: 157px;
+    margin: 0px auto;
+    background-image: url(../../images/403.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+.error-pix-404{
+    width: 312px;
+    height: 157px;
+    margin: 0px auto;
+    background-image: url(../../images/404.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+.error-text-sec{
+    width: 720px;
+    margin: 0px auto;
+}
+.error-text{
+    width: 100%;
+    color: #908f8f;
+    font-size: 33px;
+    margin-top: 20px;
+}
+.error-text span{
+    width: 32px;
+    height: 32px;
+    display:inline-block;
+    background-image:url(../../images/eror_colin.png);
+    background-repeat: no-repeat;
+}
+
 
 
 

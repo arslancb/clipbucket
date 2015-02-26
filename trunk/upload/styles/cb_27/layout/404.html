@@ -1,0 +1,44 @@
+<div class="full-width ">
+    <div class="container ">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="error-pix-sec">
+                    <span class="error-pix-404"></span>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="error-text-sec">
+                    <div class="error-text">
+                        <span></span>
+                        Oops! The page you requested was not found!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-2"></div>
+             <div class="col-lg-8 mtl">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                  </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-2"></div>
+        </div>
+
+        <div class="row">
+            {if $videos} 
+            {foreach $videos as $video}
+                <div class="col-md-3  col-sm-4  col-xs-6">
+                    {include file="$style_dir/blocks/videos/video.html" display_type='normal'}
+                </div>
+            {/foreach}
+            {/if}
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
