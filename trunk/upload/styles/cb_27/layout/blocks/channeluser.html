@@ -57,7 +57,7 @@
 <div class="col-md-2" id="user-{$user.userid}" align="center">
     <a href="{$userquery->profile_link($user)}">{$user.username}</a>
     <a href="{$userquery->profile_link($user)}">
-        <img src="{$userquery->getuserthumb($user)}" class="img-thumbnail" class="user_mid_thumb">
+        <img src="{$userquery->getuserthumb($user)}" class="edit-img-thumbnail" class="user_mid_thumb">
     </a>
 </div>
 {/if}
@@ -66,7 +66,7 @@
 <div class="user_block_med" id="user-{$user.userid}">
     <div class="thumb_container_medium" >
         <a href="{$userquery->profile_link($user)}">
-            <img src="{$userquery->getuserthumb($user)}" class="img-thumbnail" class="user_thumb_medium">
+            <img src="{$userquery->getuserthumb($user)}" class="edit-img-thumbnail" class="user_thumb_medium">
         </a>
     </div>
     <div class="prof_title"><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
