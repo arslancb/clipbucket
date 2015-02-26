@@ -258,7 +258,9 @@
 				
 		if(!$mail->Send())
 		{
-		  e("Mailer Error: " . $mail->ErrorInfo);
+			//apply check here nafisa	
+			if(has_access('admin_access',TRUE) )
+		  		e("Mailer Error: " . $mail->ErrorInfo);
 		  return false;
 		}else
 			return true;
