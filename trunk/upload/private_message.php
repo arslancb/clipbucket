@@ -154,9 +154,10 @@ switch($mode)
 			$array['is_pm'] = true;
 			$array['from'] = userid();
 			$cbpm->send_pm($array);
-			
+			unset($_POST);
 			if(!error())
 				$_POST = '';
+
 		}	
 		
 		subtitle(lang("title_crt_new_msg"));
