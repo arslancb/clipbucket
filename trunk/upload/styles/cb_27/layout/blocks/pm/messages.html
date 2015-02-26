@@ -32,7 +32,13 @@
           {/if}
           {if $show_to}
             <td>
-              <a href="?mode={$mode}&mid={$user_msgs[msg].message_id}">{$user_msgs[msg].to_usernames}</a>
+              <a href="?mode={$mode}&mid={$user_msgs[msg].message_id}"> 
+              {$to_id = $user_msgs[msg].message_to}
+              {$trimed_to = str_replace('#','', $to_id)}
+              
+             {ucfirst(get_username($trimed_to))}
+
+              </a>
             </td>
           {/if}
           <td>
