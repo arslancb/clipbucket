@@ -37,6 +37,8 @@ class formObj
 			case 'textfield':
 			case 'password':
 			case 'textarea':
+			default:
+				$field['type']= $field['type'] ? $field['type'] : 'textfield';
 				$fields=$this->createTextfield($field,$multi);
 			break;
 			case 'checkbox':
