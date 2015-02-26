@@ -28,6 +28,11 @@ assign("phpVersion", $phpVersion);
 $MP4BoxVersion = check_mp4box("MP4Box");
 assign("MP4BoxVersion", $MP4BoxVersion);
 
+
+$imagick_version = Imagick::getVersion();
+$imagick_version_string = $imagick_version['versionString'];
+
+assign("imagick_version",$imagick_version_string);
 subtitle("ClipBucket Server Module Checker");
 template_files("cb_mod_check.html");
 display_it();
