@@ -117,12 +117,6 @@ if(function_exists("get_ep_videos")){
 }
 
 
-
-
-
-
-
-
 $get_limit = create_query_limit($page,5);
 $videos = $cbvid->action->get_flagged_objects($get_limit);
 Assign('flagedVideos', $videos);
