@@ -1,4 +1,5 @@
 {$myAccountLinks = $userquery->my_account_links()}
+{assign var='custom_upload_fields' value=$Upload->load_custom_upload_fields($v,TRUE)}
 <div class="container marginBottom">
     {include file="$style_dir/blocks/manage/account_menu.html"}
     <div class="row cb-box">
@@ -65,9 +66,23 @@
                             {/if}
                             {/foreach}
                         </div>
+
                         {/foreach}
 
+ 
+                {foreach from=$custom_upload_fields item=field}
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="rated_by">{$field.title}</label>
+                    </div>
 
+                    <div class="col-md-12">
+                    {$field.class='form-control'}
+                    {$field.hint_1}<br>{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    </div><br>
+                    {$field.hint_2}
+                </div>
+                {/foreach}
                         <div align="right">
                             <button name="update_video" id="button" value="submit" class="btn btn-primary">{lang code='update_video'}</button>
                         </div>
