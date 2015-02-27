@@ -18,9 +18,9 @@
      <div class="top clearfix">
     <div class="top_tabs">
         <ul>
-            <li><a href="http://clip-bucket.com/V2.7-beta-overview/"  target="blank">V2.7 Overview </a><span>|</span></li>
-                <li><a href="http://forums.clip-bucket.com/"  target="blank">Forums </a><span>|</span></li>
-                 <li><a href="http://clip-bucket.com/Bug_Reporter/"  target="blank">Bug Reporter </a><span>|</span></li>
+            <li><a href="http://clip-bucket.com/clipbucket-overview"  target="blank">V<?=VERSION?> Overview </a><span>|</span></li>
+                <li><a href="http://discourse.clipbucket.com/"  target="blank">Forums </a><span>|</span></li>
+                 <li><a href="https://code.google.com/p/clipbucket/issues/list"  target="blank">Bug Reporter </a><span>|</span></li>
             <li><a href="http://clip-bucket.com/contact"  target="blank">Support </a></li>
         </ul>
     </div><!--top_tabs-->
