@@ -19,7 +19,7 @@ a{color:#06c}
 #sub_container
 {
 	margin:auto;
-	width:880px;
+	width:980px;
 	border:0px solid #eee;
 	padding:0px;
 	margin-top: 20px;
@@ -279,7 +279,7 @@ line-height:20px}
 	padding:3px 15px; 
 	height:300px; 
 	width:100%; 
-	color:#7E7E7E; 
+	color:#555; 
 	font-size:14px; 
 	text-align:left; 
 	overflow:auto; 
