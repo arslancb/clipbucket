@@ -18,8 +18,12 @@ $php_ver = check_module('php');
 </div><!--nav_des-->
 
   <div class="cb_container">
-   <a href="http://www.arvixe.com/clipbucket_hosting?utm_campaign=Installer&utm_medium=banner&utm_source=clipbucket.com" target="blank"> <img src="<?php echo installer_path(); ?>images/Arvixe-Banner.png" style="margin-top: 18px;margin-left: 135px;"  /></a>
+    <div style="margin-top: 18px;margin-left: 135px;" >
+      <script src="//www.googletagservices.com/tag/js/gpt.js">
+        googletag.pubads().definePassback('/152929750/cb_installer_horizontal_banner', [[728, 90], [970, 90]]).display();
+      </script>
     </div>
+  </div>
 
 <?   ?>
 <div id="sub_container" >
