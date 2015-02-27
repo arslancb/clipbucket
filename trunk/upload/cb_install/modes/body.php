@@ -33,7 +33,7 @@
   <div class="cb_container">
     <div class="cb_navbar">
         <ul class="headstatus" >
-           <li <?php echo selected('agreement'); ?>>Agreement<span></span></li>
+           <li <?php echo selected('agreement'); ?>>Agreement</li>
             <li <?php echo selected('precheck'); ?>>Pre Check<span></span></li>
             <li <?php echo selected('permission'); ?>>Permissions<span></span></li>
             <li <?php echo selected('database'); ?>>Database<span></span></li>

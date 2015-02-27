@@ -24,7 +24,12 @@
 
 <div id="sub_container" class="br5px">
 	<h4 class="grey-text">License</h4>
-  <div style="padding:3px 15px; height:300px; width:100%; color:#7E7E7E; font-size:14px; text-align:left; overflow:auto; background-color:#F5F5F5; border:1px solid #ADADAD"><?=get_cbla()?></div>
+	<div class="cb-instal-licenc-holder">
+		<div class="cb-instal-licenc-sec">
+		<?=get_cbla()?>
+		</div>
+	</div>
+
 
 <form name="installation" method="post" id="installation">
 	<input type="hidden" name="mode" value="precheck" />
