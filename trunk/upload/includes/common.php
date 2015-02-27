@@ -122,7 +122,7 @@ if(!@$in_bg_cron)
 
 			if(phpversion() >= '5.3.0')
 			{
-				error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
+				error_reporting(E_ALL & ~(E_NOTICE | E_DEPRECATED | E_STRICT));
 				ini_set('display_errors', 'on');
 			}
 			else
