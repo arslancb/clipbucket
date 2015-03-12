@@ -38,6 +38,29 @@ switch($mode)
 		);
 		
 		$vid = $Upload->submit_upload($vidDetails);
+		
+		// sending curl request to content .ok 
+		$call_bk = PLUG_URL."/cb_multiserver/api/call_back.php";
+		$ch = curl_init($call_bk);
+		$ch_opts = array(
+		 CURLOPT_POST=>true,
+		 CURLOPT_RETURNTRANSFER=> true,
+		 //CURLOPT_BINARYTRANSFER => true,
+		 CURLOPT_HEADER => false,
+		 CURLOPT_SSL_VERIFYHOST=> false, 
+		 CURLOPT_SSL_VERIFYPEER=> false,
+		 CURLOPT_HTTPHEADER => array("Expect:"),
+		);
+		
+		$array = array("update"=>TRUE);
+		//curl_setopt($ch,CURLOPT_POSTFIELDS,$array);
+		$charray = $ch_opts;
+		$charray[CURLOPT_POSTFIELDS] = $array;
+		
+		curl_setopt_array($ch,$charray);		
+		curl_exec($ch);	
+		curl_close($ch);
+
 		// inserting into video views as well
 		$query = "INSERT INTO " . tbl("video_views") . " (video_id, video_views, last_updated) VALUES({$vid}, 0, " . time() . ")";
 		$db->Execute($query);
