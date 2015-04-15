@@ -54,9 +54,9 @@ jwplayer("mediaplayer").setup( {ldelim}
      
 {else}
 
-
 <div class="cont" id="cont" style="height:{$height};width:{$width};">
-  
+{ANCHOR place='overlay_ads'}
+
    <video id="myVideo" class="myVideo largevid" {if $autoplay==true}autoplay{else}{/if}>
      
      {if $ms_videos}
@@ -170,7 +170,7 @@ jwplayer("mediaplayer").setup( {ldelim}
   </div>
   
 </div>
-
+{ANCHOR place='video_ads_container'}
 
 
 <script type="text/javascript">
