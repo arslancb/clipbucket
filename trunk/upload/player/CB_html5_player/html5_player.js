@@ -8,6 +8,7 @@ $(document).ready(function()
 	var container = $('.cont');
 	var test = $(".cont,.myVideo");
 	var loadmetadata = true;
+	var _pause = false;
 
 	attachEvents();
 
@@ -80,30 +81,57 @@ $(document).ready(function()
 		loadmetadata = false;
     });
       
-   /*video[0].removeAttribute("controls");
-   $('.control').show().css({'bottom':-60});
-   $('.caption').show().css({'top':-200}); */
-		
+    // initializing the player click function  
+	$('.cont').on("click",function(){
+		if( autoplay == '')
+		{
+			$('.init').hide();
+			$('.btnPlay').addClass('paused');
+			$(this).unbind('click');
+			video[0].play();
+			$('.buffer').show();
+		    //start to get video buffering data 
+		    setTimeout(startBuffer, 10);
+		}   
+	});
 
-    $('.cont').hover(function() {
-			$('.control').stop().animate({'bottom':0}, 100);
-			$('.caption').stop().animate({'top':-7}, 600);
-	}, function() {
-		   if(!volumeDrag && !timeDrag){
-				$('.control').stop().animate({'bottom':-51}, 500);
-				$('.caption').stop().animate({'top':-200}, 500);
-			}
-		})
-		.on('click', function() {
-			if( autoplay == ''){
-				$('.init').hide();
-				$('.btnPlay').addClass('paused');
-				$(this).unbind('click');
-				video[0].play();
-				$('.buffer').show();
-			    //start to get video buffering data 
-			    setTimeout(startBuffer, 10);
-		    }   
+	//setting up flag variable true for controls hover 
+	var cb_controls = false;
+	$('.control').on("mouseenter",function(){
+		cb_controls = true;
+	});
+
+	//setting up flag variable false for controls 
+	$('.control').on("mouseleave",function(){
+		cb_controls = false;
+	});
+	
+	// on mouse stop on container, controls get hide after 5 secs 
+	var lastTimeMouseMoved = "";
+    $('.cont').mousemove(function(e){
+   	 	caption_show();
+       	lastTimeMouseMoved = new Date().getTime();
+       	var t=setInterval(function(){
+           	var currentTime_new = new Date().getTime();
+           	if(currentTime_new - lastTimeMouseMoved > 5000 && !_pause && !cb_controls)
+           	{
+				caption_hide();
+            }
+       	},1000);
+   	}); 
+
+    // on hover controils and captions get showed
+    var on_player = false;
+	$('.cont').on("mouseenter",function(){
+		on_player = true;
+		caption_show();
+	});
+
+	// on hover controils and captions get showed
+	$('.cont').on("mouseleave",function(){
+		on_player = false;
+		if (!_pause)
+		caption_hide();
 	});
 
 
@@ -128,6 +156,8 @@ $(document).ready(function()
 		$('.fcurrent').text(timeFormat(currentPos));	
 	});
 	
+	
+	
 	//CONTROLS EVENTS
 	//video screen and play button clicked
 	video.on('click', function() { playpause(); } );
@@ -139,7 +169,7 @@ $(document).ready(function()
             $('.init').hide();
 			$('.btnPlay').addClass('paused');
 			video[0].play();
-			
+			_pause = false;
 			
 		}
 		else {
@@ -147,6 +177,7 @@ $(document).ready(function()
 			 $('.init').show();
 			$('.btnPlay').removeClass('paused');
 			video[0].pause();
+			_pause = true;
 		}
 	};
 	 
@@ -429,14 +460,14 @@ $('#ritems').append('<li id="copy"  class="rlist copy">Show Video link</li>');
 $('#ritems').append('<li class="rlist about">About</li>');
 $('#ritems').append('<li class="rlist clip">Powered by Clipbucket</li>');
 
-$('.cont').bind("contextmenu", function (e) {
+/*$('.cont').bind("contextmenu", function (e) {
     e.preventDefault();                 // To prevent the default context menu.
     $("#rightcmenu").css("left", e.pageX);   // For updating the menu position.
     $("#rightcmenu").css("top", e.pageY);    // 
     $("#rightcmenu").fadeIn(500, startFocusOut()); //  For bringing the context menu in picture.
 });
 
-
+*/
 function startFocusOut() {
     $(document).on("click", function () {   
         $("#rightcmenu").hide(500);              // To hide the context menu
@@ -657,6 +688,26 @@ function toggleFullScreen (e) {
 
   
 });
+
+
+/**
+* caption hide 
+*/
+function caption_hide()
+{
+	$('.control').stop().animate({'bottom':-51}, 500);
+	$('.caption').stop().animate({'top':-200}, 500);
+}
+
+
+/**
+* caption hide 
+*/
+function caption_show()
+{
+	$('.control').stop().animate({'bottom':0}, 100);
+	$('.caption').stop().animate({'top':-7}, 100);
+}
 
 
 /******CAUTION*****\
