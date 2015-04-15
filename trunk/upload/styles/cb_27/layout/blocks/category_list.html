@@ -1,9 +1,11 @@
 <div class="col-md-3 paddingleft0">
   <div class="ad">{AD place='ad_320x250'}</div>
-  <div class="navbar-collapse collapse padding-left-right-zero" id="collapsed-navigation">
-    <ul class="nav navbar-stacked nopadding">
-      {cbCategories type=$type echo="TRUE" list_style="collapsed"  output="list" with_all="TRUE"}
-    </ul>
+  <div class="left-navbar-collapse"> 
+    <div class="navbar-collapse collapse padding-left-right-zero" id="collapsed-navigation">
+      <ul class="nav navbar-stacked nopadding">
+        {cbCategories type=$type echo="TRUE" list_style="collapsed"  output="list" with_all="TRUE"}
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -36,3 +38,11 @@ else
 
 });
 </script>
+<style type="text/css">
+  
+  .left-navbar-collapse .navbar-collapse {
+    max-height: 100% !important;
+    height: auto !important;
+  }
+
+</style>

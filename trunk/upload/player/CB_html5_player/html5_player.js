@@ -63,7 +63,7 @@ $(document).ready(function()
 		$('.caption').fadeIn(500);
 		updateVolume(0, 0.7);
 		$('.loading').fadeOut(500);
-        if( autoplay == 'true'){
+        if( autoplay == 'true' && !_HD_flag){
 		    setTimeout(startBuffer, 10);
 		    $('.btnPlay').addClass('paused');
 	    }
@@ -73,7 +73,7 @@ $(document).ready(function()
 		}	
 		else{
 
-	   	    if( autoplay == '' ){
+	   	    if( autoplay == '' && !_HD_flag){
 				$('.init').fadeIn(2500);
 				$('.btnPlay').addClass('paused');
 			}
@@ -259,7 +259,7 @@ $('.btnFS').on('click', function() {
 });
 
 
-
+var _HD_flag = false;
 //HD on/off button clicked
 $(".hdon").on('click', function() {
 $(this).toggleClass('hdoff');
@@ -267,8 +267,7 @@ $(this).toggleClass('hdoff');
     $('source', '#myVideo').eq(1).prependTo('#myVideo');
     $('#myVideo')[0].load();
     $('#myVideo')[0].play();
-    $('.btnPlay').addClass('paused');
-    video[0].pause();
+    _HD_flag = true;
     
 });
 
