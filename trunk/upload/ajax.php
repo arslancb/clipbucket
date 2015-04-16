@@ -1460,6 +1460,7 @@ if(!empty($mode))
 			assign('total',$_POST['total_comments']);
 			assign('total_pages',$total_pages);
 			assign('comments_voting',$_POST['comments_voting']);
+			assign('commentPagination','yes');
 			
 			if($_POST['admin']=='yes' && has_access('admin_access',true))
 			Template(BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbv2/layout/blocks/comments.html',false);

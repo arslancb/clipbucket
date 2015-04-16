@@ -337,6 +337,7 @@
 				<!-- ******************************************* //-->
 		        <!-- ************* USER BLOCK END ************ //-->
 		        <!-- ******************************************* //-->
+		        {if $row.collectionsSection == 'yes'}
 				{$collections = $cbcollection->get_collections(['limit'=>5, 'active'=>'yes'])}
 				<div class="col-md-4 comment_home side_user_home" >
 					<h2 class="myHeading">{lang code="Top Collections"}</h2>
@@ -370,6 +371,7 @@
 					<div class="col-md-12 nopadding">No Collection</div>
 					{/if}
 		    	</div>
+		    	{/if}
 				
 				{$playlists = get_playlists(['limit'=>5, 'order'=>'total_items DESC'])}
                 <div class="col-md-4 comment_home side_user_home " >

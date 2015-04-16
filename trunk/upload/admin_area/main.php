@@ -222,7 +222,7 @@ if(isset($_POST['update'])){
 					'vrate',
 					'vbrate',
 					'video_require_login',
-					
+					'feedsSection',
 					'website_email',
 					'welcome_email',
 					'vbrate_hd',

@@ -120,6 +120,33 @@ $(document).ready(function()
        	},1000);
    	}); 
 
+
+
+	var play = false;
+	$(window).keypress(function(e) {
+		e.preventDefault();
+	  	if (e.keyCode == 0 || e.keyCode == 32) 
+	  	{
+		  	if (!play)
+		  	{
+		  		play = true;
+		  		$('.init').show();
+				$('.btnPlay').removeClass('paused');
+				video[0].pause();
+				_pause = true;
+		  	}
+		  	else
+		  	{
+		  		play = false;
+		  		$('.init').hide();
+				$('.btnPlay').addClass('paused');
+				video[0].play();
+				_pause = false;
+		  	}
+	    }
+	});
+
+
     // on hover controils and captions get showed
     var on_player = false;
 	$('.cont').on("mouseenter",function(){

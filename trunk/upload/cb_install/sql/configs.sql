@@ -221,11 +221,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (221, 'collection_rating', '1'),
 (222, 'own_collection_rating', '1'),
 (223, 'own_video_rating', '1'),
-(224, 'vbrate_hd', '500000'),
-(225, 'enlarge_button', 'no'),
-(NULL,'feedsSection','yes'),
-(NULL,'max_topic_length','1500'),
-(NULL,'max_topic_title','300');
+(224, 'vbrate_hd', '500000');
 
 
 
@@ -242,6 +238,17 @@ INSERT INTO `{tbl_prefix}validation_re` (`re_id`, `re_name`, `re_code`, `re_synt
 INSERT INTO `{tbl_prefix}config` (`configid` ,`name` ,`value`)VALUES 
 (NULL , 'comments_per_page', '15'),
 (NULL, 'embed_type', 'iframe');
+
+-- Addition for 2.7
+INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'feedsSection', 'yes');
+INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'enlarge_button', 'no');
+
+
+
+
+INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'max_topic_length', '1500');
+INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'max_topic_title', '300');
+
 
 -- Addition for 2.6
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'facebook_embed', 'yes');

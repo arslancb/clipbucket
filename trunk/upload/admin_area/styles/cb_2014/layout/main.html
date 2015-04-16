@@ -521,6 +521,14 @@
           </div>
 
           <div class="col-md-6">
+              <label for="feedsSelection">Enable feeds</label>
+              <select class="form-control" name="feedsSection" id="feedsSection">
+                  <option value="yes" {if $row.feedsSection!='no'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.feedsSection=='no'} selected="selected"{/if}>No</option>
+              </select>
+          </div>
+
+          <div class="col-md-6">
               <div class="checkbox">
                   <label for="video_rating">
                       <input name="video_rating" type="checkbox" id="video_rating" value="1" {if $row.video_rating=='1'}checked="checked"{/if} />Allow  videos ratings

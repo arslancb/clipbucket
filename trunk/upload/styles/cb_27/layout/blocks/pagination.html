@@ -1,7 +1,22 @@
-
- {if $pagination}
+{if $pagination && !$commentPagination}
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mtl">
-	<ul align="center" class="pagination pagination-center">
+  <ul align="center" class="pagination pagination-center">
+
+      {if $first_link !=''}<li>  <a {$first_link} ><i class="icon-double-angle-left"></i></a></li>{/if}
+      
+      {if $pre_link !=''}<li><a {$pre_link} ><i class="icon-angle-left"></i></a></li>{/if} 
+
+             {$pagination}  
+
+
+       {if $next_link !=''}<li><a {$next_link} ><i class="icon-angle-left"></i></a></li>{/if}
+       
+        {if $last_link !=''}<li>  <a {$last_link} ><i class="icon-double-angle-right"></i></a></li>{/if}
+     </ul>  
+</div>
+{elseif $commentPagination}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mtl">
+  <ul align="center" class="pagination pagination-center">
          <!-- <li class="prev disabled">
              <a href="#">
                  <i class="icon-double-angle-left"></i></a></li> -->
@@ -33,6 +48,6 @@
           onclick=" getComments('{$type}','{$type_id}','{$last_update}','{$total_pages}','{$total}','{$object_type}')" >
           <i class="icon-double-angle-right"></i></a></li>
          {/if}
-     </ul>	
+     </ul>  
 </div>
-  {/if} 
+{/if} 
