@@ -487,14 +487,14 @@ $('#ritems').append('<li id="copy"  class="rlist copy">Show Video link</li>');
 $('#ritems').append('<li class="rlist about">About</li>');
 $('#ritems').append('<li class="rlist clip">Powered by Clipbucket</li>');
 
-/*$('.cont').bind("contextmenu", function (e) {
+$('.cont').bind("contextmenu", function (e) {
     e.preventDefault();                 // To prevent the default context menu.
     $("#rightcmenu").css("left", e.pageX);   // For updating the menu position.
     $("#rightcmenu").css("top", e.pageY);    // 
     $("#rightcmenu").fadeIn(500, startFocusOut()); //  For bringing the context menu in picture.
 });
 
-*/
+
 function startFocusOut() {
     $(document).on("click", function () {   
         $("#rightcmenu").hide(500);              // To hide the context menu
