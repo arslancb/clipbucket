@@ -96,9 +96,9 @@ if(!@$in_bg_cron)
 	
 	
 	if(!DEVELOPMENT_MODE)
-		define('DEBUG_LEVEL', 0);
+		define('DEBUG_LEVEL', 2);
 	else
-		define('DEBUG_LEVEL',2);
+		define('DEBUG_LEVEL',0);
 
 	switch(DEBUG_LEVEL)
 	{
