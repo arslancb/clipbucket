@@ -52,33 +52,13 @@
             <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
                 Actions <i class="caret"></i></button>
             <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
-                <li><a role="menuitem" tabindex="-1"
+                <li><a role="menuitem" 
                        href="{$baseurl}/edit_video.php?vid={$video.videoid}" class="">Edit</a></li>
-                <li><a role="menuitem" tabindex="-1"
+                <li><a role="menuitem" 
                        href="{$baseurl}/watch_video.php?v={$video.videokey}"target="_blank">Watch</a>
-                    {if $video.featured == yes}
-                </li>
-                <li><a role="menuitem" tabindex="-1" href="javascript:_cb.Confirm_Delete('?delete_video={$video.videoid}')">Delete</a>
-                </li>
-                <li><a role="menuitem" tabindex="-1"
-                       href="?make_unfeature={$video.videoid}">Make Unfeatured</a></li>
-                {/if}
-                {if $video.featured == no}
-                <li><a role="menuitem" tabindex="-1" href="?make_feature={$video.videoid}">Make
-                    Featured</a></li>
-                {/if}
-                {if $video.active == yes}
-                <li><a role="menuitem" tabindex="-1" href="?deactivate={$video.videoid}">Deactivate</a>
-                </li>
-                {else}
-                <li><a role="menuitem" tabindex="-1" href="?activate={$video.videoid}">Activate</a>
-                </li>
-                {/if}
-                <li><a role="menuitem" tabindex="-1"
-                       href="/view_conversion_log.php?file_name={$video.file_name}">File
-                    conversion details</a></li>
+                    
                 <li class="divider"></li>
-                <li><a role="menuitem" tabindex="-1" href="/?delete_video={$video.videoid}">Delete</a>
+                <li><a role="menuitem"  href="?vid_delete={$video.videoid}">Delete</a>
                 </li>
                 {foreach from=$cbvid->video_manager_links item=links}
                 {$cbvid->video_manager_link($links,$video)}

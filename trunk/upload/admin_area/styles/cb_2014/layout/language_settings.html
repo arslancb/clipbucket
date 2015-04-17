@@ -148,8 +148,14 @@
     {section name=p_list loop=$lang_phrases}
     <tr>
         <td>{$lang_phrases[p_list].varname}</td>
-
-        <td class="xedit" id="{$lang_phrases[p_list].id}"> {$lang_phrases[p_list].text}</td>
+        <td ><span class="xedit" id="{$lang_phrases[p_list].id}"  >{$lang_phrases[p_list].text}</span> 
+        <span class="btn btn-success btn-xs edit_phrase " title="edit" id="edit-{$lang_phrases[p_list].id}" data-id="{$lang_phrases[p_list].id}"><i class="glyphicon glyphicon-edit"></i></span>
+        <span class="glyphicon glyphicon-ok-circle add_phrase" id="ok-{$lang_phrases[p_list].id}" data-id="{$lang_phrases[p_list].id}" style="display:none;color:#87b87f;font-size:1.5em;cursor:pointer"></span>&nbsp;&nbsp;&nbsp;
+        <span class="glyphicon glyphicon-remove-circle remove_phrase" id="remove-{$lang_phrases[p_list].id}" data-id="{$lang_phrases[p_list].id}" style="display:none;color:#d15b47;font-size:1.5em;cursor:pointer"></span>
+        <input type="text" class="form-control" id="input-{$lang_phrases[p_list].id}" name="pk" value="{$lang_phrases[p_list].text}" 
+        style="display:none;"> 
+        
+        </td>
     </tr>
     {/section}
 
@@ -159,3 +165,55 @@
 
 
 {/if}
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $('.edit_phrase').on("click",function(){
+        var _this = $(this);
+        var id = _this.data('id');
+        console.log('yes');
+        $('#input-'+id).show();
+        $('#ok-'+id).show();
+        $('#remove-'+id).show();
+        $('#edit-'+id).hide();
+    });
+
+
+    $('.remove_phrase').on("click",function(){
+        var _this = $(this);
+        var id = _this.data('id');
+        $('#input-'+id).hide();
+        $('#ok-'+id).hide();
+        $('#remove-'+id).hide();
+         $('#edit-'+id).show();
+    });
+
+    $('.add_phrase').on("click",function(){
+
+        var _this = $(this);
+        var id = _this.data('id');
+        var value = $('#input-'+id).val();
+        var pk = id;
+        console.log('value==>'+value);
+        console.log('id==>'+id);
+        $.ajax({
+            url: "{$baseurl}/actions/update_phrase.php",
+            type: "post",
+            data: { pk: pk, value: value},
+            success : function()
+            {
+                $('#'+id).html(value);
+                $('#input-'+id).hide();
+                $('#ok-'+id).hide();
+                $('#remove-'+id).hide();
+                 $('#edit-'+id).show();
+            }
+        });
+
+    });
+})
+
+
+</script>

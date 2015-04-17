@@ -76,7 +76,7 @@
         <br>
         <div class="row">
 
-<div class="col-md-4">
+<!-- <div class="col-md-4">
   <label for="youtube_enabled">
     Play Youtube Video Inside Player<br>
     <small>this will let you play youtube videos in your player</small>
@@ -85,22 +85,8 @@
         <option value="yes"  {if $row.youtube_enabled=='yes'} selected="selected" {/if}>Yes</option>
         <option value="no"  {if $row.youtube_enabled=='no'} selected="selected" {/if}>No</option>
     </select>
-</div>
+</div> -->
 
-
-<div class="col-md-4">
-  <label for="enlarge_button">
-    Enlarge/small Button<br>
-    <small>this will let you enable enlarge/small button in your player</small>
-  </label>
-    <select class="form-control" name="enlarge_button" id="enlarge_button">
-        <option value="yes"  {if $row.enlarge_button=='yes'} selected="selected" {/if}>Yes</option>
-        <option value="no"  {if $row.enlarge_button=='no'} selected="selected" {/if}>No</option>
-    </select>
-</div>
-
-</div>
-        <div class="row">
 <div class="col-md-4">
   <label for="textfield">
     Embed Player Height<br>
@@ -118,6 +104,20 @@
         <option value="no" {if $row.autoplay_embed=='no'} selected="selected" {/if}>No</option>
     </select>
 </div>
+<div class="col-md-4">
+  <label for="enlarge_button">
+    Enlarge/small Button<br>
+    <small>this will let you enable enlarge/small button in your player</small>
+  </label>
+    <select class="form-control" name="enlarge_button" id="enlarge_button">
+        <option value="yes"  {if $row.enlarge_button=='yes'} selected="selected" {/if}>Yes</option>
+        <option value="no"  {if $row.enlarge_button=='no'} selected="selected" {/if}>No</option>
+    </select>
+</div>
+
+</div>
+        <div class="row">
+
 <div class="col-md-4">
   <label for="pseudostreaming_0">
     Use PseudoStreaming<br>

@@ -22,6 +22,32 @@
                         </div>
                     </div>
                 </div>
+                
+                {$row = $myquery->Get_Website_Details()}
+                
+                {if $row.video_download }
+                <div class="col-lg-12 col-md-12 clearfix" style="margin-top:25px;">
+                   <div class="dropdown pull-right">
+                      <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                        Download
+                            <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                      {$files = get_video_files($vdo,true,true)}
+                      {foreach $files as $file}
+                      {$quality = explode('-',$file)}
+                      {$quality = explode('.',$quality.1)}
+                      {$file_quality = $quality.0}
+                        <li role="presentation">
+                            <a role="menuitem" tabindex="-1" href="{$file}"  download>{$vdo.file_name}-{$file_quality}&nbsp;&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-download-alt"></span></a>
+                            
+                        </li>
+                      {/foreach}
+                      </ul>
+                    </div>
+               </div>
+               <br>
+               {/if}
 
                 <div class="vid-detail-sec">
                     <div class="watch-vid-thumb">    
@@ -45,6 +71,14 @@
                     </div>         
                 </div>
                 <!-- vid-detail-sec end -->
+                
+                
+                
+             
+
+
+
+
 
                 <div class="cb-item-desc-container clearfix grey-tabs">
 

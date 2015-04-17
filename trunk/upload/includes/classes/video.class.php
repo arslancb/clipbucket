@@ -696,8 +696,11 @@ class CBvideo extends CBCategory
 		$cond = "";
 		$superCond = "";
 		if( !has_access('admin_access',TRUE) )
+		{
 			$superCond = " ".("video.status")."='Successful' AND
 			".("video.active")."='yes' AND ".("video.broadcast")." !='unlisted' ";
+		}
+			
 		else
 		{
 			if($params['active'])
@@ -1012,8 +1015,20 @@ class CBvideo extends CBCategory
 
             $query = "SELECT $fields FROM ".cb_sql_table( 'video' );
             $query .= " LEFT JOIN ".cb_sql_table( 'users' )." ON video.userid = users.userid";
-
-            if( $cond ) {
+            
+            if(!empty($superCond))
+            {
+				if ($cond !=="")
+            	{
+            		$cond .=  " AND ".$superCond;
+            	}
+            	else
+            	{
+            		$cond .= $superCond;
+            	}	
+            }
+           
+			if( $cond ) {
                 $query .= " WHERE ".$cond;
             }
 

@@ -121,12 +121,13 @@ $(document).ready(function()
    	}); 
 
 
-
-	var play = false;
+    // On press space vidoe play/pasue
+	/*var play = false;
 	$(window).keypress(function(e) {
 		e.preventDefault();
-	  	if (e.keyCode == 0 || e.keyCode == 32) 
+	  	if (e.keyCode == 0) 
 	  	{
+	  		console.log(e.keyCode);
 		  	if (!play)
 		  	{
 		  		play = true;
@@ -144,7 +145,7 @@ $(document).ready(function()
 				_pause = false;
 		  	}
 	    }
-	});
+	});*/
 
 
     // on hover controils and captions get showed
