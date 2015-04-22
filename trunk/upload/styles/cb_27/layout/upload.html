@@ -163,8 +163,14 @@
                         wrapperDiv.appendChild(oneUploadForm);   
                         uploadForms.push(wrapperDiv);
                     }
+
                     $("#allUploadForms").html("");
                     $("#allUploadForms").append(uploadForms);
+                    
+                    //Disabling saveDetails button for Current form 
+                    var div_wrap_numb = totalFiles - 1;
+                    var upload_form_Div = $('#tab'+div_wrap_numb);
+                    upload_form_Div.find('#saveVideoDetails').attr("disabled",true);
 
                     $(".formSection h4").on({
                         click: function(e){
@@ -230,6 +236,9 @@
                     var fileName = serverResponse.file_name;
                     var uploadForm = $("#tab"+currentFileIndex+" form");
                     totalUploaded++;
+                    //enabling savedetails button for Current form 
+                    var _upload_form_Div_ = $('#tab'+currentFileIndex);
+                    _upload_form_Div_.find("#saveVideoDetails").attr("disabled",false);
                     /*
                     Insert the video in the database and get the video db id from the
                     database which will be sent with the final form
@@ -270,8 +279,6 @@
                         uploadForm.append(hiddenVideoNameField);
                         uploadForm.append(hiddenUploadVideoFlagField);
                         uploadForm.find("#cbSubmitUpload").removeAttr('disabled').val('Upload').addClass('btn-success');
-
-                        $(uploadForm).find("#saveVideoDetails").removeAttr("disabled");
                     });
 
                     /* 

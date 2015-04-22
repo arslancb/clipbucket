@@ -1114,7 +1114,7 @@ class CBPhotos
 				{
 					$crop_image = TRUE;
 				}
-				
+				$image = $file;
 				switch($ext)
 				{
 					case "jpeg":
