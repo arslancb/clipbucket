@@ -9,7 +9,7 @@
              {$pagination}  
 
 
-       {if $next_link !=''}<li><a {$next_link} ><i class="icon-angle-left"></i></a></li>{/if}
+       {if $next_link !=''}<li><a {$next_link} ><i class="icon-angle-right"></i></a></li>{/if}
        
         {if $last_link !=''}<li>  <a {$last_link} ><i class="icon-double-angle-right"></i></a></li>{/if}
      </ul>  
@@ -40,7 +40,7 @@
 
        {if $next_link !=''}<li><a href="javascript:void(0)" 
        onclick="getComments('{$type}','{$type_id}','{$last_update}','{$next_page}','{$total}','{$object_type}')" >
-       <i class="icon-angle-left"></i></a>
+       <i class="icon-angle-right"></i></a>
        </li>{/if}
        
         {if $last_link !=''}

@@ -24,42 +24,44 @@
             	<h4 class="smaller lighter pull-left mrs">Browsing All Collections: </h4>
 				<div class="pull-left">
 				    <div class="btn-group custom-dropdown">
-				        {if $smarty.get.sorting}
-				        {foreach from=$sorting_links item=name key=sort}
-				        {if $smarty.get.time==$sort && isset($smarty.get.time)}
-				        <button class="btn btn-default" type="button">
-				            {$name}
-				        </button>
-				        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-				            <span class="arrow-drop"></span>
-				            <span class="sr-only">Toggle Dropdown</span>
-				        </button><!--<span class="glyphicon glyphicon-sort"></span> Most {$name}-->
-				        {/if}
-				        {/foreach}
-				        {else}
-				        <button class="btn btn-default" type="button">
-				            Recent
-				        </button>
-				        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-				            <span class="arrow-drop"></span>
-				            <span class="sr-only">Toggle Dropdown</span>
-				        </button>
-				        {/if}
+                        {if $smarty.get.sort}
+                        {foreach from=$sorting_links item=name key=sort}
+                            {if $smarty.get.sort==$sort && isset($smarty.get.sort)} 
+                            <button class="btn btn-default" type="button">
+                            {$name}
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                          
+                            {/if}
+                        {/foreach}
+                        {else}
+                            <button class="btn btn-default" type="button">
+                            Recent
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                        {/if}    
 
-				        <!--
-				        <ul role="menu" class="dropdown-menu">
-				            {foreach from=$sorting_links item=name key=sort}
-				            <li><a href="{link name=sort sort=$sort type=collections}" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
-				            {/foreach}
-				        </ul>-->
+                        <ul role="menu" class="dropdown-menu">
+                            {foreach from=$sorting_links item=name key=sort}
+                            <li><a href="{link name=time sort=$sort type=collections}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+                            {/foreach}
+                        </ul>
 
-				        <ul role="menu" class="dropdown-menu width-auto">
-				        {foreach from=$sorting_links item=name key=sort}
-					        <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=collections}" >{$name}</a></li>
-					        <li class="divider" role="presentation"></li>
-				        {/foreach}
-				        </ul>
-				    </div>
+
+
+                        <ul role="menu" class="dropdown-menu">
+                            {foreach from=$sorting_links item=name key=sort}
+                            <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=collections}">{$name}</a></li>
+                            <li role="presentation" class="divider"></li>
+                            {/foreach}
+                        </ul>
+                    </div>
 
 				    <!--Sorting By time-->
 				    {assign var=time_links value=time_links()}
