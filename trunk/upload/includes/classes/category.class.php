@@ -48,6 +48,21 @@ abstract class CBCategory
 			return false;
 		}
 	}
+
+	/**
+	 * Function used to get category name
+	 */
+	function get_category_name($cid)
+	{
+		global $db;
+		$results = $db->select(tbl($this->cat_tbl),"category_name"," category_id='$cid'");
+		if($db->num_rows>0)
+		{
+			return $results[0];
+		}else{
+			return false;
+		}
+	}
 	
 	
 	/**
