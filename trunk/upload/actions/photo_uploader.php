@@ -78,9 +78,9 @@ switch($mode)
 	break;
 	case "update_photo":
 	{
-		$_POST['photo_title'] = genTags(str_replace(array('_','-'),' ',$_POST['photo_title']));
-		$_POST['photo_description'] = genTags(str_replace(array('_','-'),' ',$_POST['photo_description']));
-		$_POST['photo_tags'] = genTags(str_replace(array(' ','_','-'),', ',$_POST['photo_tags']));
+		$_POST['photo_title'] = genTags(str_replace(array('_','-'),' ',mysql_clean($_POST['photo_title'])));
+		$_POST['photo_description'] = genTags(str_replace(array('_','-'),' ',mysql_clean($_POST['photo_description'])));
+		$_POST['photo_tags'] = genTags(str_replace(array(' ','_','-'),', ',mysql_clean($_POST['photo_tags'])));
 				
 		$cbphoto->update_photo();
 		

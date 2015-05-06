@@ -871,7 +871,7 @@ class Collections extends CBCategory
 			{
 				$name = formObj::rmBrackets($field['name']);
 				$val = $array[$name];
-				
+				$val = mysql_clean($val);
 				if($field['use_func_val'])
 					$val = $field['validate_function']($val);
 				
