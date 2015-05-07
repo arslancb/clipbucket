@@ -1,8 +1,8 @@
 {$myAccountLinks = $userquery->my_account_links()}
 {$leftMenuLinks = array_slice($myAccountLinks, 6)}
 <div class="container">
-	{*include file="$style_dir/blocks/manage/account_menu.html"*}
-	<!--<div class="cb-box row">
+    {*include file="$style_dir/blocks/manage/account_menu.html"*}
+    <!--<div class="cb-box row">
         {assign var=sorting_links value=sorting_links()}
         <h4 class="smaller lighter pull-left">{lang code="Browsing All Photos"}: </h4>
         <div class="photopadding col-md-6">
@@ -96,8 +96,8 @@
             <div class="pull-left">
 
                 <!--Sorting By View-->
-                <div class="btn-group custom-dropdown">
-                        {if $smarty.get.sort}
+                <div class="btn-group custom-dropdown"> 
+                                {if $smarty.get.sort}
                         {foreach from=$sorting_links item=name key=sort}
                             {if $smarty.get.sort==$sort && isset($smarty.get.sort)} 
                             <button class="btn btn-default" type="button">
@@ -107,7 +107,6 @@
                                 <span class="arrow-drop"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
-                          
                             {/if}
                         {/foreach}
                         {else}
@@ -118,23 +117,21 @@
                                 <span class="arrow-drop"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
-                        {/if}    
+                        {/if}  
 
-                        <ul role="menu" class="dropdown-menu">
-                            {foreach from=$sorting_links item=name key=sort}
-                            <li><a href="{link name=time sort=$sort type=photos}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
-                            {/foreach}
-                        </ul>
-
-
-
-                        <ul role="menu" class="dropdown-menu">
-                            {foreach from=$sorting_links item=name key=sort}
-                            <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=photos}">{$name}</a></li>
-                            <li role="presentation" class="divider"></li>
-                            {/foreach}
-                        </ul>
-                    </div>
+                    <!--
+                    <ul role="menu" class="dropdown-menu">
+                        {foreach from=$sorting_links item=name key=sort}
+                        <li><a href="{link name=time sort=$sort type=photos}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+                        {/foreach}
+                    </ul>-->
+                    <ul role="menu" class="dropdown-menu">
+                        {foreach from=$sorting_links item=name key=sort}
+                        <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=photos}">{$name}</a></li>
+                        <li role="presentation" class="divider"></li>
+                      {/foreach}
+                      </ul>
+                </div>
 
                 <!--Sorting By time-->
                 {assign var=time_links value=time_links()}
@@ -158,7 +155,7 @@
                         All Time
                         </button>
                         <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                        	<span class="arrow-drop"></span>
+                            <span class="arrow-drop"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                     {/if}  
