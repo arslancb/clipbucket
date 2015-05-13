@@ -3100,7 +3100,8 @@ class userquery extends CBCategory{
                 lang('block_users')	=> 'edit_account.php?mode=block_users',
                 lang('user_change_pass')	=>'edit_account.php?mode=change_password',
                 lang('user_change_email') 	=>'edit_account.php?mode=change_email',
-                lang('com_manage_subs')	=> 'edit_account.php?mode=subscriptions'
+                lang('com_manage_subs')	=> 'edit_account.php?mode=subscriptions',
+                lang('Contacts Manager')	=> 'manage_contacts.php'
             );
 
 
