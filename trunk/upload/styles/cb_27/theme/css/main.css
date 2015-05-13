@@ -3335,6 +3335,30 @@ padding-right: 0px;
     background-image:url(../../images/eror_colin.png);
     background-repeat: no-repeat;
 }
+/* usman manage contacts css start */ 
+.request-managers .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
+    border-top: transparent;
+}
+
+.request-managers tbody td:first-child{
+    width: 80px;
+    height: 80px;
+}
+
+.request-managers tbody td a{
+    width: 100%;
+    height:100%;
+}
+
+.request-managers tbody td a img{
+    width: 100%;
+    height:100%;
+}
+
+.request-managers tbody td .dropdown{
+    float: right;
+}
+/* usman manage contacts css end */ 
 
 
 
