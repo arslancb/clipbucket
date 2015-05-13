@@ -13,7 +13,7 @@
             <div class="labels">
                 <span class="label {if $friend.confirmed=='yes'}label-success{else}label-warning{/if} mlabel">
                 {if $friend.confirmed!='yes'}Request Sent{elseif $friend.confirmed =='yes'}Friends{/if}</span>
-                <span class="label label-success">Videos: </span>
+                <span class="label label-success">{if $user_detail.total_videos|number_format > 1}Videos: {$user_detail.total_videos|number_format}{else}Video: {$user_detail.total_videos|number_format}{/if}</span>
             </div>
         </td>
         <td>
@@ -53,7 +53,7 @@
                 <span class="label label-primary">Featured{else}{/if}</span>
                 <span class="label {if $friend.confirmed=='yes'}label-success{elseif $friend.confirmed!='yes'}label-danger{else}label-warning{/if} mlabel">
                 {if $friend.confirmed!='yes'}Pending{elseif $friend.confirmed =='yes'}Friends{/if}</span>
-                <span class="label label-success">Videos: </span>
+                <span class="label label-success">Videos: {$user_detail.total_videos|number_format}</span>
             </div>
         </td>
         <td>
