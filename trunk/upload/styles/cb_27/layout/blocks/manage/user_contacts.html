@@ -34,6 +34,8 @@
 
         </td>
    {/foreach}
+   {else}
+   <div class="alert alert-info" role="alert">You have no friends in your list</div>
 {/if}
 
 {assign var=friends value=$userquery->get_pending_contacts($user.userid,0)}
@@ -72,5 +74,9 @@
         </td>
     </tr>
    {/foreach}
+     {else}
+   <div class="alert alert-info" role="alert">No Pending Friend Requests</div>
 {/if}
+
+
 
