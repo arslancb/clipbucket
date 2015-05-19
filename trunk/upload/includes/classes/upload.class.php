@@ -567,9 +567,9 @@ class Upload{
 									$(\'#video_password\').attr(\'disabled\',\'disabled\');
 									$(\'#video_users\').attr(\'disabled\',\'disabled\');
 									if($(this).val()==\'unlisted\') 
-										$(\'#video_password\').attr(\'disabled\',\'\')
+										$(\'#video_password\').attr(\'disabled\',false)
 									else if($(this).val()==\'private\') 
-										$(\'#video_users\').attr(\'disabled\',\'\')
+										$(\'#video_users\').attr(\'disabled\',false)
 
 									" '
 							 ),
