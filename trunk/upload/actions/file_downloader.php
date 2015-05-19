@@ -337,9 +337,9 @@ if($quick_conv=='yes' || $use_crons=='no')
 {
 	//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 	if (stristr(PHP_OS, 'WIN')) {
-			exec(php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName sleep");
+			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName sleep");
 		} else {
-			exec(php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName sleep&> /dev/null &");
+			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName sleep&> /dev/null &");
 	}
 }
 
