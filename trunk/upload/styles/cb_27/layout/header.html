@@ -101,7 +101,7 @@
                 <li{if $smarty.get.type==$menu.name|lower }class="active"
                 {elseif !$smarty.get.type}
                 {if $menu.active}class="active"{/if}
-                {/if}><a href="{$menu.link}">{$menu.name}</a></li>
+                {/if}><a href="{$menu.link}">{$menu.icon} {$menu.name}</a></li>
                 {/if}
                 {/foreach}
             </ul>
