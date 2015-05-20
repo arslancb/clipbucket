@@ -509,14 +509,14 @@ class ClipBucket
     function head_menu($params = NULL)
     {
         global $cbpage;
-        $this->head_menu[] = array('name' => lang("<i class='fa fa-home'></i>&nbsp; Home"), 'link' => BASEURL, "this" => "home", "section" => "home", "extra_attr" => "");
-        $this->head_menu[] = array('name' => lang("<i class='fa fa-video-camera'></i>&nbsp; Videos"), 'link' => cblink(array('name' => 'videos')), "this" => "videos", "section" => "home");
-        $this->head_menu[] = array('name' => lang("<i class='fa fa-camera'></i>&nbsp; Photos"), 'link' => cblink(array('name' => 'photos')), "this" => "photos");
-        $this->head_menu[] = array('name' => lang("<i class='fa fa-desktop'></i>&nbsp; Channels"), 'link' => cblink(array('name' => 'channels')), "this" => "channels", "section" => "channels");
-        $this->head_menu[] = array('name' => lang("<i class='fa fa-bars'></i>&nbsp; Collections"), 'link' => cblink(array('name' => 'collections')), "this" => "collections", "section" => "collections");
-        $this->head_menu[] = array('name' => lang("<i class='fa fa-users'></i>&nbsp; Groups"), 'link' => cblink(array('name' => 'groups')), "this" => "groups", "section" => "groups");
+        $this->head_menu[] = array('name' => lang("menu_home"),'icon'=>'<i class="fa fa-home"></i>', 'link' => BASEURL, "this" => "home", "section" => "home", "extra_attr" => "");
+        $this->head_menu[] = array('name' => lang("videos"), 'icon' => '<i class="fa fa-video-camera"></i>', 'link' => cblink(array('name' => 'videos')), "this" => "videos", "section" => "home");
+        $this->head_menu[] = array('name' => lang("photos"), 'icon' => '<i class="fa fa-camera"></i>','link' => cblink(array('name' => 'photos')), "this" => "photos");
+        $this->head_menu[] = array('name' => lang("menu_channels"),'icon' => '<i class="fa fa-desktop"></i>', 'link' => cblink(array('name' => 'channels')), "this" => "channels", "section" => "channels");
+        $this->head_menu[] = array('name' => lang("collections"), 'icon' => '<i class="fa fa-bars"></i>', 'link' => cblink(array('name' => 'collections')), "this" => "collections", "section" => "collections");
+        $this->head_menu[] = array('name' => lang("Groups"), 'icon' => '<i class="fa fa-users"></i>', 'link' => cblink(array('name' => 'groups')), "this" => "groups", "section" => "groups");
         if (!userid())
-            $this->head_menu[] = array('name' => lang("<i class='fa fa-pencil-square-o'></i>&nbsp; Signup"), 'link' => cblink(array('name' => 'signup')), "this" => "signup");
+            $this->head_menu[] = array('name' => lang("signup"), 'icon' => '<i class="fa fa-pencil-square-o"></i>', 'link' => cblink(array('name' => 'signup')), "this" => "signup");
 
         
 
