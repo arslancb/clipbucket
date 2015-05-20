@@ -37,7 +37,7 @@
             </div>
             <div class="clearfix" id="uploaderContainer">
             {if $c}
-              <h4>{$c.collection_name}</h4>
+              <div class="alert alert-info" role="alert">Photo will be uploaded into <strong><i>{$c.collection_name}</i></strong> Collection</div>
             {else}
               <h4 class="h4">Select Collection</h4>
               <div class="row">
@@ -298,8 +298,18 @@
                     Insert the video in the database and get the video db id from the
                     database which will be sent with the final form
                     */
+                    var collectionId;
+                    var collection_id = '{$c.collection_id}';
+                    if (collection_id ) 
+                    {
+                      collectionId = collection_id;
+                    }
+                    else
+                    {
+                      collectionId = $("#SelectionDIV select").val();
+                    }
                     var fileId = false;
-                   var collectionId = $("#SelectionDIV select").val();
+                   
                    var stored_cid = collectionId;
                    $.ajax({
                        url : baseurl + "/actions/photo_uploader.php",
