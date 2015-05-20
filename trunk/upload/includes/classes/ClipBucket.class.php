@@ -516,7 +516,7 @@ class ClipBucket
         $this->head_menu[] = array('name' => lang("<i class='fa fa-bars'></i>&nbsp; Collections"), 'link' => cblink(array('name' => 'collections')), "this" => "collections", "section" => "collections");
         $this->head_menu[] = array('name' => lang("<i class='fa fa-users'></i>&nbsp; Groups"), 'link' => cblink(array('name' => 'groups')), "this" => "groups", "section" => "groups");
         if (!userid())
-            $this->head_menu[] = array('name' => lang("signup"), 'link' => cblink(array('name' => 'signup')), "this" => "signup");
+            $this->head_menu[] = array('name' => lang("<i class='fa fa-pencil-square-o'></i>&nbsp; Signup"), 'link' => cblink(array('name' => 'signup')), "this" => "signup");
 
         
 
