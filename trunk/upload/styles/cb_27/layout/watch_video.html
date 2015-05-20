@@ -84,16 +84,16 @@
 
                     <ul class="nav nav-tabs">
                         <li class="active">
-                            <a href="#cb-item-info" data-toggle="tab">{lang('Info')}</a>
+                            <a href="#cb-item-info" data-toggle="tab"><i class="fa fa-info"></i>&nbsp;{lang('Info')}</a>
                         </li>
                         <li>
-                            <a href="#cb-item-share" data-toggle="tab">{lang('Share')}</a>
+                            <a href="#cb-item-share" data-toggle="tab"><i class="fa fa-share-square-o"></i>&nbsp;{lang('Share')}</a>
                         </li>
                         <li>
-                            <a href="#cb-item-addto" data-toggle="tab">{lang('Add to')}</a>
+                            <a href="#cb-item-addto" data-toggle="tab"><i class="fa fa-plus"></i>&nbsp;{lang('Add to')}</a>
                         </li>
                         <li>
-                            <a id="reportVideo" href="#cb-item-report" data-toggle="tab">{lang('Report')}</a>
+                            <a id="reportVideo" href="#cb-item-report" data-toggle="tab"><i class="fa fa-flag"></i>&nbsp;{lang('Report')}</a>
                         </li>
                     </ul>
 
@@ -110,6 +110,8 @@
                                     <strong class="pull-left">{lang('Tags:')}&nbsp;</strong>
                                     <span class="pull-left">{$vdo.tags|tags:videos}</span>
                                 </div>
+                                    <strong class="pull-left">Published:&nbsp;</strong>
+                                    <span class="pull-left">{$video.date_added|niceTime}</span>
 
                                 <!-- view sec hide on told arslan bhai -->
                                 <!-- <div class="mtm">
