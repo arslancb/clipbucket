@@ -1,3 +1,5 @@
+{assign var=friends value=$userquery->get_contacts($user.userid,0)}
+
 <div id="messageFav" class="marginTop"></div>
  <div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) center #000000 no-repeat;" >
    {if $user.userid == userid()}
@@ -5,11 +7,26 @@
    {/if}
    <div class="row">
      <div align="center" class="col-md-4 pull-right btn-group right-top-btns">
-       <a href="javascript:void(0)"  class="btn btn-primary btn-sm new1" 
+     {if $userquery->userid != $u.userid}
+        {if $friends}
+          <a href="{$baseurl}/manage_contacts.php?mode=delete&userid={$u.userid}"  class="btn btn-danger btn-sm new1">
+           <i class="glyphicon glyphicon-ok white"></i> 
+           {lang code="Unfriend"}
+           
+           {elseif $friend.confirmed =='no'}
+           <a href="{$baseurl}/manage_contacts.php?mode=delete&userid={$u.userid}"  class="btn btn-danger btn-sm new1">
+           <i class="glyphicon glyphicon-remove white"></i> 
+           {lang code="Cancel Request"}
+           </a>
+
+           {elseif !$friends}
+           <a href="javascript:void(0)"  class="btn btn-primary btn-sm new1" 
            onclick="add_friend('{$user.userid}','result_cont')">
-           <i class="glyphicon glyphicon-plus-sign white"></i>   
-           {lang code="Add as Friend"}
+           <i class="glyphicon glyphicon-plus-sign white"></i> 
+           {lang code="Add As Friend"}
+           {/if}
        </a>
+       {/if}
          <a href="private_message.php?mode=new_msg&to={$user.username}" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}</a>
  
          <button id="subscribe_channel"class="btn btn-primary btn-sm new1"><i class="icon-rss white"></i>  {lang code="Subscribe"}</button>
