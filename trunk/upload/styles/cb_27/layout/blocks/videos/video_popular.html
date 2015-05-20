@@ -1,8 +1,9 @@
-<div class="clearfix marginBottom grid_view list_view item_video_pop">
+<div class="clearfix marginBottom grid_view list_view item_video_pop video_thumb_sm">
     <div class="item_video">
         <div class="cb_item_container clearfix">
-            <div class=" col-md-5 thumb row">
+            <div class=" col-md-5 thumb row ">
                <a href="{videoLink($video)}" title="{$video.title|title}" >
+                <span class="fa fa-play play-icon"></span>
                     <img class="" src="{getThumb vdetails=$video}">
                     <span class="duration">{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
                 </a>

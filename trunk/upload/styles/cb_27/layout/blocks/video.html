@@ -4,8 +4,9 @@
 
 {if $display_type =='normal' || $display_type==''}
 <!-- Video Box -->
-	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mbm">
+	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12  video_thumb">
 		<a class="thumb-holder display-block relative" href="{videoLink($video)}" title="{$video.title|title}">
+		 <span class="fa fa-play play-icon"></span>
         <img class="cb_img_thum" src="{getThumb vdetails=$video size='160x90'}"  id="thumbs_{$video.videoid}"  title=""/>
         <!-- style="position: absolute;right: 15px;margin-right: -39px;" -->
         <span class="duration">{if
@@ -40,8 +41,9 @@
 
 
 {if $display_type=='add_type'}
-	    <div class="col-md-3">
+	    <div class="col-md-3 video_thumb">
 	    <a class="thumb-holder" href="{videoLink($video)}" title="{$video.title|title}">
+	     <span class="fa fa-play play-icon"></span>
 	        <img src="{getThumb vdetails=$video size='big'}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/>
 	        <span class="duration1" style="">
 	        {if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>

@@ -3,6 +3,7 @@
     <div class="cb_item_container clearfix">
         <div class="cb_item_thumb video_thumb relative" >
         <a href="{videoLink($video)}" title="{$video.title|title}">
+            <span class="fa fa-play play-icon"></span>
             <span class="duration">{if
             $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}{*$video.duration|date_format:$config.time*}
             </span>
@@ -11,9 +12,6 @@
         {ANCHOR place='in_video_thumb' data=$video}
          <img src="{$imageurl}/dot.gif" data-quick="quick-{$video.videoid}"
          class="add_icon cb_quickie cb-btn-quick-{$video.videoid}" onclick="add_quicklist(this,'{$video.videoid}')" title="Add {$video.title} to Quicklist" alt="Quicklist" />
-         
-
-         
         </div>
         <h5>
            <a href="{videoLink($video)}">{$video.title|truncate:15}</a>
@@ -27,8 +25,9 @@
 {/if}
 
 {if $display_type=='user_videos'}
-<div class="col-md-3  col-sm-4  col-xs-6">
+<div class="col-md-3  col-sm-4  col-xs-6 video_thumb ">
     <a href="{videoLink($video)}" title="{$video.title|title}">
+        <span class="fa fa-play play-icon"></span>
         <img alt="{$video.title|title}" src="{getThumb vdetails=$video size='171x120'}" id="thumbs_{$video.videoid}"  title="{$video.title|title}"/>
     </a>
     <p class="cbHomeVidDuration duration_view">
