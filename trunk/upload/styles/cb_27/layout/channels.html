@@ -11,7 +11,9 @@
             <!-- Page Heading -->
             <div class="page-hidding hidden-xs ">
                 {assign var=sorting_links value=sorting_links()}
-                <h4 class="smaller lighter pull-left">Browsing All Categories: </h4>
+                <h4 class="smaller lighter pull-left">{if $smarty.get.cat == 'all' || $smarty.get.cat == ''}{lang code="Browsing All Categories"}: 
+                {elseif $smarty.get.seo_cat_name != ''} Browsing <i>{$smarty.get.seo_cat_name}</i> Category {else} 
+                Browsing Category {$smarty.get.cat} {/if}</h4>
                 <div class="pull-left">
                     <!--Sorting By View-->
                     <div class="btn-group custom-dropdown">
