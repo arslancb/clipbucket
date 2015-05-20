@@ -3083,7 +3083,7 @@
 			
 		//Getting Subtitle
 		if(!$cbsubtitle)
-			echo " $sub_sep ".SLOGAN;
+			echo TITLE." - ".SLOGAN;
 		else
 			echo $cbsubtitle." $sub_sep ";
 			echo TITLE;
