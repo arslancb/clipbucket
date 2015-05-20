@@ -14,7 +14,7 @@
                 <h4 class="smaller lighter pull-left">{if $smarty.get.cat == 'all' || $smarty.get.cat == ''}{lang code="Browsing All Categories"}: 
                 {elseif $smarty.get.seo_cat_name != ''} Browsing <i>{$smarty.get.seo_cat_name}</i> Category {else} 
                 Browsing Category {$smarty.get.cat} {/if}</h4>
-                <div class="pull-left">
+                <div class="pull-right">
                     <!--Sorting By View-->
                     <div class="btn-group custom-dropdown">
                         {if $smarty.get.sort}
