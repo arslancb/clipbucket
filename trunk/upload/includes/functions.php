@@ -3082,11 +3082,11 @@
 			$sub_sep = '-';
 			
 		//Getting Subtitle
-		echo TITLE;
 		if(!$cbsubtitle)
 			echo " $sub_sep ".SLOGAN;
 		else
-			echo " $sub_sep ".$cbsubtitle;
+			echo $cbsubtitle." $sub_sep ";
+			echo TITLE;
 		//echo " ".SUBTITLE;
 	}
 	
