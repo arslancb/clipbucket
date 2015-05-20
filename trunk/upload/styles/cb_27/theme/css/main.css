@@ -2665,7 +2665,7 @@ padding-right: 0px;
 	color: #fff;
 	font-size: 22px;
 	height: 36px;
-	left: -18px;
+	left: 50%;
 	line-height: 26px;
 	margin: -18px 0 0 -18px;
 	padding: 5px 2px 5px 8px;
@@ -2687,13 +2687,11 @@ padding-right: 0px;
 	width: 60px;
 	height: 60px;
 	border-radius: 30px;
-	left: -60px;
 	margin: -30px 0 0 -30px;
 }
 .video_thumb_sm a .play-icon{
 	font-size: 15px;
 	height: 25px;
-	left: -25px;
 	line-height: 15px;
 	margin: -13px 0 0 -13px;
 	width: 25px;
@@ -2703,7 +2701,6 @@ padding-right: 0px;
 .video_thumb_sm a:hover .play-icon,
 .video_thumb_lg a:hover .play-icon,
 .video_thumb a:hover .play-icon {
-	left: 50%;
 	opacity: 1;
 }
 .video_duration{
