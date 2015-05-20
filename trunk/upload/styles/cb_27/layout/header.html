@@ -33,7 +33,7 @@
         <!--<form class="" role="search" action="{$baseurl}">-->
         <form class="navbar-form navbar-left no-border" role="search">
             <div class="input-group cbsearchtype">
-                <input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" id="query">
+                <input type="text" class="form-control" name="query" placeholder="search keyword here" value="{'query'|get_form_val:true}" id="query">
                 <div class="input-group-btn">
                     <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default" />
                     <input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
@@ -114,7 +114,7 @@
     <form id="search" class="navbar-form navbar-search navbar-left" name="search" method="get" role="search" action="{link name='search_result'}">
 
         <div class="input-group mtxs cbsearchtype">
-            <input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" id="query">
+            <input type="text" class="form-control" name="query" placeholder="search keyword here" value="{'query'|get_form_val:true}" id="query">
             <div class="input-group-btn">
                 <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default" />
                 <input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
@@ -155,13 +155,14 @@
             <ul class="dropdown-menu">
 
                 {if has_access('admin_access')}
-                <li><a href="{$admin_baseurl}">{lang code="Admin area"}</a></li>
+                <li><a href="{$admin_baseurl}"><i class="fa fa-cogs"></i>&nbsp;{lang code="Admin area"}</a></li>
                 {/if}
-                <li><a href="{link name='my_account' }{userid}">{lang code="my_account"}</a></li>
-                <li><a href="{link name='my_videos'}">{lang code="Manage Videos"}</a></li>
-                <li><a href="{link name='channels'}">{lang code="View Channels"}</a></li>
+                <li><a href="{link name='my_account' }{userid}"><i class="fa fa-user"></i></i>&nbsp;&nbsp;{lang code="my_account"}</a></li>
+                <li><a href="{link name='my_videos'}"><i class="fa fa-video-camera"></i>&nbsp;&nbsp;{lang code="Manage Videos"}</a></li>
+                <li><a href="{link name='channels'}"><i class="fa fa-eye"></i>&nbsp;&nbsp;{lang code="View Channels"}</a></li>
+                <li><a href="{$baseurl}/view_channel.php?user={$userquery->username}"><i class="fa fa-desktop"></i>&nbsp;&nbsp;{lang code="My Channel"}</a></li>
                 <li class="divider"></li>
-                <li><a href="{link name='logout'}">{lang code="Logout"}</a></li>
+                <li><a href="{link name='logout'}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;{lang code="Logout"}</a></li>
             </ul>
         </li>
         {else}
@@ -208,9 +209,9 @@
         <div class="form-small full-width">                    
             <form action="{link name='search_result'}" role="search" method="get" name="search_small" id="search_small">
                 <div class="input-group cbsearchtype">
-                    <input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" id="query">
+                    <input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" placeholder="search keyword here" id="query">
                     <div class="input-group-btn">
-                        <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default" />
+                        <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}"  class="btn btn-default" />
                         <input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
                         <button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
                             <span class="caret"></span>
