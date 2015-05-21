@@ -138,8 +138,25 @@
         </div>
 
  <div id="test1"></div>
- <div id="reply"> 
-        <div class="cb-box pad-bottom">
+        <div id="reply" class="clearfix"> 
+                    <div class="cb-box pad-bottom">
+                        <div  class="addComment clearfix">
+                            <h3 >{lang('Comments')}:&nbsp; 
+                            <span class="com_count" id="com_count">{$photo.total_comments}</span>
+                            <!--{$vdo.comments_count}--></h3>
+                             {if $myquery->is_commentable($photo,'p')}
+                                {include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
+                            {else}
+                            <div class="alert alert-warning">{lang code='Comments disabled for this photo'}</div>
+                            {/if}
+                        </div>
+                        <div id="comments">
+                            <ul class="list-unstyled" id="userCommentsList"></ul>
+                        </div>
+                    </div>
+                </div> 
+
+        <!--<div class="cb-box pad-bottom">
          <div  class="addComment clearfix">
             <h2>{lang code='comments'} 
             <div class="com_count" id="com_count"> {$photo.total_comments}</div></h2>
@@ -154,8 +171,7 @@
             <div id="userCommentsList"></div>
             </div>
           
-        </div>
-</div>
+        </div>-->
         
     </div>
     <div class="cb-box col-lg-4 col-md-4 visible-lg visible-md side-video pull-right" >
