@@ -573,7 +573,6 @@ class ClipBucket
                 }
             }
 
-
             $main_menu = array();
             foreach($headMenu as $menu)
             {
