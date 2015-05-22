@@ -526,8 +526,11 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 				alert("No data");
 			else
 			{
-				$("#"+result_cont).css("display","block");
+				$("#"+result_cont).css("display","none");
 				$("#"+result_cont).html(data);
+				
+				$("#friendMessage").append(data);
+				$("#friendMessage").show(0).delay(3000).fadeOut('slow');
 			}
 		},'text');
 	}
