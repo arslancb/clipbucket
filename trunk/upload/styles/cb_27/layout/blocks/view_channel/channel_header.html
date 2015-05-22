@@ -1,4 +1,7 @@
 {assign var=friends value=$userquery->get_contacts($user.userid,0)}
+ <div id="friendMessage" class="">
+      <!--Displays message for add friend-->    
+    </div>
 
 <div id="messageFav" class="marginTop"></div>
  <div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) center #000000 no-repeat;" >
@@ -10,9 +13,9 @@
      {if $userquery->userid != $u.userid}
         {if $friends}
           <a href="{$baseurl}/manage_contacts.php?mode=delete&userid={$u.userid}"  class="btn btn-danger btn-sm new1">
-           <i class="glyphicon glyphicon-ok white"></i> 
+           <i class="glyphicon glyphicon-remove white"></i> 
            {lang code="Unfriend"}
-           
+
            {elseif $friend.confirmed =='no'}
            <a href="{$baseurl}/manage_contacts.php?mode=delete&userid={$u.userid}"  class="btn btn-danger btn-sm new1">
            <i class="glyphicon glyphicon-remove white"></i> 
