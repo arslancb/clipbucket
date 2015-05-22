@@ -113,7 +113,6 @@ ul.mainTabs{
 
 .usersMenuButtons{
     margin-bottom: 10px;
-    <<<<<<< .mine
 }
 
 
@@ -605,4 +604,37 @@ ul.mainTabs{
         background-image:url(../../images/cb-admin-sprite@2x.png) !important;
         background-size: 227px 139px !important;
     }
+}
+
+.message-container {
+    left: 50%;
+    margin: -8px auto 0 -350px;
+    max-width: 700px !important;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+.message-container .alert-danger, .message-container .alert-success, .message-container .alert-info, .message-container .alert-warning {
+    border-radius: 0 0 5px 5px !important;
+}
+.message-container .message-show {
+    animation: 2000ms ease-out 0s normal none 1 running bounce;
+    display: block;
+}
+.message-container .alert {
+    transition: all 500ms ease-in-out 0s;
+    width: 100%;
+}
+
+#hide_stats_contents {
+    background-color: rgba(255, 255, 255, 0.7);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    z-index: 10;
 }

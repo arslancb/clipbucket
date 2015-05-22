@@ -89,6 +89,12 @@
         <li><a role="menuitem" tabindex="-1" href="login_as_user.php?uid={$u.userid}">Login as user</a></li>
         <li class="divider"></li>
         <li><a role="menuitem" tabindex="-1" href="?deleteuser={$u.userid}">Delete</a></li>
+        
+        
+       {foreach from=$userquery->user_manager_link item=links}
+       {$userquery->user_manager_link($links,$u)}
+       {/foreach} 
+
       </ul>
     </div>
     </td>

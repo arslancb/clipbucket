@@ -11,7 +11,6 @@ var normal_vid_file = '{$normal_vid_file}';
 var hq_vid_file = '{$hq_vid_file}';
 var player_url = '{$player_url}' + '/cbplayer';
 
-
 jwplayer("mediaplayer").setup( {ldelim}
 
     flashplayer: cb_player_file,
@@ -181,6 +180,7 @@ var enlarge_small = "{$enlarge_small}"; var autoplay = "{$autoplay}";
 //For multiserver, video files to html5_player.js (Json) 
 if('{$json_videos}')
 var files = '{$json_videos}';
+
 </script>
 
 <script type="text/javascript" src="{$html5_player_url}/html5_player.js"></script>

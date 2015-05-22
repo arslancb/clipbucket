@@ -31,9 +31,9 @@ if(!function_exists('html5_player'))
 		$html5_player = true;
 		
 		$vdetails = $in['vdetails'];
-		$video_play = get_video_files($vdetails,true,true);
+        
+      	$video_play = get_video_files($vdetails,true,true);
 	
-	  
 		
 		if(function_exists('get_refer_url_from_embed_code'))
 		{
@@ -166,12 +166,10 @@ if(!function_exists('html5_player'))
 	            }
             }
 
-		
-		
-		
+            	      
+		      
 			Template(HTML5_PLAYER_DIR.'/html5_player.html',false);
-			
-			
+				
 			return true;
 		}
 	}

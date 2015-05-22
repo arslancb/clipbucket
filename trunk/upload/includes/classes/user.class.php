@@ -5545,5 +5545,22 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 				$db->update(tbl("users"),array("voted"),array("|no_mc|$votedEncode")," userid='$userid'");		
 		}
 	}
+
+	/**
+	 * Function used to display user manger link
+	 */
+	function user_manager_link($link,$vid)
+	{
+		if(function_exists($link) && !is_array($link))
+		{
+			return $link($vid);
+		}else
+		{
+			if(!empty($link['title']) && !empty($link['link']))
+			{
+				return '<a href="'.$link['link'].'">'.$link['title'].'</a>';
+			}
+		}
+	}
 }
 ?>

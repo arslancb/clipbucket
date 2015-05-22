@@ -3,7 +3,7 @@ isButtonFullscreen = false;
 $(document).ready(function()
 {
 
-	//INITIALIZE
+    //INITIALIZE
 	var video = $('#myVideo');
 	var container = $('.cont');
 	var test = $(".cont,.myVideo");
@@ -202,13 +202,14 @@ $(document).ready(function()
 		}
 		else {
 
-			 $('.init').show();
+			$('.init').show();
 			$('.btnPlay').removeClass('paused');
 			video[0].pause();
 			_pause = true;
 		}
 	};
-	 
+
+    	 
     $( "#replay_v" ).click(function() {
         video[0].play();
         $('#opacity').hide();

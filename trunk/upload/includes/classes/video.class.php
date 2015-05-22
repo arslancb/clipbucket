@@ -1484,6 +1484,24 @@ class CBvideo extends CBCategory
 			}
 		}
 	}
+
+
+	/**
+	 * Function used to display video categories manger link temporay
+	 */
+	function video_categories_manager_link($link,$vid)
+	{
+		if(function_exists($link) && !is_array($link))
+		{
+			return $link($vid);
+		}else
+		{
+			if(!empty($link['title']) && !empty($link['link']))
+			{
+				return '<a href="'.$link['link'].'">'.$link['title'].'</a>';
+			}
+		}
+	}
 	
 	
 	/**

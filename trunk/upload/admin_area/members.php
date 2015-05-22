@@ -124,7 +124,7 @@ if(isset($_POST['unban_selected'])){
 
 			
 	//Calling Video Manager Functions
-	call_functions($userquery->user_manager_functions);
+	call_functions($userquery->user_manager_func);
 
 	//Getting Member List
 	$page = mysql_clean($_GET['page']);

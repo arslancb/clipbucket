@@ -138,11 +138,17 @@
                 <div class="lead dropdown">
                 <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Options <i class="caret"></i></button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="?category={$category[list].category_id}">Edit</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?category={$category[list].category_id}">Edit</a></li>
                 {if $category[list].isdefault!="yes"}
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_category={$category[list].category_id}">Delete</a>
-                </li>
-                    <li><a href="?make_default={$category[list].category_id}"></a></li>{/if}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_category={$category[list].category_id}">Delete</a></li>
+                    <li><a href="?make_default={$category[list].category_id}"></a></li>
+                {/if}
+
+                {foreach from=$cbvid->video_categories_manager_link item=links}
+                    {$cbvid->video_categories_manager_link($links,$category[list])}
+                {/foreach}
+
+
                 </ul>
                 </div>
             </td>
