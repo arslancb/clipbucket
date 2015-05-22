@@ -1,5 +1,11 @@
 <div class="heading clearfix">
-    <h2 class="pull-left">Member Manager</h2>
+    <h2 class="pull-left">
+    {if $smarty.get.private=='private'}
+        Private Channels
+    {else}
+        Member Manager
+    {/if}
+    </h2>
     {include file="$layout_dir/blocks/advanced_member_search.html" }
 </div>
 
@@ -49,6 +55,21 @@
                                     {else}InActive{/if}</span></span>
                             <span class="label label-info"><span>{$u.level|get_user_level}</span></span>
                             <span class="label"><span>Active</span> : <span>{$u.last_active|nicetime}</span></span>
+                            {if $smarty.get.private=='private'}
+                            Private Channels
+                            {else}
+                            Member Manager
+                            {/if}
+
+                            {if function_exists('channels_control')}
+                                {if $u.private == private}
+                                <li><a role="menuitem" tabindex="-1" href="?public={$u.userid}">Make Public</a></li>
+                                {/if}
+                                {if $u.private == public || $u.private == '' }
+                                <li><a role="menuitem" tabindex="-1" href="?private={$u.userid}">Make Private</a></li>
+                                {/if}
+                            {/if}
+            
                             {if $u.ban_status == "yes"}
                                 <span class="label label-danger"><span>Banned : {$u.ban_status}</span></span>
                             {else}
@@ -88,6 +109,14 @@
         {/if}
         <li><a role="menuitem" tabindex="-1" href="login_as_user.php?uid={$u.userid}">Login as user</a></li>
         <li class="divider"></li>
+        {if function_exists('channels_control')}
+        {if $u.private == private}
+        <li><a role="menuitem" tabindex="-1" href="?public={$u.userid}">Make Public</a></li>
+        {/if}
+        {if $u.private == public || $u.private == '' }
+        <li><a role="menuitem" tabindex="-1" href="?private={$u.userid}">Make Private</a></li>
+        {/if}
+        {/if}
         <li><a role="menuitem" tabindex="-1" href="?deleteuser={$u.userid}">Delete</a></li>
         
         
