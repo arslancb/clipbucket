@@ -7,11 +7,6 @@
     top: 10px;
     left: 10px;
 }
-#result_cont,#messageFav{
-	display: none;
-	position: fixed; top: 47px; width: 73%;
-	z-index: 11;
-}
 
 #cb_player{
 
