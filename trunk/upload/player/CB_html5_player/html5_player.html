@@ -1,7 +1,6 @@
 {if $flashplayer}
 <div id="mediaplayer">
 </div>
-
 <script type="text/javascript" src="{$html5_player_url}/flashplayer.js"></script>
 <script type="text/javascript">
 
@@ -126,15 +125,15 @@ jwplayer("mediaplayer").setup( {ldelim}
       </div>
     </div>
 
-    
+
     <div class="btmControl">
       <div class="btnPlay hbtn" title="Play/Pause video"></div>
-      <div class="sound sound2 hbtn" title="Mute/Unmute sound"></div>
-      <div class="volume" title="Set volume">
+      <div class="sound sound2 hbtn" id="soundIcon" title="Mute/Unmute sound"></div>
+      <div class="volume" id="volSec" title="Set volume" >
         <span class="volumeBar"></span>
       </div>
       <div class="time">
-        <span class="fcurrent">00:00</span> / 
+        <span class="fcurrent">00:00</span>/ 
         <span class="fduration">00:00</span>
       </div>
       <div class="btnFS enterbtnFs hbtn" id="fs" title="Switch to full screen"></div>

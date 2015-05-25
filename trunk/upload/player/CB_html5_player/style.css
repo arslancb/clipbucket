@@ -364,7 +364,7 @@ color: #fff;
 	float:left;
 	margin-top:16px;
 	margin-right:20px;
-	margin-left: 3px;
+	margin-left: 0px;
 }
 .volumeBar{
 	display:block;
@@ -929,4 +929,13 @@ opacity: 0;
 transform: rotate(900deg);
 }
 
+}
+@media (max-width: 400px) {
+  .fduration, #volSec, #path, .soundm, .title, .user, .init {
+    display: none;
+    }
+  .init {
+	background:url() no-repeat 50% 50% !important;
+	cursor:pointer;
+	}
 }

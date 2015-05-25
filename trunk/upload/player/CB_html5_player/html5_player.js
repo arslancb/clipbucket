@@ -149,10 +149,12 @@ $(document).ready(function()
 
 
     // on hover controils and captions get showed
+    
     var on_player = false;
 	$('.cont').on("mouseenter",function(){
 		on_player = true;
 		caption_show();
+
 	});
 
 	// on hover controils and captions get showed
@@ -183,9 +185,34 @@ $(document).ready(function()
 		$('.timeBar').css('width',perc+'%');	
 		$('.fcurrent').text(timeFormat(currentPos));	
 	});
-	
-	
-	
+
+	/*
+	* Changes made by *Saqib Razzaq*
+	* checks if windows size is less than 400
+	* if it is, hides volumebar and shows it when
+	* you hover over vol icon hiding video time	once  
+	* you move away from sound icon it hides itself showing video time
+	*/
+
+	if ($( window ).width() < 400)
+        {
+	$("#volSec").hide();
+	$("#soundIcon").mouseenter(function(){
+		$("#volSec").show();
+		$(".fcurrent").hide();
+	});
+	$(".volume").mouseleave(function(){
+		$("#volSec").hide();
+		$(".fcurrent").show();
+	});
+	}
+
+	/* 
+	* ==================
+	* volume changes end
+	* ==================
+	*/ 
+
 	//CONTROLS EVENTS
 	//video screen and play button clicked
 	video.on('click', function() { playpause(); } );
