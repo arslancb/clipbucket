@@ -25,8 +25,6 @@ $(document).ready(function()
 			{
 				if (loadmetadata == true)
 				{
-						
-						console.log('reday'+rdy);
 						$('.loading').fadeOut(500);
 						if( autoplay == '' ){
 							$('.init').fadeIn(2500);
@@ -69,14 +67,12 @@ $(document).ready(function()
 		    setTimeout(startBuffer, 10);
 		    $('.btnPlay').addClass('paused');
 	    }
-	    console.log('autoplay=>'+autoplay+' '+'hd=>'+_HD_flag);
         if(time_var  == true){
 			$('.init').hide();
 		}	
 		else{
 
 	   	    if( autoplay == '' && !_HD_flag){
-	   	    	console.log('autoplay=> 2'+autoplay+' '+'hd=>'+_HD_flag);
 				$('.init').fadeIn(2500);
 				$('.btnPlay').removeClass('paused');
 			}
