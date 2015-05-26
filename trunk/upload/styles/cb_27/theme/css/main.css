@@ -238,7 +238,7 @@ ul {
   height: auto !important;
   /*min-height: 100%;*/
   /* Negative indent footer by it's height */
-  margin: 0 auto -60px;
+  margin: 0 -60px;
   position: relative;
 }
 #container:after {
@@ -393,9 +393,10 @@ a:focus {
   height: auto !important;
   height: 100%;
   /* Negative indent footer by it's height */
-  margin: 0 auto -60px;
+  margin: 0 0 -60px;
   position: relative;
 }
+
 #container:after {
   content: "";
   display: block;
