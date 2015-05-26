@@ -923,6 +923,9 @@ class CBPhotos
 	 */
 	function image_magic($image,$file,$width,$height){
 		
+		if(!file_exists($image) || !$image)
+			return;
+		
 		$thumb = new Imagick();
 		$thumb->readImage($image);    
 		$can = $thumb->resizeImage($width,$height,Imagick::FILTER_LANCZOS,1);
