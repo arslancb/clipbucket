@@ -4405,6 +4405,7 @@ small {
   .navbar-container .nav-login-dd {
     display: inline-block;
   }
+
 @media (max-width: 767px) {
   .navbar-container .nav-collapse-btn {
     display: inline-block;

@@ -115,8 +115,8 @@
 }
 .mrxll{ margin-right:0px;}
 }
-@media (min-width: 768px) and (max-width:786px) {
-.navbar-nav > li > a{ 
-    padding:15px 10px; 
-}
+@media (min-width: 768px) and (max-width: 845px) {
+  .navbar-nav > li > a{
+    padding: 15px 7px;
+  }
 }
