@@ -145,11 +145,11 @@ $('#cover_info').show();
 (function(window){
   $(document).ready(function(){
     $("#reportVideo").on({
-            click : function(e){
-                e.preventDefault();
-                $("#flag_item").show();
-            }
-        });
+        click : function(e){
+            e.preventDefault();
+            $("#flag_item").show();
+        }
+    });
     var extensions = "{$extensions}";
     var baseurl = '{$baseurl}';
     var channelId = "{$user['userid']}";
