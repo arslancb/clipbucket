@@ -47,7 +47,7 @@
 
                         <ul role="menu" class="dropdown-menu">
                             {foreach from=$sorting_links item=name key=sort}
-                            <li><a href="{link name=time sort=$sort type=videos}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+                            <li><a href="{link name=time sort=$sort type=videos}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected" {/if}>li {$name}</a></li>
                             {/foreach}
                         </ul>
 
@@ -55,7 +55,7 @@
 
                         <ul role="menu" class="dropdown-menu">
                             {foreach from=$sorting_links item=name key=sort}
-                            <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=videos}">{$name}</a></li>
+                            <li {if $smarty.get.sort==$sort} class="active selected"  {/if}><a href="{link name=sort sort=$sort type=videos}">{$name}</a></li>
                             <li role="presentation" class="divider"></li>
                             {/foreach}
                         </ul>
@@ -91,7 +91,7 @@
                         {/if}  
                           <ul role="menu" class="dropdown-menu">
                             {foreach from=$time_links item=name key=sort name=times}
-                                <li><a href="{link name=time sort=$sort type=videos}&timing=time" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+                                <li><a href="{link name=time sort=$sort type=videos}&timing=time" {if $smarty.get.time==$sort} class="selected" style="color: #fff; background-color: #428bca;" {/if}>{$name}</a></li>
                                 <li role="presentation" class="divider"></li>
                             {/foreach}
                           </ul>
@@ -129,7 +129,7 @@
                           <ul role="menu" class="dropdown-menu">
                             {foreach from=$time_links item=name key=sort name=times}
                                 <li>
-                                    <a href="{link name=time sort=$sort type=videos}&timing=time" {if $smarty.get.time==$sort} class="selected"{/if}>
+                                    <a href="{link name=time sort=$sort type=videos}&timing=time" {if $smarty.get.time==$sort} class="selected"  {/if}>
                                     {$name}
                                     </a>
                                 </li>
@@ -173,7 +173,7 @@
 
                         <ul role="menu" class="dropdown-menu">
                             {foreach from=$sorting_links item=name key=sort}
-                            <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=videos}">{$name}</a></li>
+                            <li {if $smarty.get.sort==$sort} class="selected" {/if}><a href="{link name=sort sort=$sort type=videos}">{$name}</a></li>
                             <li role="presentation" class="divider"></li>
                             {/foreach}
                         </ul>
