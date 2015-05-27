@@ -246,6 +246,8 @@ $(document).ready(function()
 		$('.control').show();
 		$('.caption').show();
 		$('#web').show();
+		//showing pause icon by before video load
+		$('.btnPlay').addClass('paused');
 
      });
    $( "#cancel_v" ).click(function() {
