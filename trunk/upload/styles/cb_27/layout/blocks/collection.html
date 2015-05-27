@@ -75,18 +75,18 @@
     <div class="collectItemBox relative">
     	{if $type == "videos"}
 
-        <div class="the_item col-md-2 col-lg-2 col-sm-4 col-xs-6">
-            <div class="onePhotoContainer">
+        <div class="the_item">   <!--col-md-2 col-lg-2 col-sm-4 col-xs-6-->
+            <div class="onePhotoContainer oneVideoContainer">
                 <div class="onePhotoTitle">
-                    <a href="{$cbphoto->photo_links($object,'view_item')}">{$object.video_title|truncate:15}</a>
+                    <a href="{$cbphoto->photo_links($object,'view_item')}">{$object.title|truncate:15}</a>
                 </div>
 
-                  <a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
+                <a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
                     <img src="{getThumb vdetails=$object}" alt="{$object.title}" />
                 </a>
             </div>
-
         </div>
+
         {/if}
         {if $type == "photos"}
         <div class="show-image mouse_hover">
