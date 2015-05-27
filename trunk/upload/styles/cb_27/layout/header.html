@@ -2,7 +2,6 @@
     <div id="quicklist_box">
     </div>
 </div>
-
 {$searchPage = $smarty.get.query}
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="navbar-container clearfix">
@@ -98,9 +97,9 @@
 
                 {foreach $head_menu as $menu}
                 {if $menu@iteration > 4}
-                <li{if $smarty.get.type==$menu.name|lower }class="active"
+                <li {if $smarty.get.type==$menu.name|lower } class="active"
                 {elseif !$smarty.get.type}
-                {if $menu.active}class="active"{/if}
+                {if $menu.active} class="active"{/if}
                 {/if}><a href="{$menu.link}">{$menu.icon} {$menu.name}</a></li>
                 {/if}
                 {/foreach}
