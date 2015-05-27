@@ -4126,7 +4126,7 @@ class userquery extends CBCategory{
 		$uploaded = $default['datemargin'];
 		$sort = $default['sort'];
 		
-		$this->search->search_type['users'] = array('title'=>lang('users'));
+		$this->search->search_type['channels'] = array('title'=>lang('users'));
 		
 		$fields = array(
 		'query'	=> array(
