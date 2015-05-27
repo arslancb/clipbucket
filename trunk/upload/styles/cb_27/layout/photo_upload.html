@@ -51,7 +51,7 @@
                        </select>
                    </div>
                    {else}
-                      <p class="alert alert-warning">No Collection Found</p>
+                      <p class="alert alert-danger">No Collection Found! You must create a collection before uploading any photo</p>
                       <div class="form-group">
                          <label>Select Collection</label>
                          <select class="form-control" id="collectionSelection" name="collectionSelection">
@@ -102,6 +102,7 @@
                   </div>
                 </div>
               </div>
+              {if $collections}
               <div class="upload-area col-md-12 clearfix">
                 <div class="fileUploaderForm">
                     <div class="dragDropContainer clearfix" id="dragDrop">
@@ -114,6 +115,7 @@
                     </div>
                 </div>
               </div>
+              {/if}
             </div>
             <div id="uploadDataContainer" class="uploadDataContainer clearfix marginTop">
               <div class="uploadingProgressContainer clearfix hidden">
