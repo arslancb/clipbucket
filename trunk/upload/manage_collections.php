@@ -120,7 +120,17 @@ switch($mode)
 					$eh->flush();
 					e(sprintf("selected_items_removed","videos"),"m");
 				}
-				$objs = $cbvideo->collection->get_collection_items_with_details($cid,$order);
+				 
+				$get_limit = create_query_limit($page,COLLIP);
+				
+				$objs = $cbvideo->collection->get_collection_items_with_details($cid,$order,$get_limit);
+
+
+				$total_rows = $cbvideo->collection->get_collection_items_with_details($cid,$order,NULL,TRUE);
+				$total_pages = count_pages($total_rows,COLLIP);
+				
+				//Pagination
+				$pages->paginate($total_pages,$page);
 			}
 			break;
 			
@@ -137,7 +147,14 @@ switch($mode)
 					$eh->flush();
 					e(sprintf("selected_items_removed","photos"),"m");
 				}
-				$objs = $cbphoto->collection->get_collection_items_with_details($cid,$order);
+				$get_limit = create_query_limit($page,COLLIP);
+				$objs = $cbphoto->collection->get_collection_items_with_details($cid,$order,$get_limit);
+
+				$total_rows = $cbphoto->collection->get_collection_items_with_details($cid,$order,NULL,TRUE);
+				$total_pages = count_pages($total_rows,COLLIP);
+				
+				//Pagination
+				$pages->paginate($total_pages,$page);
 			}
 			break;
 		}

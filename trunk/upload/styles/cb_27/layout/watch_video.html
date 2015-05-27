@@ -141,6 +141,17 @@
                             <div class="alert ">
                             {show_playlist_form id=$vdo.videoid type=video}
                             </div>
+                            {if userid()}
+                            <div class="alert ">
+                                <div class="clearfix"></div>
+                                <div align="right"><a href="javascript:void(0)"
+                                     onclick="$('#addCollectionCont').toggle()"
+                                        style="text-decoration:none"><strong>+ {lang code='add_to_my_collection'}</strong></a>
+                                </div>
+                                <div id="addCollectionCont" style="display:none">{show_collection_form id=$vdo.videoid type=Video}</div>
+                            </div>
+                            {/if}    
+                            </div>
                         </div>
 
                         <div class="tab-pane" id="cb-item-report">

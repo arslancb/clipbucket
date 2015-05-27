@@ -139,7 +139,8 @@
                             {include file="$style_dir/blocks/manage/account_collections.html" display_type="items" collection=$objs[olist]}
                         {sectionelse}
                             <div align="center" style="font:bold 11px Tahoma; margin-top:5px;">{lang code="no_items_found_in_collect"}</div>
-                        {/section}    
+                        {/section}
+                        {include file="$style_dir/blocks/pagination.html"}    
                     {/if}
 
                     {if $mode == "favorite"}

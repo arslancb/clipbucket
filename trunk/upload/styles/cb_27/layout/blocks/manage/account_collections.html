@@ -41,7 +41,8 @@
  	      <label for="checkbox"></label></td>
  	    <td valign="middle">
         <div style="padding-left:10px; float:left;width:300px">
-       <label for="check_item-{$collection.videoid}"> <img src="{getThumb vdetails=$collection}" width="40" height="30" border="0" class="acc_usr_video_thumb" /></label>{$collection.title|truncate:100}<br />
+       <label for="check_item-{$collection.videoid}"> <img src="{getThumb vdetails=$collection}" border="0" class="acc_usr_video_thumb" /></label>
+       <span>{$collection.title|truncate:100}</span><br />
 <span class="video_control"><a href="{$cbcollection->collection_links($collection,'view_item')}">{lang code="view"}</a></span>
         </div>
         </td>
@@ -65,7 +66,7 @@
  	    <td valign="middle">
         <div style="padding-left:10px; float:left;">
         <label for="check_item-{$collection.photo_id}">{get_photo style='padding:1px; border:1px solid #999; float:left;' details=$collection output="html"}</label>
-        {$collection.photo_title|truncate:100}<br />
+        <span>{$collection.photo_title|truncate:100}</span><br />
 <span class="video_control"><a href="{$cbphoto->photo_links($collection,'view_item')}">{lang code="view"}</a></span>
         </div>
         </td>
