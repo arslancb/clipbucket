@@ -9,6 +9,9 @@ $(document).ready(function()
 	var test = $(".cont,.myVideo");
 	var loadmetadata = true;
 	var _pause = false;
+	
+	//showing pause icon by before video load
+	$('.btnPlay').addClass('paused');
 
 	attachEvents();
 
@@ -677,6 +680,7 @@ function attachEvents (){
    $( document ).on( 'mozfullscreenchange', toggleFullScreen );
    $( document ).on( 'MSFullscreenchange', toggleFullScreen );
 }
+
 
 
 /**  
