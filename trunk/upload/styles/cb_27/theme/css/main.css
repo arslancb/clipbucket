@@ -1801,7 +1801,7 @@ a:hover {
   color: #FFFFFF;
   display: none;
   font-size: 14px;
-  height: 41px;
+  height: 41px !important;
   left: 0;
   opacity: 0.8;
   position: absolute;
