@@ -39,7 +39,7 @@ if($userquery->login_check('',true)){
 			
 		else
 		{
-			$signup = $userquery->signup_user($_POST);
+			$signup = $userquery->signup_user($_POST,true);
 			if($signup)
 			{
 				$udetails = $userquery->get_user_details($signup);
