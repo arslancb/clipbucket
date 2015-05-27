@@ -4,7 +4,7 @@
     {assign var=json value=$photo.photo_details|json_decode}
     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mouse_hover">
         <div class="cb-box pad-bottom-sm">  
-            <div class="photo-holder">
+            <div class="photo-holder relative">
                 <a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if}
                 href="{$cbphoto->photo_links($nextItem.0,'view_item')}">{get_photo details=$photo size='l' class='img-responsive center-block' output='html' height="100"}</a>
                 {assign var=objctid value=$object.ci_id}
@@ -14,9 +14,9 @@
 
                 {assign var=nextLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'next')}
                 
-                <a class="btn btn-primary btn-lg view-photo-nxt mouse_hover_on" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">Next<i class="bg-next"> </i></a>
+                <a class="btn btn-primary btn-lg view-photo-nxt mouse_hover_on" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">Next<i class="glyphicon glyphicon-chevron-right"> </i></a>
 
-                <a class="btn btn-danger btn-lg view-photo-pre mouse_hover_on" href="{$cbphoto->photo_links($preLink.0,'view_item')}"><i class="bg-prev"></i>Previous</a>
+                <a class="btn btn-danger btn-lg view-photo-pre mouse_hover_on" href="{$cbphoto->photo_links($preLink.0,'view_item')}"><i class="glyphicon glyphicon-chevron-left"></i>Previous</a>
                 <hr>
             </div>
             <div class="watch-vid-title mbl">

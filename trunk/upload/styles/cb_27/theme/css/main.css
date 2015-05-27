@@ -118,6 +118,9 @@ ul {
 .onePhotoContainer .onePhotoTitle a:hover {
   text-decoration: none;
 }
+.oneVideoContainer {
+  height: 200px !important;
+}
 .userInfoOnOnePhoto a {
   display: block;
 }
@@ -238,7 +241,7 @@ ul {
   height: auto !important;
   /*min-height: 100%;*/
   /* Negative indent footer by it's height */
-  margin: 0 -60px;
+  margin: 0 auto -60px;
   position: relative;
 }
 #container:after {
@@ -393,10 +396,9 @@ a:focus {
   height: auto !important;
   height: 100%;
   /* Negative indent footer by it's height */
-  margin: 0 0 -60px;
+  margin: 0 auto -60px;
   position: relative;
 }
-
 #container:after {
   content: "";
   display: block;
@@ -1801,7 +1803,7 @@ a:hover {
   color: #FFFFFF;
   display: none;
   font-size: 14px;
-  height: 41px !important;
+  height: 41px;
   left: 0;
   opacity: 0.8;
   position: absolute;
@@ -1873,17 +1875,9 @@ ul#photos li.photo-land-no {
   width: 780px;
 }
 .view-photo-nxt {
-  position: absolute;
-  /*top: 82%;
-  right: -10px;*/
-  bottom: 10px;
   right: 0;
 }
 .view-photo-pre {
-  position: absolute;
-  /*top:82%;
-  left:-10px;*/
-  bottom: 10px;
   left: 0;
 }
 .font14 {
@@ -3862,7 +3856,16 @@ small {
     padding-top: 6px;
   }
 }
-
+@media (min-width: 1177px) {
+  .navbar-container .nav-login-btns,
+  .navbar-container .navbar-search {
+    display: inline-block !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 1176px) {
+  .navbar-container .nav-login-dd {
+    display: inline-block;
+  }
   .navbar-container .nav-login-dd li .dropdown-menu {
     max-width: 900px;
     min-width: 300px;
@@ -4394,18 +4397,24 @@ small {
 .navbar-container .navbar-search {
   display: none;
 }
-
-@media (min-width: 1177px) {
+@media (min-width: 1145px) {
   .navbar-container .nav-login-btns,
   .navbar-container .navbar-search {
     display: inline-block !important;
   }
 }
-@media (min-width: 768px) and (max-width: 1176px) {
+@media (min-width: 768px) and (max-width: 1144px) {
   .navbar-container .nav-login-dd {
     display: inline-block;
   }
-
+  .navbar-container .nav-login-dd li .dropdown-menu {
+    max-width: 900px;
+    min-width: 300px;
+    margin-left: 20px;
+    padding: 10px;
+    line-height: 1.5;
+  }
+}
 @media (max-width: 767px) {
   .navbar-container .nav-collapse-btn {
     display: inline-block;

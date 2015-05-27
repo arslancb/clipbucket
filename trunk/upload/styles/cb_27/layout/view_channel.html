@@ -105,30 +105,26 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>	
+			</div>
+			<div class="col-md-4 col-sm-4  hidden-xs">
+				{include file="$style_dir/blocks/view_channel/channel_right.html" }
 
-				
-				
-				
-		</div>
-		<div class="col-md-4 col-sm-4  hidden-xs">
-			{include file="$style_dir/blocks/view_channel/channel_right.html" }
-
-			<div class="cb-item-desc-container report-video-area clearfix viewChanelTabs">
-				<ul class="nav nav-tabs" id="reportTab">
-					<li>
-						<a id="reportVideo" href="#cb-item-report" data-toggle="tab">{lang('Report')}</a>
-					</li>
-				</ul>
-				<div class="tab-content">
-					<div class="tab-pane" id="cb-item-report">
-					{show_flag_form id=$user.userid type=user}
+				<div class="cb-item-desc-container report-video-area clearfix viewChanelTabs">
+					<ul class="nav nav-tabs" id="reportTab">
+						<li>
+							<a id="reportVideo" href="#cb-item-report" data-toggle="tab">{lang('Report')}</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane" id="cb-item-report">
+						{show_flag_form id=$user.userid type=user}
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 </div>
 
 <div class="clearfix bottom-hieght" ></div>

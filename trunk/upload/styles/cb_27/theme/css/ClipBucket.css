@@ -64,3 +64,10 @@ h6 {
   right: 0;
   left: auto;
 }
+.view-photo-nxt,
+.view-photo-pre {
+  top: 50%;
+  margin-top: -35px;
+  position: absolute;
+  display: block;
+}
