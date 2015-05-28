@@ -4368,7 +4368,7 @@ small {
   margin: auto;
 }
 .navbar-container .navbar-search {
-  width: 300px !important;
+  width: 320px !important;
   line-height: 37px;
   margin-left: 20px;
 }
@@ -5046,4 +5046,7 @@ h6 {
 }
 .pagination li:first-child a {
   border-radius: 0px;
+}
+.minus-marginLeft {
+  margin-left: -4px !important;
 }

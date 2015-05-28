@@ -33,9 +33,9 @@
             <div class="input-group cbsearchtype">
                 <input type="text" class="form-control" name="query" placeholder="search keyword here" value="{'query'|get_form_val:true}" id="query">
                 <div class="input-group-btn">
-                    <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default" />
                     <input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
                     <button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
+                        <span class="search-type">Videos</span>
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
@@ -44,16 +44,17 @@
                         {foreach from=$Cbucket->search_types item=t key=stypes}
                         {if $counter == 3}
                         <li value="{$stypes}" {if $smarty.get.type==$stypes || $smarty.get.type==''}  class="active"  {/if}>
-                            <a  href="#">{$stypes}</a>
+                            <a  class="s-types" href="#">{$stypes}</a>
                         </li>
                         {else}
                         <li value="{$stypes}" {if $smarty.get.type==$stypes}  class="active" {/if}>
-                            <a  href="#">{$stypes}</a>
+                            <a  class="s-types" href="#">{$stypes}</a>
                         </li>
                         {/if}
                         {$counter = $counter + 1}
                         {/foreach}
                     </ul>
+                    <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default minus-marginLeft" />
                 </div>
                 
             </div>
@@ -111,11 +112,11 @@
     <form id="search" class="navbar-form navbar-search navbar-left" name="search" method="get" role="search" action="{link name='search_result'}">
 
         <div class="input-group mtxs cbsearchtype">
-            <input type="text" class="form-control" name="query" placeholder="search keyword here" value="{'query'|get_form_val:true}" id="query">
+            <input type="text" class="form-control" name="query" placeholder="search keyword here"  value="{'query'|get_form_val:true}" id="query">
             <div class="input-group-btn">
-                <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default" />
                 <input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
                 <button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
+                    <span class="search-type">Videos</span>
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
@@ -124,16 +125,17 @@
                     {foreach from=$Cbucket->search_types item=t key=stypes}
                     {if $counter == 3}
                     <li value="{$stypes}" {if $smarty.get.type==$stypes || $smarty.get.type==''}  class="active"  {/if}>
-                        <a  href="#">{$stypes}</a>
+                        <a  class="s-types" href="#">{$stypes}</a>
                     </li>
                     {else}
                     <li value="{$stypes}" {if $smarty.get.type==$stypes}  class="active" {/if}>
-                        <a  href="#">{$stypes}</a>
+                        <a  class="s-types" href="#">{$stypes}</a>
                     </li>
                     {/if}
                     {$counter = $counter + 1}
                     {/foreach}
                 </ul>
+                <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default minus-marginLeft" />
             </div>
             
         </div>
@@ -205,9 +207,9 @@
                 <div class="input-group cbsearchtype">
                     <input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" placeholder="search keyword here" id="query">
                     <div class="input-group-btn">
-                        <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}"  class="btn btn-default" />
                         <input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
                         <button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
+                            <span class="search-type">Videos</span>
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
@@ -216,16 +218,17 @@
                             {foreach from=$Cbucket->search_types item=t key=stypes}
                             {if $counter == 3}
                             <li value="{$stypes}" {if $smarty.get.type==$stypes || $smarty.get.type==''}  class="active"  {/if}>
-                                <a  href="#">{$stypes}</a>
+                                <a class="s-types" href="#">{$stypes}</a>
                             </li>
                             {else}
                             <li value="{$stypes}" {if $smarty.get.type==$stypes}  class="active" {/if}>
-                                <a  href="#">{$stypes}</a>
+                                <a class="s-types" href="#">{$stypes}</a>
                             </li>
                             {/if}
                             {$counter = $counter + 1}
                             {/foreach}
                         </ul>
+                        <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default minus-marginLeft" />
                     </div>
                     
                 </div>
@@ -308,21 +311,19 @@
                 $('.type').val($(this).html());
                 $('.cbsearchtype li').removeClass('active');
                 prent_li.addClass('active');
-            /*var searchtype = $("#SearchType").val();
-            var buttonText = $(this).text().toLowerCase();
-            if($("#SearchType option[value='"+ buttonText +"']").length > 0){
-                $("#SearchType option:selected").removeAttr("selected");
-                $("#SearchType option[value='"+ buttonText +"']").attr("selected" , "selected");
-                $(this).parents("ul").find(".active").removeClass("active");
-                $(this).parent().addClass("active");
-
-            }*/
-        }
-    });
+            }
+            });
         
         $('.show-small-form').click(function() {
             $('.form-small').toggleClass('show');   
         });
+
+        $('.s-types').on("click", function(){
+            var _this = $(this);
+            var text = _this.html();
+            $('.search-type').html(text);
+        });
+
     });
 
 </script>
