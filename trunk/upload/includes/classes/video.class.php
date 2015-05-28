@@ -1317,7 +1317,8 @@ class CBvideo extends CBCategory
 			array('field'=>'broadcast','type'=>'!=','var'=>'unlisted','op'=>'AND','value'=>'static'),
 			array('field'=>'status','type'=>'=','var'=>'Successful','op'=>'AND','value'=>'static')
 		);
-		$this->search->use_match_method = true;
+		//commit this line so that videos search can be applied to %like% instead of whole word search
+		//$this->search->use_match_method = true;
 		$this->search->match_fields = array("title","tags");
 		
 		$this->search->cat_tbl = $this->cat_tbl;
