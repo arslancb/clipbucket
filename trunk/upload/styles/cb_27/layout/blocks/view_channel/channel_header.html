@@ -10,19 +10,14 @@
    {/if}
    <div class="row">
      <div align="center" class="col-md-4 pull-right btn-group right-top-btns">
-     {if $userquery->userid != $u.userid}
-        {if $friends}
+     {if $user.userid != userid()}
+
+        {if $friends && userid()}
           <a href="{$baseurl}/manage_contacts.php?mode=delete&userid={$u.userid}"  class="btn btn-danger btn-sm new1">
            <i class="glyphicon glyphicon-ok white"></i> 
            {lang code="Unfriend"}
            
-           {elseif $friend.confirmed =='no'}
-           <a href="{$baseurl}/manage_contacts.php?mode=delete&userid={$u.userid}"  class="btn btn-danger btn-sm new1">
-           <i class="glyphicon glyphicon-remove white"></i> 
-           {lang code="Cancel Request"}
-           </a>
-
-           {elseif !$friends}
+           {elseif !$friends && userid()}
            <a href="javascript:void(0)"  class="btn btn-primary btn-sm new1" 
            onclick="add_friend('{$user.userid}','result_cont')">
            <i class="glyphicon glyphicon-plus-sign white"></i> 
