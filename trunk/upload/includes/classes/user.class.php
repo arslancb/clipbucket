@@ -4089,11 +4089,12 @@ class userquery extends CBCategory{
 		$this->search = new cbsearch;
 		$this->search->db_tbl = "users";
 		// added more conditions usr_status='Ok' and ban_status='no'
+		/*
+		array('field'=>'usr_status','type'=>'=','var'=>'Ok','op'=>'AND','value'=>'static'),
+			array('field'=>'ban_status','type'=>'=','var'=>'no','op'=>'AND','value'=>'static'),
+		*/
 		$this->search->columns =array(
 			array('field'=>'username','type'=>'LIKE','var'=>'%{KEY}%'),
-			array('field'=>'usr_status','type'=>'=','var'=>'Ok','op'=>'AND','value'=>'static'),
-			array('field'=>'ban_status','type'=>'=','var'=>'no','op'=>'AND','value'=>'static'),
-			
 		);
 		$this->search->cat_tbl = $this->cat_tbl;
 
