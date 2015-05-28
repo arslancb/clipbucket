@@ -4093,9 +4093,21 @@ class userquery extends CBCategory{
 		array('field'=>'usr_status','type'=>'=','var'=>'Ok','op'=>'AND','value'=>'static'),
 			array('field'=>'ban_status','type'=>'=','var'=>'no','op'=>'AND','value'=>'static'),
 		*/
-		$this->search->columns =array(
-			array('field'=>'username','type'=>'LIKE','var'=>'%{KEY}%'),
-		);
+		if(!has_access('admin_access',TRUE))
+		{
+			$this->search->columns =array(
+				array('field'=>'username','type'=>'LIKE','var'=>'%{KEY}%'),
+				array('field'=>'usr_status','type'=>'=','var'=>'Ok','op'=>'AND','value'=>'static'),
+				array('field'=>'ban_status','type'=>'=','var'=>'no','op'=>'AND','value'=>'static'),
+			);
+		}
+		else
+		{
+			$this->search->columns =array(
+				array('field'=>'username','type'=>'LIKE','var'=>'%{KEY}%'),
+			);
+		}	
+			
 		$this->search->cat_tbl = $this->cat_tbl;
 
 		$this->search->display_template = LAYOUT.'/blocks/user.html';
