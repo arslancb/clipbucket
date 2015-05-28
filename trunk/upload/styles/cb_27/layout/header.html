@@ -35,7 +35,7 @@
                 <div class="input-group-btn">
                     <input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
                     <button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
-                        <span class="search-type">Videos</span>
+                        <span class="search-type">{if $smarty.get.type}{$smarty.get.type}{else}Videos{/if}</span>
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
@@ -116,7 +116,7 @@
             <div class="input-group-btn">
                 <input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
                 <button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
-                    <span class="search-type">Videos</span>
+                    <span class="search-type">{if $smarty.get.type}{$smarty.get.type}{else}Videos{/if}</span>
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
@@ -209,7 +209,7 @@
                     <div class="input-group-btn">
                         <input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
                         <button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
-                            <span class="search-type">Videos</span>
+                            <span class="search-type">{if $smarty.get.type}{$smarty.get.type}{else}Videos{/if}</span>
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
@@ -321,7 +321,7 @@
         $('.s-types').on("click", function(){
             var _this = $(this);
             var text = _this.html();
-            $('.search-type').html(text);
+            $('.search-type'){if $smarty.get.type}{$smarty.get.type}{else}Videos{/if}(text);
         });
 
     });
