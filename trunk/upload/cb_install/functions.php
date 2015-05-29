@@ -187,6 +187,15 @@
 					$return['msg'] = _("PHPShield loaders are working (optional)");
 			}
 			break;
+
+			case "imagick":
+			{
+				if(!extension_loaded('imagick'))
+					$return['err'] = _("Imagick ectension is not enabled");
+				else
+					$return['msg'] = _("Imagick extension is enabled");
+			}
+			break;
 			
 			
 			

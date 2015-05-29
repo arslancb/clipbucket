@@ -72,7 +72,7 @@ ul {
   margin-bottom: 20px;
 }
 .overallProgressContainer {
-  position: fixed;
+  /*position: fixed;*/
   bottom: 0;
   width: 100%;
   left: 0;
@@ -80,6 +80,9 @@ ul {
   opacity: 0.9;
   background-color: #fff;
   z-index: 1000;
+}
+#uploadedFilesInfo p {
+  margin-bottom: 0 !important;
 }
 .btn-group {
   margin-bottom: 10px;
@@ -4905,9 +4908,9 @@ footer {
 }
 #mainUploadContainer .uploadFormContainer {
   padding: 20px 10px 10px;
-  border-top: solid 5px #0671C9;
+  border-top: solid 1px #0671C9;
   margin-bottom: 10px;
-  display: none;
+  
 }
 #mainUploadContainer .uploadFormContainer .uploadFormDiv label {
   font-weight: normal;
@@ -4985,7 +4988,7 @@ footer {
   padding: 10px;
 }
 #uploadMessage {
-  position: fixed;
+/*   position: fixed; */
   width: 50%;
   margin-left: 25%;
   text-align: center;

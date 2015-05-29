@@ -51,7 +51,10 @@ $php_ver = check_module('php');
      <dt class="grey-text">PHPShield</dt>
        <?php $phpshield = check_module('phpshield'); ?>
         <dd  style="background-color:#fff;"><span style="margin-left:60px;" class="grey-text"><?php echo msg_arr($phpshield);?></span></dd>
-
+    
+    <dt class="grey-text">ImageMagick</dt>
+       <?php $imagick = check_module('imagick'); ?>
+        <dd  style="background-color:#fff;"><span style="margin-left:60px;" class="grey-text"><?php echo msg_arr($imagick);?></span></dd>
     
 </dl>
 
