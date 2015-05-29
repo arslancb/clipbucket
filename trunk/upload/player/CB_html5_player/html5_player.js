@@ -327,6 +327,8 @@ $(this).toggleClass('hdoff');
     $('source', '#myVideo').eq(1).prependTo('#myVideo');
     $('#myVideo')[0].load();
     $('#myVideo')[0].play();
+    $('.init').hide();
+    $('.btnPlay').addClass('paused');
     _HD_flag = true;
     
 });
