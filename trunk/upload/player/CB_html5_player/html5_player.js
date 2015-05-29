@@ -489,7 +489,7 @@ $(this).toggleClass('hdoff');
 if (enlarge_small == 'true')
 {
 $('.btmControl').append('<div class="smallscr largescr hbtn" id="largescr" title="Enlarge/Small Size"></div>');
-$('#largescr').insertAfter("#fs");
+$('#largescr').insertAfter("#hd");
 }
 
 
@@ -519,12 +519,12 @@ $('#ritems').append('<li id="copy"  class="rlist copy">Show Video link</li>');
 $('#ritems').append('<li class="rlist about">About</li>');
 $('#ritems').append('<li class="rlist clip">Powered by Clipbucket</li>');
 
-$('.cont').bind("contextmenu", function (e) {
-    e.preventDefault();                 // To prevent the default context menu.
-    $("#rightcmenu").css("left", e.pageX);   // For updating the menu position.
-    $("#rightcmenu").css("top", e.pageY);    // 
-    $("#rightcmenu").fadeIn(500, startFocusOut()); //  For bringing the context menu in picture.
-});
+// $('.cont').bind("contextmenu", function (e) {
+//     e.preventDefault();                 // To prevent the default context menu.
+//     $("#rightcmenu").css("left", e.pageX);   // For updating the menu position.
+//     $("#rightcmenu").css("top", e.pageY);    // 
+//     $("#rightcmenu").fadeIn(500, startFocusOut()); //  For bringing the context menu in picture.
+// });
 
 
 function startFocusOut() {
@@ -554,15 +554,15 @@ alert(document.URL);
 
 
 //Logo
-$('.btmControl').append('<div id="path" class="path hbtn"  > </div>');
+$('.cb-playerLogo').append('<div id="path" class="path hbtn"  > </div>');
 
 $('#path').prop("href","http://clip-bucket.com/");
-$("#path").insertAfter("#hd");
+// $("#path").insertAfter("#hd");
 $('#path').css({
 	            'backgroundImage': 'url(data:image/png;base64,' + webpath + ')',
-				'float':'right',
-				'margin-right':'3px',
-				'margin-top':'3px',
+				//'float':'right',
+				'margin-right':'7px',
+				'margin-top':'0px',
 				
 				
 			});

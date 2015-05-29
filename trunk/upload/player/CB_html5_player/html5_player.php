@@ -71,7 +71,7 @@ if(!function_exists('html5_player'))
             assign('height',$in['height']);
             assign('width',$in['width']);
 
-			$l_details = BASEURL.'/images/icons/country/hp.png';
+			$l_details = BASEURL.'/images/icons/country/hp-cb.png';
 			$l_convert = base64_encode(file_get_contents($l_details));
 			assign('display',$l_convert);
             
