@@ -120,7 +120,7 @@
             <div id="uploadDataContainer" class="uploadDataContainer clearfix marginTop">
               <div class="uploadingProgressContainer clearfix hidden">
                   <div class="alert alert-block alert-info">
-                      <p><b>Selected Files</b> Uploading in progress <small><span id="progressNumber">0%</span> Complete of Photo <span id="videoNumber"></span></small></p>
+                      <p><b>Selected Files</b> Uploading in progress <small><span id="progressNumber" style="color:#fff;">0%</span> <span style="color:#fff;">Complete of Photo </span><span id="videoNumber"></span></small></p>
                   </div>
               </div>
               <div class="align-right hidden" id="uploadMore">
@@ -484,8 +484,8 @@
                     click: function(e){
                         e.preventDefault();
                         $("#uploaderContainer").removeClass("hidden");
-                        //$("#uploadDataContainer").addClass("hidden");
-                        //$(this).addClass("hidden");
+                        $("#uploadDataContainer").addClass("hidden");
+                        /*$(this).addClass("hidden");*/
                     }
                 });
                 
