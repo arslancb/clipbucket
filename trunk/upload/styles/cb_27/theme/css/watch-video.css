@@ -90,7 +90,6 @@
 	 font-size: 17px;
 }*/
 .watch-vid-rating-view{
- margin-left: 20px;
   text-align: center;
   width:100%;
 }
@@ -117,7 +116,7 @@
    bottom: -15px;
     position: absolute;
     right: -31px;
-    width: 270px;
+    width: 280px;
 }
 .watch-vid-tab-description{
     width:98%;
