@@ -186,10 +186,10 @@
         </div>
 
         <!-- /Page Heading -->
-        <div class="col-md-12 clearfix photos nopadding">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 clearfix photos pull-left">
 
             {$counter=0}
-            <ul class="list-unstyled row" id="photos"> <!-- remove photos id to remove photo land styling --></ul>
+            <ul class="list-unstyled " id="photos"> <!-- remove photos id to remove photo land styling --></ul>
             {section name=p_list loop=$photos}
             
             {$photos[p_list].counter=$counter}
@@ -210,7 +210,7 @@
             <!--<img src="http://www.ryangiggs.cc/system/files/banner-160x600-pride-tee_0.jpg">
             <a href="http://www.arvixe.com/clipbucket_hosting"><img class="banner pull-right" src="{$theme}/assets/images/ad-box-160x600.jpg" ></a>-->
         <!--</div>-->
-        <div align="center" class="col-md-12 clearfix">
+        <div align="center" class="col-md-12 clearfix pull-left">
                 {include file="$style_dir/blocks/pagination.html"}
         </div>
         
