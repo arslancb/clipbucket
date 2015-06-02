@@ -34,7 +34,14 @@ if($tdetails)
 		//Calling all functions when a topic is called
 		call_view_topic_functions($tdetails);
 	}
+
+	$glist['exclude'] = $tdetails['group_id'];
+	$glist['limit'] = 10;
+	$groups = $cbgroup->get_groups($glist);
+	Assign('groups', $groups);
 }
+
+
 
 template_files('view_topic.html');
 display_it();

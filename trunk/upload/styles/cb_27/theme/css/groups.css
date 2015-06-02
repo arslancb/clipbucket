@@ -229,6 +229,16 @@ overflow: hidden;
 .dropdown-submenu:hover>a:after{border-left-color:#ffffff;}
 .dropdown-submenu.pull-left{float:none;}.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
 
+.topic_title{font-weight:bold; display:block; color:#000000; border-bottom:1px solid #aaa;  padding-bottom:5px; margin-bottom:5px;}
+.topic_title a{font-weight:bold; display:block; color:#333; text-decoration:none}
+.topic_title a:hover{color:#06c}
+
+.add_topic{padding:5px; height:18px; line-height:16px; display:inline-block; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; background-color:#E6F0FF; margin-bottom:5px; cursor:pointer;font-weight:bold;}
+.add_topic:hover{color:#06c}
+.add_topic img{display:inline; float:left; margin-right:5px 0px; }
+
+.add_topic_container{margin:auto;background:#FFF url(../images/simple_gradient.png) repeat-x bottom; border:1px solid #ccc; padding:5px; margin-bottom:10px}
+
 @media (max-width: 981px) {
   .groups-view {
     min-height: 160px;
