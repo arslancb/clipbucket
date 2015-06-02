@@ -164,9 +164,7 @@
 	    		<div id="reply" class="clearfix"> 
 	    		    <div class="pad-bottom">
 	                    <div  class="addComment clearfix">
-	                        <h3 >{lang('Comments')}:&nbsp; 
-	                        <span class="com_count" id="com_count">{$vdo.comments_count}</span>
-	                        <!--{$vdo.comments_count}--></h3>
+                            <div class="com_count" id="com_count"><span>{lang code='comments'} </span> {$vdo.comments_count}</div>
 	                        {if $myquery->is_commentable($vdo,'v')}
 	                            {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
 	                        {else}

@@ -1,82 +1,65 @@
 {assign var=friends value=$userquery->get_contacts($user.userid,0)}
- <div id="result_cont" class="">
-   
- </div>
-
-<div id="messageFav" class="marginTop"></div>
- <div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) center #000000 no-repeat;" >
+<div id="result_cont"></div>
+<div id="messageFav"></div>
+<div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) center #000000 no-repeat;" >
    {if $user.userid == userid()}
    <a href="#" class="btn btn-primary btn-sm  changeCover sr-only" id="changeCover">{lang code="Update Cover"}</a>
    {/if}
-   <div class="row">
-     <div align="center" class="col-md-4 pull-right btn-group right-top-btns">
-     {if $user.userid != userid()}
+    <div align="center" class="btn-group right-top-btns">
+    {if $user.userid != userid()}
 
         {if $friends && userid()}
-          <a href="{$baseurl}/manage_contacts.php?mode=delete&userid={$u.userid}"  class="btn btn-danger btn-sm new1">
+        <a href="{$baseurl}/manage_contacts.php?mode=delete&userid={$u.userid}"  class="btn btn-danger btn-sm new1">
            <i class="glyphicon glyphicon-ok white"></i> 
            {lang code="Unfriend"}
+        </a>
            
-           {elseif !$friends && userid()}
-           <a href="javascript:void(0)"  class="btn btn-primary btn-sm new1" 
+        {elseif !$friends && userid()}
+        <a href="javascript:void(0)"  class="btn btn-primary btn-sm new1" 
            onclick="add_friend('{$user.userid}','result_cont')">
            <i class="glyphicon glyphicon-plus-sign white"></i> 
            {lang code="Add As Friend"}
            {/if}
        </a>
        {/if}
-         <a href="private_message.php?mode=new_msg&to={$user.username}" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}</a>
+        <a href="private_message.php?mode=new_msg&to={$user.username}" class="btn btn-primary btn-sm new1">
+            <i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}
+        </a>
  
-         <button id="subscribe_channel"class="btn btn-primary btn-sm new1"><i class="icon-rss white"></i>  {lang code="Subscribe"}</button>
-     </div>
-   </div>
- 
-   <div class="row">
+        <button id="subscribe_channel"class="btn btn-primary btn-sm new1"><i class="icon-rss white"></i>  {lang code="Subscribe"}</button>
+    </div>
+    <img class="view-channel-thumb" src="{$userquery->getUserThumb($user)}">
+    <h3 class="view-channel-name">{$user.username}</h3>
 
-     <div class="ccol-lg-2 col-md-2 col-sm-3 col-xs-3">
-         <a class="navbar-brand" href="#">
-             <img class="relative2 thumb-user" src="{$userquery->getUserThumb($user)}">
-         </a>
-     </div>
- 
-     <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3 padding33">
-         <h3 class="cname"><span class="cover-user-name">{$user.username}</span></h3>
-     </div>
-     {if $user.userid == userid()}
-     <div class="col-md-4 pull-right padding34 btn-bootums">
-         <button class="btn btn-primary new1" >
-             <span class="line-height-1 bigger-170 blue">{$user.total_videos}</span>
-             <br>
-             <span class="line-height-1 smaller-90 new1"> Videos </span>
-         </button>
-         <span class="btn btn-primary new1" >
-             <span class="line-height-1 bigger-170 blue">{$user.total_photos}</span>
-             <br>
-             <span class="line-height-1 smaller-90 new1"> Photos </span>
-         </span>
-         <span class="btn btn-primary new1" >
-             <span class="line-height-1 bigger-170 blue">{$user.profile_hits}</span>
-             <br>
-             <span class="line-height-1 smaller-90 new1"> Views </span>
-         </span>
-         <span class="btn btn-primary new1" >
-             <span class="line-height-1 bigger-170 blue">{$user.subscribers}</span>
-             <br>
-             <span class="line-height-1 smaller-90 new1"> Contacts </span>
-         </span>
-     </div>
-     {/if}
-   </div>
-   <div class="btn-group col-md-5 channel">
-     <div class="">
+    {if $user.userid == userid()}
+    <div class="btn-bootums">
+        <span>
+            <p>{$user.total_videos}</p>
+            <p> Videos </p>
+        </span>
+        <span>
+            <p>{$user.total_photos}</p>
+            <p> Photos </p>
+        </span>
+        <span>
+            <p>{$user.profile_hits}</p>
+            <p> Views </p>
+        </span>
+        <span>
+            <p>{$user.subscribers}</p>     
+            <p> Contacts </p>
+        </span>
+    </div>
+    {/if}
+
+    <div class="view-channel-like-sec">
         <div class="watch-vid-thumbsupdown-sec" id="rating_container">
-          {show_video_rating rating=$p.rating ratings=$p.rated_by total='10' id=$p.userid type=user}
+        {show_video_rating rating=$p.rating ratings=$p.rated_by total='10' id=$p.userid type=user}
         </div>
-      </div>
-  </div>
+    </div>
 
- </div>
- <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>
 
  <br><br> 
 

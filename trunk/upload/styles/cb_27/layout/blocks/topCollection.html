@@ -1,15 +1,15 @@
 {if $display_type == "" || $display_type == "normal"}
-<div class="col-md-12 photo_view nopadding">
+<li class="mouse_hover">
     <div class="collection_home mouse_hover">
-        <a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
-             <img class="cb_img_thum" src="{$cbcollection->get_thumb($collection,'',TRUE)}"/>
-            <div class="details mouse_hover_on">
-                <div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
-            </div>
-        </a>
-       
+        <img class="cb_img_thum" src="{$cbcollection->get_thumb($collection,'',TRUE)}"/>
     </div>
-</div>
+    <a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
+        <div class="details mouse_hover_on">
+            <div align="center" class="collection_name">{$collection.collection_name|truncate:30}</div>
+            <div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
+        </div>
+    </a>
+</li>
 {/if}
 
 

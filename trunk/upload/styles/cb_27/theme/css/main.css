@@ -44,6 +44,19 @@ ul {
   width: 100%;
 }
 /* userComments */
+.com_count{
+  width: 100%;
+  color: #000;
+  font-size: 24px;
+  border-bottom: #eee 1px solid;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+.com_count span{
+  color: #000;
+  font-size: 24px;
+
+}
 .userComments {
   margin-top: 20px;
 }
@@ -2077,6 +2090,32 @@ ul.collections .details {
   top: 0;
   width: 99.4%;
 }
+
+ul.view-photo-collections li {
+  float: left;
+  margin-left: 5px;
+  width: 100%;
+  position: relative;
+}
+ul.view-photo-collections li .collection_home img {
+  height: 120px;
+}
+ul.view-photo-collections li .collection_home {
+  margin-bottom: 15px;
+}
+ul.view-photo-collections .details {
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
+  color: #FFFFFF;
+  left: 1px;
+  margin-top: 1px;
+  padding-bottom: 36px;
+  padding-top: 34px;
+  position: absolute;
+  top: 0;
+  width: 99.4%;
+}
+
+
 .collection_name {
   font-size: 20px;
 }
@@ -2144,18 +2183,8 @@ ul.collections .details {
 .relative1 {
   position: relative;
 }
-.relative2 {
-  position: relative;
-  top: 78px;
-  left: 2px;
-  background-color: #000000;
-  width: 140px;
-  border: 5px solid;
-  border-color: #ffffff;
-}
-.channel {
-  padding-left: 200px;
-}
+
+
 .cname {
   color: #ffffff;
   padding-top: 30px;
@@ -2786,35 +2815,7 @@ h2.myHeadingBLK {
   margin-bottom: 10px;
   position: relative;
 }
-.collection_home img {
-  height: 105px;
-}
-.photo_view .collection_home .details {
-  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
-  color: #FFFFFF;
-  left: 303px;
-  padding-bottom: 2px;
-  padding-top: 1px;
-  position: absolute;
-  top: 84px;
-  width: 16.9%;
-}
-.collection_home .details {
-  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
-  color: #FFFFFF;
-  left: 7px;
-  padding-bottom: 27px;
-  padding-top: 27px;
-  height: 100%;
-  position: absolute;
-  width: 96.4%;
-}
-.photo_view .collection_home .details .collection_total {
-  font-size: 9px;
-}
-.collection_home .details .collection_total {
-  font-size: 13px;
-}
+
 ul#myTab_home {
   border-bottom: 0px solid #DDDDDD;
 }

@@ -18,12 +18,11 @@
         <img class="cb_img_thum" src="{$cbcollection->get_thumb($collection,'',TRUE)}"/>
     </div>
     <a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
-            <div class="details mouse_hover_on">
-                <div align="center" class="collection_name">{$collection.collection_name|truncate:30}</div>
-                <div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
-            </div>
-        </a>
-
+        <div class="details mouse_hover_on">
+            <div align="center" class="collection_name">{$collection.collection_name|truncate:30}</div>
+            <div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
+        </div>
+    </a>
 </li>
 
 

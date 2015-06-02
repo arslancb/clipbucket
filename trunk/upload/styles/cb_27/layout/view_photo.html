@@ -141,8 +141,8 @@
  <div id="reply"> 
         <div class="cb-box pad-bottom">
          <div  class="addComment clearfix">
-            <h2>{lang code='comments'} 
-            <div class="com_count" id="com_count"> {$photo.total_comments}</div></h2>
+
+            <div class="com_count" id="com_count"><span>{lang code='comments'} </span> {$photo.total_comments} </div>
 
             {if $myquery->is_commentable($photo,'p')}
             {include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
@@ -169,14 +169,18 @@
         <div class="clearfix"></div>
         <br>
         <h3>{lang code='Top Collections'}</h3>
+        <ul class="view-photo-collections">
         {section name=c_list loop=$collections}
+        
+        
         {include file="$style_dir/blocks/topCollection.html" collection=$collections[c_list]}
+       
         {sectionelse}
         {lang code='no_results_found'}
-        {/section}
+        {/section} 
+        </ul>
 
-        <div class="col-md-12 photo_view nopadding" ><img src="{$theme}/assets/images/likebox.png">
-        </div>
+
 
     </div>
 

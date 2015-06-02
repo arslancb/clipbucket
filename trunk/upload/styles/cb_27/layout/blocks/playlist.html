@@ -1,24 +1,15 @@
+<div class="view-channel-playlist-holder">
+    <img src="{get_playlist_thumb($playlist)}" />   
+        
+    <span >{$playlist.playlist_name}</span>
 
-<div class="row" >
-    <div class="col-md-10" style="border-bottom: 1px solid #E3E3E3;  margin:20px 20px 20px 30px;">
-        <div class="row">
-            <div class="col-md-3" style="margin-bottom:10px;">
-                <label class="label label-info">{$playlist.playlist_name}</label>
-            </div>
-            <img src="{get_playlist_thumb($playlist)}" />
-            {$list_id=$playlist.playlist_id}
-            {$first=get_playlist_items($list_id,1)}
-            {if $first}
-            <a href="{videoLink vdetails=$first[0]}" >{lang code='play_now'}</a>
-            {/if}
-            <div class="col-md-9">
-                
-                 <span class="maccountlabels"> <strong>{$playlist.date_added|niceTime}</strong>
-                    </span>
-               
-            </div>
-        </div>
-    </div>
+    {$list_id=$playlist.playlist_id}
+    {$first=get_playlist_items($list_id,1)}
+    {if $first}
+    <a href="{videoLink vdetails=$first[0]}" >{lang code='play_now'}</a>
+    {/if}
+
+    <p>{$playlist.date_added|niceTime}</p>
 </div>
 
         
