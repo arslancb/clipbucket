@@ -19,7 +19,7 @@
                 <a class="btn btn-danger btn-lg view-photo-pre mouse_hover_on" href="{$cbphoto->photo_links($preLink.0,'view_item')}"><i class="glyphicon glyphicon-chevron-left"></i>Previous</a>
                 <hr>
             </div>
-            <div class="watch-vid-title mbl">
+            <div class="watch-vid-title mbm">
                 <h1>{wordwrap($photo.photo_title,8, "\n", true)}</h1> 
             </div>
             <div class="vid-detail-sec">
@@ -27,7 +27,7 @@
                     <img src="{$userquery->getUserThumb($user)}" class="img-circle"/>
                 </div> 
                 <div class="watch-vid-user-sec">
-                    <div class="watch-vid-user-name">
+                    <div class="watch-vid-user-name mtm">
                         <a href="{$userquery->profile_link($user)}"> {$user.username}</a>
                     </div>
                     {if !$user.username}
@@ -63,7 +63,7 @@
                                 <a href="#pcode" data-toggle="tab">{lang('Add to')}</a>
                             </li>
                             <li>
-                                <a id="reportVideo" href="#preport" href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();" data-toggle="tab">{lang('Report')}</a>
+                                <a href="#cb-item-report" data-toggle="tab">{lang('Report')}</a>
                             </li>
                         </ul>
 
@@ -74,15 +74,15 @@
                                     <p id="videoDescription" class="will_show">{$photo.photo_description|truncate:90}</p>
 
                                     <div class="watch-vid-tag">
-                                        <strong class="pull-left">{lang('Category')}</strong>
-                                        <h1 class="pull-left mls"><a>{assign var=category value=$userquery->get_category($user.category)}
-                                            {$category.category_name}</a>
-                                        </h1>
+                                        <strong>{lang('Category')}</strong>
+                                        <span>{assign var=category value=$userquery->get_category($user.category)}
+                                            {$category.category_name}
+                                        </span>
 
                                     </div>
-                                    <div class="watch-vid-catg">
-                                        <strong class="pull-left"> {lang('Tags')}</strong>
-                                        <h2 class="pull-left mls">{$photo.photo_tags|tags:photos}</h2>
+                                    <div class="watch-vid-tag">
+                                        <strong> {lang('Tags')}</strong>
+                                        <span>{$photo.photo_tags|tags:photos}</span>
                                     </div>
                                     
                                     <!-- view sec hide on told arslan bhai -->
@@ -124,7 +124,7 @@
                                 </div>
                                 {/foreach}
                             </div>
-                            <div id="preport" class="tab-pane">
+                            <div id="cb-item-report" class="tab-pane">
                                 <br>
                                 {show_flag_form id=$photo.photo_id type=Photo}
                             </div>
