@@ -22,8 +22,7 @@
                         </div>
                     </div>
                 </div>
-                
-                {$row = $myquery->Get_Website_Details()}
+
 
                 <div class="vid-detail-sec">
                     <div class="watch-vid-thumb">    
@@ -103,7 +102,7 @@
                                       
                                 </a>
                             </div>   
-                        {if $row.video_download }
+                        {if $Cbucket->configs.video_download==1 && $cbvid->downloadable($vdo)}
                             <div class="col-lg-12 col-md-12 clearfix" style="margin-top:25px;">
                                <div class="dropdown pull-right">
                                   <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" style="margin-top: 10px;">

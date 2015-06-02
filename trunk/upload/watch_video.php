@@ -78,11 +78,21 @@ $video_cat = $v_cat[1];
 $video_cat = $v_cat[1].$v_cat[2];}
 $vid_cat = str_replace('%#%','',$video_cat);
 assign('vid_cat',$vid_cat);
-$vid_cond['order'] = " date_added DESC ";
-$vlist = $vid_cond;
-$vlist['limit'] = 15;
-$videos = get_videos($vlist);
-Assign('videos', $videos);
+
+
+$title = $vdo['title'];
+$tags = $vdo['tags'];
+$videoid = $vdo['videoid'];
+
+$related_videos = get_videos(array('title'=>$title,'tags'=>$tags,
+'exclude'=>$videoid,'show_related'=>'yes','limit'=>12,'order'=>'date_added DESC'));
+if(!$related_videos){
+	$related_videos  = get_videos(array('exclude'=>$videoid,'limit'=>12,'order'=>'date_added DESC'));
+}
+
+
+
+Assign('videos', $related_videos);
       
 
 

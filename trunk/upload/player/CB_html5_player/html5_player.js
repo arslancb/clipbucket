@@ -491,7 +491,7 @@ $(this).toggleClass('hdoff');
 if (enlarge_small == 'true')
 {
 $('.btmControl').append('<div class="smallscr largescr hbtn" id="largescr" title="Enlarge/Small Size"></div>');
-$('#largescr').insertAfter("#hd");
+$('#largescr').insertBefore("#fs");
 }
 
 

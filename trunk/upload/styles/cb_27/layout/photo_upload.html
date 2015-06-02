@@ -421,6 +421,10 @@
                       $("#collectionSelection").get(0).appendChild(newCollectionElement);
                       $("#CollectionDIV").toggle("slow");
                       $("#uploadMessage").html(msg.msg).attr("class", "alert alert-success").removeClass("hidden");
+                      $(".upload-area").show();
+                      $("#createNewCollection").show();
+                      $(".h4").show();
+                      $("#SelectionDIV").show();
                       setTimeout(function(){
                         $("#uploadMessage").addClass("hidden");
                       }, 5000);
