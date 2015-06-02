@@ -218,6 +218,9 @@ padding: 7px 15px;
 .overflow_hidden{
 overflow: hidden;
 }
+
+.cbsearchtype .dropdown-menu { min-width:160px; left: auto; right: 42px;}
+
 .dropdown-menu {right:0;min-width:230px;}
 .dropdown-submenu{position:relative;}
 .dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
