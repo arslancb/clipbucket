@@ -548,7 +548,7 @@ class CBvideo extends CBCategory
 	function remove_thumbs($vdetails)
 	{
 		//First lets get list of all thumbs
-		$thumbs = get_thumb($vdetails,1,true,false,false,true,false,true);
+		$thumbs = get_thumb($vdetails,1,true,false,false,true,false);
 
 		if(!is_default_thumb($thumbs))
 		{
