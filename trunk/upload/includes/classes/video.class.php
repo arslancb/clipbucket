@@ -502,10 +502,15 @@ class CBvideo extends CBCategory
 				#THIS SHOULD NOT BE REMOVED :O
 				//list of functions to perform while deleting a video
 				$del_vid_funcs = $this->video_delete_functions;
+				
+				
 				if(is_array($del_vid_funcs))
 				{
 					foreach($del_vid_funcs as $func)
 					{
+						
+						
+
 						if(function_exists($func))
 						{
 							$func($vdetails);
@@ -543,29 +548,45 @@ class CBvideo extends CBCategory
 	function remove_thumbs($vdetails)
 	{
 		//First lets get list of all thumbs
-		$thumbs = get_thumb($vdetails,1,true,false,false);
+		$thumbs = get_thumb($vdetails,1,true,false,false,true,false,true);
+
 		if(!is_default_thumb($thumbs))
 		{
+		
 			if(is_array($thumbs))
 			{
 				foreach($thumbs as $thumb)
 				{
+					if (strstr($thumb,'timthumb'))
+						$thumb = $this->convert_tim_thumb_url_to_file($thumb,$file_name=false);
+					else
+						$thumb = substr($thumb, 0, -6);
+
 					$file = THUMBS_DIR.'/'.$thumb;
 					if(file_exists($file) && is_file($file))
 						unlink($file);
 				}
+				
 				foreach($thumbs as $thumb)
 				{
-					$fn = substr($thumb, 0, -4);
+					
+					if (strstr($thumb,'timthumb'))
+						$fn = $this->convert_tim_thumb_url_to_file($thumb,$file_name=true);
+					else
+						$fn = substr($thumb, 0, -6);
+					
 					$result = db_select("SELECT * FROM ".tbl("video")." WHERE file_name = '$fn'");
 					if($result)
 					{
+						
 						foreach($result as $result1)
 						{
 							$str = '/'.$result1['file_directory'].'/';
 							$file1 = THUMBS_DIR.$str.$thumb;
 							if(file_exists($file1) && is_file($file1))
+							{
 								unlink($file1);
+							}
 						}
 
 					}
@@ -573,10 +594,21 @@ class CBvideo extends CBCategory
 			}
 			else
 			{
-				$file = THUMBS_DIR.'/'.$thumbs;
+				if (strstr($thumbs,'timthumb'))
+					$thumbs_ = $this->convert_tim_thumb_url_to_file($thumbs,$file_name=false);
+				else
+					$thumbs_ = substr($thumbs, 0, -6);
+
+				$file = THUMBS_DIR.'/'.$thumbs_;
 				if(file_exists($file) && is_file($file))
 					unlink($file);
-				$fn = substr($thumbs, 0, -4);
+				
+
+				if (strstr($thumbs,'timthumb'))
+					$fn = $this->convert_tim_thumb_url_to_file($thumbs,$file_name=true);
+				else
+					$fn = substr($thumbs, 0, -6);
+
 				$result = db_select("SELECT * FROM ".tbl("video")." WHERE file_name = '$fn'");
 				if($result)
 				{
@@ -585,7 +617,9 @@ class CBvideo extends CBCategory
 						$str = '/'.$result1['file_directory'].'/';
 						$file1 = THUMBS_DIR.$str.$thumbs;
 						if(file_exists($file1) && is_file($file1))
+						{
 							unlink($file1);
+						}
 					}
 				}
 			}
@@ -2075,6 +2109,26 @@ class CBvideo extends CBCategory
                 // Close the connection to the server
                 fclose($fp);
 
+	}
+
+	/**
+	 * Function used to convert timthumb url to filename and file
+	 * @param  : url, flag
+	 * @date   : 6/2/2015
+	 * @author : Fahad Abbas
+	 * @reason : to delete the thumb from server forcefully  
+	 */	
+
+	function convert_tim_thumb_url_to_file($url,$file_name=false)
+	{
+		$thumb = explode('src=',$url);
+		if ($file_name)
+			$thumb = explode('-', $thumb[1]);
+		else
+			$thumb = explode('&', $thumb[1]);
+
+		$fn = $thumb[0];
+		return $fn;
 	}
 
 	
