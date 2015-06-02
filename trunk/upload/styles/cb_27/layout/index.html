@@ -385,7 +385,11 @@
 						<div class="clearfix collection-section">
 							<div class="category-header row clearfix">
 								<div class="col-sm-6 clearfix"><span class="">{$playlist.playlist_name}</span></div>
-								<div class="col-sm-6 clearfix"><span class="total-obj">{$playlist.total_items}</span></div>
+								<div class="col-sm-6 clearfix">
+									<span class="total-obj">
+										{$cbvid->action->count_playlist_items($playlist.playlist_id)|number_format}
+									</span>
+								</div>
                             </div>
 
 							<div class="collection-grid clearfix"> 
