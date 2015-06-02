@@ -2891,6 +2891,11 @@ ul#myTab_home li:first-child + li {
 .ft-img .photo-title {
   font-size: 17px;
   line-height: 20px;
+  display: block;
+  width: 99%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .ft-hover .photo-title {
   font-size: 14px;
@@ -5077,4 +5082,30 @@ h6 {
 }
 .responsive-search .navbar-form {
   padding: 0 15px;
+}
+
+/* view photo css start by usman */
+.PhotoRating{
+  width: 100%;
+  overflow: hidden;
+}
+/* view photo css start by end */
+
+
+@media (max-width:375px) {
+    .hover .plus {
+        background-position: -4px 0;
+        background-size: 150% auto;
+        height: 24px;
+        margin: -28px 0 0 -12px;
+        width: 24px;
+        top: 74%;
+    }
+
+    .ft-hover a img{
+        height: 90px;
+    }
+    .ft-hover .hover {
+        padding:10px;
+    }
 }
