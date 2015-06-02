@@ -59,7 +59,7 @@ switch($mode)
 		}
 		
 		assign('mode','manage');
-		$usr_groups = $cbgroup->get_groups(array('user'=>userid()));
+		$usr_groups = $cbgroup->get_groups(array('user'=>userid()),true);
 		assign('usr_groups',$usr_groups);
 	}
 	break;
