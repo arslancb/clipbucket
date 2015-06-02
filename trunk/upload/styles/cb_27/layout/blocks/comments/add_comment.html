@@ -28,7 +28,7 @@ document.myform.limit.value = count-len;
             <label for="comment_name">
                 {lang code='name'}
             </label>
-            <input type="text" name="comment" id="comment_name" class="form-control">
+            <input type="text" name="name" id="comment_name" class="form-control">
         </div>
 
         <div class="form-group">
@@ -108,6 +108,7 @@ document.write("<input style='float:right;margin-top:-31px' type=text name=limit
                 $('#comment-add-err').hide();
                
                 var data = $(this).parents("form").serialize() + "&type={$type}&mode=add_comment";
+                console.log(data);
                 $.ajax({
                     url: ajaxPage,
                     type: "post",
