@@ -5083,6 +5083,11 @@ h6 {
 .responsive-search .navbar-form {
   padding: 0 15px;
 }
+/* photos css start */
+.collection-menu{
+  float: right;
+}
+/* photos css end */
 
 /* view photo css start by usman */
 .PhotoRating{
@@ -5108,4 +5113,10 @@ h6 {
     .ft-hover .hover {
         padding:10px;
     }
+    .page-hidding .btn-group {
+      margin-left:0px;
+  }
+  .collection-menu{
+    float: left;
+  }
 }
