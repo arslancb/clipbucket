@@ -418,6 +418,10 @@ class CBGroups extends CBCategory
 			
 			//Adding Feed
 			addFeed(array('action'=>'create_group','object_id' => $insert_id,'object'=>'group'));
+
+			//Updating Group Thumb
+			if(!empty($array['thumb_file']['tmp_name']))
+					$this->create_group_image($insert_id,$array['thumb_file']);
 			
 			if($redirect_to_group)
 			{

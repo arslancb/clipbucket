@@ -13,10 +13,22 @@
             <div class="cb-box">
                 <div class="upload_info">
                     <h2>{lang code='grp_crt_grp'}</h2>
-                       <form name="upload_form" class="upload_form" method="post" action="">
+                       <form name="upload_form" class="upload_form" method="post" action="" enctype="multipart/form-data">
+    
+                        
 
-                        <!-- Required Fields -->
-                        <h3>Required fields</h3>
+                        <fieldset class="fieldset">
+                           
+                            <div style="width:500px; float:left">
+                                <p class="nopadding">{lang code='grp_must_be'} JPG | GIF | PNG</p>
+                                <p class="nopadding">{lang code='grp_90x90'}</p>
+                                <p class="nopadding">{lang code='grp_thumb_warn'}</p>
+                                <input type="file" name="thumb_file" id="thumb_file" class="form-control" style="width: 250px" />
+                            </div>
+                            <div class="clearfix"></div>
+                        </fieldset>
+                        <!-- Required Fields 
+                        <h3>Required fields</h3>-->
                         {foreach from=$requiredFields item=field}
                         <div class="form-group">
                             <label for="{$field.id}">{$field.title}</label>
