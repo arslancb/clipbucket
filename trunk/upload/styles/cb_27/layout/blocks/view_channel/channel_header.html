@@ -25,13 +25,14 @@
         <a href="private_message.php?mode=new_msg&to={$user.username}" class="btn btn-primary btn-sm new1">
             <i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}
         </a>
- 
+        {if $user.userid != userid()}
         <button id="subscribe_channel"class="btn btn-primary btn-sm new1"><i class="icon-rss white"></i>  {lang code="Subscribe"}</button>
+        {/if}
     </div>
     <img class="view-channel-thumb" src="{$userquery->getUserThumb($user)}">
     <h3 class="view-channel-name">{$user.username}</h3>
 
-    {if $user.userid == userid()}
+
     <div class="btn-bootums">
         <span>
             <p>{$user.total_videos}</p>
@@ -50,7 +51,7 @@
             <p> Contacts </p>
         </span>
     </div>
-    {/if}
+
 
     <div class="view-channel-like-sec">
         <div class="watch-vid-thumbsupdown-sec" id="rating_container">
