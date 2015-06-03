@@ -1105,7 +1105,7 @@ class CBPhotos
 			$info = getimagesize($file);
 			$org_width = $info[0];
 			$org_height = $info[1];
-			if($org_width > $d_width && !empty($d_width))
+			if($width > $d_width > $d_width && !empty($d_width))
 			{
 				$ratio = $org_width / $d_width; // We will resize it according to Width
 				
