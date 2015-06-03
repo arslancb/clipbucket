@@ -5108,6 +5108,19 @@
 	}
 
 	/**
+	 * Get Video Collection Items
+	 *
+	 * @return Array
+	 */
+	function get_videos_of_collection($id,$order,$limit,$count_only=false)
+	{
+		global $cbvideo;
+		$items = array();
+		$items  = $cbvideo->collection->get_collection_items_with_details($id,$order,$limit,$count_only);
+		return $items;
+	}
+
+	/**
 	 * Get language locale
 	 *
 	 * @return String
