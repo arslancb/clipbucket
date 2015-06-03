@@ -132,10 +132,13 @@ $tag='<li><a #params#>#page#</a><li>';
 $pages->paginate($total_pages,$page,$link,$extra_params,$tag);
 
 
+// pulls user profile
+$profile = $userquery->get_user_profile($udetails['userid']);
+Assign('u_control', $profile);	
 
-
-
-
+// making sure user can see his private vid tab
+//$user_cond = $userquery->userid != $udetails['userid'];
+//Assign('u_cond', $user_cond);
 
     $firstVideo = isset($videos[0]) ? $videos[0] : false;
     $firstVideo = $cbvid->get_video($firstVideo['videoid']);
