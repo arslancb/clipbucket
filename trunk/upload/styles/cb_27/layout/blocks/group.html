@@ -16,7 +16,8 @@
                 <span class="label label-info"> {if $group.group_privacy =="0"}Public{elseif $group.group_privacy =="1"}Private{else}Invited{/if}</span>
             </div>
             <div class="clearfix">
-			    Owner: <a href="view_user.php?uid={$group.userid}">{$group.userid|get_username}</a></strong>
+                {$user = $userquery->get_user_details($group.userid)}
+			    Owner: <a href="{$userquery->profile_link($user)}">{$group.userid|get_username}</a></strong>
 			</div>
         </div>
     </div>

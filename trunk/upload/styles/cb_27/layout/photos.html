@@ -96,47 +96,49 @@
             <div class="pull-left">
 
                 <!--Sorting By View-->
-                <div class="btn-group custom-dropdown"> 
-                                {if $smarty.get.sort}
-                        {foreach from=$sorting_links item=name key=sort}
-                            {if $smarty.get.sort==$sort && isset($smarty.get.sort)} 
-                            <button class="btn btn-default" type="button">
-                            {$name}
-                            </button>
-                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                                <span class="arrow-drop"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            {/if}
-                        {/foreach}
-                        {else}
-                            <button class="btn btn-default" type="button">
-                            Recent
-                            </button>
-                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                                <span class="arrow-drop"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                        {/if}  
+                <div class="btn-group custom-dropdown">
+                    {if $smarty.get.sort}
+                    {foreach from=$sorting_links item=name key=sort}
+                        {if $smarty.get.sort==$sort && isset($smarty.get.sort)} 
+                        <button class="btn btn-default" type="button">
+                        {$name}
+                        </button>
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            <span class="arrow-drop"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        {/if}
+                    {/foreach}
+                    {else}
+                        <button class="btn btn-default" type="button">
+                        Recent
+                        </button>
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            <span class="arrow-drop"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                    {/if}    
 
-                    <!--
                     <ul role="menu" class="dropdown-menu">
                         {foreach from=$sorting_links item=name key=sort}
-                        <li><a href="{link name=time sort=$sort type=photos}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+                        <li><a href="{link name=time sort=$sort type=videos}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected" {/if}>li {$name}</a></li>
                         {/foreach}
-                    </ul>-->
+                    </ul>
+
+
+
                     <ul role="menu" class="dropdown-menu">
                         {foreach from=$sorting_links item=name key=sort}
-                        <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=photos}">{$name}</a></li>
+                        <li {if $smarty.get.sort==$sort} class="active selected"  {/if}><a href="{link name=sort sort=$sort type=videos}">{$name}</a></li>
                         <li role="presentation" class="divider"></li>
-                      {/foreach}
-                      </ul>
+                        {/foreach}
+                    </ul>
                 </div>
 
                 <!--Sorting By time-->
                 {assign var=time_links value=time_links()}
                 <div class="btn-group custom-dropdown">
-                    {if $smarty.get.timing} 
+                    {if $smarty.get.time} 
 
                     {foreach from=$time_links item=name key=sort name=times}
                         {if $smarty.get.time==$sort && isset($smarty.get.time)} 
@@ -145,9 +147,9 @@
                         {$name}
                         </button>
                         <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                        <span class="arrow-drop"></span>
+                            <span class="arrow-drop"></span>
                             <span class="sr-only">Toggle Dropdown</span>
-                        </button><!--<span class="glyphicon glyphicon-sort"></span> Most {$name}-->
+                        </button>
                         {/if}
                     {/foreach}
                     {else}
@@ -161,7 +163,7 @@
                     {/if}  
                       <ul role="menu" class="dropdown-menu">
                         {foreach from=$time_links item=name key=sort name=times}
-                            <li><a href="{link name=time sort=$sort type=photos}&timing=time" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+                            <li><a href="{link name=time sort=$sort type=videos}&timing=time" {if $smarty.get.time==$sort} class="selected" style="color: #fff; background-color: #428bca;" {/if}>{$name}</a></li>
                             <li role="presentation" class="divider"></li>
                         {/foreach}
                       </ul>
