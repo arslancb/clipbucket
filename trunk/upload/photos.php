@@ -16,12 +16,15 @@ $pages->page_redir();
 $sort = $_GET['sort'];
 $cond = array("category"=>mysql_clean($_GET['cat']),"date_span"=>$_GET['time'], "active"=>"yes");
 
+//this variable is set to set table for order to get photos
+$table_name = "photos";
+
 switch($sort)
 {	
 	case "most_recent":
 	default:
 	{
-		$cond['order'] = " date_added DESC";
+		$cond['order'] = $table_name.".date_added DESC";
 	}
 	break;
 	
@@ -33,19 +36,19 @@ switch($sort)
 	
 	case "most_viewed":
 	{
-		$cond['order'] = " views DESC";	
+		$cond['order'] = $table_name.".views DESC";	
 	}
 	break;
 	
 	case "most_commented":
 	{
-		$cond['order'] = " total_comments DESC";
+		$cond['order'] = $table_name.".total_comments DESC";
 	}
 	break;
 	
 	case "top_rated":
 	{
-		$cond['order'] = " rating DESC, rated_by DESC";
+		$cond['order'] = $table_name.".rating DESC, ".$table_name.".rated_by DESC";
 	}
 	break;	
 }

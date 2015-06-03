@@ -62,7 +62,7 @@
 
         {if $mode =='edit_playlist'}
           <h2>{lang code='manage_playlists'}</h2>
-          <div class="account_form">
+          <div class="account_form account_form-edit">
             <form method="post" name="edit_profile">
               
               <h3>{lang code='edit_playlist'}</h3>
@@ -71,7 +71,7 @@
               {foreach from=$playlist_fields item=group}
                 {foreach from=$group.fields item=field}
                   <div class="form-group">
-                    <label for="{$field.id}">{$field.title}</label>
+                    <label for="{$field.id}" class='label-heading'>{$field.title}</label>
                     {$field.class='form-control'}
                     {$formObj->createField($field)}
                   </div>
@@ -111,3 +111,16 @@
     </div>
   </div>
 </div>
+
+<style type="text/css">
+  
+  .account_form-edit label.label-heading{
+    display: block;
+  }
+
+  .account_form-edit label input{
+    
+    margin-right: 10px;
+  }
+
+</style>

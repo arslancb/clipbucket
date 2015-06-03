@@ -120,10 +120,17 @@
     cursor: default;
 }
 .watch-vid-error{
-  bottom: -85px;
-    position: absolute;
-    right: -31px;
-    width: 280px;
+	bottom:0px;
+	min-width: 280px;
+	position: absolute;
+	right: 0px;
+	width: 100%;
+	text-align: right;
+	z-index: 10;
+}
+.watch-vid-error .error {
+	font-size: 14px;
+	padding: 5px;
 }
 .watch-vid-tab-description{
     width:98%;
