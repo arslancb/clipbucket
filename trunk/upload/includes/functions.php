@@ -5086,6 +5086,7 @@
 		 'featured'		=> lang('featured'),
 		 'top_rated'	=> lang('top_rated'),
 		 'most_commented'	=> lang('commented'),
+		 'view_all'	=> lang('All'),
 		 );
 		return $array;
 	}
