@@ -1200,7 +1200,7 @@ if(!empty($mode))
 						$content['html'] .= '<a href="'.cblink(array("name"=>"user_photos")).$u['username'].'">'.lang('more').'</a> | <a href="'.cblink(array("name"=>"user_fav_photos")).$u['username'].'">'.lang('Favorites').'</a>';
 						$content['html'] .= '</div>';
 					} else {
-						$content['html'] = '<div align="center"><em>'.lang('User dont have any photos').'</em></div>';	
+						$content['html'] = '<div align="center"><em>'.lang("User doesn't have any photos").'</em></div>';	
 					}
 				}
 				break;
@@ -1218,7 +1218,7 @@ if(!empty($mode))
 							$content['html'] .= Fetch("/blocks/group.html");
 						}
 					} else {
-						$content['html'] = '<div align="center"><em>'.lang('User dont have any groups.').'</em></div>';	
+						$content['html'] = '<div align="center"><em>'.lang("User doesn't have any groups").'</em></div>';	
 					}
 				}
 				break;
@@ -1242,7 +1242,7 @@ if(!empty($mode))
 						$content['html'] .= '<a href="'.cblink(array("name"=>"user_playlists")).$u['username'].'">'.lang('more').'</a> ';
 						$content['html'] .= '</div>';
 					} else {
-						$content['html'] = '<div align="center"><em>'.lang('user_have_no_playlists').'</em></div>';	
+						$content['html'] = '<div align="center"><em>'.lang("User doesn't have any playlists").'</em></div>';	
 					}
 				}
 				break;
@@ -1262,7 +1262,7 @@ if(!empty($mode))
 						$content['html'] .= '<a href="'.cblink(array("name"=>"user_collections")).$u['username'].'">'.lang('more').'</a> | <a href="'.cblink(array("name"=>"user_fav_collections")).$u['username'].'">'.lang('Favorites').'</a>';
 						$content['html'] .= '</div>';						
 					} else {
-						$content['html'] = 	'<div align="center"><em>'.lang('User dont have any collections').'</em></div>';
+						$content['html'] = 	'<div align="center"><em>'.lang("User doesn't have any collections").'</em></div>';
 					}
 				}
 				break;
@@ -1279,7 +1279,7 @@ if(!empty($mode))
 							$content['html'] .= Fetch("/blocks/user.html");
 						}
 					} else {
-						$content['html'] = '<div align="center"><em>'.lang('User dont any friends yet').'</em></div>';	
+						$content['html'] = '<div align="center"><em>'.lang("User doesn't any friends yet").'</em></div>';	
 					}
 				}
 				break;
