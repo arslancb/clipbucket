@@ -16,9 +16,9 @@
                        <form name="upload_form" class="upload_form" method="post" action="" enctype="multipart/form-data">
     
                         
-
+                        
                         <fieldset class="fieldset">
-                           
+                           <legend>Upload Thumb</legend>
                             <div style="width:500px; float:left">
                                 <p class="nopadding">{lang code='grp_must_be'} JPG | GIF | PNG</p>
                                 <p class="nopadding">{lang code='grp_90x90'}</p>
@@ -27,10 +27,10 @@
                             </div>
                             <div class="clearfix"></div>
                         </fieldset>
-                        <!-- Required Fields 
-                        <h3>Required fields</h3>-->
+                        <!-- Required Fields -->
                         {foreach from=$requiredFields item=field}
                         <div class="form-group">
+                            <legend>{lang code='grp_info_all_fields_req'}</legend>
                             <label for="{$field.id}">{$field.title}</label>
                             {if $field.hint_1}
                             <p>{$field.hint_1}</p>

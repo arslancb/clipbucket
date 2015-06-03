@@ -356,17 +356,19 @@
 							<!-- <div class="col-sm-6 clearfix"><span class="total-obj">{$limit}</span></div> -->
 						</div>
 						<div class="collection-grid clearfix"> 
-						{if $collection.type=='p'}
+						{if $collection.type=='photos'}
 							{$items = $cbphoto->collection->get_collection_items_with_details($collection.collection_id,0,$limit,false)}
 						{else}
 							{$items = get_videos_of_collection($collection.collection_id,0,$limit,false) }
 						{/if}	
 
+
+
 						{if $items}
 							{foreach from=$items item=item}
 								<div class="collection-item">
 									<a href="{$cbphoto->photo_links($item,'view_item')}">
-										{if $collection.type=='p'}
+										{if $collection.type=='photos'}
 											{get_photo details=$item output='html' size="l" class="cb_img_thum"}
 										{else}
 											<img alt="{$item.title}" title="{$item.title}" class="cb_img_thum" id="photo_{$item.ci_id}" src="{getThumb vdetails=$item}">
