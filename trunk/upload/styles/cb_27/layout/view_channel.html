@@ -1,6 +1,5 @@
 {$myAccountLinks = $userquery->my_account_links()}
 {$leftMenuLinks = array_slice($myAccountLinks, 7)}
-
 {lang code='channel' assign='object_type'}
 
 <div class="container">
@@ -16,11 +15,11 @@
 				<div class="tabbable viewChanelTabs">
 					<ul class="nav nav-tabs" id="myTab">
 						<li class="active"><a href="javascript:void(0)" class="selected" rel="infoDIV"  id="infoTab" onClick="channelObjects(this,'#channelDetailsBox','info','{$u.userid}'); return false;">{lang code='info'}</a></li>
-				                {if isSectionEnabled('videos')}
+				                {if isSectionEnabled('videos') && $u_control.show_my_videos == 'yes'}
 						<li><a href="javascript:void(0)" onClick="channelObjects(this,'#channelDetailsBox','videos','{$u.userid}'); return false;">{lang code='videos'}</a></li>{/if}
-						{if isSectionEnabled('groups')}
+						{if isSectionEnabled('groups') && $u_control.show_my_friends == 'yes'}
 						<li><a href="javascript:void(0)" onClick="channelObjects(this,'#channelDetailsBox','groups','{$u.userid}'); return false;">{lang code='groups'}</a></li>{/if}
-						{if isSectionEnabled('photos')}
+						{if isSectionEnabled('photos') && $u_control.show_my_photos == 'yes'}
 						<li><a href="javascript:void(0)" onClick="channelObjects(this,'#channelDetailsBox','photos','{$u.userid}'); return false;">{lang code='photos'}</a></li>{/if}
 						<li><a href="javascript:void(0)" onClick="channelObjects(this,'#channelDetailsBox','playlists','{$u.userid}'); return false;">{lang code='Playlists'}</a></li>
 					</ul>
