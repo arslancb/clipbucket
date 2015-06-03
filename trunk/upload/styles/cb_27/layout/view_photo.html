@@ -35,8 +35,8 @@
                 </div>
                 <div class="watch-vid-rating-sec">
                     <div class="watch-vid-rating-view">
-                        {$vdo.views|number_format}
-                        <span class="small font18">{lang('View')}{if $vdo.views > 1}{lang('s')}{/if}</span>
+                        {$photo.views|number_format}
+                        <span class="small">{lang('View')}{if $photo.views > 1}{lang('s')}{/if}</span>
                     </div>
                     <div class="watch-vid-thumbsupdown-sec" id="rating_container">
                         {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
