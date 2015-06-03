@@ -20,7 +20,7 @@
                         <div class="watch-vid-user-name mtm">
                             <a href="{$userquery->profile_link($video)}"> {$video.username}</a>
                         </div>
-                         {if $video.userid != userid()}
+                        {if $video.userid != userid()}
                         <a id="subscribeUser" class="btn btn-xs btn-primary" href="javascript:void(0)">
                         {lang('Subscribe')}
                         </a>{/if}

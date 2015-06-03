@@ -30,7 +30,7 @@
                     <div class="watch-vid-user-name mtm">
                         <a href="{$userquery->profile_link($user)}"> {$user.username}</a>
                     </div>
-                    {if !$user.username}
+                    {if $photo.userid != userid()}
                     <button class="btn btn-primary btn-sm btn-xs" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>{/if}
                 </div>
                 <div class="watch-vid-rating-sec">
