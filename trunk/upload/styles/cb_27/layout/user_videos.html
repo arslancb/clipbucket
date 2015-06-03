@@ -60,7 +60,12 @@
       
         {else}
             <div class="col-md-9">
-                <h3>User Videos </h3>
+                <h3>User Videos</h3>
+
+                {if !$videos}
+                <div class="alert alert-danger" role="alert">Sorry, this user has no videos. Yet!</div>
+                {else}
+                
                 {section name=v_list loop=$videos}
                 {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
                 {/section}
@@ -69,6 +74,7 @@
                 {include file="$style_dir/blocks/pagination.html"}
             </div>
                 </div>
+                {/if}
                 {/if}
         </div>
         <div class="footer">
