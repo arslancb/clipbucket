@@ -76,7 +76,7 @@
                     </a>
                 </div>
                 <br><br>
-                <div class="video_action_result_boxes">
+                <div class="video_action_result_boxes marginTop">
                     {*show_share_form id=$c.collection_id type=Collection*}
                     {show_flag_form id=$c.collection_id type=Collection}
                     <div class="action_box" style="display:none" id="video_action_result_cont"></div>
@@ -114,7 +114,6 @@
             {if $myquery->is_commentable($c,'collection')}
             {include file="$style_dir/blocks/comments/add_comment.html" id=$c.collection_id type='cl'}
             {/if}
-            <div align="center" style="margin:5px auto">{AD place=ad_300x250}</div>
         </div>
 
         <div class="userComments">

@@ -73,15 +73,17 @@
         {/foreach}
 
         {if userid()}
-        <li class="dropdown hidden-lg hidden-md hidden-sm">
+        <li class="dropdown myaccount-dd hidden-lg hidden-md hidden-sm">
             <span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown">Setting<b class="caret"></b></span>
             <ul class="dropdown-menu no-padding">
                 <li>
                     <div class="adminthumb">
+                        <a href="{link name='channels'}">
                         <img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}"/>
                         <h4>{$userquery->username}</h4>     
-                    </div>
-                      
+                        </a>
+    
+                    </div> 
                 </li>
                 {if has_access('admin_access')}
                 <li><a href="{$admin_baseurl}"><i class="fa fa-cogs"></i>&nbsp;{lang code="Admin area"}</a></li>
@@ -171,8 +173,10 @@
             <ul class="dropdown-menu no-padding">
                 <li>
                     <div class="adminthumb">
+                         <a href="{link name='channels'}">
                         <img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}"/>
-                        <h4>{$userquery->username}</h4>     
+                        <h4>{$userquery->username}</h4>
+                        </a>     
                     </div>
                       
                 </li>

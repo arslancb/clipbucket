@@ -97,9 +97,15 @@
   text-align: center;
   background: #f1f1f1;
   border-bottom:#eee 1px solid;
-  padding: 10px 0;
+
 }
-.adminthumb img{
+.adminthumb a{
+  width: 100%;
+  text-align: center;
+  display: block;
+    padding: 10px 0;
+}
+.adminthumb a img{
   width:80px;
   height: 80px;
   border:4px solid #fff; 
@@ -107,10 +113,19 @@
   text-align: center;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
 }
-.adminthumb h4{
+.adminthumb a h4{
   width: 100%;
   font-size: 18px;
   color: #333;
+}
+
+.adminthumb a:hover h4{
+  color: #fff;
+}
+
+.myaccount-dd span img{
+  border:2px solid #fff; 
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
 }
 
 @media (min-width: 768px) and (max-width:4000px) {
