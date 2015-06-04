@@ -78,11 +78,10 @@
             <ul class="dropdown-menu no-padding">
                 <li>
                     <div class="adminthumb">
-                        <a href="{link name='channels'}">
+                    <a href="{link name='channels'}">
                         <img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}"/>
-                        <h4>{$userquery->username}</h4>     
-                        </a>
-    
+                        <h4>{$userquery->username}</h4> 
+                    </a>    
                     </div> 
                 </li>
                 {if has_access('admin_access')}
@@ -272,8 +271,11 @@
             <ul class="dropdown-menu">
                 <li>
                     <div class="adminthumb">
+                        <a href="{link name='channels'}">
                         <img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}"/>
                         <h4>{$userquery->username}</h4>     
+                        </a>
+    
                     </div>
                       
                 </li>
