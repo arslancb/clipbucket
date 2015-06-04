@@ -22,11 +22,11 @@
            {/if}
        </a>
     {/if}
-    
+    {if $user.userid != userid()}
         <a href="private_message.php?mode=new_msg&to={$user.username}" class="btn btn-primary btn-sm new1">
             <i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}
         </a>
-        {if $user.userid != userid()}
+
         <button id="subscribe_channel"class="btn btn-primary btn-sm new1"><i class="icon-rss white"></i>  {lang code="Subscribe"}</button>
         {/if}
     </div>
