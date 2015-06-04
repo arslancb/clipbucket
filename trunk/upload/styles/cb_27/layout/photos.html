@@ -169,7 +169,10 @@
                       </ul>
                 </div>
             </div>
-            <div class="collection-menu">
+            <!--
+				NOTE : This collection sorting will be added in Future
+ 			-->
+			<!-- <div class="collection-menu">
                 <div class="btn-group">
                     <button class="btn btn-primary" type="button">{lang code="Collections"}</button>
                     <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
@@ -177,6 +180,7 @@
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul role="menu" class="dropdown-menu pull-right">
+            
                         {foreach from=$collections item=collection}
                         <li><a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">{$collection.collection_name}</a></li>
                         {foreachelse}
@@ -184,7 +188,7 @@
                         {/foreach}
                   </ul>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- /Page Heading -->
