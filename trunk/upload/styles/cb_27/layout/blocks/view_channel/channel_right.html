@@ -24,7 +24,7 @@
 <hr class="margin-top-bottom-5 hr-channal margin-bottom-10">
 <div id="popular" class="content1">
   {section name=u_list loop=$popular}
-  {include file="$style_dir/blocks/channels.html" user=$user_s[u_list]}
+  {include file="$style_dir/blocks/channels.html" user=$popular[u_list]}
   {sectionelse}
   {lang code='no_results_found'}
   {/section}
