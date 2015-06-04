@@ -90,9 +90,8 @@
 									</a>
 									<div class="cbHomeVidTitle cbHomeVidTitle_Big mouse_hover_on">{$video_01.title|truncate:30}</div>
 								</div>
-
 					            <div class="cbHomeVidDuration mouse_hover_on">
-					            {$video_01.duration|date_format:$config.time}
+					            {if $video_01.duration>1}{$video_01.duration|SetTime}{else}00:00ewwew{/if}
 					            </div>
 					            <div class="cbHomeVidDuration_left mouse_hover_on">
 					            	{$video_01.username}
@@ -107,7 +106,7 @@
 										<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='240x133' }" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
 										<div class="cbHomeVidTitle mouse_hover_on1">{$video_02.title|truncate:10}</div>
 										<div class="cbHomeVidDuration mouse_hover_on1">
-						            		{$video_02.duration|date_format:$config.time}
+						            		{if $video_02.duration>1}{$video_02.duration|SetTime}{else}00:00{/if}
 						            	</div>
 									</a>
 								</div>
@@ -126,7 +125,7 @@
 										<div class="cbHomeVidTitle mouse_hover_on">{$video_02.title|truncate:10}</div>
 
 										<div class="cbHomeVidDuration mouse_hover_on">
-							            {$video_02.duration|date_format:$config.time}
+							            {if $video_02.duration>1}{$video_02.duration|SetTime}{else}00:00{/if}
 							            </div>
 									</a>
 								</div>
