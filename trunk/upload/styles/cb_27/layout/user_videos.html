@@ -1,6 +1,8 @@
 {lang code='channel' assign='object_type'}
 {include file="$style_dir/global_header.html"}
 {include file="$style_dir/header.html"}
+
+
 <div class="container">
     <div class="cb-box marginBottom" style="margin-bottom:30px;">
         <div class="row">
@@ -9,7 +11,7 @@
             {$u.username|capitalize}</a> ({$category.category_name})
             <div class="btn-group pull-right" style="margin-right: 10px">
                 {if !$isSubscribed && $p.allow_subscription!='no'}
-                <button class="btn btn-primary btn-sm" onclick="subscriber('{$u.userid}','subscribe_user','result_cont')">{lang code='subscribe'}</button>
+                <button class="btn btn-primary btn-sm" onclick="subscriber('{$u.userid}','subscribe_user','')">{lang code='subscribe'}</button>
                 {elseif $isSubscribed}
                 <a class="btn btn-primary btn-sm" href="javascript:void(0)"
                    onClick="subscriber('{$u.userid}','unsubscribe_user','result_cont')">{lang code='unsubscribe'}</a>
@@ -20,6 +22,7 @@
                 {/foreach}
             </div>
                 </span>
+                <div id="messageFav" style="display:none; margin:15px 0 0 15px; "></div>
             <div class="action_box" id="result_cont" style="display:none; margin:15px 0 0 15px; "></div>
             <hr style="margin-bottom: 6px; margin-top: 8px">
          <div class="col-md-3">
@@ -64,7 +67,7 @@
 
                 {if !$videos}
                 <div class="alert alert-danger" role="alert">Sorry, this user has no videos. Yet!</div>
-                {else}
+                {/if}
                 
                 {section name=v_list loop=$videos}
                 {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
@@ -74,7 +77,6 @@
                 {include file="$style_dir/blocks/pagination.html"}
             </div>
                 </div>
-                {/if}
                 {/if}
         </div>
         <div class="footer">
