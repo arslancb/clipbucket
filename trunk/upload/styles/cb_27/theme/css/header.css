@@ -92,6 +92,26 @@
 
 .pad-left-xero{padding-left: 0px!important;}
 
+.adminthumb{
+  width: 100%;
+  text-align: center;
+  background: #f1f1f1;
+  border-bottom:#eee 1px solid;
+  padding: 10px 0;
+}
+.adminthumb img{
+  width:80px;
+  height: 80px;
+  border:4px solid #fff; 
+  margin-top: 10px;
+  text-align: center;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+}
+.adminthumb h4{
+  width: 100%;
+  font-size: 18px;
+  color: #333;
+}
 
 @media (min-width: 768px) and (max-width:4000px) {
 .navig-resp-bg, .search-resp-bg{
