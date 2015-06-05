@@ -3,16 +3,9 @@
     <ul class="nav nav-pills nav-stacked">
         {foreach $topMenuLinks as $key => $value}
         {if $key!='Contacts'}
-        <tr>
-        <td>
         <li class="active"><a href="#">{$key}</a></li>
-            </td>
-            </tr>
-
-
-
-        {foreach $value as $subKey => $subValue}
-        <li class="leftmenu"><a  href="{$subValue}">{$subKey}</a></li>
+            {foreach $value as $subKey => $subValue}
+            <li class="leftmenu"><a  href="{$subValue}">{$subKey}</a></li>
             {/foreach}
         {/if}    
         {/foreach}
