@@ -128,7 +128,7 @@ if(isset($_POST['delete_selected']))
 	
 	if(is_installed('cb_mass_embed'))
 	{
-		$array['mass_embed_status'] = 'approved';
+		//$array['mass_embed_status'] = 'approved';
 	}
 
 	$result_array = $array;
@@ -136,6 +136,8 @@ if(isset($_POST['delete_selected']))
 	$result_array['limit'] = $get_limit;
 	if(!$array['order'])
 		$result_array['order'] = " videoid DESC ";
+
+	
 	$videos = get_videos($result_array);
 	
 	Assign('videos', $videos);	
