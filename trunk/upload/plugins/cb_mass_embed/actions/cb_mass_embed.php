@@ -75,7 +75,7 @@ if(isset($_POST['update_cat']))
 ///// check LICENSE ///////////////
 $check_result=cb_mass_embed_license(CB_MASS_EMBED_LICENSE);		
 if($check_result['status']!='Active'){
-	//$eh->e('Unknown Mass Embedder license - Please Submit Ticket in <a href="http://client.clip-bucket.com/">client area</a> about the issue ');
+	$eh->e('Unknown Mass Embedder license - Please Submit Ticket in <a href="http://client.clip-bucket.com/">client area</a> about the issue ');
 	$cb_mass_embed->license_status = false;
 }
 else{
