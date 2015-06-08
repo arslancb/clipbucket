@@ -1,0 +1,267 @@
+<!-- page specific plugin scripts -->
+<script src="{$theme}/assets/js/jquery.dataTables.min.js"></script>
+<script src="{$theme}/assets/js/jquery.dataTables.bootstrap.js"></script>
+<script>
+
+$(document).ready(function() {
+  $('#tabel-video').dataTable();
+} );
+</script>
+{literal}
+<style>
+
+/* Left Column */
+.mass_options
+{
+  width:130px;
+  display:inline-block;
+}
+
+.mass_options ul
+{
+  padding:0px;
+  margin:0px;
+}
+
+.mass_options li
+{
+  padding:0px;
+  margin:0px;
+  list-style:none;
+  background-color:#06C;
+  padding-left:15px; height:15px; line-height:15px;
+  margin-bottom:5px;  
+}
+
+.mass_options li a
+{
+  display:block;
+  background-color:#FFF;
+  padding-left:5px;
+  font-size:12px; font-weight:bold; text-transform:uppercase;
+  font-family:Arial, Helvetica, sans-serif; 
+  color:#333
+}
+
+.mass_options li a.selected
+{
+  color:#06c
+}
+.mass_options li a.selected:after
+{
+  content:" OK";
+}
+
+/* Left Column Ends Here */
+
+.mass_cont
+{
+  width:800px;
+  margin:0px auto;
+  background-color:#f8f8f8;
+  border:2px solid #f3f3f3;
+  padding:5px;
+  display:inline-block;
+  border-radius:10px;
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  font-family:"Trebuchet MS", Arial, Helvetica, sans-serif
+}
+
+.mass_cbmass
+{
+  font-size:13px;
+  color:#333;
+  font-weight:bold;
+  float:left; display:inline-block;
+}
+.mass_configsopt
+{
+  float:right; display:inline-block;
+}
+.mass_configsopt .configBttn
+{
+  
+}
+
+.option_heading
+{
+  
+  height:41px;
+  background-image:url("{$mass_embed_url}/images/background.png");
+  text-align:center;
+  line-height:41px;
+  font-size:18px;
+  font-weight:bold;
+  margin:10px 0px;
+  
+}
+
+.cbmassOpt{font-size:16px; font-weight:bold; margin:10px 0px}
+
+.cbmassForm label
+{
+  font-size:14px;
+}
+.cbmassForm label .block{width:350px; display:block; text-align:left}
+
+.cbmassForm .inputField
+{
+  border:1px solid #ebebeb; height:25px; line-height:25px; font-size:12px;
+  padding:0px 5px;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  background-color:#FFF
+}
+.cbmassForm .select{height:30px; padding:5px 5px}
+
+.cbmassApis{margin-top:10px;} .cbmassApis label{margin-right:20px;}
+
+.seperator{border-bottom:1px solid #e8e4e4; margin:10px 0px;}
+.cbmassOutput{width:800px}
+.cbmassOutput #loading{font-size:13px;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif}
+
+.cbmassButtn{{/literal}width:200px; border:#333; background-image:url("{$mass_embed_url}/images/bttn_bg.png"); padding:0px; margin:0px; height:30px; 
+border-radius:5px;
+-moz-border-radius:5px; cursor:pointer;
+-webkit-border-radius:5px;font-size:13px;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;color:#fff{literal}}
+
+.cbmassEditDesc teaxtarea{ height:100px}
+.heightlighter:hover{background-color:#FFF5AE; cursor:pointer}
+.catUpdateSuccess{background-color:#D3FAC7; color:#060; margin:4px; padding:3px; display:none}
+
+.cat_box_cont a, .cat_box_cont{border:1px solid #CCC; margin:5px; padding:5px;
+  border-radius:10px;
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px; }
+.cat_box_cont a{display:inline-block; padding:5px; margin:3px; color:#FFF; background-color:#333; cursor:pointer; text-align:center; border:1px solid #fff;}
+
+.mass_opt_links a{font-size:14px; font-weight:bold; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-weight:bold}
+
+.mass_configsopt, .mass_configsopt a {font-size:14px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif}
+.mass_configsopt a{display:inline-block; padding:2px 3px;border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;}
+.mass_configsopt .conf a{{/literal}color:#060;
+  background-image:url("{$mass_embed_url}/images/bttn_bg.png");
+  color:#FFF;
+  display:inline-block;
+  padding:3px 5px{literal}}
+.mass_configsopt .selected{background-color:#09c; color:#fff}
+.mass_embed_table .url{width:350px}
+</style>
+
+{/literal}  
+<div class="mass_cont" style="background:none; border:none; width:100%">
+  <table class="table table-bordered table-striped manageUsersTable" >
+        <thead>
+          <tr class="panel-heading">
+            <th>Delete Video By id or Website<small style="font-size:9px;"> Note: All video's delete of Entered website if video id field is empaty</small> </th>
+
+          </tr>
+        </thead>
+          <tbody>
+            <tr>
+            <td>
+  <form action="{$_link_}" method="POST" id="delete_frm" name="delete_frm" class="form-inline">
+    <div class="form-group">
+      <label class="col-sm-5 control-label no-padding-right" for="server_get"> Enter Video id</label>
+      <div class="col-sm-7">
+        <input class="input" id="delete" name="delete" type="text"/>   
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-5 control-label no-padding-right" for="server_get"> Enter website</label>
+      <div class="col-sm-7">
+        <input class="input" id="website" name="website" type="text"/>
+
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <button id="delete_btn" name="delete_btn" type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete?')">
+          <i class="ace-icon fa fa-key bigger-110"></i>Delete!</button>
+          
+      </div>
+    </div>
+  </form>
+  </td></tr>
+  <!--<thead>
+    <tr class="panel-heading">
+      <th>Search Video By id or Website </th>
+    </tr>
+  </thead>
+  <tr>
+  <td>
+  <form action="{$_link_}" method="POST" id="delete_frm" name="delete_frm" class="form-inline">
+    <div class="form-group">
+      <label class="col-sm-5 control-label no-padding-right" for="server_get"> Enter Video id</label>
+      <div class="col-sm-7">
+        <input class="input" id="search_id" name="search_id" type="text"/>   
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-5 control-label no-padding-right" for="server_get"> Enter website</label>
+      <div class="col-sm-7">
+        <input class="input" id="search_website" name="search_website" type="text"/>
+
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <button id="delete_btn" name="search_btn" type="submit" class="btn btn-info btn-sm" >
+          <i class="ace-icon fa fa-key bigger-110"></i>Go!</button>
+          
+      </div>
+    </div>
+  </form>
+  </td></tr>-->
+</tbody>
+</table>
+
+<div class="table-header">Mass Embed Table</div>
+<div class="mass_embed_table">
+    
+    <div class="clearfix"></div>
+    <table class="table table-bordered table-striped manageUsersTable" id="tabel-video">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Unique ID</th>
+          <th>Website</th>
+          <th class="url">Url</th>
+          <th>Date added</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th>ID</th>
+          <th>Unique ID</th>
+          <th>Website</th>
+          <th class="url">Url</th>
+          <th>Date added</th>
+          <th></th>
+        </tr>
+      </tfoot>
+      <tbody>
+      {foreach from=$records item='record'}
+      <tr>
+          <td>{$record.mass_embed_id}</td>
+          <td>{$record.mass_embed_unique_id}</td>
+          <td>{$record.mass_embed_website}</td>
+          <td class="url">{$record.mass_embed_url}</td>
+          <td>{$record.date_added}</td>
+          <td><a href="{$the_link}&delete={$record.mass_embed_id}" onclick="return confirm('Are you sure you want to delete?')">Delete</a></td>
+      </tr>
+      
+      {/foreach}
+      </tbody>
+    </table>
+</div>
+</div>
+<!-- DIsplaying Videos Ends-->
+<!--<div align="center">
+{include file="$style_dir/blocks/pagination.html" }
+</div>-->

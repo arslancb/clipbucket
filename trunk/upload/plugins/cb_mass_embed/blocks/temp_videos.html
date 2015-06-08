@@ -1,0 +1,249 @@
+
+<script>
+
+var url  = '{$baseurl}/actions/cb_mass_embed.php';
+var cross_thumb = '{$mass_embed_url}/images/cross.png';
+var check_thumb = '{$mass_embed_url}/images/check.png';
+
+{literal}
+	
+	function toggleWpPost(vid)
+	{
+		if($('#wp_post_'+vid).val()=='yes')
+		{
+			$('#wp_post_'+vid).val('');
+			$('#wp_img_'+vid).hide();
+			$('#wpd_img_'+vid).show();
+		}else
+		{
+			$('#wp_post_'+vid).val('yes');
+			$('#wpd_img_'+vid).hide();
+			$('#wp_img_'+vid).show();
+		}
+	}
+	
+	function showPage(id)
+	{
+		$('.massPages span').removeClass();
+		$('.massPages #span-'+id).addClass('selected');
+		page = id;
+		call_ajax($('#mass_embed_video'));
+	}
+	
+	
+	function check_vid(vid)
+	{
+		if($('#vid_'+vid).val()=='yes')
+		{
+			$('#check-'+vid).attr('src',cross_thumb);
+			$('#vid_'+vid).val('');
+		}else
+		{
+			$('#check-'+vid).attr('src',check_thumb);
+			$('#vid_'+vid).val('yes');
+		}
+	}
+	
+	var checked = 'no';
+	function check_all_vids()
+	{
+		//alert(checked);
+		if(checked=='yes')
+		{
+			$('.vid-check').attr('checked',false);
+			checked = 'no';
+		}else
+		{
+			$('.vid-check').attr('checked',true);
+			checked = 'yes';
+		}
+	}
+	$("#select-all").on("click", function() {
+	  var all = $(this);
+	  $('input:checkbox').each(function() {
+	       $(this).prop("checked", all.prop("checked"));
+  	});
+});
+	
+	
+</script>
+
+<style>
+.massEdit
+{
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border:0px;
+	border:1px solid #CCC;
+	width:400px; padding:3px;
+}
+.massPages ul{
+	list-style: none;
+}
+.massPages li{
+	background-color: #fff;
+    cursor: pointer;
+    float: left;
+    font-size: 14px;
+    height: 25px;
+    margin-left: 5px;
+    text-align: center;
+    width: 25px;
+    font-weight: bold;
+}
+.massPages .selected
+{
+	font-weight:bold;
+	font-size:16px; 
+	color:#09C
+}
+
+.grey_div{opacity:0.0;width:800px; height:150px; position:absolute; background-color:#CCC; z-index:1}
+
+</style>
+{/literal}
+<div style="position: relative;">
+<div style="height:50px"></div>
+
+
+
+{if $cat_displayed!='yes'}
+<div align="right" style="margin-top:15px" class="mass_opt_links">
+<a href="javascript:void(0)" onclick="$('#video_category_box').toggle()">Choose Categories</a>
+</div>
+
+<div style="margin:10px 0px; display:none" id="video_category_box">
+	{include file="$mass_embed_dir/blocks/cat_option.html"}
+    <div style="height:30px"></div>
+</div>
+{assign var='cat_displayed' value='yes'}
+{/if}
+
+<div class="massPages" style="height: 24px; position: absolute; right: 1%; top: 128px;">
+<ul>
+{if $page!=1}
+<li onClick="showPage('1')" class="pre_next"  >&laquo;</li> 
+{if $pre}
+<li onClick="showPage('{$pre}')"  class="pre_next" >&#8249;</li>{/if}
+{/if}
+    
+{section name=foo loop=5} 
+    <li onClick="showPage('{$smarty.section.foo.iteration}')" id="span-{$smarty.section.foo.iteration}" 
+    {if $page==$smarty.section.foo.iteration} class="selected"{/if}>{$smarty.section.foo.iteration}</li>
+    {if $smarty.section.foo.iteration < 5} {/if}
+{/section}
+{if $page!=5}
+{if $next}
+<li onClick="showPage('{$next}')" class="pre_next" >&#8250;</li>
+{/if}
+<li onClick="showPage('5')" class="pre_next" >&raquo;</li>
+
+{/if}
+</div>
+
+
+<div style="font-size:18px;" align="left">Select Videos</div>
+
+
+
+<div class="seperator"></div>
+<div style="margin-top:10px"><form action="" method="post" name="mass_embed_vids">
+
+<input type="hidden" name="create_channel" value="{$smarty.post.create_channel}" />
+<input type="hidden" name="channel_type" value="{$smarty.post.channel_type}" />
+<input type="hidden" name="channel_name" value="{$smarty.post.channel_name}" />
+<input type="hidden" name="manual_keywords" value="{$smarty.post.manual_keywords}" />
+
+<div align="left" style="padding-bottom:10px">
+<div class="table-header"><input type="checkbox" id="select-all" name="checkall" /><b>Embedded Videos</b></div>
+
+</div>{if $videos}
+<table class="table table-bordered table-striped manageUsersTable" id="padding-video">
+	 	
+		<tbody>
+{foreach from=$videos item=video name=vdo}
+    <tr><td>
+		<input name="vid_{$smarty.foreach.vdo.iteration}" type="checkbox" value="yes" id="vid_{$smarty.foreach.vdo.iteration}" class="vid-check1"/>
+    </td>
+    <td>
+
+    <div class="video_block" align="left" id="div_{$smarty.foreach.vdo.iteration}"
+    {if $cb_mass_embed->data_exists($video.unique_id,true,$video.website)}style="opacity:0.5"{/if} 
+    >
+    {if $cb_mass_embed->data_exists($video.unique_id,true,$video.website)} <div class="grey_div"></div>{/if}
+        <div class="thumb col-md-2" style="width: 10%;">
+        	<label for="vid_{$smarty.foreach.vdo.iteration}">
+            <img src="{$video.thumbs.0}" width="150" height="90"/>
+            {foreach from=$video.thumbs item=thumb key=id}
+            	<input name="thumbs_{$smarty.foreach.vdo.iteration}[{$id}]" value="{$thumb}" type="hidden" />
+            {/foreach}
+            
+            </label>
+            
+        </div>
+        <div class="col-md-8">
+        <div style="float:left; margin-left:10px;">
+        <span class="title" id="title-{$smarty.foreach.vdo.iteration}"><input class="massEdit" value="{$video.title}" name="title_{$smarty.foreach.vdo.iteration}" style="border: medium none; background-color: inherit; font-size: 16px; color: rgb(38, 121, 181);" title="Click here to Edit Title" /></span>
+        <!--<br />
+		duration : {$video.duration|SetTime} | <a href="javascript:void(0);" onClick="$('#watch_now_{$smarty.foreach.vdo.iteration}').slideToggle()">Watch Now</a>-->
+        <input name="duration_{$smarty.foreach.vdo.iteration}" value="{$video.duration}" type="hidden" />
+        <div style="height:5px"></div>
+        <div style=" ">
+        <div style="" id="desc-{$smarty.foreach.vdo.iteration}" class="">
+        	<textarea  style="height: 35px; width:90%; border: medium none; background-color: inherit;" title="Click here to Edit Description" class="massEdit" name="desc_{$smarty.foreach.vdo.iteration}">{$video.description|truncate}</textarea>
+        </div>
+        <div style="margin-top:10px"><strong>Tags</strong> : <span id="tags-{$smarty.foreach.vdo.iteration}" class=""><input style="width: 365px; border: medium none; background-color: inherit;" title="click Here to Edit Tags" class="massEdit" value="{$video.tags}" style="" name="tags_{$smarty.foreach.vdo.iteration}" /></span></div>
+        <div style="height:5px"></div>
+        <input type="hidden" value="{$video.embed_code|htmlspecialchars}" name="embed_code_{$smarty.foreach.vdo.iteration}" />
+            <div align="center" id="watch_now_{$smarty.foreach.vdo.iteration}" style="display:none">
+				{assign var='vid' value=$smarty.foreach.vdo.iteration}
+                {FlashPlayer vdetails = "$video" width='500' autoplay='true' player_div="player_$vid"}
+            </div>
+            
+        </div>
+        </div>
+        
+        <div id="cats-{$smarty.foreach.vdo.iteration}" style="width:200px; float:left; overflow:hidden; height:150px; overflow:auto" >
+            <!--<div class="catUpdateSuccess" id="cat-success-{$smarty.foreach.vdo.iteration}">Video category has been updated, successfully</div>-->
+            {assign var=iteration value=$smarty.foreach.vdo.iteration}
+            {create_vid_cat_form assign='field' video=$video name="category_$iteration"}
+            <div id="vid-cats-{$smarty.foreach.vdo.iteration}">{$formObj->createField($field)}</div>
+        </div>
+        
+        
+        <div style=" width:60px;float:right" align="right">
+        {if $cb_mass_embed->config('enable_wp_integeration')=='yes'}
+        	<input name="wp_post_{$smarty.foreach.vdo.iteration}" type="hidden" value="yes" id="wp_post_{$smarty.foreach.vdo.iteration}"/>
+            
+        	<img src="{$mass_embed_url}/images/wordpress.png" alt="Post to wordpress" title="Post to worpdress" style="cursor:pointer" onclick="toggleWpPost('{$smarty.foreach.vdo.iteration}')" id="wp_img_{$smarty.foreach.vdo.iteration}" />
+            <img src="{$mass_embed_url}/images/wordpressd.png" alt="Post to wordpress" title="Post to worpdress" style="cursor:pointer;display:none" onclick="toggleWpPost('{$smarty.foreach.vdo.iteration}')" id="wpd_img_{$smarty.foreach.vdo.iteration}" />
+        {/if}
+        </div>
+        <div class="clearfix"></div>
+    </div>
+     <div class="clearfix"></div>
+       <input name="website_{$iteration}" type="hidden" value="{$video.website}" />
+  <input name="url_{$iteration}" type="hidden" value="{$video.url}" />
+  <input name="unique_id_{$iteration}" type="hidden" value="{$video.unique_id}" />
+  </div>
+  </td></tr>
+{/foreach}
+</tbody>
+</table>
+
+<div class="mass_cont">
+<div>
+  
+<div style="height:30px"></div>
+<div class="col-md-3"></div>
+<div class="col-md-6"><input type="submit" name="import_videos" id="mass_embed" value="      Approve Videos      " class="cbmassButtn btn btn-danger btn-block"></div>
+<div class="col-md-3"></div>
+</div>
+</div>
+{else}
+<div style="padding:10px; font-size:14px"><em><strong>Nothing to display</strong></em></div>
+{/if}
+<input name="total" value="{$smarty.foreach.vdo.total}" type="hidden" />
+</form></div>
+</div>

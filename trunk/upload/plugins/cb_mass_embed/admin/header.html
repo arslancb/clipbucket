@@ -1,0 +1,152 @@
+{assign var=configs value=$cb_mass_embed->configs}
+{literal}
+<style>
+
+/* Left Column */
+.mass_options
+{
+	width:130px;
+	display:inline-block;
+}
+
+.mass_options ul
+{
+	padding:0px;
+	margin:0px;
+}
+
+.mass_options li
+{
+	padding:0px;
+	margin:0px;
+	list-style:none;
+	background-color:#06C;
+	padding-left:15px; height:15px; line-height:15px;
+	margin-bottom:5px;	
+}
+
+.mass_options li a
+{
+	display:block;
+	background-color:#FFF;
+	padding-left:5px;
+	font-size:12px; font-weight:bold; text-transform:uppercase;
+	font-family:Arial, Helvetica, sans-serif; 
+	color:#333
+}
+
+.mass_options li a.selected
+{
+	color:#06c
+}
+.mass_options li a.selected:after
+{
+	content:" OK";
+}
+
+/* Left Column Ends Here */
+
+.mass_cont
+{
+	width:800px;
+	margin:0px auto;
+	background-color:#f8f8f8;
+	border:2px solid #f3f3f3;
+	padding:5px;
+	display:inline-block;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif
+}
+
+.mass_cbmass
+{
+	font-size:13px;
+	color:#333;
+	font-weight:bold;
+	float:left; display:inline-block;
+}
+.mass_configsopt
+{
+	float:right; display:inline-block;
+}
+.mass_configsopt .configBttn
+{
+	
+}
+
+.option_heading
+{
+	{/literal}
+	height:41px;
+	background-image:url("{$mass_embed_url}/images/background.png");
+	text-align:center;
+	line-height:41px;
+	font-size:18px;
+	font-weight:bold;
+	margin:10px 0px;
+	{literal}
+}
+
+.cbmassOpt{font-size:16px; font-weight:bold; margin:10px 0px}
+
+.cbmassForm label
+{
+	font-size:14px;
+}
+.cbmassForm label .block{width:350px; display:block; text-align:left}
+
+.cbmassForm .inputField
+{
+	border:1px solid #ebebeb; height:25px; line-height:25px; font-size:12px;
+	padding:0px 5px;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	background-color:#FFF
+}
+.cbmassForm .select{height:30px; padding:5px 5px}
+
+.cbmassApis{margin-top:10px;} .cbmassApis label{margin-right:20px;}
+
+.seperator{border-bottom:1px solid #e8e4e4; margin:10px 0px;}
+.cbmassOutput{width:800px}
+.cbmassOutput #loading{font-size:13px;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif}
+
+.cbmassButtn{{/literal}width:200px; border:#333; background-image:url("{$mass_embed_url}/images/bttn_bg.png"); padding:0px; margin:0px; height:30px; 
+border-radius:5px;
+-moz-border-radius:5px; cursor:pointer;
+-webkit-border-radius:5px;font-size:13px;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;color:#fff{literal}}
+
+.cbmassEditDesc teaxtarea{ height:100px}
+.heightlighter:hover{background-color:#FFF5AE; cursor:pointer}
+.catUpdateSuccess{background-color:#D3FAC7; color:#060; margin:4px; padding:3px; display:none}
+
+.cat_box_cont a, .cat_box_cont{border:1px solid #CCC; margin:5px; padding:5px;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px; }
+.cat_box_cont a{display:inline-block; padding:5px; margin:3px; color:#FFF; background-color:#333; cursor:pointer; text-align:center; border:1px solid #fff;}
+
+.mass_opt_links a{font-size:14px; font-weight:bold; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-weight:bold}
+
+.mass_configsopt, .mass_configsopt a {font-size:14px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif}
+.mass_configsopt a{display:inline-block; padding:2px 3px;border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;}
+.mass_configsopt .conf a{{/literal}color:#060;
+	background-image:url("{$mass_embed_url}/images/bttn_bg.png");
+	color:#FFF;
+	display:inline-block;
+	padding:3px 5px{literal}}
+
+.mass_configsopt .selected{background-color:#09c; color:#fff}
+
+
+.mass_embed_table ul{margin:0px; padding:0px;}
+.mass_embed_table ul li{margin:0px; padding:0px; float:left; list-style:none; display:block; width:120px;; padding-left:5px; padding-right:10px}
+.mass_embed_table .url{width:350px}
+</style>
+
+{/literal}
