@@ -1,6 +1,7 @@
 {assign var='custom_upload_fields' value=$Upload->load_custom_upload_fields($data,TRUE)}
 {assign var='video_fields' value=$Upload->load_video_fields($data)}
 {if $data.title neq ""}
+
 <form action="" method="post" name="edit_video" id="edit_video" enctype="multipart/form-data">
 <div class="row">
     <div class="heading clearfix">
@@ -249,6 +250,8 @@
             </div>
             <hr>
         <div class="row">
+        <!-- anchor used with CB Video Key Replacer Plugin -->
+        {ANCHOR place="key_rep"}
             <table class="table">
                 <tr>
                     <td class="alert-info">
