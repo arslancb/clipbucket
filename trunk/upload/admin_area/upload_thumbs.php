@@ -134,7 +134,7 @@ if($myquery->VideoExists($video)){
 		$log = new SLog();
         $configs = array();
 
-        require_once(BASEDIR.'/ffmpeg.new.class.php');
+        require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
         $ffmpeg = new FFMpeg($configs, $log);
         $ffmpeg->regenerateThumbs($vid_file,$data['file_directory'],$data['duration'],$dim,$num,$rand=NULL,$is_big=false,$data['file_name']);
         e(lang('Video thumbs has been regenrated successfully'),'m');
