@@ -179,11 +179,20 @@
                 <!-- <a href="http://www.arvixe.com/clipbucket_hosting?utm_campaign=300x250_Demo&utm_medium=banner&utm_source=clipbucket.com"><img class="banner" src="{$theme}/assets/images/add320x250.png" style="margin-bottom: 10px; width: 100%;" >
                 </a>-->
                 <!-- <h3>{lang code="Most Popular"}</h3> -->
+    {if $smarty.get.play_list == ''}
                 {foreach $videos as $video}
                  {include file="$style_dir/blocks/videos/video_popular.html"}
                 {/foreach}
+                {else}
+        {section name=plist loop=$items}
+                  {include file="$style_dir/blocks/manage/account_video.html" video=$items[plist] control="onWatch" pid=$playlist.playlist_id}
+        {/section}
+        {$plist}
+        {/if}
             </div>
         </div>
+
+
         <!-- /Side bar-->
 	</div>
 </div>
