@@ -124,3 +124,50 @@
 </tr>
 
 {/if}
+
+{if $control=='onWatch'}
+<div class="clearfix marginBottom grid_view list_view item_video_pop video_thumb_sm">
+    <div class="item_video">
+        <div class="cb_item_container clearfix">
+            <div class=" col-md-5 thumb row ">
+               <a href="{videoLink($video)}" title="{$video.title|title}" >
+                <span class="fa fa-play play-icon"></span>
+                    <img class="" src="{getThumb vdetails=$video}">
+                    <span class="duration">{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
+                </a>
+            </div>
+            <div class="pull-right col-md-8 paddingright0">
+                <div class="item_text overflow_hidden">
+                    <div class="clearfix">
+                      <a href="{videoLink($video)}"><b>{$video.title|truncate:50}</b></a>
+                    </div>
+          <span class="user-block">{name($video)}</span>
+                </div>
+                <div class="row small col-md-8">
+                    <span class="pull-left views-count"><!-- <span class="bg-eye"></span> --> Playlist: {$items[plist].playlist_name|truncate:100}</span>
+                    <!-- <span class="pull-right"><small><span class="glyphicon glyphicon-thumbs-up"></span> {$video.rating}</small></span> -->
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+
+
+
+
+
+
+<!-- 
+<tr>
+<td valign="middle">
+  <div>
+   <a href="{$baseurl}/watch_video.php?v={$video.videokey}&play_list={$smarty.get.play_list}">
+    <img class="img-thumbnail" src="{getThumb vdetails=$video}" width="100" height="100" />
+    </a>
+    <p class="marginTop">{$video.title|truncate:100}</p>
+
+  </div>
+</td>
+</tr> -->
+
+{/if}
