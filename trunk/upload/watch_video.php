@@ -89,8 +89,11 @@ $related_videos = get_videos(array('title'=>$title,'tags'=>$tags,
 if(!$related_videos){
 	$related_videos  = get_videos(array('exclude'=>$videoid,'limit'=>12,'order'=>'date_added DESC'));
 }
-
-
+$playlist = $cbvid->action->get_playlist($pid,userid());
+assign('playlist',$playlist);
+			//Getting Playlist Item
+			$items = $cbvid->get_playlist_items( $pid, 'playlist_items.date_added DESC' );
+			assign('items',$items);
 
 Assign('videos', $related_videos);
       
