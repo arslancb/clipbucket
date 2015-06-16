@@ -140,10 +140,11 @@
                 $( this )[ (1&i) ? 'addClass' : 'removeClass' ]( 'photo-land-no' );
             });
 
-                $('#lang_selector').change(function(){
-              var optionSelectedValue = $('#lang_selector option:selected').val();
-              if(optionSelectedValue)
-              {
+            // Language change select code
+            $('#lang_selector').change(function(){
+            var optionSelectedValue = $('#lang_selector option:selected').val();
+            if(optionSelectedValue)
+                {
                     var $currentLocation = window.location.href,
                             matchedElement = $currentLocation.match(/\?/);
                             
@@ -153,8 +154,7 @@
                     } else {
                         window.location = window.location+"&set_site_lang="+optionSelectedValue;    
                     }
-                    
-              }
+                }
             });
             
             });
