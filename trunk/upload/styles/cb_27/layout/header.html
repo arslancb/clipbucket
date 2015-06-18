@@ -1,7 +1,14 @@
+    {if $userquery->udetails['soclid'] != ''}
+        {assign var="usr_head_thumb" value="{$userquery->getUserThumb('','',userid())}"}
+        {else}
+        {assign var="usr_head_thumb" value="{$userquery->getUserThumb('','small',userid())}"}
+    {/if}
+
 <div id="quick_container">
     <div id="quicklist_box">
     </div>
 </div>
+
 {$searchPage = $smarty.get.query}
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="navbar-container clearfix">
@@ -79,7 +86,7 @@
                 <li>
                     <div class="adminthumb">
                     <a href="{link name='channels'}">
-                        <img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}"/>
+                        <img class="img-circle" src="{$usr_head_thumb}"/>
                         <h4>{$userquery->username}</h4> 
                     </a>    
                     </div> 
@@ -168,12 +175,12 @@
 
         {if userid()}
         <li class="dropdown myaccount-dd">
-            <span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown"> <img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}" style="width: 40px; height: 40px;"/> <b class="caret"></b></span>
+            <span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown"> <img class="img-circle" src="{$usr_head_thumb}" style="width: 40px; height: 40px;"/> <b class="caret"></b></span>
             <ul class="dropdown-menu no-padding">
                 <li>
                     <div class="adminthumb">
                          <a href="{link name='channels'}">
-                        <img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}"/>
+                        <img class="img-circle" src="{$usr_head_thumb}"/>
                         <h4>{$userquery->username}</h4>
                         </a>     
                     </div>
@@ -267,12 +274,12 @@
         </div>
         {if userid()}
         <li class="dropdown myaccount-dd">
-            <span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown"><img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}" style="width: 40px; height: 40px;"/><b class="caret"></b></span>
+            <span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown"><img class="img-circle" src="{$usr_head_thumb}" style="width: 40px; height: 40px;"/><b class="caret"></b></span>
             <ul class="dropdown-menu">
                 <li>
                     <div class="adminthumb">
                         <a href="{link name='channels'}">
-                        <img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}"/>
+                        <img class="img-circle" src="{$usr_head_thumb}"/>
                         <h4>{$userquery->username}</h4>     
                         </a>
     
