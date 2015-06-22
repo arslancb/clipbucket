@@ -166,6 +166,19 @@ if(!function_exists('html5_player'))
 	            }
             }
 
+            if ( CB_HTML5_PLAYER_SETTINGS == 'installed' )
+            {
+            	$html5_configs = get_html5_configs();
+           		$iv_logo_enable = $html5_configs['iv_logo_enable'];
+           		if ($iv_logo_enable == 'yes')
+           		{
+           			$ov_details = BASEURL.'/images/icons/country/ov.png';
+				  	$ov_convert = base64_encode(file_get_contents($ov_details));
+				  	assign('ov',$ov_convert);
+				}
+           		assign('iv_logo_enbale',$iv_logo_enable);
+			}
+            
             	      
 		      
 			Template(HTML5_PLAYER_DIR.'/html5_player.html',false);

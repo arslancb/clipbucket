@@ -592,6 +592,23 @@ $('#name_v,#thumb_v').mouseout(function() {
 });
 
 
+// Setting in-video logo for player
+if( iv_logo_enable == 'yes')
+{
+	$('.cont').append('<img id="web"  src=data:image/png;base64,'+ web +'> ');
+	$('#web').css({
+	            'top' :  $top,
+	            'left' :  $left,
+	            'bottom' : $bottom,
+	            'right' :  $right  ,
+				'position': 'absolute',
+	            'width': '100px',
+	            'height': '30px',
+	            'z-index' : '-1'
+	           });
+}
+
+
 
   //For multiserver plugin videos :)
 if(files)
@@ -660,6 +677,8 @@ if(files)
 
 
 }
+
+
 
 /** 
 * For multiserver plugin videos  <<--END-->> :)
