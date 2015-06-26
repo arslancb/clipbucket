@@ -584,33 +584,31 @@ background: #fff;
 
 #rightcmenu
 {
-	display: none;        
-	position: fixed;       
-	font-size: 14px;
-	height: 20px;
-	width: 180px;
-	background: #E4E4E4;
-	color: #393939; 
-
-	z-index: 100;  
+ display: none;        
+ position: fixed;       
+ font-size: 14px;
+ height: 20px;
+ width: 180px;
+ color: #393939; 
+ z-index: 100;  
 
    
 }
 
 #ritems
 {
-	background: #fff;
-	margin-top: 0px;
-	left : -5;
+ background: #fff;
+ margin: 0px;
+ padding: 0;
+ width: 100%;
 }
 
 .rlist
-{
- 
-	margin-left: -25px;
-	height: 22px;
-	list-style-type:none;
-	cursor: pointer;
+{ 
+ list-style-type:none;
+ cursor: pointer;
+ width: 100%;
+ padding: 5px ;
 }
 
 .rlist:hover                       
