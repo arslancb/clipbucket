@@ -36,7 +36,7 @@ class CBObjects
 	/**
 	 * This will display language selector for front UI
 	 */
-	function display_languages($id='lang_selector',$class='lang_selector',$onchange='')
+	function _display_languages($id='lang_selector',$class='lang_selector',$onchange='')
 	{
 		global $lang_obj;
 		
@@ -66,7 +66,7 @@ class CBObjects
 	/**
 	 * This will display language selector for front UI
 	 */
-	function _display_languages($id='lang_selector',$class='lang_selector form-control',$onchange='')
+	function display_languages($id='lang_selector',$class='lang_selector form-control',$onchange='')
 	{
 		global $lang_obj;
 		$langs = $lang_obj->get_langs('yes');
