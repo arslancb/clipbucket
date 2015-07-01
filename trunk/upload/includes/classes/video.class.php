@@ -479,6 +479,12 @@ class CBvideo extends CBCategory
 
 				//echo $db->db_query;
 				e(lang("class_vdo_update_msg"),'m');
+
+				// condition for Clip press plugin
+				if ( function_exists('post_to_wp_upload_culr') )
+				{
+					post_to_wp_upload_culr ( $vid );
+				}
 			}
 			
 		}
