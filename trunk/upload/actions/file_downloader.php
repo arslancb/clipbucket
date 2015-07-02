@@ -68,11 +68,11 @@ if(isset($_POST['youtube']))
 	}
 	
 	//for devolpment
-	$youtube_content = file_get_contents('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId.'?v=2&alt=jsonc');
+	$youtube_content = file_get_contents('https://www.googleapis.com/youtube/v3/videos?id='.$YouTubeId.'&key=AIzaSyDOkg-u9jnhP-WnzX5WPJyV1sc5QQrtuyc&part=snippet');
 	$content = json_decode($youtube_content);
 	
 	//$content = xml2array('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId);
-	$content = $content->data;
+	$content = $content->items[0]->snippet;
 	
 	/*	$match_arr = 
 	array
