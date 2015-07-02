@@ -562,9 +562,10 @@ $('#path').prop("href","http://clip-bucket.com/");
 // $("#path").insertAfter("#hd");
 $('#path').css({
 	            'backgroundImage': 'url(data:image/png;base64,' + webpath + ')',
-				//'float':'right',
 				'margin-right':'7px',
 				'margin-top':'0px',
+				'background-repeat':'no-repeat',
+				'background-position' : '100% 50%',
 				
 				
 			});
