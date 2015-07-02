@@ -122,7 +122,9 @@ if($orig_file1)
 	if(PHP_OS == "Linux")
 	{
 		$ffMpegPath = FFMPEG_BINARY;
+		file_put_contents('test.txt', $ffMpegPath." -i ".$orig_file1." -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
 		$out = shell_exec($ffMpegPath." -i ".$orig_file1." -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
+		
 		sleep(1);
 		
 		$log->writeLog();

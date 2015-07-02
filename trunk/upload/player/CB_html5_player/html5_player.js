@@ -558,7 +558,7 @@ alert(document.URL);
 //Logo
 $('.cb-playerLogo').append('<div id="path" class="path hbtn"  > </div>');
 
-$('#path').prop("href","http://clip-bucket.com/");
+$('#path').prop("href",product_link);
 // $("#path").insertAfter("#hd");
 $('#path').css({
 	            'backgroundImage': 'url(data:image/png;base64,' + webpath + ')',
@@ -571,7 +571,7 @@ $('#path').css({
 			});
 
   $("#path").click(function(event) {
-  window.open('http://clip-bucket.com/', '_blank');
+  window.open(product_link, '_blank');
           
   });
 

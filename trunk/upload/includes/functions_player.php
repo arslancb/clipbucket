@@ -26,6 +26,7 @@ function flashPlayer($param)
     $param['height'] = $height;
     $param['width'] = $width ;
     $param['enlarge_button'] = config('enlarge_button');
+    $param['player_logo_url'] = config('player_logo_url');
     //dump($code);
 
     if(!$param['autoplay'])

@@ -66,6 +66,12 @@ if(!function_exists('html5_player'))
 			if($in['autoplay'] =='yes')
 			assign('autoplay','true');
 
+			if ($in['player_logo_url'])
+			{
+				$player_logo_url =  $in['player_logo_url'];
+				assign('product_link',$player_logo_url); 
+			}
+
               
 			assign('vdata',$vdetails);
             assign('height',$in['height']);
