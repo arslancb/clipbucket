@@ -9,6 +9,7 @@
     </div>
 </div>
 
+{$logged_in_user = $userquery->get_user_details(userid())}
 {$searchPage = $smarty.get.query}
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="navbar-container clearfix">
@@ -85,7 +86,7 @@
             <ul class="dropdown-menu no-padding">
                 <li>
                     <div class="adminthumb">
-                    <a href="{link name='channels'}">
+                    <a href="{$userquery->profile_link($logged_in_user)}">
                         <img class="img-circle" src="{$usr_head_thumb}"/>
                         <h4>{$userquery->username}</h4> 
                     </a>    
@@ -179,7 +180,7 @@
             <ul class="dropdown-menu no-padding">
                 <li>
                     <div class="adminthumb">
-                         <a href="{link name='channels'}">
+                         <a href="{$userquery->profile_link($logged_in_user)}">
                         <img class="img-circle" src="{$usr_head_thumb}"/>
                         <h4>{$userquery->username}</h4>
                         </a>     
@@ -278,7 +279,7 @@
             <ul class="dropdown-menu">
                 <li>
                     <div class="adminthumb">
-                        <a href="{link name='channels'}">
+                        <a href="{$userquery->profile_link($logged_in_user)}">
                         <img class="img-circle" src="{$usr_head_thumb}"/>
                         <h4>{$userquery->username}</h4>     
                         </a>
