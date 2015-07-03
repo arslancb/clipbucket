@@ -37,7 +37,7 @@ here you can set basic configuration of your website, you can change them later 
     
     <div class="field" >
     <label for="title">Website title</label>
-    <input name="title" type="text" id="title" class="form-control" value="Clipbucket v2.7 Beta">
+    <input name="title" type="text" id="title" class="form-control" value="ClipBucket v<?php echo VERSION.' '.STATE?>">
      <p class="grey-text font-size" style="margin-top:0px;">Its your website title and you can change it from admin area.</p>
     </div>
     
