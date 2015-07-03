@@ -5094,7 +5094,13 @@ h6 {
 }
 /* view photo css start by end */
 
-
+/*rameez*/
+.cb-video-fixed-block {
+  float: none !important; 
+  display: inline-block;
+  vertical-align: top;
+  margin-left: -3px;
+}
 @media (max-width:375px) {
     .hover .plus {
         background-position: -4px 0;
