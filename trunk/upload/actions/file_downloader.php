@@ -79,7 +79,7 @@ if(isset($_POST['youtube']))
 	* Converting YouTube Time in seconds
 	*/
 
-	function getStringBetween($str,$from,$to)
+/*	function getStringBetween($str,$from,$to)
 	{
     $sub = substr($str, strpos($str,$from)+strlen($from),strlen($str));
     return substr($sub,0,strpos($sub,$to));
@@ -106,7 +106,7 @@ if(isset($_POST['youtube']))
 	$mins = $mins * 60;
 	$total = $hours + $mins + $secs;
 
-	/*	$match_arr = 
+		$match_arr = 
 	array
 	(
 		"title"=>"/<meta name=\"title\" content=\"(.*)\">/",
@@ -121,12 +121,12 @@ if(isset($_POST['youtube']))
 	{
 		preg_match($match,$content,$matches);
 		$vid_array[$title] = $matches[1];
-	}*/
+	}
 	
 	$vid_array['title'] 		= $data->title;
 	$vid_array['description'] 	= $data->description;
 	$vid_array['tags'] 			= $data->title;
-	$vid_array['duration'] 		= $total;
+	$vid_array['duration'] 		= $total;*/
 	
 	
 	$vid_array['thumbs'] = 
