@@ -72,8 +72,40 @@ if(isset($_POST['youtube']))
 	$content = json_decode($youtube_content);
 	
 	//$content = xml2array('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId);
-	$content = $content->items[0]->snippet;
-	
+	$data = $content->items[0]->snippet;
+	$time = $content->items[0]->contentDetails->duration;
+
+	/**
+	* Converting YouTube Time in seconds
+	*/
+
+	function getStringBetween($str,$from,$to)
+	{
+    $sub = substr($str, strpos($str,$from)+strlen($from),strlen($str));
+    return substr($sub,0,strpos($sub,$to));
+	}
+
+	$str = $time;
+	$str = str_replace("P", "", $str);
+	$from = "T";
+	$to = "H";
+
+	$hours = getStringBetween($str,$from,$to);
+
+	$from = "H";
+	$to = "M";
+
+	$mins = getStringBetween($str,$from,$to);
+
+	$from = "M";
+	$to = "S";
+
+	$secs = getStringBetween($str,$from,$to);
+
+	$hours = $hours * 3600;
+	$mins = $mins * 60;
+	$total = $hours + $mins + $secs;
+
 	/*	$match_arr = 
 	array
 	(
@@ -91,11 +123,10 @@ if(isset($_POST['youtube']))
 		$vid_array[$title] = $matches[1];
 	}*/
 	
-	$vid_array['title'] 		= $content->title;
-	$vid_array['description'] 	= $content->description;
-	$vid_array['tags'] 			= $content->title;
-	$vid_array['duration'] 		= $content->duration;
-	
+	$vid_array['title'] 		= $data->title;
+	$vid_array['description'] 	= $data->description;
+	$vid_array['tags'] 			= $data->title;
+	$vid_array['duration'] 		= $total;
 	
 	
 	$vid_array['thumbs'] = 
@@ -319,6 +350,7 @@ $vidDetails = array
 (
 	'title' => $title,
 	'description' => $title,
+	'duration' => $total,
 	'tags' => genTags(str_replace(' ',', ',$title)),
 	'category' => array($cbvid->get_default_cid()),
 	'file_name' => $file_name,
