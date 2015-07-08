@@ -154,9 +154,10 @@
     margin-right: 5px;
 }
 .watch-vid-social-sec{
-    width:116px;
+    width:145px;
     float: right;
     margin-top: 18px;
+    text-align: right;
 }
 .full-width{
   width: 100%;

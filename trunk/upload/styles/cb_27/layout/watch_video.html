@@ -60,8 +60,8 @@
 
                     <div class="tab-content">
                         <div class="tab-pane active" id="cb-item-info">
-                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6 no-padding">
-                            	<p id="videoDescription">{description($video.description)}</p>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7 no-padding">
+                            	<p id="videoDescription">{description($video.description)|description}</p>
                                 <div class="watch-vid-tag">
                                     <strong >{lang('Category:')}&nbsp;</strong>
                                     <span >{$vdo.category|categories:video}</span>
@@ -82,22 +82,22 @@
                                 </div> -->
                         	</div>
 
-                            <div class="watch-vid-social-sec">
-                                <a class="cb-item-social-icon twitter" href="https://twitter.com/share" target="_blank">
-                                    <i class="fa fa-twitter"></i>
-                                </a>
-                                <a class="cb-item-social-icon googlep" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank">
-                                    <i class="fa fa-google-plus"></i>
-
-                                </a>
-                                <a class="cb-item-social-icon facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
-                                    <i class="fa fa-facebook"></i>
-                                      
-                                </a>
-                            </div>   
                         {if $Cbucket->configs.video_download==1 && $cbvid->downloadable($vdo)}
-                            <div class="col-lg-12 col-md-12 clearfix" style="margin-top:25px;">
-                               <div class="dropdown pull-right">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5 no-padding" style="margin-top:25px;">
+                                 <div class="watch-vid-social-sec col-lg-12 pull-right no-padding">
+                                    <a class="cb-item-social-icon twitter" href="https://twitter.com/share" target="_blank">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                    <a class="cb-item-social-icon googlep" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank">
+                                        <i class="fa fa-google-plus"></i>
+
+                                    </a>
+                                    <a class="cb-item-social-icon facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
+                                        <i class="fa fa-facebook"></i>
+                                          
+                                    </a>
+                                </div> 
+                                <div class="dropdown col-lg-12 pull-right no-padding">
                                   <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" style="margin-top: 10px;">
                                     Download
                                         <span class="caret"></span>
