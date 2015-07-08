@@ -2467,7 +2467,7 @@ div.small-photo:nth-of-type(even) {
   position: absolute;
   text-align: left;
   width: 98.8%;
-  z-index: 100;
+  z-index: 1;
 }
 .cbHomeVidTitle_Big {
   font-size: 15px;
