@@ -3731,13 +3731,17 @@ small {
   top: 5px;
 }
 .private_video {
-  background-image: url(../images/private.png);
-  width: 110px;
-  height: 66px;
+  background-color: #0099cc;
+  width: 100%;
   position: absolute;
-  top: 2px;
-  left: 2px;
+  top: 5px;
+  left: 0px;
   border: 0px;
+  color: #fff;
+  line-height: 30px;
+  padding:0 10px; 
+  text-align: center;
+  font-weight: 600;
 }
 .cb_quickie {
   padding: 1px 1px;

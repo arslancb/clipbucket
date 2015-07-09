@@ -3,6 +3,9 @@
     <div class="cb_item_container clearfix">
         <div class="cb_item_thumb video_thumb relative" >
         <a href="{videoLink($video)}" title="{$video.title|title}">
+        {if $video.broadcast=='private'}
+         <span class="private_video">PRIVATE</span>
+        {/if}
             <span class="fa fa-play play-icon"></span>
             <span class="duration">{if
             $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}{*$video.duration|date_format:$config.time*}

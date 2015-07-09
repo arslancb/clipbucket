@@ -370,6 +370,7 @@ class CBvideo extends CBCategory
 			if(!$array)
 			 $array = $_POST;
 			 
+			#pr($array,true);
 			$vid = $array['videoid'];
 
 			if(is_array($_FILES))
@@ -441,6 +442,12 @@ class CBvideo extends CBCategory
 				{
 					$query_field[] = 'views';
 					$query_val[] = $array['views'];
+				}
+
+				if(!empty($array['video_users']))
+				{
+					$query_field[] = 'video_users';
+					$query_val[] = $array['video_users'];
 				}
 				
 				if(!empty($array['rating']))
