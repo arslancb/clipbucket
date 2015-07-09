@@ -1,6 +1,7 @@
 <?php
 define('FFMPEG_BINARY', get_binaries('ffmpeg'));
 define("thumbs_number",config('num_thumbs'));
+define('PROCESSESS_AT_ONCE',config('max_conversion'));
 
 $size12 = "0";
 class FFMpeg{
