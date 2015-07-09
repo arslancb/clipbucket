@@ -6,9 +6,10 @@
  * in prior version, this file was not so reliable
  * this time it has complete set of instruction 
  * and proper downloader
- * @Author : Arslan Hassan
- * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
- * @Since : 01 July 2009
+ * @author : Arslan Hassan
+ * @license : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
+ * @since : 01 July 2009
+ * @last_modified: 9th July, 2015 (Implementation of YouTube API 3) 
  */
 
 
@@ -67,19 +68,35 @@ if(isset($_POST['youtube']))
 		exit(json_encode(array("error"=>"Invalid youtube url")));
 	}
 	
-	//for devolpment
-	$youtube_content = file_get_contents('https://www.googleapis.com/youtube/v3/videos?id='.$YouTubeId.'&key=AIzaSyDOkg-u9jnhP-WnzX5WPJyV1sc5QQrtuyc&part=snippet');
+
+	########################################
+	# YouTube Api 3 Starts 				   #
+	########################################
+	/**
+	* After deprecation of YouTube Api 2, ClipBucket is now evolving as
+	* it allos grabbing of youtube videos with API 3 now. 
+	* @author Saqib Razzaq
+	*
+	* Tip: Replace part between 'key' to '&' to use your own key
+	*/ 
+
+	// grabs video details (snippet, contentDetails)
+	$youtube_content = file_get_contents('https://www.googleapis.com/youtube/v3/videos?id='.$YouTubeId.'&key=AIzaSyDOkg-u9jnhP-WnzX5WPJyV1sc5QQrtuyc&part=snippet,contentDetails');
 	$content = json_decode($youtube_content);
 	
 	//$content = xml2array('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId);
+
+	// getting things such as title out of Snippet
 	$data = $content->items[0]->snippet;
+
+	// getting time out of contentDetails
 	$time = $content->items[0]->contentDetails->duration;
 
 	/**
 	* Converting YouTube Time in seconds
 	*/
 
-/*	function getStringBetween($str,$from,$to)
+	function getStringBetween($str,$from,$to)
 	{
     $sub = substr($str, strpos($str,$from)+strlen($from),strlen($str));
     return substr($sub,0,strpos($sub,$to));
@@ -106,7 +123,7 @@ if(isset($_POST['youtube']))
 	$mins = $mins * 60;
 	$total = $hours + $mins + $secs;
 
-		$match_arr = 
+	/*	$match_arr = 
 	array
 	(
 		"title"=>"/<meta name=\"title\" content=\"(.*)\">/",
@@ -121,12 +138,12 @@ if(isset($_POST['youtube']))
 	{
 		preg_match($match,$content,$matches);
 		$vid_array[$title] = $matches[1];
-	}
+	}*/
 	
 	$vid_array['title'] 		= $data->title;
 	$vid_array['description'] 	= $data->description;
 	$vid_array['tags'] 			= $data->title;
-	$vid_array['duration'] 		= $total;*/
+	$vid_array['duration'] 		= $total;
 	
 	
 	$vid_array['thumbs'] = 
