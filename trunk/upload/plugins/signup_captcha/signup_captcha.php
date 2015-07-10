@@ -13,7 +13,7 @@ Plugin Type: global
 													   
 
 
-if(!function_exists("signup_captcha"))
+/*if(!function_exists("signup_captcha"))
 {
 	require "captcha/class.img_validator.php";
 	
@@ -46,5 +46,5 @@ if(!function_exists("signup_captcha"))
 	register_anchor(signup_captcha(),"signup_captcha");
 	//register_signup_field($signup_captcha);
 	register_cb_captcha('signup_captcha','signup_captcha_check',TRUE);
-}
+}*/
 ?>
