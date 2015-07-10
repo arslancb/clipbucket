@@ -1,7 +1,7 @@
 <?php
 
 /*
-Plugin Name: Signup Captcha
+Plugin Name: Signup Captcha (DEPRECATED)
 Description: Security Captcha for signup form
 Author: Arslan Hassan
 Author Website: http://clip-bucket.com/
