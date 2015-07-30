@@ -1053,6 +1053,22 @@
 			echo "</pre>";
 		}
 	}
+
+	/**
+	* PR extended into auto exiting
+	*/
+	function pex($text,$wrap_pre=false)
+	{
+		if(!$wrap_pre)
+		print_r($text);
+		else
+		{
+			echo "<pre>";
+			print_r($text);
+			echo "</pre>";
+			exit("PEX Ran!");
+		}
+	}
 	
 	
 	/**
