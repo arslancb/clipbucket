@@ -100,7 +100,6 @@
 	color:#ccc;
 	display: block;
 	z-index: 1;
-	font-family:'Myriad Set Pro';
 }
 
 /* video caption css */
@@ -132,17 +131,18 @@
 	margin-left: -3px;
 }
 
-.title{
+.caption .title{
 	font-size: 20px;
-	font-weight: 700;
 	text-align: left;
 	width: 60%;
+	font-family: 'PT Sans', sans-serif;
 }
 	
-.user{
+.caption .user{
 	text-align: right;
 	width: 40%;
 	font-size: 12px;
+	font-family: 'PT Sans', sans-serif;
 }
 
 .video_files
@@ -488,6 +488,7 @@ background: #fff;
 	text-align:center;
 	font-size:11px;
 	position:relative;
+	font-family: 'PT Sans', sans-serif;
 }
 
 /* VOLUME BAR CSS */
@@ -662,13 +663,12 @@ background: #fff;
 
 
 #h_4{
-
+	font-family: 'PT Sans', sans-serif;
 	color: #fff;
 }
 
 
 #related_1{
-
 	width:100%;
 	height: 100%;
 	position:absolute; 
@@ -682,13 +682,12 @@ background: #fff;
 	z-index:21;
 	text-align: center;
 	display: none;
-
-
-
+	font-family: 'PT Sans', sans-serif;
 }
 
 #link_v{
 	position: relative;
+	font-family: 'PT Sans', sans-serif;
 }
 #name_v{
 	top :0;
@@ -700,7 +699,7 @@ background: #fff;
 	position: absolute;
 	margin-top: 27%;
 	background-color: rgba(0, 0, 0, 0.9);
-
+	font-family: 'PT Sans', sans-serif;
 	z-index: 1;
 }
 
