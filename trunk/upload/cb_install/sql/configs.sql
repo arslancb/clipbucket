@@ -78,7 +78,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (75, 'max_comment_chr', '800'),
 (76, 'user_comment_own', ''),
 (77, 'anonym_comments', 'yes'),
-(78, 'player_dir', 'CB_html5_player'),
+(78, 'player_dir', 'CB_video_js'),
 (79, 'player_width', '661'),
 (80, 'player_height', '360'),
 (81, 'default_country_iso2', 'PK'),
