@@ -32,8 +32,6 @@ if(userid())
 else
 	$verify_logged_user = false;
 
-//dump(has_access('allow_video_upload',false,$verify_logged_user));
-
 if(has_access('allow_video_upload',false,$verify_logged_user))
 {
 	
@@ -68,10 +66,17 @@ if(has_access('allow_video_upload',false,$verify_logged_user))
 			$file_directory = create_dated_folder(NULL,$_REQUEST['time_stamp']);
 			
 			$vid = $Upload->submit_upload();
-			//echo $db->db_query;
-			//Call file so it can activate video
 			$Upload->do_after_video_upload($vid);
-            //$query = $db->update(tbl("video"),array("file_directory"),array( date("Y/m/d")),"videoid='$vid'");
+
+
+            /**
+            * Function used to get direct URL of YT video on Embed Upload
+            */
+            if ( YT_CLIP_INSTALLED == true )
+            {
+				get_direct_url_embed_upload($vid);
+            }
+
 			echo '<div class="alert alert-success embed_video">
    			Video has been Embeded succesfully ..
     			</div>';
