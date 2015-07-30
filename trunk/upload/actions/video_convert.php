@@ -88,7 +88,12 @@
 
 	
 	$ffmpeg = new FFMpeg($configs, $log);
-	$ffmpeg->convertVideo($orig_file);
+	$ffmpeg->ffmpeg($orig_file);
+	$ffmpeg->file_name = $tmp_file;
+	//$ffmpeg->logs = $log;
+	$ffmpeg->ClipBucket();
+	//logData(json_encode("in end video convert"));
+	//$ffmpeg->convertVideo($orig_file);
 
 		
 	//exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $orig_file");		
@@ -103,6 +108,7 @@
 		
 	} else {
 		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $orig_file $dosleep &> /dev/null &");
+		logData(json_encode(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $orig_file $dosleep &> /dev/null &"));
 	}
 
 	if(!isset($_GET['test']))

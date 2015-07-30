@@ -1,6 +1,6 @@
 <?php
 /*
-	Player Name: cb video js 1.0
+	Player Name: cb video js 1.0 BETA
 	Description: New Official cb video js player 
 	Author: Fahad Abbas
 	ClipBucket Version: 2.7

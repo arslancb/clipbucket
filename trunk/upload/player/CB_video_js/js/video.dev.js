@@ -5516,10 +5516,21 @@ vjs.CbBrndrm = vjs.Button.extend({
 });
 
 vjs.CbBrndrm.prototype.createEl = function(){
-  var el = vjs.Component.prototype.createEl.call(this, 'div', {
+  if (this.show_logo)
+  {
+    var el = vjs.Component.prototype.createEl.call(this, 'div', {
     className: 'vjs-cb-logo-cont display-true display-false',
     innerHTML: '<img style="display:block !important; cursor : pointer;" src="data:image/png;base64, '+this.branding_logo+'" alt="">',
   });
+  }
+  else
+  {
+    var el = vjs.Component.prototype.createEl.call(this, 'div', {
+    className: 'vjs-cb-no-logo',
+    innerHTML: '<span class="alert alert-danger">Use html5player setting Plugin!</span>',
+  });
+  }
+  
   return el;
 };
 
