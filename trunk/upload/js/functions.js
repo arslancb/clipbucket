@@ -72,7 +72,40 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 	}
 	
 
-	
+	function load_more(limit,mode,inner_mode,append_id,attrb,cat_id,total)
+	{
+	    $.ajax({
+		    type: "POST",
+		    url: baseurl + "/ajax.php",
+		    data: { limit : limit , mode : mode , inner_mode : inner_mode , cat_id : cat_id , total : total },
+		    dataType: 'json',
+		    success: function(response)
+		    {
+		        
+		        if(response)
+		        {
+			        $('#' + append_id).append(response.template);
+			        $(attrb).attr({
+			         "limit":(parseInt(response.count) + parseInt(response.total))
+			        });
+		          
+		        }
+		        if(response['limit_exceeds']==true)
+		        {
+		         	attrb.css('display','none');
+		        }
+		        if(response=='limit_exceeds')
+		        {
+		         	attrb.css('display','none');
+		        }
+		        
+		         
+		    }
+
+	   });
+	};
+
+
 	function randomString()
 	{
 		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
