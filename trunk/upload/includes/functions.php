@@ -5147,6 +5147,29 @@
 		return $lang_obj->lang_iso;
 	}
 
+
+	/*assign results to template for load more buttons on all_videos.html*/
+	function template_assign($results,$limit,$total_results,$template_path,$assigned_variable_smarty)
+	{
+	  	if($limit <$total_results)    
+	  	{
+	   		$html = "";
+	   		$count = $limit;
+	   		foreach ($results as $key => $result) 
+	   		{
+	    		assign("$assigned_variable_smarty",$result);
+	    		$html .= Fetch($template_path);
+	    	//Template('blocks/videos/all_video.html');
+	   		}
+			$arr = array("template"=>$html, 'count' => $count, 'total' => $limit);
+	  	}
+	  	else
+	  	{
+	   		$arr = 'limit_exceeds';
+	  	}
+	  	return $arr;
+	}
+
         include( 'functions_db.php' );
         include( 'functions_filter.php' );
         include( 'functions_player.php' );
