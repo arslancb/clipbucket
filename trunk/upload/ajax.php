@@ -73,7 +73,115 @@ if(!empty($mode))
 		}
 		break;
 		
-		
+		case 'load_more':
+		{
+			$limit = $_POST['limit'];
+			$total = $_POST['total'];
+
+			$inner_mode = $_POST['inner_mode'];
+			switch($inner_mode)
+			{
+				case 'load_more_videos':
+				{
+					$videos_arr = array('order' =>"date_added DESC" , "limit" =>''.$limit.','.$limit.'');
+					$results=get_videos($videos_arr);
+					$next_limit = $limit + $limit;
+					$videos_arr_next = array('order' =>"date_added DESC" , "limit" =>''.$next_limit.','.$next_limit.'');
+					$videos_next = get_videos($videos_arr_next);
+					if($total == $next_limit||$total < $next_limit)
+					{
+						$count_next = 0;
+					}
+					else
+					{
+						$count_next = count($videos_next);
+					}
+					$total_results = $total;
+					$template_path  = 'blocks/videos/video.html';
+					$assigned_variable_smarty = 'video';
+				}
+				break;
+				case 'load_more_users':
+				{
+					$users_arr = array( "limit" =>''.$limit.','.$limit.'');
+					$results=get_users($users_arr);
+					$next_limit = $limit + $limit;
+					$users_arr_next = array( "limit" =>''.$next_limit.','.$next_limit.'');
+					$users_next = get_videos($users_arr_next);
+					if($total == $next_limit||$total < $next_limit)
+					{
+						$count_next = 0;
+					}
+					else
+					{
+						$count_next = count($users_next);
+					}
+					$count_next = (int)$count_next;
+					$total_results = $total;
+					$template_path  = 'blocks/channels.html';
+					$assigned_variable_smarty = 'user';
+					
+				}
+				break;
+				case 'load_more_playlist':
+				{
+					$userid = $_POST['cat_id'];
+					$play_arr = array( "user" => $userid ,"order"=>"date_added DESC","limit" =>''.$limit.','.$limit.'');
+					$results = $cbvid->action->get_playlists($play_arr);
+					$next_limit = $limit + $limit;
+					$play_arr_next = array( "user" => $userid ,"order"=>"date_added DESC","limit" =>''.$next_limit.','.$next_limit.'');
+					$playlist_next = $cbvid->action->get_playlists($play_arr_next);
+					//pr($total .'<'. $next_limit,true);
+					if($total == $next_limit||$total < $next_limit)
+					{
+						$count_next = 0;
+					}
+					else
+					{
+						$count_next = count($playlist_next);
+					}
+					
+					$count_next = (int)$count_next;
+					//pr($count_next,true);
+					$total_results = $total;
+					$template_path  = 'blocks/playlist/playlist.html';
+					$assigned_variable_smarty = 'playlist';
+					
+				}
+				break;
+
+			}
+			$arr = template_assign($results,$limit,$total_results,$template_path,$assigned_variable_smarty);
+    
+		    
+		    if ($count_next > 0)
+		    {
+		    	//pr($count_next,true);
+		     	$arr['limit_exceeds']=false;
+		     	//pr($arr['limit_exceeds'],true);
+		     	echo json_encode($arr);
+		     	///pr($arr,true);
+		    } 
+		    elseif($count_next == 0)
+		    {
+		    	//pr($count_next,true);
+			    $arr['limit_exceeds']=true;
+
+			    echo json_encode($arr);
+		    	//pr($arr,true);
+		    }
+		    else
+		    {
+		    	//pr($count_next,true);
+		    	if(isset($arr['limit_exceeds']))
+			    	$arr['limit_exceeds']=true;
+			    echo json_encode($arr);	
+		    	//pr($arr,true);
+		    }
+		}
+		break;
+
+
 		case 'rating':
 		{
 			switch($_POST['type'])
