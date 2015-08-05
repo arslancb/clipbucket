@@ -537,7 +537,7 @@ function startFocusOut() {
 }
 
 $(".clip").click(function(event) {
-   window.open('http://clip-bucket.com/', '_blank');
+   window.open(homepath, '_blank');
  });
 
 
