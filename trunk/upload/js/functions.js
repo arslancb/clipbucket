@@ -817,6 +817,7 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 				$(obj).css('background-position',"-0px -0px");
 				$(obj).removeClass('add_icon');
 				$(obj).addClass('check_icon');
+				$(obj).removeAttr('title');
 				load_quicklist_box();
 			}
 		},'text');
