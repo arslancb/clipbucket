@@ -16,9 +16,9 @@ var embed_check = baseurl+"/actions/embed_form_verifier.php";
 function check_embed_code(objId){
 	var  theForm = '#embedUploadForm'+objId;
 	if($(theForm+" #embed_code").val() == "")
-		alert("Embed code was empty");
+		$('#error_msgs').html('<div class="alert alert-danger" role="alert"> Embed Code was empty!</div>');
 	else if($(theForm+" #duration").val() == "")
-		alert("Please enter video duration");
+		$('#error_msgs').html('<div class="alert alert-danger" role="alert"> Video Duration can\'t be empty!</div>');
 	else
 	{
 		$.post(embed_check, 
