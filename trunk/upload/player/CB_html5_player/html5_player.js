@@ -19,69 +19,31 @@ $(document).ready(function()
 	
 
     // setting player controls when video gets ready :)
-  	var test =  setInterval(function(){
+  	var ready_state_interval =  setInterval(function(){
 
 		var vid = document.getElementById("myVideo");
+
 		var rdy = vid.readyState;
-
-			if (rdy >= '2')
-			{
-				if (loadmetadata == true)
-				{
-						$('.loading').fadeOut(500);
-						if( autoplay == '' ){
-							$('.init').fadeIn(2500);
-							$('.btnPlay').removeClass('paused');
-							
-					    }
-					    if( autoplay == 'true'){
-					    	setTimeout(startBuffer, 10);
-					    	$('.btnPlay').addClass('paused');
-					    }
-						$('.caption').fadeIn(500);
-	                    $('.fduration').text(timeFormat(video[0].duration));
-				        $('.fcurrent').text(timeFormat(0));
-				        updateVolume(0, 0.7);
-	                    loadmetadata = false;
-	             }
-	        }
-    },1000);
-
-    container.one("click",function(){
-     	clearTimeout(test);
-    });
-
-      
-
-    //before everything get started
-    video.on('loadedmetadata', function() {
-	    if (time_var == true){
-		    video[0].currentTime = start_time;
-		    video[0].play();
-	    }
-
-	    //set video properties	
-		$('.fcurrent').text(timeFormat(0));
-		$('.fduration').text(timeFormat(video[0].duration));
-		$('.caption').fadeIn(500);
-		updateVolume(0, 0.7);
-		$('.loading').fadeOut(500);
-        if( autoplay == 'true' && !_HD_flag){
-		    setTimeout(startBuffer, 10);
-		    $('.btnPlay').addClass('paused');
-	    }
-        if(time_var  == true){
-			$('.init').hide();
-		}	
-		else{
-
-	   	    if( autoplay == '' && !_HD_flag){
-				$('.init').fadeIn(2500);
+		if (rdy >= '2')
+		{
+			clearTimeout(ready_state_interval);
+			//var source = get_current_video_source("myVideo");
+			$('.fduration').text(timeFormat(video[0].duration));
+	        $('.fcurrent').text(timeFormat(0));
+			$('.loading').fadeOut(500);
+			$('.caption').fadeIn(500);
+		    if( autoplay == 'true'){
+		    	setTimeout(startBuffer, 10);
+		    	$('.btnPlay').addClass('paused');
+		    }
+		    else
+		    {
+		    	$('.init').fadeIn(2500);
 				$('.btnPlay').removeClass('paused');
-			}
-	   	}    
-		loadmetadata = false;
-    });
+		    }
+			updateVolume(0, 0.7);
+        }
+    },1000);
       
     // initializing the player click function  
 	$('.cont').on("click",function(){
@@ -121,34 +83,6 @@ $(document).ready(function()
             }
        	},1000);
    	}); 
-
-
-    // On press space vidoe play/pasue
-	/*var play = false;
-	$(window).keypress(function(e) {
-		e.preventDefault();
-	  	if (e.keyCode == 0) 
-	  	{
-	  		console.log(e.keyCode);
-		  	if (!play)
-		  	{
-		  		play = true;
-		  		$('.init').show();
-				$('.btnPlay').removeClass('paused');
-				video[0].pause();
-				_pause = true;
-		  	}
-		  	else
-		  	{
-		  		play = false;
-		  		$('.init').hide();
-				$('.btnPlay').addClass('paused');
-				video[0].play();
-				_pause = false;
-		  	}
-	    }
-	});*/
-
 
     // on hover controils and captions get showed
     
@@ -651,7 +585,6 @@ if(files)
 	}
 	else
     $('#li_360').addClass('selected_player');
-	
 
 	$.each(jsonData, function (key, data) {
 
@@ -665,8 +598,9 @@ if(files)
 		//getting current time variable for video to play .. on change resolution and passing to loadmetadata	
 	    start_time = video[0].currentTime;
         //Changing source attribute for the required resolution .. 
+        console.log("current_video=>"+jsonData[key]);
         video.attr('src',jsonData[key]);
-		$('.ress').toggleClass('res');
+        load_meta_data(start_time,video);
         time_var = true;
 		});
     });
@@ -791,6 +725,27 @@ function caption_show()
 	$('.caption').stop().animate({'top':-7}, 100);
 }
 
+function load_meta_data(start_time,video)
+{
+    	//before everything get started
+    	video.on('loadedmetadata', function() {
+	    video[0].currentTime = start_time;
+		video[0].play();
+	    //set video properties	
+		$('.loading').fadeOut(500);
+        $('.init').hide();
+	   	   
+		
+    });
+}
+
+function get_current_video_source(object_id)
+{
+	var video = document.getElementById(object_id);
+	var src = video.currentSrc;
+	return src;	    
+}
+
 
 /******CAUTION*****\
 DO NOT REMOVE THIS COMMENTED CODE 
@@ -810,3 +765,59 @@ $('#web').css({
 
 */
 
+
+//before everything get started
+   /* video.on('loadedmetadata', function() {
+	    if (time_var == true){
+		    video[0].currentTime = start_time;
+		    video[0].play();
+	    }
+
+	    //set video properties	
+		$('.fcurrent').text(timeFormat(0));
+		$('.fduration').text(timeFormat(video[0].duration));
+		$('.caption').fadeIn(500);
+		updateVolume(0, 0.7);
+		$('.loading').fadeOut(500);
+        if( autoplay == 'true' && !_HD_flag){
+		    setTimeout(startBuffer, 10);
+		    $('.btnPlay').addClass('paused');
+	    }
+        if(time_var  == true){
+			$('.init').hide();
+		}	
+		else{
+
+	   	    if( autoplay == '' && !_HD_flag){
+				$('.init').fadeIn(2500);
+				$('.btnPlay').removeClass('paused');
+			}
+	   	}    
+		loadmetadata = false;
+    });*/
+
+  // On press space vidoe play/pasue
+	/*var play = false;
+	$(window).keypress(function(e) {
+		e.preventDefault();
+	  	if (e.keyCode == 0) 
+	  	{
+	  		console.log(e.keyCode);
+		  	if (!play)
+		  	{
+		  		play = true;
+		  		$('.init').show();
+				$('.btnPlay').removeClass('paused');
+				video[0].pause();
+				_pause = true;
+		  	}
+		  	else
+		  	{
+		  		play = false;
+		  		$('.init').hide();
+				$('.btnPlay').addClass('paused');
+				video[0].play();
+				_pause = false;
+		  	}
+	    }
+	});*/

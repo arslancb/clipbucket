@@ -1,4 +1,4 @@
-@font-face {
+/*@font-face {
 	font-family: 'icomoon';
 	src:url('fonts/icomoon.eot?-dwmpo');
 	src:url('fonts/icomoon.eot?#iefix-dwmpo') format('embedded-opentype'),
@@ -18,7 +18,7 @@
 	text-transform: none;
 	line-height: 1;
 
-	/* Better Font Rendering =========== */
+	 Better Font Rendering =========== 
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -55,6 +55,92 @@
 }
 .icon-volume3:before {
 	content: "\e60a";
+}*/
+
+@font-face {
+ font-family: 'icomoon';
+ src:url('fonts/icomoon.eot?-5ejonp');
+ src:url('fonts/icomoon.eot?#iefix-5ejonp') format('embedded-opentype'),
+  url('fonts/icomoon.ttf?-5ejonp') format('truetype'),
+  url('fonts/icomoon.woff?-5ejonp') format('woff'),
+  url('fonts/icomoon.svg?-5ejonp#icomoon') format('svg');
+ font-weight: normal;
+ font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+ font-family: 'icomoon';
+ speak: none;
+ font-style: normal;
+ font-weight: normal;
+ font-variant: normal;
+ text-transform: none;
+ line-height: 1;
+
+ / Better Font Rendering =========== /
+ -webkit-font-smoothing: antialiased;
+ -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-setting:before {
+ content: "\e613";
+}
+.icon-pause2:before {
+ content: "\e60b";
+}
+.icon-hd:before {
+ content: "\e603";
+}
+.icon-togglescreen:before {
+ content: "\e601";
+}
+.icon-cb:before {
+ content: "\e600";
+}
+.icon-fullscreen:before {
+ content: "\e602";
+}
+.icon-pause:before {
+ content: "\e604";
+}
+.icon-pause-big:before {
+ content: "\e605";
+}
+.icon-play:before {
+ content: "\e606";
+}
+.icon-play-big:before {
+ content: "\e607";
+}
+.icon-volume1:before {
+ content: "\e608";
+}
+.icon-volume2:before {
+ content: "\e609";
+}
+.icon-volume3:before {
+ content: "\e60a";
+}
+.icon-pause3:before {
+ content: "\e60c";
+}
+.icon-play2:before {
+ content: "\e60d";
+}
+.icon-play22:before {
+ content: "\e60e";
+}
+.icon-volume12:before {
+ content: "\e60f";
+}
+.icon-volume22:before {
+ content: "\e610";
+}
+.icon-volumefull:before {
+ content: "\e611";
+}
+.icon-volumemute:before {
+ content: "\e612";
 }
 
 
@@ -370,27 +456,37 @@
 }
 
 */
+/*.control div.res{
+	margin-right: 6px;
+	display: inline-block;
+	vertical-align: middle;
+	width: 18px;
+	height: 16px;
+}
+.control div.res:before {
+	content: "\e613";
+	font-family: 'icomoon';
+	font-size: 18px;
+	line-height: 16px;
+}*/
 .control div.small{
 	background:url(skin/small.png) no-repeat -2px 3px;
 	float:right;
 	margin-right: 10px;
 	margin-top: 4px;
 }
-
 .control div.res{
-	background:url(skin/res.png) no-repeat -3.5px -7px ;
-	float:right;
-	margin-right: 5px;
-	
-
+	margin-right: 6px;
+	display: inline-block;
+	vertical-align: middle;
+	width: 18px;
+	height: 16px;
 }
-
-.control div.ress{
-	background:url(skin/res.png) no-repeat -3.5px -7px ;
-	float:right;
-	margin-right: 5px;
-	
-
+.control div.res:before {
+	content: "\e613";
+	font-family: 'icomoon';
+	font-size: 18px;
+	line-height: 16px;
 }
 
 .control div.hdon{
