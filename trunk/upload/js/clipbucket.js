@@ -162,7 +162,8 @@
 			this.force_stop = false;
 			if(file.match(/^e.g/) || typeof file === "undefined" || file.length === 0){
 				// given url is not valid
-				alert("Please enter file url");
+				//alert("Please enter file url");
+				$('#error_msgs').html('<div class="alert alert-danger" role="alert">Given URL is invalid!</div>');
 				return false;
 			}
 
@@ -212,7 +213,7 @@
 					if(data.error){
 						self.force_stop = true;
 						remoteUploadStop();
-						alert(data.error);
+						$('#error_msgs').html('<div class="alert alert-danger" role="alert"> File Type Not Allowed!</div>');
 						return false;
 					}
 					remoteUploadStop();  
@@ -367,7 +368,7 @@
 			this.force_stop = false;
 			if(file.match(/^e.g/) || typeof file === "undefined" || file.length === 0){
 				// given url is not valid
-				alert("Please enter file url");
+				$('#error_msgs').html('<div class="alert alert-danger" role="alert"> Please enter valid URL !</div>');
 				return false;
 			}
 			return true;
