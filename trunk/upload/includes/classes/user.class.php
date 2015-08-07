@@ -3132,7 +3132,6 @@ class userquery extends CBCategory{
             $array[lang('playlists')]=array
             (
                 lang('manage_playlists') =>'manage_playlists.php',
-                lang('video_playlists') =>'manage_playlists.php?mode=manage_video_playlist',
             );
         $array[lang('messages')] = array
         (
