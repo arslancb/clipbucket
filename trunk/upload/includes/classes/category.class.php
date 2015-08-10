@@ -319,7 +319,7 @@ abstract class CBCategory
 				$display = "none";	
 			}	
 			if($cat['children'])		
-			$html .= "<span id='".$cat['category_id']."_toggler' alt='".$cat['category_id']."_categories' class='CategoryToggler ".$display."' onclick='toggleCategory(this);'>&nbsp;</span>";
+			 $html .= "<span id='".$cat['category_id']."_toggler' data-target='#cat".$cat['category_id']."' data-toggle='collapse' class='CategoryToggler ".$display."' aria-expanded='false' aria-controls='cat".$cat['category_id']."'>&nbsp;</span>";
 			
 							
 			$html .= "<a class='".$toggle."' '".$data_toggle."' href='".cblink(array("name"=>"category","data"=>$cat,"type"=>$params['type']))."'>".$cat['category_name'].$add_caret."</a>";
@@ -328,7 +328,7 @@ abstract class CBCategory
 			
 			if($cat['children'])
 			{
-				$html .= "<ul id='".$catID."_categories' class='sub_categories' style='display:".($display)."'>";
+				$html .= "<ul id='cat".$catID."' class='collapse'>";
 				$html .= $this->displayCollpasedListCateogry($cat['children'],$params);
 				$html .= "</ul>";
 			}
