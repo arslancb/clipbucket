@@ -40,3 +40,38 @@ function name($user_array)
     return $name;
 }
 
+/**
+* Function used to check fields in myaccount section (edit_account.php?mode=profile)
+* It checks certain important fields to make sure user enters correct data
+* @param $array : array of fields data
+* @since ClipBucket 2.7.7
+*/
+
+function profile_fileds_check($array)
+{
+        $post_clean = true;
+        if (preg_match('/[0-9]+/', $array['first_name']) || preg_match('/[0-9]+/', $array['last_name']))
+        {
+            e('Name contains numbers! Seriously? Are you alien?');
+            $post_clean = false;
+        }
+
+        if (!empty($array['profile_tags']) && preg_match('/[0-9]+/', $array['profile_tags']) || !strpos($array['profile_tags'], ','))
+        {
+            e('Invalid tags. Kindly review!');
+            $post_clean = false;
+        }
+
+        if (!filter_var($array['web_url'], FILTER_VALIDATE_URL))
+        {   
+            e('Invalid URL provided.');
+            $post_clean = false;
+        }
+
+        if (!is_numeric($array['postal_code']) && !empty($array['postal_code']))
+        {
+            e("Don't fake it! Postal Code can't be words!");
+            $post_clean = false;
+        }
+}
+
