@@ -17,6 +17,12 @@ if(isset($_POST['update_profile']))
 {
 	$array = $_POST;
 	$array['userid'] = userid();
+	/*Checks prfile fields data*/
+	profile_fileds_check($array);
+	if ($post_clean == true)
+	{
+		$userquery->update_user($array);
+	}
 	$userquery->update_user($array);
 }
 
