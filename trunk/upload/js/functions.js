@@ -229,10 +229,11 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 			  },
 			  success: function(data)
 			  {
-				 if ( youtube_mania_installed == true ) 
-				  	{
-				  		extract_yt_url_ajax(data);
-				  	}  
+			  	if (!(typeof(extract_yt_url_ajax)=='undefined')) 
+			  		{
+			  			extract_yt_url_ajax(data);
+			  		}
+
 				  if(data.error)
 				  {		  
 					force_stop = true;
