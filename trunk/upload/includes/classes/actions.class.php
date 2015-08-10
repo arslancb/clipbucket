@@ -132,7 +132,16 @@ class cbactions
 					
 					$db->insert(tbl($this->fav_tbl),array('type','id','userid','date_added'),array($this->type,$id,userid(),NOW()));
 					addFeed(array('action'=>'add_favorite','object_id' => $id,'object'=>'video'));
-					
+
+					if ($this->type == 'cl') 
+					{
+						$the_type = 'collection';
+					}
+					else
+					{
+						$the_type = 'video';
+					}
+
 					//Loggin Favorite			
 					$log_array = array
 					(
@@ -144,7 +153,7 @@ class cbactions
 					insert_log($this->name.'_favorite',$log_array);
 					
 					//e(sprintf(lang('add_fav_message'),$this->name),'m');
-					 e('<div class="alert alert-success">This video has been added to your favorites</div>', "m" );
+					 e('<div class="alert alert-success">This '.$the_type.' has been added to your favorites</div>', "m" );
 				}else{
 					 
 					e(sprintf(lang('already_fav_message'),$this->name));
