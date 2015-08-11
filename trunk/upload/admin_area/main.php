@@ -49,6 +49,7 @@ if(isset($_POST['update'])){
 					'approve_video_notification',
 					'audio_codec',
 					'activation',
+					'photo_activation',
 					
 					'background_color',
 					'background_upload',
