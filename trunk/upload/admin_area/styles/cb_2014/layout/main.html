@@ -661,10 +661,10 @@
   <div class="row"> 
 
     <div class="col-md-4">
-      <h5>Quickk Conversion</h5>
+      <h5>Quick Conversion</h5>
       <label class="checkbox" for="quick_conv">
         <input type="checkbox" name="quick_conv" id="quick_conv" value="yes" {if $row.quick_conv=='yes'} checked="checked"{/if}/>
-        Turn on Qickk Conversion
+        Turn on Quick Conversion
         <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" alt="info" border="0" class="tipsy_tip" title="If you check this option, videos will be converted as soon as uploading is complete, make sure your php path is correct before enabling this option otherwise may cause your website inaccessible" /></a>
       </label>
     </div>
@@ -733,7 +733,17 @@
         <div class="form-group1">
           <label class="checkbox">
             <input name="activation" type="checkbox" id="activation" value="1" {if $row.activation==1} checked="checked"{/if} />
-            Activation required
+            Video Activation
+            <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" alt="info" border="0" class="tipsy_tip" title="If left unchecked, all vidoes will be published directly. If checked, admin will have to approve videos before they appear on website." /></a>
+          </label>
+        </div>
+      </div>
+      <div class="col-md-2 marginTopLarge">
+        <div class="form-group1">
+          <label class="checkbox">
+            <input name="photo_activation" type="checkbox" id="photo_activation" value="1" {if $row.photo_activation==1} checked="checked"{/if} />
+            Show All Photos
+            <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" alt="info" border="0" class="tipsy_tip" title="If checked, all photos will be published directly. If left unchecked, admin will have to approve photos before they appear on website." /></a>
           </label>
         </div>
       </div>
