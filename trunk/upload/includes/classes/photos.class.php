@@ -1563,7 +1563,10 @@ class CBPhotos
 			
 			$query_field[] = "filename";
 			$query_val[] = $array['filename'];
-						
+
+			$query_field[] = "active";
+			$query_val[] = $array['active'];
+
 			if($array['server_url'] && $array['server_url'] != "undefined")
 			{
 				$query_field[] = "server_url";
