@@ -49,7 +49,7 @@ switch($mode)
 		$_POST['photo_tags'] = genTags(str_replace(array(' ','_','-'),', ',$_POST['photo_tags']));
 		$_POST['collection_id'] = $_POST['collection_id'];
 		$_POST['server_url'] = mysql_clean($_POST['server_url']);
-		$_POST['active'] = 'no';
+		$_POST['active'] = $Cbucket->configs['photo_activation'];
 		$_POST['folder'] = str_replace('..','',mysql_clean($_POST['folder']));
 		$_POST['folder'] = createDataFolders(PHOTOS_DIR);
 		$_POST['filename'] = mysql_clean($_POST['file_name']);
