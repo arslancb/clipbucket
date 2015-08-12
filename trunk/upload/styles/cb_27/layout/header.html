@@ -31,7 +31,7 @@
      
     {ANCHOR place='mature_content'} 
 
-     {ANCHOR place='premium_button'}
+    
 
      {$head_menu=cb_menu()}
 
@@ -96,6 +96,7 @@
                 <li><a href="{$admin_baseurl}"><i class="fa fa-cogs"></i>&nbsp;{lang code="Admin area"}</a></li>
                 {/if}
                 <li><a href="{link name='my_account' }{userid}"><i class="fa fa-user"></i></i>&nbsp;&nbsp;{lang code="my_account"}</a></li>
+                {ANCHOR place='premium_button_link'}
                 <li><a href="{link name='my_videos'}"><i class="fa fa-video-camera"></i>&nbsp;&nbsp;{lang code="Manage Videos"}</a></li>
                 <li><a href="{link name='channels'}"><i class="fa fa-eye"></i>&nbsp;&nbsp;{lang code="View Channels"}</a></li>
                 <li><a href="{$baseurl}/view_channel.php?user={$userquery->username}"><i class="fa fa-desktop"></i>&nbsp;&nbsp;{lang code="My Channel"}</a></li>
@@ -191,6 +192,7 @@
                 <li><a href="{$admin_baseurl}"><i class="fa fa-cogs"></i>&nbsp;{lang code="Admin area"}</a></li>
                 {/if}
                 <li><a href="{link name='my_account' }{userid}"><i class="fa fa-user"></i></i>&nbsp;&nbsp;{lang code="my_account"}</a></li>
+                {ANCHOR place='premium_button_link'}
                 <li><a href="{link name='my_videos'}"><i class="fa fa-video-camera"></i>&nbsp;&nbsp;{lang code="Manage Videos"}</a></li>
                 <li><a href="{link name='channels'}"><i class="fa fa-eye"></i>&nbsp;&nbsp;{lang code="View Channels"}</a></li>
                 <li><a href="{$baseurl}/view_channel.php?user={$userquery->username}"><i class="fa fa-desktop"></i>&nbsp;&nbsp;{lang code="My Channel"}</a></li>
@@ -291,6 +293,7 @@
                 <li><a href="{$admin_baseurl}">{lang code="Admin area"}</a></li>
                 {/if}
                 <li><a href="{link name='my_account' }{userid}">{lang code="my_account"}</a></li>
+                {ANCHOR place='premium_button_link'}
                 <li><a href="{link name='my_videos'}">{lang code="Manage Videos"}</a></li>
                 <li><a href="{link name='channels'}">{lang code="View Channels"}</a></li>
                 <li class="divider"></li>
