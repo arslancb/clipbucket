@@ -1310,6 +1310,18 @@
 				case "mp4box":
 				return config("mp4boxpath");
 				break;
+
+				case "media_info":
+				return config("media_info");
+				break;
+
+				case "i_magick":
+				return config("i_magick");
+				break;
+
+				case "ffprobe_path":
+				return config("ffprobe_path");
+				break;
 				
 				case "flvtool2":
 				return config("flvtool2path");
@@ -3707,6 +3719,34 @@
 		}
 			
 	}
+
+	function check_media_info($path)
+	{	
+		$path = get_binaries($path);
+		//$matches = array();
+		$result = shell_output($path." --version");
+		$media_info_version  = explode('v', $result);
+		return $media_info_version[1];
+	}
+
+	function check_imagick($path)
+	{	
+		$path = get_binaries($path);
+		$result = shell_output($path." --version");
+		$result = explode(" ", $result);
+		//pr($result,true);
+		return $result[2];
+	}
+
+	function check_ffprobe_path($path)
+	{	
+		$path = get_binaries($path);
+		$result = shell_output($path." -version");
+		$result = explode(" ", $result);
+		$result = $result[2];
+		return $result;
+	}
+	
 
 	function check_mp4box($path)
 	{	

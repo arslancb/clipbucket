@@ -55,29 +55,25 @@ A brief test to check weather server modules exist or not and what are there ver
 
 </div>
 
-
-<!-- 
 <div class="well">
-
-    {check_module_path path='flvtool2' get_path='true' assign='flvtool2_status'}
-    <img src="{$imageurl}/{if $flvtool2_status.status=='ok'}tick.png{else}alert.png{/if}" />
-    <h4>FLVTool2</h4>
+  <h4>Media Info</h4>
+    {if $media_info}
+      <img src="{$imageurl}/tick.png"/>
+    {else}
+      <img src="{$imageurl}/alert.png"/>
+    {/if}
     <div>
-      FLVTool2 is a tool to repair FLV files to make them streamable
-      <a href="http://docs.clip-bucket.com/clipbucket-docs/flvtool2">Learn more</a>
+      MediaInfo supplies technical and tag information about a video or audio file.
+      <a href="https://mediaarea.net/en/MediaInfo">Learn more</a>
     </div>
 
-    {if $flvtool2_status.status=='ok'}
-    Version <strong>{$flvtool2_status.version}</strong> &#8226;
-    Expected Path <strong>{get_binaries path=flvtool2 type=server}</strong>
+    {if $media_info}
+      Version <strong>{$media_info}</strong>
     {else}
-    <p class="alert alert-danger">flvtool2 is not found</p>
-    	{if $flvtool2_status.error}
-        	<br><span style="color:#e70000">{$flvtool2_status.error}</span>
-      {/if}
+    <p class="alert alert-danger">Media Info is not found</p>
     {/if}
+</div>
 
-</div> -->
 
 
 <div class="well">
@@ -105,25 +101,55 @@ A brief test to check weather server modules exist or not and what are there ver
 
 </div>
 
+
+
+
 <div class="well">
   <h4>ImageMagick</h4>
-  {if class_exists("Imagick") }
+  {if $imagick_version}
       <img src="{$imageurl}/tick.png"/>
     {else}
       <img src="{$imageurl}/alert.png"/>
     {/if}
   <div>
-    Imagick is a native php extension to create and modify images using the ImageMagick API
+   Imagick is a native php extension to create and modify images using the ImageMagick API
     <a href="http://php.net/manual/en/imagick.getversion.php">Learn more</a>
   </div>
-
-  
-  
-     {if class_exists("Imagick") }
-     Version
+  {if $imagick_version}
+  Version
+      {if $imagick_version}
         <strong>{$imagick_version}</strong>
       {/if}
-  
+  {else}
+    <p class="alert alert-danger">Imagick is not found</p>
+      {if $imagick_version.error}
+        <br><span style="color:#e70000">{$imagick_version.error}</span>
+      {/if}
+  {/if}
 
+</div>
+
+<div class="well">
+  <h4>FFProbe</h4>
+  {if $ffprobe_path}
+      <img src="{$imageurl}/tick.png"/>
+    {else}
+      <img src="{$imageurl}/alert.png"/>
+    {/if}
+  <div>
+   Imagick is a native php extension to create and modify images using the ImageMagick API
+    <a href="http://php.net/manual/en/imagick.getversion.php">Learn more</a>
+  </div>
+  {if $ffprobe_path}
+  Version
+      {if $ffprobe_path}
+        <strong>{$ffprobe_path}</strong>
+      {/if}
+  {else}
+    <p class="alert alert-danger">Imagick is not found</p>
+      {if $ffprobe_path.error}
+        <br><span style="color:#e70000">{$ffprobe_path.error}</span>
+      {/if}
+  {/if}
 
 </div>

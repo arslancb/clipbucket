@@ -99,7 +99,7 @@ if(isset($_POST['update'])){
 					'ffmpeg_type',
 					'facebook_embed',
 
-					'ffprob_path',
+					'ffprobe_path',
 					'media_info',
 					'i_magick',
 					
