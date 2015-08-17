@@ -369,6 +369,7 @@ class ClipBucket
             $NewMenu['Tool Box'] = array('PHP Info' => 'phpinfo.php',
                 'View online users' => 'online_users.php',
                 'Server Modules Info' => 'cb_mod_check.php',
+                'Server Configuration Info' => 'cb_server_conf_info.php',
                 'Conversion Queue Manager' => 'cb_conversion_queue.php',
                 'ReIndexer' => 'reindex_cb.php',
                 'Conversion Lab &alpha;' => 'conversion_lab.php',

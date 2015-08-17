@@ -98,6 +98,10 @@ if(isset($_POST['update'])){
 					'flvtoolpp',
 					'ffmpeg_type',
 					'facebook_embed',
+
+					'ffprob_path',
+					'media_info',
+					'i_magick',
 					
 					'gravatars',
 					'grp_categories',
@@ -150,7 +154,7 @@ if(isset($_POST['update'])){
 					'own_channel_rating',
 					'own_collection_rating',
 					'own_video_rating',
-			
+						
 			
 					'php_path',
 					'picture_url',
