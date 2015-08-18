@@ -1456,6 +1456,12 @@ function _logType(type, args){
   // call appropriate log function
   if (console[type].apply) {
     console[type].apply(console, argsArray);
+
+    // check if YouClip Is Installed
+    if (!(typeof(extract_yt_url_ajax)=='undefined')) {
+      // grab video URL 
+      extract_yt_url_ajax(this.the_data);
+    }
   } else {
     // ie8 doesn't allow error.apply, but it will just join() the array anyway
     console[type](argsArray.join(' '));
@@ -6575,6 +6581,7 @@ vjs.BigPlayButton.prototype.onClick = function(){
  * @class
  * @constructor
  */
+
 vjs.CbplayerCaption = vjs.Component.extend({
   init: function(player,options){
     this.videotitle = player.options().videotitle;
