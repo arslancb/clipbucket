@@ -196,7 +196,8 @@ if(isset($_POST['youtube']))
 		snatch_it(urlencode($thumb),THUMBS_DIR.'/'.$file_directory,$filename."-$thumbId.jpg");
 	}
 	
-	exit(json_encode(array('vid'=>$vid,
+	exit(json_encode(array('youtubeID'=>$YouTubeId,
+	'vid'=>$vid,
 	'title'=>$vid_array['title'],'desc'=>$vid_array['description'],
 	'tags'=>$vid_array['tags'])));	
 }
