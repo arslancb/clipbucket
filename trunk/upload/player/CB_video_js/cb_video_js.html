@@ -5,7 +5,6 @@
 <script src="{$cb_vjs_player_url}/js/video.dev.js"></script>
 <script src="{$cb_vjs_player_url}/js/cb_vjs_res.js"></script>
 
-
 <video id="cb_video_js" class="video-js vjs-default-skin" width="{$width}" height="{$height}" poster="{getThumb vdetails=$vdata}" >
     {foreach $video_files as $file}
     {$quality = explode('-', $file)}
@@ -18,11 +17,17 @@
 </video>
 
 <script type="text/javascript">
+var vid_id = "{$vdata.videoid}";
 var videotitle = "{$vdata.title}";
 var uploader = "{$vdata.username}";
 var branding_logo  = "{$cb_logo}";
 var product_link = "{$player_config.player_logo_url}";
 var show_logo = true;
+	// check if plugin is installed and call function
+	if (!(typeof(extract_yt_url_ajax)=='undefined'))
+	{
+		var the_data = extract_yt_id('{$vdata.embed_code}',vid_id);
+	}
 
 	var cb_player_setup = {
 		plugins : { resolutionSelector : {
@@ -34,11 +39,13 @@ var show_logo = true;
 		"controls": true,
 		"autoplay": false,
 		"preload": "auto",
+		"vid_id" : vid_id,
 		"videotitle" : videotitle,
 		"uploader" : uploader,
 		"branding_logo" : branding_logo,
 		"show_logo" : show_logo,
-		"product_link" : product_link
+		"product_link" : product_link,
+		"data" : the_data
 	};
 	//Initializing
 	var player = videojs('cb_video_js', cb_player_setup , function(){
