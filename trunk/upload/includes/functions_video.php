@@ -175,9 +175,17 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
                 'return_big' => $return_big,
                 'size' => $size
             );
+
+            if(!empty($vdetails['files_thumbs_path'])&&$funcs=='server_thumb')
+            {
+                $funcs = "ms_server_thumb";
+            }
+            
             if(function_exists($funcs))
             {
+
                 $func_returned = $funcs($vdetails,$in_array);
+                
                 if($func_returned)
                     return $func_returned;
             }
