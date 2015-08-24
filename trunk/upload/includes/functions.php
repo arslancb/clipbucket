@@ -5041,15 +5041,38 @@
         	echo "</pre>";
         }
 
-        function logData($data){
-				$logFilePath = BASEDIR."/Log.txt";
+        /**
+		* Function is used to write logs 
+		*/
+		function logData($data,$file=NULL,$path=false,$force=false)
+		{
+			if($force!=false&&!empty($path))
+			{
+				$file =$path;
 				if(is_array($data)) $data = json_encode($data);
-				$text = file_get_contents($logFilePath);
+				if(file_exists($file))
+					$text = file_get_contents($file);
 				$text .= " \n {$data}";
-				file_put_contents($logFilePath, $text);
+				file_put_contents($file, $text);
 			}
-
-
+			else
+			{
+				if(!empty($file))
+				{
+					$logFilePath = BASEDIR. "/files/".$file.".txt";
+				}
+				else
+				{
+					$logFilePath = BASEDIR. "/files/ffmpegLog.txt";
+				}
+				if(is_array($data)) $data = json_encode($data);
+				if(file_exists($logFilePath))
+					$text = file_get_contents($logFilePath);
+				$text .= " \n \n  {$data}";
+				if(DEVELOPMENT_MODE||$force)
+					file_put_contents($logFilePath, $text);
+			}
+		}
 
         /**
          * displays a runtime error
@@ -5208,6 +5231,48 @@
 	   		$arr = 'limit_exceeds';
 	  	}
 	  	return $arr;
+	}
+
+
+
+
+	/** 
+	* function uses to parse certain string from bulk string
+	* @author : Awais Tariq
+	* @param : {string} {$needle_start} { string from where the parse starts}
+	* @param : {string} {$needle_end} { string from where the parse end}
+	*@param : {string} {$results} { total string in which we search}
+	*
+	* @todo {.....}
+	*
+	*
+	* @return {bool/string/int} {true/$return_arr}
+	*/
+	function find_string($needle_start,$needle_end,$results)
+	{
+		if(empty($results)||empty($needle_start)||empty($needle_end))
+		{
+			return false;
+		}
+		$start = strpos($results, $needle_start);	
+		$end = strpos($results, $needle_end);
+		if(!empty($start)&&!empty($end))
+		{
+			$results = substr($results, $start,$end);
+			//echo $results;
+			$end = strpos($results, $needle_end);
+			if(empty($end))
+			{
+				return false;
+			}
+			$results = substr($results, 0,$end);
+			$return_arr = explode(':', $results);
+			return $return_arr;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
         include( 'functions_db.php' );
