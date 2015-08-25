@@ -75,6 +75,9 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 	function load_more(limit,mode,inner_mode,append_id,attrb,cat_id,total)
 	{
 	    $.ajax({
+	    	beforeSend:function (argument) {
+	    		$('#'+inner_mode).button('loading');
+	    	},
 		    type: "POST",
 		    url: baseurl + "/ajax.php",
 		    data: { limit : limit , mode : mode , inner_mode : inner_mode , cat_id : cat_id , total : total },
@@ -100,6 +103,9 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 		        }
 		        
 		         
+		    },
+		    complete:function (argument) {
+		    	$('#'+inner_mode).button('reset');
 		    }
 
 	   });
