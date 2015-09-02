@@ -671,6 +671,26 @@ if(!empty($mode))
 			echo json_encode($ajax);
 		}
 		break;
+
+		/**
+		 * Getting reply box for comment
+		 */
+		case 'get_reply_box';
+		{
+			$id = mysql_clean($_POST['cid']);
+			$new_com  = $myquery->get_comment($id);
+			
+			assign('id',$new_com['type_id']);
+			assign('type',$new_com['type']);
+			assign('comment_id',$id);
+			assign('mode','reply_box');
+
+			//getting parent id if it is a reply comment
+			echo json_encode(array("form"=>Fetch('blocks/comments/comment.html')));
+		
+		}
+		break;
+		
 		case 'count_comments';
 			echo '5';
 		break;
@@ -746,24 +766,27 @@ if(!empty($mode))
 				
 			}
 			
+			$is_msg = false;
 			if(msg())
 			{
 				$msg = msg_list();
-				$msg = '<div class="msg">'.$msg[0].'</div>';;
+				$msg = $msg[0];
+				$ajax['msg'] = $msg ? $msg : '';
+				$ajax['err'] = "";
+				$is_msg = true;
 			}
-			if(error())
+			if(error() && !$is_msg)
 			{
 				$err = error_list();
-				$err = '<div class="error">'.$err[0].'</div>';;
+				$err = $err[0];
+				$ajax['err'] = $err;
 			}
-			
-			$ajax['msg'] = $msg ? $msg : '';
-			$ajax['err'] = $err;
-			
+						
 			//Getting Comment
 			if($cid)
 			{
 				$ajax['cid'] = $cid;
+				$ajax['type_id'] = $id;
 			}
 			
 			echo json_encode($ajax);
@@ -774,20 +797,26 @@ if(!empty($mode))
 		case 'get_comment';
 		{
 			$id = mysql_clean($_POST['cid']);
+			$type_id = mysql_clean($_POST['type_id']);
 			$new_com  = $myquery->get_comment($id);
-			
+
 			//getting parent id if it is a reply comment
-			extract($new_com);
-		    if ($parent_id)
-		    {
-			$reply  = $myquery->get_comment($parent_id);
-			extract($reply);
-			assign('reply',$comment);
+			$parent_id = $new_com['parent_id'];
+			assign('type_id',$type_id);
+		
+			if ($parent_id)
+			{
+
+				assign('rep_mode',true);
+				assign('comment',$new_com);
+				echo json_encode(array("parent_id"=>$parent_id,"li_data"=>Fetch('blocks/comments/comment.html')));
+			}
+			else
+			{
+				assign('comment',$new_com);
+				echo json_encode(array("li_data"=>Fetch('blocks/comments/comment.html')));
 			}
 
-			assign('comment',$new_com);
-			Template('blocks/comments/comment.html');
-			
 		}
 		break;
 		

@@ -658,47 +658,8 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 		},'json');
 	}
 
-	function add_comment_js(form_id,type)
-	{
-		$("#add_comment_result").css("display","block");
-		$("#add_comment_result").html(loading);
-		$("#add_comment_button").attr("disabled","disabled");
-				
-		//var captcha_enabled =  $("#"+form_id+" input:#cb_captcha_enabled").val();
-		
-		//First we will get all values of form_id and then serialize them
-		//so we can forward details to ajax.php
-		
-		var formObjectData = $('#'+form_id).serialize()+'&mode=add_comment';
-		
-		$.post(page,formObjectData,
-		function(data)
-		{
-			if(!data)
-				alert("No data");
-			else
-			{
-				
-				$("#add_comment_button").attr("disabled","");
-				
-				$("#add_comment_result").css("display","block");
-				if(data.err!='')
-				{
-					$("#add_comment_result").html(data.err);
-				}
-				if(data.msg!='')
-					$("#add_comment_result").html(data.msg);
-				
-				if(data.cid)
-				{
-					get_the_comment(data.cid,"#latest_comment_container");
-					//$("#"+form_id).slideUp();
-				}
-			}
-		},'json');
-	}
 	
-	function get_the_comment(id,div)
+/*	function get_the_comment(id,div)
 	{
 
 		$(div).html(loading);
@@ -717,7 +678,7 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 				$(div).html(data).fadeIn("slow");
 			}
 		},'text');
-	}
+	}*/
 	
 	function add_playlist(mode,vid,form_id,objtype)
 	{
@@ -1044,6 +1005,36 @@ function spam_comment(cid,type,typeid)
 				}
 			}
 		},'json');
+	}
+
+	function reply_box(cid)
+	{
+		
+		$.ajax({
+			url : page,
+			type : 'POST',
+			dataType : 'json',
+			data : ({ mode : "get_reply_box", cid : cid}),
+			success : function(data){
+
+				console.log('dfjkdfk');
+				$('.reply-box-' + cid).html(data.form).slideDown("slow");
+				$('#reply_box_' + cid).focus();
+			}
+		});
+
+		
+	}
+
+
+	function remove_reply_box(cid){
+		
+		$('.reply-box-' + cid).slideUp("slow");
+	}
+
+	function show_replies(id){
+
+		$('.more-comments-' + id).show();
 	}
 
 var normal_player_html = '';
@@ -1737,3 +1728,80 @@ function decode64(input) {
 			});
 
 	}
+	function get_the_comment(id,type_id,div)
+	{
+		//$(div).html(loading);
+		$.post(page, 
+		{ 	
+			mode : 'get_comment',
+			cid : id,
+			type_id : type_id
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{		
+				if (data.parent_id)
+				{	
+					$('.reply-box-' + data.parent_id).hide();
+					$('.comments-reply-' + data.parent_id).append(data.li_data).slideDown();
+					$('html, body').animate({
+						scrollTop: $('#reply-' + id).offset().top
+					}, 1000);
+					comment_transition('.reply-',id);
+				}
+				else
+				{	
+					console.log(data);
+					$(data.li_data).hide().prependTo('#comments-ul').slideDown("slow");
+				}
+			}
+		},'json');
+	}
+
+	function add_comment_js(form_id,type)
+	 {   
+		$("#add_comment_result").css("display","block");
+		$("#add_comment_result").html(loading);
+		$("#add_comment_button").attr("disabled",true);
+		$(".add-reply").attr("disabled",true);
+		
+		//var captcha_enabled =  $("#" + form_id + " input:#cb_captcha_enabled").val();
+		
+		//First we will get all values of form_id and then serialize them
+		//so we can forward details to ajax.php
+		
+		var formObjectData = $('#' + form_id).serialize() + '&mode=add_comment';
+		//console.log(formObjectData);
+		$.post(page,formObjectData,
+			function(data)
+			{
+				if(!data)
+					alert("No data");
+				else
+				{
+					$("#add_comment_button").attr("disabled",false);
+					$(".add-reply").attr("disabled",false);
+					$("#add_comment_result").css("display","block");
+					if(data.err!='')
+					{
+						
+						
+						//adi_msg(data.err,'danger');
+
+					}
+					if(data.msg!='')
+					{
+					 $('#comment_box').val("");
+					}
+				if(data.cid)
+				{   
+					$('.no-comments').remove();
+					get_the_comment(data.cid,data.type_id,"#comments-ul");
+				}
+			}
+		},'json');
+	}
+	

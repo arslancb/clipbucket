@@ -1,14 +1,16 @@
+<ul id="comments-ul">
+</ul>
 {if $comments}
-<div class="cb-item-comments-container">
-	<div id="latest_comment_container"></div>
+<ul>
     {foreach from=$comments.comments item=comment}
         {include file="$style_dir/blocks/comments/comment.html" comment=$comment type=$type parents=$comments.parents}
     {/foreach}
+</ul>
+    <div class="break2"></div>
 {else}
-	<div align="center" class="no_comments" id="no_comments">
-    	{lang code='no_comments' assign=no_comments} {$no_comments|sprintf:$object_type}
+	
+    <div class="break2"></div>
+    <div class="col-lg-12 no-related no-comments clearfix">
+        <span class="well well-info btn-block">No Comments Added</span>
     </div>
-</div>
 {/if}
-
-

@@ -35,17 +35,34 @@
  * Function used to return db table name with prefix
  * @param : table name
  * @return : prefix_table_name;
+
+ 
+
+function tbl($tbl)
+{
+	global $DBNAME;
+	$prefix = TABLE_PREFIX;
+	$tbls = explode(",",$tbl);
+	$new_tbls = "";
+	foreach($tbls as $ntbl)
+	{
+		if(!empty($new_tbls))
+			$new_tbls .= ",";
+		$new_tbls .= $DBNAME.".".$prefix.$ntbl;
+	}
+
+	return $new_tbls;
+}
  */
+
+
+define('STATIC_COMM',false);
 
 class myquery {
 
-	function Set_Website_Details($name,$value)
-	{
+	function Set_Website_Details($name,$value){
 		//mysql_query("UPDATE config SET value = '".$value."' WHERE name ='".$name."'");
 		global $db,$Cbucket;
-		
-		$this->config_exists($name,true);
-		
 		$db->update(tbl("config"),array('value'),array($value)," name = '".$name."'");
 		//echo $db->db_query."<br/><br/>";
 		$Cbucket->configs = $Cbucket->get_configs();
@@ -54,35 +71,18 @@ class myquery {
 	function Get_Website_Details()
 	{
 		
-		$query = db_select("SELECT * FROM ".tbl("config"));
-		foreach($query as $row)
-		{
-			$name = $row['name'];
-			$data[$name] = $row['value'];
-		}
+		//$query = mysql_query("SELECT * FROM ".tbl("config"));
+		$query = ("SELECT * FROM ".tbl("config"));
+		$data = db_select($query);
+
+		if($data)
+			foreach($data as $row)
+			//while($row = mysql_fetch_array($query))
+			{
+				$name = $row['name'];
+				$data[$name] = $row['value'];
+			}
 		return $data;
-	}
-	
-	/**
-	 * Function used to check weather config exists or not
-	 * it also used to create a config if it does not exist
-	 */
-	function config_exists($name)
-	{
-		global $db,$Cbucket;
-		
-		$configs = $Cbucket->configs;
-		
-		if (array_key_exists($name, $configs)) 
-			return true;
-		else
-			$db->insert(tbl("config"),array('name'),array($name));
-		
-		/*$count = $db->count(tbl("config"),"configid"," name='$name' ");
-		if(!$count)
-			$db->insert(tbl("config"),array('name'),array($name));*/
-		
-		return true;
 	}
 
 	
@@ -143,6 +143,7 @@ class myquery {
 	{
 		global $db,$userquery,$LANG;
 		//first get comment details
+		
 		$cdetails = $this->get_comment($cid);	
 		$uid = user_id();
 		
@@ -150,16 +151,19 @@ class myquery {
 			|| $cdetails['type_owner_id'] == userid()										 
 			|| has_access("admin_del_access",false)
 			|| $is_reply==TRUE || $forceDelete)
-		{
-			$replies = $this->get_comments($cdetails['type_id'],$type,FALSE,$cid,TRUE);
+		{	
+
+			$replies = $this->get_child_comments($cid);
 			if(count($replies)>0 && is_array($replies))
 			{
 				foreach($replies as $reply)
 				{
-					//$this->delete_comment($reply['comment_id'],$type,TRUE,$forceDelete);
-					$db->Execute("DELETE FROM ".tbl("comments")." WHERE comment_id='{$reply['comment_id']}'");
+					$this->delete_comment($reply['comment_id'],$type,TRUE,$forceDelete);
 				}
 			}
+
+
+
 			$db->Execute("DELETE FROM ".tbl("comments")." WHERE comment_id='$cid'");
 			
 			/*if($uid)
@@ -475,7 +479,7 @@ class myquery {
 						 ('type,comment,type_id,userid,date_added,parent_id,anonym_name,anonym_email','comment_ip','type_owner_id'),
 						 array
 						 ($type,$comment,$obj_id,userid(),NOW(),$reply_to,$name,$email,$_SERVER['REMOTE_ADDR'],$obj_owner));
-            $cid = $db->insert_id();
+			$cid = $db->insert_id();
 			$db->update(tbl("users"),array("total_comments"),array("|f|total_comments+1")," userid='".userid()."'");
 			
 			e(lang("grp_comment_msg"),"m");
@@ -487,6 +491,11 @@ class myquery {
 			$username = username();
 			$username = $username ? $username : post('name');	
 			$useremail = $email;
+                        
+                        $fullname = $username;
+                        
+                        if($userquery->udetails['fullname'])
+                            $fullname = $userquery->udetails['fullname'];
 			
 			//Adding Comment Log
 			$log_array = array
@@ -510,6 +519,7 @@ class myquery {
 				
 				$more_var = array
 				('{username}'	=> $username,
+                                 '{fullname}' => $fullname,
 				 '{obj_link}' => $obj_link.'#comment_'.$cid,
 				 '{comment}' => $comment,
 				 '{obj}'	=> get_obj_type($type)
@@ -521,10 +531,11 @@ class myquery {
 				$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
 				
 				//Now Finally Sending Email
-				cbmail(array('to'=>$own_details,'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+				//cbmail(array('to'=>$own_details,'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
 			}
 			
-					
+			//Adding Video Feed
+			addFeed(array('action' => 'comment_video','comment_id'=>$cid,'object_id' => $obj_id,'object'=>'video'));		
 			return $cid;
 		}
 		
@@ -540,13 +551,7 @@ class myquery {
 	{
 		global $db;
 		return get_file_details($file_name);
-		/*$results = $db->select("video_files","*"," src_name='$file_name'");
-		if($db->num_rows==0)
-			return false;
-		else
-		{
-			return $results[0];
-		}*/
+		
 	}
 	
 	
@@ -556,10 +561,10 @@ class myquery {
 	 * @param VID
 	 * @param THUMB NUM
 	 */
-	function set_default_thumb($vid,$thumb)
+	function set_default_thumb($vid,$thumb,$version)
 	{
 		global $cbvid;
-		return $cbvid->set_default_thumb($vid,$thumb);
+		return $cbvid->set_default_thumb($vid,$thumb,$version);
 	}
 	
 	
@@ -616,7 +621,7 @@ class myquery {
 	 * @param PARENT_ID 
 	 * @param GET_REPLYIES_ONLY Boolean
 	 */
-	function get_comments($type_id='*',$type='v',$count_only=FALSE,$get_type='all',$parent_id=NULL,$useCache='yes')
+	function get_comments($type_id='*',$type='v',$count_only=FALSE,$get_type='all',$parent_id=NULL)
 	{
 		
 		$params = array(
@@ -625,10 +630,24 @@ class myquery {
 		'count_only' 	=> $count_only,
 		'get_type' 		=> $get_type,
 		'parent_id' 	=> $parent_id,
-		'cache'			=> $useCache
 		);
 		
 		return $this->getComments($params);
+	}
+
+
+	/**
+	 * Function used to get comments against parent_id from database
+	 * @param TYPE_ID
+	 * @param TYPE
+	 * @param PARENT_ID 
+	 */
+	function get_child_comments($parent_id=NULL)
+	{
+   		global $db;
+		$results = $db->select(tbl("comments"),'*'," parent_id='".$parent_id."'");
+		
+		return $results;
 	}
 	
 	/**
@@ -636,15 +655,12 @@ class myquery {
 	 */
 	function getComments($params)
 	{
+            
 		global $db,$userquery;
 		$cond = '';
-			
-		if(!$params['cache'])
-			$params['cache'] = 'yes';
 				
 		$p = $params;
 		extract( $p, EXTR_SKIP );
-		
 		
 		switch($type)
 		{
@@ -692,8 +708,9 @@ class myquery {
 			
 		}
 		
-		if(!$count_only && $params['cache']=='yes')
+		if(!$count_only && STATIC_COMM)
 		{
+                    
 			$file = $type.$type_id.str_replace(',','_',$limit).'-'.strtotime($last_update).'.tmp';
 			
 			$files = glob(COMM_CACHE_DIR.'/'.$type.$type_id.str_replace(',','_',$limit).'*');
@@ -712,6 +729,9 @@ class myquery {
 		if($parent_id!=NULL && $get_reply_only)
 		{
 			$cond .= " AND parent_id='$parent_id'";
+		}else
+		{
+			$cond .= " AND parent_id='0' ";
 		}
 		
 		if($type_id!='*')
@@ -719,6 +739,7 @@ class myquery {
 		
 		if(!$count_only)
 		{
+                  
 			/**
 			 * we have to get comments in such way that
 			 * comment replies comes along with their parents
@@ -727,9 +748,24 @@ class myquery {
 			 * HAIL Open Source
 			 */
 			 
-			 $results = $db->select(tbl("comments"),'*'
+			 /*$results = $db->select(tbl("comments"),'*'
 			 ," type='$type' $typeid_query $cond",$limit,$order);
-			 
+			 */
+	
+
+			$query = "SELECT * FROM ".tbl('comments');
+			$query .= " WHERE type='$type' $typeid_query $cond ";
+
+			
+
+			if($order)
+			$query .= " ORDER BY ".$order;
+
+			if($limit)
+			$query .= " LIMIT $limit";
+
+			$results = db_select($query);
+                         
 			 if(!$results)
 			 	return false;
 			 $parent_cond = '';
@@ -748,17 +784,20 @@ class myquery {
 				 }
 			 }
 			
-			//Getting Parents
-			 $parents = $db->select(tbl("comments"),'*'
-			 ," type='$type' AND ($parent_cond) ",NULL,$order);
+			// //Getting Parents
+			//  $parents = $db->select(tbl("comments"),'*'
+			//  ," type='$type' AND ($parent_cond) ",NULL,$order);
 			 
-			 if($parents)
-			 	foreach($parents as $parent)
-					$new_parents[$parent['comment_id']] = $parent;
+			//  if($parents)
+			//  	foreach($parents as $parent)
+			// 		$new_parents[$parent['comment_id']] = $parent;
 			 
 			 
 			 //Inserting user data
 			 $new_results = array();
+
+			 //pr($results,true);
+			 if($results)
 			 foreach($results as $com)
 			 {
 				 $userid = $com['userid'];
@@ -771,41 +810,42 @@ class myquery {
 				 if($$uservar)
 				 	$com = array_merge($com,$$uservar);
 				
+				
+
+				$params['parent_id'] = $com['comment_id'];
+				$params['get_reply_only'] = $com['comment_id'];
+				$children = $this->getComments($params);
+				$com['children'] = $children;
+
 				$new_results[] = $com;
 			 }
 			 
 			 $comment['comments'] = $new_results;
-			 $comment['parents'] = $new_parents;
+			 //$comment['parents'] = $new_parents;
 			 
+                         
 			 //Deleting any other previuos comment file
 			 $files = glob(COMM_CACHE_DIR.'/'.$type.$type_id.str_replace(',','_',$limit).'*');
 			 
-			 if($files)
-				 foreach($files as $delFile)
-			 		if(file_exists($delFile))
-						unlink($delFile);
+			 foreach($files as $delFile)
+			 	if(file_exists($delFile))
+					unlink($delFile);
 			 
+                         
+                       
+                        
 			 //Caching comment file
 			 if($file)
 			 	file_put_contents(COMM_CACHE_DIR.'/'.$file,json_encode($comment));
 			 return $comment;
+                         
 			 
 		}else
 		{
 			return $db->count(tbl("comments"),"*"," type='$type' $typeid_query $cond");
 		}
 	}
-	 
-	/**
-	 * Function used to count comments
-	 * @param type id
-	 */	
-	 function count_comment($type_id){
-	 	global $db;
-	 	return $results = $db->count(tbl("comments"),"*","type_id = $type_id");
-
-
-	 }
+	
 	
 	/**
 	 * Function used to get from database
@@ -887,7 +927,7 @@ class myquery {
 	function set_template($template)
 	{
 		global $myquery;
-		if(is_dir(STYLES_DIR.'/'.$template) && $template)
+		if(is_dir(STYLES_DIR.'/'.$template) &&template)
 		{
 			$myquery->Set_Website_Details('template_dir',$template);
 			e(lang("template_activated"),'m');
@@ -906,8 +946,21 @@ class myquery {
 		$db->Execute("UPDATE ".tbl("comments")." SET comment='$text' WHERE comment_id='$cid'");
 		//$db->update(tbl("comments"),array("comment"),array($text)," comment_id = $cid");
 	}
+        
+        /**
+         * Function used to update comment vote
+         */
+        function update_comment_vote($cid,$text)
+        {
+            global $db;
+            $db->Execute("UPDATE ".tbl("comments")." SET vote='$text' WHERE comment_id='$cid'");
+        }
 	
-	
+	function get_todos()
+    {
+        global $db;
+        return $db->select(tbl('admin_todo'),'*'," userid='".userid()."'",NULL," date_added DESC ");
+    }
 	/**
 	 * Function used to validate comments
 	 */
@@ -944,50 +997,8 @@ class myquery {
 		}
 		
 	}
-
-
-    /**
-     * Function used to insert todolist in data base for admin referance
-     */
-    function insert_todo($todo)
-    {
-        global $db;
-        $db->insert(tbl('admin_todo'),array('todo,date_added,userid'),array($todo,now(),userid()));
-    }
-
-    function update_todo($todo, $todo_id){
-    	global $db;
-        $db->update(tbl('admin_todo'),array('todo'),array($todo), "todo_id = {$todo_id}");	
-    }
-    /**
-     *
-     * Function used to update phrased
-     */
-
-    function update_pharse($varname, $id){
-
-    	global $db;
-        $db->update(tbl('phrases'),array('text'),array($varname), "id = {$id}");	
-    }
-    /**
-     *
-     * Function used to get todolist
-     */
-    function get_todos()
-    {
-        global $db;
-        return $db->select(tbl('admin_todo'),'*'," userid='".userid()."'",NULL," date_added DESC ");
-    }
-    /**
-     * Function usde to delete todo
-     */
-    function delete_todo($id)
-    {
-        global $db;
-        $db->delete(tbl("admin_todo"),array("todo_id"),array($id));
-    }
-
-    ///////////////////////////////////////////////////
+	
+	
 	/**
 	 * Function used to insert note in data base for admin referance
 	 */
@@ -997,7 +1008,6 @@ class myquery {
 		$db->insert(tbl('admin_notes'),array('note,date_added,userid'),array($note,now(),userid()));
 	}
 	/**
-     *
 	 * Function used to get notes
 	 */
 	function get_notes()
@@ -1020,7 +1030,6 @@ class myquery {
 	 */
 	function is_commentable($obj,$type)
 	{
-		#pr($obj,true);
 		switch($type)
 		{
 			case "video":
