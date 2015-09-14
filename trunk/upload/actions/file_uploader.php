@@ -117,10 +117,12 @@ switch($mode)
 
 		$file_name	= time().RandomString(5);
 		$tempFile = $_FILES['Filedata']['tmp_name'];
+		$file_directory = date('Y/m/d');
 		$targetFileName = $file_name.'.'.getExt( $_FILES['Filedata']['name']);
 		$targetFile = TEMP_DIR."/".$targetFileName;
 		$logFile = $file_name . ".log";
-		
+
+		logData('Checking Server configurations to start for filename : '.$file_name.'','checkpoints');
 		
 		$max_file_size_in_bytes = config('max_upload_size')*1024*1024;
 		$types = strtolower(config('allowed_types'));
@@ -177,7 +179,7 @@ switch($mode)
 			exit(0);
 		}
 		
-		
+		logData('moving physical file to TEMP_DIR','checkpoints');
 		move_uploaded_file($tempFile,$targetFile);
 
 		
@@ -196,8 +198,7 @@ switch($mode)
 				
 			} else {
 				// for ubuntu or linux
-				//echo php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName > /dev/null &";
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName > /dev/null &");
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName $file_name $file_directory > /dev/null &");
 			}
 		}
 		

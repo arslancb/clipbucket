@@ -1728,6 +1728,50 @@ function decode64(input) {
 			});
 
 	}
+
+	function add_comment_js(form_id,type)
+	{   
+		$("#add_comment_result").css("display","block");
+		$("#add_comment_button").val('Uploading...');
+		$("#add_comment_button").attr("disabled",true);
+		$(".add-reply").attr("disabled",true);
+		
+		//var captcha_enabled =  $("#" + form_id + " input:#cb_captcha_enabled").val();
+		
+		//First we will get all values of form_id and then serialize them
+		//so we can forward details to ajax.php
+		
+		var formObjectData = $('#' + form_id).serialize() + '&mode=add_comment';
+
+		$.post(page,formObjectData,
+			function(data)
+			{
+				if(!data){
+					alert("No data");
+				}
+				else
+				{
+					$("#add_comment_result").css("display","block");
+					if(data.err!='')
+					{
+						$("#comment_output").fadeIn();
+						$("#comment_output").html(data.err);
+						setTimeout(function(){ $("#comment_output").fadeOut(); }, 3000);
+						clear_comment_form();
+					}
+					if(data.msg!='')
+					{
+					 $('#comment_box').val("");
+					}
+				if(data.cid)
+				{   
+					$('.no-comments').remove();
+					get_the_comment(data.cid,data.type_id,"#comments-ul");
+				}
+			}
+		},'json');
+	}
+
 	function get_the_comment(id,type_id,div)
 	{
 		//$(div).html(loading);
@@ -1758,50 +1802,51 @@ function decode64(input) {
 					$(data.li_data).hide().prependTo('#comments-ul').slideDown("slow");
 				}
 			}
+			clear_comment_form();
 		},'json');
 	}
 
-	function add_comment_js(form_id,type)
-	 {   
-		$("#add_comment_result").css("display","block");
-		$("#add_comment_result").html(loading);
-		$("#add_comment_button").attr("disabled",true);
-		$(".add-reply").attr("disabled",true);
-		
-		//var captcha_enabled =  $("#" + form_id + " input:#cb_captcha_enabled").val();
-		
-		//First we will get all values of form_id and then serialize them
-		//so we can forward details to ajax.php
-		
-		var formObjectData = $('#' + form_id).serialize() + '&mode=add_comment';
-		//console.log(formObjectData);
-		$.post(page,formObjectData,
-			function(data)
-			{
-				if(!data)
-					alert("No data");
-				else
-				{
-					$("#add_comment_button").attr("disabled",false);
-					$(".add-reply").attr("disabled",false);
-					$("#add_comment_result").css("display","block");
-					if(data.err!='')
-					{
-						
-						
-						//adi_msg(data.err,'danger');
 
-					}
-					if(data.msg!='')
-					{
-					 $('#comment_box').val("");
-					}
-				if(data.cid)
-				{   
-					$('.no-comments').remove();
-					get_the_comment(data.cid,data.type_id,"#comments-ul");
-				}
+	function reply_box(cid)
+	{
+		
+		$.ajax({
+			url : page,
+			type : 'POST',
+			dataType : 'json',
+			data : ({ mode : "get_reply_box", cid : cid}),
+			success : function(data){
+
+				$('.reply-box-' + cid).html(data.form).slideDown("slow");
+				$('#reply_box_' + cid).focus();
 			}
-		},'json');
+		});
+
+		
+	}
+
+
+	function remove_reply_box(cid){
+		
+		$('.reply-box-' + cid).slideUp("slow");
+	}
+
+	function show_replies(id){
+
+		$('.more-comments-' + id).show();
+	}
+
+	function comment_transition(div_id,id)
+	{
+
+		$(div_id + id).addClass('border-transition');
+		setTimeout(function(){$(div_id + id).removeClass('border-transition'); }, 3000);
+	}
+
+	function clear_comment_form()
+	{
+		$("#add_comment_button").val('Add Comment');
+		$("#add_comment_button").attr("disabled",false);
+		$(".add-reply").attr("disabled",false);
 	}
 	

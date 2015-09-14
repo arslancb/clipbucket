@@ -102,6 +102,13 @@ if(isset($_POST['update'])){
 					'ffprobe_path',
 					'media_info',
 					'i_magick',
+
+					'cb_combo_res',
+					'gen_240',
+					'gen_360',
+					'gen_480',
+					'gen_720',
+					'gen_1080',
 					
 					'gravatars',
 					'grp_categories',

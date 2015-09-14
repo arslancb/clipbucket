@@ -17,15 +17,6 @@
                 <img src="{avatar details=$user}" alt="" class="main_pic">
                 <span>{name($user)}</span> 
             </a>
-            <div class="popper-content clearfix hide">
-                <div class="img-holder">
-                    <img src="{avatar details=$user}" alt="" class="img-responsive">
-                </div>
-                <div class="content-user">
-                <h4> {name($user)}</h4>
-                <p><span>Videos {$user.total_videos}</span> &middot; <span> Views {$user.profile_hits}</span></p>
-                </div>
-            </div><!-- popper-content -->
         </div>
         <div class="clearfix text-right">
             <i class="text-muted">{$comment.date_added|niceTime}</i>
@@ -77,16 +68,6 @@
             {name($user)}
         </span>
     </a>
-     
-        <div class="popper-content clearfix hide">
-            <div class="img-holder">
-                <img src="{avatar details=$user}" alt="" class="img-responsive">
-            </div>
-            <div class="content-user">
-                <h4>{name($user)}</h4>
-                <p><span>Videos {$user.total_videos}</span> &middot; <span> Views {$user.profile_hits}</span></p>
-            </div>
-        </div><!-- popper-content -->
         <!-- <i class="text-muted">- {$comment.date_added|niceTime}</i> -->
     </div>
     <div class="clearfix text-right">
@@ -95,7 +76,7 @@
     <div class="reply">
         <div class="sizeSmaller bold" style="font-size:12px;">
             {$video = $cbvid->get_video($type_id)}
-            {if $myquery->is_commentable($video,'v')}
+            {if $myquery->is_commentable($video,'v') && $userquery->login_check('',true)}
             
             <a href="javascript:void(0)" onclick="reply_box('{$comment.comment_id}')">{lang code='reply'}</a>
             {/if}
@@ -127,15 +108,6 @@
                                     <img src="{avatar details=$user}" alt="" class="reply_pic">
                                     <span>{name($user)}</span>
                                 </a>
-                                <div class="popper-content clearfix hide">
-                                    <div class="img-holder">
-                                        <img src="{avatar details=$user}" alt="" class="img-responsive">
-                                    </div>
-                                    <div class="content-user">
-                                    <h4> {name($user)}</h4>
-                                    <p><span>Videos {$user.total_videos}</span> &middot; <span> Views {$user.profile_hits}</span></p>
-                                    </div>
-                                </div><!-- popper-content -->
                                 <!-- <i class="text-muted">- {$reply.date_added|niceTime}</i> -->
                             </div>
                             <div class="clearfix text-right">
@@ -166,15 +138,6 @@
                                     <img src="{avatar details=$user}" alt="" class="reply_pic">
                                     <span>{name($user)}</span>
                                 </a>
-                                <div class="popper-content clearfix hide">
-                                    <div class="img-holder">
-                                        <img src="{avatar details=$user}" alt="" class="img-responsive">
-                                    </div>
-                                    <div class="content-user">
-                                    <h4> {name($user)}</h4>
-                                    <p><span>Videos {$user.total_videos}</span> &middot; <span> Views {$user.profile_hits}</span></p>
-                                    </div>
-                                </div><!-- popper-content -->
                                 <!-- <i class="text-muted">- {$reply.date_added|niceTime}</i> -->
                             </div>
                             <div class="clearfix text-right">
@@ -215,24 +178,5 @@
 
 
 
-<style type="text/css">
-    li {
-        list-style: none;
-    }
-    .main_pic, .comnt_pic, .reply_pic {
-        width: 20px;
-        height: 20px;
-    }
-
-</style>
- <script type="text/javascript">
-//user page user popover
-            $('.comments-load-more').on("click", function(){
-                var _this = $(this).data("flag");
-                show_replies(_this);
-                $(this).hide();
-                console.log('nae g ');
-            });
- </script>
 
 

@@ -15,9 +15,14 @@
 	$log = new SLog();
 
 	//error_reporting(E_ALL);
-
+	logData(json_encode($argv),"argvs");
 	$fileName = (isset($argv[1])) ? $argv[1] : false;
-	$dosleep = (isset($argv[2])) ? $argv[2] : '';
+	$_filename = (isset($argv[2])) ? $argv[2] : false;
+	$file_directory = (isset($argv[3])) ? $argv[3] : false;
+	$file_directory = $file_directory.'/';
+
+
+	logData("1.Initializing Conversion of Video Filename : ".$_filename,'checkpoints');
 	//$fileName = "/home/sajjad/Desktop/abc.mp4";
 	$log->newSection("Starting Conversion Log");
 	$log->writeLine("File to be converted", $fileName, false);
@@ -67,6 +72,7 @@
 	/*
 		Preparing the configurations for video conversion from database
 	*/
+	logData('Preparing configuration to parse in ffmpeg class','checkpoints');
 
 	$configs = array(
 		'format' => 'mp4',
@@ -81,23 +87,29 @@
 		'high_res' => config('high_resolution'),
 		'max_video_duration' => config('max_video_duration'),
 		'resize'=>'max',
-		'outputPath' => $fileDir,
+		'outputPath' => $fileDir
 	);
 
+	logData('Inlcuding FFmpeg Class','checkpoints');
 	require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
-
 	
 	$ffmpeg = new FFMpeg($configs, $log);
 	$ffmpeg->ffmpeg($orig_file);
+	$ffmpeg->cb_combo_res = config('cb_combo_res');
+	$ffmpeg->res_configurations = array('gen_240'  => config('gen_240'),
+										'gen_360'  => config('gen_360'),
+										'gen_480'  => config('gen_480'),
+										'gen_720'  => config('gen_720'),
+										'gen_1080' => config('gen_1080')
+										);
+	logData($ffmpeg->res_configurations,'checkpoints');
 	$ffmpeg->file_name = $tmp_file;
+	$ffmpeg->filetune_directory = $file_directory;
+	$ffmpeg->raw_path = VIDEOS_DIR.'/'.$file_directory.$_filename;
 	//$ffmpeg->logs = $log;
+	logData('Going to call ClipBucket Function','checkpoints');
 	$ffmpeg->ClipBucket();
-	//logData(json_encode("in end video convert"));
-	//$ffmpeg->convertVideo($orig_file);
-
-		
-	//exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $orig_file");		
-	//exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
+	
 
 	if (stristr(PHP_OS, 'WIN'))
 	{
@@ -108,7 +120,6 @@
 		
 	} else {
 		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $orig_file $dosleep &> /dev/null &");
-		logData(json_encode(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $orig_file $dosleep &> /dev/null &"));
 	}
 
 	if(!isset($_GET['test']))

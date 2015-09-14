@@ -531,7 +531,7 @@ class myquery {
 				$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
 				
 				//Now Finally Sending Email
-				//cbmail(array('to'=>$own_details,'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+				cbmail(array('to'=>$own_details,'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
 			}
 			
 			//Adding Video Feed

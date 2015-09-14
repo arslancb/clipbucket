@@ -226,4 +226,16 @@
     }
 }
 
+.border-transition{
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  border: 1px solid rgba(81, 203, 238, 1);
+}
+
+.commentBox {
+  -webkit-transition: box-shadow 1s ease-in-out;
+  -moz-transition: box-shadow 1s ease-in-out;
+  -ms-transition: box-shadow 1s ease-in-out;
+  -o-transition: box-shadow 1s ease-in-out;
+  transition: box-shadow 1s ease-in-out;
+}
 /* usman css end */

@@ -766,7 +766,6 @@ if(!empty($mode))
 				
 			}
 			
-			$is_msg = false;
 			if(msg())
 			{
 				$msg = msg_list();
@@ -775,7 +774,7 @@ if(!empty($mode))
 				$ajax['err'] = "";
 				$is_msg = true;
 			}
-			if(error() && !$is_msg)
+			if(error())
 			{
 				$err = error_list();
 				$err = $err[0];

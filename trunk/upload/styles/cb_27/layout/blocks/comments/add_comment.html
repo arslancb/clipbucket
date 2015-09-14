@@ -1,80 +1,61 @@
-
 <div class="row add-comments clearfix" id="add_comment">
-    {if $userquery->login_check('',true) }
+    {if $userquery->login_check('',true) || $Cbucket->configs.anonym_comments == 'yes' }
     <form name="comment_form" method="post" action="" id="comment_form" onsubmit="return false;">
-        <div class="col-lg-10 col-md-9 col-sm-9 col-xs-9">
-                <input type="hidden" name="reply_to" id="reply_to" value="0">
-                <input type="hidden" name="obj_id" id="obj_id" value="{$id}">
-                <input type="hidden" name="type" value="{$type}" />
-                  {ANCHOR place='before_compose_box'}
-                <textarea name="comment" id="comment_box" class="form-control" placeholder="Please type something in a comment box"></textarea>
-        </div>
-        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3 padding-left">
-           <input type="button" name="add_comment" id="add_comment_button" class="btn btn-danger btn-block" onclick="add_comment_js('comment_form','{$type}','$vdo.video_id')" value='Comment'>
-        </div>
-        <div class="col-lg-10 col-md-9 col-sm-9 col-xs-9" id="msg_container"></div>
-    </form>
-    {else}
-      <span class="sizeSmall bold error"></span>
-      <div class="col-lg-10 col-md-9 col-sm-9 col-xs-9">
-        <br><span class="alert-warning alert msg-display">{lang code='please_login_to_comment'}</span>
-        <br><br>
-       </div>
-    {/if}
-
-</div>
-
-
-        <!--
-        {if $userquery->login_check('',true) || $Cbucket->configs.anonym_comments == 'yes'}
-            <form name="comment_form" method="post" action="" id="comment_form" onsubmit="return false;">
+        <div class="col-lg-12">
+                <span id="comment_output" class="alert alert-danger comment_output pull-left" style="display:none;"></span>
                 <input type="hidden" name="reply_to" id="reply_to" value="0">
                 <input type="hidden" name="obj_id" id="obj_id" value="{$id}">
                 <input type="hidden" name="type" value="{$type}" />
                 {if !$userquery->login_check('',true) && $Cbucket->configs.anonym_comments == 'yes'}
-                <div class="ADfieldBlock clearfix">
-                    <div class="ADfieldLabel"><label for="name" class="Label">{lang code='name'}</label></div>
-                   <div class="ADfieldInputs"> <input type="text" name="name" id="name" class="TextField"></div>
-                </div>    
-                <div class="ADfieldBlock clearfix">
-                    <div class="ADfieldLabel"><label for="email" class="Label">{lang code='email_wont_display'}</label></div>
-                     <div class="ADfieldInputs"><input type="text" name="email" id="email"  class="TextField"></div>
-                </div>                     
+                <div class="clearfix"></div>    
+                    <label for="name" class="Label">{lang code='name'}</label>
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Your Name">
+                <div class="clearfix"></div>    
+                <br>
+                <div class="clearfix"></div>    
+                    <label for="email" class="Label">{lang code='email_wont_display'}</label>
+                    <input type="text" name="email" id="email" class="form-control" placeholder="Your Email">
+                <div class="clearfix"></div>
+                <br>                   
                 {else}
-                <div class="ADfieldBlock clearfix">
-                    <div class="ADfieldLabel"><label class="Label">{lang code="name"}</label></div>
-                    <div class="ADfieldInputs"><span class="vAlignMiddle Cantarell sizeBigger capitalize">
+                <div class="clearfix"></div>    
+                    <label class="Label">{lang code="name"}</label>
+                    <span class="vAlignMiddle Cantarell sizeBigger capitalize">
                             {if $userquery->udetails.fullname}
                             {$userquery->udetails.fullname}
                             {else}
                             {$userquery->username}
-                        {/if}</span></div>
-                 </div>
+                        {/if}
+                    </span>
+                <div class="clearfix"></div>    
                 {/if}
                 {if config('comments_captcha')=='all' || ( config('comments_captcha')=='guests' && !$userquery->login_check('',true) )}
                 {$captcha=get_captcha()}
                 {if $captcha} 
-                <div class="ADfieldBlock clearfix">
-                    {if $captcha.show_field}
-                            <div class="ADfieldLabel"><label class="Label" for="captcha">Verification Code</label></div>
-                            <div class="ADfieldInputs">{load_captcha captcha=$captcha load=field field_params = ' id="captcha" class="TextField"'}</div>
-                    {/if}
-                    <div class="break3"></div>
-                    {load_captcha captcha=$captcha load=function}
-                    </div>
+                    <div class="clearfix"></div>    
+                        {if $captcha.show_field}
+                                <label class="Label" for="captcha">Verification Code</label>
+                                <div class="ADfieldInputs">{load_captcha captcha=$captcha load=field field_params = ' id="captcha" class="TextField"'}</div>
+                        {/if}
+                        {load_captcha captcha=$captcha load=function}
+                    <div class="clearfix"></div>    
                 {/if}
                 {/if} 
-                <div class="ADfieldBlock clearfix">               
-                    <div class="ADfieldLabel"><label class="Label" for="comment_box">{lang code="Comment"}</label></div>
-                    <div class="ADfieldInputs">
-                        {ANCHOR place='before_compose_box'}
-                        <textarea name="comment" id="comment_box" class="TextArea"></textarea>
-                    </div>
-                </div>
-                <div class="break2"></div>
-                <input type="button" name="add_comment" id="add_comment_button" class="moveR bigBlueButton sizeBig Cantarell" onclick="add_comment_js('comment_form','{$type}')" value='{lang code="user_add_comment"}'>
-            </form>    
-        {else}
-            <img src="{$imageurl}/dot.gif" class="warning" /> <span class="sizeSmall bold error">{lang code='please_login_to_comment'}</span>
-        {/if}-->
-  
+                {ANCHOR place='before_compose_box'}
+                <div class="clearfix"></div>    
+                <textarea name="comment" id="comment_box" class="form-control" placeholder="Please type something in a comment box"></textarea>
+        </div>
+        <div class="col-lg-12" style="margin:15px 0 15px 0;">
+           <input type="button" name="add_comment" id="add_comment_button" class="btn btn-danger btn-block" onclick="add_comment_js('comment_form','{$type}','$vdo.video_id')" value='Add Comment'>
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-9 col-xs-9" id="msg_container"></div>
+    </form>
+    {else}
+        <span class="sizeSmall bold error"></span>
+        <div class="col-lg-10 col-md-9 col-sm-9 col-xs-9">
+        <span class="alert-warning alert msg-display">{lang code='please_login_to_comment'}</span>
+        </div>
+    {/if}
+
+</div>
+
