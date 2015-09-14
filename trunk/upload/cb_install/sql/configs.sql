@@ -260,7 +260,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'us
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'player_logo_url', 'http://clip-bucket.com/');
 
 -- Addition for 2.8
-INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'cb_combo_res', 'yes');
+INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'cb_combo_res', 'no');
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'ffprobe_path', '/usr/bin/ffprobe');
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'media_info', '/usr/bin/mediainfo');
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'i_magick', '/usr/bin/convert');
