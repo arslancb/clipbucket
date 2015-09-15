@@ -1757,7 +1757,14 @@ function decode64(input) {
 						$("#comment_output").fadeIn();
 						$("#comment_output").html(data.err);
 						setTimeout(function(){ $("#comment_output").fadeOut(); }, 3000);
-						clear_comment_form();
+
+						var str = data.err;
+						var string_finder = str.substring(0, 12);
+						if (string_finder != 'Mailer Error'){
+							
+							clear_comment_form();	
+						}
+						
 					}
 					if(data.msg!='')
 					{

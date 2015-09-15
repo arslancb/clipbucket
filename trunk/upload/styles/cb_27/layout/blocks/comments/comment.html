@@ -10,16 +10,26 @@
 
 <li id="reply-{$comment.comment_id}" class="commentBox clearfix reply-{$comment.comment_id}">
     <div class="replay-holder">
-        <div class="users popover-holder clearfix">
+        <div class="comments-box clearfix">
             {$user_id = $comment.userid}
             {$user=$userquery->get_user_details($user_id)}
-            <a href="{$userquery->profile_link($user)}">
-                <img src="{avatar details=$user}" alt="" class="main_pic">
-                <span>{name($user)}</span> 
-            </a>
-        </div>
-        <div class="clearfix text-right">
-            <i class="text-muted">{$comment.date_added|niceTime}</i>
+            <div class="comment-avatar">
+                <img src="{avatar details=$user}" alt="" class="reply_pic">
+            </div>
+            <div class="comment-info">
+                 <a href="{$userquery->profile_link($user)}">
+                    <span>{name($user)}</span>
+                </a>
+                <p>{$comment.comment|comment}</p>
+                <div class="view-date clearfix">
+                    <span>
+                        <i class="glyphicon glyphicon-time"></i>
+                        {$comment.date_added|niceTime}
+                    </span>
+                </div>
+            </div>
+           
+            <!-- <i class="text-muted">- {$reply.date_added|niceTime}</i> -->
         </div>
         <div class="reply">
             <div class="sizeSmaller bold" style="font-size:12px;">
@@ -28,9 +38,6 @@
                 {/if}
                 {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} &middot; <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">{lang code='delete'}</a>{/if}
             </div>
-        </div>
-        <div class="clearfix">
-            {$comment.comment|comment}
         </div>
     </div>
 </li>
@@ -46,7 +53,7 @@
       {ANCHOR place='before_compose_box'}
     <div class="textarea-comment clearfix">
         <textarea name="comment" id="reply_box_{$comment_id}" class="form-control" placeholder="Reply..."></textarea>
-        <i class="remove-{$comment_id}" onclick="remove_reply_box({$comment_id})"><span style="color:#e50000"><strong>X</strong></span> Close</i>
+        <i class="remove-{$comment_id} remove-icon" onclick="remove_reply_box({$comment_id})"><span style="color:#e50000;cursor:pointer"><strong>X</strong></span></i>
     </div>
 
     <input type="button" name="add_reply" id="add_reply_button_{$comment_id}" class="btn btn-danger pull-right add-reply" onclick="add_comment_js('reply_form_{$comment_id}','{$type}')" value='{lang code="Reply"}'>
@@ -56,38 +63,42 @@
 
 {else}
 
-<li id="comment_{$comment.comment_id}" class="commentBox clearfix"  {$comment_attr}>
-    <div class="users popover-holder clearfix">
-        
-    {$user_id=$comment.userid}
-      
-    {$user=$userquery->get_user_details($user_id)}
-    <a href="{$userquery->profile_link($user)}" >
-        <img src="{avatar details=$user}" alt="" class="comnt_pic">
-        <span>
-            {name($user)}
-        </span>
-    </a>
-        <!-- <i class="text-muted">- {$comment.date_added|niceTime}</i> -->
-    </div>
-    <div class="clearfix text-right">
-        <i class="text-muted">{$comment.date_added|niceTime}</i>
-    </div>
-    <div class="reply">
-        <div class="sizeSmaller bold" style="font-size:12px;">
-            {$video = $cbvid->get_video($type_id)}
-            {if $myquery->is_commentable($video,'v') && $userquery->login_check('',true)}
-            
-            <a href="javascript:void(0)" onclick="reply_box('{$comment.comment_id}')">{lang code='reply'}</a>
-            {/if}
-            {if !$comment.userid==userid() || has_access('admin_access',true)}
-            &middot; <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}','{$type}','{$type_id}')">{lang code='spam'}</a>
-            {/if}
-            {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} &middot; <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">{lang code='delete'}</a>{/if}
+<li id="comment_{$comment.comment_id}" class="clearfix"  {$comment_attr}>
+    <div class="comments-box clearfix">
+        {$user_id=$comment.userid}
+        {$user=$userquery->get_user_details($user_id)}
+        <div class="comment-avatar">
+            <img src="{avatar details=$user}" alt="" class="comnt_pic">
         </div>
-    </div>
-     <div class="clearfix">
-            {$comment.comment|comment}
+        <div class="comment-info">
+            <a href="{$userquery->profile_link($user)}" >
+                {name($user)}
+            </a>
+             <!-- <i class="text-muted">- {$comment.date_added|niceTime}</i> -->
+            <p>{$comment.comment|comment}</p>
+            <div class="view-date clearfix">
+                <span>
+                    <i class="glyphicon glyphicon-time"></i>
+                    {$comment.date_added|niceTime}
+                </span>
+            </div>
+        </div>
+       <!--  <div class="clearfix text-right">
+            <i class="text-muted">{$comment.date_added|niceTime}</i>
+        </div> -->
+        <div class="reply">
+            <div class="sizeSmaller bold" style="font-size:12px;">
+                {$video = $cbvid->get_video($type_id)}
+                {if $myquery->is_commentable($video,'v') && $userquery->login_check('',true)}
+                
+                <a href="javascript:void(0)" onclick="reply_box('{$comment.comment_id}')">{lang code='reply'}</a>
+                {/if}
+                {if !$comment.userid==userid() || has_access('admin_access',true)}
+                &middot; <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}','{$type}','{$type_id}')">{lang code='spam'}</a>
+                {/if}
+                {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} &middot; <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">{lang code='delete'}</a>{/if}
+            </div>
+        </div>
     </div>
     <div class="reply-box-{$comment.comment_id} clearfix" style="display:none;">
     </div>
@@ -101,17 +112,26 @@
               
                     <li id="reply-{$comment.comment_id}" class="commentBox clearfix reply-{$reply.comment_id}">
                         <div class="replay-holder">
-                            <div class="users popover-holder clearfix">
+                            <div class="comments-box clearfix">
                                 {$user_id = $reply.userid}
                                 {$user=$userquery->get_user_details($user_id)}
-                                <a href="{$userquery->profile_link($user)}">
+                                <div class="comment-avatar">
                                     <img src="{avatar details=$user}" alt="" class="reply_pic">
-                                    <span>{name($user)}</span>
-                                </a>
+                                </div>
+                                <div class="comment-info">
+                                     <a href="{$userquery->profile_link($user)}">
+                                        <span>{name($user)}</span>
+                                    </a>
+                                    <p>{$reply.comment|comment}</p>
+                                    <div class="view-date clearfix">
+                                        <span>
+                                            <i class="glyphicon glyphicon-time"></i>
+                                            {$comment.date_added|niceTime}
+                                        </span>
+                                    </div>
+                                </div>
+                               
                                 <!-- <i class="text-muted">- {$reply.date_added|niceTime}</i> -->
-                            </div>
-                            <div class="clearfix text-right">
-                                <i class="text-muted">{$comment.date_added|niceTime}</i>
                             </div>
                             <div class="reply">
                                 <div class="sizeSmaller bold" style="font-size:12px;">
@@ -121,9 +141,6 @@
                                     {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} &middot; <a href="javascript:void(0)" onclick="delete_comment('{$reply.comment_id}','{$type}')">{lang code='delete'}</a>{/if}
                                 </div>
                             </div>
-                            <div class="clearfix">
-                                {$reply.comment|comment}
-                            </div>
                         </div>
                     </li>
                 {else}
@@ -131,26 +148,30 @@
                 <div class="more-comments-{$comment.comment_id}" style="display:none;">
                     <li id="reply-{$comment.comment_id}" class="commentBox clearfix reply-{$reply.comment_id}">
                         <div class="replay-holder">
-                            <div class="users popover-holder clearfix">
+                            <div class="comments-box clearfix">
                                 {$user_id = $reply.userid}
                                 {$user=$userquery->get_user_details($user_id)}
-                                <a href="{$userquery->profile_link($user)}">
+                                <div class="comment-avatar">
                                     <img src="{avatar details=$user}" alt="" class="reply_pic">
-                                    <span>{name($user)}</span>
-                                </a>
-                                <!-- <i class="text-muted">- {$reply.date_added|niceTime}</i> -->
-                            </div>
-                            <div class="clearfix text-right">
-                                <i class="text-muted">{$comment.date_added|niceTime}</i>
+                                </div>
+                                <div class="comment-info">
+                                     <a href="{$userquery->profile_link($user)}">
+                                        <span>{name($user)}</span>
+                                    </a>
+                                    <p>{$reply.comment|comment}</p>
+                                    <div class="view-date clearfix">
+                                        <span>
+                                            <i class="glyphicon glyphicon-time"></i>
+                                            {$comment.date_added|niceTime}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="reply">
                                 <div class="sizeSmaller bold" style="font-size:12px;">
                                      <a href="javascript:void(0)" onclick="spam_comment('{$reply.comment_id}','{$type}','{$type_id}')">{lang code='spam'}</a>
                                     {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} &middot; <a href="javascript:void(0)" onclick="delete_comment('{$reply.comment_id}','{$type}')">{lang code='delete'}</a>{/if}
                                 </div>
-                            </div>
-                            <div class="clearfix">
-                                {$reply.comment|comment}
                             </div>
                         </div>
                     </li>
@@ -169,7 +190,7 @@
     </ul>
     {if $flag}
     <div class="comments-load-more moad-more-btn-{$flag} clearfix" data-flag="{$flag}">
-        <span class="btn btn-danger">More Comments...</span>
+        <span class="btn btn-sm btn-danger">More Replies...</span>
     </div>
     {/if}
   
