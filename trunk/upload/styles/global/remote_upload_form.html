@@ -40,7 +40,7 @@
 	<div class="align-right marginTop">
 		<!--<input type="button" name="ytUploadBttn" id="ytUploadBttn" value="{lang('grab_from_youtube')}" onClick="_cb.youtube_upload()" class="btn btn-primary btn-lg">-->
 		<input type="button" name="ytUploadBttn"  data-loading-text="Loading..." id="ytUploadBttn" value="{lang('grab_from_youtube')}" onClick="youtube_upload()" class="btn btn-primary btn-lg">
-		<input type="button" name="remoteUploadBttn" id="remoteUploadBttn" data-loading-text="Loading..." value="{lang('upload')}" onClick="_cb.{get_remote_url_function()}" class="btn btn-primary btn-lg">
+		<input type="button" name="remoteUploadBttn" id="remoteUploadBttn" data-loading-text="Loading..." value="{lang('upload')}" onClick="{get_remote_url_function()}" class="btn btn-primary btn-lg">
 		<input type="button" name="remoteUploadBttnStop" id="remoteUploadBttnStop" value="{lang('cancel')}"   class="btn btn-primary btn-lg" style="display:none"/>
 	</div>
 </div>
