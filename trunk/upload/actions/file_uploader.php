@@ -102,13 +102,19 @@ switch($mode)
 		
 		assign('input',$vidDetails);
 
+		
+		$vid = $_POST['vid'];
+		assign('videoid',$vid);
+
+
 		$videoFields = $Upload->load_video_fields($vidDetails);
 		//$requiredFields = array_shift($videoFields);
 		// echo "<pre>";
 		// var_dump($videoFields[0]);
 		// echo "</pre>";
-		echo json_encode($videoFields);
+		//echo json_encode($videoFields);
 		//Template('blocks/upload/form.html');
+		Template('blocks/upload/upload_form.html');
 	}
 	break;
 	
