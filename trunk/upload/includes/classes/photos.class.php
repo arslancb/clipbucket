@@ -2473,6 +2473,8 @@ class CBPhotos
 			$comment = $myquery->add_comment($comment,$obj_id,$reply_to,'p',$ownerID,$photoLink,$force_name_email);
 			if($comment)
 			{
+				//Updating Number of comments of photo if comment is not a reply
+				if ($reply_to < 1)
 				$this->update_total_comments($obj_id);	
 			}
 			return $comment;	
@@ -2485,7 +2487,7 @@ class CBPhotos
 	function update_total_comments($pid)
 	{
 		global $db;
-		$count = $db->count(tbl("comments"),"comment_id"," type = 'p' AND type_id = '$pid'");
+		$count = $db->count(tbl("comments"),"comment_id"," type = 'p' AND type_id = '$pid' AND parent_id='0'");
 		$db->update(tbl('photos'),array("total_comments","last_commented"),array($count,now())," photo_id = '$pid'");	
 	}	
 	

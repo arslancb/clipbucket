@@ -2035,7 +2035,7 @@ class userquery extends CBCategory{
 	function count_profile_comments($id)
 	{
 		global $db;
-		$total_comments = $db->count(tbl('comments'),"comment_id","type='c' AND type_id='$id'");
+		$total_comments = $db->count(tbl('comments'),"comment_id","type='c' AND type_id='$id' AND parent_id='0'");
 		return $total_comments;
 	}
 	function count_channel_comments($id){ return $this->count_profile_comments($id); }
@@ -2094,7 +2094,8 @@ class userquery extends CBCategory{
 			);
 			insert_log('profile_comment',$log_array);
 			
-			//Updating Number of comments of video
+			//Updating Number of comments of user if comment is not a reply
+			if ($reply_to < 1)
 			$this->update_comments_count($obj_id);
 		}
 		return $add_comment;

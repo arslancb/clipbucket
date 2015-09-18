@@ -1175,7 +1175,7 @@ class CBvideo extends CBCategory
 	function count_video_comments($id)
 	{
 		global $db;
-		$total_comments = $db->count(tbl('comments'),"comment_id","type='v' AND type_id='$id'");
+		$total_comments = $db->count(tbl('comments'),"comment_id","type='v' AND type_id='$id' AND parent_id='0'");
 		return $total_comments;
 	}
 	
@@ -1218,8 +1218,11 @@ class CBvideo extends CBCategory
 				);
 				insert_log('video_comment',$log_array);
 				
-				//Updating Number of comments of video
-				$this->update_comments_count($obj_id);
+				//Updating Number of comments of video if comment is not a reply
+				if ($reply_to < 1)
+					$this->update_comments_count($obj_id);
+				
+				
 			}
 			return $add_comment;
 		}

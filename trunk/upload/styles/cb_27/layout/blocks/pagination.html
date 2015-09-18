@@ -17,21 +17,18 @@
 {elseif $commentPagination}
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mtl">
   <ul align="center" class="pagination pagination-center">
-         <!-- <li class="prev disabled">
-             <a href="#">
-                 <i class="icon-double-angle-left"></i></a></li> -->
          
         
         {if $first_link !=''}
         <li>  <a href="javascript:void(0)"
-          onclick="getComments('{$type}','{$type_id}','{$last_update}','1','{$total}','{$object_type}')" >
+          onclick="_cb.getAllComments('{$type}','{$type_id}','{$last_update}','1','{$total}','{$object_type}')" >
           <i class="fa fa-angle-double-left"></i></a></li>
          {/if}
 
 
       
        {if $pre_link !=''}<li><a href="javascript:void(0)" 
-       onclick="getComments('{$type}','{$type_id}','{$last_update}','{$pre_page}','{$total}','{$object_type}')" >
+       onclick="_cb.getAllComments('{$type}','{$type_id}','{$last_update}','{$pre_page}','{$total}','{$object_type}')" >
        <i class="fa fa-angle-left"></i></a>
        </li>{/if} 
 
@@ -39,13 +36,13 @@
 
 
        {if $next_link !=''}<li><a href="javascript:void(0)" 
-       onclick="getComments('{$type}','{$type_id}','{$last_update}','{$next_page}','{$total}','{$object_type}')" >
+       onclick="_cb.getAllComments('{$type}','{$type_id}','{$last_update}','{$next_page}','{$total}','{$object_type}')" >
        <i class="fa fa-angle-right"></i></a>
        </li>{/if}
        
         {if $last_link !=''}
         <li>  <a href="javascript:void(0)"
-          onclick=" getComments('{$type}','{$type_id}','{$last_update}','{$total_pages}','{$total}','{$object_type}')" >
+          onclick="_cb.getAllComments('{$type}','{$type_id}','{$last_update}','{$total_pages}','{$total}','{$object_type}')" >
           <i class="fa fa-angle-double-right"></i></a></li>
          {/if}
      </ul>  

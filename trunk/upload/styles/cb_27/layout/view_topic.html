@@ -62,32 +62,19 @@
         <div id="reply" class="clearfix"> 
           <div class="pad-bottom">
               <div  class="addComment clearfix">
-                  <!--  <h3 >{lang('Comments')}:&nbsp; 
-                   <span class="com_count" id="com_count"></span>
-                                    </h3> -->
-
-                  <div class="com_count" id="com_count"><span>{lang('Comments')}: </span> {$topic.total_replies}</div>
-                  
+                  <div class="com_count" id="com_count">
+                    <span>{lang('Comments')}: </span> 
+                    {$topic.total_replies}
+                  </div>
                   {include file="$style_dir/blocks/comments/add_comment.html" id=$topic.topic_id type=t}
               </div>
-
               <script>
-                /*$(document).ready(function()
-                {ldelim}    
-                  comments_voting = 'no'; 
-                  getComments('t','{$topic.topic_id}','{$topic.last_post_time}',1,'{$topic.total_replies  }','{$object_type}')
-                {rdelim}
-                );*/
                 $(document).ready(function(){
                   _cb.getAllComments(
                     't','{$topic.topic_id}','{$topic.last_post_time}',1,'{$topic.total_replies}','{$object_type}'
                   );
                 });
               </script>
-
-              <!-- <div class="topic_comments">
-                  <a href="#" style="font:bold 11px Tahoma; text-decoration:none; text-align:right; display:block;" onclick="getComments('t','{$topic.topic_id}','{$topic.last_post_time}',1,'{$topic.total_replies   }','{$object_type}'); return false;">Re-load Posts</a>
-              </div> -->
               <div id="comments">
                 <ul class="list-unstyled" id="userCommentsList"></ul>
               </div>

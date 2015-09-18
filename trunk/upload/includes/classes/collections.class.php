@@ -1578,6 +1578,8 @@ class Collections extends CBCategory
 				);
 				insert_log('collection_comment',$log_array);
 				
+				//Updating Number of comments of collection if comment is not a reply
+				if ($reply_to < 1)
 				$this->update_total_comments($obj_id);	
 			}
 			return $comment;
@@ -1590,7 +1592,7 @@ class Collections extends CBCategory
 	function update_total_comments($cid)
 	{
 		global $db;
-		$count = $db->count(tbl("comments"),"comment_id"," type = 'cl' AND type_id = '$cid'");
+		$count = $db->count(tbl("comments"),"comment_id"," type = 'cl' AND type_id = '$cid' AND parent_id='0'");
 		$db->update(tbl($this->section_tbl),array("total_comments","last_commented"),array($count,now())," collection_id = '$cid'");	
 	}
 	

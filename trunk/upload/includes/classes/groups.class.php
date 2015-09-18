@@ -1609,7 +1609,8 @@ class CBGroups extends CBCategory
 				);
 				insert_log('topic_comment',$log_array);
 				
-				//Updating Number of comments of topics
+				//Updating Number of comments of group if comment is not a reply
+				if ($reply_to < 1)
 				$this->update_comments_count($obj_id);
 			}
 			return $add_comment;
@@ -1671,7 +1672,7 @@ class CBGroups extends CBCategory
 	function count_topic_comments($id)
 	{
 		global $db;
-		$total_comments = $db->count(tbl('comments'),"comment_id","type='t' AND type_id='$id'");
+		$total_comments = $db->count(tbl('comments'),"comment_id","type='t' AND type_id='$id' AND parent_id='0'");
 		return $total_comments;
 	}
 	

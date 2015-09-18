@@ -672,24 +672,6 @@ if(!empty($mode))
 		}
 		break;
 
-		/**
-		 * Getting reply box for comment
-		 */
-		case 'get_reply_box';
-		{
-			$id = mysql_clean($_POST['cid']);
-			$new_com  = $myquery->get_comment($id);
-			
-			assign('id',$new_com['type_id']);
-			assign('type',$new_com['type']);
-			assign('comment_id',$id);
-			assign('mode','reply_box');
-
-			//getting parent id if it is a reply comment
-			echo json_encode(array("form"=>Fetch('blocks/comments/comment.html')));
-		
-		}
-		break;
 		
 		case 'count_comments';
 			echo '5';
@@ -1563,7 +1545,7 @@ if(!empty($mode))
 		{
 			$params = array();
 			 
-			$limit = config('comments_per_page');
+			$limit = config('comment_per_page') ? config('comment_per_page') : 10;
 			$page = $_POST['page'];
 			$params['type'] = mysql_clean($_POST['type']);
 			$params['type_id'] = mysql_clean($_POST['type_id']);
@@ -1583,7 +1565,7 @@ if(!empty($mode))
 			assign('object_type',mysql_clean($_POST['object_type']));		
 			//Pagination
 			$pages->paginate($total_pages,$page,NULL,NULL,'<li><a href="javascript:void(0)"
-			onClick="getComments(\''.$params['type'].'\',\''.$params['type_id'].'\',\''.$params['last_update'].'\',
+			onClick="_cb.getAllComments(\''.$params['type'].'\',\''.$params['type_id'].'\',\''.$params['last_update'].'\',
 			\'#page#\',\''.$_POST['total_comments'].'\',\''.mysql_clean($_POST['object_type']).'\',\''.$admin.'\')">#page#</a></li>');
 			
           
@@ -1598,18 +1580,13 @@ if(!empty($mode))
 			assign('comments_voting',$_POST['comments_voting']);
 			assign('commentPagination','yes');
 			
-			if($_POST['admin']=='yes' && has_access('admin_access',true))
-			Template(BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbv2/layout/blocks/comments.html',false);
-			else
+			
 			Template('blocks/comments/comments.html');
 			
 			assign('commentPagination','yes');
 			 
-            if(SMARTY_VERSION > 2 )
-            	Template('blocks/pagination.html');
-                // Template('blocks/common/pagination.html');
-            else
-			    Template('blocks/pagination.html');
+           
+			Template('blocks/pagination.html');
 
 		}
 		break;

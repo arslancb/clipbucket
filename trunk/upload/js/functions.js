@@ -647,10 +647,11 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 
 				if(data.msg)
 				{
-					alert(data.msg);
+					$(".reply-"+cid).fadeOut("slow");
 					$("#comment_"+cid).fadeOut("slow");
-					$("#spam_comment_"+cid).fadeOut("slow");;
-					
+					$("#comment_msg_output").html(data.msg+" !");
+					$("#comment_msg_output").fadeIn("slow");
+					setTimeout(function(){ $("#comment_msg_output").fadeOut(); }, 3000);
 				}
 				if(data.err)
 					alert(data.err);
@@ -1742,7 +1743,7 @@ function decode64(input) {
 		//so we can forward details to ajax.php
 		
 		var formObjectData = $('#' + form_id).serialize() + '&mode=add_comment';
-
+		console.log(formObjectData);
 		$.post(page,formObjectData,
 			function(data)
 			{
@@ -1754,9 +1755,9 @@ function decode64(input) {
 					$("#add_comment_result").css("display","block");
 					if(data.err!='')
 					{
-						$("#comment_output").fadeIn();
-						$("#comment_output").html(data.err);
-						setTimeout(function(){ $("#comment_output").fadeOut(); }, 3000);
+						$("#comment_err_output").fadeIn();
+						$("#comment_err_output").html(data.err);
+						setTimeout(function(){ $("#comment_err_output").fadeOut(); }, 3000);
 
 						var str = data.err;
 						var string_finder = str.substring(0, 12);
@@ -1805,7 +1806,6 @@ function decode64(input) {
 				}
 				else
 				{	
-					console.log(data);
 					$(data.li_data).hide().prependTo('#comments-ul').slideDown("slow");
 				}
 			}
@@ -1814,22 +1814,24 @@ function decode64(input) {
 	}
 
 
-	function reply_box(cid)
+	function reply_box(cid,type,type_id)
 	{
-		
-		$.ajax({
-			url : page,
-			type : 'POST',
-			dataType : 'json',
-			data : ({ mode : "get_reply_box", cid : cid}),
-			success : function(data){
-
-				$('.reply-box-' + cid).html(data.form).slideDown("slow");
-				$('#reply_box_' + cid).focus();
-			}
-		});
-
-		
+		var html = '<form name="reply_form" method="post" id="reply_form_'+cid+'" onsubmit="return false;">';
+		html += '<input type="hidden" name="reply_to" id="reply_to" value="'+cid+'">';
+		html += '<input type="hidden" name="obj_id" id="obj_id" value="'+type_id+'">';
+		html += '<input type="hidden" name="type" value="'+type+'" />';
+		html += '<div class="textarea-comment clearfix">';
+		html += '<textarea name="comment" id="reply_box_'+cid+'" class="form-control" placeholder="Reply..."></textarea>';
+		html += '<i class="remove-'+cid+' remove-icon" onclick="remove_reply_box('+cid+')">';
+		html += '<span style="color:#e50000;cursor:pointer">';
+		html += '<strong>X</strong>';
+		html += '</span>';
+		html += '</i>';
+		html += '</div>';
+		html += '<input type="button" name="add_reply" id="add_reply_button_'+cid+'" class="btn btn-danger pull-right add-reply" onclick="add_comment_js(\'reply_form_'+cid+'\',\''+type+'\')" value="Reply">';
+		html += '</form>';
+		$('.reply-box-' + cid).html(html).slideDown("slow");
+		$('#reply_box_' + cid).focus();
 	}
 
 

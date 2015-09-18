@@ -736,6 +736,8 @@ class myquery {
 		
 		if($type_id!='*')
 			$typeid_query = "AND type_id='$type_id' ";
+
+
 		
 		if(!$count_only)
 		{
@@ -768,60 +770,33 @@ class myquery {
                          
 			 if(!$results)
 			 	return false;
-			 $parent_cond = '';
 			 
-			 $parents_array = array();
+			 
+			 //getting relies of comments 
 			 if($results)
-			 foreach($results as $result)
 			 {
-				 if($result['parent_id'] && !in_array($result['parent_id'],$parents_array))
-				 {
-					if($parent_cond)
-						$parent_cond .= " OR ";
-				 	$parent_cond .= " comment_id='".$result['parent_id']."' " ;
+			 	$parents_array = array();
+			 	foreach($results as $result)
+				{
+					$query = "SELECT * FROM ".tbl('comments');
+					$query .= " WHERE type='$type' $typeid_query AND parent_id='".$result['comment_id']."' ";
+					$replies = db_select($query);
+					if ($replies )
+					{
+						$replies = array("comments"=>$replies);
+						$result['children'] = $replies;
+					}
+					else
+					{
+						$result['children'] = '';
+					}
 					
-					$parents_array[] = $result['parent_id'];
-				 }
-			 }
-			
-			// //Getting Parents
-			//  $parents = $db->select(tbl("comments"),'*'
-			//  ," type='$type' AND ($parent_cond) ",NULL,$order);
-			 
-			//  if($parents)
-			//  	foreach($parents as $parent)
-			// 		$new_parents[$parent['comment_id']] = $parent;
-			 
-			 
-			 //Inserting user data
-			 $new_results = array();
-
-			 //pr($results,true);
-			 if($results)
-			 foreach($results as $com)
-			 {
-				 $userid = $com['userid'];
-				 
-				 $uservar = 'user_'.$userid;
-				 
-				 if($userid && !$$uservar)
-				 	$$uservar = $userquery->get_user_details($userid);
 					
-				 if($$uservar)
-				 	$com = array_merge($com,$$uservar);
-				
-				
-
-				$params['parent_id'] = $com['comment_id'];
-				$params['get_reply_only'] = $com['comment_id'];
-				$children = $this->getComments($params);
-				$com['children'] = $children;
-
-				$new_results[] = $com;
+					$parents_array[] = $result;
+				}
 			 }
-			 
-			 $comment['comments'] = $new_results;
-			 //$comment['parents'] = $new_parents;
+
+			 $comment['comments'] = $parents_array;
 			 
                          
 			 //Deleting any other previuos comment file
