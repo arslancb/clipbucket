@@ -376,6 +376,8 @@ function video_link($vdetails,$type=NULL)
         if($vdetails['playlist_id'])
             $plist = '?&play_list='.$vdetails['playlist_id'];
 
+        $vdetails['title'] = strtolower($vdetails['title']);
+
         switch(config('seo_vido_url'))
         {
             default:
