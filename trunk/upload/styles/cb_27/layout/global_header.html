@@ -32,12 +32,23 @@
         </script>
 
         <!-- ClipBucket v{$Cbucket->version} -->
+        {if $smarty.const.THIS_PAGE == 'index'}
         <meta name="copyright" content="ClipBucket - Integrated Units 2007 - {$smarty.now|date_format:"%Y"}" />
         <meta name="author" content="Arslan Hassan - http://clip-bucket.com/arslan-hassan" />
         <meta name="author" content="Fawaz Tahir - http://clip-bucket.com/fawaz-tahir" />
         <link rel="shortcut icon" href="{$baseurl}/favicon.ico">
         <link rel="icon" type="image/ico" href="{$baseurl}/favicon.ico" />
+        {/if}
 
+        {if $smarty.const.THIS_PAGE == 'watch_video'}
+        <meta name="keywords" content="{$vdo.tags}" />
+        <meta name="description" content="{$vdo.description}" />
+        <meta name="distribution" content="global" />
+        {else}
+        <meta name="keywords" content="{$Cbucket->configs.keywords}" />
+        <meta name="description" content="{$Cbucket->configs.description}" />
+        <meta name="distribution" content="global" />
+        {/if}
         <!-- RSS FEEDS -->
         {rss_feeds link_tag=true}
 
