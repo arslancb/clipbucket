@@ -227,8 +227,8 @@
                         }
                         wrapperDiv.id = "tab"+i;
                         oneUploadForm.className = "";
-                        $(oneUploadForm).find("input[name='photo_title']").val(files[i].name);
-                        $(oneUploadForm).find("textarea#photo_description").val(files[i].name);
+                        $(oneUploadForm).find("input[name='photo_title']").val(files[i].name.slice(0, -4));
+                        $(oneUploadForm).find("textarea#photo_description").val(files[i].name.slice(0, -4));
                         $(oneUploadForm).find("input[name='category[]']:first").attr('checked', 'checked');
                         if(typeof files[i]['photoThumb'] !== "undefined"){
                           $(oneUploadForm).find("img").attr("src", files[i]['photoThumb']);
@@ -300,6 +300,9 @@
                     Insert the video in the database and get the video db id from the
                     database which will be sent with the final form
                     */
+                    var raw_title = fileDetails.name;
+                    var clean_title = raw_title.slice(0,raw_title.length-4);
+                    alert(clean_title);
                     var collectionId;
                     var collection_id = '{$c.collection_id}';
                     if (collection_id ) 
@@ -318,7 +321,7 @@
                        type : "post",
                         data : {
                             insertPhoto : "yes",
-                            title : fileDetails.name,
+                            title : clean_title,
                             file_name : fileName,
                             collection_id: collectionId,
                             ext: serverResponse.extension,
@@ -359,7 +362,7 @@
                           var data = $(self).serialize();
                           data += "&collection_id="+stored_cid;
                           data += "&server_url=undefined&folder=undefined&updatePhoto=yes";
-                          
+
                           $.ajax({
                               url : baseurl + "/actions/photo_uploader.php",
                               type : "post",
