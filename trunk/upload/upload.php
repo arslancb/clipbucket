@@ -94,7 +94,8 @@ if(has_access('allow_video_upload',false,$verify_logged_user))
 	$Cbucket->add_js(array('swfupload/plugins/swfupload.queue.js'=>'uploadactive'));
 	$Cbucket->add_js(array('swfupload/plugins/handlers.js'=>'uploadactive'));
 	$Cbucket->add_js(array('swfupload/plugins/fileprogress.js'=>'uploadactive'));
-}else
+}
+else
 {
 	$userquery->logincheck('allow_video_upload',true);
 }
@@ -103,7 +104,15 @@ Assign('step',$step);
 Assign('extensions', $Cbucket->get_extensions());
 subtitle(lang('upload'));
 //Displaying The Template
-template_files('upload.html');
+if ( !userid() ) 
+{
+	echo '<div id="notlogged_err" class="container alert alert-danger">You must login to be able to upload content. Login if you have account or register</div>';
+} 
+else 
+{
+	template_files('upload.html');
+}
+
 display_it();
 
 ?>
