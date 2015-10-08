@@ -239,7 +239,7 @@
 }
 @media only screen and (max-width: 767px) {
 	#khulja-sim-sim{
-		height: 400px !important;
+		height: 290px !important;
 		overflow-y: auto;
 		font-size: 14px;
 		line-height: 30px !important;
