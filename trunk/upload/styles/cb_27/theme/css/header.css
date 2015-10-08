@@ -237,3 +237,27 @@
     padding: 15px 7px;
   }
 }
+@media only screen and (max-width: 767px) {
+	#khulja-sim-sim{
+		height: 400px !important;
+		overflow-y: auto;
+		font-size: 14px;
+		line-height: 30px !important;
+	}
+	.hvr .dropdown-menu{
+		position: relative !important;
+		
+	}
+	.navbar-container .navbar-nav > li > a{
+		line-height: 30px;
+	}
+	.myaccount-dd .dropdown-toggle{
+		display: block;
+	}
+	.myaccount-dd .dropdown-toggle,
+	.navbar-nav > li > a{
+		margin: 5px 0;
+		padding: 0 10px;
+	}
+
+}
