@@ -76,7 +76,7 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 	{
 	    $.ajax({
 	    	beforeSend:function (argument) {
-	    		$('#'+inner_mode).button('loading');
+	    		$('#'+inner_mode).html('loading');
 	    	},
 		    type: "POST",
 		    url: baseurl + "/ajax.php",
@@ -104,10 +104,10 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 		        
 		         
 		    },
-		    complete:function (argument) {
-		    	$('#'+inner_mode).button('reset');
+		/*    complete:function (argument) {
+		    	$('#'+inner_mode).button().button('reset');
 		    }
-
+*/
 	   });
 	};
 
