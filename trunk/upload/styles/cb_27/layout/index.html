@@ -268,8 +268,10 @@
 							<!-- *********** SECOND PHOTOS END ************ //-->
 							{/if}
 						</div>
+						{elseif $row.photosSection=='yes' && !$result_photos2_08 }
+							<div class="col-md-12 nopadding">No featured Photo</div>
 						{else}
-						<div class="col-md-12 nopadding">No featured Photo</div>
+						<!-- asds -->
 						{/if}	
 					</div>
 
@@ -339,6 +341,9 @@
 				<!-- ******************************************* //-->
 		        <!-- ************* USER BLOCK END ************ //-->
 		        <!-- ******************************************* //-->
+		        <div id="custom_ads_box">
+		        	<div class="fb-page" data-href="https://www.facebook.com/clipbucket" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-show-posts="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/clipbucket"><a href="https://www.facebook.com/clipbucket">ClipBucket</a></blockquote></div></div>
+		        </div>
 		        {if $row.collectionsSection == 'yes'}
 				{$collections = $cbcollection->get_collections(['limit'=>5, 'active'=>'yes'])}
 				<div class="col-md-4 comment_home side_user_home" >
