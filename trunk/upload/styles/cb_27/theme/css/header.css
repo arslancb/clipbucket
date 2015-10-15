@@ -209,6 +209,9 @@
 	background: none !important;
 	color:#000 !important;
 }
+.head_sort_link {
+    margin-bottom: -10px !important;
+  }
 /**/
 @media (min-width: 768px) and (max-width:4000px) {
 .navig-resp-bg, .search-resp-bg{

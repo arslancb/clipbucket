@@ -277,7 +277,7 @@ $svfile = TEMP_DIR.'/'.$file_name.'.'.$ext;
 if(empty($file))
 {
 	echo "error";
-	$array['error'] = "Please enter file url";
+	$array['error'] = "Please  2enter file url";
 	echo json_encode($array);
 	exit();
 }

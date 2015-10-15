@@ -411,13 +411,44 @@
 		</form>
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<style type="text/css">
-	.head_sort_link {
-		margin-bottom: -10px !important;
-	}
-</style>
+
 <script>
+function rm_hvr() {
+	if ( $(window).width() > 767 )
+	{
+		//drop-down
+		/*$(".dropdown.hvr").hover(            
+			function() {
+				$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
+				$(this).toggleClass('open');        
+			},
+			function() {
+				$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
+				$(this).toggleClass('open');       
+			}
+		);*/
+		$(".dropdown.hvr").on("mouseenter",function(){
+			$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
+			//$(this).toggleClass('open');     
+		});
+		$(".dropdown.hvr").on("mouseleave",function(){
+			$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
+			//$(this).toggleClass('open');    
+		});
+
+
+	}
+	else
+	{
+		
+	}
+}
+
+$(window).resize(function(){
+	rm_hvr();
+});
 	$(document).ready(function(){
+		rm_hvr();
 		$(".cbsearchtype a").on({
 			click: function(e){
 				e.preventDefault();
@@ -438,17 +469,17 @@
 			$('.search-type').html(text);
 		});
 
-		//drop-down
-		$(".dropdown.hvr").hover(            
-			function() {
-				$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
-				$(this).toggleClass('open');        
-			},
-			function() {
-				$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
-				$(this).toggleClass('open');       
-			}
-		);
+		// //drop-down
+		// $(".dropdown.hvr").hover(            
+		// 	function() {
+		// 		$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
+		// 		$(this).toggleClass('open');        
+		// 	},
+		// 	function() {
+		// 		$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
+		// 		$(this).toggleClass('open');       
+		// 	}
+		// );
 
 	});
 </script>

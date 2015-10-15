@@ -148,10 +148,9 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 		force_stop = false;		
 		if(!file || file=='undefined')
 		{
-			alert("Please enter file url");
+			$('#error_msgs').html('<div class="alert alert-danger" role="alert"> Please enter valid remote URL</div>');
 			$('#remoteUploadBttn').attr('disabled','').show();
 			$('#remoteUploadBttnStop').attr("disabled","disabled").hide();
-			$('#ytUploadBttn').attr("disabled","");
 			return false;
 		}
 		var ajaxCall = $.ajax({
@@ -216,7 +215,7 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 		force_stop = false;		
 		if(!file || file=='undefined')
 		{
-			alert("Please enter file url");
+			('#error_msgs').html('<div class="alert alert-danger" role="alert"> Please enter valid URL</div>');
 			$('#remoteUploadBttn').button('reset');
 			$('#ytUploadBttn').button('reset');
 			force_stop = true;
