@@ -108,7 +108,27 @@ if(isset($_POST['delete_selected']))
 		
 	$page = mysql_clean($_GET['page']);
 	$get_limit = create_query_limit($page,RESULTS);
+
+	$all_categories = $cbvid->get_categories();
+	$all_category_ids = [];
+
+	foreach ($all_categories as $cats ) {
+		$all_category_ids[] = $cats['category_id'];
+	}
 	
+	if ( isset($_GET['category']) )
+	{
+		if ( $_GET['category'][0] == 'all')
+		{
+			$cat_field = "";
+		}
+		else 
+		{
+			$cat_field = $_GET['category'];
+		}
+	}
+	
+
 	if(isset($_GET['search']))
 	{
 		
@@ -119,7 +139,7 @@ if(isset($_POST['delete_selected']))
 		 'title'	=> $_GET['title'],
 		 'tags'	=> $_GET['tags'],
 		 'user' => $_GET['userid'],
-		 'category' => $_GET['category'],
+		 'category' => $cat_field,
 		 'featured' => $_GET['featured'],
 		 'active'	=> $_GET['active'],
 		 'status'	=> $_GET['status'],
@@ -141,7 +161,7 @@ if(isset($_POST['delete_selected']))
 	$videos = get_videos($result_array);
 	
 	Assign('videos', $videos);	
-//pr($videos,true);
+	//pr($videos,true);
 
 
 	//Collecting Data for Pagination
@@ -151,7 +171,6 @@ if(isset($_POST['delete_selected']))
 	$total_pages = count_pages($total_rows,RESULTS);
 	$pages->paginate($total_pages,$page);
 
-	
 	//Category Array
 	if(is_array($_GET['category']))
 		$cats_array = array($_GET['category']);		
@@ -167,6 +186,7 @@ if(isset($_POST['delete_selected']))
 					'value'=> array('category',$cats_array),
 					'hint_1'=>  lang('vdo_cat_msg'),
 					'display_function' => 'convert_to_categories');
+
 	assign('cat_array',$cat_array);
 //echo $db->db_query;
 subtitle("Video Manager");
