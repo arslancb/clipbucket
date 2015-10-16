@@ -14,11 +14,9 @@
 				<span class="thumb_title">
 				{$video.title|truncate:20}
 				</span>
-				<img class="img" src="{getThumb vdetails=$video size=160x90 } " border="1" />
+				<img class="img" src="{getThumb vdetails=$video size=501x283 } " border="21" />
 			</a>
 			{ANCHOR place='in_video_thumb' data=$video}
-		 	<img src="{$imageurl}/dot.gif" data-quick="quick-{$video.videoid}"
-		 class="add_icon cb_quickie cb-btn-quick-{$video.videoid}" onclick="add_quicklist(this,'{$video.videoid}')" title="Add {$video.title} to Quicklist" alt="Quicklist" />
 		</div>
 	</div>
 </div>
