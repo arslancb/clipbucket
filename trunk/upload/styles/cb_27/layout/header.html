@@ -64,7 +64,7 @@
 			<li class="dropdown hvr hidden-xs mega-dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i>&nbsp;Menu <span class="caret"></span></a>
 				<ul class="dropdown-menu clearfix mega-dropdown-menu">
-					<li class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+					<li class="col col-lg-3 col-md-3 col-sm-4 col-xs-12">
 						<div id="menCollection" class="carousel slide clearfix" data-ride="carousel">
 							<div class="carousel-inner">
 							{$videos=get_videos(["order" =>"date_added DESC", "limit" =>4])}
@@ -90,7 +90,7 @@
 							</a>
 						</div><!-- /.carousel -->
 					</li>
-					<li class="col-lg-9 col-md-9 col-sm-8 clearfix col-xs-12">
+					<li class="col col-lg-9 col-md-9 col-sm-8 clearfix col-xs-12">
 						<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
 							<h2><i class="fa fa-video-camera"></i>&nbsp;Videos</h2>
 							{$sorting_links=sorting_links()}     
@@ -442,12 +442,18 @@ function rm_hvr() {
 		
 	}
 }
-
+//header menu-width function
+function headerMenuWidth(){
+	var headerWidth = $(window).width();
+	$(".mega-dropdown-menu .col:nth-child(2)").css("width",headerWidth-350+"px");
+}
 $(window).resize(function(){
 	rm_hvr();
+	headerMenuWidth();
 });
 	$(document).ready(function(){
 		rm_hvr();
+		headerMenuWidth();
 		$(".cbsearchtype a").on({
 			click: function(e){
 				e.preventDefault();
