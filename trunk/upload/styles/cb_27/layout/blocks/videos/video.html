@@ -10,7 +10,7 @@
             <span class="duration">{if
             $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}{*$video.duration|date_format:$config.time*}
             </span>
-            <img class="img" src="{getThumb vdetails=$video size=160x90 } " border="1" />
+            <img class="img" src="{getThumb vdetails=$video size=500x283 } " border="1" />
         </a>
         {ANCHOR place='in_video_thumb' data=$video}
          <img src="{$imageurl}/dot.gif" data-quick="quick-{$video.videoid}"
@@ -31,7 +31,7 @@
 <div class="col-md-3  col-sm-4  col-xs-6 video_thumb ">
     <a href="{videoLink($video)}" title="{$video.title|title}">
         <span class="fa fa-play play-icon"></span>
-        <img alt="{$video.title|title}" src="{getThumb vdetails=$video size='171x120'}" id="thumbs_{$video.videoid}"  title="{$video.title|title}"/>
+        <img alt="{$video.title|title}" src="{getThumb vdetails=$video size='500x283'}" id="thumbs_{$video.videoid}"  title="{$video.title|title}"/>
     </a>
     <p class="cbHomeVidDuration duration_view">
         {if $video.duration>1}
