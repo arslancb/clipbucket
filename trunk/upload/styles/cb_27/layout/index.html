@@ -86,7 +86,7 @@
 								<div class="col-md-12 text-center nopadding video_thumb_lg">
 									<a href="{videoLink vdetails=$video_01}" title="{$video_01.title}">
 										<span class="play-icon fa fa-play"></span>
-										<img class="cb_img_thum" src="{getThumb vdetails=$video_01 num='4' size='big'}" width="500" height="285" border="0" {ANCHOR place="video_thumb" data=$video_01} />
+										<img class="cb_img_thum" src="{getThumb vdetails=$video_01 num='4' size='500x283'}" width="500" height="285" border="0" {ANCHOR place="video_thumb" data=$video_01} />
 									</a>
 									<div class="cbHomeVidTitle cbHomeVidTitle_Big mouse_hover_on">{$video_01.title|truncate:30}</div>
 								</div>
@@ -103,7 +103,7 @@
 								<div class="col-md-12 text-center nopadding mouse_hover1 featured-video video_thumb" style="{if not $smarty.foreach.foo.last} {/if} " >
 									<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
 										<span class="play-icon fa fa-play"></span>
-										<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='240x133' }" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
+										<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='501x283' }" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
 										<div class="cbHomeVidTitle mouse_hover_on1">{$video_02.title|truncate:10}</div>
 										<div class="cbHomeVidDuration mouse_hover_on1">
 						            		{if $video_02.duration>1}{$video_02.duration|SetTime}{else}00:00{/if}
@@ -120,7 +120,7 @@
 								<div class="col-lg-4 col-md-4 col-sm-6 hidden-xs video_thumb text-center nopadding-right mouse_hover featured-video {if $video_02@iteration==4}nopadding{/if} ">
 									<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
 										<span class="play-icon fa fa-play"></span>
-										<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='240x133'}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
+										<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='501x283'}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
 									
 										<div class="cbHomeVidTitle mouse_hover_on">{$video_02.title|truncate:10}</div>
 
