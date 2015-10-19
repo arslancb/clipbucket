@@ -433,8 +433,15 @@ class myquery {
 		//Checking maximum comments characters allowed
 		if(defined("MAX_COMMENT_CHR"))
 		{
-			if(strlen($comment) > MAX_COMMENT_CHR)
+			$comment_len = strlen($comment);
+			if( $comment_len > MAX_COMMENT_CHR) 
+			{
 				e(sprintf("'%d' characters allowed for comment",MAX_COMMENT_CHR));
+			}
+			elseif ( $comment_len < 15 )
+			{
+				e("Comment is too short. It should be atleast 15 characters");
+			}
 		}
 		if(!verify_captcha())
 			e(lang('usr_ccode_err'));
