@@ -61,9 +61,9 @@
 		</div>
 
 		<ul class="nav navbar-nav main-nav navbar-collapse collapse manual-height left-margin-xero pad-left-xero" id="khulja-sim-sim">
-			<li class="dropdown hvr hidden-xs mega-dropdown">
+			<li class="dropdown hidden-xs mega-dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i>&nbsp;Menu <span class="caret"></span></a>
-				<ul class="dropdown-menu clearfix mega-dropdown-menu">
+				<ul class="dropdown-menu clearfix mega-dropdown-menu noclose">
 					<li class="col col-lg-3 col-md-3 col-sm-4 col-xs-12">
 						<div id="menCollection" class="carousel slide clearfix" data-ride="carousel">
 							<div class="carousel-inner">
@@ -246,7 +246,7 @@
 		<!-- Shown to Large displays only Start -->
 		<ul class="nav navbar-nav navbar-right nav-login-btns">
 			{if userid()}
-			<li class="dropdown myaccount-dd">
+			<li class="dropdown hvr myaccount-dd">
 				<span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown"> <img class="img-circle" src="{$usr_head_thumb}" style="width: 40px; height: 40px;"/> <b class="caret"></b></span>
 				<ul class="dropdown-menu no-padding">
 					<li>
@@ -415,27 +415,12 @@
 function rm_hvr() {
 	if ( $(window).width() > 767 )
 	{
-		//drop-down
-		/*$(".dropdown.hvr").hover(            
-			function() {
-				$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
-				$(this).toggleClass('open');        
-			},
-			function() {
-				$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
-				$(this).toggleClass('open');       
-			}
-		);*/
 		$(".dropdown.hvr").on("mouseenter",function(){
 			$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
-			//$(this).toggleClass('open');     
 		});
 		$(".dropdown.hvr").on("mouseleave",function(){
 			$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
-			//$(this).toggleClass('open');    
 		});
-
-
 	}
 	else
 	{
@@ -473,18 +458,5 @@ $(window).resize(function(){
 			var text = _this.html();
 			$('.search-type').html(text);
 		});
-
-		// //drop-down
-		// $(".dropdown.hvr").hover(            
-		// 	function() {
-		// 		$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
-		// 		$(this).toggleClass('open');        
-		// 	},
-		// 	function() {
-		// 		$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
-		// 		$(this).toggleClass('open');       
-		// 	}
-		// );
-
 	});
 </script>
