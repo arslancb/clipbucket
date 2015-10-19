@@ -1756,7 +1756,7 @@ function decode64(input) {
 					{
 						$("#comment_err_output").fadeIn();
 						$("#comment_err_output").html(data.err);
-						setTimeout(function(){ $("#comment_err_output").fadeOut(); }, 3000);
+						setTimeout(function(){ $("#comment_err_output").fadeOut(); }, 10000);
 
 						var str = data.err;
 						var string_finder = str.substring(0, 12);
