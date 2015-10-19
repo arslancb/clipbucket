@@ -429,6 +429,7 @@ class myquery {
 	 */
 	function add_comment($comment,$obj_id,$reply_to=NULL,$type='v',$obj_owner=NULL,$obj_link=NULL,$force_name_email=false)
 	{
+		
 		global $userquery,$eh,$db,$Cbucket;
 		//Checking maximum comments characters allowed
 		if(defined("MAX_COMMENT_CHR"))
@@ -438,9 +439,9 @@ class myquery {
 			{
 				e(sprintf("'%d' characters allowed for comment",MAX_COMMENT_CHR));
 			}
-			elseif ( $comment_len < 15 )
+			elseif ( $comment_len < 5 )
 			{
-				e("Comment is too short. It should be atleast 15 characters");
+				e("Comment is too short. It should be atleast 5 characters");
 			}
 		}
 		if(!verify_captcha())
@@ -479,7 +480,7 @@ class myquery {
 			$name = mysql_clean($_POST['name']);
 			$email = mysql_clean($_POST['email']);
 		}
-		
+		//pr(error_list(),true);
 		if(empty($eh->error_list))
 		{
 			$db->insert(tbl("comments"),array

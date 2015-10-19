@@ -47,7 +47,7 @@
                 <textarea name="comment" id="comment_box" class="form-control" placeholder="Please type something in a comment box"></textarea>
         </div>
         <div class="col-lg-12" style="margin:15px 0 15px 0;">
-           <input type="button" name="add_comment" id="add_comment_button" class="btn btn-primary btn-block" onclick="add_comment_js('comment_form','{$type}','$vdo.video_id')" value='Add Comment'>
+           <input type="button" name="add_comment" id="add_comment_button" class="btn btn-primary btn-block"  value='Add Comment'>
         </div>
         <div class="col-lg-10 col-md-9 col-sm-9 col-xs-9" id="msg_container"></div>
     </form>
@@ -61,5 +61,20 @@
 </div>
 
 <script type="text/javascript">
-    comment_onEnter();
+    $(document).ready(function(){
+        var form_selector = 'comment_form';
+        var type = '{$type}';
+        var video_id = '{$vdo.video_id}';
+        $('body').on("click","#add_comment_button",function(){
+            add_comment_js(form_selector,type,video_id);
+        });
+        $('#comment_box').keypress(function(e){
+            if(e.keyCode == 13 && !e.shiftKey)
+            {
+                e.preventDefault();
+                add_comment_js(form_selector,type,video_id);
+            }
+            });
+        });
+    
 </script>

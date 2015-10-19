@@ -679,6 +679,7 @@ if(!empty($mode))
 		case 'add_comment';
 		{
 			$type = $_POST['type'];
+			$comment = mysql_clean($_POST['comment']);
 			switch($type)
 			{
 				case 'v':
@@ -686,7 +687,6 @@ if(!empty($mode))
 				default:
 				{
 					$id = mysql_clean($_POST['obj_id']);
-					$comment = mysql_clean($_POST['comment']);
 					if($comment=='undefined')
 						$comment = '';
 					$reply_to = $_POST['reply_to'];
@@ -699,7 +699,6 @@ if(!empty($mode))
 				{
 					
 					$id = mysql_clean($_POST['obj_id']);
-					$comment = $_POST['comment'];
 					if($comment=='undefined')
 						$comment = '';
 					$reply_to = $_POST['reply_to'];
@@ -712,7 +711,6 @@ if(!empty($mode))
 				{
 					
 					$id = mysql_clean($_POST['obj_id']);
-					$comment = $_POST['comment'];
 					if($comment=='undefined')
 						$comment = '';
 					$reply_to = $_POST['reply_to'];
@@ -725,7 +723,6 @@ if(!empty($mode))
 				case 'collection':
 				{
 					$id = mysql_clean($_POST['obj_id']);
-					$comment = $_POST['comment'];
 					if($comment=='undefined')
 						$comment = '';
 					$reply_to = $_POST['reply_to'];
@@ -738,7 +735,6 @@ if(!empty($mode))
 				case "photo":
 				{
 					$id = mysql_clean($_POST['obj_id']);
-					$comment = $_POST['comment'];
 					if($comment=='undefined')
 						$comment = '';
 					$reply_to = $_POST['reply_to'];
