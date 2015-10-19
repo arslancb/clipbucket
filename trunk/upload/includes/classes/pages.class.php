@@ -251,7 +251,7 @@ class pages{
 		$pagination_start = 14;
 		$display_page = 7;
 		$this->selected = $selected = $page;
-		$hellip = '&hellip;';
+		$hellip = '<a>&hellip;</a>';
 		$first_hellip = '';
 		$second_hellip = '';
 		
