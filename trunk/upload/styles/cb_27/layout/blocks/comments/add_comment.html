@@ -2,7 +2,7 @@
     {if $userquery->login_check('',true) || $Cbucket->configs.anonym_comments == 'yes' }
     <form name="comment_form" method="post" action="" id="comment_form" onsubmit="return false;">
         <div class="col-lg-12">
-                <span id="comment_err_output" class="alert alert-danger comment_err_output pull-left" style="display:none;"></span>
+                <span id="comment_err_output" class="alert alert-danger comment_err_output pull-left" style="display:none;width:100%"></span>
                 <span id="comment_msg_output" class="alert alert-success comment_msg_output pull-left" style="display:none;"></span>
                 <input type="hidden" name="reply_to" id="reply_to" value="0">
                 <input type="hidden" name="obj_id" id="obj_id" value="{$id}">
