@@ -1729,12 +1729,32 @@ function decode64(input) {
 
 	}
 
+	function comment_onEnter() {
+		$('textarea').bind("enterKey",function(e){
+            });
+            $('textarea').keyup(function(e){
+                if(e.keyCode == 13 && !e.shiftKey)
+                {
+                    add_comment_js('comment_form','{$type}','$vdo.video_id');
+                }
+        });
+	}
+
 	function add_comment_js(form_id,type)
 	{   
 		$("#add_comment_result").css("display","block");
 		$("#add_comment_button").val('Uploading...');
 		$("#add_comment_button").attr("disabled",true);
 		$(".add-reply").attr("disabled",true);
+
+		$('textarea').bind("enterKey",function(e){
+            });
+            $('textarea').keyup(function(e){
+                if(e.keyCode == 13 && !e.shiftKey)
+                {
+                    add_comment_js('comment_form','{$type}','$vdo.video_id');
+                }
+            });
 		
 		//var captcha_enabled =  $("#" + form_id + " input:#cb_captcha_enabled").val();
 		
@@ -1775,6 +1795,7 @@ function decode64(input) {
 					$('.no-comments').remove();
 					get_the_comment(data.cid,data.type_id,"#comments-ul");
 				}
+
 			}
 		},'json');
 	}
