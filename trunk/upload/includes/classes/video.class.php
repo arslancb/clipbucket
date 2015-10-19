@@ -691,7 +691,11 @@ class CBvideo extends CBCategory
 			{
 				if(file_exists(VIDEOS_DIR.'/'.$file) && is_file(VIDEOS_DIR.'/'.$file))
 					unlink(VIDEOS_DIR.'/'.$file);
-				$fn = substr($file, 0, -7);
+
+				//Extracting File Name for Video File 
+				$fn = explode('-', $file);
+				$fn = $fn[0];
+
 				$result = db_select("SELECT * FROM ".tbl("video")." WHERE file_name = '$fn'");
 				if($result)
 				{
