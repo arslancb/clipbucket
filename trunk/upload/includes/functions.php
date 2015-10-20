@@ -3666,12 +3666,7 @@
 			{
 				preg_match('@^(?:ffmpeg version)?([^C]+)@i',$result, $matches);
 				$host = $matches[1];
-
-				// get last two segments of host name
-				preg_match('/[^.]+\.[^.]+$/', $host, $matches);
-				//echo "{$matches[0]}\n";
-				$version = "{$matches[0]}";
-				return $version;
+				return $host;
 			}
 			elseif (preg_match("/ffmpeg version/i", $result))
 			{
