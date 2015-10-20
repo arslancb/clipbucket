@@ -115,9 +115,7 @@ if(!function_exists('html5_player'))
 			break;
 		    }
 		
-            //getting hq test for HD button
-            $hq_file = $video_play[1];
-            assign('HQ',$hq_file);
+            
 		
             assign('top',$position["top"]);
             assign('left',$position["left"]);
@@ -150,18 +148,32 @@ if(!function_exists('html5_player'))
             {
 	            if($video_play[0])
 	            {
-		            assign('application_videos',$video_play[0]);
-
-		            if ($video_play[1] == '')
-		            {	
-			            assign('normal_vid_file',$video_play[0]);
-			            assign('hq_vid_file','');
+		            $quality = get_quality($video_play);
+		            if ($quality == 'hd' || $quality == 'sd')
+		            {
+		            	assign('application_videos',true);
+						if ($video_play[1] == '')
+			            {	
+				            assign('normal_vid_file',$video_play[0]);
+				            assign('hq_vid_file','');
+			            }
+			            else
+			            {
+				            assign('normal_vid_file',$video_play[1]);	
+				            assign('hq_vid_file',$video_play[0]);
+				            assign('HQ',true);
+			            }
 		            }
 		            else
 		            {
-			            assign('normal_vid_file',$video_play[1]);	
-			            assign('hq_vid_file',$video_play[0]);
+		            	$video_play = process_app_videos($video_play);
+		            	$json_array = json_encode($video_play);
+			            assign('json_videos',$json_array);
+			            $video_play = array_reverse($video_play, true);
+			            assign('ms_videos',$video_play);
+
 		            }
+		            
 	            }
 	            else
 	            {	
@@ -193,13 +205,31 @@ if(!function_exists('html5_player'))
 		}
 	}
 
+	// function used to get quality of a file 
+	function get_quality($file)
+	{
+		$quality = explode('-', $file);
+	    $quality = end($quality);
+	    $quality = explode('.',$quality);
+	    $quality = $quality[0];
+	    return $quality;
+	}
 
+	// function used to index the video files array as 240,360....
+	function process_app_videos($array)
+	{
+		$video_files = $array;
+		$results = array();
+		foreach ($video_files as $key => $file) 
+		{
+			$quality = get_quality($file);
+		    $results[$quality] = $file;
+		}
+		
+		return $results;
+	}
 
-     
-	register_actions_play_video('html5_player');
-  // $Cbucket->add_header(HTML5_PLAYER_DIR.'/html5_player_header.html');
-  
-     
+	register_actions_play_video('html5_player'); 
 	
 }
 
