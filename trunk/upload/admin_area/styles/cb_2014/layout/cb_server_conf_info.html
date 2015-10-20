@@ -44,7 +44,7 @@ A brief view of PHP server configuration Info
 
 <div class="well">
   	<h4>MAX EXECUTION TIME </h4>
-    {if $max_execution_time >= 300}
+    {if $max_execution_time > 7200}
     <img style="float:left;" src="{$imageurl}/button_ok.png"/>
     <div ><strong> &nbsp;&nbsp;{$max_execution_time}</strong></div>
     {else}
