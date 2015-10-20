@@ -148,7 +148,7 @@ if(!function_exists('html5_player'))
             {
 	            if($video_play[0])
 	            {
-		            $quality = get_quality($video_play);
+		            $quality = get_quality($video_play[0]);
 		            if ($quality == 'hd' || $quality == 'sd')
 		            {
 		            	assign('application_videos',true);
