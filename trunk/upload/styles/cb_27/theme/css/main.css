@@ -855,14 +855,14 @@ a:focus {
   line-height: 37px;
   margin-left: 20px;
 }
-.navbar-container .cb-logo {
+/*.navbar-container .cb-logo {
   background: url('../../images/logo.png') no-repeat;
   width: 213px;
   height: 40px;
   text-indent: -500000px;
   display: inline-block;
   margin: 14px 0 0 20px;
-}
+}*/
 /**/
 /*.nopadding .fb-like-box.fb_iframe_widget .pas{ display: none !important;}*/
 /**/
@@ -4388,6 +4388,7 @@ small {
   background: url('../../images/logo.png') no-repeat;
   width: 188px;
   height: 36px;
+  background-size: 100%;
   text-indent: -500000px;
   display: inline-block;
   margin-top: 12px;
