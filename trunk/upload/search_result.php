@@ -11,7 +11,7 @@ require 'includes/config.inc.php';
 $pages->page_redir();
 						
 $page = mysql_clean($_GET['page']);
-$type = mysql_clean($_GET['type']) ;
+$type = mysql_clean(strtolower($_GET['type'])) ;
 $type = $type ? $type : 'videos';
 $chkType = $type;
 //Checking if search for specific section is allowed or not
