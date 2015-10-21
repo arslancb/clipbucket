@@ -50,9 +50,13 @@
 	define('LAYOUT',TEMPLATEDIR.'/layout');
         
         define('TEMPLATE',$row['template_dir']);
+    /*
+	* Calling this function to check server configs
+	* Checks : MEMORY_LIMIT, UPLOAD_MAX_FILESIZE, POST_MAX_SIZE, MAX_EXECUTION_TIME
+	* If any of these configs are less than required value, warning is shown
+    */
+    check_server_confs();    
 
-        
-	
 	Assign('baseurl',BASEURL);
 	Assign('admindir',ADMINDIR);
 	Assign('imageurl',TEMPLATEURL.'/images');
@@ -63,8 +67,7 @@
 	Assign('theme_url',TEMPLATEURL.'/theme');
 	Assign('style_dir',LAYOUT);
 	Assign('layout_dir', LAYOUT);
-	
-	
+
 	Assign('logged_user',@$_SESSION['username']);
 	Assign('superadmin',@$_SESSION['superadmin']);
 	
