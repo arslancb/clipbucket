@@ -12,7 +12,7 @@ $db->update(tbl("users"),array
 //Login user
 $userquery->login_user(post('username'),post('password'))
 
-?><?//=msg_arr(array('msg'=>'Admin details have been updated'))?>
+?>
 
 
 </div>
