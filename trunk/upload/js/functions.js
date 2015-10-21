@@ -1001,7 +1001,8 @@ function spam_comment(cid,type,typeid)
 				}
 				if(data.err)
 				{
-					alert(data.err)
+					$('#comment_err_output').fadeIn('slow')
+					$('#comment_err_output').html(data.err);
 				}
 			}
 		},'json');
