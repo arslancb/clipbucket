@@ -59,7 +59,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (56, 'allow_language_change', '1'),
 (57, 'default_site_lang', ''),
 (58, 'video_require_login', ''),
-(59, 'audio_codec', 'libfaac'),
+(59, 'audio_codec', 'libfdk_aac'),
 (60, 'con_modules_type', ''),
 (61, 'remoteUpload', ''),
 (62, 'embedUpload', ''),
