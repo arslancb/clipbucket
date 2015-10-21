@@ -67,7 +67,7 @@
 					<li class="col col-lg-3 col-md-3 col-sm-4 col-xs-12">
 						<div id="" class="carousel slide clearfix" data-ride="carousel">
 							<div class="carousel-inner">
-							{$videos=get_videos(["order" =>"date_added DESC", "limit" =>4])}
+							{$videos=get_videos(["order" =>"date_added DESC", "limit" =>4, "featured"=>"yes"])}
 							{if $videos}
 				        	{foreach $videos as $video}
 				        	{if $video@iteration == 1}
@@ -91,7 +91,9 @@
 							</a>
 						</div><!-- /.carousel -->
 						{else}
-						No Featured Video Found
+						<span class="well well-info btn-block">
+						No Featured Video Added !
+						</span>
 						{/if} 
 					</li>
 					<li class="col col-lg-9 col-md-9 col-sm-8 clearfix col-xs-12">
