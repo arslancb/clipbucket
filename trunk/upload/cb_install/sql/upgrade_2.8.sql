@@ -8,3 +8,4 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'ge
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'gen_480', 'yes');
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'gen_720', 'no');
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'gen_1080', 'no');
+INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'photo_activation', 'yes');
