@@ -5155,12 +5155,12 @@
 			$_GET['time'] = 'all_time';
 
 		$array = array
-		('most_recent' 	=> lang('recent'),
+		('view_all'	=> lang('All'),
+		'most_recent' 	=> lang('recent'),
 		 'most_viewed'	=> lang('viewed'),
 		 'featured'		=> lang('featured'),
 		 'top_rated'	=> lang('top_rated'),
-		 'most_commented'	=> lang('commented'),
-		 'view_all'	=> lang('All'),
+		 'most_commented'	=> lang('commented')
 		 );
 		return $array;
 	}

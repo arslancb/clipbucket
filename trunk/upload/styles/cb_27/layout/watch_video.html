@@ -110,7 +110,8 @@
                                   {$quality = explode('.',$quality.1)}
                                   {$file_quality = $quality.0}
                                     <li role="presentation">
-                                        <a role="menuitem" tabindex="-1" href="{$file}"  download>{$vdo.file_name}-{$file_quality}&nbsp;&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-download-alt"></span></a>
+                                        <a role="menuitem" tabindex="-1" href="{$file}"  download>
+                                        <span class="glyphicon glyphicon-download-alt"></span>{$file_quality}</a>
                                         
                                     </li>
                                   {/foreach}

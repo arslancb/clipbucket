@@ -910,6 +910,7 @@ if(!empty($mode))
 		case 'delete_comment':
 		{
 			$type = $_POST['type'];
+			#pr($_POST,true);
 			switch($type)
 			{
 				case 'v':
@@ -927,6 +928,13 @@ if(!empty($mode))
 					$cid = mysql_clean($_POST['cid']);
 					$type_id = $myquery->delete_comment($cid);
 					$userquery->update_comments_count($type_id);
+				}
+				case 'photo':
+				case 'p':
+				{
+					$cid = mysql_clean($_POST['cid']);
+					$type_id = $myquery->delete_comment($cid);
+					$cbphoto->update_total_comments($type_id);
 				}
 				break;
 				case 't':

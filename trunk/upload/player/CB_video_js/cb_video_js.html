@@ -5,7 +5,7 @@
 <script src="{$cb_vjs_player_url}/js/video.dev.js"></script>
 <script src="{$cb_vjs_player_url}/js/cb_vjs_res.js"></script>
 
-<video id="cb_video_js" class="video-js vjs-default-skin" width="{$width}" height="{$height}" poster="{getThumb vdetails=$vdata}" >
+<video id="cb_video_js" class="video-js vjs-default-skin" width="{$width}" height="{$height}" poster="{getThumb vdetails=$vdata size=500x283}" >
     {foreach $video_files as $file}
     {$quality = explode('-', $file)}
     {$quality = end($quality)}
