@@ -42,14 +42,12 @@ $db->update(tbl("config"),array("value"),array(now())," name='date_installed'");
 $db->update(tbl("config"),array("value"),array($released['version'])," name='version'");
 $db->update(tbl("config"),array("value"),array($released['state'])," name='type'");
 
-//$arr['msg'] = "Installation details have been updated";
-//echo msg_arr($arr);
+
 echo '<span class="glyphicon glyphicon-ok"  style="color:#fff"></span><span style="color:#fff"> Installation details have been updated</span>';
 
 $lang_obj->updateFromPack('en');
 
-//$arr['msg'] = "Language phrases have been imported";
-//echo "<br>".msg_arr($arr);
+
 echo '<br><span class="glyphicon glyphicon-ok"  style="color:#fff"></span><span style="color:#fff"> Language phrases have been imported</span>';
 ?>
 
