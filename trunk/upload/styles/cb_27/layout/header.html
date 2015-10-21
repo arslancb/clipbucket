@@ -65,9 +65,10 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i>&nbsp;Menu <span class="caret"></span></a>
 				<ul class="dropdown-menu clearfix mega-dropdown-menu noclose">
 					<li class="col col-lg-3 col-md-3 col-sm-4 col-xs-12">
-						<div id="menCollection" class="carousel slide clearfix" data-ride="carousel">
+						<div id="" class="carousel slide clearfix" data-ride="carousel">
 							<div class="carousel-inner">
 							{$videos=get_videos(["order" =>"date_added DESC", "limit" =>4])}
+							{if $videos}
 				        	{foreach $videos as $video}
 				        	{if $video@iteration == 1}
 				        	<div class="item active">
@@ -77,7 +78,7 @@
 								{include file="$style_dir/blocks/videos/video_head.html"}
 							</div>
 				        	{/foreach}
-							                               
+							                              
 							</div><!-- End Carousel Inner -->
 						  	<!-- Controls -->
 							<a class="left carousel-control" href="#menCollection" role="button" data-slide="prev">
@@ -89,6 +90,9 @@
 								<span class="sr-only">Next</span>
 							</a>
 						</div><!-- /.carousel -->
+						{else}
+						No Featured Video Found
+						{/if} 
 					</li>
 					<li class="col col-lg-9 col-md-9 col-sm-8 clearfix col-xs-12">
 						<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
