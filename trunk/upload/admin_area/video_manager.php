@@ -110,7 +110,7 @@ if(isset($_POST['delete_selected']))
 	$get_limit = create_query_limit($page,RESULTS);
 
 	$all_categories = $cbvid->get_categories();
-	$all_category_ids = [];
+	$all_category_ids = array();
 
 	foreach ($all_categories as $cats ) {
 		$all_category_ids[] = $cats['category_id'];
