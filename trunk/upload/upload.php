@@ -72,7 +72,7 @@ if(has_access('allow_video_upload',false,$verify_logged_user))
             /**
             * Function used to get direct URL of YT video on Embed Upload
             */
-            if ( defined(YT_CLIP_INSTALLED) )
+            if ( defined('YT_CLIP_INSTALLED') )
             {
 				get_direct_url_embed_upload($vid);
             }
