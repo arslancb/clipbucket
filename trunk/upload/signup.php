@@ -41,7 +41,10 @@ if($userquery->login_check('',true)){
 			
 		else
 		{
-			$signup = $userquery->signup_user($_POST,true);
+			$form_data = $_POST;
+			$signup_data = $form_data;
+			$signup_data['email'] = mysql_clean($signup_data['email']);
+			$signup = $userquery->signup_user($signup_data,true);
 			if($signup)
 			{
 				$udetails = $userquery->get_user_details($signup);
