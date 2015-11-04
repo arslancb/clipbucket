@@ -151,10 +151,9 @@ Assign('u_control', $profile);
 	{
 		if(($perms == 'friends' || $perms == 'members') && !userid())
 		{
+			global $Cbucket;
 			e(lang('you_cant_view_profile'));
-			
-			if(!has_access('admin_access',true))
-				$Cbucket->show_page = false;
+			$Cbucket->show_page = false;
 		}elseif($perms == 'friends' && !$userquery->is_confirmed_friend($udetails['userid'],userid()))
 		{
 			e(sprintf(lang('only_friends_view_channel'),$udetails['username']));
@@ -212,7 +211,7 @@ if($Cbucket->show_page){
 }
 else
 {
-    $Cbucket->show_page = true;
+
     if($udetails)
         template_files('view_channel.html');
     display_it();
