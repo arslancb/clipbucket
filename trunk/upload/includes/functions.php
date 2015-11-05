@@ -618,7 +618,15 @@
 		$order = $params['order'];
 		$limit = $params['limit'];
 		$type = $params['type'];
+		pr($params,true);
 		$cond = '';
+
+		if(!empty($params['videoid']))
+		{
+			$cond .= 'type_id='.$params['videoid'];
+			$cond .= ' AND ';
+		}
+
 		if(empty($type))
 			$type = "v";
 		$cond .= tbl("comments.type")." = '".$type."'";
@@ -647,7 +655,7 @@
 
         if($limit)
             $query .=" LIMIT ".$limit;
-
+echo $query;
 		if(!$params['count_only'])
         {
    

@@ -70,6 +70,7 @@ if(@$_GET['msg']){
     $type = "v";
     $comment_cond = array();
     $comment_cond['order'] = " comment_id DESC";
+    $comment_cond['videoid'] = $video;
     $comments = getComments($comment_cond);
     assign("comments",$comments);
 
