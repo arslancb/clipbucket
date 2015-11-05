@@ -219,7 +219,7 @@ $videos = get_videos($result_array);
 
 Assign('videos', $videos);
 
-
+$comment_cond['limit'] = 10;
 $comments = getComments($comment_cond);
 assign("comments",$comments);
 
