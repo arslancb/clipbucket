@@ -618,7 +618,6 @@
 		$order = $params['order'];
 		$limit = $params['limit'];
 		$type = $params['type'];
-		pr($params,true);
 		$cond = '';
 
 		if(!empty($params['videoid']))
@@ -655,7 +654,7 @@
 
         if($limit)
             $query .=" LIMIT ".$limit;
-echo $query;
+
 		if(!$params['count_only'])
         {
    
