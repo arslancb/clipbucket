@@ -3085,15 +3085,64 @@ class userquery extends CBCategory{
 		else
 			return false;
 	}
-	
+
+	/*
+	* Get number of all unread messages of a user using his userid
+	*/
+
+	function get_unread_msgs( $userid, $label = false )
+	{
+		global $db;
+		$userid = '#'.$userid.'#';
+		$results = $db->select(tbl("messages"),"*", "message_to='$userid' AND message_status='unread'");
+		$count = count($results);
+
+		if ( $label )
+		{
+			echo '<span class="label label-default">'.$count.'</span></h3>';
+		}
+
+		return $count;
+	}
+
+	/*
+	* Get number of all read messages of a user using his userid
+	*/
+
+	function get_read_msgs( $userid, $label = false )
+	{
+		global $db;
+		$results = $db->select(tbl("messages"),"*", "message_to='$userid' AND message_status='read'");
+		$count = count($results);
+
+		if ( $label )
+		{
+			echo '<span class="label label-danger">'.$count.'</span></h3>';
+		}
+
+		return $count;
+	}
+
+	function show_unread_alrt( $userid, $class )
+	{
+		$unread_msgs = $this->get_unread_msgs( $userid );
+
+		if ( $unread_msgs > 0 )
+		{
+			echo "<div class='".$class." alert alert-warning'>You have <a href=".BASEURL."/private_message.php?mode=inbox><span style='color: black'><strong>".$unread_msgs."<strong> unread messages </a> in your inbox</div>";
+		}
+		else
+		{
+			return false;
+		}
+	}
 	
 	/**
 	 * My Account links Edited on 12 march 2014 for user account links
 	 */
     function my_account_links()
     {
-
-
+   
         $array[lang('account')]	=
             array
             (
@@ -3136,7 +3185,7 @@ class userquery extends CBCategory{
             );
         $array[lang('messages')] = array
         (
-            lang('inbox')	=> 'private_message.php?mode=inbox',
+            lang('inbox ('.$this->get_unread_msgs($this->userid).')')	=> 'private_message.php?mode=inbox',
             lang('notifications') => 'private_message.php?mode=notification',
             lang('sent')	=> 'private_message.php?mode=sent',
             lang('title_crt_new_msg')=> cblink(array('name'=>'compose_new')),
