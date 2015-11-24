@@ -10,6 +10,24 @@ Version: 1.0
 Website: http://clip-bucket.com/
 Plugin Type: global
 */
+
+
+define("CB_EP_BASE",basename(dirname(__FILE__)));
+
+define("CB_EP_BASEDIR",PLUG_DIR.'/'.CB_EP_BASE);
+define("CB_EP_BASEURL",PLUG_URL.'/'.CB_EP_BASE);
+
+define("CB_EP_ADMIN_DIR", CB_EP_BASEDIR.'/admin');
+define("CB_EP_ADMIN_URL", CB_EP_BASEURL.'/admin');
+
+define("CB_EP_INC_DIR", CB_EP_BASEDIR.'/includes');
+
+assign("ep_admin_dir",CB_EP_ADMIN_DIR);
+assign("ep_admin_url",CB_EP_ADMIN_URL);
+assign("ep_ajax_url",CB_EP_BASEURL.'/ajax.php');
+
+
+
 													   
 
 if(!function_exists('editors_pick'))
@@ -244,8 +262,7 @@ $cbvid->video_manager_link_new[] = 'admin_area_tab';
 
 //Calling Editor Picks Function
 $cbvid->video_manager_funcs[] = 'editors_pick';
-//ADding Admin Menu
-add_admin_menu('Videos','Editor\'s Pick','editor_pick.php');
+
 //Adding Anchor Function
 register_anchor_function(array('show_editor_pick'=>'index_right_top'));
 //Registering Delete Action
@@ -253,6 +270,9 @@ register_action_remove_video('remove_vid_editors_pick');
 //ADding Header.html
 $file = PLUG_DIR.'/editors_pick/header.html';
 $Cbucket->add_header($file,array('index'));
+
+//ADding Admin Menu
+add_admin_menu('Videos','Editor\'s Pick','editor_pick.php',CB_EP_BASE.'/admin');
 
 }
 ?>
