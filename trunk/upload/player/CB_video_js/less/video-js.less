@@ -77,11 +77,11 @@ The control icons are from a custom font. Each icon corresponds to a character
 
 @font-face {
 	font-family: 'icomoon';
-	src:url('../fonts/icomoon.eot?-5ejonp');
-	src:url('../fonts/icomoon.eot?#iefix-5ejonp') format('embedded-opentype'),
-		url('../fonts/icomoon.ttf?-5ejonp') format('truetype'),
-		url('../fonts/icomoon.woff?-5ejonp') format('woff'),
-		url('../fonts/icomoon.svg?-5ejonp#icomoon') format('svg');
+	src:url('../fonts/icomoon.eot?x8l9t5');
+	src:url('../fonts/icomoon.eot?x8l9t5#iefix') format('embedded-opentype'),
+		url('../fonts/icomoon.ttf?x8l9t5') format('truetype'),
+		url('../fonts/icomoon.woff?x8l9t5') format('woff'),
+		url('../fonts/icomoon.svg?x8l9t5#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -100,6 +100,9 @@ The control icons are from a custom font. Each icon corresponds to a character
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-cc:before {
+	content: "\e900";
+}
 .icon-setting:before {
 	content: "\e613";
 }
@@ -192,7 +195,7 @@ The control icons are from a custom font. Each icon corresponds to a character
 @spinner3-icon: "\e01e";
 @spinner4-icon: "\e01f";
 @subtitles-icon: "\e00c";
-@captions-icon: "\e008";
+@captions-icon: "\e900";
 @chapters-icon: "\e00c";
 @share-icon: "\e00e";
 @cog-icon: "\e600";
@@ -915,6 +918,17 @@ easily in the skin designer. http://designer.videojs.com/
 /* Captions Button */
 .vjs-default-skin .vjs-captions-button:before {
 	content: @captions-icon;
+	font-size: 14px;
+	margin: 5px 0 0 3px;
+}
+.vjs-default-skin .vjs-captions-button:after {
+	content: '';
+	position: absolute;
+	height: 1px;
+	left: 6px;
+	bottom:5px; 
+	width: 23px;
+	background-color: @progress-color;
 }
 
 /* Chapters Button */
