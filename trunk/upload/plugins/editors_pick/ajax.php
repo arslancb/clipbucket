@@ -51,7 +51,7 @@ if(!empty($mode))
 			move_uploaded_file($file['tmp_name'],$file_path);
 			$imgObj->CreateThumb($file_path,$file_path,$width,$ext,$height,false);
 
-			echo json_encode(array('msg'=>'Your Thumb has been Uploaded. Please Go to  custom thumbs manager to set it as a default <a href="'.BASEURL.'/admin_area/upload_thumbs.php?video=969" target="self" > Custom Thumb Manger </a>'));
+			echo json_encode(array('msg'=>'Your Thumb has been Uploaded. Please Go to  custom thumbs manager to set it as a default <a href="'.BASEURL.'/admin_area/upload_thumbs.php?video='.$video_id.'" target="self" > Custom Thumb Manger </a>'));
 		}
 		break;
 	}
