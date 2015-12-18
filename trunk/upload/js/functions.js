@@ -181,7 +181,7 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 				  var vid = data.vid;
 				  
 				   $.post(baseurl+'/actions/file_uploader.php',
-				  {"getForm":"get_form","title":$("#remote_file_url").val(),"objId":remoteObjID},
+				  {"getForm":"get_form","title":$("#remote_file_url").val(),"objId":remoteObjID,"vid":vid},
 				  function(data)
 				  {
 					    $('#remoteUploadBttnStop').hide();
