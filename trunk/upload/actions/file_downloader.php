@@ -6,10 +6,10 @@
  * in prior version, this file was not so reliable
  * this time it has complete set of instruction 
  * and proper downloader
- * @author : Arslan Hassan
+ * @author : Arslan Hassan, Saqib Razzaq
  * @license : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * @since : 01 July 2009
- * @last_modified: 9th July, 2015 (Implementation of YouTube API 3) 
+ * @last_modified: 18th December, 2015 (YouTube Thumbs Qulaity Improved) 
  */
 
 
@@ -83,7 +83,7 @@ if(isset($_POST['youtube']))
 	// grabs video details (snippet, contentDetails)
 	$youtube_content = file_get_contents('https://www.googleapis.com/youtube/v3/videos?id='.$YouTubeId.'&key=AIzaSyDOkg-u9jnhP-WnzX5WPJyV1sc5QQrtuyc&part=snippet,contentDetails');
 	$content = json_decode($youtube_content);
-	
+
 	//$content = xml2array('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId);
 
 	// getting things such as title out of Snippet
@@ -145,12 +145,12 @@ if(isset($_POST['youtube']))
 	$vid_array['tags'] 			= $data->title;
 	$vid_array['duration'] 		= $total;
 	
-	
+	$thumbs_array = $data->thumbnails;
+
 	$vid_array['thumbs'] = 
-	array('http://i3.ytimg.com/vi/'.$YouTubeId.'/1.jpg','http://i3.ytimg.com/vi/'.
-	$YouTubeId.'/2.jpg','http://i3.ytimg.com/vi/'.$YouTubeId.'/3.jpg',
-	'big'=>'http://i3.ytimg.com/vi/'.$YouTubeId.'/0.jpg');
-	
+	array($thumbs_array->high->url, $thumbs_array->medium->url);
+
+	#pex($vid_array['thumbs'],true);
 
 
 	$vid_array['embed_code'] = '<iframe width="560" height="315"';
