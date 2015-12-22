@@ -2373,14 +2373,27 @@
 	}
 	
 	/**
-	 * Function used to show flag form
-	 */
+	* Function used to show flag form
+	* @param : { array } { $array } { array of parameters }
+	*/
+
 	function show_playlist_form($array)
 	{
 		global $cbvid;
 		assign('params',$array);
 		
-		$playlists = $cbvid->action->get_playlists();
+		// decides to show all or user only playlists
+		// depending on the parameters passed to it
+
+		if (!empty($array['user']))
+		{
+			$playlists = $cbvid->action->get_playlists($array);
+		}
+		else
+		{
+			$playlists = $cbvid->action->get_playlists();
+		}
+
 		assign('playlists',$playlists);
 
       
