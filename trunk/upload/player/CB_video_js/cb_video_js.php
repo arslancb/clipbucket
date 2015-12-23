@@ -32,7 +32,9 @@ if (!function_exists('cb_video_js'))
 		$vdetails = $in['vdetails'];
 
 		$video_play = get_video_files($vdetails,true,true);
-		
+
+		vids_assign($video_play);
+
 		if(!strstr($in['width'],"%"))
 			$in['width'] = $in['width'].'px';
 		if(!strstr($in['height'],"%"))
@@ -44,11 +46,10 @@ if (!function_exists('cb_video_js'))
 		assign('player_config',$in);
 		assign('vdata',$vdetails);
 		assign('cb_logo',cb_logo());
-		assign('video_files',$video_play);
+		#assign('video_files',$video_play);
 		Template(CB_VJS_PLAYER_DIR.'/cb_video_js.html',false);
 		return true;
 	}
-
 
 	function cb_logo()
 	{
