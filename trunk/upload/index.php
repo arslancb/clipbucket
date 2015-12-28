@@ -11,6 +11,7 @@ define('THIS_PAGE','index');
 
 require 'includes/config.inc.php';
 
+
 $pages->page_redir();
 
 if(is_installed('editorspick'))
