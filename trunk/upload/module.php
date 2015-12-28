@@ -7,11 +7,12 @@
  ****************************************************************
 */
 
+require 'includes/config.inc.php';
+
 define("IN_MODULE",true);
 define("PARENT_PAGE",$_GET['s']);
 define("THIS_PAGE",$_GET['p']);
 
-require 'includes/config.inc.php';
 
 $pages->page_redir();
 
