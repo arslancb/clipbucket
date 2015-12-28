@@ -130,6 +130,18 @@ if(isset($_POST['unban_selected'])){
 	$page = mysql_clean($_GET['page']);
 	$get_limit = create_query_limit($page,RESULTS);
 	
+	if ( isset($_GET['category']) )
+	{
+		if ( $_GET['category'][0] == 'all')
+		{
+			$cat_field = "";
+		}
+		else 
+		{
+			$cat_field = $_GET['category'];
+		}
+	}
+
 	if(isset($_GET['search']))
 	{
 		
@@ -137,7 +149,7 @@ if(isset($_POST['unban_selected'])){
 		(
 		 'userid' 	=> $_GET['userid'],
 		 'username'	=> $_GET['username'],
-		 'category' => $_GET['category'],
+		 'category' => $cat_field,
 		 'featured' => $_GET['featured'],
 		 'ban'		=> $_GET['ban'],
 		 'status'	=> $_GET['status'],
@@ -152,7 +164,7 @@ if(isset($_POST['unban_selected'])){
 	$result_array['limit'] = $get_limit;
 	if(!$array['order'])
 		$result_array['order'] = " doj DESC ";
-		
+	pr($result_array,true);
 	$users = get_users($result_array);
 
 	Assign('users', $users);	

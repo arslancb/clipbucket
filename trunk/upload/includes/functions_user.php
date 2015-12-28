@@ -56,13 +56,16 @@ function profile_fileds_check($array)
             $post_clean = false;
         }
 
-        if (!empty($array['profile_tags']) && preg_match('/[0-9]+/', $array['profile_tags']) || !strpos($array['profile_tags'], ','))
+        if (!empty($array['profile_tags']))
         {
-            e('Invalid tags. Kindly review!');
-            $post_clean = false;
+            if (preg_match('/[0-9]+/', $array['profile_tags']) || !strpos($array['profile_tags'], ','))
+            {
+                 e('Invalid tags. Kindly review!');
+                $post_clean = false;
+            }
         }
 
-        if (!filter_var($array['web_url'], FILTER_VALIDATE_URL))
+        if (!empty($array['web_url']) && !filter_var($array['web_url'], FILTER_VALIDATE_URL))
         {   
             e('Invalid URL provided.');
             $post_clean = false;

@@ -75,6 +75,12 @@
 	logData('Preparing configuration to parse in ffmpeg class','checkpoints');
 
 	$configs = array(
+		'use_video_rate' => true,
+		'use_video_bit_rate' => true,
+		'use_audio_rate' => true,
+		'use_audio_bit_rate' => true,
+		'use_audio_codec' => true,
+		'use_video_codec' => true,
 		'format' => 'mp4',
 		'video_codec'=> config('video_codec'),
 		'audio_codec'=> config('audio_codec'),
@@ -87,7 +93,8 @@
 		'high_res' => config('high_resolution'),
 		'max_video_duration' => config('max_video_duration'),
 		'resize'=>'max',
-		'outputPath' => $fileDir
+		'outputPath' => $fileDir,
+		'cb_combo_res' => config('cb_combo_res')
 	);
 
 	logData('Inlcuding FFmpeg Class','checkpoints');
@@ -95,7 +102,7 @@
 	
 	$ffmpeg = new FFMpeg($configs, $log);
 	$ffmpeg->ffmpeg($orig_file);
-	$ffmpeg->cb_combo_res = config('cb_combo_res');
+	$ffmpeg->configs = $configs;
 	$ffmpeg->res_configurations = array('gen_240'  => config('gen_240'),
 										'gen_360'  => config('gen_360'),
 										'gen_480'  => config('gen_480'),

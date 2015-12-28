@@ -840,7 +840,7 @@ class FFMpeg{
 				$orig_file = $this->input_file;
 				
 				// setting type of conversion, fetching from configs
-				$this->resolutions = $this->cb_combo_res;
+				$this->resolutions = $this->configs['cb_combo_res'];
 
 				$res169 = $this->res169;
 				logData('CB combo reslution : '.$this->resolutions,'checkpoints');
@@ -855,7 +855,7 @@ class FFMpeg{
 						$this->configs['gen_480']  = $this->res_configurations['gen_480'];
 						$this->configs['gen_720']  = $this->res_configurations['gen_720'];
 						$this->configs['gen_1080'] = $this->res_configurations['gen_1080']; 
-						
+						logdata($this->configs,'checkpoints');
 						$this->ratio = $ratio;
 						foreach ($res169 as $value) 
 						{
@@ -867,6 +867,7 @@ class FFMpeg{
 								$more_res['video_width'] = $video_width;
 								$more_res['video_height'] = $video_height;
 								$more_res['name'] = $video_height;
+								logData("About to Call Convert() Function","checkpoints");
 								$this->convert(NULL,false,$more_res);
 							
 							}
@@ -1199,7 +1200,7 @@ class FFMpeg{
 
 		$p = $this->configs;
 		$i = $this->input_details;
-
+		logData($p,'checkpoints');
 		# Prepare the ffmpeg command to execute
 		if(isset($p['extra_options']))
 			$opt_av .= " -y {$p['extra_options']} ";
@@ -1323,8 +1324,7 @@ class FFMpeg{
 				$abrate = $i['audio_bitrate'];
 			if(!empty($abrate))
 			{
-				$abrate = min('128',$abrate);
-				$abrate_cmd = " -ab ".$abrate."k";
+				$abrate_cmd = " -ab ".$abrate;
 				$opt_av .= $abrate_cmd;
 			}
 		}
@@ -1355,6 +1355,7 @@ class FFMpeg{
 		$tmp_file = time().RandomString(5).'.tmp';
 		
 		//$opt_av .= " -map_meta_data ".$this->output_file.":".$this->input_file;
+		logData('Convert() function => setting options opt_av :'.$opt_av,'checkpoints');
 		
 		
 
@@ -2078,6 +2079,38 @@ public function regenerateThumbs($input_file,$test,$duration,$dim,$num,$rand=NUL
 		}
 		else
 			return false;
+	}
+
+	function validChannels($in)
+	{
+		if(!$in)
+			return true;
+		$in['audio_channels'] = strtolower($in['audio_channels']);
+		$channels = false;
+		if(is_numeric($in['audio_channels']))
+			$channels = $in['audio_channels'];
+		else
+		{
+			if(strstr($in['audio_channels'],'stereo'))
+				$channels = 2;
+			
+			if(strstr($in['audio_channels'],'mono'))
+				$channels = 1;
+	
+			if(!$channels)
+			{
+				preg_match('/([0-9.]+)/',$in['audio_channels'],$matches);
+				if($matches)
+					$channels = $matches[1];
+			}
+		}
+		
+		if(!$channels)
+			return true;
+		elseif($channels>2)
+			return false;
+		else
+			return true;
 	}
 
 }

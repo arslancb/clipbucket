@@ -68,7 +68,7 @@
 <?php endif; ?>
 
     <div id="container" class="br5px">
-        <?php include($mode.'.php'); ?>
+        <?php include(__DIR__."/".$mode.'.php'); ?>
     </div>
     
 
