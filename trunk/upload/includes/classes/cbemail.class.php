@@ -110,7 +110,7 @@ class CBEmail
 		global $db;
 		$id = mysql_clean($params['id']);
 		$subj = mysql_clean($params['subj']);
-		$msg = mysql_real_escape_string($params['msg']);
+		$msg = mysql_escape_string($params['msg']);
 		
 		if(!$this->template_exists($id))
 			e(lang("email_template_not_exist"));
