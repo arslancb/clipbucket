@@ -805,17 +805,24 @@ function get_file_details($file_name,$get_jsoned=false)
     //$result = $db->select(tbl("video_files"),"*"," id ='$file_name' OR src_name = '$file_name' ");
     //Reading Log File
     $result = db_select("SELECT * FROM ".tbl("video")." WHERE file_name = '$file_name'");
+    
     if($result)
     {
-        foreach($result as $result1)
-        {
-            $str = '/'.$result1['file_directory'].'/';
+        $video = $result[0];
+        if ($video['file_server_path']){
+            $file = $video['file_server_path'].'/logs/'.$video['file_directory'].$file_name.'.log';
+        }
+        else{
+            $str = '/'.$video['file_directory'].'/';
             $file = LOGS_DIR.$str.$file_name.'.log';
         }
     }
-    if(!file_exists($file))
+    //saving log in a variable 
+    $data = file_get_contents($file);
+
+    if(empty($data))
         $file = $file_name;
-    if(file_exists($file))
+    if(!empty($data))
     {
 
         $data = file_get_contents($file);
