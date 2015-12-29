@@ -146,6 +146,18 @@ if(!@$in_bg_cron)
 	
 	
 	$baseurl = $row['baseurl'];
+
+	if (is_ssl())
+	{
+	    define('CB_SSL', true);
+	    $baseurl = str_replace('http://', 'https://', $baseurl);
+	}
+	else
+	{
+	    define('CB_SSL', false);
+	    $baseurl = str_replace('https://', 'http://', $baseurl);
+	}
+	
 	//Removing www. as it effects SEO and updating Config
 	$wwwcheck = preg_match('/:\/\/www\./',$baseurl,$matches);
 	if(count($matches)>0)
