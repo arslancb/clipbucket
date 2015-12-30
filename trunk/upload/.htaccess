@@ -103,6 +103,20 @@ RewriteRule ^signup/?$ signup.php
 ErrorDocument 404 /404.php
 ErrorDocument 403 /403.php
 
+
+
+##################CB Beats Plugin#########################
+#Manage and Delete
+RewriteRule ^manage_audios/?$ module.php?s=audios&p=manage [L]
+RewriteRule ^manage_audios/delete/(.*) 			module.php?s=audios&p=manage&del_beat=$1 [L]
+
+#Edit
+RewriteRule ^manage_audios/edit/audio/(.*) 			module.php?s=audios&p=edit&audio=$1 [L]
+
+#List
+RewriteRule ^audios/?$ 			module.php?s=audios&p=list [L]
+######################Ending Audio Section#################
+
 ########## End - Rewrite rules For SEO urls ######################
 RewriteRule ^rss$                           rss.php [nc]
 RewriteRule ^rss/([a-zA-Z0-9].+)$           rss.php?mode=$1&%{QUERY_STRING} [nc]
