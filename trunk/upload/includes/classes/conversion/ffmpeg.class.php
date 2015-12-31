@@ -766,6 +766,60 @@ class FFMpeg{
 		
 		return true;
 	}
+	function getClosest($search, $arr) 
+	{
+		$closest = null;
+		foreach ($arr as $item) 
+		{
+			if($closest === null || abs($search - $closest) > abs($item - $search)) {
+				$closest = $item;
+			}
+		}
+		return $closest;
+	}
+
+
+	/**
+	* @Reason : this funtion is used to rearrange required resolution for conversion 
+	* @params : { resolutions (Array) , ffmpeg ( Object ) }
+	* @date : 23-12-2015
+	* return : refined reslolution array
+	*/
+	function reindex_required_resolutions($resolutions)
+	{
+		
+		$original_video_height = $this->input_details['video_height'];
+		
+		// Setting threshold for input video to convert
+		$valid_dimensions = array(240,360,480,720,1080);
+		$input_video_height = $this->getClosest($original_video_height, $valid_dimensions);
+
+		logData("input : video : ".$input_video_height,"checkpoints");
+		logData($this->configs,'checkpoints');
+		//Setting contidion to place resolution to first near to input video 
+		if ($this->configs['gen_'.$input_video_height]  == 'yes'){
+			$final_res[$input_video_height] = $resolutions[$input_video_height];
+		}
+		foreach ($resolutions as $key => $value) 
+		{
+			$video_width=(int)$value[0];
+			$video_height=(int)$value[1];	
+			if($input_video_height != $video_height && $this->configs['gen_'.$video_height]  == 'yes'){
+				$final_res[$video_height] = $value;	
+			}
+		}
+		
+		logData("Final Res : ".$final_res,"checkpoints");
+		
+		$revised_resolutions = $final_res;
+		if ( $revised_resolutions ){
+			return $revised_resolutions;
+		}
+		else{
+			return false;
+		}
+
+	}
 	function ClipBucket()
 	{
 		$conv_file = TEMP_DIR.'/conv_lock.loc';
@@ -849,13 +903,13 @@ class FFMpeg{
 					case 'yes':
 					{
 						
-						//Assigning video convert resolutions to convert the required
-						$this->configs['gen_240']  = $this->res_configurations['gen_240'];
-						$this->configs['gen_360']  = $this->res_configurations['gen_360'];
-						$this->configs['gen_480']  = $this->res_configurations['gen_480'];
-						$this->configs['gen_720']  = $this->res_configurations['gen_720'];
-						$this->configs['gen_1080'] = $this->res_configurations['gen_1080']; 
-						logdata($this->configs,'checkpoints');
+					
+
+						/*$configs = $this->configs;
+						logdata($configs,'checkpoints');*/
+						$res169 = $this->reindex_required_resolutions($res169);
+						
+						logdata($res169,'checkpoints');
 						$this->ratio = $ratio;
 						foreach ($res169 as $value) 
 						{
