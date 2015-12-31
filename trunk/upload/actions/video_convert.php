@@ -94,7 +94,12 @@
 		'max_video_duration' => config('max_video_duration'),
 		'resize'=>'max',
 		'outputPath' => $fileDir,
-		'cb_combo_res' => config('cb_combo_res')
+		'cb_combo_res' => config('cb_combo_res'),
+		'gen_240' => config('gen_240'),
+		'gen_360' => config('gen_360'),
+		'gen_480' => config('gen_480'),
+		'gen_720' => config('gen_720'),
+		'gen_1080' => config('gen_1080')
 	);
 
 	logData('Inlcuding FFmpeg Class','checkpoints');
@@ -103,12 +108,6 @@
 	$ffmpeg = new FFMpeg($configs, $log);
 	$ffmpeg->ffmpeg($orig_file);
 	$ffmpeg->configs = $configs;
-	$ffmpeg->res_configurations = array('gen_240'  => config('gen_240'),
-										'gen_360'  => config('gen_360'),
-										'gen_480'  => config('gen_480'),
-										'gen_720'  => config('gen_720'),
-										'gen_1080' => config('gen_1080')
-										);
 	logData($ffmpeg->res_configurations,'checkpoints');
 	$ffmpeg->file_name = $tmp_file;
 	$ffmpeg->filetune_directory = $file_directory;
