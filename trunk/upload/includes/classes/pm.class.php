@@ -548,6 +548,7 @@ class cb_pm
 		$msgid = $array['msg_id'];
 		//Get To(Emails)
 		$emails = $this->get_users_emails($array['to']);
+		pr($emails,true);
 		$vars =	array
 		(
 		'{sender}' => $sender,
@@ -589,9 +590,8 @@ class cb_pm
 		$results = $db->select(tbl($userquery->dbtbl['users']),'email',$cond);
 		foreach($results as $result)
 		{
-			$emails[] = $result[0];
+			$emails[] = $result['email'];
 		}
-		
 		return implode(',',$emails);
 	}
 	
