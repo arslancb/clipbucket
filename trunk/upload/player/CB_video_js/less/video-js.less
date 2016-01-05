@@ -888,7 +888,7 @@ easily in the skin designer. http://designer.videojs.com/
 	text-transform: lowercase;
 }
 .vjs-default-skin .vjs-menu-button ul li.vjs-selected {
-	background-color: #000;
+	background-color: @progress-color;
 }
 .vjs-default-skin .vjs-menu-button ul li:focus,
 .vjs-default-skin .vjs-menu-button ul li:hover,
@@ -916,19 +916,31 @@ easily in the skin designer. http://designer.videojs.com/
 }
 
 /* Captions Button */
+.vjs-default-skin .vjs-captions-button {
+	&:hover {
+		&:after{
+			left: 6px;
+			width: 23px;
+			opacity: 1;
+		}
+	}
+}
 .vjs-default-skin .vjs-captions-button:before {
 	content: @captions-icon;
 	font-size: 14px;
-	margin: 5px 0 0 3px;
+	margin: 6px 0 0 3px;
 }
 .vjs-default-skin .vjs-captions-button:after {
 	content: '';
 	position: absolute;
+	display: block;
 	height: 1px;
-	left: 6px;
-	bottom:5px; 
-	width: 23px;
+	left: 50%;
+	bottom:4px; 
+	width: 0px;
+	opacity: 1;
 	background-color: @progress-color;
+	transition: all 0.3s ease-out;
 }
 
 /* Chapters Button */
