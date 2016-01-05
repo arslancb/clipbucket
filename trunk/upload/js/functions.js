@@ -102,7 +102,7 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 		         	attrb.css('display','none');
 		        }
 		        
-		         
+		         $('#'+inner_mode).html('Laod More...');
 		    },
 		/*    complete:function (argument) {
 		    	$('#'+inner_mode).button().button('reset');
