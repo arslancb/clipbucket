@@ -5307,7 +5307,7 @@
 		{
 			define("SERVER_CONFS", true);
 		} 
-		elseif ( POST_MAX_SIZE < 50 || MEMORY_LIMIT < 128 || UPLOAD_MAX_FILESIZE || 50 && MAX_EXECUTION_TIME || 7200 )
+		elseif ( POST_MAX_SIZE < 50 || MEMORY_LIMIT < 128 || UPLOAD_MAX_FILESIZE < 50 && MAX_EXECUTION_TIME < 7200 )
 		{
 			e('You must update <strong>"Server Configurations"</strong>. Click here <a href='.BASEURL.'/admin_area/cb_server_conf_info.php>for details</a>',w);
 			define("SERVER_CONFS", false);
@@ -5315,33 +5315,6 @@
 		else 
 		{
 			define("SERVER_CONFS", false);
-		}
-	}
-
-	/**
-	* Consider it an aleternative of regular template_files()
-	* It is being introduced because plugin files load before
-	* anything else and if we load an HTML file via plugin, 
-	* it kills Cb structure because html loads before global_header()
-	* with usage of this function, things will run smoothly instead
-	* @param: { string } { $display_file } { path to html to be displayed }
-	* @since : 31st December, 2015
-	* @author : Saqib Razzaq
-	*/
-
-	function display_module_file($display_file)
-	{
-		if (file_exists( $display_file ))
-		{
-			global $ClipBucket;
-			$ClipBucket->template_files[] = array('file' => $display_file);
-		}
-		else
-		{
-			if (has_access("admin_access"))
-			{
-				e("Display template couldn't be loaded (admin only message)", "e");
-			}
 		}
 	}
 
