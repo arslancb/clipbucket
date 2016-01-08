@@ -121,6 +121,14 @@
         <script src="{$theme}/js/uslider_js/jquery.ulslide.js?v=4"></script>
 		<!-- Script For Home Page Videos Slider //-->
 
+        {if $Cbucket->header_files}
+            <!-- Including Headers -->
+            {foreach from=$Cbucket->header_files key=file item=type}
+                {include_header type=$type file=$file}
+            {/foreach}
+            <!-- Ending Headers -->
+        {/if}
+
         {assign var=quicklist value=$cbvid->get_quicklist()|@json_encode}
         
         <script>
