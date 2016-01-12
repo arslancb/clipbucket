@@ -120,9 +120,10 @@ class language
 	function update_phrase($id,$text,$lang_code='en')
 	{
 		global $db;
+
 		//First checking if phrase already exists or not
 		if($this->get_phrase($id,$lang_code))
-			$db->update(tbl("phrases"),array('text'),array(mysql_real_escape_string($text))," id = '".mysql_real_escape_string($id)."' ");
+			$db->update(tbl("phrases"),array('text'),array(mysql_escape_string($text))," id = '".mysql_escape_string($id)."' ");
 	}
 	
 	/**
