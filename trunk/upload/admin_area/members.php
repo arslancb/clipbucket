@@ -164,7 +164,7 @@ if(isset($_POST['unban_selected'])){
 	$result_array['limit'] = $get_limit;
 	if(!$array['order'])
 		$result_array['order'] = " doj DESC ";
-	pr($result_array,true);
+	#pr($result_array,true);
 	$users = get_users($result_array);
 
 	Assign('users', $users);	
