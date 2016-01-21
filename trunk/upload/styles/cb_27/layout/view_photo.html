@@ -3,6 +3,7 @@
 <div class="row">
     {assign var=json value=$photo.photo_details|json_decode}
     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mouse_hover">
+        <div class="ad">{AD place='ad_468x60'}</div>
         <div class="cb-box pad-bottom-sm">  
             <div class="photo-holder relative">
                 <a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if}
@@ -159,7 +160,7 @@
         
     </div>
     <div class="cb-box col-lg-4 col-md-4 visible-lg visible-md side-video pull-right" >
-        <div class="ad">{AD place='ad_320x250'}</div>
+        <div class="ad">{AD place='ad_300x250'}</div>
         <h3>{lang code='Most Popular'}</h3>
         {section name=p_list loop=$photos}
         {include file="$style_dir/blocks/PopularPhotos.html" photo=$photos[p_list]}
@@ -180,7 +181,7 @@
         {/section} 
         </ul>
 
-
+        <div class="ad">{AD place='ad_160x600'}</div>
 
     </div>
 
