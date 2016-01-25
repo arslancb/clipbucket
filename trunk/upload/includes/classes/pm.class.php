@@ -159,10 +159,8 @@ class cb_pm
 			$type = $array['type'] ? $array['type'] : 'pm';
 			$reply_to = $this->is_reply($array['reply_to'],$from);
 			
-			$fields = array('message_from','message_to','message_content',
-										 'message_subject','date_added','message_attachments','message_box','reply_to');
-			$values = array($from,$to,$array['content'],
-											   $array['subj'],now(),$attachments);
+			$fields = array('message_from','message_to','message_content', 'message_subject','date_added','message_attachments','message_box','reply_to');
+			$values = array($from,$to,$array['content'], $array['subj'],now(),$attachments);
 			
 			//PM INBOX FIELDS
 			$fields_in = $fields;
@@ -548,7 +546,7 @@ class cb_pm
 		$msgid = $array['msg_id'];
 		//Get To(Emails)
 		$emails = $this->get_users_emails($array['to']);
-		pr($emails,true);
+		#pr($emails,true);
 		$vars =	array
 		(
 		'{sender}' => $sender,
