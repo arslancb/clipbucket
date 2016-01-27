@@ -4035,7 +4035,7 @@
 		|| count(get_functions('clipbucket_footer'))== 0 )
 		&& !BACK_END) 
 		{
-				echo cbSecured(CB_SIGN_C);
+				// echo cbSecured(CB_SIGN_C);
 		}
 	}
 	
@@ -5316,6 +5316,26 @@
 		{
 			define("SERVER_CONFS", false);
 		}
+	}
+
+	/**
+	* Pulls subscribers ids for given userid
+	* @param : { integer } { $userid } { id of user to get subscribers for }
+	* @param : { integer / boolean } { false by default, number of subscribers to get }
+	* @return : { array } { $ids } { ids of subscribers }
+	* @author : Saqib Razzaq
+	* @since : ClipBucket 2.8.1
+	*/
+
+	function get_user_subscibers($userid, $limit = false)
+	{
+		global $db;
+		$result = $db->select(tbl("subscriptions"), "userid", "subscribed_to = '$userid'", "$limit");	
+		$ids = array();
+		foreach ($result as $key => $value) {
+			$ids[] = $value['userid'];
+		}
+		return $ids;
 	}
 
         include( 'functions_db.php' );
