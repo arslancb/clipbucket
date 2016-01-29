@@ -5338,6 +5338,34 @@
 		return $ids;
 	}
 
+	/*
+	* Consider it an aleternative of regular template_files()
+	* It is being introduced because plugin files load before
+	* anything else and if we load an HTML file via plugin, 
+	* it kills Cb structure because html loads before global_header()
+	* with usage of this function, things will run smoothly instead
+	* @param: { string } { $display_file } { path to html to be displayed }
+	* @since : 31st December, 2015
+	* @author : Saqib Razzaq
+	*/
+
+	function display_module_file($display_file)
+	{
+		if (file_exists( $display_file ))
+		{
+			global $ClipBucket;
+			$ClipBucket->template_files[] = array('file' => $display_file);
+		}
+		else
+		{
+			if (has_access("admin_access"))
+			{
+				e("Display template couldn't be loaded (admin only message)", "e");
+			}
+		}
+	}
+
+
         include( 'functions_db.php' );
         include( 'functions_filter.php' );
         include( 'functions_player.php' );
