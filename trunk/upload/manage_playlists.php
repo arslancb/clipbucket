@@ -73,7 +73,7 @@ switch($mode)
 		
 		assign('mode','manage_playlist');
 		//Getting List of available playlists
-		$playlists = $cbvid->action->get_playlists( array( 'order' => 'playlists.date_added DESC' ) );
+		$playlists = $cbvid->action->get_playlists( array('user'=>userid(), 'order' => 'playlists.date_added DESC' ) );
 		assign('playlists',$playlists);
 		
 	}
