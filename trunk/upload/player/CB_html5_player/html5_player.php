@@ -27,13 +27,17 @@ if(!function_exists('html5_player'))
 	
 	function html5_player($in)
 	{
-		global $html5_player;
+		global $html5_player, $cbplayer;
 		$html5_player = true;
 		
 		$vdetails = $in['vdetails'];
         
       	$video_play = get_video_files($vdetails,true,true);
-	
+		
+
+		$array['file'] = 'cbplayer';
+		$array['folder'] = 'cbplayer.php';
+		$cbplayer->set_player($array);
 		
 		if(function_exists('get_refer_url_from_embed_code'))
 		{
