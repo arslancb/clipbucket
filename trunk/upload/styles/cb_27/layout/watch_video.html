@@ -31,7 +31,9 @@
                             <span class="small font18">{lang('View')}{if $vdo.views > 1}{lang('s')}{/if}</span>
                         </div>
                         <div class="watch-vid-thumbsupdown-sec" id="rating_container">
+                        {if $vdo.allow_rating != 'no'}
                             {show_video_rating  rating=$vdo.rating ratings=$vdo.rated_by total='10' id=$vdo.videoid type=video}
+                        {/if}
                         </div>    
                     </div>         
                 </div>
