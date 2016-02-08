@@ -252,6 +252,7 @@
         <div class="row">
         <!-- anchor used with CB Video Key Replacer Plugin -->
         {ANCHOR place="key_rep"}
+        {ANCHOR place="seo_edit_video"}
             <table class="table">
                 <tr>
                     <td class="alert-info">
@@ -326,6 +327,7 @@
                         <input class="form-control" name="rated_by" type="text" id="rated_by" value="{$data.rated_by|number_format}" size="45"/>
                     </div>
                 </div>
+                {ANCHOR place="doc_edit_video_form"}
                 <br><br>
                 <legend>Custom Upload Fields</legend>
                 {foreach from=$custom_upload_fields item=field}
