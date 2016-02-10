@@ -408,6 +408,17 @@
       }   
    }
 
+   //Function Used To Validate Email
+    function is_valid_email($email)
+	{
+	    $pattern = "/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/";
+	    /*pr(preg_match($pattern, $email),true);*/
+	    if(preg_match($pattern, $email))
+	        return true;
+	    else
+	     return false;
+	}
+
    
    	// THIS FUNCTION SETS HTMLSPECIALCHARS_DECODE IF FUNCTION DOESN'T EXIST
 	// INPUT: $text REPRESENTING THE TEXT TO DECODE
