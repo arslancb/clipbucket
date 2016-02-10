@@ -3428,6 +3428,7 @@ class userquery extends CBCategory{
 								  'required'=>'yes',
 								  'syntax_type'=> 'email',
 								  'db_value_check_func'=> 'email_exists',
+								  'validate_function'=> 'is_valid_email',
 								  'db_value_exists'=>false,
 								  'db_value_err'=>lang('usr_email_err3')
 								  ),
