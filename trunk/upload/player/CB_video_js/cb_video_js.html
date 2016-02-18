@@ -29,11 +29,6 @@ var uploader = "{$vdata.username}";
 var branding_logo  = "{$cb_logo}";
 var product_link = "{$player_config.player_logo_url}";
 var show_logo = true;
-	// check if plugin is installed and call function
-	if (!(typeof(extract_yt_url_ajax)=='undefined'))
-	{
-		var the_data = extract_yt_id('{$vdata.embed_code}',vid_id);
-	}
 
 	var cb_player_setup = {
 		plugins : { resolutionSelector : {
@@ -50,8 +45,7 @@ var show_logo = true;
 		"uploader" : uploader,
 		"branding_logo" : branding_logo,
 		"show_logo" : show_logo,
-		"product_link" : product_link,
-		"data" : the_data
+		"product_link" : product_link
 	};
 	//Initializing
 	var player = videojs('cb_video_js', cb_player_setup , function(){
