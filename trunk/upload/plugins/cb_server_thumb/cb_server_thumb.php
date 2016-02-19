@@ -35,7 +35,6 @@ if(!function_exists('server_thumb'))
 {
 	function server_thumb($vdetails, $array)
 	{
-
         global $__resize_thumbs;
 
         if(!$__resize_thumbs) return;
@@ -160,7 +159,6 @@ if(!function_exists('server_thumb'))
     {
         function get_server_img($params)
         {
-            
             global $__resize_thumbs;
 
             if(!$__resize_thumbs) return;
@@ -171,10 +169,71 @@ if(!function_exists('server_thumb'))
             global $baseurl;
             $timthumb_path = CB_SERVER_THUMB_URL.'/timthumb.php?src=';
 
+
             //var_dump($params);
             $details = $params[ 'details' ];
             $output = $params[ 'output' ];
             $size = $params[ 'size' ];
+            //pr(THIS_PAGE,true);
+
+            //on view photo page image with original size needed so this is simple patch 
+            if( THIS_PAGE=='view_item' && isset($details['photo_key']) && isset($_GET['item']) && $_GET['item']==$details['photo_key'] )
+            {
+                $url  = PHOTOS_URL;
+                $path = PHOTOS_DIR;
+                
+                $image_name = $details['filename'].".".$details['ext'];
+
+                if(isset($details['file_directory']) && $details['file_directory']!="")
+                {
+                    $photo_link = $url."/".$details['file_directory']."/".$image_name;
+                    $photo_path = $path."/".$details['file_directory']."/".$image_name;
+                }
+                else
+                {
+                    $photo_link=$url."/".$image_name;
+                    $photo_path=$path."/".$image_name;
+                } 
+
+                if(file_exists($photo_path))
+                {
+                    $max_width = 900;
+                    
+                    $image_size   = getimagesize($photo_path);
+                    $image_width  = $image_size[0];
+                    $image_height = $image_size[1];
+
+                    if($image_width>=$max_width)
+                    {
+                        $image_height = ($max_width/$image_width)*$image_height;
+
+                        if($details['file_directory']!="")
+                            $image_directory =  $details['file_directory'].'/';
+                        else
+                            $image_directory = '';
+
+                        $photo_link = $timthumb_path.$image_name.'&directory=photos/'.$image_directory.'&type=photos&h='.$image_height.'&w=900&zc=1';
+
+                    }    
+
+                    if($output=='html')
+                        return "<img src='$photo_link'>";
+                    else
+                        return $photo_link;
+                }
+                else
+                {
+                    return get_photo_default_thumb(null,$output);
+                }    
+            }    
+            //$_GET['item']
+
+            //pr($params,true);
+            //die;
+
+            
+
+            
 
             $default = array( 't', 'm', 'l', 'o' );
             $thumbs = array();
