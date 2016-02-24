@@ -316,6 +316,14 @@ class AdsManager
 		return $db->count(tbl("ads_data"),"ad_id"," ad_placement='$place'");
 	}
 
+
+	/**
+	*@author : Fahad Abbas
+	*@date   : 24-Feb-2016
+	*@param  : { Null }
+	*return  : { Array } { Array of ads_placement.xml  }
+	*@reason : { this method used to convert ads_placement.xml content to php array} 
+	*/
 	function get_placement_xml()
 	{
 		if (file_exists(STYLES_DIR.'/'.TEMPLATE.'/ads_placement.xml'))
