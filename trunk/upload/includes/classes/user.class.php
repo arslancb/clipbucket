@@ -100,12 +100,12 @@ class userquery extends CBCategory{
 		$this->add_access_type('mod_access','Moderator Access');*/
 		
 		//Fetching List Of User Levels
-		$levels = $this->get_levels();
+		/*$levels = $this->get_levels();
 		foreach($levels as $level)
 		{
 			$this->usr_levels[$level['user_level_id']]=$level["user_level_name"];
 		}
-		
+		*/
 		$udetails = "";
 		
 		if($this->userid)
@@ -3123,17 +3123,16 @@ class userquery extends CBCategory{
 		return $count;
 	}
 
-	function show_unread_alrt( $userid, $class )
-	{
-		$unread_msgs = $this->get_unread_msgs( $userid );
-
-		if ( $unread_msgs > 0 )
-		{
-			echo "<div class='".$class." alert alert-warning'>You have <a href=".BASEURL."/private_message.php?mode=inbox><span style='color: black'><strong>".$unread_msgs."<strong> unread messages </a> in your inbox</div>";
-		}
-		else
-		{
-			return false;
+	function show_unread_alrt( $userid, $class ) {
+		$forbid = array('index','watch_video','view_item','videos','photos','channels','collections','view_page');
+		$page = THIS_PAGE;
+		if (!in_array($page, $forbid)) {
+			$unread_msgs = $this->get_unread_msgs( $userid );
+			if ($unread_msgs > 0) {
+				echo "<div class='".$class." alert alert-warning'>You have <a href=".BASEURL."/private_message.php?mode=inbox><span style='color: black'><strong>".$unread_msgs."<strong> unread messages </a> in your inbox</div>";
+			} else {
+				return false;
+			}
 		}
 	}
 	
