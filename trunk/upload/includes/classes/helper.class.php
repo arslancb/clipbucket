@@ -119,8 +119,7 @@
 			$assign_arry['videos'] = $videos;
 			$vcount = $vid_cond;
 			$counter = get_counter('video',$count_query);
-			if(!$counter)
-			{
+			if(!$counter) {
 				$vcount['count_only'] = true;
 				$total_rows  = get_videos($vcount);
 				$total_pages = count_pages($total_rows,VLISTPP);
@@ -179,6 +178,65 @@
 			$assign_arry['collections'] = $collections;
 			$this->assign($assign_arry);
 			template_files('photos.html');
+		}
+
+		function channels($show_page = true, $msg = false, $subtitle = false) {
+			global $pages;
+			if (!$show_page) {
+				if ($msg) {
+					e($msg, "e");
+				}
+				return false;
+			}
+			$assign_arry = array();
+			$sort = $_GET['sort'];
+			$u_cond = array('category'=>mysql_clean($_GET['cat']),'date_span'=>mysql_clean($_GET['time']));
+			switch($sort) {
+				case "most_recent":
+				default:
+					$u_cond['order'] = " doj DESC ";
+				break;
+				case "most_viewed":
+					$u_cond['order'] = " profile_hits DESC ";
+				break;
+				case "featured":
+					$u_cond['featured'] = "yes";
+				break;
+				case "top_rated":
+					$u_cond['order'] = " rating DESC";
+				break;
+				case "most_commented":
+					$u_cond['order'] = " total_comments DESC";
+				break;
+			}
+			$page = mysql_clean($_GET['page']);
+			$get_limit = create_query_limit($page,CLISTPP);
+			$count_query = $ulist = $u_cond;
+			$ulist['limit'] = $get_limit;
+			$users = get_users($ulist);
+			$counter = get_counter('channel',$count_query);
+
+			if(!$counter) {
+				//Collecting Data for Pagination
+				$ucount = $u_cond;
+				$ucount['count_only'] = true;
+				$total_rows  = get_users($ucount);
+				$counter = $total_rows;
+				update_counter('channel',$count_query,$counter);
+			}
+
+			$total_pages = count_pages($counter,CLISTPP);
+			//Pagination
+			$link==NULL;
+			$extra_params=NULL;
+			$tag='<li><a #params#>#page#</a><li>';
+			$pages->paginate($total_pages,$page,$link,$extra_params,$tag);
+			if (!$subtitle) {
+				$subtitle = 'Channels';
+			}
+			subtitle(lang($subtitle));
+			Assign('users', $users);	
+			template_files('channels.html');
 		}
 
 		function build_sort($sort, $vid_cond) {
