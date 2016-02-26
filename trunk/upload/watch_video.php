@@ -13,7 +13,6 @@
 	define("PARENT_PAGE",'videos');
 	require 'includes/config.inc.php';
 	global $hlp;
-	$assign_arry = array();
 	$userquery->perm_check('view_video',true);
 	$pages->page_redir();
 	$hlp->watch_video();
