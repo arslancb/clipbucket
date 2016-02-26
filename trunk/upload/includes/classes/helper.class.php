@@ -105,10 +105,8 @@
 						}
 					}
 				}
-
 				$child_ids[] = mysql_clean($_GET['cat']);
 			}
-
 			$vid_cond = array('category'=>$child_ids,'date_span'=>mysql_clean($_GET['time']),'sub_cats');
 			$vid_cond = $this->build_sort($sort, $vid_cond);
 			//Getting Video List
@@ -129,7 +127,6 @@
 				$counter = $total_rows;
 				update_counter('video',$count_query,$counter);
 			}
-
 			$total_pages = count_pages($counter,VLISTPP);
 			//Pagination
 			$link==NULL;
@@ -142,6 +139,46 @@
 			subtitle(lang($subtitle));
 			$this->assign($assign_arry);
 			template_files('videos.html');
+		}
+
+		function photos($show_page = true, $msg = false, $subtitle = false) {
+			global $cbphoto, $cbcollection, $pages;
+			if (!$show_page) {
+				if ($msg) {
+					e($msg, "e");
+				}
+				return false;
+			}
+			$assign_arry = array();
+			$sort = $_GET['sort'];
+			$cond = array("category"=>mysql_clean($_GET['cat']),"date_span"=>$_GET['time'], "active"=>"yes");
+			$table_name = "photos";
+			$cond = $this->build_sort($sort, $cond);
+			$page = mysql_clean($_GET['page']);
+			$get_limit = create_query_limit($page,MAINPLIST);
+			$clist = $cond;
+			$clist['limit'] = $get_limit;
+			$photos = get_photos($clist);
+			$collections = $cbcollection->get_collections($clist);
+			//Collecting Data for Pagination
+			$ccount = $cond;
+			$ccount['count_only'] = true;
+			$total_rows = get_photos($ccount);
+			$total_pages = count_pages($total_rows,MAINPLIST);
+			//Pagination
+			$link==NULL;
+			$extra_params=NULL;
+			$tag='<li><a #params#>#page#</a><li>';
+			$pages->paginate($total_pages,$page,$link,$extra_params,$tag);
+			if (!$subtitle) {
+				$subtitle = 'Photos';
+			}
+			subtitle(lang($subtitle));
+			//Displaying The Template
+			$assign_arry['photos'] = $photos;
+			$assign_arry['collections'] = $collections;
+			$this->assign($assign_arry);
+			template_files('photos.html');
 		}
 
 		function build_sort($sort, $vid_cond) {
