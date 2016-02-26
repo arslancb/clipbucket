@@ -280,7 +280,7 @@ function get_image_file( $params ) {
                 $width = $dem[0];
                 $height = $dem[1];
                 /* UPDATEING IMAGE DETAILS */
-                $cbphoto->update_image_details( $photo );
+                #$cbphoto->update_image_details( $photo );
             } else {
                 $width = $image_details[ $size ][ 'width' ];
                 $height = $image_details[ $size ][ 'height' ];
