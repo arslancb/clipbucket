@@ -3124,7 +3124,7 @@ class userquery extends CBCategory{
 	}
 
 	function show_unread_alrt( $userid, $class ) {
-		$forbid = array('index','watch_video','view_item','videos','photos','channels','collections','view_page');
+		$forbid = array('index','watch_video','view_item','videos','photos','channels','collections','view_page','search_result');
 		$page = THIS_PAGE;
 		if (!in_array($page, $forbid)) {
 			$unread_msgs = $this->get_unread_msgs( $userid );
