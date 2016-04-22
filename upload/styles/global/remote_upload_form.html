@@ -1,0 +1,47 @@
+<div class="alert alert-info marginTop">
+	{lang('upload_remote_video_msg')}
+</div>
+{$class = ""}
+{if $params.class}
+{$class = $params.class}
+{/if}
+
+
+<div class="upload_form_div clearfix form-group {$class}" id="remoteUploadFormDiv">
+	<div class="input-group marginTop">
+	  <span class="input-group-addon"><i class="glyphicon glyphicon-link"></i></span>
+	  <input name="remote_file_url" type="text"  class="remoteUrlInput form-control" id="remote_file_url" value="{lang('remote_upload_example')}" onclick="if($(this).val()=='{lang('remote_upload_example')}') $(this).val('')"/>
+	  <input name="submit_upload" type="hidden" value="{lang('upload_data_now')}">
+	</div>
+	
+	
+	<div class="downloadStatusContainer hidden">
+		<div class="progress marginTop">
+		  <div id="prog_bar" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+		    <span class="sr-only">60% Complete</span>
+		  </div>
+		</div>
+		<div align="center" id="loading" style=""></div>
+		<div id="downloadStatus">
+			<small>
+				<span>Downloaded </span>
+				<span id="downloaded">0.00 Mb</span>
+				<span> of </span>
+				<span id="totalSize">0.00 Mb</span>
+			</small>
+		</div>
+	</div>
+	<!-- <div></div> -->
+	{*
+		<div>
+		{lang('remoteDownloadStatusDiv')}
+		</div>                
+	*}
+	<div class="align-right marginTop">
+		<!--<input type="button" name="ytUploadBttn" id="ytUploadBttn" value="{lang('grab_from_youtube')}" onClick="_cb.youtube_upload()" class="btn btn-primary btn-lg">-->
+		<input type="button" name="ytUploadBttn"  data-loading-text="Loading..." id="ytUploadBttn" value="{lang('grab_from_youtube')}" onClick="youtube_upload()" class="btn btn-primary btn-lg">
+		<input type="button" name="remoteUploadBttn" id="remoteUploadBttn" data-loading-text="Loading..." value="{lang('upload')}" onClick="{get_remote_url_function()}" class="btn btn-primary btn-lg">
+		<input type="button" name="remoteUploadBttnStop" id="remoteUploadBttnStop" value="{lang('cancel')}"   class="btn btn-primary btn-lg" style="display:none"/>
+	</div>
+</div>
+<div id="remoteForm"></div>

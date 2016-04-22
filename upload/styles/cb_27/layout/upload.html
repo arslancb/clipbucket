@@ -1,0 +1,363 @@
+<div class="container uploadVideos">
+<div id="error_msgs"></div>
+    <div class="cb-box pad-bottom-sm progress-container allProgress hidden">  
+        <div class="row">
+            <div class="col-md-2" id="uploadedFilesInfo">
+                <p>Uploaded 0 of 0</p>
+            </div>
+            <div class="col-md-10">
+                <div class="progress">
+                    <div id="overallProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                        <span class="sr-only">40% Complete (success)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="uploadMessage" class="">
+    {if $msg}
+        <div class="alert alert-block alert-info">
+            {$msg}
+        </div>
+    {/if}   
+    </div>
+    
+    <div class="cb-box" id="mainUploadContainer">
+        <div class="pad-bottom video-info-container tabs-bar-style">
+            <ul class="nav nav-tabs uploaderTabs">
+                {assign var=opt_list value=$Upload->load_upload_options()} 
+                {$counter = 1}
+                {foreach from=$opt_list item=opt key=divid}
+                    {if $counter == 1}{$class = "active"}{else}{$class = ""}{/if}
+                    {* Checking weather to show uploadin option to user or not *}
+                    {assign var=uploadOptId value=$opt.load_func}
+                    {if $Cbucket->configs.$uploadOptId=='yes'}
+                        {assign var='no_upload' value='no'}
+                        <li class="{$class}"><a href="#{$divid}" data-toggle="tab">{$opt.title}</a></li>
+                    {/if}
+                    {$counter = $counter + 1}
+                {/foreach}
+            </ul>
+            <div class="tab-content uploadFormDiv">
+             <div class="instructions alert alert-block alert-info">
+               {lang code='upload_right_guide_vid'}
+            </div>
+                    {$counter = 1}
+                    {foreach from=$opt_list item=opt key=divid}     
+                        {* Checking weather to show uploadin option to user or not *}
+                        {assign var=uploadOptId value=$opt.load_func}
+                        {if $Cbucket->configs.$uploadOptId=='yes'} 
+                        {if $counter == 1}{$class = "active"}{else}{$class = ""}{/if}
+                        <div class="tab-pane fade in clearfix {$class} uploadForm" id="{$divid}">
+                            {load_form name=$opt.load_func button_class='cb_button_2' class='upload_form'} 
+                        </div>
+                        {/if}
+                        {$counter = $counter + 1}
+                    {/foreach}
+            </div>
+        </div>
+    </div>
+        
+</div>
+<div>
+</div>
+
+<script type="text/javascript">
+    (function(window){
+        $(document).ready(function(){
+             setTimeout(function(){
+                      
+                        $(".embed_video").remove();
+                   
+                    }, 10000);
+
+
+            var baseurl = '{$baseurl}';
+            if('{$uploaderDetails.uploadScriptPath}'!=''){
+            var uploadurl = '{$uploaderDetails.uploadScriptPath}';
+            }else{
+            var uploadurl = '{$baseurl}/actions/file_uploader.php';    
+            }
+            //alert(uploadurl);
+            
+            var extensions = "{$extensions}";
+            extensions = extensions.substring(0, extensions.length-1);
+            /* files uploading */
+            $.get("{$theme}/js/plupload/js/plupload.full.min.js", function(e){
+                var files = [];
+                var filesIndex = 0;
+                var oneFileFormDiv = $("#uploadFormContainer0").clone();
+                var uploader = new plupload.Uploader({
+                    browse_button: 'selectFiles',
+                    dragdrop: true,
+                    drop_element: "dragDrop",
+                    runtimes : 'html5,flash,silverlight,html4',
+                    url : uploadurl,
+                    file_data_name : "Filedata",
+                    filters: {
+                      mime_types : [
+                        { title : "Image files", extensions : extensions },
+                        { title : "Video files", extensions : extensions }
+                      ]
+                    }
+                });
+                uploader.init();
+                uploader.bind('FilesAdded', function(up, uploadedFiles) {
+
+                    for(var i = 0; i < uploadedFiles.length; i++){
+                        files.push(uploadedFiles[i]);
+                    }
+                    $("#uploadMore").addClass("hidden");
+                    // creating the selected files list
+                    var ul = document.createElement('ul');
+                    ul.id = "selectedFilesList";
+                    ul.className = "nav nav-tabs";
+                    var li = false;
+                    var index = 0;
+                    plupload.each(files, function(file) {
+                        li = document.createElement('li');
+                        if(index === 0){
+                            li.className = "active";
+                        }else{
+                            li.className = "";
+                        }
+                        var link = document.createElement("a");
+                        link.href = "#tab"+index;
+                        link.setAttribute("data-toggle", "tab");
+                        // link.innerHTML = file.name + " (" + plupload.formatSize(file.size) + ")";
+                        if(files.length < 8){
+                          link.innerHTML = "(" + (index + 1) + ") " + file.name.substring(0, 10);
+                        }else{
+                          link.innerHTML = "(" + (index + 1) + ") ";
+                        }
+                        li.id = index++;
+                        li.appendChild(link);
+                        ul.appendChild(li);
+                    });
+
+
+
+                    $("#files").html("");
+                    $("#files").append(ul);
+
+                    var totalFiles = files.length;
+                    
+                    var oneFile = false;
+
+                    var uploadForm = $("#updateVideoInfoForm").clone();
+                    var uploadForms = [];
+                    for (var i = 0; i < totalFiles; i++ ){
+                        var oneUploadForm = $(uploadForm).clone().get(0);
+                        var wrapperDiv = document.createElement("div");
+                        if(i == 0){
+                            wrapperDiv.className = "tab-pane active uploadFormContainer";
+                        }else{
+                            wrapperDiv.className = "tab-pane uploadFormContainer";
+                        }
+                        wrapperDiv.id = "tab"+i;
+                        oneUploadForm.className = "";
+                        $(oneUploadForm).find("input[name='title']").val(files[i].name.slice(0, -4));
+                        $(oneUploadForm).find("textarea#desc").val(files[i].name.slice(0, -4));
+                        $(oneUploadForm).find("input[name='category[]']:first").attr('checked', 'checked');
+                        wrapperDiv.appendChild(oneUploadForm);   
+                        uploadForms.push(wrapperDiv);
+                    }
+
+                    $("#allUploadForms").html("");
+                    $("#allUploadForms").append(uploadForms);
+                    
+                    //Disabling saveDetails button for Current form 
+                    var div_wrap_numb = totalFiles - 1;
+                    var upload_form_Div = $('#tab'+div_wrap_numb);
+                    upload_form_Div.find('#saveVideoDetails').attr("disabled",true);
+
+                    $(".formSection h4").on({
+                        click: function(e){
+                            e.preventDefault();
+                            if($(this).find("i").hasClass("glyphicon-chevron-down")){
+                                $(this).find("i").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+                                $(this).next().toggleClass("hidden");
+                            }else{
+                                $(this).find("i").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+                                $(this).next().toggleClass("hidden");
+                            }
+                        }
+                    });
+
+                    setTimeout(function(){
+                        $("#uploaderContainer").toggleClass("hidden");
+                        $("#uploadDataContainer").toggleClass("hidden");
+                        $(".uploadingProgressContainer").show();
+                        $(".allProgress").removeClass("hidden");
+                        uploader.start();
+                    }, 1000);
+                    // updating file title in the form
+                });
+
+                uploader.bind("BeforeUpload", function(){
+                    $("#fileUploadProgress").removeClass("hidden");
+                    $(".progress-container").removeClass("hidden");
+                });
+                var totalUploaded = 0;
+                /*
+                This is the event handler for UploadProgress,
+                It fires regularly after a certain amount of time when the the files are being uploaded
+                */
+
+                var filesUploaded = 0;
+                var totalPercentage = 0;
+                uploader.bind('UploadProgress', function(up, file) {
+                    // var progressContainer = document.getElementById("fileUploadProgress");
+                    // var progressBar = progressContainer.getElementsByTagName("progress")[0];
+                    // progressBar.style.display = "block";
+                    // var fileName = progressContainer.getElementsByTagName('h5')[0];
+                    // fileName.innerHTML = "Uploading "+file.name;
+                    // var percent = file.percent/100;
+                    // progressBar.value = percent;
+                    $("#progressNumber").text(file.percent + "%");
+                    $("#videoNumber").text(file.name);
+
+                });
+
+
+                /*
+                This is the event handler for FileUploaded,
+                it fires when the uploading of the files is completed  
+                */
+
+                var currentFileIndex = 0;
+                
+
+                uploader.bind('FileUploaded', function(plupload, fileDetails, response){
+                    $("#overallProgress").css("width", ((100/files.length)*(++filesUploaded))+"%");
+                    $("#overallProgress").parents(".row").find("#uploadedFilesInfo").text("Uploaded " + (filesUploaded) + " of " + files.length);
+                    var serverResponse = $.parseJSON(response.response);
+                    var fileName = serverResponse.file_name;
+                    var uploadForm = $("#tab"+currentFileIndex+" form");
+                    totalUploaded++;
+                    //enabling savedetails button for Current form 
+                    var _upload_form_Div_ = $('#tab'+currentFileIndex);
+                    _upload_form_Div_.find("#saveVideoDetails").attr("disabled",false);
+                    /*
+                    Insert the video in the database and get the video db id from the
+                    database which will be sent with the final form
+                    */
+                    var fileId = false;
+                    $.ajax({
+                        url : baseurl + "/actions/file_uploader.php",
+                        type : "post",
+                        data : {
+                            insertVideo : "yes",
+                            title : fileDetails.name,
+                            file_name : fileName
+                        }
+                    }).success(function(msg){
+                        console.log(msg);
+                        res = $.parseJSON(msg);
+                        console.log(res);
+                        fileId = res.videoid;
+
+                        // creating the hidden form fields
+                        var hiddenVideoIdField = document.createElement('input');
+                        hiddenVideoIdField.name = 'videoid';
+                        hiddenVideoIdField.type = 'hidden';
+                        hiddenVideoIdField.value =  fileId;
+
+                        var hiddenVideoNameField = document.createElement('input');
+                        hiddenVideoNameField.name = 'file_name';
+                        hiddenVideoNameField.type = 'hidden';
+                        hiddenVideoNameField.value =  fileName;
+
+                        var hiddenUploadVideoFlagField = document.createElement('input');
+                        hiddenUploadVideoFlagField.type = 'hidden';
+                        hiddenUploadVideoFlagField.name = 'updateVideo';
+                        hiddenUploadVideoFlagField.value = 'yes';
+
+                        
+                        uploadForm.append(hiddenVideoIdField);
+                        uploadForm.append(hiddenVideoNameField);
+                        uploadForm.append(hiddenUploadVideoFlagField);
+                        uploadForm.find("#cbSubmitUpload").removeAttr('disabled').val('Upload').addClass('btn-success');
+                    });
+
+                    /* 
+                    Submit the form with all the video details and options 
+                    to update the video information in the system
+                    */
+                    $(uploadForm).on({
+                        submit: function(e){
+                            e.preventDefault();
+                            var self = this;
+                            var data = $(this).serialize();
+                            $.ajax({
+                                url : baseurl + "/actions/file_uploader.php",
+                                type : "post",
+                                data : data
+                            }).success(function(msg){
+                                msg = $.parseJSON(msg);
+                                $("#uploadMessage").removeClass("hidden");
+                                if(msg.error){
+                                    $("#uploadMessage").html(msg.error).attr("class", "alert alert-danger");
+                                }else{
+                                    $("#uploadMessage").html(msg.msg).attr("class", "alert alert-success");
+                                }
+                                setTimeout(function(){
+                                    $("#uploadMessage").addClass("hidden");
+                                }, 5000);
+                            }).fail(function(err){
+                                console.log(err);
+                            });
+                        }
+                    });
+
+                    currentFileIndex++;
+
+                });
+
+                uploader.bind("UploadComplete", function(plupload, files){
+                    $("#fileUploadProgress").addClass("hidden");
+                    $("#uploadMore").removeClass("hidden");
+                    $(".uploadingProgressContainer").hide();
+                    uploader.refresh();
+                    $("#uploadMessage").html("All Files are uploaded Successfully").attr("class", "alert alert-success");            
+                    setTimeout(function(){
+                        $("#uploadMessage").addClass("hidden");
+                    }, 5000);
+                });
+
+                uploader.bind('Error', function(up, err) {
+                    $("#uploadMessage").removeClass("hidden");
+                    if(err){
+                        $("#uploadMessage").html(err.message).attr("class", "alert alert-danger");
+                    }
+                    setTimeout(function(){
+                        $("#uploadMessage").addClass("hidden");
+                    }, 8000);
+                });
+
+                $("#files a").click(function(e){
+                    e.preventDefault();
+                    $(this).tab("show");
+                });
+
+                $("#uploadMoreVideos").on({
+                    click: function(e){
+                        e.preventDefault();
+                        $("#uploaderContainer").removeClass("hidden");
+                        $("#uploadDataContainer").addClass("hidden");
+                        //$(this).addClass("hidden");
+                    }
+                });
+
+            });
+
+        });
+    })(window);
+</script>
+
+
+
+
+
+

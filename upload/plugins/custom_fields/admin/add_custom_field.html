@@ -1,0 +1,144 @@
+{if BACK_END}
+<script type="text/javascript" src="{$PLUG_URL}/customfield/js/dynamic_fields.js"></script>
+<div class="heading">
+    <h2>Custom Field</h2>
+</div>
+{if $signup=='signup'}
+<script type="text/javascript">
+$('#myTab3').trigger('click'); //here, select by ID the tab you need to show
+</script>
+{else}{$active=''}{/if}
+<div class="tabbable">
+    <ul class="nav nav-tabs" id="myTab3">
+        <li class="active">
+            <a data-toggle="tab" href="#risession">
+           Video
+            </a>
+        </li>
+        <li id="tab2">
+            <a data-toggle="tab" href="#ruserlog">
+               Signup
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="risession" class="tab-pane in active">
+                 <form method="post">            
+<div id="itemRows">
+Field Name: <input type="text" name="fieldname" size="20" class="fieldname"/> Field Title(Label): <input type="text" name="fieldtitle" size="20" />Type:  <select name="type" id="test2">
+                    <option value=""></option>
+                    <option value="textfield">Textfield</option>
+                    <option value="password">Password</option>
+                    <option value="textarea">Textarea</option>
+                    <option value="checkbox">Checkbox</option>
+                    <option value="radiobutton">Radiobutton</option>
+                    <option value="dropdown">Dropdown</option>
+</select>&nbsp;Default Values:<textarea name="default_value" placeholder="Use Comma Separated values for drop down, radio buttons and checkboxes"  cols="19" rows="4" id="default_video"></textarea>&nbsp;<br/>DB Field(Note:Check this for db field value otherwise use fieldname value)
+<input type='checkbox' value='yes' name='usethis' onclick="enableText(this.checked, 'myTextArea');" id="x">&nbsp;<input id="myTextArea" type="text" disabled="disabled" name="db_field">&nbsp;<input onclick="addRow(this.form);" type="button" value="Add row" class="btn btn-primary btn-xs"/>
+<input type="hidden" name="type_page" value="video">
+</div><br/>
+ <div class="form-group">
+   <input class="btn btn-primary btn-xs" type="submit" value="Submit" name="submit"/>
+ </div>
+            </form>
+    <table class="table table-bordered table-striped manageUsersTable">
+        <tr>
+            <td>Custom Field ID</td>
+            <td>Custom Field Name</td>
+            <td>Custom Field Title</td>
+            <td>Custom Field Type</td>
+            <td>DB Field</td>
+            <td>&nbsp;</td>
+        </tr>
+    {section name=listscustom loop=$listscustom}
+    {if $listscustom[listscustom].customfields_flag =='video'}
+<tr>
+    <td>{$listscustom[listscustom].custom_field_list_id}</td>
+    <td>{$listscustom[listscustom].field_name}</td>
+    <td>{$listscustom[listscustom].field_title}</td>
+    <td>{$listscustom[listscustom].field_type}</td>
+    <td>{$listscustom[listscustom].db_field}</td>
+    <td>
+      
+      <div class="dropdown">
+        <button class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Actions
+        <i class="icon-angle-down icon-on-right"></i></button>
+        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1" style="margin-left:100px;">
+           <li>
+            <a href='{$cb_custom_fields_edit_page}&edit_customfield={$listscustom[listscustom].custom_field_list_id}'>Edit</a>
+          </li>
+          <li>
+          </li>
+            <li>
+<a tabindex="-1" href="{$smarty.server.REQUEST_URI}&deletefield={$listscustom[listscustom].custom_field_list_id}&deletefield_name={$listscustom[listscustom].field_name}&dbfield_name={$listscustom[listscustom].db_field}&page_type={$listscustom[listscustom].customfields_flag}" role="menuitem">Delete</a></li></ul>
+      </div>
+
+    </td>
+</tr>
+{/if}
+{/section}
+</table>
+</div>
+        <div id="ruserlog" class="tab-pane">
+    
+              <form method="post">
+<div id="itemRows2">
+Field Name: <input type="text" name="fieldname_signup" size="20" class="fieldname"/> Field Title(Label): <input type="text" name="fieldtitle_signup" size="20" />Type:  <select name="type2" id="test2">
+                    <option value=""></option>
+                    <option value="textfield">Textfield</option>
+                    <option value="password">Password</option>
+                    <option value="textarea">Textarea</option>
+                    <option value="checkbox">Checkbox</option>
+                    <option value="radiobutton">Radiobutton</option>
+                    <option value="dropdown">Dropdown</option>
+</select>&nbsp;Default Values:<textarea name="default_value_signup" placeholder="Use Comma Separated values for drop down, radio buttons and checkboxes"  cols="19" rows="4" id="default_signup"></textarea>&nbsp;<br/>DB Field(Note:Check this for db field value otherwise use fieldname value)
+<input type='checkbox' value='yes' name='usethis' onclick="enableText2(this.checked, 'myTextArea2');" id="x2">&nbsp;<input id="myTextArea2" type="text" disabled="disabled" name="db_field_signup">&nbsp;<input onclick="addRow2(this.form);" type="button" value="Add row" class="btn btn-primary btn-xs"/>
+<input type="hidden" name="type_page" value="signup">
+</div><br/>
+ <div class="form-group">
+   <input class="btn btn-primary btn-xs" type="submit" value="Submit" name="submit_signup"/>
+ </div>
+</form>
+
+
+ <table class="table table-bordered table-striped manageUsersTable">
+        <tr>
+            <td>Custom Field ID</td>
+            <td>Custom Field Name</td>
+            <td>Custom Field Title</td>
+            <td>Custom Field Type</td>
+            <td>DB Field</td>
+            <td>&nbsp;</td>
+        </tr>
+    {section name=listscustom loop=$listscustom}
+{if $listscustom[listscustom].customfields_flag=='signup'}
+<tr>
+    <td>{$listscustom[listscustom].custom_field_list_id}</td>
+    <td>{$listscustom[listscustom].field_name}</td>
+    <td>{$listscustom[listscustom].field_title}</td>
+    <td>{$listscustom[listscustom].field_type}</td>
+    <td>{$listscustom[listscustom].db_field}</td>
+    <td>
+      
+      <div class="dropdown">
+        <button class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Actions<i class="icon-angle-down icon-on-right"></i></button>
+        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1" style="margin-left:100px;">
+           <li>
+            <a href='{$cb_custom_fields_edit_page}&edit_customfield={$listscustom[listscustom].custom_field_list_id}'>Edit</a>
+          </li>
+          <li>
+          </li>
+            <li>
+<a tabindex="-1" href="{$smarty.server.REQUEST_URI}&deletefield={$listscustom[listscustom].custom_field_list_id}&deletefield_name={$listscustom[listscustom].field_name}&dbfield_name={$listscustom[listscustom].db_field}" role="menuitem">Delete</a></li></ul>
+      </div>
+
+    </td>
+</tr>
+{/if}
+{/section}
+</table>
+        </div>
+        </div>
+  <!--</div>-->
+  {/if}

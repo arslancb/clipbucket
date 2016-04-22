@@ -1,0 +1,165 @@
+<div class="heading">
+  <h2>Manage Pages</h2>
+</div>
+{if $mode =="new"}
+<form method="post">
+  <fieldset class="fieldset cbform">
+    <legend>Add New Page</legend>
+      <div class="row">
+    <div class="col-md-6">
+      <label for="page_name">Page Name</label>
+        <input name="page_name" class="form-control" type="text" id="page_name" value="{'page_name'|post}">
+        </div>
+      <div class="col-md-6">
+      <label for="page_title">Page Title</label>
+        <input type="text" class="form-control" name="page_title" id="page_title" value="{'page_title'|post}" />
+          </div>
+          </div>
+      <div class="form-group">
+      <label for="page_content">Page Content</label>
+      <textarea name="page_content" id="page_content" class="form-control" style="width:100%; min-height:250px">{'page_content'|post|form_val}</textarea>
+          </div>
+          <script type="text/javascript">
+      {literal}new nicEditor({fullPanel : true,maxHeight:350}).panelInstance('page_content');{/literal}
+      </script>
+      <div class="form-group">
+          <input type="submit" name="add_page" id="add_page" value="Create new page +" class="btn btn-primary btn-sm"/>
+          </div>
+  </fieldset>
+</form>
+{/if}
+
+{if $mode =="edit" && $page.page_name!=''}
+<form method="post">
+
+    <legend>Add New Page</legend>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="page_name">Page Name</label>
+          <input name="page_name" class="form-control" type="text" id="page_name" value="{$page.page_name}"></td>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="page_title">Page Title</label>
+          <input type="text" class="form-control" name="page_title" id="page_title" value="{$page.page_title}" />
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="page_content">Page Content</label>
+      <textarea name="page_content" id="page_content" cols="8" rows="8" class="form-control">{$page.page_content|form_val}</textarea>
+      <script type="text/javascript">
+        {literal}new nicEditor({fullPanel : true,maxHeight:350}).panelInstance('page_content');{/literal}
+      </script>
+    </div>
+    <div class="form-group">
+      <input type="submit" name="update_page" id="update_page" value="Update page" class="btn btn-primary"/>
+    </div>
+</form>
+{/if}
+{if $mode=='manage'}
+<form name="page_form" action="?" method="post">
+<div class="btn-group">
+     	  <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="btn"/>
+          <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="btn" />
+          <input class="btn btn-primary btn-xs" type="submit" name="update_order" value="Update order" class="btn" />
+          <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="btn" onclick="return confirm_it('Are you sure you want to delete selected page(s)')"/>
+    </div>
+    <div class="form-group">
+    <input type="button" value="Create New Page +" class="btn btn-primary btn-sm pull-right" onClick="window.location='?mode=new'"/>
+    </div><br><br>
+<table class="table table-bordered">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="50" class="head_sep_left">PID</td>
+    <td width="50" class="head_sep_left">Order</td>
+    <td class="head"><div class="head_sep_left" style="width:250px">Details</div></td>
+    <td width="103">Options</td>
+  </tr>
+
+{assign var = bgcolor value = ""}
+{section name=list loop=$cbpages}
+  <tr class="video_opt_td"  bgcolor="{$bgcolor}">
+    <td width="30" align="center" valign="top" class="video_opt_td">
+      <input name="check_page[]" type="checkbox" id="check_video" value="{$cbpages[list].page_id}" />
+    </td>
+    <td width="50" align="center" valign="top" class="video_opt_td">{$cbpages[list].page_id}</td>
+    <td width="50" align="center" valign="top" class="video_opt_td">
+      <input type="text" style="border: 1px solid rgb(153, 153, 153); padding: 2px; width: 30px;" value="{$cbpages[list].page_order}" name="page_ord_{$cbpages[list].page_id}"/>
+    </td>
+    <td valign="top"  class="video_opt_td"
+                  onmouseover="$('#vid_opt-{$cbpages[list].page_id}').show()"
+                  onmouseout="$('#vid_opt-{$cbpages[list].page_id}').hide()"  style="padding-left:10px">
+      </a>
+      <br>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-3">
+                        <a href="{$cbpage->page_link($cbpages[list])}" target="_blank" style="text-indent:10px">
+                            {$cbpages[list].page_name}</a>
+                        </div>
+     <div class="col-md-9">
+        <div class="labels">
+            <span class="label {if $cbpages[list].active=='yes'}label-success{else}label-warning{/if}"><span>{if $cbpages[list].active=='yes'}Active{else}InActive{/if}</span></span>
+            <span class="label label-info"><span>Added:{$cbpages[list].date_added|niceTime}</span></span>
+            {if $u.usr.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
+            <span class="label {if $cbpages[list].delete_able=='yes'}label-success{else}label-warning{/if}">
+           <span>{if $cbpages[list].delete_able =='no'}UNDELETE-ABLE{else}{$cbpages[list].delete_able =='yes'}DELETE-ABLE{/if}</span>
+                </span>
+        </div>
+         </div>
+                    </div>
+                </div>
+            </div>
+    </td>
+    
+    <td>
+      <div class="dropdown">
+          <button class="btn btn-primary btn-xs dropdown-toggle pull-right" type="button"  id="dropdownMenu1" data-toggle="dropdown">
+            Actions <i class="caret"></i>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="{$cbpage->page_link($cbpages[list])}">View</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="?mode=edit&pid={$cbpages[list].page_id}">Edit</a></li>
+          {if $cbpages[list].active == yes}
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="?deactivate={$cbpages[list].page_id}">Deactivate</a></li>
+          {else}
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="?activate={$cbpages[list].page_id}">Activate</a></li>
+          {/if}
+          <li role="presentation"><a class="disabled" role="menuitem" tabindex="-1" href="#">Delete</a></li>
+          {if $cbpages[list].display!='yes'}
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="?display={$cbpages[list].page_id}">Display in footer</a></li>
+          {else}
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="?hide={$cbpages[list].page_id}">Hide in footer</a></li>
+          {/if}
+        </ul> 
+      </div>
+    </td>
+  </tr>
+  {if $bgcolor == ""}
+  {assign var = bgcolor value = "#EEEEEE"}
+  {else}
+  {assign var = bgcolor value = ""}
+  {/if}
+        
+{/section}
+</table>
+
+    <div class="btn-group">
+     	<input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="btn"/>
+      <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="btn" />
+      <input class="btn btn-primary btn-xs" type="submit" name="update_order" value="Update order" class="btn" />
+      <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="btn" onclick="return confirm_it('Are you sure you want to delete selected page(s)')"/>
+    </div>
+
+</form>
+{/if}
+<script>
+    $(document).ready(function() {
+        $('#page_content').summernote();
+    });
+</script>

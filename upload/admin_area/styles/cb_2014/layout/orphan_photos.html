@@ -1,0 +1,70 @@
+<div class="heading">
+  <h2>Orphan Photos</h2>
+</div>
+<form action="" method="post" name="manage_orpahns">
+<div class="btn-group">
+    <input type="submit" name="make_featured_selected" value="Make Featured" class="btn btn-primary btn-xs"/>
+    <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="btn btn-primary btn-xs"/>
+    <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-xs" onclick="return _cb.confirm_it('Are you sure you want to delete selected photos(s)')"/>
+</div>
+<table class="table table-bordered table-striped">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="_cb.checkUncheckAll(this);"/></td>
+    <td width="75" align="center" valign="middle" class="head">Photo ID</td>
+    <td class="head">Details</td>
+    <td width="50" class="right_head">Options</td>
+  </tr>
+{if $photos}
+{section name=list loop=$photos}
+    <tr>
+        <td>{$photos[list].photo_id}</td>
+        <td>
+            <div class="row">
+            <div class="AdminPhotoThumb col-md-3">
+                {get_photo details=$photos[list] id='photo' style='padding:2px; border:1px solid #ccc' output='html'}
+            </div>
+        <td>
+            <div class="col-md-9">
+                    <h4>
+                      <a class="block" href="{$baseurl}/admin_area/edit_photo.php?photo={$photos[list].photo_id}">{$photos[list].photo_title}</a>
+                    </h4>
+                    <span class="label label-primary">Featured<strong>{$photos[list].featured} </strong></span>
+                    <span class="label label-warning">
+                      {if $photos[list].collection_id}
+                        Collection:<strong><a title="Edit Collection" href="edit_collection.php?collection={$photos[list].collection_id}">{$photos[list].collection_id|get_collection_field}</a></strong>
+                      {else}
+                        Photo is Orphan
+                      {/if}
+                    </span>
+                    <span class="label label-info">
+                      Uploaded:<strong>{$photos[list].date_added|niceTime}</strong>
+                    </span>
+
+                </div>
+            </div>
+        </td>
+        <td>
+          <div class="dropdown">
+            <button class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Actions<i class="icon-angle-down icon-on-right"></i></button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+              <li>
+                <a href="edit_photo.php?photo={$photos[list].photo_id}">Edit</a>
+              </li>
+                <li><a role="menuitem" tabindex="-1" id="delete-{$photos[list].photo_id}" href="?delete_photo={$photos[list].photo_id}">Delete</a></li>
+            </ul>
+          </div>
+        </td>
+    </tr>
+{/section}
+</table>
+
+<div class="btn-group">
+    <input type="submit" name="make_featured_selected" value="Make Featured" class="btn btn-primary btn-sm"/>
+    <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="btn btn-primary btn-sm"/>
+    <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-sm" onclick="return _cb.confirm_it('Are you sure you want to delete selected photos(s)')"/>
+</div>
+{else}
+	<div align="center"><strong><em>No Photo Found</em></strong></div>
+{/if}
+</form>

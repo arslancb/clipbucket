@@ -1,0 +1,17 @@
+/* Css Document */
+
+.pagination
+{
+	background-image:url(../images/bgs/pagination_bg.png);
+	background-repeat:repeat-x;
+	height:23px;
+	width:100%;
+	margin:auto;
+	line-height:23px;
+	color:#FFF;font-weight:bold; font-size:12px; font-family:Arial, Helvetica, sans-serif;
+}
+
+
+.pagination a, .pagination .selected{color:#FFF; font-weight:bold; font-size:13px; font-family:Arial, Helvetica, sans-serif; text-decoration:none; margin:0px 3px 0px 3px; }
+
+.pagination .selected{color:#FFFF97; text-decoration:underline;}

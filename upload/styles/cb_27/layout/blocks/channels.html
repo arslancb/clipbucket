@@ -1,0 +1,92 @@
+
+{if $block_type == '' || $block_type=='normal'}
+<div class="col-md-12  col-sm-12 clearfix nopadding col-xs-12" id="user-{$user.userid}">
+
+    <div class="col-md-2 col-sm-3  nopadding">
+        <a href="{$userquery->profile_link($user)}">
+            <img class="img-circle" src="{avatar details=$user size='50x50'}">
+        </a>
+    </div>
+    <div class="col-md-10 col-sm-9">   
+
+        <div class="col-md-7 col-sm-7  nopadding">
+            <a href="{$userquery->profile_link($user)}">
+            <h5 class="nomargin"><b>{$user.username}</b></h5></a>
+        </div>
+
+        <div class="col-md-9 col-sm-9 prof_title  nopadding">
+
+            <div class="row" >
+                    <div class="col-md-5 col-sm-5 small channels paddingright0">
+                        {if isSectionEnabled('videos')}
+                        {lang code="videos"}:  {$user.total_videos|number_format}
+                        {/if}
+                    </div>
+                <div class="col-md-6 col-sm-6 small  channels paddingleft0" >
+                {lang code="subscribers"}:  {$user.subscribers|number_format}
+                    </div>
+                </div>
+              
+           <a class="btn btn-primary btn-xs" id="subuser-{$user.userid}" >Subscribe</a>
+         
+
+          
+        </div>
+    </div>
+</div>
+{/if}
+
+
+
+
+
+{if $block_type =='small'}
+<div class="col-md-2" id="user-{$user.userid}" align="center">
+    <a href="{$userquery->profile_link($user)}">{$user.username}</a>
+    <a href="{$userquery->profile_link($user)}">
+        <img src="{$userquery->getuserthumb($user)}" class="edit-img-thumbnail" class="user_mid_thumb">
+    </a>
+</div>
+{/if}
+
+{if $block_type =='medium'}
+<div class="user_block_med" id="user-{$user.userid}">
+    <div class="thumb_container_medium" >
+        <a href="{$userquery->profile_link($user)}">
+            <img src="{$userquery->getuserthumb($user)}" class="edit-img-thumbnail" class="user_thumb_medium">
+        </a>
+    </div>
+    <div class="prof_title"><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
+    {$user.total_videos|number_format} {lang code="videos"} {$user.profile_hits|number_format} {lang code="views"}
+</div>
+{/if}
+
+{if $block_type == "friends"}
+<div class="pull-left marginLeft" id="user-{$user.userid}">
+    <a href="{$userquery->profile_link($user)}" title="{$user.username}">
+        <img class="edit-img-thumbnail" src="{avatar details=$user size='small'}" alt="{$user.username}" />
+    </a>
+</div>
+{/if}
+
+{if $block_type == "topic_view"}
+<div class="topicStarterAvatar moveL">
+    <i class="topicStarterAvatarBG" style="background:url({avatar details=$user }) center no-repeat; width:56px; height:56px;"><a href="{$userquery->profile_link($user)}">{$user.username}</a></i>
+</div>
+{/if}
+
+
+ <script>
+           $(document).ready(function (){
+           var id = '{$user.userid}';
+           $('#subuser-' + id).on({
+            click: function(e){
+                e.preventDefault();
+               _cb.subscribeToChannel(id,'subscribe_user','video_detail_result_cont');
+                
+             }
+           });
+            
+           });
+
+           </script>

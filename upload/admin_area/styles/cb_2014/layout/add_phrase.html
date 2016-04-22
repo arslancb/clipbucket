@@ -1,0 +1,40 @@
+<div class="heading">
+    <h2>Add New Phrase</h2>
+</div>
+<form name="form1" method="post" action="">
+<fieldset class="fieldset">
+    <div class="row">
+  <div class="col-md-6">
+    <label for="prasecode">Phrase Code</label>
+        <input type="text" name="name" id="name" class="form-control">
+      </div>
+
+        <div class="col-md-6">
+            <label for="language">Language</label>
+            <select name="lang_code" id="lang_code" class="form-control">
+                {assign var=language value=$lang_obj->get_langs()}
+                {section name=l_list loop=$language}
+                <option value="{$language[l_list].language_code}">{$language[l_list].language_name}</option>
+                {/section}
+            </select>
+        </div>
+        </div>
+
+    <div class="form-group">
+        <label for="phrasetext">Phrase Text</label>
+        <textarea name="text" class="form-control" id="text" cols="45" rows="5"></textarea>
+        </div>
+
+    </fieldset>
+    <div class="form-group">
+        <input type="submit" name="add_phrase" id="add_phrase" value="Add Phrase" class="btn btn-primary btn-sm">
+        </div>
+
+<p class="alert alert-info">To display this text in your template , simple add this where you want to display your text {$LANG.phrase_code}</p>
+</form>
+
+<script>
+    $(document).ready(function() {
+        $('#text').summernote();
+    });
+</script>

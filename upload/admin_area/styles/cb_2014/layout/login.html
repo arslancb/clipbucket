@@ -1,0 +1,38 @@
+<html>
+    <body  style="background-color: #ffffff;">
+        <div class="container">
+            <div class="row ">
+                <div class="logo-admin">
+                    <a href="{$baseurl}" class="login-logo"></a>
+                </div>
+                <h3 align="center" class="mrgnt10">Sign in with your Clipbucket Account</h3>
+                <div class="col-sm-6 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 mrgnt20">
+                   {include file="$style_dir/msg.html" }
+                
+                    <div id="login_box">
+                        <span class="login-profile"></span>
+                        <form name="form1" method="post" action="#">
+                            <div class="form-group">
+                                <input placeholder="Username" type="text" name="username" id="username" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input placeholder="Password" type="password" name="password" id="password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" name="login" class="btn btn-primary btn-block" value="Login">
+                            </div>
+                            <div align="center"><a href="{$baseurl}/forgot.php">{lang code='user_forgot_password'}</a></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        
+            <div align="center" class="login_footer mrgnt10">
+              &copy; ClipBucket Copyright 2007 &#8211; {$smarty.now|date_format:"%Y"} | Arslan Hassan
+            </div>
+        </div>
+    </body>
+</html>
+
+
+

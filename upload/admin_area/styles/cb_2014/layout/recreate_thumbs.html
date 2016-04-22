@@ -1,0 +1,261 @@
+{if $mode == 'single'}
+<div class="heading">
+    <h2>Re-create Photos</h2>
+</div>
+<form action="recreate_thumbs.php?mode={$mode}&amp;photo={$data.photo_id}" method="post" enctype="multipart/form-data">
+	<a href="edit_photo.php?photo={$p.photo_id}">&laquo; Back to Edit Details</a>
+<div style="height:5px;"></div>
+
+<fieldset class="fieldset" style="padding:10px;">
+        	<legend style="font:bold 11px Tahoma; text-transform:uppercase; background:#FFF; padding:0 20px;">Settings on which photos will be re-created</legend>
+    <div class="row">
+        <div class="col-md-4">
+    Ratio
+                <input disabled="disabled" value="{$Cbucket->configs.photo_ratio}" class="disabled" />
+
+            </div>
+        <div class="col-md-4">
+            	Thumb Size
+               <input disabled="disabled" value="{$Cbucket->configs.photo_thumb_width}" class="disabled" /> x <input disabled="disabled" value="{$Cbucket->configs.photo_thumb_height}" class="disabled" />
+            </div>
+        <div class="col-md-4">
+            	Medium Size
+                <div class="moveL"><input disabled="disabled" value="{$Cbucket->configs.photo_med_width}" class="disabled" /> x <input disabled="disabled" value="{$Cbucket->configs.photo_med_height}" class="disabled" />
+            </div>
+        </div>
+            <li class="clearfix myAdminList" style="padding-bottom:5px;">
+            	<div class="moveL PhotoID" style="width:10%">Large Size</div>
+                <div class="moveL"><input disabled="disabled" value="{$Cbucket->configs.photo_lar_width}" class="disabled" /></div>
+            </li>
+            <li class="clearfix myAdminList" style="padding-bottom:5px;">
+            	<div class="moveL PhotoID" style="width:10%">Cropping</div>
+                <div class="moveL">
+                {assign var=cropping value=$Cbucket->configs.photo_crop}
+                {if $cropping == 1}
+                	<span class="AdminBoldText">Enabled</span>
+				{else}
+                	Disabled
+                {/if}
+                </div>
+            </li>
+            <li class="clearfix myAdminList" style="padding-bottom:5px;">
+            	<div class="moveL PhotoID" style="width:10%">Watermarking</div>
+                <div class="moveL">
+                {assign var=watermark value=$Cbucket->configs.watermark_photo}
+                {if $watermark == 1}
+                	<span class="AdminBoldText">Enabled</span> | <span class="AdminBoldText">Placement</span> - <input disabled="disabled" value="{$Cbucket->configs.watermark_placement}" class="disabled" />
+				{else}
+                	<span class="AdminBoldText">Disabled</span>
+                {/if}
+                </div>
+            </li>
+            <li class="clearfix myAdminList" style="padding-bottom:5px; background:#EEE;">
+            	<div class="moveL PhotoID" style="width:10%">&nbsp;</div>
+                <div class="moveL">
+                	<span class="AdminBoldText" style="color:#333;">Update settings if they are not according to your needs.</span>
+                </div>
+            </li>
+        </fieldset>
+        <div style="height:5px; clear:both;"></div>
+        <a href="recreate_thumbs.php?mode={$mode}&amp;photo={$p.photo_id}&amp;recreate=true" style="margin-bottom:5px;" class="myAdminButton moveR">Re-create Photo</a>
+    <fieldset class="fieldset" style="padding:8px;">
+    	{foreach from=$files item=file}
+        	<div style="float:left; margin-right:15px;">
+            <div style="font:bold 11px Tahoma;">
+            	{assign var=size value=$cbphoto->get_image_type($file)}
+            	Filename: {$p.filename}{if $size} - Size: {$size}{/if}
+            </div>
+            <div style="height:5px;"></div>
+            <img src="{$file}" style="max-width:300px;" />
+            </div>
+        {/foreach}
+    </fieldset>
+
+</form>
+{/if}
+
+{if $mode == 'mass' || $mode == ''}
+    <div class="heading">
+        <h2>Mass Re-creation of Photos</h2>
+    </div>
+    <h4>This will re-create all the photos uploaded on your website, according to the settings shown below</h4>
+    <p class="alert alert-warning">Take caution while using Mass Recreation. Use MAX of 5 photos per GO.</p>
+    <div class="recreationSettings">
+        <h3>Settings on which photos will be re-created</h3>
+        <div class="row">
+        <div class="col-md-4">
+            <label for="photo_radio">Ratio</label>
+            <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_ratio}" class="disabled" />
+        </div>
+        <div class="col-md-4">
+            <label for="thumb_size">Thumb size</label>
+            <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_thumb_width}" class="disabled" />
+            <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_thumb_height}" class="disabled" style="margin-top: 10px" />
+        </div>
+
+        <div class="col-md-4">
+            <label for="medium_size">Medium size</label>
+            <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_med_width}" class="disabled" />
+            <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_med_height}" class="disabled" style="margin-top: 10px" />
+        </div>
+            </div>
+        <br>
+        <div class="row">
+        <div class="col-md-4">
+            <label for="large_size">Large size</label>
+            <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_lar_width}" class="disabled" />
+        </div>
+            <div class="col-md-4">
+        <p>
+            Cropping
+            {assign var=cropping value=$Cbucket->configs.photo_crop}
+            {if $cropping == 1}
+                <strong class="label">Enabled</strong>
+            {else}
+                <strong class="label">Disabled</strong>
+            {/if}
+        </p>
+        <p>
+            Watermarking
+
+            {assign var=watermark value=$Cbucket->configs.watermark_photo}
+            {if $watermark == 1}
+                <div class="form-group">
+                    <label for="placement">
+                        <span class="AdminBoldText">Enabled</span> | <span class="AdminBoldText">Placement</span>
+                        <input class="form-control" disabled="disabled" value="{$Cbucket->configs.watermark_placement}" class="disabled" />
+                    </label>
+                </div>
+            {else}
+                <strong class="label">Disabled</strong>
+            {/if}
+        </p>
+            </div>
+
+        <div class="col-md-4">
+            <label for="the_loop_size">Loop size</label>
+            <input class="form-control" type="text" name="textfield" value="{$loop_size}" id="the_loop_size" />
+            <small>
+                Number of photos to re-create in one go.
+            </small>
+        </div>
+        </div>
+        <form name="mass_recreation" method="get" action="">
+            <input type="hidden" name="loop_size" value="" id="loop_start" />
+            <input type="submit" name="mass_recreation" id="mass_recreation" value="Start Recreation" class="btn btn-primary btn-sm"
+            onclick="$('#loop_start').val($('#the_loop_size').val())"/>
+      </form>
+    </div>
+
+<br>
+<p class="alert alert-info">
+    Update settings if they are not according to your needs.
+</p>
+        {if $indexing}
+            <div align="right" style="padding:5px">{$from} - {$to} of {$total}</div>
+            <ul>
+            {foreach from=$index_msgs item=themsg}
+            	<li>{$themsg}</li>
+            {/foreach}
+            </ul>
+            {if  $stop_loop!='yes'}
+				<script type="text/javascript">
+                var start_index = '{$next_index}';
+                var loop_size = '{$smarty.get.loop_size}';
+                var mode = '{$mode}';
+				var button = '{$button}';
+                {literal}$(document).oneTime(2000,function(){$(window.location).attr('href', '?loop_size='+loop_size+'&'+button+'=yes&start_index='+start_index)});{/literal}
+                </script>
+                redirecting....do not close this window
+            {else}
+            	Re-creation of photos have been completed.
+            {/if}
+        {/if}
+{/if}
+
+{if $mode == "collection"}
+    <div class="heading">
+        <h2>Recreate Photos</h2>
+    </div>
+    {if $items}
+    	{assign var=cid value=$items[0].collection_id}
+    	{assign var=c_name value=$items[0].collection_id|get_collection_field}
+    	<span style="font:bold 14px Arial; text-transform:uppercase;">{$c_name}</span>
+        <span style="font:bold 11px Tahoma;">
+        - <a href="{$cbcollection->collection_links($items[0].collection_id,'vc')}">View Collection</a> -
+        <a href="{$baseurl}/admin_area/edit_collection.php?collection={$cid}">Edit Collection</a> -
+        <a href="{$baseurl}/admin_area/manage_items.php?collection={$cid}&amp;type={$items[0].collection_id|get_collection_field:type}">Manage Items</a>
+        </span>
+
+<fieldset class="fieldset" style="padding:10px;">
+        	<legend style="font:bold 11px Tahoma; text-transform:uppercase; background:#FFF; padding:0 20px;">Settings on which photos will be re-created</legend>
+            <li class="clearfix myAdminList" style="padding-bottom:5px;">
+            	<div class="moveL PhotoID" style="width:10%">Ratio</div>
+                <div class="moveL"><input disabled="disabled" value="{$Cbucket->configs.photo_ratio}" class="disabled" /></div>
+            </li>
+            <li class="clearfix myAdminList" style="padding-bottom:5px;">
+            	<div class="moveL PhotoID" style="width:10%">Thumb Size</div>
+                <div class="moveL"><input disabled="disabled" value="{$Cbucket->configs.photo_thumb_width}" class="disabled" /> x <input disabled="disabled" value="{$Cbucket->configs.photo_thumb_height}" class="disabled" /></div>
+            </li>
+
+            <li class="clearfix myAdminList" style="padding-bottom:5px;">
+            	<div class="moveL PhotoID" style="width:10%">Medium Size</div>
+                <div class="moveL"><input disabled="disabled" value="{$Cbucket->configs.photo_med_width}" class="disabled" /> x <input disabled="disabled" value="{$Cbucket->configs.photo_med_height}" class="disabled" /></div>
+            </li>
+
+            <li class="clearfix myAdminList" style="padding-bottom:5px;">
+            	<div class="moveL PhotoID" style="width:10%">Large Size</div>
+                <div class="moveL"><input disabled="disabled" value="{$Cbucket->configs.photo_lar_width}" class="disabled" /></div>
+            </li>
+            <li class="clearfix myAdminList" style="padding-bottom:5px;">
+            	<div class="moveL PhotoID" style="width:10%">Cropping</div>
+                <div class="moveL">
+                {assign var=cropping value=$Cbucket->configs.photo_crop}
+                {if $cropping == 1}
+                	<span class="AdminBoldText">Enabled</span>
+				{else}
+                	Disabled
+                {/if}
+                </div>
+            </li>
+            <li class="clearfix myAdminList" style="padding-bottom:5px;">
+            	<div class="moveL PhotoID" style="width:10%">Watermarking</div>
+                <div class="moveL">
+                {assign var=watermark value=$Cbucket->configs.watermark_photo}
+                {if $watermark == 1}
+                	<span class="AdminBoldText">Enabled</span> | <span class="AdminBoldText">Placement</span> - <input disabled="disabled" value="{$Cbucket->configs.watermark_placement}" class="disabled" />
+				{else}
+                	<span class="AdminBoldText">Disabled</span>
+                {/if}
+                </div>
+            </li>
+            <li class="clearfix myAdminList" style="padding-bottom:5px; background:#EEE;">
+            	<div class="moveL PhotoID" style="width:10%">&nbsp;</div>
+                <div class="moveL">
+                	<span class="AdminBoldText" style="color:#333;">Update settings if they are not according to your needs.</span>
+                </div>
+            </li>
+        </fieldset>
+		<form action="" method="post" name="collection_photos_recreate">
+        <fieldset class="fieldset" style="padding:10px;">
+        	<legend style="font:bold 11px Tahoma; text-transform:uppercase; background:#FFF; padding:0 20px;">Photos</legend>
+            <table border="0" cellspacing="0">
+            {section name=list loop=$items}
+            	<td style="display:inline-block; padding:5px;">
+                	<div style="position:relative">
+                    <input type="checkbox" value="{$items[list].photo_id}" id="photo_{$items[list].photo_id}" style="position:absolute; top:1px; right:1px; " name="check_photo[]" />
+                	<label for="photo_{$items[list].photo_id}">{get_photo output=html details=$items[list] style='padding:1px; border:1px solid #aaa'}</label>
+                    </div>
+                </td>
+            {/section}
+            </table>
+        </fieldset>
+        <div class="AdminBoldText moveL" style="padding:10px 0 0;">Select photos you want to re-created | </div>
+        <label for="id_selectALL" class="myAdminButton clearfix moveL" type="button" name="checkall" onclick="_cb.checkUncheckAll(this);" style="margin:5px 0 0 5px">Select All</label><input type="checkbox" id="id_selectALL" style="visibility:hidden;" name="checkall" onclick="_cb.checkUncheckAll(this);"/>
+        <div style="margin-top:5px;" class="moveR"><input type="submit" name="recreating" value="Re-create Photos"  class="myAdminButton"/></div>
+        </form>
+
+    {else}
+
+    {/if}
+{/if}

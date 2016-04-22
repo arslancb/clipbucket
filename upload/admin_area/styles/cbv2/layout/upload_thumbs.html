@@ -1,0 +1,40 @@
+{if $data.title neq ""}
+<h2>Manage Video Thumbs</h2>
+<form action="upload_thumbs.php?video={$data.videoid}" method="post" enctype="multipart/form-data" name="set_default_thumb" id="set_default_thumb">
+  <a href="edit_video.php?video={$data.videoid}">&laquo; Back to Edit Details</a> | <a href="upload_thumbs.php?video={$data.videoid}&gen_more=true">Regenerate Thumbs</a><br />
+  <fieldset class="fieldset">
+  {$vidthumbs=get_thumb($data,1,TRUE,FLASE,TRUE,FALSE)}
+
+  {foreach from=$vidthumbs item=vid_thumb}
+ 
+<div style="width:140px; float:left" align="center">
+    	<label for="{$vid_thumb|getname}"><img src="{$vid_thumb}" border="1" style="margin:4px; max-width:120px" /><br />
+        <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $data.default_thumb==$vid_thumb|getname|get_thumb_num} checked="checked"{/if} />Default</label><br />
+  {if $vid_thumb|getname!='processing'}
+  <a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">Delete</a>
+  {/if}
+  </div>
+  {/foreach}
+	<div style="clear:both;"></div><br />
+  </fieldset>
+  <div align="left" style=" width:98%; margin:auto; margin-top:10px;">
+    <input type="submit" name="update_default_thumb" value="Update Video Thumb" class="button"/>
+  </div>
+</form>
+<div style="height:20px"></div>
+<form action="upload_thumbs.php?video={$data.videoid}" method="post" enctype="multipart/form-data" name="form1">
+    <h2>Upload New Thumb</h2>
+     <fieldset class="fieldset">
+    <div align="right" style="width:500px;"><a href="javascript:void(0)" onclick="$('#thumb_fileds').append('<input name=\'vid_thumb[]\' type=\'file\' /><br>')">+ Insert More</a></div>
+    <div id="thumb_fileds" style="margin:10px">
+    <input name="vid_thumb[]" type="file" />
+    <label for="thumb_file"></label>
+    <br />
+    </div>
+    </fieldset>
+	 <div align="left" style=" width:98%; margin:auto; margin-top:10px;">
+    <input type="submit" name="upload_thumbs" value="Upload Thumb(s)" class="button"/>
+    </div>
+</form>
+<div style="height:20px"></div>
+ {/if}

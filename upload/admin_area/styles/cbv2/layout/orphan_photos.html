@@ -1,0 +1,78 @@
+<h2>Orphan Photos</h2>
+<form action="" method="post" name="manage_orpahns">
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+            <input type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+            <input type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected photos(s)')"/>
+    
+    </td>
+    </tr>
+</table>
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="75" align="center" valign="middle" class="head">Photo ID</td>
+    <td class="head">Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+{if $photos}
+
+{section name=list loop=$photos}
+<li class="clearfix myAdminList" style="background:#{cycle values='FFFFFF,EEEEEE'}" 
+	OnMouseOver="$('#vid_opt-{$photos[list].photo_id}').show()"
+    OnMouseOut="$('#vid_opt-{$photos[list].photo_id}').hide()">
+	<div class="moveL PhotoCheckBox">
+    	<div align="center"><input name="check_photo[]" type="checkbox" id="check_photo_{$photos[list].photo_id}" value="{$photos[list].photo_id}" /></div>
+    </div>
+    <div class="moveL PhotoID">{$photos[list].photo_id}</div>
+    
+    <div class="moveL clearfix PhotoDetails" style="width:88%;">
+    	<div class="moveL AdminPhotoThumb">
+        	<label for="check_photo_{$photos[list].photo_id}">{get_photo details=$photos[list] id='photo' style='padding:2px; border:1px solid #ccc' output='html'}</label>
+        </div>
+        <div class="moveL">
+        	<a href="{$baseurl}/admin_area/edit_photo.php?photo={$photos[list].photo_id}">{$photos[list].photo_title}</a>
+            <div style="height:4px;"></div>
+            <span class="vdo_sets">
+                Featured:<strong>{$photos[list].featured} </strong> &#8226;
+                {if $photos[list].collection_id}
+                Collection:<strong><a title="Edit Collection" href="edit_collection.php?collection={$photos[list].collection_id}">{$photos[list].collection_id|get_collection_field}</a></strong>  
+                {else}
+                	Photo is Orphan
+                {/if} &#8226;
+                Uploaded:<strong>{$photos[list].date_added|niceTime}</strong>  &#8226;
+                User:<strong><a href="view_user.php?uid={$photos[list].userid}">{$photos[list].username}</a></strong>
+            </span>
+            <div style="height:4px;"></div>
+            <div id="vid_opt-{$photos[list].photo_id}" style="display:none" class="AdminPhotoActions">              
+                <a href="edit_photo.php?photo={$photos[list].photo_id}">Edit</a> | 
+				<a href="javascript:void(0);" id="delete-{$photos[list].photo_id}" onmousedown="delete_item('delete','{$photos[list].photo_id}','Are you sure you want to delete? This will permanently delete {$photos[list].photo_title} from website.','?delete_photo={$photos[list].photo_id}');">Delete</a>
+            </div>
+        </div>
+    </div>
+</li>
+{/section}
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+            <input type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+            <input type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected photos(s)')"/>
+    </td>
+    </tr>
+</table>
+
+</form>
+{else}
+	<div align="center"><strong><em>No Photo Found</em></strong></div>
+{/if}

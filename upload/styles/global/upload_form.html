@@ -1,0 +1,141 @@
+{$videoFields = $Upload->load_video_fields($input)}
+{$requiredFields = $videoFields[0]}
+{$sharingOptions = $videoFields[1]}
+{$dateAndLocation = $videoFields[2]}
+<div class="uploaderContainer clearfix" id="uploaderContainer">
+    <div class="upload-area col-md-12">
+        <div class="fileUploaderForm">
+            <div class="dragDropContainer" id="dragDrop">
+                <span class="upload-logo"></span>
+                <strong class="block-title">Drag &amp; Drop Files Here</strong>
+                <p>Video can be 1000 MB in size, 120 Min in Duration and of any common format You can also upload HD videos</p>
+            </div>
+            <div class="selectButtonContainer">
+                <a id="selectFiles" href="javascript:;" class="btn btn-primary btn-lg selectFiles">Select Videos</a>
+                <!-- <p>Video can be 1000 MB in size, 120 Min in Duration and Any common format<br>You can also upload HD videos</p> -->
+            </div>
+            <!-- <a id="uploadFiles" class="btn btn-success" href="javascript:;">Upload</a> -->
+            
+        </div>
+    </div>
+</div>
+<div id="uploadDataContainer" class="uploadDataContainer hidden">
+    <div class="uploadingProgressContainer">
+        <div class="alert alert-block alert-info">
+            <p><b>Selected Files</b> Uploading in progress <small style="color:white;"><span id="progressNumber">0%</span> Complete of Video <span id="videoNumber"></span></small></p>
+        </div>
+    </div>
+    <div class="align-right hidden" id="uploadMore">
+        <a href="#" class="btn btn-primary uploadMoreVideos" id="uploadMoreVideos">Upload More Videos</a>
+    </div>
+    <div id="files"></div>
+    <div id="allUploadForms" class="tab-content allUploadForms"></div>
+</div>
+
+<form action="#" id="updateVideoInfoForm" class="hidden">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="" id="updateVideoInfo">
+                <fieldset class="">
+                    <legend class="">{$requiredFields.group_name}</legend>
+                </fieldset>
+                <div class="requiredFields">
+                  {foreach $requiredFields.fields as $field}
+                        <div class="form-group">
+                        {$field.class='form-control'}
+                        {$field.notShowSeprator='yes'}
+                        {if $field.type == 'radiobutton'}
+                            {$field.label_class='radio'}
+                            {$field.class=''}
+                            {$formObj->createField($field)}
+                        {elseif $field.type == 'checkbox'}
+                            {$categories = $field}
+                        {else}
+                            <label for="{$field.id}">{$field.title}</label>
+                            {$formObj->createField($field)}
+                        {/if}
+                        </div>
+                    {/foreach}
+                </div>
+
+                <div class="formSection clear">
+                    <h4>{$dateAndLocation.group_name} <i class="glyphicon glyphicon-chevron-down pull-right"></i></h4>
+                    <div class="sectionContent hidden">
+                        {foreach $dateAndLocation.fields as $field}
+                        <div class="form-group">
+                        {$field.class='form-control'}
+                            {$field.notShowSeprator='yes'}
+                            {if $field.type == 'radiobutton'}
+                                {$field.label_class='radio'}
+                                {$field.class=''}
+                                {$formObj->createField($field)}
+                            {elseif $field.type == 'checkbox'}
+                                <h4>{$field.title}</h4>
+                                {$field.label_class='checkbox'}
+                                {$field.class='checkbox'}
+                                {$formObj->createField($field)}
+                            {else}
+                                <label for="{$field.id}">{$field.title}</label>
+                                {$formObj->createField($field)}
+                            {/if}
+                            </div>
+                        {/foreach}    
+                    </div>
+                </div>
+  
+                <div class="formSection clear">
+                    <h4>{$sharingOptions.group_name}<i class="glyphicon glyphicon-chevron-down pull-right"></i></h4>
+                    <div class="sectionContent hidden">
+                        {foreach $sharingOptions.fields as $field}
+                            <div class="form-group">
+                            {$field.class='form-control'}
+                            {$field.notShowSeprator='yes'}
+                            {if $field.type == 'radiobutton'}
+                                {$field.label_class='radio'}
+                                {$field.class=''}
+                                {$formObj->createField($field)}
+                            {else}
+                                <label for="{$field.id}">{$field.title}</label>
+                                {$formObj->createField($field)}
+                            {/if}
+                            </div>
+                        {/foreach}
+                    </div>
+                </div>
+
+                <div class="pad-bottom-sm text-right">
+                    <button class="btn btn-primary btn-lg"   id="saveVideoDetails">Submit Now</button>
+                </div>  
+            </div>
+        </div>
+        <div class="col-md-4 uploadFormSidebarDiv">
+            <h4>{$categories.title}</h4>
+            <small>{$categories.hint_1}</small>
+            <div class="categoriesContainer">
+                {$categories.label_class='checkbox'}
+                {$categories.class='checkbox'}
+                {$formObj->createField($categories)}
+            </div>
+            <!-- <div class="cb-box pad-bottom terms-contatiner">
+                <div class="checkbox">
+                    <label class="light">
+                        <input type="checkbox" value="">
+                        I have read and agree to submission policy
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label class="light">
+                        <input type="checkbox" value="">
+                        I have read and agree to terms and conditions
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label class="light">
+                        <input type="checkbox" value="">
+                        Remember these settings
+                    </label>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</form>

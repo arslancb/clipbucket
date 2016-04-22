@@ -1,0 +1,180 @@
+<h2>Edit Group</h2>
+
+{* Loading Form Fields *}
+{assign var='requiredFields' value=$cbgroup->load_required_fields($group,true)}
+{assign var='optionFields' value=$cbgroup->load_other_fields($group)}
+<div class="head">Editing {$group.title}</div>
+<form name="edit_group" method="post" enctype="multipart/form-data">
+<fieldset class="fieldset">
+    <legend>Thumbs</legend>
+    <div class="row">
+    <div class="col-md-6">
+        <img src="{$cbgroup->get_group_thumb($group)}?{$random_number}" class="thumbnail"/>
+        <span>{$LANG.grp_must_be} JPG | GIF | PNG</span>
+        <span>{$LANG.grp_90x90}</span>
+        <span>{$LANG.grp_thumb_warn}</span>
+        <input type="file" class="marginTop" name="thumb_file" id="thumb_file" style="
+    width: 300px;
+">
+    </div>
+        <button id="hideshow" class="btn btn-default pull-right dropdown-toggle" data-toggle="dropdown">
+            Group Stats <i class="caret"></i></button>
+            <div class="col-md-6 well" id="content" style="display: none">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="total_views">Total Views</label>
+                            <input name="total_views" class="form-control" type="text" id="total_views" value="{$group.total_views}" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                        <label for="total_members">Total Members</label>
+                        <input name="total_members" class="form-control" type="text" id="total_members" value="{$group.total_members}" />
+                    </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                        <label for="total_videos">Total Videos</label>
+                        <input name="total_videos" class="form-control" type="text" id="total_views4" value="{$group.total_videos}" />
+                    </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                        <label for="total_topics">Total Topics</label>
+                        <input name="total_topics" class="form-control" type="text" id="total_views5" value="{$group.total_topics}" />
+                    </div>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="clearfix"></div>
+ </fieldset>
+  <legend class="marginTop">Required Details</legend>
+   <fieldset>
+       
+   
+    <div class="row">
+        {foreach from=$requiredFields item=field}
+        {$field.class = 'form-control'}
+        {if $field.title == 'Group name'}
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="{$field.id}">{$field.title}</label>
+                {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
+            </div>
+        {/if}
+        {$field.class = 'form-control'}
+        {if $field.title == 'Tags'}
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="{$field.id}">{$field.title}</label>
+            {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
+            </div>
+        {/if}
+        
+        {$field.class = 'form-control'}
+                {if $field.title == 'Choose a unique group name URL:'}
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="{$field.id}">{$field.title}</label>
+                            {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                        </div>
+                    </div>
+                {/if}
+        {/foreach}
+    </div>
+    <div class="row">
+        {foreach from=$requiredFields item=field}
+            {$field.class = 'form-control'}
+            {if $field.title == 'Description'}
+            <div class="col-md-4">
+            <div class="form-group">
+                <label for="{$field.id}">{$field.title}</label>
+                {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
+            </div>
+            {/if}
+            {$field.class = 'form-control'}
+            {if $field.title == 'Group Category:'}
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="{$field.id}">{$field.title}</label><br>
+                        <div class="boxBordered">
+                            {$field.label_class = "checkbox"}
+                            {$field.notShowSeprator = true}
+                            {$formObj->createField($field)}
+                        </div>
+                        <small>{$field.hint_1}</small>
+                    </div>
+            {/if}
+        {/foreach}
+    </div>
+
+        </fieldset>          <!--<div class="form-group">-->
+                      <!--{$field.class='form-control'}-->
+                    <!--<label for="$field.id">{$field.title} </label>-->
+                    <!--{if $field.hint_1}{$field.hint_1}<br />{/if}-->
+<!--{if $field.anchor_before}{ANCHOR place=$field.anchor_before}<br />{/if}-->
+<!--{$formObj->createField($field)} <br />-->
+
+<!--{$field.hint_2}-->
+
+
+
+    <div class="tabbable">
+        <ul class="nav nav-tabs" id="myTab3">
+            <li class="active">
+                <a data-toggle="tab" href="#privacy">
+                    Privacy
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#fpostings">
+                    Forum Postings
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="privacy" class="tab-pane in active">
+   {foreach from=$optionFields item=field}
+    {if $field.title=='Privacy'}
+    {$field.class='form-control'}
+    <label class="label label-danger $field.id">{$field.title} </label><br>
+        {if $field.hint_1}{$field.hint_1}<br />{/if}
+        {$formObj->createField($field)}
+    {/if}
+                {/foreach}
+                </div>
+            <div id="fpostings" class="tab-pane">
+                {foreach from=$optionFields item=field}
+    {if $field.title=='Forum Posting:'}
+    {$field.class='form-control'}
+    <label class="label label-danger $field.id">{$field.title} </label><br>
+        {if $field.hint_1}{$field.hint_1}<br />{/if}
+        {$formObj->createField($field)}
+    {/if}
+                {/foreach}
+                </div>
+            </div>
+
+<div class="button">
+<input type="submit" class="btn btn-primary" value="Update Group details"  name="update_group" id="update_group">
+</div>
+</form>
+
+
+
+
+<script>
+    var button = document.getElementById('hideshow'); // Assumes element with id='button'
+
+    button.onclick = function() {
+        var div = document.getElementById('content');
+        if (div.style.display !== 'none') {
+            div.style.display = 'none';
+        }
+        else {
+            div.style.display = 'block';
+        }
+    };
+</script>

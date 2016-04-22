@@ -1,0 +1,161 @@
+{assign var=friends value=$userquery->get_contacts($user.userid,0)}
+<div id="result_cont"></div>
+<div id="messageFav"></div>
+<div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) center #000000 no-repeat;" >
+   {if $user.userid == userid()}
+   <a href="#" class="btn btn-primary btn-sm  changeCover sr-only" id="changeCover">{lang code="Update Cover"}</a>
+   {/if}
+    <div align="center" class="btn-group right-top-btns">
+    {if $user.userid != userid()}
+
+        {if $friends && userid()}
+        <a href="{$baseurl}/manage_contacts.php?mode=delete&userid={$u.userid}"  class="btn btn-danger btn-sm new1">
+           <i class="glyphicon glyphicon-ok white"></i> 
+           {lang code="Unfriend"}
+        </a>
+           
+        {elseif !$friends && userid()}
+        <a href="javascript:void(0)"  class="btn btn-primary btn-sm new1" 
+           onclick="add_friend('{$user.userid}','result_cont')">
+           <i class="glyphicon glyphicon-plus-sign white"></i> 
+           {lang code="Add As Friend"}
+           {/if}
+       </a>
+    {/if}
+    {if $user.userid != userid()}
+        <a href="private_message.php?mode=new_msg&to={$user.username}" class="btn btn-primary btn-sm new1">
+            <i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}
+        </a>
+
+        <button id="subscribe_channel"class="btn btn-primary btn-sm new1"><i class="icon-rss white"></i>  {lang code="Subscribe"}</button>
+        {/if}
+    </div>
+    <img class="view-channel-thumb" src="{$userquery->getUserThumb($user)}">
+    <h3 class="view-channel-name">{$user.username}</h3>
+
+
+    <div class="btn-bootums">
+        <span>
+            <p>{$user.total_videos}</p>
+            <p> Videos </p>
+        </span>
+        <span>
+            <p>{$user.total_photos}</p>
+            <p> Photos </p>
+        </span>
+        <span>
+            <p>{$user.profile_hits}</p>
+            <p> Views </p>
+        </span>
+        <span>
+            <p>{$user.subscribers}</p>     
+            <p> Contacts </p>
+        </span>
+    </div>
+
+
+    <div class="view-channel-like-sec">
+        <div class="watch-vid-thumbsupdown-sec" id="rating_container">
+        {show_video_rating rating=$p.rating ratings=$p.rated_by total='10' id=$p.userid type=user}
+        </div>
+    </div>
+
+</div>
+<div class="clearfix"></div>
+
+ <br><br> 
+
+<!-- <div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) no-repeat scroll center center / 100% 100% #000000;" >
+      {if $user.userid == userid()}
+      <a href="#" class="btn btn-primary btn-sm  changeCover sr-only" id="changeCover">{lang code="Update Cover"}</a>
+      {/if}
+      <div class="channel-cover-thumb-container">
+
+        <a class="navbar-brand channel-cover-thumb no-padding" href="#">
+            <img class="" src="{$userquery->getUserThumb($user)}"  width="140" height="140">
+        </a>
+        <h3>{$user.username}</h3>
+        <div class="channel-cover-likeunlike-sec">
+          <h6 class=""><b><span id="likes">{$user["likes"]}</span> people like this channel out of <span id="totalVotes">{$user["voted"]}</span></b></h6>
+          <div class="btn-group channel-cover-likeunlike-btns">
+            {if !$userquery->login_check('',true)}
+            <button id="" class="btn btn-primary btn-sm"  href="#" data-toggle="modal" data-target="#login-modal" style=""><i class="glyphicon glyphicon-thumbs-up"></i>  <b>Login to like</b></button>
+            {else}
+            <button class="btn btn-danger btn-sm" id="channelVoteDown" style=""><i class="glyphicon glyphicon-thumbs-down"></i><b> Unlike</b></button>
+            <button id="channelVoteUp" class="btn btn-primary btn-sm" style=""><i class="glyphicon glyphicon-thumbs-up"></i><b> like</b></button>
+            {/if}  
+          </div>
+        </div>
+      </div>
+      <div class="channel-cover-rss-sec">
+        <div align="center" class="btn-group" style="">
+          <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1 mrs" onclick="add_friend('{$user.userid}','result_cont')">
+            <i class="glyphicon glyphicon-plus-sign white"></i>  
+          {lang code="Add as Friend"}</button>
+          <a href="private_message.php?mode=new_msg&to=admin" style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1 mrs"><i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}</a>
+          <button id="subscribe_channel" style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1 "><i class="icon-rss icon-spin white"></i>  {lang code="Subscribe"}</button>
+        </div>
+      </div>
+      <div class="channel-cover-views-sec" style="">
+        {if $user.userid == userid()}
+        <button class="btn btn-primary new1 pointer-default" style="background-color: #000000;color: white">
+          <span class="line-height-1 bigger-170 blue">{$user.total_videos}</span>
+          <br>
+          <span class="line-height-1 smaller-90 new1"> Videos </span>
+        </button>
+        <span class="btn btn-primary new1 pointer-default" style="background-color: #000000;color: #ffffff">
+          <span class="line-height-1 bigger-170 blue">{$user.total_photos}</span>
+          <br>
+          <span class="line-height-1 smaller-90 new1"> Photos </span>
+        </span>
+        <span class="btn btn-primary new1 pointer-default" style="background-color: #000000; color: #ffffff">
+          <span class="line-height-1 bigger-170 blue">{$user.profile_hits}</span>
+          <br>
+          <span class="line-height-1 smaller-90 new1"> Views </span>
+        </span>
+        <span class="btn btn-primary new1 pointer-default" style="background-color: #000000;color: #ffffff">
+          <span class="line-height-1 bigger-170 blue">{$user.subscribers}</span>
+          <br>
+          <span class="line-height-1 smaller-90 new1"> Contacts </span>
+        </span>
+        {/if}
+      </div>
+
+    
+        
+  </div>
+
+  <div class="channel-user-cover-bottomcategs">
+      <div class="" style="width:100%;">
+          <div align="" class="btn-group full-width">
+              
+              <button style="" class="btn btn-primary btns-below-cover"><i class="glyphicon glyphicon-plus-sign white"> </i>{lang code="Add as Friend"}</button>
+              <a href="private_message.php?mode=new_msg&to=admin" style="" class="btn btn-primary btns-below-cover"> <i class="glyphicon glyphicon-envelope white"></i>{lang code="Send Message"}</a>
+              <button style="" class="btn btn-primary btns-below-cover"><i class="icon-rss icon-spin white"> </i>{lang code="Subscribe"}</button>
+          </div>
+      </div>
+      <div class="channel-user-cover-bottomcategs" style="width:100%;">
+        {if $user.userid == userid()}
+        <button class="btn btn-primary btns-below-cover2 mrs" style="">
+          <span class="line-height-1 bigger-170 blue">{$user.total_videos}</span>
+          <br>
+          <span class="line-height-1 smaller-90 new1"> Videos </span>
+        </button>
+        <span class="btn btn-primary btns-below-cover2 mrs" style="">
+          <span class="line-height-1 bigger-170 blue">{$user.total_photos}</span>
+          <br>
+          <span class="line-height-1 smaller-90 new1"> Photos </span>
+        </span>
+        <span class="btn btn-primary btns-below-cover2 mrs" style="">
+          <span class="line-height-1 bigger-170 blue">{$user.profile_hits}</span>
+          <br>
+          <span class="line-height-1 smaller-90 new1"> Views </span>
+        </span>
+        <span class="btn btn-primary btns-below-cover3" style="">
+          <span class="line-height-1 bigger-170 blue">{$user.subscribers}</span>
+          <br>
+          <span class="line-height-1 smaller-90 new1"> Contacts </span>
+        </span>
+        {/if}
+      </div>
+    </div> -->

@@ -1,0 +1,148 @@
+
+{if $mode=='view'}
+<span class="page_title">Flagged Groups Manager</span>
+<!-- DIsplaying Videos -->
+<form name="flagged_video" method="post" id="flagged_video">
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+     		<input type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input type="submit" name="delete_selected" value="Delete Groups"  class="button" onclick="return confirm_it('Are you sure you want to delete these group(s)')"/>
+            
+            <input type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return confirm_it('Are you sure you want to delete flags of selected group(s)')"/>
+    
+    </td>
+    </tr>
+</table>
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="50" align="left" class="head">GP-ID</td>
+    <td class="head">Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+
+
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+{assign var = bgcolor value = ""}
+{section name=gp_list loop=$groups}
+<tr class="video_opt_td"  bgcolor="{$bgcolor}">
+    <td width="30" align="center" valign="top" class="video_opt_td"><input name="check_group[]" type="checkbox" id="check_group" value="{$groups[gp_list].group_id}" /></td>
+    <td width="50" align="left" valign="top" class="video_opt_td">{$groups[gp_list].group_id}</td>
+    <td valign="top"  class="video_opt_td" 
+    onmouseover="$('#vid_opt-{$groups[gp_list].group_id}').show()" 
+    onmouseout="$('#vid_opt-{$groups[gp_list].group_id}').hide()" >
+    <div style="float:left; width:45px; height:34px;" >
+    	<img src="{$cbgroup->get_group_thumb($groups[gp_list])}" border="1" class="mid_user_thumb" />
+    </div>
+    <a href="{$baseurl}/view_group.php?url={$groups[gp_list].group_url}" target="_blank" style="text-indent:10px">
+    {$groups[gp_list].group_name}
+    </a> &#8212;
+    <span class="vdo_sets">
+    Group Owner:<strong> <a href="view_user.php?uid={$groups[gp_list].userid}">{$groups[gp_list].userid|get_username}</a></strong> &#8226;
+    Group Type:<strong> {if $groups[gp_list].group_privacy =="0"}Public{elseif $groups[gp_list].group_privacy =="1"}Private{else}Invited{/if}</strong> &#8226;
+    Group Status:<strong>{if $groups[gp_list].active=="yes"} Active{else}Inactive{/if}</strong> &#8226;
+    Group Members:<strong>{$groups[gp_list].total_members|number_format}</strong> &#8226;
+    Flags:<strong>{$groups[gp_list].total_flags}</strong>
+    </span>
+    
+    <br />
+    <div id="vid_opt-{$groups[gp_list].group_id}" style="display:none" class="vid_opts">
+   	 
+      <a href="{group_link details=$groups[gp_list]}" target="_blank">View</a> | 
+      <a href="edit_group.php?group_id={$groups[gp_list].group_id}">Edit</a>
+      
+      
+      
+      {if $groups[gp_list].active == yes}  | 
+      <a href="?deactivate={$groups[gp_list].group_id}">Deactivate</a> {else} | 
+      <a href="?activate={$groups[gp_list].group_id}">Activate</a> {/if}  | 
+      <a href="{$baseurl}/manage_groups.php?mode=manage_videos&gid={$groups[gp_list].group_id}">Manage</a> |  
+      <a href="?delete_group={$groups[gp_list].group_id}">Delete</a> |
+      <a href="?mode=view_flags&gid={$groups[gp_list].group_id}">View Flags</a> |
+      <a href="?delete_flags={$groups[gp_list].group_id}">Delete Flags</a>
+    </div>
+    </td>
+    <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
+    </tr>
+    {if $bgcolor == ""}
+    {assign var = bgcolor value = "#EEEEEE"}
+    {else}
+    {assign var = bgcolor value = ""}
+    {/if}
+        
+{/section}
+</table>
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+     <input type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input type="submit" name="delete_selected" value="Delete Groups"  class="button" onclick="return confirm_it('Are you sure you want to delete these group(s)')"/>
+            
+            <input type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return confirm_it('Are you sure you want to delete flags of selected group(s)')"/>
+    
+    </td>
+    </tr>
+</table>
+
+</form>
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }
+
+{/if}
+
+
+{if $mode=='view_flags'}
+      
+<span class="page_title">Viewing {$group.group_name} flags</span> &#8212; <a href="{group_link details=$group}">View Group</a> &#8226; <a href="edit_group.php?group_id={$group.group_id}">Edit Group</a> &#8226; <a href="?delete_flags={$group.group_id}">Delete Flags</a> &#8226; <a href="?delete_group={$group.group_id}">Delete Group</a>
+<div  style="margin-bottom:10px"></div>
+<!-- DIsplaying Videos -->
+<form name="video_manage" method="post">
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">&nbsp;</td>
+    <td class="head">Flag Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+
+
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+{assign var = bgcolor value = ""}
+{section name=list loop=$flags}
+<tr class="video_opt_td"  bgcolor="{$bgcolor}">
+    <td width="30" align="left" valign="top" class="video_opt_td">{$smarty.section.list.iteration}</td>
+    <td align="left" valign="top" class="video_opt_td">Reported as "{$flags[list].flag_type|flag_type}" by {$flags[list].userid|get_username} {$flags[list].date_added|niceTime}</td>
+    <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
+    </tr>
+    {if $bgcolor == ""}
+    {assign var = bgcolor value = "#EEEEEE"}
+    {else}
+    {assign var = bgcolor value = ""}
+    {/if}
+        
+{/section}
+</table>
+</form>
+
+{/if}

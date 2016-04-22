@@ -1,0 +1,84 @@
+{if $display_type == ""}
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 mbm ft-hover">
+        <!--<span class="photoname" id="avatar1_file" style="height: 45px; overflow: hidden;" >{$photo.photo_title|truncate:30}</span>-->
+        
+        <a class="searchresult-photo" href="{$cbphoto->photo_links($photo,'view_item')}" title="Tolpis barbata (mariluzpicado)">
+            {get_photo details=$photo size='l' class='photo-land' output='html'}
+
+           <!-- <img alt="{$photo.photo_title}" title="{$photo.photo_title}" class="photo-land" id="photo_{$photo.photo_id}" src="{$baseurl}/styles/cbv2.7/timthumb.php?src={get_photo details=$photo size='o'}&h=150&w=150&zc=1"> -->
+        <!-- <span class="photoname">
+        {if $photo.photo_title=='no-tag'}no-title
+        {else}
+        {$photo.photo_title|truncate:25}
+        {/if}
+        </span> -->
+        </a>
+        <div class="hover">
+			<a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">
+				<span class="photo-title">
+				{if $photo.photo_title=='no-tag'}no-title
+		        {else}
+		        {$photo.photo_title|truncate:25}
+		        {/if}
+        		</span>
+				<span class="plus">plus</span>
+			</a>
+		</div>
+    </div>
+
+{/if}
+
+{if $display_type == 'related_photos'}
+	<div class="relatedPhotos clearfix">
+    	<a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width='120' class='photoThumbBox moveL' style='margin-right:5px;'}</a>
+        <div class="photoTitle" style="margin-bottom:5px;"><a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">{$photo.photo_title|truncate:15}</a></div>
+        <span class="photoInfo">{$photo.views|number_format} {lang code="views"} <br/> {$photo.total_comments} {lang code="comments"}</span>
+        {show_rating rating=$photo.rating total='10' class='rating moveL'}
+    </div>
+{/if}
+
+{if $display_type == 'subscription'}
+	<div class="grid_view clearfix" style="width:auto; margin-right:4px;">
+    	<a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' class='photoThumbBox' width='110'}</a>
+        <div class="photoTitle" style="margin:5px 0px; font:bold 11px Arial;">
+        <a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">{$photo.photo_title|truncate:15}</a></div> 
+        {show_rating rating=$photo.rating total='10' class='rating'}
+        <div style="font-size:10px; margin:2px;">{$photo.views|number_format} {lang code="views"}</div>
+        <a href="{$userquery->profile_link($photo)}" style="font:bold 10px Arial; text-decoration:none;">{$photo.username|truncate:20}</a>
+    </div>
+{/if}
+
+{if $display_type == "side_photos"}
+	<div style="display:inline-block; *display:inline; vertical-align:middle; padding:0 8px 5px 0px;">
+    	<a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width='82' class='photoThumbBox'}</a>
+        <div class="photoTitle" style="font:bold 10px Arial; margin:1px 0px">
+        <a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">{$photo.photo_title|truncate:15}</a>
+        </div>
+   	<div class="watch_video_box_details">
+        <span style="color:#666; font:normal 10px Arial;">{lang code='views'}: {$photo.views|number_format}</span><br>
+        <a style="font:bold 10px Arial; text-decoration:none;" href="{$userquery->profile_link($photo)}" title="{$photo.username}" alt="{$photo.username}">{$photo.username|truncate:12}</a>
+	</div>        
+    </div>
+{/if}
+{if $display_type == "side_photos_viewed"}
+    <div style="display:inline-block; *display:inline; vertical-align:middle; padding:0 8px 5px 0px;">
+        <a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html'  width="255" height="100" class='cb_img_thum'}</a>
+        <div class="photoTitle pull-left" style="font:bold 10px Arial; margin:1px 0px">
+        <a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">{$photo.photo_title|truncate:15}</a>
+        </div>
+    <div class="watch_video_box_details pull-right">
+        <span style="color:#666; font:normal 10px Arial;">{lang code='views'}: {$photo.views|number_format}</span>
+    </div>        
+    </div>
+{/if}
+
+{if $display_type == "channel_page"}
+	<li class="itemBox" onclick="loadObject(this,'photos','{$photo.photo_id}','viewingArea')">
+    	{get_photo details=$photo output='html' width='110' height='64' size='m' style='display:block;margin:0px auto;'}
+    </li> <!-- itemBox {$photo.photo_key} end -->
+{/if}
+
+
+
+
+

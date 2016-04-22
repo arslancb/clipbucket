@@ -1,0 +1,50 @@
+{if $pagination && !$commentPagination}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mtl">
+  <ul align="center" class="pagination pagination-center">
+
+      {if $first_link !=''}<li>  <a {$first_link} ><i class="fa fa-angle-double-left "></i></a></li>{/if}
+      
+      {if $pre_link !=''}<li><a {$pre_link} ><i class="fa fa-angle-left"></i></a></li>{/if} 
+
+             {$pagination}  
+
+
+       {if $next_link !=''}<li><a {$next_link} ><i class="fa fa-angle-right"></i></a></li>{/if}
+       
+        {if $last_link !=''}<li>  <a {$last_link} ><i class="fa fa-angle-double-right"></i></a></li>{/if}
+     </ul>  
+</div>
+{elseif $commentPagination}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mtl">
+  <ul align="center" class="pagination pagination-center">
+         
+        
+        {if $first_link !=''}
+        <li>  <a href="javascript:void(0)"
+          onclick="_cb.getAllComments('{$type}','{$type_id}','{$last_update}','1','{$total}','{$object_type}')" >
+          <i class="fa fa-angle-double-left"></i></a></li>
+         {/if}
+
+
+      
+       {if $pre_link !=''}<li><a href="javascript:void(0)" 
+       onclick="_cb.getAllComments('{$type}','{$type_id}','{$last_update}','{$pre_page}','{$total}','{$object_type}')" >
+       <i class="fa fa-angle-left"></i></a>
+       </li>{/if} 
+
+             {$pagination}  
+
+
+       {if $next_link !=''}<li><a href="javascript:void(0)" 
+       onclick="_cb.getAllComments('{$type}','{$type_id}','{$last_update}','{$next_page}','{$total}','{$object_type}')" >
+       <i class="fa fa-angle-right"></i></a>
+       </li>{/if}
+       
+        {if $last_link !=''}
+        <li>  <a href="javascript:void(0)"
+          onclick="_cb.getAllComments('{$type}','{$type_id}','{$last_update}','{$total_pages}','{$total}','{$object_type}')" >
+          <i class="fa fa-angle-double-right"></i></a></li>
+         {/if}
+     </ul>  
+</div>
+{/if} 

@@ -1,0 +1,47 @@
+<p><span class="page_title">ClipBucket Cron Jobs</span><br>
+  Need help about crons ? here you can find some solutions</p>
+<p>Following are cron job commands, please read cron <a href="http://docs.clip-bucket.com/clipbucket-docs/clipbucket-installation#after_installation">tutorial here </a>, Lat run tells you when your cron was called last time, if its &quot;No date provided&quot;, it means your cron jobs are not set properly</p>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Time</h3>
+    <input class="form-control" value="*" style="padding:4px; margin:5px; display:inline-block; border:1px solid #CCC; width:50px">
+    <input value="*" style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:100px">
+    <input value="*" style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:50px">
+    <input value="*" style="padding:4px; margin:5px; display:inline-block; border:1px solid #CCC; width:50px">
+    <input value="*" style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:50px">
+        </div>
+        <div class="col-md-4">
+            <h3>Command</h3>
+   <input value="php -q {$smarty.const.BASEDIR}/actions/video_convert.php &gt;/dev/null 2&gt;&amp;1 " style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:500px" onClick="this.select()">
+Last Run : {$video_convert_cron|niceTime}
+    {check_module_path path='ffmpeg' get_path='true' assign='ffmpeg_status'}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+      <input value="*" style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:50px">
+      <input value="*" style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:100px">
+      <input value="*" style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:50px">
+      <input value="*" style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:50px">
+      <input value="*" style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:50px">
+                </div>
+            <div class="col-md-4">
+   <input value="php -q {$smarty.const.BASEDIR}/actions/verify_converted_videos.php &gt;/dev/null 2&gt;&amp;1 " style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:500px" onClick="this.select()">
+Last Run : {$verify_converted_videos_cron|niceTime}
+        </div>
+            </div>
+        <div class="row">
+            <div class="col-md-4">
+      <input value="0" style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:50px">
+      <input value="0,12,13" style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:100px">
+      <input value="*" style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:50px">
+      <input value="*" style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:50px">
+      <input value="*" style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:50px">
+                </div>
+            <div class="col-md-4">
+   <input value="php -q {$smarty.const.BASEDIR}/actions/update_cb_stats.php &gt;/dev/null 2&gt;&amp;1 " style="padding:4px; margin:5px;  display:inline-block; border:1px solid #CCC; width:500px" onClick="this.select()">
+Last Run : {$update_cb_stats_cron|niceTime}
+            </div>
+            </div>

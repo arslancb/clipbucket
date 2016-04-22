@@ -1,0 +1,71 @@
+<span class="page_title">Editor's Pick</span>
+
+<form name="editors_pick" action="" method="post">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+    <input type="submit" value="Update" name="update_order" class="button" />
+    <input type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
+    
+    </td>
+    </tr>
+</table>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+      <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="50" class="head">Order</td>
+    <td class="head">Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+{assign var = bgcolor value = ""}
+{section name=list loop=$videos}
+<tr class="video_opt_td"  bgcolor="{$bgcolor}">
+    <td width="30" align="center" valign="top" class="video_opt_td">    <input name="check_video[]" type="checkbox" id="check_video" value="{$videos[list].videoid}" /></td>
+    <td width="50" align="left" valign="top" class="video_opt_td"><input name="ep_order_{$videos[list].pick_id}" type="text" id="order" style="border:1px solid #999; padding:2px; width:30px" value="{$videos[list].sort}" size="5" maxlength="5" /></td>
+    <td valign="top"  class="video_opt_td" 
+     
+    onmouseover="$('#ep_opts-{$videos[list].videoid}').show()" 
+    onmouseout="$('#ep_opts-{$videos[list].videoid}').hide()"
+    
+    >
+    <a href="{$baseurl}/watch_video.php?v={$videos[list].videokey}" target="_blank" style="text-indent:10px">
+    {$videos[list].title}
+    </a> &#8211;<a href="?remove={$videos[list].videoid}"> Remove from editor's pick</a>&#8212;
+    <span class="vdo_sets">
+    Featured:<strong>{$videos[list].featured} </strong> &#8226;
+    Active:<strong>{$videos[list].active}</strong> &#8226;
+    Status:<strong>{$videos[list].status}</strong> 
+    </span>
+    <br />
+    <div id="ep_opts-{$videos[list].videoid}" style="display:none" class="vid_opts">
+    	<a href="?remove={$videos[list].videoid}">Remove from editor's pick</a> 
+    </div>
+    </td>
+    <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
+  </tr>
+    {if $bgcolor == ""}
+    {assign var = bgcolor value = "#EEEEEE"}
+    {else}
+    {assign var = bgcolor value = ""}
+    {/if}
+        
+{/section}
+</table>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px"><input type="submit" value="Update" name="update_order" class="button" />
+    <input type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
+    
+    </td>
+    </tr>
+</table>
+</form>
+
+

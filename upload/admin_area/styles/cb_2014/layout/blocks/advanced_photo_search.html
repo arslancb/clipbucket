@@ -1,0 +1,107 @@
+<div class="advanceSearchButton clearfix">
+    <a href="#" class="btn btn-primary btn-sm pull-right current after" onclick="$('#searchdiv').toggle();return false;" style="margin-bottom: 0px;position: relative; top: 15px;z-index:10000">
+        Advanced Search
+        <i class="glyphicon glyphicon-chevron-down down"></i>
+         <i class="glyphicon glyphicon-chevron-up up" style="display:none"></i>
+    </a>
+</div>
+<div class="search_box well" id="searchdiv" {if $smarty.cookies.show_searchdiv_search!='show'} style="display:none"{/if}>
+  <form action="photo_manager.php" method="get" name="search_photos">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="title">Photo title</label>
+          <input class="form-control" name="title" type="text" id="title" value="{'title'|get_form_val:true}" />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="photokey">Photo key</label>
+          <input class="form-control" name="photokey" type="text" id="photokey" value="{'photokey'|get_form_val:true}" />
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+            <label for="photoid">Photo id</label>
+            <input class="form-control" name="photoid" type="text" id="photoid" value="{'photoid'|get_form_val:true}" />
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="userid">Userid</label>
+          <input class="form-control" name="userid" type="text" id="userid" value="{'userid'|get_form_val:true}" />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="tags">Photo tags</label>
+          <input class="form-control" name="tags" type="text" id="tags" value="{'tags'|get_form_val:true}" />
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="featured">Featured</label>
+          <select class="form-control" name="featured" id="featured">
+            <option value="" ></option>
+            <option value="yes" {if $smarty.get.featured=='yes'} selected="selected"{/if}>Yes</option>
+            <option value="no" {if $smarty.get.featured=='no'} selected="selected"{/if}>No</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="extension">Extension</label>
+          <select class="form-control" name="extension" id="extension">
+            <option value="" ></option>
+            {foreach from=$cbphoto->exts item=ext}
+              <option value="{$ext}"{if $smarty.get.extension == $ext} selected="selected"{/if}>{$ext|capitalize}</option>
+            {/foreach}
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="order">Order</label>
+          <select class="form-control" name="order" id="order">
+            <option value="" ></option>
+            <option value="photo_id" {if $smarty.get.order == 'photo_id'}selected="selected"{/if}>ID</option>
+            <option value="photo_title" {if $smarty.get.order == 'photo_title'}selected="selected"{/if}>
+              Name
+            </option>        
+            <option value="views" {if $smarty.get.order == 'views'}selected="selected"{/if}>Views</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input class="btn btn-success btn-sm" type="submit" name="search" id="search" value="Search"/>
+    </div>
+  </form>
+</div>
+
+<script type="text/javascript">
+       
+
+        $(document).ready(function neww () {
+        $(".current").click(function() {
+        $(this).toggleClass('after');
+        if(!$(this).hasClass('after')) 
+           {
+      
+          $('.down').hide();
+          $('.up').show();
+           }
+    
+        else
+       {
+ 
+        $('.down').show();
+         $('.up').hide();
+       }
+ 
+});
+
+       })
+       
+</script >

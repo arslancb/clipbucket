@@ -1,0 +1,110 @@
+
+{literal}
+<script>
+// function deleteFeed(uid,file)
+// {
+// 	$('#feedload-'+file).html(loading_img);
+// 	$.post(page,
+// 		{mode:"delete_feed",uid:uid,file:file},
+// 		function(data)
+// 		{
+// 			$('#feedload-'+file).html('');
+// 			if(data.msg)
+// 				$('#feed-'+file).html('<div class="cb_error">'+data.msg+"</div>");
+// 			else
+// 				$('#feed-'+file).prepend('<div class="cb_error" style="color:#ed0000">'+data.err+"</div>");
+// 		},
+// 	'json');
+// }
+</script>
+{/literal}
+
+
+
+
+<div class="feads clearfix"  id="feed-{$feed.file}">
+    <div class="col-md-3  col-sm-4  col-xs-4 nopadding">
+        <a href="{$userquery->profile_link($feed.user)}">
+            <img class="img-circle" src="{avatar details=$feed.user size='55x55'}">
+        </a>
+    </div>
+   
+    <div class="col-md-9  col-sm-8  col-xs-8 nopadding">
+        {if !$feed.action_title}
+        <a href="{$userquery->profile_link($feed.user)}">{$feed.user.username}</a>
+        {else}
+        <small class="small">{$feed.action_title}</small>
+        {/if}
+        <br>
+        <small><i class="glyphicon glyphicon-time"></i>  {$feed.datetime}</span></small>
+    </div>
+</div> 
+<hr class="clearfix">
+
+    <!--<div class="row">-->
+        <!--<div class="col-md-14">-->
+            <!--<div class="col-md-12 pull-left font">-->
+                <!--<a href="{$userquery->profile_link($feed.user)}" title="{$feed.user.username}">-->
+                    <!--<img class="img-circle" src="{avatar details=$feed.user size='small'}" height="50" width="50" style="border: solid; border-color: #D7DFEE;">-->
+                    <!--&lt;!&ndash;<img src="{avatar details=$feed.user size='small'}" alt="{$feed.user.username}" class="img-circle" />&ndash;&gt;-->
+                <!--</a>-->
+                <!--{if !$feed.action_title}-->
+                <!--<a href="{$userquery->profile_link($feed.user)}">{$feed.user.username}</a>-->
+                <!--{else}-->
+                <!--<small class="small">{$feed.action_title}</small>-->
+                <!--{/if}-->
+                <!--<span class="padding36 new1"><i class="glyphicon glyphicon-time"></i>  {$feed.datetime}</span>-->
+                <!--<hr>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;<div class="feedTitle col-md-12 pull-right">&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<span id="feedload-{$feed.file}"></span>&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;{if $u.userid==userid() || has_access('admin_access',true)}&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;<a href="javascript:void(0)" onclick="deleteFeed('{$feed.user.userid}','{$feed.file}')" class="btn btn-primary btn-xs">&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;delete&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;</a>&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;{/if}&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;<div class="feedState pull-right">&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;{if $feed.links}&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;{foreach from=$feed.links item=link}&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;<span class="show">&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;{if $link.link}<a class="font" href="{$link.link}">{/if}{$link.text}{if $link.link}</a>{/if}&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;</span>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;{/foreach}&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;{/if}&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;<hr>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+        <!--</div>-->
+
+        <!--<div class="col-md-9">-->
+            <!--<div class="feed">-->
+        <!--<div class="feedContent">-->
+            <!--{if $feed.thumb}-->
+                <!--{if $feed.link}-->
+                    <!--<a href="{$feed.link}">-->
+                <!--{/if}-->
+                    <!--&lt;!&ndash;<img src="{$feed.thumb}" class="img-thumbnail">                &ndash;&gt;-->
+                <!--{if $feed.link}-->
+                    <!--</a>-->
+                <!--{/if}-->
+            <!--{/if}-->
+            <!--&lt;!&ndash;<div class="feedText">&ndash;&gt;-->
+                <!--&lt;!&ndash;{if $feed.link}&ndash;&gt;-->
+                <!--&lt;!&ndash;<a href="{$feed.link}">{$feed.title}</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;{elseif $feed.title}&ndash;&gt;-->
+                <!--&lt;!&ndash;{$feed.title}&ndash;&gt;-->
+                <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+                <!--&lt;!&ndash;{if $feed.object_content}&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="objectContent">&ndash;&gt;-->
+                    <!--&lt;!&ndash;{$feed.object_content}&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--</div>-->
+
+    <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+

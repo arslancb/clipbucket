@@ -1,0 +1,58 @@
+<div id="content">
+    <form method="post" name="update_field">
+            {section name=listing_custom loop=$listing_custom}
+        <div class="row">
+            <div class="col-md-4">
+                <label>Custom Field name</label>
+                 <input type="text" name="field_name" class="form-control" value="{$listing_custom[listing_custom].field_name}">
+            </div>
+        </div>
+<div class="row">
+            <div class="col-md-4">
+                <label>Custom Field title</label>
+                 <input type="text" name="field_title" class="form-control" value="{$listing_custom[listing_custom].field_title}">
+            </div>
+        </div>
+
+ <div class="row">
+            <div class="col-md-4">
+                <label>DB Field</label>
+                 <input type="text" name="db_field" class="form-control" value="{$listing_custom[listing_custom].db_field}">
+            </div>
+        </div>
+       
+        <div class="row">
+            <div class="col-md-4">
+                <label>Default Value(Note:Type comma separated values for checkbox,radiobutton,selectboxes)</label>
+                 <textarea name="default_value" class="form-control">{$listing_custom[listing_custom].default_value}</textarea>
+            </div>
+        </div>
+          <br/>
+        <div class="row">
+            <!--<div class="col-md-8" style="margin-top: 15px"></div>-->
+            <div class="col-md-4">
+                <label>Custom Field Type</label> <br/>
+                <select name="field_type">
+                <option value="{$listing_custom[listing_custom].field_type}" selected=selected>{$listing_custom[listing_custom].field_type}</option>
+                    <option value="textfield">Textfield</option>
+                    <option value="password">Password</option>
+                    <option value="textarea">Textarea</option>
+                    <option value="checkbox">Checkbox</option>
+                    <option value="radiobutton">Radiobutton</option>
+                    <option value="dropdown">Dropdown</option>
+                </select>
+             <input type="hidden" name="field_id" class="form-control" value="{$listing_custom[listing_custom].custom_field_list_id}">
+
+             <input type="hidden" name="page_type" class="form-control" value="{$listing_custom[listing_custom].customfields_flag}">
+             
+              <input type="hidden" name="olddbfield_name" class="form-control" value="{$listing_custom[listing_custom].db_field}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <input type="submit"  class="btn btn-primary pull-right" name="update_field" id="button" value="Update Custom Field" class="button"/>
+            </div>
+        </div>
+        {/section}
+    </form>
+</div>

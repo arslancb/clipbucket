@@ -1,0 +1,48 @@
+<h2>Add New Phrase</h2>
+<form name="form1" method="post" action="">
+
+<fieldset class="fieldset">
+  <legend>Adding new phrase</legend>
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    <tr>
+      <td width="200"><strong>Phrase Code</strong></td>
+      <td><label>
+        <input type="text" name="name" id="name">
+      </label></td>
+    </tr>
+    <tr>
+      <td>Phrase Text</td>
+      <td><label>
+        <textarea name="text" id="text" cols="45" rows="5"></textarea>
+      </label></td>
+    </tr>
+    <tr>
+      <td>Language</td>
+      <td><label>
+        <select name="lang_code" id="lang_code">
+        	{assign var=language value=$lang_obj->get_langs()}
+            
+            {section name=l_list loop=$language}
+            	
+                <option value="{$language[l_list].language_code}">{$language[l_list].language_name}</option>
+            {/section}
+        </select>
+      </label></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>
+        
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+</fieldset>
+<div style="margin:auto; width:99%; margin:10px"><input type="submit" name="add_phrase" id="add_phrase" value="Add Phrase" class="button"><br><br>
+
+To display this text in your template , simple add this where you want to display your text {$LANG.phrase_code}</div>
+</form>
+

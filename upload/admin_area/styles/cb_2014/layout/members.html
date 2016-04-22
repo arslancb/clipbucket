@@ -1,0 +1,156 @@
+<div class="heading clearfix">
+    <h2 class="pull-left">
+    {if $smarty.get.private=='private'}
+        Private Channels
+    {else}
+        Member Manager
+    {/if}
+    </h2>
+    {include file="$layout_dir/blocks/advanced_member_search.html" }
+</div>
+
+
+
+{if $users}
+<!-- Displaying Members -->
+<form name="user_manage" method="post">
+  <div class="btn-group marginBottomSmall">
+    <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate" />
+    <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" />
+    <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured" />
+    <input class="btn btn-primary btn-xs" type="submit" name="ban_selected2" value="Make Unfeatured" id="ban_selected2"/>
+    <input class="btn btn-primary btn-xs" type="submit" name="ban_selected" value="Ban Selected" id="ban_selected"/>
+    <input class="btn btn-primary btn-xs" type="submit" name="unban_selected" value="Unban Selected" id="unban_selected"/>
+    <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete" onclick="return confirm_it('Are you sure you want to delete selected User(s)')"/>
+  </div>
+<table class="table table-bordered table-striped manageUsersTable">
+<tr>
+    <td width="40" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="50" class="head">UID</td>
+    <td class="head">User Details</td>
+    <td>&nbsp;</td>
+  </tr>
+{foreach from=$users item=u}
+<tr>
+    <td>
+      <input name="check_user[]" type="checkbox" id="check_user" value="{$u.userid}" />
+    </td>
+    <td>
+      {$u.userid}
+    </td>
+    <td>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="{$userquery->getUserThumb($u)}" class="img-thumbnail oneUserImage"style="height: 80px; width: 80px;" />
+                    </div>
+                    <div class="col-md-9">
+                        <a href="{$userquery->profile_link($u)}" target="_blank" class="oneUserName">{$u.username} </a>
+                        <span>{$u.email}</span>
+                        <div class="labels">
+                            {if $u.featured=='Yes'}<span class="label label-primary">Featured{else}{/if}</span>
+                            <span class="label {if $u.usr_status == Ok}label-success{else}label-warning{/if}"><span>{if $u.usr_status=='Ok'}Active
+                                    {else}InActive{/if}</span></span>
+                            <span class="label label-info"><span>{$u.level|get_user_level}</span></span>
+                            <span class="label"><span>Active</span> : <span>{$u.last_active|nicetime}</span></span>
+                            {if $smarty.get.private=='private'}
+                            Private Channels
+                            {else}
+                            Member Manager
+                            {/if}
+
+                            {if function_exists('channels_control')}
+                                {if $u.private == private}
+                                <li><a role="menuitem" tabindex="-1" href="?public={$u.userid}">Make Public</a></li>
+                                {/if}
+                                {if $u.private == public || $u.private == '' }
+                                <li><a role="menuitem" tabindex="-1" href="?private={$u.userid}">Make Private</a></li>
+                                {/if}
+                            {/if}
+            
+                            {if $u.ban_status == "yes"}
+                                <span class="label label-danger"><span>Banned : {$u.ban_status}</span></span>
+                            {else}
+                                <span class="label label-info"><span>Banned : {$u.ban_status}</span></span>
+                            {/if}
+                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+    </td>
+    <td>
+      <div id="usr_opt-{$u.userid}" class="dropdown pull-right">
+      <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+        Actions<i class="icon-angle-down icon-on-right"></i>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+         <li><a role="menuitem" tabindex="-1" href="view_user.php?uid={$u.userid}">Edit</a></li>
+        <li><a role="menuitem" tabindex="-1" href="view_user.php?uid={$u.userid}">View</a></li>
+       
+        {if $u.usr_status == Ok}
+        <li><a role="menuitem" tabindex="-1" href="?deactivate={$u.userid}">Deactivate</a></li>
+        {elseif $u.usr_status == ToActivate}
+        <li><a role="menuitem" tabindex="-1" href="?activate={$u.userid}">Activate</a></li>
+        {/if}
+        {if $u.ban_status == yes}
+        <li><a role="menuitem" tabindex="-1" href="?unban={$u.userid}">Unban Member</a></li>
+        {/if}
+        {if $u.ban_status == no}
+        <li><a role="menuitem" tabindex="-1" href="?ban={$u.userid}">Ban Member</a></li>
+        {/if}
+        {if $u.featured == no}
+        <li><a role="menuitem" tabindex="-1" href="?featured={$u.userid}">Feature Member</a></li>
+        {/if}
+        {if $u.featured == yes}
+        <li><a role="menuitem" tabindex="-1" href="?unfeatured={$u.userid}">Unfeature Member</a></li>
+        {/if}
+        <li><a role="menuitem" tabindex="-1" href="login_as_user.php?uid={$u.userid}">Login as user</a></li>
+        <li class="divider"></li>
+        {if function_exists('channels_control')}
+        {if $u.private == private}
+        <li><a role="menuitem" tabindex="-1" href="?public={$u.userid}">Make Public</a></li>
+        {/if}
+        {if $u.private == public || $u.private == '' }
+        <li><a role="menuitem" tabindex="-1" href="?private={$u.userid}">Make Private</a></li>
+        {/if}
+        {/if}
+        <li><a role="menuitem" tabindex="-1" href="?deleteuser={$u.userid}">Delete</a></li>
+        
+        
+       {foreach from=$userquery->user_manager_link item=links}
+       {$userquery->user_manager_link($links,$u)}
+       {/foreach} 
+
+      </ul>
+    </div>
+    </td>
+  </tr>
+{if $bgcolor == ""}
+{assign var = bgcolor value = "#EEEEEE"}
+{else}
+{assign var = bgcolor value = ""}
+{/if}  
+{/foreach}
+</table>
+
+<div class="btn-group">
+    <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate" />
+    <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" />
+    <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured" />
+    <input class="btn btn-primary btn-xs" type="submit" name="ban_selected2" value="Make Unfeatured" id="ban_selected2"/>
+    <input class="btn btn-primary btn-xs" type="submit" name="ban_selected" value="Ban Selected" id="ban_selected"/>
+    <input class="btn btn-primary btn-xs" type="submit" name="unban_selected" value="Unban Selected" id="unban_selected"/>
+    <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
+  </div>
+</form>
+{else}
+	<div align="center"><strong><em>NO USER FOUND</em></strong></div>
+{/if}
+
+
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }

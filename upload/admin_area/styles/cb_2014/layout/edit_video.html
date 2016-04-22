@@ -1,0 +1,556 @@
+{assign var='custom_upload_fields' value=$Upload->load_custom_upload_fields($data,TRUE)}
+{assign var='video_fields' value=$Upload->load_video_fields($data)}
+{if $data.title neq ""}
+
+<form action="" method="post" name="edit_video" id="edit_video" enctype="multipart/form-data">
+<div class="row">
+    <div class="heading clearfix">
+
+            <h2 class="pull-left paddingLeftLarge">Editing <small>&gt; {$data.title|truncate:80}</small>
+<div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Actions <span class="caret caret_margin"></span>
+                  </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                <li><a href="{videoLink vdetails=$data}">Watch this video</a></li>
+                {if $data.active!='yes'}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=activate">Activate</a></li>
+                {else}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=deactivate">Deactivate</a></li>
+                {/if}
+                {if $data.featured!='yes'}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=featured">Make Featured</a></li>
+                {else}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=unfeature">Make Unfeatured</a></li>
+                {/if}
+                <li><a href="javascript:void(0)" onClick="javascript:Confirm_Delete('video_manager.php?delete_video={$data.videoid}')">Delete This Video</a></li>
+                </ul>
+                </div>
+            </h2>
+            <div class="pull-right marginBottomLarge paddingBottomLarge" style="margin-right:50px;">
+
+               
+                <span class="btn btn-app btn-sm btn-light no-hover">
+                <span class="line-height-1 smaller-90 blue">{$data.views|format_number}</span>
+                <br>
+                <span class="line-height-1 smaller-90"> Views </span>
+                </span>
+               <!-- <span class="btn btn-app btn-sm btn-yellow no-hover">
+                <span class="line-height-1 smaller-90"> {$data.comments_count} </span>
+
+                <br>
+                <span class="line-height-1 smaller-90"> Comments </span>
+                </span>-->
+                <span class="btn btn-app btn-sm btn-pink no-hover">
+                <span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+                <span class="line-height-1 smaller-90"> Active</span>
+                </span>
+                </span>
+          
+
+                <span class="btn btn-app btn-sm btn-grey no-hover">
+                <span class="line-height-1"> {if $data.featured!='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+                <span class="line-height-1 smaller-90">Featured</span>
+                </span>
+                </span>
+                <!--
+                <span class="btn btn-app btn-sm btn-success no-hover">
+                <span class="line-height-1">
+                                        {foreach from=$cbvid->video_manager_links_neww item=links}
+                                        {$cbvid->video_manager_link_neww($links,$data)}
+                                        {/foreach}
+                <br>
+                <span class="line-height-1 smaller-90">Editor Pick</span>
+                </span>
+                </span>
+            -->
+
+
+                 <span class="btn btn-app btn-sm btn-success no-hover">
+                <span class="line-height-1"> {if $data.in_editor_pick=='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+                <span class="line-height-1 smaller-90">Editor Pick</span>
+                </span>
+                </span>
+
+
+                <span class="btn btn-app btn-sm btn-primary no-hover">
+                <span class="line-height-1"> {if $data.flagged=='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+                <span class="line-height-1 smaller-90"> FLAGGED</span>
+                </span>
+                </span>
+
+
+                <!-- <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Actions <span class="caret caret_margin"></span>
+                  </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                <li><a href="{videoLink vdetails=$data}">Watch this video</a></li>
+                {if $data.active!='yes'}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=activate">Activate</a></li>
+                {else}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=deactivate">Deactivate</a></li>
+                {/if}
+                {if $data.featured!='yes'}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=featured">Make Featured</a></li>
+                {else}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=unfeature">Make Unfeatured</a></li>
+                {/if}
+                <li><a href="javascript:void(0)" onClick="javascript:Confirm_Delete('video_manager.php?delete_video={$data.videoid}')">Delete This Video</a></li>
+                </ul>
+                </div> -->
+
+
+
+
+<!--
+                <span class="btn btn-app btn-sm btn-primary no-hover">
+                {section name=list loop=$flagedVideos}
+
+                <span class="line-height-1 bigger-170"> {$flagedVideos[list].total_flags} </span>
+                {/section}
+                <br>
+                <span class="line-height-1 smaller-90"> Flagged </span>
+                </span>
+-->
+
+
+
+
+            </div>
+        </div>
+    <div class="col-md-6">
+        <div class="tabbable">
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active">
+                <a data-toggle="tab" href="#videodetail">
+                    Video Details
+                    <span class="glyphicon glyphicon-facetime-video"></span>
+                </a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#uinformation1">
+                    <i class="glyphicon glyphicon-user"></i>
+                    Uploader Information
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="videodetail" class="tab-pane active">
+                <div class="table table-responsive">
+                    <table class="myTable" width="600">
+                        <tr>
+                            <td class="first"><label for="videoid">Video Id</label></td>
+                            <td class="last">
+                                <p><span>{$data.videoid}</span></p>
+                            </td>
+                            <input class="form-control" name="videoid" type="hidden" id="videoid"  value="{$data.videoid}"/>
+                        </tr>
+                        <tr>
+                            <td class="first"><label for="videokey">Video Key</label></td>
+                            <td class="last">
+                                <p><span>{$data.videokey}</span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first"><label for="filename">File Name</label></td>
+                            <td class="last">
+                                <p><span>{$data.file_name}</span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first"><label for="filename">Uploaded Date</label></td>
+                            <td class="last">
+                                <p><span>{$data.datecreated|nicetime}</span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first"><label for="filename">Duration</label></td>
+                            <td class="last">
+                            <p><span>{$data.duration|number_format} seconds</span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first"><label for="totalvideos">Total Video Files</label></td>
+                            <td class="last">
+                                <p><span>{get_all_video_files vdetails=$data count_only=true}</span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                <label for="">Conversion log</label>
+                            </td>
+                            <td class="last">
+                                <p><span><a href="view_conversion_log.php?file_name={$data.file_name}">Conversion log</a></span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first"><label>Total Thumbnails</label></td>
+                            <td class="last">
+                                <p><span>{get_thumb vdetails=$data count_only=true}</span></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </div>
+            <div id="uinformation1" class="tab-pane">
+                <img src="{$userquery->getUserThumb($u)}" class="img-thumbnail marginBottomLarge" />
+                <div class="table-responsive">
+
+                    <table class="myTable" width="600">
+                        <tr>
+                            <td class="first"><label>User Id</label></td>
+                            <td class="last">
+                                <p><span>{$data.userid}</span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first"><label>User Name</label></td>
+                            <td class="last">
+                                <p><span>{$data.userid|get_username}</span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first"><label>DOB</label></td>
+                            <td class="last">
+                                <p><span>{$data.dob}</span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first"><label>Email</label></td>
+                            <td class="last">
+                            <p><span>{$data.email}</span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first"><label>Gender</label></td>
+                            <td class="last">
+                                <p><span>{$data.sex}</span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first"><label>Rating</label></td>
+                            <td class="last">
+                                <p><span>{$data.rating}</span></p>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+            </div>
+            </div>
+            <hr>
+        <div class="row">
+        <!-- anchor used with CB Video Key Replacer Plugin -->
+        {ANCHOR place="key_rep"}
+            <table class="table">
+                <tr>
+                    <td class="alert-info">
+                        <b>Video Thumbnails</b>
+                    </td>
+                </tr>
+            </table>
+            <div class="row">
+            <div class="col-md-9">
+                {assign var=vidthumbs value=get_thumb($data,1,TRUE,FALSE,TRUE,FALSE)}
+                <ul class="ace-thumbnails">
+                {foreach from=$vidthumbs item=vid_thumb}
+                    <li style="display: inline">
+                        <img src="{$vid_thumb}" width="100" height="100">
+                        <div class="tools">
+                            <input type="radio" value="{GetName($vid_thumb)}.{GetExt($vid_thumb)}" id="{$vid_thumb|getname}" name="default_thumb" {if $data.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />
+                            {if $vid_thumb|getname!='processing'}
+                            <a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">
+                                <i class="icon-remove red"></i></a>
+                            {/if}
+                        </div>
+                    </li>
+                {/foreach}
+                </ul>
+            </div>
+            <div class="dropdown col-md-3">
+                <a class="btn btn-primary btn-sm dropdown-toggle pull-right" style="margin-top: 10px" data-toggle="dropdown"  href="">Manage Thumbs  <i class="caret"></i></a>
+                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu">
+                    {if $data.embeded !=yes}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}&gen_more=true">Regenerate</a>{/if}
+                    </li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}">Manage</a></li>
+                </ul>
+            </div>
+                </div>
+            <div class="row">
+                <div class="col-md-6" style="margin-top: 30px">
+                    <div class="table">
+                        <label class="status">Status</label>
+                        <select class="form-control" name="status">
+                            <option class="form-control" value="Successful" {if $data.status=='Successful'} selected {/if}>Successfull</option>
+                            <option class="form-control" value="processing" {if $data.status=='Processing'} selected {/if}>Processing</option>
+                            <option class="form-control" value="Failed"{if $data.status=='Failed'} selected {/if}>Failed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-5" style="margin-top: 30px">
+                    <label for="duration">Duration:</label>
+                    <input  name="duration" type="text" id="duration" class="form-control" value="{$data.duration}    (Seconds) ">
+                        
+                </div>
+            </div>
+            <legend>Video Stats</legend>
+            <div class="table-responsive">
+                <div class="row">
+                    <div class="col-md-1">
+                        <label for="views">Views:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" name="views" type="text" id="views" value="{$data.views|number_format}" size="45"/>
+                    </div>
+                    <div class="col-md-1">
+                        <label for="rating">Rating:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" name="rating" type="text" id="rating" value="{$data.rating|number_format}" size="5"/>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="rated_by">RatedBy:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" name="rated_by" type="text" id="rated_by" value="{$data.rated_by|number_format}" size="45"/>
+                    </div>
+                </div>
+                <br><br>
+                <legend>Custom Upload Fields</legend>
+                {foreach from=$custom_upload_fields item=field}
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="rated_by">{$field.title}</label>
+                    </div>
+
+                    <div class="col-md-12">
+                    {$field.class='form-control'}
+                    {$field.hint_1}<br>{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    </div><br>
+                    {$field.hint_2}
+                </div>
+                {/foreach}
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary btn-sm" value="Update video details" style="margin:5px 0px 15px 0px" name="update">
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+<!--testing-->
+
+
+<div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
+
+
+    <div class="col-md-12"  style="height:250px;margin-left:2.5px;" >
+        {FlashPlayer vdetails=$data width='100%' height='100%' }
+    </div>
+
+    <div class="head col-md-12">
+        {foreach from=$video_fields item=field_group}
+        {if $field_group.group_name=='Sharing and privacy options'}
+        <div class="tabbable">
+            <ul class="nav nav-tabs" id="myTab3">
+                <li class="active">
+                    <a data-toggle="tab" href="#privacyoption">
+                        Sharing and Privacy Options
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#datelocation">
+                        Date Recorder & Location
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="privacyoption" class="tab-pane in active">
+                    {foreach from=$field_group.fields item=field}
+                    <div class="table">
+                        {$field.class='form-control'}
+                        <label style="margin-top: -46px"><strong>{$field.title|truncate:80}</strong></label><br>
+                        {if $field.type=='radio'}
+                        {$field.class='form-control'}
+                        {else}
+                        {$field.class='form-control'}
+                        {/if}
+                        {if $field.hint_1}
+                        {$field.hint_1}<br/>
+                        {/if}
+                        {$formObj->createField($field)}
+                        {if $field.hint_2}<br/>
+                        {$field.hint_2}
+                        {/if}
+                    </div>
+                    {/foreach}
+                </div>
+                {continue}
+                {/if}
+                {if $field_group.group_name=='Date recorded &amp; Location'}
+
+
+                <div id="datelocation" class="tab-pane">
+                    {foreach from=$field_group.fields item=field}
+                    <div class="table">
+                        {$field.class='form-control'}
+                        <label><strong>{$field.title|truncate:80}</strong></label><br>
+                        {if $field.type=='radio'}
+                        {$field.class='form-control'}
+                        {else}
+                        {$field.class='form-control'}
+                        {/if}
+                        {if $field.hint_1}
+                        {$field.hint_1}<br/>
+                        {/if}
+                        {$formObj->createField($field)}
+                        {if $field.hint_2}<br/>
+                        {$field.hint_2}
+                        {/if}
+                    </div>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+        {continue}
+        {/if}
+        <div>
+            {foreach from=$field_group.fields item=field}
+            {if $field.title=='Video Category'}
+            <div>
+                {$field.class='form-control'}
+                <label ><strong>{$field.title|truncate:80}</strong></label><br>
+                {if $field.hint_1}
+                {$field.hint_1}
+                {/if}
+                <div class="tab-content scroll">
+                    <div class="VideoCategory" style="margin-top: -30px;">
+
+                    {if $field.type=='radio'}
+                    {$field.class='form-control'}
+                    {$field.class='form-control'}
+                    {else}
+                    {$field.class='form-control'}
+                    {/if}
+
+                    {$formObj->createField($field)}
+                    {if $field.hint_2}<br/>
+                    {$field.hint_2}
+                    {/if}
+                        </div>
+                </div>
+            </div>
+            {continue}
+            {/if}
+            <br/>
+            <div class="table">
+                {$field.class='form-control'}
+                <label><strong>{$field.title|truncate:80}</strong></label><br>
+                {if $field.type=='radio'}
+                {$field.class='form-control'}
+                {else}
+                {$field.class='form-control'}
+                {$field.id='form-control'}
+                {/if}
+                {if $field.hint_1}
+                {$field.hint_1}<br/>
+                {/if}
+                {$formObj->createField($field)}
+                {if $field.hint_2}<br/>
+                {$field.hint_2}
+                {/if}
+            </div>
+            {/foreach}
+        </div>
+        {/foreach}
+    </div>
+</div>
+
+</div>
+
+
+</form>
+{/if}
+
+<div class="widget-box" style="margin-top: 30px">
+    <div class="widget-header header-color-blue2">
+
+        <h5>{$data.title|truncate:80}- <b>Comments</b></h5>
+
+        <div class="widget-toolbar">
+            <a href="#" data-action="reload">
+                <i class="icon-refresh"></i>
+            </a>
+
+            <a href="#" data-action="collapse">
+                <i class="icon-chevron-up"></i>
+            </a>
+
+            <a href="#" data-action="close">
+                <i class="icon-remove"></i>
+            </a>
+        </div>
+    </div>
+    <!-- Add Artist's anchor here -->
+     {ANCHOR place="after_video_edit" data=$data.videoid}
+  </br>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <div class="slimScrollDiv">
+                {foreach from=$comments item=comment}
+                <div class="itemdiv dialogdiv">
+                    {foreach from=$users item=u}
+                    <div class="user">
+                        <img alt="Avatar" src="{$userquery->getUserThumb($u,'small')}">
+                    </div>
+                    {/foreach}
+                    <div class="body">
+                        <div class="time">
+                            <i class="icon-time"></i>
+                            <span class="green">{$comment.date_added|date_format}</span>
+                        </div>
+                        <div class="name">
+                            <a href="#">{$comment.anonym_name}</a>
+                        </div>
+                        <div class="text">{$comment.comment}</div>
+                        <div class="tools">
+                            <a href="#" class="btn btn-minier btn-info">
+                                <i class="icon-only icon-share-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {/foreach}
+            </div>
+
+        </div><!-- /widget-main -->
+
+        
+
+
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function(){
+            $( "#datecreated" ).datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: false,
+                dateFormat:"yy-mm-dd"
+            });
+        });
+    </script>
+
+
+
+</div>

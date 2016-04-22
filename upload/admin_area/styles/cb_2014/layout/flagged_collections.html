@@ -1,0 +1,142 @@
+{if $mode=='view'}
+<div class="heading">
+    <h2>Flagged Collection Manager</h2>
+</div>
+<!-- DIsplaying Videos -->
+<form name="flagged_video" method="post" id="flagged_video">
+
+    <div class="btn-group">
+        <!-- <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+        <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete Videos"  class="button" onclick="return _cb.confirm_it('Are you sure you want to delete these videos')"/> -->
+
+        <input class="btn btn-primary btn-xs" type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return _cb.confirm_it('Are you sure you want to delete flags of selected videos')"/>
+    </div>
+
+    <table class="table table-bordered table-striped manageUsersTable">
+        <tr>
+            <td>
+                <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+            <td>CID</td>
+            <td>Details</td>
+            <td>&nbsp;</td>
+        </tr>
+        {assign var = bgcolor value = ""}
+        {section name=list loop=$cl}
+        {*var_dump($cl)*}
+        <tr>
+            <td>
+                <input name="check_collect[]" type="checkbox" id="check_collect" value="{$cl[list].collection_id}" /></td>
+            <td>
+                {$cl[list].collection_id}</td>
+            <td>
+                <div>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-3">
+
+                                    <img src=" {$cbgroup->get_group_thumb($cl[list])}" width="130" height="80" id="thumbs_{$cl[list].collection_id}">
+                                </div>
+                                <div class="col-md-9 labels1">
+                                    <a href="edit_collection.php?collection={$cl[list].collection_id}" target="_blank" >
+                                        {$cl[list].collection_name|truncate:80}</a>{if $cl[list].date_added}-({$cl[list].date_added|niceTime}){/if}<br>
+                         <span class="labels1">Total Objects: {$cl[list].total_objects}</span>
+                                    <div class="labels">
+
+                                       <!--  <span class="label {if $video.status == Ok}label-success{else}label-warning{/if}">
+                                            {if $video.active=='yes'}Active{else}InActive{/if}</span>
+
+                                        <span class="label {if $videos[list].active=='yes'}label-success{else}label-warning{/if}">{if $videos[list].active=='yes'}Active{else}InActive{/if}</span>
+
+                                        <span class="label {if $video_status == Ok}label-success{else}label-success{/if}">{$videos[list].status}</span> 
+                                        <a href="?mode=view_flags&vid={$videos[list].videoid}"><span class="label label-info">Flags:{$videos[list].total_flags}</span></a>-->
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {assign var='uname' value=$userquery->get_user_field({$cl[list].userid}, 'username')}
+                        <div class="col-md-2">
+                         <a href="view_user.php?uid={$cl[list].userid}">  {$uname.username}</a>
+                        </div>
+                    </div>
+                    </div>
+            </td>
+            <td>
+                <div id="vid_opt-{$videos[list].videoid}" class="dropdown">
+                    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions <i class="caret"></i></button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+                       <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$cl[list].collection_id}">Edit</a></li>
+                        <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="?mode=view_flags&vid={$videos[list].videoid}">View Flags</a></li>-->
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_collect={$cl[list].collection_id}">Delete Collection</a></li>
+                        <li class="divider"></li> 
+
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_flags={$cl[list].collection_id}">Delete Flags</a></li>
+
+
+                </div>
+        </tr>
+        {if $bgcolor == ""}
+        {assign var = bgcolor value = "#EEEEEE"}
+        {else}
+        {assign var = bgcolor value = ""}
+        {/if}
+
+        {/section}
+    </table>
+
+    <div class="btn-group">
+        <!-- <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+        <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete Videos"  class="button" onclick="return _cb.confirm_it('Are you sure you want to delete these videos')"/> -->
+
+        <input class="btn btn-primary btn-xs" type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return _cb.confirm_it('Are you sure you want to delete flags of selected videos')"/>
+    </div>
+
+</form>
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }
+
+{/if}
+
+{if $mode=='view_flags'}
+<span class="lead">Viewing {$video.title} flags</span>
+<div class="dropdown">
+    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle pull-right" data-toggle="dropdown">Actions <i class="caret"></i></button>
+    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
+
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="{$baseurl}/watch_video.php?v={$video.videokey}">View video</a>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_video.php?video={$video.videoid}">Edit video</a>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_flags={$video.videoid}">Delete Flags</a>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_video={$video.videoid}">Delete Video</a>
+        </li>
+    </ul>
+</div><br><br>
+
+<!-- DIsplaying Videos -->
+
+<form name="video_manage" method="post">
+    <table class="table table-bordered table-striped manageUsersTable">
+        <tr>
+            <td width="30" align="center" valign="middle" class="left_head">Fid</td>
+            <td class="head">Flag Details</td>
+        </tr>
+        {assign var = bgcolor value = ""}
+        {section name=list loop=$flags}
+        <tr bgcolor="{$bgcolor}">
+            <td>{$smarty.section.list.iteration}</td>
+            <td>Reported as "{$flags[list].flag_type|flag_type}" by<strong>{$flags[list].userid|get_username}</strong> {$flags[list].date_added|niceTime}</td>
+        </tr>
+        {if $bgcolor == ""}
+        {assign var = bgcolor value = "#EEEEEE"}
+        {else}
+        {assign var = bgcolor value = ""}
+        {/if}
+
+        {/section}
+    </table>
+</form>
+
+{/if}

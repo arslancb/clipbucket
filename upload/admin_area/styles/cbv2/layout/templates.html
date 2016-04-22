@@ -1,0 +1,41 @@
+<h2>Selected Template</h2>
+<div style="margin-top:10px">
+{assign var="selected" value=$Cbucket->configs.template_dir}
+{assign var="curtpl" value=$cbtpl->get_template_details($selected)}
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="190"><img src="{$cbtpl->get_preview_thumb($curtpl.dir)}" class="preview_thumb_template" ></td>
+    <td valign="top"><h2 style="display:inline">{$curtpl.name}</h2> &#8212; <em><a href="{$curtpl.website.link}"><strong>{$curtpl.author}</strong></a></em><br />
+{$curtpl.description}<br />
+Version : {$curtpl.version}, Released on {$curtpl.released|date_format}<br />
+Website : <a href="{$curtpl.website.link}">{$curtpl.website.title}</a></td>
+  </tr>
+</table>
+
+
+</div>
+
+<hr size="1" noshade />
+
+{* Listing All Avilable Templates *}    
+{assign var='templates' value=$cbtpl->get_templates()}
+{if $templates} 
+    <h2>Available Templates</h2>
+	   
+    <div class="templates_container">
+    {foreach from=$templates item=template}
+    {if $selected != $template.dir}
+        <div class="template_box" align="center">
+            <img src="{$cbtpl->get_preview_thumb($template.dir)}" class="preview_thumb_template" >
+    <div align="center" style="" class="tpl_title">
+                {$template.name} <br /><em>by <strong>{$template.author}</strong></em><br />
+            <a href="templates.php?change={$template.dir}">Activate This Template</a><br />
+            <a href="{$baseurl}?template={$template.dir}" target="_blank">Preview</a><br />
+          <a href="{$baseurl}?template={$template.dir}&amp;set_template=yes" target="_blank">Preview &amp; Activate</a></div>
+        </div>
+    {/if}
+    {/foreach}
+    </div>
+{else}
+	<div align="center">No New Template Found</div>
+{/if}

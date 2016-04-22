@@ -1,0 +1,87 @@
+{lang code='channel' assign='object_type'}
+{include file="$style_dir/global_header.html"}
+{include file="$style_dir/header.html"}
+
+
+<div class="container">
+    <div class="cb-box marginBottom" style="margin-bottom:30px;">
+        <div class="row">
+            <span style="margin-left: 24px">
+            {assign var=category value=$userquery->get_category($u.category)}
+            {$u.username|capitalize}</a> ({$category.category_name})
+            <div class="btn-group pull-right" style="margin-right: 10px">
+                {if !$isSubscribed && $p.allow_subscription!='no'}
+                <button class="btn btn-primary btn-sm" onclick="subscriber('{$u.userid}','subscribe_user','')">{lang code='subscribe'}</button>
+                {elseif $isSubscribed}
+                <a class="btn btn-primary btn-sm" href="javascript:void(0)"
+                   onClick="subscriber('{$u.userid}','unsubscribe_user','result_cont')">{lang code='unsubscribe'}</a>
+                {/if}
+                {assign var='channel_action_links' value=$userquery->get_channel_action_links($u)}
+                {foreach from=$channel_action_links item=link key=link_title}
+                <a class="btn btn-primary btn-sm" {if $link.onclick}onClick="{$link.onclick}"{else}href="{$link.link}"{/if}>{$link_title}</a>
+                {/foreach}
+            </div>
+                </span>
+                <div id="messageFav" style="display:none; margin:15px 0 0 15px; "></div>
+            <div class="action_box" id="result_cont" style="display:none; margin:15px 0 0 15px; "></div>
+            <hr style="margin-bottom: 6px; margin-top: 8px">
+         <div class="col-md-3">
+             {include file="$style_dir/blocks/view_channel/channel_right.html"}
+         </div>
+       
+        {if $playlist_mode == 'on'}
+            {if $playlists}
+             <div class="col-md-9">
+            {foreach $playlists as $playlist}
+            <div class="row" >
+                <div class="col-md-10" style="border-bottom: 1px solid #E3E3E3;  margin:20px 20px 20px 30px;">
+                    <div class="row">
+                        <div class="col-md-3" style="margin-bottom:10px;">
+                            <label class="label label-info">{$playlist.playlist_name}</label>
+                        </div>
+                        <img src="{get_playlist_thumb($playlist)}" />
+                        {$list_id=$playlist.playlist_id}
+                        {$first=get_playlist_items($list_id,1)}
+                        {if $first}
+                        <a href="{videoLink vdetails=$first[0]}" >{lang code='play_now'}</a>
+                        {/if}
+                        <div class="col-md-9">
+                            
+                             <span class="maccountlabels"> <strong>{$playlist.date_added|niceTime}</strong>
+                                </span>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/foreach}
+                <div class="col-md-4 pull-right">
+                    {include file="$style_dir/blocks/pagination.html"}
+                </div>
+                  </div>
+            {/if}
+      
+        {else}
+            <div class="col-md-9">
+                <h3>User Videos</h3>
+
+                {if !$videos}
+                <div class="alert alert-danger" role="alert">Sorry, this user has no videos. Yet!</div>
+                {/if}
+                
+                {section name=v_list loop=$videos}
+                {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
+                {/section}
+                <div class="clearfix"></div>
+                <div class="col-md-4 pull-right">
+                {include file="$style_dir/blocks/pagination.html"}
+            </div>
+                </div>
+                {/if}
+        </div>
+        <div class="footer">
+            &copy; {$title} {$smarty.now|date_format:"%Y"}
+        </div>
+    </div>
+    </div>
+{include file="$style_dir/footer.html"}

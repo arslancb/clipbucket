@@ -1,0 +1,66 @@
+
+<footer>
+        <div class="row col-md-12 clearfix footer_pad">
+            {$Cbucket->footer()}
+            <div class="col-md-8 col-sm-6 col-xs-12">
+                <ul class="nav list-unstyled pull-left">
+                    {$foot_menu=foot_menu()}
+                    {foreach from=$foot_menu item=fm}
+                    {if $fm.name!=''}
+                        <li><a href="{$fm.link}" {if $fm.target} target="{$fm.target}"{/if} {if $fm.onclick} onclick="{$fm.onclick}" {/if}>{$fm.name}</a></li>
+                    {/if}
+                    {/foreach}
+
+                    <li>
+                         <div class="lang_wrapper">
+                          {if config("allow_language_change")}
+                            <form action="" method="post" name="change_lang">
+                                {$cbobjects->_display_languages()}              
+                            </form>
+                          {/if}
+                        </div>
+                    </li>
+                </ul> 
+
+                 
+
+            </div>
+
+           <div class="col-md-3 col-sm-3 col-xs-12">
+              
+           
+              <!-- <div class="temp_wrapper">
+              {if config("allow_template_change")}
+                 <form action="" method="post" name="change_temp">
+                    {$cbobjects->display_templates()}              
+                </form>
+              {/if}
+             </div>   -->
+            
+            </div>
+            
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                   <ul class="nav list-unstyled pull-right">
+                    <!--<li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Bad Page</a></li>-->
+                    <li>#ClipBucket#</li>
+                </ul>
+            </div>
+        </div><!--//row-->
+</footer>
+
+<script>
+    $(".lang_ul li a").on({
+            click: function(e){
+            e.preventDefault();
+            var prent_li = $(this).parents();
+            $('.lang').html($(this).html()+" <span class='caret'></span>");
+            $('.lang_ul li').removeClass('active');
+            prent_li.addClass('active');
+        }
+    });
+</script>
+
+{$Cbucket->footer()}
+

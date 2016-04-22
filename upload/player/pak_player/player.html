@@ -1,0 +1,170 @@
+<a href="{if !$ytcode}{$normal_vid_file}{else}api:{$ytcode}{/if}" style="display:block;width:{$player_data.width}; height:{$player_data.height}" id="the_Video_Player"></a>
+<script language="JavaScript">
+var pakplayer_path = '{$pak_player_url}';
+var player_logo = '{$player_logo}';
+var hq_video_file = '{$hq_vid_file}';
+var normal_video_file = '{$normal_vid_file}';
+var ytcode = '{$ytcode}';
+var pre_item = "";
+var next_item = "";
+var splash_img = '{getThumb vdetails=$vdata size="big"}';
+var embed_type = '{$Cbucket->configs.embed_type}';
+{literal}
+//Now lets write an HQ video function that swaps the original video with hq
+var video_quality = 'normal';
+function toggleQuality(obj)
+{
+	
+		if(video_quality=='normal')
+		{
+			video_quality = 'hq';
+			flowplayer(obj).stop();
+			flowplayer(obj).setClip({url:hq_video_file});
+			flowplayer(obj).play();
+		}
+		else
+		{
+			video_quality = 'normal';
+			flowplayer(obj).stop();
+			flowplayer(obj).setClip({url:normal_video_file});
+			flowplayer(obj).play();
+		}
+}
+
+function pakplayer_hq()
+{
+	toggleQuality('the_Video_Player');
+}
+has_hq_function = true;
+hq_function = pakplayer_hq;
+
+{/literal}
+
+
+flowplayer("the_Video_Player", {ldelim}"src":"{$pak_player_url}/pakplayer{if $Cbucket->configs.pak_license}.unlimited{/if}.swf"{rdelim}, 
+	{literal}{{/literal}
+	{if $Cbucket->configs.pak_license}
+	key : '{$Cbucket->configs.pak_license}',	
+	{/if}
+	{literal}
+	plugins: {
+		controls: {
+			
+			{/literal}
+			{if $pakconfigs}
+				{foreach from=$pakconfigs item=value key=config}
+					{$config} : "{$value.default}",
+				{/foreach}
+			{else}
+			background: "url("+pakplayer_path+"/bg.png) repeat",
+			url: "pakplayer.controls.swf"
+			{/if}
+					
+		{if $youtube}
+		{rdelim},
+		youtube :
+		{literal}
+		{
+			url:pakplayer_path+'/pakplayer.youtube.swf',
+			enableGdata: true
+		}
+		{/literal}
+		{else}
+		
+		{rdelim} // Take this you shitty IE7
+		{/if}
+		
+		{if $Cbucket->configs.pseudostreaming=='yes' && !$youtube},lighttpd : {ldelim} url: pakplayer_path+"/pakplayer.pseudo.swf"{rdelim}{/if}
+{literal}
+	},
+	canvas: {
+	backgroundColor: '#000000',  // For some reason we have to define this :|
+	backgroundGradient : 'none',
+	background : '#000000 url('+splash_img+') no-repeat 50pct 50pct'
+  },
+
+	clip:
+	{
+		linkUrl : "#",
+		{/literal}
+		{if $youtube}
+		provider : 'youtube',
+		urlResolvers: 'youtube',
+		
+		{else}
+		{if $Cbucket->configs.pseudostreaming=='yes'}provider: 'lighttpd',{/if}
+		scaling : 'fit',
+		{/if}
+		
+		{if $player_data.autoplay}
+		autoPlay :true,
+		{else}
+		autoPlay : false,
+		{/if}
+		
+		{literal}
+		onStart : function()
+		{
+			// Removing background image
+			 this.getPlugin("canvas").css({ "background" : "#000000"})
+		},
+		onLastSecond: function()
+		{
+			if(next_item)
+			{
+				if($.cookie('auto_play_playlist'))
+				window.location = next_item;
+			}
+		}
+	},
+	
+	
+	playlists :
+	[
+		{/literal}
+		{ldelim}
+		{if $youtube}
+		url : 'api:{$ytcode}'		
+		{else}
+		url : normal_video_file
+		{/if}
+		{literal}
+		}
+	],
+	logo:
+	{
+		url: player_logo,
+		fullscreenOnly: false,
+		{/literal}
+		{$logo_position}
+		{literal}
+		
+	}
+});
+
+
+function htmlDecode(value){ 
+  return $('<div/>').html(value).text(); 
+}
+function updateEmbedCode(width,height,autoplay)
+{ 
+	if(autoplay=='yes')
+		autoPlayVid = 'yes';
+	else
+		autoPlayVid = 'no';
+	
+	embedPlayerWidth = width;
+	embedPlayerHeight = height;
+	autoPlayEmbed = autoplay;
+	var embedCode =  $('#embed_code').val();
+	
+	$('#embed_code').val( $('#embed_code').val().replace(/height=\"([0-9]+)\"/g,'height="'+height+'"') );
+	$('#embed_code').val( $('#embed_code').val().replace(/width=\"([0-9]+)\"/g,'width="'+width+'"') );
+	$('#embed_code').val( $('#embed_code').val().replace(/height=([0-9]+)/g,'height='+height+'') );
+	$('#embed_code').val( $('#embed_code').val().replace(/width=([0-9]+)/g,'width='+width+'') );
+	$('#embed_code').val( $('#embed_code').val().replace(/autoplay\%3D(yes|no)/g,'autoplay%3D'+autoPlayVid) );
+	$('#embed_code').val( $('#embed_code').val().replace(/autoplay\=(yes|no)/g,'autoplay='+autoPlayVid) );
+}
+
+</script>
+{/literal}

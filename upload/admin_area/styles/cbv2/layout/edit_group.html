@@ -1,0 +1,108 @@
+<h2>Edit Group</h2>
+
+{* Loading Form Fields *}
+{assign var='requiredFields' value=$cbgroup->load_required_fields($group,true)}
+{assign var='optionFields' value=$cbgroup->load_other_fields($group)}
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="10" align="left" valign="middle" class="left_head" style="text-indent:10px">&nbsp;</td>
+    <td class="head">Editing {$group.title}</td>
+    <td width="100" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+
+
+<form name="edit_group" method="post">
+
+
+<fieldset class="fieldset">
+    <legend>Thumbs</legend>
+    <div style="width:140px; float:left" align="center">
+        <img src="{$cbgroup->get_group_thumb($group)}" border="1" style="margin:4px;max-height:120px; max-width:120px;" />
+    </div>
+    <div style="width:500px; float:left">
+        <li>{$LANG.grp_must_be} JPG | GIF | PNG</li>
+        <li>{$LANG.grp_90x90}</li>
+        <li>{$LANG.grp_thumb_warn}</li>
+        <input type="file" name="thumb_file" id="thumb_file" />
+    </div>
+    <div class="clearfix"></div>
+ </fieldset>
+
+ 
+<fieldset class="fieldset">
+  <legend>Required Details</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+   {foreach from=$requiredFields item=field}
+                  <tr>
+                    <td width="200"><strong>{$field.title} </strong></td>
+                    <td >{if $field.hint_1}{$field.hint_1}<br />{/if}
+{if $field.anchor_before}{ANCHOR place=$field.anchor_before}<br />{/if}
+{$formObj->createField($field)} <br />
+
+{$field.hint_2}</td>
+    </tr>
+                {/foreach}
+  </table>
+</fieldset>
+
+
+
+
+
+<fieldset class="fieldset">
+    <legend>Group Stats</legend>
+
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+   
+                  <tr>
+                    <td width="200" valign="top"><strong>Total Views</strong></td>
+                    <td valign="top" ><label for="total_views"></label>
+                    <input name="total_views" type="text" id="total_views" value="{$group.total_views}" /></td>
+    </tr>
+                  <tr>
+                    <td valign="top"><strong>Total Members</strong></td>
+                    <td valign="top" ><label for="total_members"></label>
+                    <input name="total_members" type="text" id="total_members" value="{$group.total_members}" /></td>
+                  </tr>
+                  <tr>
+                    <td valign="top"><strong>Total Videos</strong></td>
+                    <td valign="top" ><label for="total_topics"></label>
+                    <input name="total_videos" type="text" id="total_views4" value="{$group.total_videos}" /></td>
+                  </tr>
+                  <tr>
+                    <td valign="top"><strong>Total Topics</strong></td>
+                    <td valign="top" ><label for="total_views5"></label>
+                    <input name="total_topics" type="text" id="total_views5" value="{$group.total_topics}" /></td>
+                  </tr>
+                  <tr>
+                    <td valign="top">&nbsp;</td>
+                    <td valign="top" >&nbsp;</td>
+                  </tr>
+
+  </table>
+</fieldset>
+
+
+<fieldset class="fieldset">
+  <legend>Other Details</legend>
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+   {foreach from=$optionFields item=field}
+                  <tr>
+                    <td width="200"><strong>{$field.title} </strong></td>
+                    <td >{if $field.hint_1}{$field.hint_1}<br />{/if}
+{if $field.anchor_before}{ANCHOR place=$field.anchor_before}<br />{/if}
+{$formObj->createField($field)} <br />
+
+{$field.hint_2}</td>
+    </tr>
+                {/foreach}
+  </table>
+</fieldset>
+
+<div style="width:100%; margin:auto">
+<input type="submit" class="button" value="Update Group details" style="margin:5px 0px 15px 0px" name="update_group" id="update_group">
+</div>
+</form>

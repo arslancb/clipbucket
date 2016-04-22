@@ -1,0 +1,179 @@
+
+<h2>Video Manager</h2>
+
+<img src="{$imageurl}/dot.gif" class="sarch_button" onclick="toggle_search('searchdiv')" />
+<div class="search_box" id="searchdiv" {if $smarty.cookies.show_searchdiv_search!='show'} style="display:none"{/if}>  <form id="video_search" name="video_search" method="get" action="video_manager.php" class="video_search">
+  <table width="400" border="0" cellpadding="2" cellspacing="2">
+    <tr>
+      <td width="106" align="right"><label for="title">Video title</label></td>
+      <td width="280"><input name="title" type="text" class="input" id="title" value="{'title'|get_form_val:true}" //></td>
+    </tr>
+    <tr>
+      <td align="right"><label for="videokey">Video key</label></td>
+      <td><input name="videokey" type="text" class="input" id="videokey" value="{'videokey'|get_form_val:true}" //></td>
+    </tr>
+    <tr>
+      <td align="right"><label for="videoid">Video id</label></td>
+      <td><input name="videoid" type="text" class="input" id="videoid" value="{'videoid'|get_form_val:true}" //></td>
+    </tr>
+    <tr>
+      <td align="right"><label for="tags">Video tags</label></td>
+      <td><input name="tags" type="text" class="input" id="tags" value="{'tags'|get_form_val:true}" /></td>
+    </tr>
+    <tr>
+      <td align="right">Featured</td>
+      <td><label for="featured"></label>
+        <select name="featured" id="featured" class="input">
+          <option value="" ></option>
+          <option value="yes" {if $smarty.get.featured=='yes'} selected="selected"{/if}>Yes</option>
+          <option value="no" {if $smarty.get.featured=='no'} selected="selected"{/if}>No</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td align="right">Active</td>
+      <td><select name="active" id="active" class="input">
+      <option value="" ></option>
+        <option value="yes" {if $smarty.get.active=='yes'} selected="selected"{/if}>Yes</option>
+        <option value="no" {if $smarty.get.active=='no'} selected="selected"{/if}>No</option>
+      </select></td>
+    </tr>
+    <tr>
+      <td align="right">Conversion Status</td>
+      <td><select name="status" id="status" class="input">
+      <option value="" ></option>
+        <option value="Successful" {if $smarty.get.status=='Successful'} selected="selected"{/if}>Successful</option>
+        <option value="Processing" {if $smarty.get.status=='Processing'} selected="selected"{/if}>Processing</option>
+        <option value="Failed" {if $smarty.get.status=='Failed'} selected="selected"{/if}>Failed</option>
+</select></td>
+    </tr>
+    <tr>
+      <td align="right">Userid</td>
+      <td><input name="userid" type="text" class="input" id="userid" value="{'userid'|get_form_val:true}" /></td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">Category</td>
+      <td>
+     {$formObj->createField($cat_array)} 
+</td>
+    </tr>
+  </table>
+  <br />
+  <input type="submit" name="search" id="search" value="Search Form" class="button"/>
+</form>
+</div>
+  
+  
+<!-- DIsplaying Videos -->
+<form name="video_manage" method="post">
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+     		<input type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+            <input type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
+    
+    </td>
+    </tr>
+</table>
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="50" class="head">VID</td>
+    <td width="50" class="head">&nbsp;</td>
+    <td class="head">Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+
+
+
+{if $videos}
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+{assign var = bgcolor value = ""}
+{section name=list loop=$videos}
+<script type="text/javascript">
+{literal}
+   $(function() { {/literal}
+		$("#thumbs_{$videos[list].videoid}").tooltip({literal}{showURL: false,delay: 0,opacity: 1.0});
+	});
+{/literal}
+</script>
+
+<tr class="video_opt_td"  bgcolor="{$bgcolor}">
+    <td width="30" align="center" valign="top" class="video_opt_td">    <input name="check_video[]" type="checkbox" id="check_video" value="{$videos[list].videoid}" /></td>
+    <td width="50" align="left" valign="top" class="video_opt_td">{$videos[list].videoid}</td>
+    <td width="50" valign="top" class="video_opt_td"><img src="{getThumb vdetails=$videos[list]}" width="46" height="36" id="thumbs_{$videos[list].videoid}"
+    title="<img src='{getThumb vdetails=$videos[list] num=1}'  /> <img src='{getThumb vdetails=$videos[list] num=2}'  /> <img src='{getThumb vdetails=$videos[list] num=3}'  />" /></td>
+    <td valign="top"  class="video_opt_td" 
+    onmouseover="$('#vid_opt-{$videos[list].videoid}').show()" 
+    onmouseout="$('#vid_opt-{$videos[list].videoid}').hide()" >
+    <div><a href="edit_video.php?video={$videos[list].videoid}" target="_blank" style="text-indent:10px">
+    {$videos[list].title|truncate:80}
+    </a> ({if $videos[list].duration>1}{$videos[list].duration|SetTime}{else}00:00{/if})</div>
+    <span class="vdo_sets">
+    Featured:<strong>{$videos[list].featured} </strong> &#8226;
+    Active:<strong>{$videos[list].active}</strong> &#8226;
+    Status:<strong>{$videos[list].status}</strong>  &#8226;
+    Uploaded:<strong>{$videos[list].date_added|niceTime}</strong>  &#8226;
+    User:<strong><a href="view_user.php?uid={$videos[list].userid}">{$videos[list].username}</a></strong>
+    </span>
+    
+    <br />
+    <div id="vid_opt-{$videos[list].videoid}" style="display:none" class="vid_opts">
+   	 
+      <a href="edit_video.php?video={$videos[list].videoid}">Edit</a> | 
+      <a href="{$baseurl}/watch_video.php?v={$videos[list].videokey}" target="_blank">Watch</a> {if $videos[list].featured == yes} | 
+      <a href="javascript:Confirm_Delete('?delete_video={$videos[list].videoid}')">Delete</a> | 
+      <a href="?make_unfeature={$videos[list].videoid}">Make Unfeatured</a> {/if} 
+      {if $videos[list].featured == no} | 
+      <a href="?make_feature={$videos[list].videoid}">Make Featured</a> {/if}
+      {if $videos[list].active == yes}  | 
+      <a href="?deactivate={$videos[list].videoid}">Deactivate</a> {else} | 
+      <a href="?activate={$videos[list].videoid}">Activate</a> {/if}  | 
+      <a href="view_conversion_log.php?file_name={$videos[list].file_name}">File conversion details</a> | 
+      <a href="?delete_video={$videos[list].videoid}">Delete</a>
+      {foreach from=$cbvid->video_manager_links item=links}
+      	{$cbvid->video_manager_link($links,$videos[list])}
+      {/foreach}
+    </div>
+    </td>
+    <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
+    </tr>
+    {if $bgcolor == ""}
+    {assign var = bgcolor value = "#EEEEEE"}
+    {else}
+    {assign var = bgcolor value = ""}
+    {/if}
+        
+{/section}
+</table>
+{else}
+  <div align="center"><strong><em>No Video Found</em></strong></div>
+{/if}
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+     <input type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+            <input type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
+    
+    </td>
+    </tr>
+</table>
+
+</form>
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }

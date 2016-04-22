@@ -1,0 +1,80 @@
+<div class="row add-comments clearfix" id="add_comment">
+    {if $userquery->login_check('',true) || $Cbucket->configs.anonym_comments == 'yes' }
+    <form name="comment_form" method="post" action="" id="comment_form" onsubmit="return false;">
+        <div class="col-lg-12">
+                <span id="comment_err_output" class="alert alert-danger comment_err_output pull-left" style="display:none;width:100%"></span>
+                <span id="comment_msg_output" class="alert alert-success comment_msg_output pull-left" style="display:none;"></span>
+                <input type="hidden" name="reply_to" id="reply_to" value="0">
+                <input type="hidden" name="obj_id" id="obj_id" value="{$id}">
+                <input type="hidden" name="type" value="{$type}" />
+                {if !$userquery->login_check('',true) && $Cbucket->configs.anonym_comments == 'yes'}
+                <div class="clearfix"></div>    
+                    <label for="name" class="Label">{lang code='name'}</label>
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Your Name">
+                <div class="clearfix"></div>    
+                <br>
+                <div class="clearfix"></div>    
+                    <label for="email" class="Label">{lang code='email_wont_display'}</label>
+                    <input type="text" name="email" id="email" class="form-control" placeholder="Your Email">
+                <div class="clearfix"></div>
+                <br>                   
+                {else}
+                <div class="clearfix"></div>    
+                    <label class="Label">{lang code="name"}</label>
+                    <span class="vAlignMiddle Cantarell sizeBigger capitalize">
+                            {if $userquery->udetails.fullname}
+                            {$userquery->udetails.fullname}
+                            {else}
+                            {$userquery->username}
+                        {/if}
+                    </span>
+                <div class="clearfix"></div>    
+                {/if}
+                {if config('comments_captcha')=='all' || ( config('comments_captcha')=='guests' && !$userquery->login_check('',true) )}
+                {$captcha=get_captcha()}
+                {if $captcha} 
+                    <div class="clearfix"></div>    
+                        {if $captcha.show_field}
+                                <label class="Label" for="captcha">Verification Code</label>
+                                <div class="ADfieldInputs">{load_captcha captcha=$captcha load=field field_params = ' id="captcha" class="TextField"'}</div>
+                        {/if}
+                        {load_captcha captcha=$captcha load=function}
+                    <div class="clearfix"></div>    
+                {/if}
+                {/if} 
+                {ANCHOR place='before_compose_box'}
+                <div class="clearfix"></div>    
+                <textarea name="comment" id="comment_box" class="form-control" placeholder="Please type something in a comment box"></textarea>
+        </div>
+        <div class="col-lg-12" style="margin:15px 0 15px 0;">
+           <input type="button" name="add_comment" id="add_comment_button" class="btn btn-primary btn-block"  value='Add Comment'>
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-9 col-xs-9" id="msg_container"></div>
+    </form>
+    {else}
+        <span class="sizeSmall bold error"></span>
+        <div class="col-lg-10 col-md-9 col-sm-9 col-xs-9">
+        <span class="alert-warning alert msg-display">{lang code='please_login_to_comment'}</span>
+        </div>
+    {/if}
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var form_selector = 'comment_form';
+        var type = '{$type}';
+        var video_id = '{$vdo.video_id}';
+        $('body').on("click","#add_comment_button",function(){
+            add_comment_js(form_selector,type,video_id);
+        });
+        $('#comment_box').keypress(function(e){
+            if(e.keyCode == 13 && !e.shiftKey)
+            {
+                e.preventDefault();
+                add_comment_js(form_selector,type,video_id);
+            }
+            });
+        });
+    
+</script>

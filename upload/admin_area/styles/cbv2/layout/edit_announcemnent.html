@@ -1,0 +1,18 @@
+<h2>Edit Announcement</h2>
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td>
+    <form id="form1" name="form1" method="post" action="">
+      Announcement<br />
+      <label for="textarea"></label>
+      <textarea name="text" id="page_content" cols="75" rows="6" style="width:100%;">{get_announcement}</textarea>
+      <script type="text/javascript">
+	  	{literal}
+			new nicEditor({fullPanel : true,maxHeight:350}).panelInstance('page_content');
+		{/literal}
+		</script>
+      <br />
+      <input type="submit" name="update" value="Update" />
+    </form></td>
+  </tr>
+</table>

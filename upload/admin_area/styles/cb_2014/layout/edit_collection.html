@@ -1,0 +1,284 @@
+{assign var=requiredFields value=$cbcollection->load_required_fields($data)}
+{assign var=otherFields value=$cbcollection->load_other_fields($data)}
+
+<div class="heading clearfix marginBottomLarge paddingBottomSmall">
+    <h2 class="pull-left">Editing <small>&gt; {$data.collection_name}</small></h2>
+    <div class="pull-right">
+        <span class="btn btn-app btn-sm btn-light no-hover">
+            <span class="line-height-1 smaller-90 blue">{$data.views|number_format}</span>
+            <br>
+            <span class="line-height-1 smaller-90"> Views </span>
+        </span>
+        <span class="btn btn-app btn-sm btn-yellow no-hover">
+            {$comments = $data.comments_count}
+            {if $comments > 0}
+                <span class="line-height-1 smaller-90"> {$data.comments_count} </span>
+            {else}
+                <span class="line-height-1 smaller-90">0</span>
+            {/if}
+            <br>
+            <span class="line-height-1 smaller-90"> Comments </span>
+        </span>
+        <span class="btn btn-app btn-sm btn-pink no-hover">
+            <span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+                <span class="line-height-1 smaller-90"> Active</span>
+            </span>
+        </span>
+        <span class="btn btn-app btn-sm btn-grey no-hover">
+
+            <span class="line-height-1"> {if $data.featured=='No'}<span class="glyphicon glyphicon-ok"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+
+                <span class="line-height-1 smaller-90">Featured</span>
+            </span>
+        </span>
+         
+             <span class="btn btn-app btn-sm btn-primary no-hover">
+            {if $FlaggedPhotos != NULL}
+                {$FlaggedPhotos[list].total_flags}
+                {section name=list loop=$FlaggedPhotos}
+                <span class="line-height-1 smaller-90">
+                    {$FlaggedPhotos[list].total_flags}
+                </span>
+                {/section}
+                <br>
+                <span class="line-height-1 smaller-90"> Flagged </span>
+                {else}
+                    <span class="line-height-1 smaller-90">
+                        0
+                    </span>
+                    <br>
+                    <span class="line-height-1 smaller-90"> Flagged </span>
+                {/if}
+            </span>
+    </div>
+</div>
+<form action="" method="post" enctype="multipart/form-data" name="edit_collection" id="edit_collection">
+    <div class="row marginTopLarge">
+        <div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
+        <input class="form-control" name="admin" type="hidden" id="admin" value="true" />
+        <input name="collection_id" type="hidden"  value="{$data.collection_id}" />
+
+            <div class="tabbable">
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active">
+                        <a data-toggle="tab" href="#cldetails">
+                            Collection Details
+                        </a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#uinformation">
+                            <i class="glyphicon glyphicon-user"></i>
+                            Uploader Information
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+
+
+                    <div id="cldetails" class="tab-pane active">
+
+
+
+              <fieldset class="fieldset">
+   
+              <table class="myTable" width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+              <tr>
+              <td class="first"><label for="">Collection Id</label></td></td>
+              <td class="last"><p><span><input disabled="disabled" name="collecionID" type="text" id="collecionID" value="{$data.collection_id}" size="30" />
+              </span></p></td>
+              </tr>
+
+             
+              {foreach from=$requiredFields item=field}
+              <tr>
+              <td class="first"><label for="" style="width:160px;">{$field.title}</label></td>
+              <td class="last" ><p><span>{$formObj->createField($field)}</span></p></td>
+              </tr>
+              {/foreach}
+              </table>
+
+              </fieldset>
+
+
+<!--
+                        <table class="myTable">
+                            <tr>
+                                <td class="first"><label for="">Collection Id</label></td></td>
+                            <td class="last"><p><span>{$data.collection_id}</span></p></td> 
+                              <td class="last"><p>bollywood</p></td>
+                            </tr>
+                        
+                              {foreach from=$requiredFields item=field}
+                              {if $field.title=='Collection name'}
+                            <tr>
+                                <td class="first"><label for="">{$field.title}</label></td>
+                                <td class="last"><p><span>{$data[$field.db_field]}</span></p></td>
+                            </tr>
+                            {/if}
+                            {/foreach}
+                            {foreach from=$requiredFields item=field}
+                            {if $field.title=='Collection description'}
+                            {$field.class='form-control'}
+                            <tr>
+                                <td class="first"><label for="">{$field.title}</label></td>
+                                <td class="last"><p><span>{$data[$field.db_field]}</span></p></td>
+                            </tr>
+                            {/if}
+                            {/foreach}
+                            {foreach from=$requiredFields item=field}
+                            {if $field.title=='Collection tags'}
+                            {$field.class='form-control'}
+                            <tr>
+                                <td class="first"><label for="">{$field.title}</label></td>
+                                <td class="last"><p><span>{$data[$field.db_field]}</span></p></td>
+                            </tr>
+                            {/if}
+                            {/foreach}
+                            {foreach from=$requiredFields item=field}
+                            {if $field.title=='Collection type'}
+                            {$field.class='form-control'}
+                            <tr>
+                                <td class="first"><label for="">{$field.title}</label></td>
+                                <td class="last">
+                                    <p><span>{$data[$field.db_field]}</span></p>
+                                </td>
+                            </tr>
+                            {/if}
+                            {/foreach}
+                        </table>
+                        {foreach from=$requiredFields item=field}
+                        {if $field.title=='Collection category'}
+
+                       label>{$field.title}</label>
+                        <div class="tab-content scroll">
+                            {$formObj->createField($field)}
+                        </div> 
+                        {/if}
+                        {/foreach}-->
+
+                    </div>
+                    <div id="uinformation" class="tab-pane">
+                        <div class="form-group">
+                            <img src="{$userquery->getUserThumb($u,'small')}" class="btn btn-app btn-primary btn-xs" />
+                        </div>
+                        <div class="table-responsive">
+
+                            <table class="myTable" width="600px">
+                                <tr>
+                                    <td class="first"><label>User Id</label></td>
+                                    <td class="last"><p><span>{$data.userid}</span></p></td>
+                                </tr>
+                                <tr>
+                                    <td class="first"><label>User Name</label></td>
+                                    <td class="last"><p><span>{$data.userid|get_username}</span></p></td>
+                                </tr>
+                                <tr>
+                                    <td class="first"><label>DOB</label></td>
+                                    <td class="last"><p><span>{$data.dob}</span></p></td>
+                                </tr>
+                                <tr>
+                                    <td class="first"><label>Email</label></td>
+                                    <td class="last"><p><span>{$data.email}</span></p></td>
+                                </tr>
+                                <tr>
+                                    <td class="first"><label>Gender</label></td>
+                                    <td class="last"><p><span>{$data.sex}</span></p></td>
+                                </tr>
+                                <tr>
+                                    <td class="first"><label>Rating</label></td>
+                                    <td class="last"><p><span>{$data.rating}</span></p></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                </div>
+                    </div>
+                <br>
+        <div class="row">
+            <legend>Collection Stats</legend>
+        <div class="col-md-6">
+        <label for="total_objects">Total Objects</label>
+        <input class="form-control" name="total_objects" type="text" id="total_objects" value="{$data.total_objects}" />
+    </div>
+        <div class="col-md-6">
+        <label for="total_comments">Total Comments</label>
+        <input name="total_comments" class="form-control"  type="text" id="total_comments" value="{$data.total_comments}" />
+    </div>
+            </div>
+        <input type="submit" class="btn btn-primary" value="Update Collection Details" style="margin:15px 0px 0px 15px" name="update_collection">
+    </div>
+            </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col x1-12 pull-right">
+
+
+            <div class="tabbable" style="margin-top: 20px">
+                <ul class="nav nav-tabs" id="myTab3">
+                    <li class="active">
+                        <a data-toggle="tab" href="#fields">
+                            Other Fields
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#clpreview">
+                            Collection Preview
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#citems">
+                            Manage Items
+                        </a>
+                    </li>
+                </ul>
+
+
+                <div class="tab-content">
+                    <div id="fields" class="tab-pane in active">
+            	<legend>Other Fields</legend>
+                <div class="form-group">
+                    {foreach from=$otherFields item=field}
+                    <label class="label label-danger" for="{$field.id}">{$field.title} :</label>
+                    {$field.hint_1}<br />
+                    {$formObj->createField($field)}<br/>
+                    {$field.hint_2}
+                    {/foreach}
+                    </div>
+                        </div>
+                    <div id="clpreview" class="tab-pane">
+            	<legend>Collection Preview</legend>
+                <div class="form-group">
+                        <label class="label label-danger">Collection Preview :</label>
+                        <img style="padding:2px; border:1px solid #ccc;" src="{$cbcollection->get_thumb($data,NULL,TRUE)}?{$randon_number}" />
+                        <input class="forum-control" type="checkbox" value="{$data.collection_id}" name="delete_preview" id="del_{$data.collection_id}_preview" /><label for="del_{$data.collection_id}_preview">Delete Preview</label>
+          </div>
+                    <div class="form-group">
+                    <label for="collection_thumb">Upload New :</label>
+                    <input type="file" name="collection_thumb" id="collection_thumb" >
+          </div>
+          </div>
+                    <div id="citems" class="tab-pane">
+
+                        {if $objects}
+                        {section name=list loop=$objects}
+                        {if $data.type == 'photos'}
+                        {get_photo details=$objects[list] output='html' title=$photos[list].photo_title}
+                        {/if}
+                        {if $data.type == 'videos'}
+                        <img src="{get_thumb vdetails=$objects[list]}" width="120" height="70" />
+                        {/if}
+                        {/section}
+                        {assign var=rest value=$data.total_objects-4}
+                        <a style="display:block; font:bold 11px Tahoma; text-align:center; padding:4px; background:#fafafa;border:1px solid #aaa;" href="manage_items.php?collection={$data.collection_id}&amp;type={$data.type}">Manage Items{if $rest && $rest>0} - {$rest} more item{if $rest>1}s{/if}{/if}</a>
+                        {else}
+                        Collection has 0 items
+                        {/if}
+                    </div>
+          </div>
+            </div>
+            </div>
+        </div>
+         </form>

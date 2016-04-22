@@ -1,0 +1,119 @@
+<div class="advanceSearchButton clearfix">
+    <a href="#" class="btn btn-primary btn-sm pull-right current after" onclick="$('#collectionsearchdiv').toggle();return false;" style="margin-bottom: 0px;position: relative; top: 15px;z-index:10000">
+        Advanced Search
+       <i class="glyphicon glyphicon-chevron-down down"></i>
+         <i class="glyphicon glyphicon-chevron-up up" style="display:none"></i>
+    </a>
+</div>
+<div class="search_box well" id="collectionsearchdiv" {if $smarty.cookies.show_searchdiv_search!='show'} style="display:none"{/if}>
+<br>
+<form action="collection_manager.php" method="get" name="search_collections">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="title">Collection name</label>
+                <input name="title" type="text" class="form-control" id="title" value="{'title'|get_form_val:true}" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="collectionid">Collection id</label>
+                <input name="collectionid" type="text" class="form-control" id="collectionid" value="{'collectionid'|get_form_val:true}" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="tags">Collection tags</label>
+                <input name="tags" type="text" class="form-control" id="tags" value="{'tags'|get_form_val:true}" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="userid">Userid</label>
+                <input name="userid" type="text" class="form-control" id="userid" value="{'userid'|get_form_val:true}" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="active">Active</label>
+                    <select name="active" id="active" class="form-control">
+                        <option value="" ></option>
+                        <option value="yes" {if $smarty.get.active=='yes'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $smarty.get.active=='no'} selected="selected"{/if}>No</option>
+                    </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="broadcast">Broadcast</label>
+                    <select name="broadcast" id="broadcast" class="form-control">
+                        <option value="" ></option>
+                        <option value="public" {if $smarty.get.broadcast=='public'} selected="selected"{/if}>Public</option>
+                        <option value="private" {if $smarty.get.broadcast=='private'} selected="selected"{/if}>Private</option>
+                    </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="featured">Featured</label>
+                    <select name="featured" id="featured" class="form-control">
+                        <option value="yes" {if $smarty.get.featured=='yes'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $smarty.get.featured=='no'} selected="selected"{/if}>No</option>
+                    </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="type">Type</label>
+                    <select name="collection_type" id="collection_type" class="form-control">
+                        <option value="" ></option>
+                        {foreach from=$cbcollection->types item=name key=type}
+                        <option value="{$type}" {if $smarty.get.collection_type == $type}selected="selected"{/if}>{$name}</option>
+                        {/foreach}
+                    </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="order">Order</label>
+                    <select name="order" id="order" class="form-control">
+                        <option value="collection_id" {if $smarty.get.order == 'collection_id'}selected="selected"{/if}>ID</option>
+                        <option value="total_objects" {if $smarty.get.order == 'total_objects'}selected="selected"{/if}>Total Items</option>
+                        <option value="collection_name" {if $smarty.get.order == 'collection_name'}selected="selected"{/if}>Name</option>
+                        <option value="views" {if $smarty.get.order == 'views'}selected="selected"{/if}>Views</option>
+                    </select>
+            </div>
+        </div>
+    </div>
+            
+    <br />
+    <div class="button">
+    <input type="submit" name="search" id="search" value="Search" class="btn btn-success btn-sm"/>
+        </div>
+</form>
+</div>
+<script type="text/javascript">
+       
+
+        $(document).ready(function neww () {
+        $(".current").click(function() {
+        $(this).toggleClass('after');
+        if(!$(this).hasClass('after')) 
+           {
+      
+          $('.down').hide();
+          $('.up').show();
+           }
+    
+        else
+       {
+ 
+        $('.down').show();
+         $('.up').hide();
+       }
+ 
+});
+
+       })
+       
+</script >

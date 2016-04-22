@@ -1,0 +1,48 @@
+<div class="col-md-3 paddingleft0">
+  <div class="ad">{AD place='ad_320x250'}</div>
+  <div class="left-navbar-collapse"> 
+    <div class="navbar-collapse collapse padding-left-right-zero" id="collapsed-navigation">
+      <ul class="nav navbar-stacked nopadding">
+        {cbCategories type=$type echo="TRUE" list_style="collapsed"  output="list" with_all="TRUE"}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function (){
+$('.CategoryToggler').css({
+   'padding-left' : '1px',
+     'padding-right' : '1px',
+         'cursor' : 'pointer'
+});
+
+$('.CategoryToggler').addClass('CategoryToggler2');
+$('.CategoryToggler').on("click", function (){
+
+$(this).toggleClass('CategoryToggler2');
+if(!$(this).hasClass('CategoryToggler2')) 
+{
+
+$('.sub_categories').slideDown();
+
+}
+else
+
+{
+
+  $('.sub_categories').slideUp();
+}
+
+});
+
+});
+</script>
+<style type="text/css">
+  
+  .left-navbar-collapse .navbar-collapse {
+    max-height: 100% !important;
+    height: auto !important;
+  }
+
+</style>

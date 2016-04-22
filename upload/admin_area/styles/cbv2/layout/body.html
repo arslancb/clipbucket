@@ -1,0 +1,41 @@
+{include file="$style_dir/global_header.html" }
+<body>
+<!-- Including Commong header -->
+{include file="$style_dir/header.html" }
+{include file="$style_dir/msg.html" }
+
+<div style="{if $mode!='watermark_settings'}min-height:600px;{/if} min-width:1000px">
+
+{if $smarty.cookies.admin_menu=='hide'}
+	{assign var='left_menu_class' value='left_menu_0'}
+    {assign var='contentcolumn_class' value='contentcolumn0'}
+{else}
+	{assign var='left_menu_class' value='left_menu'}
+    {assign var='contentcolumn_class' value='contentcolumn'}
+{/if}
+
+<div class="clearfix"></div>
+
+<!-- Setting Body File -->
+{if $Cbucket->show_page}
+    <div id="contentwrapper">
+        <div id="contentcolumn" class="{$contentcolumn_class}">
+            <div class="innertube" style="padding-right:10px">
+            {foreach from=$template_files item=file}
+            	{include_template_file file=$file}
+            {/foreach}
+            </div>
+        </div>
+    </div>
+{/if}
+<!-- Setting Body File -->
+
+
+<!-- Changing Left Menu -->
+{include file="$style_dir/left_menu.html" }
+
+</div>
+<div class="clearfix"></div>
+{include file="$style_dir/footer.html" }
+</body>
+</html>

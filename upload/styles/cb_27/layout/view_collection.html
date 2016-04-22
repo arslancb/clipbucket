@@ -1,0 +1,159 @@
+<div class="container">
+    <div class="cb-box marginBottom">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="col-md-6" style="margin-top: 6px;"><h3 style="display: inline">{$c.collection_name|capitalize}<small> {$c.type|capitalize} ({$c.total_objects}) </small></h3></div>
+                <div class="col-md-6 pull-right row">
+                <!-- <div class="pull-right">
+                    <div class="btn-group">
+                      <button class="btn btn-primary" type="button">{lang code="Manage By"}</button>
+                      <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <ul role="menu" class="dropdown-menu">
+                        <li><a  href="{$userquery->profile_link($c)}">{$c.username|capitalize}</a></li>
+                        <li><a href="{link name='user_videos'}{$c.username}">
+                        {lang code="view"|capitalize} {$c.username|capitalize} {lang code="videos"|capitalize}
+                        </a></li>
+                    {if $c.userid == $userquery->userid}
+                        <li><a  href="{link name='edit_collection'}{$c.collection_id}&type={$c.type}">{lang code="edit_collection"}</a></li>                    {link name='manage_items' assign='miLink'}
+                        <li><a href="{$miLink|sprintf:$c.collection_id:$c.type}">{lang code="manage_items"}</a></li>{/if}
+                      </ul>
+                    </div>
+                </div>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-primary btn-sm disabled" href="#">{lang code="by"|capitalize}</a>
+                    <a class="btn btn-primary btn-sm" href="{$userquery->profile_link($c)}">{$c.username|capitalize}</a>
+                    <a class="btn btn-primary btn-sm" href="{link name='user_videos'}{$c.username}">
+                        {lang code="view"|capitalize} {$c.username|capitalize} {lang code="videos"|capitalize}
+                    </a>
+                    {if $c.userid == $userquery->userid}
+                    <a class="btn btn-primary btn-sm" href="{link name='edit_collection'}{$c.collection_id}&type={$c.type}">{lang code="edit_collection"}</a>
+                    {link name='manage_items' assign='miLink'}
+                    <a class="btn btn-primary btn-sm" href="{$miLink|sprintf:$c.collection_id:$c.type}">{lang code="manage_items"}</a>{/if}
+                </div>-->
+                <div class="col-md-2 pull-right">
+                {lang code='collection' assign='object_type'}
+                {uploadButton details=$c output='link' target="_blank" class='btn btn-danger pull-right'}
+            </div>
+                </div>
+            </div>
+            
+        </div>
+        <hr>
+        <div class="row">
+             <div class="col-md-10 photos nopadding">
+                <ul class="list-unstyled" id="photos">
+                {section name=list loop=$objects}
+                <li>
+                {include file="$style_dir/blocks/collection.html" object=$objects[list] display_type=view_collection type=$c.type}
+                </li>
+                {sectionelse}
+                <div align="center" style="font:bold 11px Tahoma;">{$c.collection_name} has 0 items.</div>
+                {/section}
+                </ul>
+                <div align="center" class="col-md-10">
+                {include file="$style_dir/blocks/pagination.html"}
+                </div> 
+            </div>
+            <div class="col-md-2 pull-right">
+            {*AD place='ad_160x600'*}
+            <!--<img src="http://www.ryangiggs.cc/system/files/banner-160x600-pride-tee_0.jpg">-->
+            <a href="http://www.arvixe.com/clipbucket_hosting"><img class="banner pull-right" src="{$theme}/assets/images/ad-box-160x600.jpg" ></a>
+            </div>
+
+            <div class="col-md-8">
+                <br><br>
+                <div class="btn-group show photoStats">
+                    <a href="javascript:void(0)" class="btn btn-primary" id="addToFav" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('collection','{$c.collection_id}');">
+                        <i class="glyphicon glyphicon-plus"></i>Add to
+                    </a>
+                
+                    <a href="javascript:void(0)" class="btn btn-primary" id="flagPhotoButton" onclick="$('#flag_item').toggle();">
+                        <i class="glyphicon glyphicon-flag"></i>Report
+                    </a>
+                </div>
+                <br><br>
+                <div class="video_action_result_boxes marginTop">
+                    {*show_share_form id=$c.collection_id type=Collection*}
+                    {show_flag_form id=$c.collection_id type=Collection}
+                    <div class="action_box" style="display:none" id="video_action_result_cont"></div>
+                </div>
+            </div>
+
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-3">{lang code="Uploaded:"}   {$c.date_added|niceTime}</div>
+
+            <div class="col-md-2">{lang code="Views:"}      {$c.views|number_format}</div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-3">{lang code="Categories:"}
+                {$c.category|categories:collections}</div>
+            <div class="col-md-4"> {lang code="Tags:"}
+                {$c.collection_tags|tags:collections}</div>
+            <div class="col-md-5">
+
+                <div id="NewPagination" class="moveR">
+                    {*include file="$style_dir/blocks/new_pagination.html"*}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 cb-box" style="margin-top: 20px">
+        {if $myquery->is_commentable($c,'collection')}
+        <div class="">
+            <h2 class="commentHead">{lang code="comments"} ({$c.total_comments})</h2>
+        </div>
+        <div class="collectionComments">
+            {if $myquery->is_commentable($c,'collection')}
+            {include file="$style_dir/blocks/comments/add_comment.html" id=$c.collection_id type='cl'}
+            {/if}
+        </div>
+
+        <div class="userComments">
+            <ul id="userCommentsList" style="margin-left:-40px;">
+            </ul>
+        </div>
+        <script>
+            $(document).ready(function(){
+                function getAllComments(type,type_id,last_update,pageNum,total,object_type,admin){
+                    $('#userCommentsList').html("<div style='padding:5px 0px;'>"+loading+"</div>");
+                    $.ajax({
+                        type: 'POST',
+                        url: page,
+                        data:  {
+                            mode:'getComments',
+                            page:pageNum,type:type,
+                            type_id:type_id,
+                            object_type : object_type,
+                            last_update : last_update,
+                            total_comments : total,
+                            comments_voting : comments_voting,admin : admin
+                        },
+                        success: function(comments){
+                            $("#userCommentsList").html(comments);
+                        },
+                        dataType: 'text'
+                    });
+                }
+                comments_voting = 'no';
+                getAllComments('cl','{$c.collection_id}','{$c.last_commented}',1,'{$c.total_comments}','{$object_type}');
+
+
+            });
+        </script>
+    </div>
+    {else}
+    <div align="center" class="moveL no_comments">
+        {lang code='comm_disabled_for_collection'}
+    </div>
+    {/if}
+</div>
+
+

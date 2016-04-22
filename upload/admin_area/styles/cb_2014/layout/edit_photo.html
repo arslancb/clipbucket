@@ -1,0 +1,243 @@
+<form action="" method="post" name="edit_photo" id="edit_photo">
+    <div class="heading">
+        <h2>Editing <small>&gt; {$data.photo_title|truncate:40}</small></h2>
+    </div>
+
+    <div class="btn-group">
+        {if $data.collection_id != 0}
+        <a class="btn btn-primary btn-xs" href="edit_collection.php?collection={$data.collection_id}">
+            Edit Collection ({$data.collection_id|get_collection_field})
+        </a>
+        {else}
+        <a class="btn btn-primary btn-xs" href="#collection_id">
+            Photo is orpahn
+        </a>
+        {/if}
+        {if $data.featured!='yes'}
+        <a class="btn btn-primary btn-xs" href="edit_photo.php?photo={$data.photo_id}&amp;mode=fp">
+            Make Featured
+        </a>
+        {else}
+        <a class="btn btn-primary btn-xs" href="edit_photo.php?photo={$data.photo_id}&amp;mode=ufp">
+            Make Unfeatured
+        </a>
+        {/if}
+        <a class="btn btn-primary btn-xs" href="recreate_thumbs.php?mode=single&amp;photo={$data.photo_id}">
+            Re-create Photo
+        </a>
+        <a class="btn btn-primary btn-xs" href="javascript:void(0)" onClick="javascript:_cb.Confirm_Delete('photo_manager.php?delete_photo={$data.photo_id}')">
+            Delete This Photo
+        </a>
+        <input name="admin" type="hidden" id="admin" value="true" />
+        <input name="photo_id" type="hidden"  value="{$data.photo_id}" />
+    </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="userInformation">
+                    <div class="">
+                        <h4>User : <a href="view_user.php?uid={$data.userid}">{$data.userid|get_username}</a></h4>
+                    </div>
+                </div>
+
+                <div class="photoPreview">
+                    {get_photo details=$data size='l' output='html' class='img-thumbnail'}
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active">
+                            <a data-toggle="tab" href="#impdetails">
+                                Important Details
+                            </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#photodetails">
+                                Photo Details
+                            </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#photostats">
+                               Photo Stats
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="impdetails" class="tab-pane active">
+
+                            <div class="importantDetails">
+                                <h3>Important Details</h3>
+                                <div class="row">
+                                <div class="col-md-4">
+                                    <label for="photoid">Photo id</label>
+                                    <input class="form-control" disabled="disabled" name="photoid" type="text" id="photoid" value="{$data.photo_id}" size="45" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="photokey">Photo Key</label>
+                                    <input class="form-control" disabled="disabled" name="photokey" type="text" id="photokey" value="{$data.photo_key}" size="45" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="filename">File name</label>
+                                    <input class="form-control" disabled="disabled" name="filename" type="text" id="filename" value="{$data.filename}" size="45" />
+                                </div>
+                                    </div>
+
+                                <div class="form-group">
+                                    <label for="extension">Extension</label>
+                                    <input class="form-control" disabled="disabled" name="extension" type="text" id="extension" value="{$data.ext}" size="45" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="photodetails" class="tab-pane">
+                            <div class="photoDetails">
+                                <h3>Photo Details</h3>
+                                <div class="row">
+                                {foreach from=$requiredFields item=field}
+
+                                {if $field.title=='Photo Title'}
+                                {$field.class = 'form-control'}
+                                <div class="col-md-4">
+                                <label for="{$field.id}">{$field.title}</label>
+                                {$formObj->createField($field)}
+                                </div>
+                                {/if}
+                                {/foreach}
+                                {foreach from=$requiredFields item=field}
+                                {if $field.title=='Photo Caption'}
+                                {$field.class = 'form-control'}
+                                <div class="col-md-4">
+                                <label for="{$field.id}">{$field.title}</label>
+                                {$formObj->createField($field)}
+                                </div>
+                                {/if}
+                                {/foreach}
+                                {foreach from=$requiredFields item=field}
+                                {if $field.title=='Photo Tags'}
+                                {$field.class = 'form-control'}
+                                <div class="col-md-4">
+                                <label for="{$field.id}">{$field.title}</label>
+                                {$formObj->createField($field)}
+                                </div>
+                                {/if}
+                                {/foreach}
+                                </div>
+                                <div class="row">
+                                {foreach from=$requiredFields item=field}
+                                {if $field.title=='Collection'}
+                                {$field.class = 'form-control'}
+                                <div class="col-md-4">
+                                <label for="{$field.id}">{$field.title}</label>
+                                {$formObj->createField($field)}
+                                </div>
+                                {/if}
+                                {/foreach}
+                                </div>
+                            </div>
+                        </div>
+                        <div id="photostats" class="tab-pane">
+                            <div class="photoStats">
+                                <h3>Photo Stats</h3>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="views">Views</label>
+                                        <input class="form-control" name="views" id="views" value="{$data.views}" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="total_favorites">Total favorites</label>
+                                        <input class="form-control" name="total_favorites" id="total_favorites" value="{$data.total_favorites}" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="total_comments">Total comments</label>
+                                        <input class="form-control" name="total_comments" id="total_comments" value="{$data.total_comments}" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="downloaded">Total download</label>
+                                        <input class="form-control" name="downloaded" id="downloaded" value="{$data.downloaded}" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="rating">Rating</label>
+                                        <input class="form-control" name="rating" id="rating" disabled="disabled" value="{$data.rating}" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="rated_by">Rated by</label>
+                                        <input class="form-control" name="rated_by" id="rated_by" disabled="disabled" value="{$data.rated_by}" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="voters">Voters</label>
+                                    <textarea class="form-control" name="voters" id="voters" disabled="disabled">{$data.voters}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="otherFields">
+        <h3>Other fields</h3>
+        <div class="tabbable">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active">
+                    <a data-toggle="tab" href="#comments">
+                        Comments
+                    </a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#embedding">
+                        Embedding
+                    </a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#rating">
+                        Rating
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="comments" class="tab-pane active">
+                    {foreach from=$otherFields item=field}
+                    {if $field.title=='Comments'}
+                    <label><strong>{$field.title}</strong></label><br>
+                    {$formObj->createField($field)}
+                    {/if}
+                    {/foreach}
+                </div>
+                <div id="embedding" class="tab-pane">
+                    {foreach from=$otherFields item=field}
+                    {if $field.title=='Embedding'}
+                    <label><strong>{$field.title}</strong></label><br>
+                    {$formObj->createField($field)}
+                    {/if}
+                    {/foreach}
+                </div>
+                <div id="rating" class="tab-pane">
+                    {foreach from=$otherFields item=field}
+                    {if $field.title=='Rating'}
+                    <label><strong>{$field.title}</strong></label><br>
+                    {$formObj->createField($field)}
+                    {/if}
+                    {/foreach}
+                </div>
+                </div>
+                </div>
+    </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <input type="submit" class="btn btn-primary" value="Update Photo Details" name="update" style="margin-top: 10px">
+            </div>
+            <div class="col-md-6">
+    
+</div>
+            </div>
+
+
+        </div>
+</form>

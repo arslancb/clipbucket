@@ -1,0 +1,176 @@
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
+
+<div class="container marginBottom">
+    {*include file="$style_dir/blocks/manage/account_menu.html"*}
+    <div class="row cb-box">
+
+        <!--<ul class="">-->
+            <!--{foreach $leftMenuLinks as $key => $value}-->
+                <!--<li class="">-->
+                    <!--<a href="#" class="" data-toggle="dropdown">{$key}</a>-->
+                    <!--<ul class="">-->
+                        <!--{foreach $value as $subKey => $subValue}-->
+                            <!--<li><a href="{$subValue}">{$subKey}</a></li>-->
+                        <!--{/foreach}-->
+                    <!--</ul>-->
+                <!--</li>-->
+            <!--{/foreach}-->
+        <!--</ul>-->
+        {include file="$style_dir/blocks/category_list.html" type='collections'}
+        <div class="col-md-9 nopadding">
+          	<div class="page-hidding clearfix">
+            	{assign var=sorting_links value=sorting_links()}
+            	<h4 class="smaller lighter pull-left mrs">Browsing All Collections: </h4>
+				<div class="pull-left">
+				    <div class="btn-group custom-dropdown">
+                        {if $smarty.get.sort}
+                        {foreach from=$sorting_links item=name key=sort}
+                            {if $smarty.get.sort==$sort && isset($smarty.get.sort)} 
+                            <button class="btn btn-default" type="button">
+                            {$name}
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                          
+                            {/if}
+                        {/foreach}
+                        {else}
+                            <button class="btn btn-default" type="button">
+                            Recent
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                        {/if}    
+
+                        <ul role="menu" class="dropdown-menu">
+                            {foreach from=$sorting_links item=name key=sort}
+                            <li><a href="{link name=time sort=$sort type=collections}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+                            {/foreach}
+                        </ul>
+
+
+
+                        <ul role="menu" class="dropdown-menu">
+                            {foreach from=$sorting_links item=name key=sort}
+                            <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=collections}">{$name}</a></li>
+                            <li role="presentation" class="divider"></li>
+                            {/foreach}
+                        </ul>
+                    </div>
+
+				    <!--Sorting By time-->
+				    {assign var=time_links value=time_links()}
+				    <div class="btn-group custom-dropdown">
+				        {if $smarty.get.timing}
+
+				        {foreach from=$time_links item=name key=sort name=times}
+				        {if $smarty.get.time==$sort && isset($smarty.get.time)}
+
+				        <button class="btn btn-default" type="button">
+				            {$name}
+				        </button>
+				        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+				            <span class="arrow-drop"></span>
+				            <span class="sr-only">Toggle Dropdown</span>
+				        </button><!--<span class="glyphicon glyphicon-sort"></span> Most {$name}-->
+				        {/if}
+				        {/foreach}
+				        {else}
+				        <button class="btn btn-default" type="button">
+				            All Time
+				        </button>
+				        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+				            <span class="arrow-drop"></span>
+				            <span class="sr-only">Toggle Dropdown</span>
+				        </button>
+				        {/if}
+				        <ul role="menu" class="dropdown-menu">
+				            {foreach from=$time_links item=name key=sort name=times}
+				            <li><a href="{link name=time sort=$sort type=collections}&timing=time" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+				            <li class="divider" role="presentation"></li>
+				            {/foreach}
+				        </ul>
+				    </div>
+				</div>
+				<div class="pull-right">
+					<a class="btn btn-primary pull-right" href="{$baseurl}/manage_collections.php?mode=add_new">{lang code='add_new_collection'}</a>
+				</div>
+        	</div><!-- end of page heading -->
+            
+            <div class="col-md-12">
+                <ul class="list-unstyled row collections">
+	                {section name=c_list loop=$collections}
+	                	{include file="$style_dir/blocks/collection.html" collection=$collections[c_list]}
+	                    {sectionelse}
+	                    {lang code='no_results_found'}
+	                {/section}
+                </ul>
+            </div>
+            
+            <!--Pagination-->
+			<div align="center">
+			    {include file="$style_dir/blocks/pagination.html"}
+			</div> 
+			<!-- Pagination-->
+        	{*include file="$style_dir/blocks/pagination.html"*}
+        </div>
+    </div>
+</div>
+<div style="height:20px"> </div>
+
+
+
+		<!-- <div class="clearfix">
+			<ul class="list-unstyled row collections">
+				{*{section name=c_list loop=$collections}
+
+				{include file="$style_dir/blocks/collection.html" collection=$collections[c_list]}
+
+				{sectionelse}
+				{lang code='no_results_found'}
+				{/section}*}
+				</ul> 
+
+				{$collections = $cbcollection->get_collections(['limit'=>12, 'active'=>'yes'])}
+
+				<div class="clearfix comment_home side_user_home video-collection" >
+					{$limit=12}
+		        	{if $collections}        
+					{foreach from=$collections item=collection}
+					<div class="clearfix collection-section">
+						<div class="category-header row clearfix">
+							<div class="col-sm-6 clearfix">{$collection.collection_name}</div>
+							<div class="col-sm-6 clearfix"><span class="total-obj">{$collection.total_objects}</span></div>
+
+							 {*{$collection.type}*}
+							 <div class="col-sm-6 clearfix"><span class="total-obj">{$limit}</span></div> 
+						</div>
+						<div class="collection-grid clearfix"> 
+						{$items = $cbphoto->collection->get_collection_items_with_details($collection.collection_id,0,$limit,false)}
+						{if $items}
+							{foreach from=$items item=item}
+								<div class="collection-item-all col-lg-1 col-md-1 col-sm-2 col-xs-4">
+									<div class="col">
+										<a href="{$cbphoto->photo_links($item,'view_item')}">
+											<span class="glyphicon glyphicon-play-circle white paly_on"></span>
+										</a>
+										{get_photo details=$item output='html' size="l" class="cb_img_thum"}
+									</div>
+								</div>
+							{/foreach}
+						{/if}
+						</div>
+					</div>
+
+					{/foreach}
+					{else}
+					<div class="col-md-12 nopadding">No Collection</div>
+					{/if}
+		    	</div>
+
+			</div>

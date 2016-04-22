@@ -1,0 +1,124 @@
+<div class="advanceSearchButton clearfix">
+    <a href="#" class="btn btn-primary btn-sm pull-right current after" onclick="$('#membersearchdiv').toggle();return false;" style="margin-bottom: 0px;position: relative; top: 15px;z-index:10000">
+        Advanced Search
+         <i class="glyphicon glyphicon-chevron-down down"></i>
+         <i class="glyphicon glyphicon-chevron-up up" style="display:none"></i>
+    </a>
+</div>
+<div class="search_box well" id="membersearchdiv" {if $smarty.cookies.show_memsearchdiv_search!='show'} style="display:none"{/if}>
+<br>
+<form id="user_search" name="user_search" method="get" action="members.php" class="member_search">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="userid">Userid</label>
+                <input name="userid" type="text" class="form-control" id="userid" value="{'userid'|get_form_val:true}" />
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input name="username" type="text" class="form-control" id="username" value="{$user.username}" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input name="email" type="text" class="form-control" id="email" value="{'email'|get_form_val:true}" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="status">Status</label>
+                    <select name="status" id="status" class="form-control">
+                   
+                    <option value="Ok" {if $smarty.get.status=='Ok'} selected="selected"{/if}>Active</option>
+                    <option value="ToActivate" {if $smarty.get.status=='ToActivate'} selected="selected"{/if}>Inactive</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+            <label for="banned">Banned</label>
+                <select name="ban" id="ban" class="form-control">
+                   
+                    <option value="no" {if $smarty.get.ban=='no'} selected="selected"{/if}>No</option>
+                     <option value="yes" {if $smarty.get.ban=='yes'} selected="selected"{/if}>Yes</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="featured">Featured</label>
+                <select name="featured" id="featured" class="form-control">
+                   
+                    <option value="No" {if $smarty.get.featured=='No'} selected="selected"{/if}>No</option>
+                     <option value="Yes" {if $smarty.get.featured=='Yes'} selected="selected"{/if}>Yes</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+            <label for="level">Level</label>
+                <select name="level" id="level" class="form-control">
+                    <option value="">------</option>
+                    {assign var=levels value=$userquery->get_levels()}
+                    {foreach from=$levels item=level}
+                    <option value="{$level.user_level_id}" {if $smarty.get.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="">Category</label>
+                {$cat_array.type = 'dropdown'}
+                {$cat_array.category_type = 'user'}
+                {$cat_array.class = "form-control"}
+                {$formObj->createField($cat_array)}
+            </div>
+        </div>
+    </div>
+            
+        
+            
+            
+            
+            
+            
+    <div class="button">
+    <input type="submit" name="search" id="search" value="Search" class="btn btn-success btn-sm"/>
+        </div>
+</form>
+</div>
+
+
+
+<script type="text/javascript">
+       
+
+        $(document).ready(function neww () {
+        $(".current").click(function() {
+        $(this).toggleClass('after');
+        if(!$(this).hasClass('after')) 
+           {
+      
+          $('.down').hide();
+          $('.up').show();
+           }
+    
+        else
+       {
+ 
+        $('.down').show();
+         $('.up').hide();
+       }
+ 
+});
+
+       })
+       
+</script >

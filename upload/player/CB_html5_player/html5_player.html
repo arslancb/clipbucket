@@ -1,0 +1,205 @@
+<link rel="stylesheet" href="{$html5_player_url}/player_style.css" />
+<link href='//fonts.googleapis.com/css?family=PT+Sans:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
+
+{if $flashplayer}
+<div id="mediaplayer">
+</div>
+<script type="text/javascript" src="{$html5_player_url}/flashplayer.js"></script>
+<script type="text/javascript">
+
+
+var cb_player_file = '{$html5_player_url}/fallback.swf';
+var normal_vid_file = '{$normal_vid_file}';
+var hq_vid_file = '{$hq_vid_file}';
+var player_url = '{$player_url}' + '/cbplayer';
+
+jwplayer("mediaplayer").setup( {ldelim}
+
+	flashplayer: cb_player_file,
+	file:  normal_vid_file,
+	skin : player_url+'/skins/{$cb_skin}',
+	height: '{$height}',
+	width: '{$width}',
+	autostart : '{$player_data.autoplay}',
+
+	<!-- Setting Plugins -->
+	'plugins':
+	{ldelim}
+	  
+	  <!-- Loading HQ Plugin -->
+	  'hd-2':
+	  {ldelim}
+		'file': '{$hq_vid_file}'
+	  {rdelim},
+	  <!-- End Loading HQ Plugin -->
+
+
+	  <!-- Loading Related Plugin -->
+	  '{$html5_player_url}/plugins/related/related.swf':
+	  
+	  {ldelim}
+			  file: '{$html5_player_url}/plugins/related/related_videos.php'+
+		'?vid={$vdo.videoid}&title={$vdo.title|urlencode}&tags={$vdo.tags|urlencode}',
+		usedock :false,
+		heading :'More suggested videos'
+		  {rdelim}
+	  <!-- End Loading Related plugin -->
+	  
+
+	{rdelim}
+	
+ {rdelim} );
+
+</script>
+
+	 
+{else}
+
+<div class="cont" id="cont" style="height:{$height};width:{$width};">
+{ANCHOR place='overlay_ads'}
+
+	<video id="myVideo" class="myVideo largevid" {if $autoplay==true}autoplay{else}{/if}>
+
+		{if $ms_videos}
+		<source src="{$ms_videos.360}" type="video/mp4" data-res="" id=""/>
+		{else}
+		{/if}
+
+		{if $application_videos}
+		<source src="{$normal_vid_file}" type="video/mp4"/>
+		<source src="{$hq_vid_file}" type="video/mp4" data-quality="hd" />
+		{else}
+		{/if}   
+
+		<p>Your browser does not support the video tag.</p>
+
+	</video>
+
+
+	<div class="caption">
+		<span class="title align-middle-marginLeft">
+			{if !$vdata.title} No Video Found {else}{$vdata.title|truncate:30} {/if}
+		</span>
+		<span class="user align-middle-marginLeft">
+			Uploaded By {if !$vdata.username} Anonymous {else} {$vdata.username} {/if}  
+		</span>
+	</div>
+
+
+  	<div class="init"></div>
+  
+	<div id="opacity">
+		<div id="cancel_v"></div>
+		<div id="replay_v"></div>
+	</div>
+	<div id="related_1" >
+		<h4 id="h_4">Related Videos</h4>
+		{$id=$vdata.videoid}
+		{$title=$vdata.title}
+		{$tags=$vdata.tags}
+		{$final_related=get_videos(['title'=>$title,'tags'=>$tags,'show_related'=>'yes','exclude'=>$id,'limit'=>'4','order'=>'date_added DESC'])}
+		{if $final_related}
+		  {foreach $final_related as $video}
+			<a id="link_v" href="{videoLink($video)}" >
+			<img id="thumb_v" src="{getThumb vdetails=$video}" border="1" height="100" width="160"/>
+			<p id="name_v"> {$video.title|truncate:20}</p>
+			</a>
+		  {/foreach}
+		{else}
+		  <p>No Related Videos</p>
+		{/if}
+	</div>
+
+  {if $ms_videos}
+	<div id="files" class="video_files hbtn" title="files">
+		<ul id="ul_files">
+			{foreach $ms_videos as $res=>$video}
+				<li id="li_{$res}" class="list_player" style="color:#fff;cursor:pointer;text-align:center;font-family:'Lucida' Grande, sans-serif;font-size:15px;">
+				{$res}
+				</li>
+			{/foreach}
+		</ul>
+	</div>
+  {/if}
+
+	<div class="control">
+		<div class="topControl">
+			<div class="">
+				<div class="progress">
+					<span class="bufferBar"> </span>
+					<span class="timeBar"><div class="buffer btns"></div></span>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="btmControl">
+			<div class="btmControl-left align-middle-marginLeft">
+				<div class="btnPlay hbtn align-middle" title="Play/Pause video"></div>
+				<div class="sound sound2 hbtn align-middle" id="soundIcon" title="Mute/Unmute sound"></div>
+				<div class="volume align-middle" id="volSec" title="Set volume" >
+					<span class="volumeBar"></span>
+				</div>
+				<div class="time align-middle">
+					<span class="fcurrent">00:00</span>/ 
+					<span class="fduration">00:00</span>
+				</div>
+			</div>
+			<div class="btmControl-right align-middle-marginLeft">
+				<div class="cb-playerLogo align-middle">
+					
+				</div>
+			  	{if $HQ }
+					<div id="hd" class="hdoff hdon hbtn align-middle" title="HD On/Off"></div>
+				{/if}
+				{if $ms_videos}
+					<div id="res" class="res hbtn align-middle" title="Resolution Selector"></div>
+				{/if}
+				<div class="btnFS enterbtnFs hbtn align-middle" id="fs" title="Switch to full screen"></div>
+			</div>
+		</div>
+
+  	</div>
+
+
+	<div class="loading"> 
+		<div class="windows8" align="center">
+			<div class="wBall" id="wBall_1">
+				<div class="wInnerBall"></div>
+			</div>
+			<div class="wBall" id="wBall_2">
+				<div class="wInnerBall"></div>
+			</div>
+			<div class="wBall" id="wBall_3">
+				<div class="wInnerBall"></div>
+			</div>
+			<div class="wBall" id="wBall_4">
+				<div class="wInnerBall"></div>
+			</div>
+			<div class="wBall" id="wBall_5">
+				<div class="wInnerBall"></div>
+			</div>
+		</div> 
+	</div>
+  
+</div>
+{ANCHOR place='video_ads_container'}
+
+
+<script type="text/javascript">
+var webpath="{$display}";var homepath="{$about}";var web="{$ov}";var $top="{$top}";
+var $left="{$left}";var $bottom="{$bottom}";var $right="{$right}";var key ="{$key}" ;
+var nor_vid = "{$normal_vid_file}"; var hq_vid = "{$hq_vid_file}";
+var enlarge_small = "{$enlarge_small}"; var autoplay = "{$autoplay}";
+var iv_logo_enable = "{$iv_logo_enbale}";var product_link = "{$product_link}";
+//For multiserver, video files to html5_player.js (Json) 
+if('{$json_videos}')
+var files = '{$json_videos}';
+
+</script>
+
+<script type="text/javascript" src="{$html5_player_url}/html5_player.js"></script>
+
+
+{/if}
+

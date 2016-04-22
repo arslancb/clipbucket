@@ -1,0 +1,594 @@
+{assign var='signup_fields' value=$userquery->load_signup_fields($u)}
+{assign var='channel_profile_fields' value=$userquery->load_user_fields($p)}
+
+<div class="row">
+<div class="lead dropdown">
+<div class="heading clearfix">
+    <h3 class="paddingLeftLarge pull-left">Editing <small>&gt; {$u.username}</small>
+    <!-- peecha show action button here -->
+    <div class="actionBox clearfix">
+    <a class="btn btn-primary btn-sm dropdown-toggle pull-left" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
+    <ul class="dropdown-menu pull-left actionDropmenu" role="menu" aria-labelledby="dropdownMenu1">
+        <li><a role="menuitem" tabindex="-1" href="{$userquery->profile_link($u)}">View {$u.username} channel</a></li>
+        <li><a role="menuitem" tabindex="-1" href="login_as_user.php?uid={$u.userid}">Login as user</a></li>
+        {if $u.usr_status=="Ok"}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;deactivate=yes">Deactivate</a></li>
+        {else}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;activate=yes">Activate</a></li>
+        {/if}
+        {if $u.ban_status=="yes"}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;unban=yes">Unban</a></li>
+        {else}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;ban=yes">Ban</a></li>
+        {/if}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete=yes">Delete</a></li>
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_vids=yes">Delete Videos</a></li>
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_contacts=yes">Delete Contacts</a></li>
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_pm=yes">Delete Private Messages</a></li>
+    </ul>
+</div>
+    </h3>
+
+    <div class="pull-right marginBottomLarge">
+         <!--<span class="btn btn-app btn-sm btn-light no-hover">
+            <span class="line-height-1 blue">{*$u.num_visits*}</span>
+            <br>
+            <span class="line-height-1 smaller-90"> Views </span>  
+        </span> -->
+        <!-- <span class="btn btn-app btn-sm btn-yellow no-hover">
+            <span class="line-height-1"> {*$u.total_comments*} </span>
+
+            <br>
+            <span class="line-height-1 smaller-90"> Comments </span>
+        </span> -->
+        <span class="btn btn-app btn-sm btn-pink no-hover">
+            <span class="line-height-1"> {if $u.usr_status=='Ok'}<span class="glyphicon glyphicon-ok"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+                <span class="line-height-1 smaller-90"> Active </span>
+            </span>
+        </span>
+        <span class="btn btn-app btn-sm btn-danger no-hover">
+            <span class="line-height-1">{if $u.ban_status=='yes'}
+                <span class="glyphicon glyphicon-ok"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+                <span class="line-height-1 smaller-90">Banned</span>
+            </span>
+        </span>
+        <!-- <span class="btn btn-app btn-sm btn-primary no-hover">
+
+            <span class="line-height-1"> {*$u.total_flags*} </span>
+
+            <br>
+            <span class="line-height-1 smaller-90"> Flagged </span>
+        </span> -->
+    </div>
+</div>
+<!-- <div class="alignRight clearfix">
+    <a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
+    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+        <li><a role="menuitem" tabindex="-1" href="{$userquery->profile_link($u)}">View {$u.username} channel</a></li>
+        <li><a role="menuitem" tabindex="-1" href="login_as_user.php?uid={$u.userid}">Login as user</a></li>
+        {if $u.usr_status=="Ok"}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;deactivate=yes">Deactivate</a></li>
+        {else}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;activate=yes">Activate</a></li>
+        {/if}
+        {if $u.ban_status=="yes"}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;unban=yes">Unban</a></li>
+        {else}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;ban=yes">Ban</a></li>
+        {/if}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete=yes">Delete</a></li>
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_vids=yes">Delete Videos</a></li>
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_contacts=yes">Delete Contacts</a></li>
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_pm=yes">Delete Private Messages</a></li>
+    </ul>
+</div> -->
+</div>
+
+<form action="" method="post" enctype="multipart/form-data" name="form1" id="form1" class="cbform">
+<div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
+<div class="tabbable">
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active">
+            <a data-toggle="tab" href="#userinfo">
+                User Information
+
+            </a>
+        </li>
+         <li class="">
+            <a data-toggle="tab" href="#test">
+              Channel Settings
+            </a>
+        </li>
+        <li class="">
+            <a data-toggle="tab" href="#basicinfo">
+
+                Basic Info
+            </a>
+        </li>
+        <li class="">
+            <a data-toggle="tab" href="#location">
+
+               location
+            </a>
+        </li>
+        <li class="">
+            <a data-toggle="tab" href="#education">
+                Education, etc
+            </a>
+        </li>
+        
+    </ul>
+<div class="tab-content">
+    <div class="custSignup">
+        {assign var=cust_signup value=$userquery->load_custom_signup_fields($u,true)}
+        {if $cust_signup}
+        {foreach from=$cust_signup item=field}
+        <div class="form-group">
+            {$field.class="form-control"}
+            <label for="{$field.id}">{$field.title}</label>
+            {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+            {$field.hint_2}
+        </div>
+        {/foreach}
+        {/if}
+    </div>
+    <div id="userinfo" class="tab-pane active">
+        <div class="userInfoSettings">
+            <div class="form-group">
+                <img src="{$userquery->getUserThumb($u,'small')}" class="btn btn-app btn-primary btn-xs" />
+            </div>
+            <div class="table-responsive">
+                <table class="myTable" width="600px">
+                    <tr>
+                        <td class="first"><label class="">User Id</label></td>
+                        <td class="last"><p>  
+                        <input disabled="disabled" name="uid" type="text" id="uid" value="{$u.userid}"  size="45" />
+                        <input name="userid" type="hidden" id="userid" value="{$u.userid}" />
+                        </p></td>
+                    </tr>
+
+                    <tr>
+                        <td class="first"><label class="">User Name</label></td>
+                        <td class="last"><p> 
+                        <input name="username" type="text" id="username" value="{$u.username}" size="45" />
+                        <input name="dusername" type="hidden" id="dusername" value="{$u.username}" />
+                         <input name="admin_manager" type="hidden" value="yes" />
+                        </p></td>
+                    </tr>
+                    <tr>
+                        <td class="first"><label class="">Email</label></td>
+                        <td class="last"><p><input name="email" type="text" id="email" value="{$u.email}" size="45"/>
+                            <input name="demail" type="hidden" id="demail" value="{$u.email}" /></p></td>
+                    </tr>
+
+                    
+                    <tr>
+                        <td class="first"> <label for="laevel">User level</label></td>
+                        <td class="last">
+                            
+                            
+                            <p><select class="form-control" name="level" id="level" >
+                                {assign var=levels value=$userquery->get_levels()}
+                                {foreach from=$levels item=level}
+                                <option value="{$level.user_level_id}" {if $u.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
+                                {/foreach}
+                            </select></p>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="first"><label for="country">Country</label></td>
+                        <td class="last">
+                            <p>
+                            
+                            <select class="form-control" name="country" id="country">
+                                {assign var='countries' value=$Cbucket->get_countries(iso2)}
+                                {foreach from=$countries item=country key=code}
+                                <option value="{$code}" {if $u.country==$code} selected="selected"{/if}>{$country}</option>
+                                {/foreach}
+                            </select> </p>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="first"><label for="gender">Gender</label></td>
+                        <td class="last">
+                          
+                          <p>
+                          <label><input type="radio" name="sex" value="male" id="sex_0" {if $u.sex == male} checked="checked"{/if} />Male</label>
+                          <label><input type="radio" name="sex" value="female" id="sex_1" {if $u.sex == female} checked="checked"{/if}/> Female</label>
+                          </p>
+                           
+                        </td>
+                    </tr>
+
+                    <!-- <tr>
+                        <td class="first"><label for="gender">Category</label></td>
+                        <td class="last">
+                          
+                        
+                          {ANCHOR place=$signup_fields.cat.anchor_before}{$formObj->createField($signup_fields.cat)}{ANCHOR place=$signup_fields.cat.anchor_after}
+                        
+                           
+                        </td>
+                    </tr>-->
+                </table>
+            </div>
+
+
+
+
+
+            <div class="custSignup">
+                {assign var=cust_signup value=$userquery->load_custom_signup_fields($u,true)}
+                {if $cust_signup}
+                {foreach from=$cust_signup item=field}
+                <div class="form-group">
+                    {$field.class="form-control"}
+                    <label for="{$field.id}">{$field.title}</label>
+                    {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    {$field.hint_2}
+                </div>
+                {/foreach}
+                {/if}
+            </div>
+
+        </div>
+    </div>
+   
+
+
+     <div id="test" class="tab-pane">
+  <h2>Channel Settings</h2>
+            <table class="myTable table">
+            {foreach from=$channel_profile_fields item=field_group}
+
+                {if $field_group.group_name=='Channel settings'}
+
+                    {foreach from=$field_group.fields item=field}
+
+                        {$field.class='form-control'}
+
+                            <tr>
+                                <td class="first" width="">
+                                    <label for="{$field.id}">{$field.title}</label></td>
+                                <td class="last"><p>
+                                    {$field.class = "form-control"}
+                                    {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                                    {$field.hint_2}</p>
+                                </td>
+                            </tr>
+                    {/foreach}
+                {/if}
+                  {/foreach}
+            </table>
+ </div>
+
+    <div id="basicinfo" class="tab-pane">
+         <h2>Basic Info</h2>
+        <div class="form-group">
+           <table class="myTable table">
+            {foreach from=$channel_profile_fields item=field_group}
+
+                {if $field_group.group_name=='Basic info'}
+
+                    {foreach from=$field_group.fields item=field}
+
+                        {$field.class='form-control'}
+
+                            <tr>
+                                <td class="first" width="">
+                                    <label for="{$field.id}">{$field.title}</label></td>
+                                <td class="last"><p>
+                                    {$field.class = "form-control"}
+                                    {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                                    {$field.hint_2}</p>
+                                </td>
+                            </tr>
+                    {/foreach}
+                {/if}
+                  {/foreach}
+            </table>
+        </div>
+    </div>
+    <div id="location" class="tab-pane">
+ <h2>Location</h2>
+        <div class="form-group">
+
+             <table class="myTable table">
+            {foreach from=$channel_profile_fields item=field_group}
+
+                {if $field_group.group_name=='Location'}
+
+                    {foreach from=$field_group.fields item=field}
+
+                        {$field.class='form-control'}
+
+                            <tr>
+                                <td class="first" width="">
+                                    <label for="{$field.id}">{$field.title}</label></td>
+                                <td class="last"><p>
+                                    {$field.class = "form-control"}
+                                    {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                                    {$field.hint_2}</p>
+                                </td>
+                            </tr>
+                    {/foreach}
+                {/if}
+                  {/foreach}
+            </table>
+        </div>
+    </div>
+    <div id="education" class="tab-pane">
+        <h2>Education, Hobbies, etc</h2>
+        <div class="form-group">
+             <table class="myTable table">
+            {foreach from=$channel_profile_fields item=field_group}
+
+                {if $field_group.group_name=='Education, Hobbies, etc'}
+
+                    {foreach from=$field_group.fields item=field}
+
+                        {$field.class='form-control'}
+
+                            <tr>
+                                <td class="first" width="">
+                                    <label for="{$field.id}">{$field.title}</label></td>
+                                <td class="last"><p>
+                                    {$field.class = "form-control"}
+                                    {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                                    {$field.hint_2}</p>
+                                </td>
+                            </tr>
+                    {/foreach}
+                {/if}
+                  {/foreach}
+            </table>
+        </div>
+
+     
+
+    </div>
+
+</div>
+</div>
+<div class="marginTopLarge">
+    <div class="form-group">
+        <label for="pass">Change password</label><p>
+        <input class="form-control" name="pass" type="text" id="pass" size="64"/></p>
+    </div>
+    <div class="form-group">
+        <label for="cpass">Confirm password</label><p>
+       <input class="form-control" name="cpass" type="text" id="cpass"   /></p>
+    </div>
+</div>
+</div>
+
+
+<div class="col-sm-6 col-md-6 col-lg-6 col x1-12 pull-right">
+
+
+<div class="actionsSettings">
+    <div class="userActivity">
+      <h3>User Activity</h3>
+
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <td class="first"><label for="dob">Date of birth</label></td>
+       <td width="500"> <input name="dob" type="text" id="dob" value="{$u.dob} YYYY-MM-DD" class="form-control" />
+        </td>
+                </tr>
+
+                <tr>
+                    <td class="first"> <label for="doj">Joined - IP</label></td>
+                    <td width="500">    <input class="form-control" name="doj" type="text" id="doj" value="{$u.doj}" />
+                        <small>{$u.signup_ip}</small>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first"> <label for="doj">Last-Login IP</label></td>
+                    <td width="500"> {$u.last_logged} - {$u.ip}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first"> <label for="doj">Last-Active Online</label></td>
+                    <td width="500"> {$u.last_active} - {$u.last_active|is_online}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first"><label for="profile_hits">Profile Views</label></td>
+                    <td width="500"><input class="form-control" name="profile_hits" type="text" id="profile_hits" value="{$u.profile_hits}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first"><label for="total_watched">Videos Watched</label></td>
+                    <td width="500"><input class="form-control" name="total_watched" type="text" id="total_watched" value="{$u.total_watched}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">  <label for="total_watched3">Comments made</label></td>
+                    <td width="500"> <input class="form-control" name="total_comments" type="text" id="total_watched3" value="{$u.total_comments}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first"><label for="comments_count">Profile comments</label></td>
+                    <td width="500">   <input class="form-control" name="comments_count" type="text" id="comments_count" value="{$u.comments_count}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first"><label for="tatal_watched4">Profile rating</label></td>
+                    <td width="500">   <input class="form-control" name="rating" type="text" id="total_watched4" value="{$p.rating}" />
+                        0-10
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first"><label for="total_watched5">Profile rated by</label></td>
+                    <td width="500">    <input class="form-control" name="rated_by" type="text" id="total_watched5" value="{$p.rated_by}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first"><label for="total_watched6">Subscribers</label></td>
+                    <td width="500"> <input class="form-control" name="subscribers" type="text" id="total_watched6" value="{$u.subscribers}" />
+                    </td>
+                </tr>
+                </table>
+            </div>
+
+<hr>
+
+    <div class="tabbable">
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active">
+                <a data-toggle="tab" href="#recent">
+                    Recent Activity Log
+
+                </a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#avatar">
+                    User Avatar & Background
+
+                </a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#background">
+                    User Background image
+
+                </a>
+            </li>
+            </ul>
+        <div class="tab-content">
+            <div id="recent" class="tab-pane active">
+    <div class="recentActivityLog">
+      <h3>Recent Activity Log</h3>
+      <table class="table table-bordered table-striped">
+        <tr>
+          <td>ID</td>
+          <td>UID</td>
+          <td>Username</td>
+          <td>Date</td>
+          <td>Detail</td>
+        </tr>
+        {assign var="logs" value=$userquery->get_user_action_log($u.userid,10)}
+        {section loop=$logs name=log}
+        <tr>
+          <td>{$logs[log].action_id}</td>
+          <td>{$logs[log].action_userid}</td>
+          <td width="100" class="">{$logs[log].action_username}</td>
+          <td width="100" class="">{$logs[log].date_added}</td>
+          <td>
+            Type : {$logs[log].action_type} &#8211;{if $logs[log].action_details!=''}{$logs[log].action_details} &#8211;{/if} Success : {$logs[log].action_success} &#8211 {$logs[log].action_ip}
+          </td>
+        </tr>
+        {sectionelse}
+        <!--<tr><td><em>No user action log found</em></td></tr>-->
+        {/section}
+      </table>
+    </div>
+                </div>
+
+            <div id="avatar" class="tab-pane">
+    <div class="useAvatar">
+
+      <h3>User Avatar and Background</h3>
+
+      <div class="changeAvatar row">
+        <div class="showAvatar col-md-3">
+          <img src="{$userquery->getUserThumb($u)}" class="mid_user_thumb" style="max-width:95px"/><br />
+          <input name="delete_avatar" type="checkbox" id="delete_avatar" value="yes" />
+          <label for="delete_avatar">Delete This Image - (if user has profile pic)</label>
+        </div>
+        <div class="uploadNewAvatar col-md-9">
+          <div class="form-group">
+            <label for="avatar_file">User Avatar/Profile Pic<small>Please select image file</small></label>
+            <input class="" type="file" name="avatar_file" id="avatar_file" />
+          </div>
+          <h4>OR</h4>
+          <div class="form-group">
+            <label for="avatar_url">Please Enter Image URL</label>
+            <input class="form-control" name="avatar_url" type="text" id="avatar_url" value="{$u.avatar_url}" />
+            <input type="hidden" name="avatar_file_name" value="{$u.avatar}" />
+          </div>
+          
+          <div class="form-group">
+            <label class="radio" for="remove_avatar_url">
+              <input name="remove_avatar_url" type="checkbox" id="remove_avatar_url" value="yes" />
+              Remote avatar url
+            </label>
+          </div>
+        </div>
+      </div>
+        </div>
+                </div>
+                <div id="background" class="tab-pane">
+      <div class="changeBackground row">
+        <h3>User Background Image</h3>
+        <div class="showBackground col-md-3">
+          {if $userquery->getUserBg($u)}
+            <img src="{$userquery->getUserBg($u)}" style="max-width:95px"/>
+          {else}
+            No Bg
+          {/if}
+        </div>
+        <div class="uploadNewBackground col-md-9">
+        <div class="form-group">
+          <label for="background_file">Please Select Image File</label>
+          <input type="file" name="background_file" id="background_file" />  
+        </div>
+        <h4>OR</h4>
+        <div class="form-group">
+          <label for="background_url">Please Enter Image URL</label>
+          <input class="form-control" name="background_url" type="text" id="background_url" value="{$u.background_url}" />  
+        </div>
+        <h4>OR</h4>
+        <div class="form-group">
+          <label for="background_color">Please Enter Background Color</label>
+          <input class="form-control" name="background_color" type="text" id="background_color" value="{$u.background_color}" />  
+        </div>
+        <h4>OR</h4>
+        <div class="form-group">
+          <label for="background_repeat">Background Repeat Type (if using image as a background)</label>
+          <select class="form-control" name="background_repeat" id="background_repeat" >
+            <option value="repeat" {if $u.background_repeat=='repeat'} selected="selected"{/if}>repeat</option>
+            <option value="repeat-x" {if $u.background_repeat=='repeat-x'} selected="selected"{/if}>repeat-x</option>
+            <option value="repeat-y" {if $u.background_repeat=='repeat-y'} selected="selected"{/if}>repeat-y</option>
+            <option value="no-repeat" {if $u.background_repeat=='no-repeat'} selected="selected"{/if}>no-repeat</option>
+          </select>  
+        </div>
+        {if $userquery->getUserBg($u)}
+          <div>
+            <label class="checkbox" for="delete_bg"><input name="delete_bg" type="checkbox" id="delete_bg" value="yes" /><label for="delete_bg">Delete this image</label>
+                </label>
+          </div>
+        {/if}
+        <input type="hidden" name="bg_file_name" value="{$u.background}" />
+      </div>
+    </div>
+                    </div>
+                </div>
+        <br>
+
+    <div class="form-group">
+      <input class="btn btn-primary btn-lg pull-right" type="submit" name="update_user" id="update_user" value="Submit" />
+    </div>
+</div>
+</div>
+</div>
+
+</form>
+</div>
+
+<div id="comments"></div>
+{assign var='object_type' value='channel'}
+<script>
+
+</script>
+
+<div class="form-group">
+    {assign var=id value=$u.userid}{include file="$style_dir/blocks/comments.html" type=u id=$u.userid link="user=$id"}
+</div>
+

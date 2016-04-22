@@ -1,0 +1,88 @@
+
+
+{$adminMenu = $Cbucket->AdminMenu}
+<ul class="nav nav-list" id="sidebar">
+    {if $smarty.const.MAIN_PAGE == 'Dashboard'}
+    <li class="active open">
+        {else}
+    <li>
+        {/if}
+        <a href="index.php">
+            <i class="icon-dashboard"></i>
+            <span class="menu-text"> Dashboard </span>
+        </a>
+    </li>
+    {foreach from=$adminMenu key=name item=oneMenuItem}
+    {$class='glyphicon glyphicon-stats'}
+    {if $name=='Stats And Configurations'}
+    {$class='glyphicon glyphicon-stats'}
+    {elseif $name=='Videos'}
+    {$class='glyphicon glyphicon-facetime-video'}
+    {/if}
+    {if $name=='Users'}
+    {$class='glyphicon glyphicon-user'}
+    {elseif $name=='Groups'}
+    {$class='glyphicon glyphicon-th-large'}
+    {/if}
+    {if $name=='Advertisement'}
+    {$class='glyphicon glyphicon-bullhorn'}
+    {elseif $name=='Templates And Players'}
+    {$class='glyphicon glyphicon-play-circle'}
+    {/if}
+    {if $name=='Plugin Manager'}
+    {$class='glyphicon glyphicon-tasks'}
+    {elseif $name=='Tool Box'}
+    {$class='glyphicon glyphicon-wrench'}
+    {/if}
+    {if $name=='Collections'}
+    {$class='glyphicon glyphicon-folder-close'}
+    {elseif $name=='Photos'}
+    {$class='glyphicon glyphicon-picture'}
+    {/if}
+    {if $name=='Global Announcement'}
+    {$class='glyphicon glyphicon-globe'}
+    {elseif $name=='ClipBucket Helper'}
+    {$class='glyphicon glyphicon-header'}
+    {/if}
+    {if $name=='Audio'}
+    {$class='glyphicon glyphicon-music'}
+    {/if}
+    {if $smarty.const.MAIN_PAGE == $name}
+    <li class="active open">
+        {else}
+    <li>
+        {/if}
+        <a href="#" class="dropdown-toggle">
+            <i class="{$class}"></i>
+            <span class="menu-text"> {$name} </span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+        {if $smarty.const.MAIN_PAGE == $name}
+        <ul class="submenu" style="display:block">
+            {else}
+            <ul class="submenu">
+                {/if}
+
+                {foreach from=$oneMenuItem key=name item=oneSubMenuItem}
+
+                {if $smarty.const.SUB_PAGE == $name}
+
+                <li class="active">
+                    {else}
+                <li>
+                    {/if}
+                    <a href="{$oneSubMenuItem}">
+                        <i class="glyphicon glyphicon-hand-right"></i>
+                        {$name}
+                    </a>
+                </li>
+                {/foreach}
+            </ul>
+            {/foreach}
+        </ul>
+    </li>
+</ul>
+<div id="sidebar-collapse" class="sidebar-collapse">
+    <i data-icon2="icon-double-angle-right" data-icon1="icon-double-angle-left" class="icon-double-angle-left"></i>
+
+</div>

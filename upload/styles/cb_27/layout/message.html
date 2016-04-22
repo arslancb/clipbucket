@@ -1,0 +1,49 @@
+{assign var=msg value=$eh->message_list}
+{assign var=err value=$eh->error_list}
+{assign var=war value=$eh->warning_list}
+
+<div class="container">
+    <div class="row">
+    <div class="col-lg-12">
+        {if $err.0 neq '' || $err.1 != ''}
+        <div class="alert alert-danger alert-dismissable ">
+            <button class="close" type="button" data-dismiss="alert" aria-hidden="true">x</button>
+            <ul  class="list-unstyled">
+                {foreach from=$err item=show_msg}
+                <li> {$show_msg} </li>
+                {/foreach}
+            </ul>
+        </div>
+        {/if}
+
+
+        {if $msg.0 neq ''}
+        <div class="alert alert-success alert-dismissable">
+            <button class="close" type="button" data-dismiss="alert" aria-hidden="true">x</button>
+            <ul class="list-unstyled">
+                {foreach from=$msg item=show_msg}
+                <li>{$show_msg}</li>
+                {/foreach}
+            </ul>
+        </div>
+        {/if}
+
+
+        {if $war.0 neq ''}
+        <div class="alert alert-warning alert-dismissable">
+            <button class="close" type="button" data-dismiss="alert" aria-hidden="true">x</button>
+            <ul class="list-unstyled">
+                <img src="{$imageurl}/messagebox_warning.png" style="float:left" />
+                {foreach from=$war item=show_msg}
+                <li>{$show_msg}</li>
+                {/foreach}
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        {/if}
+        
+    </div>
+</div>    
+</div>
+
+
