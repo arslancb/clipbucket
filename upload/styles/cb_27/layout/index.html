@@ -1,0 +1,504 @@
+<div class="container">
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) return;
+	    js = d.createElement(s); js.id = id;
+	    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=120542078043680";
+	    fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+	</script>
+	<div class="row cb-box marginBottom">
+
+		{$row = $myquery->Get_Website_Details()}
+
+	    <!--<div class="alert alert-info margin-bottom-10 ">-->
+	    {ANCHOR place='global'} 
+	    <!--	</div> -->
+	    <div class="clearfix"></div>
+	       
+		{if is_installed('editorspick')}
+		{if $editor_picks}
+		<div class="row">
+	        <div class="col-md-8">
+				<!-- Editor Pick Video Main Container START //-->
+				<div id="ep_video_container">
+					{if is_installed('editorspick')}
+					{section name=e_list loop=$editor_picks max=1}
+					{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
+					{sectionelse}
+					There is no video in editor's pick, Please Add Videos In Editor's Pick<br />Videos Manager > Add to editor's pick
+					{/section}
+					{/if}
+				</div>
+				
+				<!-- Editor Pick Video Main Container END //-->
+
+	        </div>
+
+			<!-- Editor Pick Videos Slider Container START //-->
+	        <div class="col-md-4 col-sm-12 col-xs-12 editorpick-holder pull-right custom-elements">
+	            <div id="slide" class="scrollable-area">
+					{section name=e_list loop=$editor_picks}
+	            	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
+					{/section}
+	        	</div>
+				<div class="next_pre_hold">
+					<a href="#" class="col-md-6 btn btn-primary" id="slide_prev">
+					<span class="glyphicon glyphicon-chevron-up"></span>
+					</a>
+					<a href="#" class="col-md-6 btn btn-primary" id="slide_next">
+					<span class="glyphicon glyphicon-chevron-down"></span>
+					</a>
+				</div>
+			</div>
+	        <!-- Editor Pick Videos Slider Container END //-->
+		</div>
+		{/if}
+		{/if}
+	    <!-- ******************************************* //-->
+		<!-- ************ EDITORS BLOCK END ************ //-->
+	    <!-- ******************************************* //-->
+	       
+	    
+	         
+	   <!-- <div align="center" class="margin-bottom-10">
+	    	<a href="http://www.arvixe.com/clipbucket_hosting">
+	    		<img class="banner" src="{$theme}/assets/images/ad-box-728x90.jpg" >
+
+			</a>
+		</div>-->
+		<div class="ad">{AD place='ad_728x90'}</div>
+		<!-- ******************************************* //-->
+		<!-- *********** LATEST VIDEOS START *********** //-->
+		<!-- ******************************************* //-->
+		<div class="row">
+			<div class="col-md-12 clearfix">
+				<div class="col-md-8 nopadding padding-right-10 featuredvideos-wrapper">
+					<h2 class="myHeading theme_color">{lang code="Featured Videos"}</h2>
+					{$featured_videos=get_videos(['featured' => 'yes','limit'=>6])}
+					{if $featured_videos}
+					<div class="col-md-12 featured-videos nopadding">
+						<div class="col-md-12 text-center nopadding ">
+							<div class="col-md-8 text-center nopadding mouse_hover featured-imglg">
+							
+								{$video_01=$featured_videos.0}
+								<div class="col-md-12 text-center nopadding video_thumb_lg">
+									<a href="{videoLink vdetails=$video_01}" title="{$video_01.title}">
+										<span class="play-icon fa fa-play"></span>
+										<img class="cb_img_thum" src="{getThumb vdetails=$video_01 num='4' size='500x283'}" width="500" height="285" border="0" {ANCHOR place="video_thumb" data=$video_01} />
+									</a>
+									<div class="cbHomeVidTitle cbHomeVidTitle_Big mouse_hover_on">{$video_01.title|truncate:30}</div>
+								</div>
+					            <div class="cbHomeVidDuration mouse_hover_on">
+					            {if $video_01.duration>1}{$video_01.duration|SetTime}{else}00:00ewwew{/if}
+					            </div>
+					            <div class="cbHomeVidDuration_left mouse_hover_on">
+					            	{$video_01.username}
+					            </div>
+							</div>
+							<div class="col-md-4 col-sm-6 hidden-xs text-center nopadding-right pull-right tumb-sm">
+							{foreach $featured_videos as $video_02}
+								{if $video_02@iteration >1 && $video_02@iteration < 4}
+								<div class="col-md-12 text-center nopadding mouse_hover1 featured-video video_thumb" style="{if not $smarty.foreach.foo.last} {/if} " >
+									<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
+										<span class="play-icon fa fa-play"></span>
+										<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='501x283' }" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
+										<div class="cbHomeVidTitle mouse_hover_on1">{$video_02.title|truncate:10}</div>
+										<div class="cbHomeVidDuration mouse_hover_on1">
+						            		{if $video_02.duration>1}{$video_02.duration|SetTime}{else}00:00{/if}
+						            	</div>
+									</a>
+								</div>
+								{/if}
+
+							{/foreach}
+							</div>
+							<div class="col-lg-12 col-md-12 text-center nopadding">
+							{foreach $featured_videos as $video_02}
+							{if $video_02@iteration >3}
+								<div class="col-lg-4 col-md-4 col-sm-6 hidden-xs video_thumb text-center nopadding-right mouse_hover featured-video {if $video_02@iteration==4}nopadding{/if} ">
+									<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
+										<span class="play-icon fa fa-play"></span>
+										<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='501x283'}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
+									
+										<div class="cbHomeVidTitle mouse_hover_on">{$video_02.title|truncate:10}</div>
+
+										<div class="cbHomeVidDuration mouse_hover_on">
+							            {if $video_02.duration>1}{$video_02.duration|SetTime}{else}00:00{/if}
+							            </div>
+									</a>
+								</div>
+							{/if}
+							{/foreach}
+							</div>
+			                
+			            </div>
+					
+		        		<div class="clearfix"></div>    
+					</div>
+					{else}
+					<div class="col-md-12 nopadding">No featured Video</div>
+					{/if}
+			        <div class="clearfix"></div>
+			        <div class="row nopadding">
+			        	<h3 class="myHeading theme_color">{lang('Recent videos')}</h3>
+			        	{$videos=get_videos(["order" =>"date_added DESC", "limit" =>12])}
+						<div class="clearfix recent-videos row">
+				        	{foreach $videos as $video}
+
+				        	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mbm cb-video-fixed-block">
+				        		<!-- <div class="marginBottom grid_view recent-col list_view nopadding-right"> -->
+								{include file="$style_dir/blocks/videos/video.html"}
+								<!-- </div> -->
+							</div>
+				        	{/foreach}
+			        	</div>
+			        </div>
+					
+	              	<div class="ad">{AD place='ad_468x60'}</div>
+			    	<div class="row nopadding">
+			    		{if $row.photosSection=='yes' }
+						<div class="col-md-12 clearfix nopadding ">
+			        		<h2 class="myHeading theme_color">{lang code="Photos"}</h2>
+							{$result_photos1_01 = get_photos(['order'=>' RAND() LIMIT 15 '])}		
+			        		{if $result_photos1_01}
+	        				<!-- *********** FIRST PHOTOS START ************ //-->
+	        				<!-- <div class="row clearfix fill-background lg-img"> -->
+							<div class="clearfix featured-images">
+								<div class="clearfix">
+								{foreach from=$result_photos1_01 key=i item=result_photo1_01}
+									
+								{if $i==0}			
+
+									<div class="ft-img col-md-7">
+									
+
+						            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+						            	{get_photo details=$result_photo1_01 output='html' size="l" class="cb_img_thum"}
+						            	</a>
+						            	<div class="hover">
+						            		<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+						            			<span class="photo-title">{$result_photo1_01.photo_title}</span>
+						            			<span class="plus">plus</span>
+						            		</a>
+						            	</div>
+						          
+						            </div>
+						        {else if $i < 3}    
+
+						           
+						            
+									
+									<div class="ft-img col-md-5">
+						            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
+						            	{get_photo details=$result_photo1_01 output='html' size="l" class='photoThumbBox moveL cb_img_thum'}
+						            	</a>
+						            	<div class="hover">
+						            		<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+						            			<span class="photo-title">{$result_photo1_01.photo_title}</span>
+						            			<span class="plus">plus</span>
+						            		</a>
+						            	</div>
+						           
+						       	    </div>
+						           
+								{else if $i < 7}
+						           
+									<div class="ft-img col-md-6">
+						            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
+						            	{get_photo details=$result_photo1_01 output='html' size="l" class='photoThumbBox moveL cb_img_thum'}
+						            	</a>
+						            	<div class="hover">
+						            		<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+						            			<span class="photo-title">{$result_photo1_01.photo_title}</span>
+						            			<span class="plus">plus</span>
+						            		</a>
+						            	</div>
+						            
+						       	    </div>
+						            
+								{else}			
+						           
+									<div class="ft-img col-md-3" style="height:140px;">
+						            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
+						            	{get_photo details=$result_photo1_01 output='html' size="l" class='photoThumbBox moveL cb_img_thum'}
+						            	</a>
+						            	<div class="hover">
+						            		<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+						            			<span class="photo-title">{$result_photo1_01.photo_title}</span>
+						            			<span class="plus">plus</span>
+						            		</a>
+						            	</div>
+						            
+						       	    </div>
+						         {/if}   
+						        
+						        {/foreach}
+						        </div>
+								<!-- </div> -->
+							</div>
+					        <!-- *********** FIRST PHOTOS END ************ //-->
+				     		{/if}
+
+							{$result_photos2_08 = get_photos(['order'=>'  photo_id ASC LIMIT 4 '])}
+						    
+						    {if $result_photos2_08} 		
+					        <!-- *********** SECOND PHOTOS START ************ //-->
+							<!-- <div class="col-md-12 fill-background clearfix lg-img">
+						        <div class="col-md-5 nopadding sm-imgs clearfix left-aligned">
+								{foreach from=$result_photos2_08 item=result_photo2_08}
+									<div class="col-md-6 col-sm-6">
+						        	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
+						        	{get_photo details=$result_photo2_08 output='html' width="128" height="118" size="l" class='photoThumbBox moveL cb_img_thum'}
+						        	</a>
+						        {if $photos@iteration > 1}{break}{/if}
+						   	    </div>
+						        {/foreach}
+								</div>
+								{$result_photos2_01 = get_photos(['order'=>'  RAND() LIMIT 1 '])}
+								<div class="col-md-7 big_img">
+								{foreach from=$result_photos2_01 item=result_photo2_01}
+						        	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
+						        	{get_photo details=$result_photo2_01 output='html' width="420" height="235" size="l"  class="cb_img_thum"}
+						        	</a>
+						        {/foreach}
+						        </div>
+							</div> -->
+							<!-- *********** SECOND PHOTOS END ************ //-->
+							{/if}
+						</div>
+						{elseif $row.photosSection=='yes' && !$result_photos2_08 }
+							<div class="col-md-12 nopadding">No featured Photo</div>
+						{else}
+						<!-- asds -->
+						{/if}	
+					</div>
+
+			        <!-- ******************************************* //-->
+			        <!-- *********** PHOTOS END ************ //-->
+			        <!-- ******************************************* //-->
+
+				</div>
+				<!-- ******************************************* //-->
+		        <!-- ******** ADVERTISEMENT BLOCK START ******** //-->
+		        <!-- ******************************************* //-->
+				<!--<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
+				<h2 class="myHeadingBLK" style="margin-top:0;">Advertisement</h2>
+					<div class="col-md-12 text-center nopadding" style="font-size:18px; border:1px solid #CCC; background:#FFF; display:block; height: 250px; width: 300px; line-height: 200px; text-align:center; left:7%;">
+					Ad Box 300 x 250
+					</div>
+				</div>-->
+				<!-- ******************************************* //-->
+		        <!-- ******** ADVERTISEMENT BLOCK END ******** //-->
+		        <!-- ******************************************* //-->
+
+
+				<!-- ******************************************* //-->
+		        <!-- ************* USER BLOCK START ************ //-->
+		        <!-- ******************************************* //-->
+				{$feature_users=get_users(['featured'=>'yes','limit'=>5])}
+				{if $feature_users}
+	     		<div class="col-md-4 side_user_home">
+					<h2 class="myHeading theme_color">{lang code="Featured Users"}</h2>
+	               
+	               {foreach $feature_users as $user}
+					
+	                <div class="col-md-12 nopadding clearfix user-view-home">
+						<div class="col-md-3 nopadding">
+							<img src="{$userquery->getuserthumb($user,'small')}" width="56" height="56" class="img-circle" />
+						</div>
+						<div class="col-md-9 nopadding">
+							<h4 class="nopadding "><a href="{$userquery->profile_link($user)}">{$user.username}</a></h4>
+
+							<div class=" nopadding col-md-6 min-height-20">
+								<div class="pull-left small"><span class="bg-eye"></span>&nbsp;<span>{$user.profile_hits|number_format} {lang code='views'}</span></div>
+								<div class="pull-right small"><span class="bg-videocam"></span>&nbsp;<span>{$user.total_videos|number_format} {lang code='Videos'}</span></div>
+							</div>
+		                    <br>
+		                    <div class="row pull-left" style="margin-left: 0px; width: 99%;">
+			                    <div class="progres">
+			                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+			                            <span class="sr-only">40% Complete (success)</span>
+			                        </div>
+			                    </div>
+		                    </div>
+							<!--<div class="col-md-12 nopadding progress no-border-radius">
+			      				<div style="width: 40%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-success">
+			        			<span class="sr-only">40% Complete (success)</span>
+			  					</div>
+			    			</div>-->
+						</div>
+						<div class="user_icon">
+							<a href="{$userquery->profile_link($user)}">
+							<img class="" src="{$imageurl}/user_next_icon.png" width="25" height="25" />
+							</a>
+						</div>
+					</div>
+					{/foreach}
+				</div>
+				{/if}
+				<!-- ******************************************* //-->
+		        <!-- ************* USER BLOCK END ************ //-->
+		        <!-- ******************************************* //-->
+				<!-- <div id="custom_ads_box">
+		        	<div class="fb-page" data-href="https://www.facebook.com/clipbucket" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-show-posts="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/clipbucket"><a href="https://www.facebook.com/clipbucket">ClipBucket</a></blockquote></div></div>
+		        </div> -->
+		        {if $row.collectionsSection == 'yes'}
+				{$collections = $cbcollection->get_collections(['limit'=>5, 'active'=>'yes'])}
+				<div class="col-md-4 comment_home side_user_home" >
+					<h2 class="myHeading">{lang code="Top Collections"}</h2>
+					{$limit=10}
+		        	{if $collections}        
+					{foreach from=$collections item=collection}
+					<div class="clearfix collection-section">
+						<div class="category-header row clearfix">
+							<div class="col-sm-6 clearfix">{$collection.collection_name}</div>
+							<div class="col-sm-6 clearfix"><span class="total-obj">{$collection.total_objects}</span></div>
+
+							<!-- {*{$collection.type}*} -->
+							<!-- <div class="col-sm-6 clearfix"><span class="total-obj">{$limit}</span></div> -->
+						</div>
+						<div class="collection-grid clearfix"> 
+						{if $collection.type=='photos'}
+							{$items = $cbphoto->collection->get_collection_items_with_details($collection.collection_id,0,$limit,false)}
+						{else}
+							{$items = get_videos_of_collection($collection.collection_id,0,$limit,false) }
+						{/if}	
+
+
+
+						{if $items}
+							{foreach from=$items item=item}
+								<div class="collection-item">
+									<a href="{$cbphoto->photo_links($item,'view_item')}">
+										{if $collection.type=='photos'}
+											{get_photo details=$item output='html' size="l" class="cb_img_thum"}
+										{else}
+											<img alt="{$item.title}" title="{$item.title}" class="cb_img_thum" id="photo_{$item.ci_id}" src="{getThumb vdetails=$item}">
+										{/if}
+									</a>
+								</div>
+							{/foreach}
+						{/if}
+						</div>
+					</div>
+
+					{/foreach}
+					{else}
+					<div class="col-md-12 nopadding">No Collection</div>
+					{/if}
+		    	</div>
+		    	{/if}
+				
+				{$playlists = get_playlists(['limit'=>5, 'order'=>'total_items DESC'])}
+                <div class="col-md-4 comment_home side_user_home " >
+                	<h2 class="myHeading">{lang code="Top Playlists"}</h2>
+                	{if $playlists}
+					{foreach $playlists as $playlist}
+
+						<div class="clearfix collection-section">
+							<div class="category-header row clearfix">
+								<div class="col-sm-6 clearfix"><span class="">{$playlist.playlist_name}</span></div>
+								<div class="col-sm-6 clearfix">
+									<span class="total-obj">
+										{$cbvid->action->count_playlist_items($playlist.playlist_id)|number_format}
+									</span>
+								</div>
+                            </div>
+
+							<div class="collection-grid clearfix"> 
+							{$items = get_playlist_items($playlist.playlist_id)}
+								{foreach $items as $item}
+								    <div class="collection-item">
+										    {$videoid = $item.videoid}
+										    {if $videoid}
+		                                    {$videos = get_videos(['videoid'=>$videoid,'limit'=>'4'])}
+											    {foreach $videos as $video}
+				                                    <a href="{videoLink($video)}">
+														{$thumb = get_thumb($video)}
+				                                        <img src="{$thumb}" />
+						                            </a>
+												{/foreach}
+											{else}
+											<span class="label label-default">no items</span>
+											{/if}
+                                    </div>
+								{/foreach}
+							</div>
+						</div>	
+
+                    {/foreach}
+                    {else}
+						<div class="col-md-12 nopadding">No Playlists</div>
+					{/if}
+				</div>
+
+			</div>
+		</div>
+	</div>
+	{*include file="$style_dir/blocks/videos/video-home-sliders2.html" video_06_da=$video_06_da slider3='slider3'*}
+</div>
+
+<div style="height:20px;"></div>
+<script type="text/javascript">
+	$(function() {
+				
+	    $('#slide').ulslide({
+	        width: 350,
+	        height: 88,
+			effect: {
+				type: 'carousel', // slide or fade
+	            axis: 'y',        // x, y
+				showCount: 5
+			},
+	        nextButton: '#slide_next',
+	        prevButton: '#slide_prev',
+	        duration: 800,
+	        /*autoslide: 2000*/
+			easing: 'easeOutBounce'
+	    });
+	    $('#slide1').ulslide({
+	        width: 150,
+	        height: 80,
+			effect: {
+				type: 'carousel', // slide or fade
+	            axis: 'x',        // x, y
+				showCount: 5
+			},
+	        nextButton: '#slide_next1',
+	        prevButton: '#slide_prev1',
+	        duration: 800,
+	        autoslide: 2000
+			/*easing: 'easeOutBounce'*/
+	    });
+	    $('#slide3').ulslide({
+	        width: 150,
+	        height: 80,
+			effect: {
+				type: 'carousel', // slide or fade
+	            axis: 'x',        // x, y
+				showCount: 5
+			},
+	        nextButton: '#slide_next3',
+	        prevButton: '#slide_prev3',
+	        duration: 800,
+	        autoslide: 2000,
+			easing: 'easeOutBounce'
+	    });
+	});
+</script>
+
+<!--<style>
+
+.ad{
+    background: none repeat scroll 0 0 #F3F3F3;
+    border: 1px solid #CCCCCC;
+    font-size: 15px;
+    height: 90px;
+    margin: 0 auto 25px;
+    padding: 0;
+    text-align: center;
+    width: 728px;
+}
+</style>-->

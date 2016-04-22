@@ -1,0 +1,2 @@
+* New Permission has been added "download_video"
+

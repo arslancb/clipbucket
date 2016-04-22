@@ -1,0 +1,227 @@
+
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
+
+<div class="container marginBottom">
+    {*include file="$style_dir/blocks/manage/account_menu.html"*}
+    <div class="cb-box clearfix row">
+        {*include file="$style_dir/blocks/manage/left_side_bar.html"*}
+        <!-- Listing Categories -->
+        <div class="hidden-xs">
+        {include file="$style_dir/blocks/category_list.html" type='video'}    
+        </div>
+        
+        <!-- Listing Categories End -->
+        <div class="col-md-9 clearfix paddingleft0">
+            <!-- Page Heading -->
+            <div class="page-hidding hidden-xs">
+                {assign var=sorting_links value=sorting_links()}
+                <h4 class="smaller lighter pull-left">{if $smarty.get.cat == 'all' || $smarty.get.cat == ''}{lang code="Browsing All Categories"}: 
+                {elseif $smarty.get.seo_cat_name != ''} Browsing <i>{$smarty.get.seo_cat_name}</i> Category {else} 
+                Browsing Category {$smarty.get.cat} {/if}</h4>
+                <div class="pull-right">
+
+    
+                    <div class="btn-group custom-dropdown">
+                        {if $smarty.get.sort}
+                        {foreach from=$sorting_links item=name key=sort}
+                            {if $smarty.get.sort==$sort && isset($smarty.get.sort)} 
+                            <button class="btn btn-default" type="button">
+                            {$name}
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            {/if}
+                        {/foreach}
+                        {else}
+                            <button class="btn btn-default" type="button">
+                            Recent
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                        {/if}    
+
+                        <ul role="menu" class="dropdown-menu">
+                            {foreach from=$sorting_links item=name key=sort}
+                            <li><a href="{link name=time sort=$sort type=videos}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected" {/if}>li {$name}</a></li>
+                            {/foreach}
+                        </ul>
+
+
+
+                        <ul role="menu" class="dropdown-menu">
+                            {foreach from=$sorting_links item=name key=sort}
+                            <li {if $smarty.get.sort==$sort} class="active selected"  {/if}><a href="{link name=sort sort=$sort type=videos}">{$name}</a></li>
+                            <li role="presentation" class="divider"></li>
+                            {/foreach}
+                        </ul>
+                    </div>
+
+                    
+
+ 
+                    {assign var=time_links value=time_links()}
+                    <div class="btn-group custom-dropdown">
+                        {if $smarty.get.time} 
+
+                        {foreach from=$time_links item=name key=sort name=times}
+                            {if $smarty.get.time==$sort && isset($smarty.get.time)} 
+                            
+                            <button class="btn btn-default" type="button">
+                            {$name}
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            {/if}
+                        {/foreach}
+                        {else}
+                            <button class="btn btn-default" type="button">
+                            All Time
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                        {/if}  
+                          <ul role="menu" class="dropdown-menu">
+                            {foreach from=$time_links item=name key=sort name=times}
+                                <li><a href="{link name=time sort=$sort type=videos}&timing=time" {if $smarty.get.time==$sort} class="selected" style="color: #fff; background-color: #428bca;" {/if}>{$name}</a></li>
+                                <li role="presentation" class="divider"></li>
+                            {/foreach}
+                          </ul>
+                    </div>
+                </div>
+            </div> 
+
+            <div class="page-hidding visible-xs">
+                <div class="" role="group">
+                    {assign var=time_links value=time_links()}
+                    <div class="btn-group custom-dropdown resp-full-wdth480 resp-mgnt10">
+                        {if $smarty.get.timing} 
+
+                        {foreach from=$time_links item=name key=sort name=times}
+                            {if $smarty.get.time==$sort && isset($smarty.get.time)} 
+                            
+                            <button class="btn btn-default" type="button">
+                            {$name}
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button><!--<span class="glyphicon glyphicon-sort"></span> Most {$name}-->
+                            {/if}
+                        {/foreach}
+                        {else}
+                            <button class="btn btn-default" type="button">
+                            All Time
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                        {/if}  
+                          <ul role="menu" class="dropdown-menu">
+                            {foreach from=$time_links item=name key=sort name=times}
+                                <li>
+                                    <a href="{link name=time sort=$sort type=videos}&timing=time" {if $smarty.get.time==$sort} class="selected"  {/if}>
+                                    {$name}
+                                    </a>
+                                </li>
+                                <li role="presentation" class="divider"></li>
+                            {/foreach}
+                          </ul>
+                    </div> 
+
+                    {assign var=sorting_links value=sorting_links()}
+                    <div class="btn-group custom-dropdown resp-full-wdth480 resp-mgnt10">
+                        {if $smarty.get.sorting}   
+                        {foreach from=$sorting_links item=name key=sort}
+                            {if $smarty.get.time==$sort && isset($smarty.get.sort)} 
+                            <button class="btn btn-default" type="button">
+                            {$name}
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button><!--<span class="glyphicon glyphicon-sort"></span> Most {$name}-->
+                            {/if}
+                        {/foreach}
+                        {else}
+                            <button class="btn btn-default" type="button">
+                            {$smarty.get.sort}
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                        {/if}    
+
+                        <!--
+                        <ul role="menu" class="dropdown-menu">
+                            {foreach from=$sorting_links item=name key=sort}
+                            <li><a href="{link name=time sort=$sort type=videos}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+                            {/foreach}
+                        </ul>-->
+
+
+
+                        <ul role="menu" class="dropdown-menu">
+                            {foreach from=$sorting_links item=name key=sort}
+                            <li {if $smarty.get.sort==$sort} class="selected" {/if}><a href="{link name=sort sort=$sort type=videos}">{$name}</a></li>
+                            <li role="presentation" class="divider"></li>
+                            {/foreach}
+                        </ul>
+                    </div> 
+
+                    <div class="btn-group custom-dropdown pull-left resp-full-wdth480 resp-mgnt10">
+                        <button class="btn btn-default" type="button">
+                        Categories
+                        </button>
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            <span class="arrow-drop"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        
+                        <ul role="menu" class="dropdown-menu">
+                        {$cbvid->cbCategories(["type"=>$type,"echo"=>"TRUE","output"=>"list","with_all"=>"TRUE"]) }
+                        </ul>
+                    </div>                    
+                </div>
+            </div>
+
+
+            <div class="row">
+                {if $videos} 
+                {foreach $videos as $video}
+                    <div class="col-md-3  col-sm-4  col-xs-6 marginBottom grid_view list_view cb-video-fixed-block">
+                        {include file="$style_dir/blocks/videos/video.html" display_type='normal'}
+                    </div>
+                {/foreach}
+                {else} 
+                <div class="col-md-12">{lang code='no_results_found'}</div>
+                {/if}
+
+                <div class="clearfix"></div>
+            </div>
+       
+            <!-- /Page Heading -->
+            
+        <div class="clr"></div>
+        <!--Pagination-->
+        <div align="center">
+            {include file="$style_dir/blocks/pagination.html"}
+        </div> 
+            <!-- /Pagination-->
+        </div>
+    </div>
+</div>
+<div style="height:20px"> </div>
+
+
+

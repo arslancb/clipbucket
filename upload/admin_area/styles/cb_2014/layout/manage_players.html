@@ -1,0 +1,330 @@
+{if $mode =='show_settings'}
+<div class="heading">
+  <h2>ClipBucket Website Player Settings</h2>
+</div>
+
+<form action="manage_players.php?mode=show_settings" method="post" enctype="multipart/form-data" name="player_settings">
+        <div class="row">
+<!--<div class="col-md-4">
+  <label for="pak_license">
+    Pakplayer license<br>
+    <small>If you have pakplayer license, please enter it here</small>
+  </label>
+  <input class="form-control" type="text" name="pak_license" id="pak_license" value="{$row.pak_license}" />
+</div>-->
+<div class="col-md-4">
+  <label for="">
+    Autoplay<br>
+    <small>if yes, all videos will be played automatically</small>
+  </label>
+    <select class="form-control" name="autoplay_video" id="autoplay_video">
+        <option value="yes"  {if $row.autoplay_video=='yes'} selected="selected" {/if} >Yes</option>
+        <option value="no" {if $row.autoplay_video=='no'} selected="selected" {/if} >No</option>
+    </select>
+</div>
+<div class="col-md-4">
+  <label for="use_playlist">
+    Use Playlist<br>
+    <small>By turning this on, player will turn on playlists feature in player (if available)</small>
+  </label>
+    <select class="form-control" name="use_playlist" id="use_playlist">
+        <option value="yes"  {if $row.autoplay_video=='yes'} selected="selected" {/if} >Yes</option>
+        <option value="no"  {if $row.use_playlist=='no'} selected="selected" {/if}} >No</option>
+    </select>
+</div>
+<div class="col-md-4">
+  <label for="embed_player_width">
+    Embed Player Width<br>
+    <small>Enter embedable player width in pixels</small>
+  </label>
+  <input class="form-control" name="embed_player_width" type="text" id="embed_player_width" value="{$row.embed_player_width}" />
+</div>
+</div>
+        <div class="row">
+<!--<div class="col-md-4">
+  <label for="logo_file">
+    Logo File<br>
+    <small>
+      Logo file that will display on your flash player
+    </small>
+  </label>
+  <input type="file" class="form-control" name="logo_file" id="logo_file" />
+</div>-->
+<div class="col-md-4">
+  <label for="buffer_time">Buffer time</label>
+  <input class="form-control" type="text" name="buffer_time" id="buffer_time" value="{$row.buffer_time}" />
+</div>
+<div class="col-md-4">
+  <label for="logo_placement">
+    Logo Placement<br>
+    Placement of logo, top, left , right or bottom
+  </label>
+  <select class="form-control" name="logo_placement" id="logo_placement">
+      <option value="tl" {if $row.logo_placement=='tl'} selected="selected"{/if}>Top Left</option>
+      <option value="tr" {if $row.logo_placement=='tr'} selected="selected"{/if}>Top Right</option>
+      <option value="br" {if $row.logo_placement=='br'} selected="selected"{/if}>Bottom Right</option>
+      <option value="bl" {if $row.logo_placement=='bl'} selected="selected"{/if}>Bottom Left</option>
+    </select>
+</div>
+<div class="col-md-4">
+  <label for="logo_padding">Logo padding<br>
+  Padding logo,top,left,right or bottom
+  </label>
+  <input class="form-control" type="text" id="logo_padding" name="logo_padding" value="{$row.logo_padding}" />
+</div>
+</div>
+        <br>
+        <div class="row">
+
+<!-- <div class="col-md-4">
+  <label for="youtube_enabled">
+    Play Youtube Video Inside Player<br>
+    <small>this will let you play youtube videos in your player</small>
+  </label>
+    <select class="form-control" name="youtube_enabled" id="youtube_enabled">
+        <option value="yes"  {if $row.youtube_enabled=='yes'} selected="selected" {/if}>Yes</option>
+        <option value="no"  {if $row.youtube_enabled=='no'} selected="selected" {/if}>No</option>
+    </select>
+</div> -->
+
+<div class="col-md-4">
+  <label for="textfield">
+    Embed Player Height<br>
+    <small>Enter embedable player width in pixels</small>
+  </label>
+  <input class="form-control" name="embed_player_height" type="text" id="textfield" value="{$row.embed_player_height}" />
+</div>
+<div class="col-md-4">
+  <label for="autoplay_embed0">
+    Autoplay Embed<br>
+    <small>Autoplay embeded video by default</small>
+  </label>
+    <select class="form-control" name="autoplay_embed" id="autoplay_embed">
+        <option value="yes"  {if $row.autoplay_embed=='yes'} selected="selected" {/if}>Yes</option>
+        <option value="no" {if $row.autoplay_embed=='no'} selected="selected" {/if}>No</option>
+    </select>
+</div>
+<div class="col-md-4">
+  <label for="enlarge_button">
+    Enlarge/small Button<br>
+    <small>this will let you enable enlarge/small button in your player</small>
+  </label>
+    <select class="form-control" name="enlarge_button" id="enlarge_button">
+        <option value="yes"  {if $row.enlarge_button=='yes'} selected="selected" {/if}>Yes</option>
+        <option value="no"  {if $row.enlarge_button=='no'} selected="selected" {/if}>No</option>
+    </select>
+</div>
+
+</div>
+        <div class="row">
+
+<div class="col-md-4">
+  <label for="pseudostreaming_0">
+    Use PseudoStreaming<br>
+    <small>Let users to play video from anywhere, requires h264 streaming module from webserver</small>  
+  </label>
+    <select class="form-control" name="pseudostreaming" id="pseudostreaming">
+        <option value="yes" {if $row.pseudostreaming=='yes'} selected="selected" {/if}>Yes</option>
+        <option value="no"  {if $row.pseudostreaming=='no'} selected="selected" {/if} >No</option>
+    </select>
+</div>
+</div>
+<div class="button">
+<input type="submit" class="btn btn-primary" value="Update Player Settings"  name="update" id="update_player_settings">
+</div>
+</form>
+<br>
+        <div class="row">
+<!--<div class="col-md-6">
+  <label for="pakplayer_contextmsg">
+    Pakplayer Context Menu<br>
+    <small>Write what you want to display when user right clicks on pakplayer (only if have pak player license)</small>
+  </label>
+  <input class="form-control" type="text" name="pakplayer_contextmsg" id="pakplayer_contextmsg" value="{$row.pakplayer_contextmsg}" />
+    <br>
+    <input type="submit" class="btn btn-primary pull-left" value="Update" name="update" />
+</div>-->
+
+
+
+<div class="col-md-6">
+<div class="panel-group" id="accordion">
+    <div class="panel ">
+      <div class="">
+            <h6 class="panel-title alert alert-danger">
+                <b>This option has been deprecated.</b>
+              </h6>
+        </div>
+        <!--  <div id="collapseOne" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="ui-widget-content"  style="width:{$Cbucket->configs.player_width}px;  height:{$Cbucket->configs.player_height}px;">
+                    <h3 class="ui-widget-header">Original Size of your Main Website Player</h3>
+                    {FlashPlayer vdetails=$data}
+                </div>
+                <div class="player_dims">
+                    <label for="width">Width</label>
+                    <input type="text" name="width" id="width" value="{$Cbucket->configs.player_width}" />
+                    <label for="height">Height</label>
+                    <input type="text" name="height" id="height" value="{$Cbucket->configs.player_height}" />
+                </div>
+              </div>
+        </div>...-->
+
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title alert alert-info">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                   <b> Click here to edit channel player size.</b>
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="ui-widget-content" style="width:{$Cbucket->configs.channel_player_width}px; height:{$Cbucket->configs.channel_player_height}px; margin:auto">
+                    <h3 class="ui-widget-header">Original Size of your Channel Player</h3>
+                </div>
+                <div class="player_dims">
+                    <label for="width">Width</label>
+                    <input type="text" name="width" id="channel_width" value="{$Cbucket->configs.channel_player_width}" />
+                    <label for="height">Height</label>
+                    <input type="text" name="height" id="channel_height" value="{$Cbucket->configs.channel_player_height}" />
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+            </div>
+
+
+
+{literal}
+
+<script type="text/javascript">
+  function update_player_size(width,height,normal_player,channel_player)
+  {
+    var page = baseurl+'/actions/update_configs.php';
+    $.post(page,
+    {
+      width : width,
+      height : height,
+      update_player_size : normal_player,
+      update_channel_player_size:channel_player
+    },
+    function(data)
+    {
+      if(!data)
+        alert("No data");
+      else
+        $("#msg_box").html('<div style="width:300px; padding:5px; text-align:center; background-color:#0099cc; border-radius:5px; -moz-border-radius:5px; color:#fff">'+data+'</div>');
+    },'text');
+
+  }
+
+  $(function() {
+    $("#resizable").resizable({
+      maxHeight: 800,
+      maxWidth: 800,
+      minHeight: 100,
+      minWidth: 100,
+      grid: 10,
+      resize:function(event,ui){$("#width").val(ui.size.width);$("#height").val(ui.size.height);},
+      stop:function(event,ui){update_player_size(ui.size.width,ui.size.height,'yes','')}
+    });
+
+     $("#width").change(function () {$('#resizable').css("width",this.value+'px') ; update_player_size(this.value,$("#height").val(),'yes','') });
+     $("#height").change(function () {$('#resizable').css("height",this.value+'px');  update_player_size($("#width").val(),this.value,'yes','')  });
+  });
+
+
+  $(function() {
+    $("#resizable-channel").resizable({
+      maxHeight: 800,
+      maxWidth: 800,
+      minHeight: 100,
+      minWidth: 100,
+      grid: 10,
+      resize:function(event,ui){$("#channel_width").val(ui.size.width);$("#channel_height").val(ui.size.height);},
+      stop:function(event,ui){update_player_size(ui.size.width,ui.size.height,'','yes')}
+    });
+
+     $("#channel_width").change(function () {$('#resizable-channel').css("width",this.value+'px') ; update_player_size(this.value,$("#channel_height").val(),'','yes') });
+     $("#channel_height").change(function () {$('#resizable-channel').css("height",this.value+'px');  update_player_size($("#channel_width").val(),this.value,'','yes')  });
+  });
+</script>
+
+{/literal}
+
+
+{else}
+<div class="heading">
+  <h2>Selected Player</h2>
+</div>
+<div>
+  {assign var="player_dir" value=$Cbucket->configs.player_dir}
+  {assign var="player_file" value=$Cbucket->configs.player_file}
+
+  {assign var="curplayer" value=$cbplayer->getPlayerDetails($player_file,$player_dir)}
+
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <div class="alignCenter well">
+              <img src="{$cbplayer->get_preview_thumb($curplayer.folder)}" class="img-thumbnail" >
+              <h3>{$curplayer.name}</h3>
+              <em>
+                  <a href="{$curplayer.author_page}"><strong>{$curplayer.author}</strong></a>
+              </em>
+              <p>{$curplayer.description}</p>
+              <p>Version : {$curplayer.version}, Released on {$curplayer.released|date_format}</p>
+              <p>Website : <a href="{$curplayer.website}">{$curplayer.website}</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="heading">
+  <h2>Available Players</h2>
+</div>
+<div>
+  {* Listing All Avilable Players *}
+
+  {assign var='players' value=$cbplayer->get_players()}
+
+  <div class="templates_container">
+    
+
+
+      <div class="row">
+      {foreach from=$players item=player}
+      {if $player_file !=$player.file && $player_dir != $player.folder}
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+              <div class="well alignCenter">
+                  <img src="{$cbplayer->get_preview_thumb($player.folder)}" class="img-thumbnail" >
+                  <h2>{$player.name}</h2>
+                  <em>
+                      <a href="{$player.author_page}"><strong>{$player.author}</strong></a>
+                  </em>
+                  <p>{$player.description}</p>
+                  <p>Version : {$player.version}, Released on {$player.released|date_format}</p>
+                  <p>Website : <a href="{$player.website}">{$player.website}</a></p>
+                  <p><a href="manage_players.php?set=yes&folder={$player.folder}&file={$player.file}">Activate This Player</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {/if}
+      {/foreach}
+    </div>
+  </div>
+</div>
+  
+
+{/if}

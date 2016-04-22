@@ -1,0 +1,182 @@
+{$myAccountLinks = $userquery->my_account_links()}
+<div class="container marginBottom">
+    <div id="simple_search" class="cb-box marginBottom">
+        <!-- <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                Brand and toggle get grouped for better mobile display
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a style="margin-top: 12px" class="navbar-brand" href="#"><h2><small>Search Results</small></h2></a>
+                </div>
+        
+                Collect the nav links, forms, and other content for toggling
+                <div class="collapse navbar-collapse searchpage" id="bs-example-navbar-collapse-1">
+                    <form class="navbar-form navbar-left searchform" role="search">
+        
+                        <form name="search-form" method="get" action="">
+                    <ul class="nav navbar-nav searchnav" id="cbsearchtype">
+                        {$counter = 1}
+                        {foreach from=$Cbucket->search_types item=t key=stypes}
+                            {if $counter == 1}
+                                <li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class="active">
+                                    <a  href="#">{$stypes}</a>
+                                </li>
+                            {else}
+                                <li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>
+                                    <a  href="#">{$stypes}</a>
+                                </li>
+                            {/if}
+                            {$counter = $counter + 1}
+                        {/foreach}
+        
+                       
+                       
+                        {foreach from=$Cbucket->search_types item=t key=stypes}
+                        <li class=""  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} ><a href="#">{$stypes}</a></li>
+                        {/foreach}
+        
+                        <select id="SearchType" name="type" class="form-control searchselect sr-only">
+                            {foreach from=$Cbucket->search_types item=t key=stypes}
+                            <option  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
+                            {/foreach}
+                        </select>
+                    </ul>
+        
+        
+                        <div class="form-group">
+                            <input type="text" class="form-control searchtextbar"  name="query" value="{'query'|get_form_val:true}" id="query" 
+                            style="width:450px;margin-left:30px;margin-top:10px;" />
+                        
+                            <input type="submit" name="cbsearch" id="cbsearch" value="{lang code='search'}" class="btn btn-default" 
+                            style="margin-top:10px;"/>
+                             
+                              <select id="SearchType" name="type" class=" form-control" style="width:200px; margin-left:20px;">
+         
+                              {foreach from=$Cbucket->search_types item=t key=stypes}
+                              <option value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
+                              {/foreach}
+                              </select>
+                        </div>
+                              </form>
+                    
+                        </form>
+                </div>/.navbar-collapse
+            </div>/.container-fluid
+        </nav> -->
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <div class="heading">{$search_type_title}</div>
+                <hr>
+                {if $results}
+                {foreach item=result from=$results}
+                {assign var=$template_var value =$result}
+                {include file="$display_template" }
+                {/foreach}
+                {else}
+                {lang code='no_results_found'}
+                {/if}
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-md-3 pull-right">
+                <img src="http://www.ryangiggs.cc/system/files/banner-160x600-pride-tee_0.jpg" class="pull-right">
+            </div>
+        </div>
+
+        <!-- <div class="row">
+            <form name="search-form" method="get" action="">
+            <div class="col-md-6">
+                <h2><small>{$title} &#8250; {lang code='search'} &#8211;</small></h2>
+                <input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" id="query" />
+                <hr>
+            </div>
+            <div class="col-md-6">
+                <h2><small>{lang code='Type'} &#8211;</small></h2>
+                <select id="SearchType" name="type" class="form-control">
+                    {foreach from=$Cbucket->search_types item=t key=stypes}
+                    <option  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
+                    {/foreach}
+                </select>
+                <hr>
+                <input type="submit" name="cbsearch" id="cbsearch" value="{lang code='search'}" class="btn btn-primary" />
+            </div>
+                </form>
+            </div>
+        </div> -->
+
+        <div>
+            <div style="height:10px"></div>
+
+            <div class="clearfix"></div>
+        </div>
+        {include file="$style_dir/blocks/pagination.html"}
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function(){
+        $("#cbsearchtype a").on({
+            click: function(e){
+            e.preventDefault();
+            var searchtype = $("#SearchType").val();
+            var buttonText = $(this).text().toLowerCase();
+            if($("#SearchType option[value='"+ buttonText +"']").length > 0){
+                $("#SearchType option:selected").removeAttr("selected");
+                $("#SearchType option[value='"+ buttonText +"']").attr("selected" , "selected");
+                $(this).parents("ul").find(".active").removeClass("active");
+                $(this).parent().addClass("active");
+
+            }
+        }
+        });
+
+    });
+
+</script>
+
+
+
+
+<!--<div class="col-md-6 cb-box"  style="min-height:400px; overflow:visible; display:none" id="advance_search">-->
+<!--{foreach from=$Cbucket->search_types item=search_type key=search_type_key}-->
+
+<!--{if $search_type}-->
+
+<!--{assign var='type' value=$cbsearch->init_search($search_type_key)}-->
+
+<!--{if $type}-->
+<!--{assign var='types' value=$type->search_type}-->
+
+<!--{foreach from=$types key=stype item=search}-->
+<!--<div id="{$stype}" class="search_type">-->
+<!--{lang code='search_for_s' assign='searchfor'}-->
+<!--<h2>{$searchfor|sprintf:$search.title}</h2>-->
+<!--<div class="row cb-box">-->
+<!--<h2><small>{lang code='Advanced Search'} &#8211;</small></h2>-->
+<!--<form name="search-form-{$search.title}" method="get" action="">-->
+<!--<input type="hidden" class="form-control" name="type" value="{$stype}" />-->
+<!--{foreach from=$search.fields item=field}-->
+<!--{$field.class='form-control'}-->
+<!--<div>-->
+<!--<label style="color: #808080">{$field.title}</label>-->
+<!--{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}-->
+<!--</div>-->
+<!--{/foreach}-->
+<!--<hr>-->
+<!--<label for="button"></label>-->
+<!--<input type="submit" name="cbsearch" id="cbsearch" value="Search" class="btn btn-primary" />-->
+<!--</form>-->
+<!--</div>-->
+<!--</div>-->
+<!--{/foreach}-->
+<!--{/if}-->
+<!--{/if}-->
+<!--{/foreach}-->
+<!--</div>-->
+<!--<br>-->
+<!--<span class="btn btn-danger btn-xs" style="margin-bottom:10px"><a style="color: #ffffff" href="javascript:void(0)" onClick="showAdvanceSearch('simple_search','advance_search','more_button','more_button_up');">{lang code='more_options'}</a></span>-->

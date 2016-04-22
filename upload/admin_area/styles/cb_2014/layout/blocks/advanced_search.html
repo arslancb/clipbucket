@@ -1,0 +1,120 @@
+<div class="advanceSearchButton clearfix">
+    <a href="#" class="btn btn-primary btn-sm pull-right current after" onclick="$('#searchdiv').toggle();return false;" style="margin-bottom: 0px;position: relative; top: 15px;z-index:10000">
+        Advanced Search
+        <i class="glyphicon glyphicon-chevron-down down"></i>
+         <i class="glyphicon glyphicon-chevron-up up" style="display:none"></i>
+    </a>
+    
+</div>
+<div class="search_box well" id="searchdiv" {if $smarty.cookies.show_searchdiv_search!='show'} style="display:none"{/if}>
+    <form id="video_search" name="video_search" method="get" action="video_manager.php" class="video_search">
+        <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                    <label for="title">Video title</label>
+                    <input name="title" type="text" class="form-control" id="title" value="{'title'|get_form_val:divue}" />
+                </div>  
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="videokey">Video key</label>
+                    <input class="form-control" name="videokey" type="text" id="videokey" value="{'videokey'|get_form_val:true}" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="videoid">Video id</label>
+                    <input class="form-control" name="videoid" type="text" id="videoid" value="{'videoid'|get_form_val:true}" />
+                </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                    <label for="tags">Video tags</label>
+                    <input class="form-control" name="tags" type="text" id="tags" value="{'tags'|get_form_val:true}" />
+                </div>  
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="featured">Featured</label>
+                    <select class="form-control" name="featured" id="featured">
+                            <option value=""> </option>
+                            <option value="no" {if $smarty.get.featured=='no'} selected="selected"{/if}>No</option>
+                            <option value="yes" {if $smarty.get.featured=='yes'} selected="selected"{/if}>Yes</option>
+                           
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+
+                    <label for="active">Active</label>
+                    <select class="form-control" name="active" id="active">
+                    <option value=""> </option>
+                        <option value="yes" {if $smarty.get.active=='yes'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $smarty.get.active=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="status">Conversion Status</label>
+                    <select class="form-control" name="status" id="status">
+                     <option value=""> </option>
+                        <option value="Successful" {if $smarty.get.status=='Successful'} selected="selected"{/if}>Successful</option>
+                        <option value="Processing" {if $smarty.get.status=='Processing'} selected="selected"{/if}>Processing</option>
+                        <option value="Failed" {if $smarty.get.status=='Failed'} selected="selected"{/if}>Failed</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="userid">Userid</label>
+                    <input class="form-control" name="userid" type="text" id="userid" value="{'userid'|get_form_val:true}" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">Category</label>
+                    
+                    {$cat_array.type = 'dropdown'}
+                    {$cat_array.category_type = 'video'}
+                    {$cat_array.class = "form-control"}
+                    {$cat_array.with_all = true}
+                    {$formObj->createField($cat_array)}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" name="search" id="search" value="Search" class="btn btn-success btn-sm"/>
+        </div>
+    </form>
+</div>
+
+
+ <script type="text/javascript">
+       
+
+        $(document).ready(function neww () {
+        $(".current").click(function() {
+        $(this).toggleClass('after');
+        if(!$(this).hasClass('after')) 
+           {
+      
+          $('.down').hide();
+          $('.up').show();
+           }
+    
+        else
+       {
+ 
+        $('.down').show();
+         $('.up').hide();
+       }
+ 
+});
+
+       })
+       
+</script >

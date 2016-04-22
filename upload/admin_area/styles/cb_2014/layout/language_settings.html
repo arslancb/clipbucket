@@ -1,0 +1,219 @@
+{if $edit_lang != 'yes'}
+<div class="heading">
+    <h2>Language Settings</h2>
+</div>
+
+<form name="default_lang" method="post" action="?default">
+    <table class="table table-bordered table-striped manageUsersTable">
+        <tr>
+            <td>
+                <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+            <td>ID</td>
+            <td>Package Name</td>
+            <td>Options</td>
+        </tr>
+        {section name=l_list loop=$language_list}
+
+        <tr>
+            <td><label>
+                <input type="checkbox" name="make_default" id="radio" value="{$language_list[l_list].language_id}" {if $language_list[l_list].language_default =='yes'}checked="checked"{/if} onclick="document.default_lang.submit()"/></label>
+            </td>
+            <td>{$language_list[l_list].language_id}</td>
+            <td>{$language_list[l_list].language_name}({$language_list[l_list].language_code}){if $language_list[l_list].language_default=='yes'} <span style="color: #cccccc"> as <i>Default Language</i></span>{/if}</td>
+            <td>
+                <div class="dropdown clearfix alignRight">
+                    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                    Actions <i class="caret"></i></button>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
+                        <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                   href="?create_package={$language_list[l_list].language_code}">Recreate Pack</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                   href="?recreate_from_pack={$language_list[l_list].language_code}" >Recreate from pack</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                   href="?edit_language={$language_list[l_list].language_id}" >Edit Phrases</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                   href="?edit_language={$language_list[l_list].language_id}">Edit</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                   href="javascript:void(0)" onclick="if(confirm_it('Are you sure you want to delete \'{$language_list[l_list].language_name}\' pack')) window.location = '?delete={$language_list[l_list].language_id}'">Delete</a>
+                        <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                   href="?download={$language_list[l_list].language_id}" target="_blank">Export</a></li>
+                        {if $language_list[l_list].language_active!='yes'}
+                        <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                   href="?action=activate&id={$language_list[l_list].language_id}">Activate</a></li>
+                        {/if}
+                        <li role="presentation" class="divider"></li>
+                        {if $language_list[l_list].language_active=='yes'}
+                        <li role="presentation"><a role="menuitem" tabindex="-1"
+                                  href="?action=deactivate&id={$language_list[l_list].language_id}">Deactivate</a>
+                        </li>
+                        {/if}
+                        {if $language_list[l_list].language_default!='yes'}
+                        <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                   href="?make_default={$language_list[l_list].language_id}">Make Default</a>
+                        </li>
+                        {else}
+                        <li role="presentation" class="disabled"><a href="#">Make Default</a></li>
+                        {/if}
+                    </ul>
+                </div>
+            </td>
+        </tr>
+
+        {/section}
+    </table>
+</form>
+
+<div class="heading">
+    <h2> Add New Language </h2>
+</div>
+	<div class="form-group">
+        <form action="?import" method="post" enctype="multipart/form-data" name="import_language" id="import_language">
+    	<h4>Upload file</h4>
+        	<table>
+            <tr><td>
+                Browse ClipBucket Language File ( must be .xml format ) 
+              <input type="file" name="lang_file" id="lang_file" class="marginBottomLarge" />
+            </td></tr>
+            <tr>
+              <td>
+              <input type="submit" name="add_language" id="add_language" value="Add Language" class="btn btn-primary" /></td>
+            </tr>
+            </table>
+            </form>
+   </div>
+{else}
+<span class="lead">Editing {$lang_details.language_name}</span>
+<div class="form-group">
+    <form id="form1" name="form1" method="post" action="">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">Language Name</label>
+                    <input name="name" type="text" class="form-control" id="name" value="{$lang_details.language_name}" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">Language Code</label>
+                    <input name="code" type="text" class="form-control" id="code" value="{$lang_details.language_code}" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">Language Regex</label>
+                    <input name="regex" type="text" class="form-control" id="regex" value="{$lang_details.language_regex}" />
+                </div>
+            </div>
+        </div>
+                
+                
+                
+        <input type="submit" name="update_language" class="btn btn-primary" value="Update"  id="update_language"/>
+</form>
+</div>
+
+<legend>Editing {$lang_details.language_name} Phrases</legend>
+<div class="form-group">
+<form id="form2" name="form1" method="get" action="?">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="">Phrase Code - Name</label>
+                <input name="varname" type="text" class="form-control" id="varname" value="{$smarty.get.varname|form_val}" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="">Phrase Text</label>
+                <input name="text" class="form-control" type="text" id="text" value="{$smarty.get.text|form_val}" />
+            </div>
+        </div>
+    </div>
+            
+        
+            
+    <label>
+    <input name="edit_language" type="hidden" value="{$smarty.get.edit_language}" />
+      <input type="submit" name="search_phrase" class="btn btn-primary" value="Submit"   id="search_phrase"/>
+    </label>
+  </form>
+</div>
+
+
+<table class="table table-bordered table-striped manageUsersTable">
+    <tr>
+        <td><legend>Phrase Code</legend></td>
+        <td><legend>Phrase</legend></td>
+    </tr>
+    {section name=p_list loop=$lang_phrases}
+    <tr>
+        <td>{$lang_phrases[p_list].varname}</td>
+        <td ><span class="xedit" id="{$lang_phrases[p_list].id}"  >{$lang_phrases[p_list].text}</span> 
+        <span class="btn btn-success btn-xs edit_phrase " title="edit" id="edit-{$lang_phrases[p_list].id}" data-id="{$lang_phrases[p_list].id}"><i class="glyphicon glyphicon-edit"></i></span>
+        <span class="glyphicon glyphicon-ok-circle add_phrase" id="ok-{$lang_phrases[p_list].id}" data-id="{$lang_phrases[p_list].id}" style="display:none;color:#87b87f;font-size:1.5em;cursor:pointer"></span>&nbsp;&nbsp;&nbsp;
+        <span class="glyphicon glyphicon-remove-circle remove_phrase" id="remove-{$lang_phrases[p_list].id}" data-id="{$lang_phrases[p_list].id}" style="display:none;color:#d15b47;font-size:1.5em;cursor:pointer"></span>
+        <input type="text" class="form-control" id="input-{$lang_phrases[p_list].id}" name="pk" value="{$lang_phrases[p_list].text}" 
+        style="display:none;"> 
+        
+        </td>
+    </tr>
+    {/section}
+
+</table>
+
+{include file="$style_dir/blocks/pagination.html"}
+
+
+{/if}
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $('.edit_phrase').on("click",function(){
+        var _this = $(this);
+        var id = _this.data('id');
+        console.log('yes');
+        $('#input-'+id).show();
+        $('#ok-'+id).show();
+        $('#remove-'+id).show();
+        $('#edit-'+id).hide();
+    });
+
+
+    $('.remove_phrase').on("click",function(){
+        var _this = $(this);
+        var id = _this.data('id');
+        $('#input-'+id).hide();
+        $('#ok-'+id).hide();
+        $('#remove-'+id).hide();
+         $('#edit-'+id).show();
+    });
+
+    $('.add_phrase').on("click",function(){
+
+        var _this = $(this);
+        var id = _this.data('id');
+        var value = $('#input-'+id).val();
+        var pk = id;
+        console.log('value==>'+value);
+        console.log('id==>'+id);
+        $.ajax({
+            url: "{$baseurl}/actions/update_phrase.php",
+            type: "post",
+            data: { pk: pk, value: value},
+            success : function()
+            {
+                $('#'+id).html(value);
+                $('#input-'+id).hide();
+                $('#ok-'+id).hide();
+                $('#remove-'+id).hide();
+                 $('#edit-'+id).show();
+            }
+        });
+
+    });
+})
+
+
+</script>

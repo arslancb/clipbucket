@@ -1,0 +1,173 @@
+
+{if $control=='' || $control =='view'}
+{if $mode ==''}{assign var='mode' value='favorites'}{/if}
+
+
+{/if}
+
+{if $control =='full'}
+<tr>
+    <td>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-3">
+                        <a href="edit_video.php?vid={$video.videoid}">
+                        <img src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" class="vthumb" title=""/>
+                        <span class="duration">({if
+                            $video.duration>1}{$video.duration|SetTime}{else}00:00{/if})</span>
+                        </a>    
+                    </div>
+                    <div class="col-md-9">
+                        <a href="edit_video.php?vid={$video.videoid}">
+                            {$video.title|truncate:80} </a><br>
+                         <span class="maccountlabels"> <strong>{$video.date_added|niceTime}</strong>
+                            {lang code='views'} : <strong>{$video.views|number_format}</strong></span>
+                        <div class="labels">
+                            {if $video.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
+                                    <span class="label {if $video.active=='yes'}label-success{else}label-warning{/if} mlabel">
+                                        {if $video.active=='yes'}Active{else}InActive{/if}</span>
+                                    <span class="label {if $video.status=='Successful'}label-success{else}label-warning{/if}">
+                                        {if $video.status=='Successful'}Successful{else}Processing{/if}</span>
+                                    <span class="label label-info">
+                                       Viewed {$video.last_viewed|niceTime}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                    {if $video.broadcast=='public'}
+                    <div class="col-md-1"><i class="icon-globe"></i></div>
+                    {elseif $video.broadcast!='public'}
+                    <div class="col-md-1"><i class="icon-lock"></i></div>
+                    {/if}
+                </div>
+                <a href="view_user.php?uid={$video.userid}">{$video.username}</a>
+            </div>
+        </div>
+    </td>
+    <td>
+        <div class="dropdown">
+            <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                Actions <i class="caret"></i></button>
+            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
+                <li><a role="menuitem" 
+                       href="{$baseurl}/edit_video.php?vid={$video.videoid}" class="">Edit</a></li>
+                <li><a role="menuitem" 
+                       href="{$baseurl}/watch_video.php?v={$video.videokey}"target="_blank">Watch</a>
+                    
+                <li class="divider"></li>
+                <li><a role="menuitem"  href="?vid_delete={$video.videoid}">Delete</a>
+                </li>
+                {foreach from=$cbvid->video_manager_links item=links}
+                {$cbvid->video_manager_link($links,$video)}
+                {/foreach}
+            </ul>
+        </div>
+    </td>
+</tr>
+    {/if}
+
+
+
+
+
+{if $control=='playlist'}
+
+
+
+<tr>
+<td>
+  <input type="checkbox" name="check_playlist_items[]" id="check_vid-{$video.playlist_item_id}" value="{$video.playlist_item_id}" />
+</td>
+<td valign="middle">
+  <div>
+    <img class="img-thumbnail" src="{getThumb vdetails=$video}" />
+    <p class="marginTop">{$video.title|truncate:100}</p>
+    <div class="btn-group show">
+      <a class="btn btn-primary btn-sm" href="{videoLink vdetails=$video}">view</a>
+      <a class="btn btn-primary btn-sm" href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$video.playlist_item_id}','{lang code="remove_playlist_item_confirm"}','?mode=edit_playlist&pid={$pid}&amp;delete_item={$video.playlist_item_id}')" id="delete_icon_a-{$video.playlist_item_id}">
+        delete
+      </a>
+    </div>
+  </div>
+  <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon','{$video.playlist_item_id}','{lang code="remove_playlist_item_confirm"}','?mode=edit_playlist&pid={$pid}&amp;delete_item={$video.playlist_item_id}')" id="delete_icon-{$video.playlist_item_id}"><img src="{$imageurl}/dot.gif" border="0" class="delete_icon" /></a>
+</td>
+<td>{$video.date_added|date_format}</td>
+<td>{$video.views|number_format}</td>
+<td>{$video.comments_count|number_format}</td>
+</tr>
+
+{/if}
+
+
+{if $control=='basic'}
+
+
+
+<tr>
+<td>
+  <input type="checkbox" name="check_vid[]" id="check_vid-{$video.videoid}" value="{$video.videoid}" />
+</td>
+<td valign="middle">
+  <div>
+    <a href="{videoLink vdetails=$video}">
+      <img  src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" class="vthumb" />
+      <p class="marginTop">{$video.title|truncate:100}</p>
+    </a>
+  </div>
+</td>
+<td>{$video.date_added|date_format}</td>
+<td>{$video.views|number_format}</td>
+<td>{$video.comments_count|number_format}</td>
+</tr>
+
+{/if}
+
+{if $control=='onWatch'}
+<div class="clearfix marginBottom grid_view list_view item_video_pop video_thumb_sm">
+    <div class="item_video">
+        <div class="cb_item_container clearfix">
+            <div class=" col-md-5 thumb row ">
+               <a href="{videoLink($video)}" title="{$video.title|title}" >
+                <span class="fa fa-play play-icon"></span>
+                    <img class="" src="{getThumb vdetails=$video}">
+                    <span class="duration">{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
+                </a>
+            </div>
+            <div class="pull-right col-md-8 paddingright0">
+                <div class="item_text overflow_hidden">
+                    <div class="clearfix">
+                      <a href="{videoLink($video)}"><b>{$video.title|truncate:50}</b></a>
+                    </div>
+          <span class="user-block">{name($video)}</span>
+                </div>
+                <div class="row small col-md-8">
+                    <span class="pull-left views-count"><!-- <span class="bg-eye"></span> --> Playlist: {$items[plist].playlist_name|truncate:100}</span>
+                    <!-- <span class="pull-right"><small><span class="glyphicon glyphicon-thumbs-up"></span> {$video.rating}</small></span> -->
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+
+
+
+
+
+
+<!-- 
+<tr>
+<td valign="middle">
+  <div>
+   <a href="{$baseurl}/watch_video.php?v={$video.videokey}&play_list={$smarty.get.play_list}">
+    <img class="img-thumbnail" src="{getThumb vdetails=$video}" width="100" height="100" />
+    </a>
+    <p class="marginTop">{$video.title|truncate:100}</p>
+
+  </div>
+</td>
+</tr> -->
+
+{/if}

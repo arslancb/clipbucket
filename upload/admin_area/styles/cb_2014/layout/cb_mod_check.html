@@ -1,0 +1,155 @@
+<div class="heading">
+  <h2>Server Video Conversion Modules &amp; Tools</h2>
+</div>
+
+<p class="alert alert-info">
+A brief test to check weather server modules exist or not and what are there versions and paths
+</p>
+
+
+<h3>Modules and paths</h3>
+
+
+<div class="well">
+  <h4>FFMPEG</h4>
+    {if $ffmpegVersion}
+      <img src="{$imageurl}/tick.png"/>
+    {else}
+      <img src="{$imageurl}/alert.png"/>
+    {/if}
+    <div>
+      FFmpeg is used to covert videos from different versions to FLV , MP4 and many other formats.
+      <a href="http://clip-bucket.com/ffmpeg">Learn more</a>
+    </div>
+
+    {if $ffmpegVersion}
+      Version <strong>{$ffmpegVersion}</strong>
+    {else}
+    <p class="alert alert-danger">ffmpeg is not found</p>
+      {if $ffmpeg_status.error}
+        <br><span style="color:#e70000">{$ffmpeg_status.error}</span>
+      {/if}
+    {/if}
+</div>
+
+<div class="well">
+    <h4>PHP CLI</h4>
+    {if $phpVersion}
+      <img src="{$imageurl}/tick.png"/>
+    {else}
+      <img src="{$imageurl}/alert.png"/>
+    {/if}
+    <div>
+      PHP CLI is used to peform video conversion in a background process.
+      <a href="http://php.net/manual/en/features.commandline.php">Learn more</a>
+    </div>
+
+    {if $phpVersion}
+      Version <strong>{$phpVersion}</strong>
+    {else}
+    <p class="alert alert-danger">php is not found</p>
+  	  {if $php_status.error}
+        <br><span style="color:#e70000">{$php_status.error}</span>
+      {/if}
+    {/if}
+
+</div>
+
+<div class="well">
+  <h4>Media Info</h4>
+    {if $media_info}
+      <img src="{$imageurl}/tick.png"/>
+    {else}
+      <img src="{$imageurl}/alert.png"/>
+    {/if}
+    <div>
+      MediaInfo supplies technical and tag information about a video or audio file.
+      <a href="https://mediaarea.net/en/MediaInfo">Learn more</a>
+    </div>
+
+    {if $media_info}
+      Version <strong>{$media_info}</strong>
+    {else}
+    <p class="alert alert-danger">Media Info is not found</p>
+    {/if}
+</div>
+
+
+
+<div class="well">
+  <h4>MP4Box</h4>
+  {if $MP4BoxVersion}
+      <img src="{$imageurl}/tick.png"/>
+    {else}
+      <img src="{$imageurl}/alert.png"/>
+    {/if}
+  <div>
+    MP4Box is a tool used to repair MP4 files to make them streamable
+    <a href="http://docs.clip-bucket.com/clipbucket-docs/mp4box">Learn more</a>
+  </div>
+  {if $MP4BoxVersion}
+	Version
+      {if $MP4BoxVersion}
+      	<strong>{$MP4BoxVersion}</strong>
+      {/if}
+  {else}
+  	<p class="alert alert-danger">Mp4box is not found</p>
+      {if $mp4box_status.error}
+      	<br><span style="color:#e70000">{$mp4box_status.error}</span>
+      {/if}
+  {/if}
+
+</div>
+
+
+
+
+<div class="well">
+  <h4>ImageMagick</h4>
+  {if $imagick_version}
+      <img src="{$imageurl}/tick.png"/>
+    {else}
+      <img src="{$imageurl}/alert.png"/>
+    {/if}
+  <div>
+   Imagick is a native php extension to create and modify images using the ImageMagick API
+    <a href="http://php.net/manual/en/imagick.getversion.php">Learn more</a>
+  </div>
+  {if $imagick_version}
+  Version
+      {if $imagick_version}
+        <strong>{$imagick_version}</strong>
+      {/if}
+  {else}
+    <p class="alert alert-danger">Imagick is not found</p>
+      {if $imagick_version.error}
+        <br><span style="color:#e70000">{$imagick_version.error}</span>
+      {/if}
+  {/if}
+
+</div>
+
+<div class="well">
+  <h4>FFProbe</h4>
+  {if $ffprobe_path}
+      <img src="{$imageurl}/tick.png"/>
+    {else}
+      <img src="{$imageurl}/alert.png"/>
+    {/if}
+  <div>
+   ffprobe Is an Extension of ffmpeg used to get info of media file
+    <a href="https://ffmpeg.org/ffprobe.html">Learn more</a>
+  </div>
+  {if $ffprobe_path}
+  Version
+      {if $ffprobe_path}
+        <strong>{$ffprobe_path}</strong>
+      {/if}
+  {else}
+    <p class="alert alert-danger">Imagick is not found</p>
+      {if $ffprobe_path.error}
+        <br><span style="color:#e70000">{$ffprobe_path.error}</span>
+      {/if}
+  {/if}
+
+</div>

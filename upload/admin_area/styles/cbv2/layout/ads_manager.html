@@ -1,0 +1,163 @@
+{if $ad_data.ad_name !=''}
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="10" class="left_head">&nbsp;</td>
+    <td class="head">Eid Advertisement</td>
+    <td width="10" class="right_head">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3"><form id="form1" name="form1" method="post" action="">
+    <input type="hidden" name="ad_id" value="{$ad_data.ad_id}" /> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="block">
+        <tr>
+          <td valign="top">&nbsp;</td>
+          <td align="right">all fields are required</td>
+        </tr>
+        <tr>
+          <td valign="top">&nbsp;</td>
+          <td align="center">{$ad_data.ad_code|ad}</td>
+        </tr>
+        <tr>
+          <td width="150" valign="top"><label for="name">Advertisement Name</label>
+          *</td>
+          <td><input name="name" type="text" id="name" value="{$ad_data.ad_name}" size="45" />
+            e.g Home Banner</td>
+        </tr>
+        <tr>
+          <td valign="top"><label for="placement">Advertisement Placement</label></td>
+          <td><select name="placement" id="placement">
+         {assign var='ads_placements' value=$adsObj->get_placements()}
+         {section name=a_list loop=$ads_placements}
+         {if $ads_placements[a_list].placement_name!=''}
+            <option value="{$ads_placements[a_list].placement}" {if $ad_data.ad_placement==$ads_placements[a_list].placement} selected="selected"{/if} >{$ads_placements[a_list].placement_name}</option>
+         {/if}
+		 {/section}
+		  
+        
+          </select>
+            <a href="ads_add_placements.php">Add More Placements</a></td>
+        </tr>
+        <tr>
+          <td valign="top"><label for="code">Advertisement Code</label></td>
+          <td><textarea name="code" id="code" cols="45" rows="5">{$ad_data.ad_code}</textarea></td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td><label>
+            <input name="status" type="radio" value="1" {if $ad_data.ad_status=='1'}checked="checked" {/if} />
+            Active</label>
+            <label>
+              <input type="radio" name="status" value="0"{if $ad_data.ad_status=='0'}checked="checked"{/if}  />
+            Inactive</label></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td align="right"><input type="submit" name="update" class="button" value="Update Advertisement" onclick="return validate_ad_form(add_adv)"/></td>
+        </tr>
+      </table>
+    </form></td>
+  </tr>
+</table>
+<br />
+	<br />
+{else}
+{if $edit_ad != "show"}
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="10" class="left_head">&nbsp;</td>
+    <td class="head">Add Advertisement</td>
+    <td width="10" class="right_head">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3"><form id="form1" name="form1" method="post" action="ads_manager.php">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="block">
+        <tr>
+          <td valign="top">&nbsp;</td>
+          <td align="right">all fields are required</td>
+        </tr>
+        <tr>
+          <td width="150" valign="top"><label for="name">Advertisement Name</label>
+          *</td>
+          <td><input name="name" type="text" id="name" size="45" />
+            e.g Home Banner</td>
+        </tr>
+        <tr>
+          <td valign="top"><label for="placement">Advertisement Placement</label></td>
+          <td><select name="placement" id="placement">
+         {assign var='ads_placements' value=$adsObj->get_placements()}
+         {section name=a_list loop=$ads_placements}
+         {if $ads_placements[a_list].placement_name!=''}
+            <option value="{$ads_placements[a_list].placement}" {$select} >{$ads_placements[a_list].placement_name}</option>
+         {/if}
+		 {/section}
+		  
+        
+          </select>
+            <a href="ads_add_placements.php">Add More Placements</a></td>
+        </tr>
+        <tr>
+          <td valign="top"><label for="code">Advertisement Code</label></td>
+          <td><textarea name="code" id="code" cols="45" rows="5"></textarea></td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td><label>
+            <input name="status" type="radio" value="1" checked="checked" />
+            Active</label>
+            <label>
+              <input type="radio" name="status" value="0" />
+            Inactive</label></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td align="right"><input type="submit" name="add" class="button" value="Add Advertisement" onclick="return validate_ad_form(add_adv)"/></td>
+        </tr>
+      </table>
+    </form></td>
+  </tr>
+</table>
+<br />
+ {/if}
+<br />
+<h2>Advertisement Manager</h2>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" >
+  <tr>
+    <td colspan="5" class="tr_head">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="block_head"> 
+      <tr>
+        <td width="50" align="left" class="left_head">AID</td>
+        <td width="150" class="head" align="left"><div class="head_sep_left" style="width:130px">Advertisment name</div></td>
+        <td class="head"><div class="head_sep_left" style="width:150px">Advertisment</div></td>
+        <td width="120" align="left" class="head"><div class="head_sep_left" style="width:100px">Impressions</div></td>
+        <td width="120" align="left" class="head"><div class="head_sep_left" style="width:100px">Date Added</div> </td>
+        <td width="270" align="left" class="head"><div class="head_sep_left" style="width:220px">Placement</div></td>
+        <td width="200" class="right_head"><div class="head_sep_left" style="width:100px">Actions</div></td>
+      </tr>
+     </table>
+     <div class="block"> 
+     <table width="100%" border="0" cellspacing="0" cellpadding="0" > 
+      {assign var='ads' value=$adsObj->get_advertisements()}
+      {if $ads}
+      {foreach item=ad from=$ads}
+      <tr>
+        <td width="50" align="left"><div>{$ad.ad_id}</div></td>
+        <td width="150" align="left"><div style="padding-left:10px">{$ad.ad_name}</div></td>
+        <td align="left"><div style="padding-left:10px">{$ad.ad_codes}<a href="ads_manager.php?ad_id={$ad.ad_id}">View Advertisment</a></div></td>
+        <td width="120" align="left"><div style="padding-left:10px">{$ad.ad_impressions|number_format}</div></td>
+        <td width="120" align="left"><div style="padding-left:10px">{$ad.date_added|date_format}</div></td>       
+        <td width="270" align="left"><div style="padding-left:10px">{$adsObj->get_placement_name($ad.ad_placement)}</div></td>
+        <td width="200" align="left"><div style="padding-left:10px"><a href="ads_manager.php?ad_id={$ad.ad_id}">Edit</a> | 
+<a href="ads_manager.php?delete={$ad.ad_id}">Delete</a> | {if $ad.ad_status!=1}<a href="?activate={$ad.ad_id}">Activate</a>{else}<a href="?deactivate={$ad.ad_id}">Deactivate</a>{/if}</div></td>        
+      </tr>
+      {/foreach}
+      {/if}
+    </table></div></td>
+  </tr>
+   {if $bgcolor == ""}
+ 	 {assign var = bgcolor value = "#EEEEEE"}
+ {else}
+	 {assign var = bgcolor value = ""}
+ {/if}
+
+</table>
+{/if}

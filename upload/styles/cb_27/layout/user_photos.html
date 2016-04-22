@@ -1,0 +1,49 @@
+{lang code='channel' assign='object_type'}
+{include file="$style_dir/global_header.html"}
+{include file="$style_dir/header.html"}
+<div class="container">
+    <div class="cb-box marginBottom" style="margin-bottom:30px;">
+        <div class="row">
+            <span style="margin-left: 24px">
+            {assign var=category value=$userquery->get_category($u.category)}
+            {$u.username|capitalize}</a> ({$category.category_name})
+            <div class="btn-group pull-right" style="margin-right: 10px">
+                {if !$isSubscribed && $p.allow_subscription!='no'}
+                <button class="btn btn-primary btn-sm" onclick="subscriber('{$u.userid}','subscribe_user','result_cont')">{lang code='subscribe'}</button>
+                {elseif $isSubscribed}
+                <a class="btn btn-primary btn-sm" href="javascript:void(0)"
+                   onClick="subscriber('{$u.userid}','unsubscribe_user','result_cont')">{lang code='unsubscribe'}</a>
+                {/if}
+                {assign var='channel_action_links' value=$userquery->get_channel_action_links($u)}
+                {foreach from=$channel_action_links item=link key=link_title}
+                <a class="btn btn-primary btn-sm" {if $link.onclick}onClick="{$link.onclick}"{else}href="{$link.link}"{/if}>{$link_title}</a>
+                {/foreach}
+            </div>
+                </span>
+             <div class="action_box" id="result_cont" style="display:none; margin:15px 0 0 15px; "></div>
+            <hr style="margin-bottom: 6px; margin-top: 8px">
+         <div class="col-md-3">
+             {include file="$style_dir/blocks/view_channel/channel_right.html"}
+         </div>
+       
+       
+      
+    
+            <div class="col-md-9">
+                <h3>User Photos</h3>
+               {foreach $photos as $photo}
+                {include file="$style_dir/blocks/photo.html"}
+               {/foreach}
+                <div class="clearfix"></div>
+                <div class="col-md-4 pull-right">
+                {include file="$style_dir/blocks/pagination.html"}
+            </div>
+                </div>
+              
+        </div>
+        <div class="footer">
+            &copy; {$title} {$smarty.now|date_format:"%Y"}
+        </div>
+    </div>
+    </div>
+{include file="$style_dir/footer.html"}

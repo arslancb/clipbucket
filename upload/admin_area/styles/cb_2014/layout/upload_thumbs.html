@@ -1,0 +1,96 @@
+{if $data.title neq ""}
+<h3>Manage Video Thumbs</h3>
+<div class="lead dropdown">
+    <a class="btn btn-primary btn-xs dropdown-toggle pull-right" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
+    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}&gen_more=true">Regenerate Thumbs</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_video.php?video={$data.videoid}">Back to Edit Details</a></li>
+    </ul>
+</div>
+<form action="upload_thumbs.php?video={$data.videoid}" method="post" enctype="multipart/form-data" name="set_default_thumb" id="set_default_thumb">
+    <fieldset class="fieldset">
+        {assign var=vidthumbs value=get_thumb($data,1,TRUE,FLASE,TRUE,FALSE)}
+        {foreach from=$vidthumbs item=vid_thumb}
+        <div class="cbthumbs">
+            {$video.title}
+            <div class="row-fluid">
+                <ul class="ace-thumbnails">
+                    <li>
+                        <label for="{$vid_thumb|getname}" >
+                         <img src="{$vid_thumb}" class="img :focus" height="110" width="150"/>
+
+                        </label>
+                        <div class="tools tools-bottom">
+                            <input class="select_control" id="{$vid_thumb|getname}" name="default_thumb" type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}"{if $data.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />
+                            {if $vid_thumb|getname!='processing'}
+                            <a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">
+                                <i class="icon-remove red"></i>
+                            </a>
+                        </div>
+                    </li>
+                 </ul>
+                {/if}
+            </div>
+        </div>
+        {/foreach}
+        <div style="clear:both;"></div><br />
+    </fieldset>
+    <div class="form-group">
+        <input type="submit" name="update_default_thumb" class="btn btn-danger btn-sm" value="Update Video Thumb"/>
+    </div>
+</form>
+<form action="upload_thumbs.php?video={$data.videoid}" method="post" enctype="multipart/form-data" name="form1">
+    <div id="thumb_fileds" class="form-group">
+        <a href="javascript:void(0)" onclick="$('#thumb_fileds').append('<input name=\'vid_thumb[]\' type=\'file\' /><br>')">+ Insert More</a></div>
+        <input name="vid_thumb[]" type="file" />
+        <label for="thumb_file"></label>
+    </div>
+    <div class="form-group pull-right">
+        <input type="submit" name="upload_thumbs" value="Upload Thumb(s)" class="btn btn-primary btn-sm"/>
+    </div>
+    </form>
+        {/if}
+
+
+
+<script type="text/javascript">
+    // set image properties, for Highlight effect added when click
+    var imgProp = {
+        'padding': '2px',
+        'backgroundColor': '#006FFF',
+        'borderSize': '2ps',
+        'borderStyle': 'solid',
+        'borderColor': '#006FFF'
+    };
+
+    // function to highlight IMGs on click -
+    function highlightImg() {
+        // gets all <img> tags, and their number
+        var allimgs = document.getElementsByTagName('img');
+        var nrallimgs = allimgs.length;
+
+        // traverses the <img> elements, and register onclick to each one
+        // else, apply the properties defined in $imgProp
+        for(i=0; i<nrallimgs; i++) {
+            allimgs[i].onclick=function() {
+                // if borderStyle is already applied, anulates the 'padding', 'background' and 'border' properties
+                if(this.style.borderStyle == imgProp.borderStyle) {
+                    this.style.padding = 'auto';
+                    this.style.background = 'none';
+                    this.style.border = 'none';
+                }
+                else {
+                    this.style.padding = imgProp.padding;
+                    this.style.backgroundColor = imgProp.backgroundColor;
+                    this.style.borderSize = imgProp.borderSize;
+                    this.style.borderStyle = imgProp.borderStyle;
+                    this.style.borderColor = imgProp.borderColor;
+                }
+            }
+        }
+    }
+
+    // calls the highlightImg() function to apply the effect
+    highlightImg();
+</script>
+

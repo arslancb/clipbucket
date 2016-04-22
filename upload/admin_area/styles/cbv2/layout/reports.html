@@ -1,0 +1,218 @@
+<div class="clearfix"></div>
+<div id="my_chart"></div>
+<script type="text/javascript">
+var daily_activity = "{$baseurl}/admin_area/charts/daily_activity.php";
+swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "my_chart", "99%", "300", "9.0.0", "expressInstall.swf",{literal} {"data-file":daily_activity}{/literal} );
+</script>
+<div style="height:20px"></div>
+
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="50%" valign="top"><table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
+            <tr>
+              <td colspan="3"><h2>Videos Reports</h2></td>
+            </tr>
+            <tr>
+              <td width="120">All Time</td>
+              <td>Total <strong>{get_videos count_only=yes}</strong> &#8211; Active <strong>{get_videos count_only=yes active="yes"}</strong> &#8211; Processing <strong>{get_videos count_only=yes status='Processing'}</strong></td>
+              
+        </tr>
+            <tr>
+              <td width="120">Todays Videos</td>
+              <td>Total <strong>{get_videos count_only=yes date_span=today}</strong> &#8211; Active <strong>{get_videos count_only=yes active="yes" date_span=today}</strong> &#8211; Processing <strong>{get_videos count_only=yes status='Processing' date_span=today}</strong></td>
+        </tr>
+            <tr>
+              <td width="120">This Week</td>
+              <td>Total <strong>{get_videos count_only=yes date_span=this_week}</strong> &#8211; Active <strong>{get_videos count_only=yes active="yes" date_span=this_week}</strong> &#8211; Processing <strong>{get_videos count_only=yes status='Processing' date_span=this_week}</strong></td>
+        </tr>
+            <tr>
+              <td>Last Week</td>
+              <td>Total <strong>{get_videos count_only=yes date_span=last_week}</strong> &#8211; Active <strong>{get_videos count_only=yes active="yes" date_span=last_week}</strong> &#8211; Processing <strong>{get_videos count_only=yes status='Processing' date_span=last_week}</strong></td>
+            </tr>
+            <tr>
+              <td>This Month</td>
+              <td>Total <strong>{get_videos count_only=yes date_span=this_month}</strong> &#8211; Active <strong>{get_videos count_only=yes active="yes" date_span=this_month}</strong> &#8211; Processing <strong>{get_videos count_only=yes status='Processing' date_span=this_month}</strong></td>
+            </tr>
+            <tr>
+              <td>Last Month</td>
+              <td>Total <strong>{get_videos count_only=yes date_span=last_month}</strong> &#8211; Active <strong>{get_videos count_only=yes active="yes" date_span=last_month}</strong> &#8211; Processing <strong>{get_videos count_only=yes status='Processing' date_span=last_month}</strong></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+    </table></td>
+    <td width="50%" valign="top"><div id="videos_stats"></div>
+<script type="text/javascript">
+var daily_activity = "{$baseurl}/admin_area/charts/videos_activity.php";
+swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "videos_stats", "98%", "200", "9.0.0", "expressInstall.swf",{literal} {"data-file":daily_activity}{/literal} );
+</script></td>
+  </tr>
+</table>
+
+
+
+<div style="height:25px"></div>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="50%" valign="top"><table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
+            <tr>
+              <td colspan="3"><h2>User Reports</h2></td>
+            </tr>
+            <tr>
+              <td width="120">All Time</td>
+              <td>Total <strong>{get_users count_only=yes}</strong> &#8211; Active <strong>{get_users count_only=yes status='Ok'}</strong> &#8211; Inactive <strong>{get_users count_only=yes status='ToActivate'}</strong></td>
+              
+        </tr>
+            <tr>
+              <td width="120">Todays Users</td>
+              <td>Total <strong>{get_users count_only=yes date_span='today'}</strong> &#8211; Active <strong>{get_users count_only=yes status='Ok' date_span='today'}</strong> &#8211; Inactive <strong>{get_users count_only=yes status='ToActivate' date_span='today'}</strong></td>
+        </tr>
+            <tr>
+              <td width="120">This Week</td>
+              <td>Total <strong>{get_users count_only=yes date_span='this_week'}</strong> &#8211; Active <strong>{get_users count_only=yes status='Ok' date_span='this_week'}</strong> &#8211; Inactive <strong>{get_users count_only=yes status='ToActivate' date_span='this_week'}</strong></td>
+        </tr>
+            <tr>
+              <td width="120">Last Week</td>
+              <td>Total <strong>{get_users count_only=yes date_span='last_week'}</strong> &#8211; Active <strong>{get_users count_only=yes status='Ok' date_span='last_week'}</strong> &#8211; Processing <strong>{get_users count_only=yes status='ToActivate' date_span='last_week'}</strong></td>
+        </tr>
+            <tr>
+              <td>This Month</td>
+              <td>Total <strong>{get_users count_only=yes date_span='this_month'}</strong> &#8211; Active <strong>{get_users count_only=yes status='Ok' date_span='this_month'}</strong> &#8211; Inactive <strong>{get_users count_only=yes status='ToActivate' date_span='this_month'}</strong></td>
+            </tr>
+            <tr>
+              <td>Last Month</td>
+              <td>Total <strong>{get_users count_only=yes date_span='last_month'}</strong> &#8211; Active <strong>{get_users count_only=yes status='Ok' date_span='last_month'}</strong> &#8211; Inactive <strong>{get_users count_only=yes status='ToActivate' date_span='last_month'}</strong></td>
+            </tr>
+    </table></td>
+    <td width="50%" valign="top"><div id="user_stats"></div>
+<script type="text/javascript">
+var daily_activity = "{$baseurl}/admin_area/charts/users_activity.php";
+swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "user_stats", "98%", "200", "9.0.0", "expressInstall.swf",{literal} {"data-file":daily_activity}{/literal} );
+</script></td>
+  </tr>
+</table>
+
+
+
+
+
+
+<div style="height:25px"></div>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="50%" valign="top"><table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
+            <tr>
+              <td colspan="3"><h2>Group Reports</h2></td>
+            </tr>
+            <tr>
+              <td width="120">All Time</td>
+              <td>Total <strong>{get_groups count_only=yes}</strong> &#8211; 
+              Active <strong> {get_groups count_only=yes active='yes'}</strong> &#8211; 
+              Inactive <strong> {get_groups count_only=yes active='no'}</strong>
+              </td>
+              
+        </tr>
+            <tr>
+              <td width="120">Today</td>
+              <td>Total <strong>{get_groups count_only=yes date_span=today}</strong> &#8211; 
+              Active <strong> {get_groups count_only=yes active='yes' date_span=today}</strong> &#8211; 
+              Inactive <strong> {get_groups count_only=yes active='no' date_span=today}</strong></td>
+        </tr>
+            <tr>
+              <td width="120">This Week</td>
+              <td>Total <strong>{get_groups count_only=yes date_span=this_week}</strong> &#8211; 
+              Active <strong> {get_groups count_only=yes active='yes' date_span=this_week}</strong> &#8211; 
+              Inactive <strong> {get_groups count_only=yes active='no' date_span=this_week}</strong></td>
+        </tr>
+            <tr>
+              <td width="120">Last Week</td>
+              <td>Total <strong>{get_groups count_only=yes date_span=last_week}</strong> &#8211; 
+              Active <strong> {get_groups count_only=yes active='yes' date_span=last_week}</strong> &#8211; 
+              Inactive <strong> {get_groups count_only=yes active='no' date_span=last_week}</strong></td>
+        </tr>
+            <tr>
+              <td>This Month</td>
+              <td>Total <strong>{get_groups count_only=yes date_span=this_month}</strong> &#8211; 
+              Active <strong> {get_groups count_only=yes active='yes' date_span=this_month}</strong> &#8211; 
+              Inactive <strong> {get_groups count_only=yes active='no' date_span=this_month}</strong></td>
+            </tr>
+            <tr>
+              <td>Last Month</td>
+              <td>Total <strong>{get_groups count_only=yes date_span=last_month}</strong> &#8211; 
+              Active <strong> {get_groups count_only=yes active='yes' date_span=last_month}</strong> &#8211; 
+              Inactive <strong> {get_groups count_only=yes active='no' date_span=last_month}</strong></td>
+            </tr>
+    </table></td>
+    <td width="50%" valign="top"><div id="group_stats"></div>
+<script type="text/javascript">
+var daily_activity = "{$baseurl}/admin_area/charts/groups_activity.php";
+swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "group_stats", "98%", "200", "9.0.0", "expressInstall.swf",{literal} {"data-file":daily_activity}{/literal} );
+</script></td>
+  </tr>
+</table>
+
+
+<div style="height:25px"></div>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="block">
+  <tr>
+    <td width="25%"><h2>Comments</h2></td>
+    <td width="25%"><h2>Flags</h2></td>
+    <td width="25%"><h2>Playlists</h2></td>
+    <td width="25%"><h2>Favorites</h2></td>
+  </tr>
+  <tr>
+    <td valign="top"><ul>
+      <li><strong>{$myquery->get_comments('wildcard',v,TRUE)} </strong>video comments</li>
+      <li><strong>{$myquery->get_comments('wildcard',t,TRUE)} </strong>Group Discussions</li>
+      <li><strong>{$myquery->get_comments('wildcard',c,TRUE)} </strong>Profile Comments</li>
+    </ul></td>
+    <td valign="top"><ul>
+      <li><strong>{$cbvid->action->count_flagged_objects()}</strong> videos are reported</li>
+      <li><strong>{$userquery->action->count_flagged_objects()}</strong> groups are reported</li>
+      <li><strong>{$cbgroup->action->count_flagged_objects()}</strong> profiles are reported</li>
+    </ul>
+    <p>&nbsp;</p></td>
+    <td valign="top"><ul>
+      <li><strong>{$cbvid->action->count_total_playlist()}</strong> Video Playlists are created</li>
+      <li><strong>{$cbvid->action->count_total_playlist(true)}</strong> Video Items are in playlist</li>
+    </ul></td>
+    <td valign="top"><ul>
+      <li><strong>{$cbvid->action->total_favorites()}</strong> favorite videos</li>
+    </ul></td>
+  </tr>
+</table>
+
+
+
+
+<div style="height:25px"></div>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="block">
+  <tr>
+    <td width="25%"><h2>Files and Sizes</h2></td>
+  </tr>
+  <tr>
+    <td valign="top"><ul>
+      <li>Video Files : <strong>{$vid_dir.count|number_format}</strong> &#8211; Folder Size : <strong>{$vid_dir.size|formatfilesize}</strong></li>
+      <li>Thumb Files : <strong>{$thumb_dir.count|number_format}</strong> &#8211; Folder Size : <strong>{$thumb_dir.size|formatfilesize}</strong></li>
+      <li>Original Video Files : <strong>{$orig_dir.count|number_format}</strong> &#8211; Folder Size : <strong>{$orig_dir.size|formatfilesize}</strong></li>
+      <li>User Thumb Files : <strong>{$user_thumbs.count|number_format}</strong> &#8211; Folder Size : <strong>{$user_thumbs.size|formatfilesize}</strong></li>
+      <li>User Background Files <strong>{$user_bg.count|number_format}</strong> &#8211; Folder Size : <strong>{$user_bg.size|formatfilesize}</strong></li>
+      <li>Groups Thumb Files : <strong>{$grp_thumbs.count|number_format}</strong> &#8211; Folder Size : <strong>{$grp_thumbs.size|formatfilesize}</strong></li>
+      <li>Category Thumb Files <strong>{$cat_thumbs.count|number_format}</strong> &#8211; Folder Size : <strong>{$cat_thumbs.size|formatfilesize}</strong></li>
+      <li>Database Size : <strong>{$db_size}</strong></li>
+    </ul></td>
+  </tr>
+</table>

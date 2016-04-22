@@ -1,0 +1,31 @@
+<h5><small><i class="icon-rss"></i></small> <b> {lang code="Recent Activities"}</b></h5>
+<hr class="margin-top-bottom-5 hr-channal  margin-bottom-10">
+<div id="content_1" class="content">
+  <div class="feeds1" id="selectedDiv">
+      <div id="userFeeds" >
+          {if isSectionEnabled('feeds')}
+          {assign var=userFeeds value=$cbfeeds->getUserFeeds($u)}
+          {if $userFeeds}
+          {foreach from=$userFeeds item=userFeed}
+          {include file="$style_dir/blocks/feed.html" feed=$userFeed}
+          {/foreach}
+          {else}
+          <div align="center" class="no_comments">
+              {lang code='no_activity' assign=no_activity} {$no_activity|sprintf:$u.username}
+          </div>
+          {/if}
+          {/if}
+      </div>
+  </div>
+</div>
+<h5><b>{lang code="Popular Channels"}</b></h5>
+
+{$popular = get_users(['order'=>'profile_hits DESC limit 6'])}
+<hr class="margin-top-bottom-5 hr-channal margin-bottom-10">
+<div id="popular" class="content1">
+  {section name=u_list loop=$popular}
+  {include file="$style_dir/blocks/channels.html" user=$popular[u_list]}
+  {sectionelse}
+  {lang code='no_results_found'}
+  {/section}
+</div>

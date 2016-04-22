@@ -1,0 +1,81 @@
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
+
+    <div class="container">
+    {include file="$style_dir/blocks/manage/account_menu.html"}
+    <div class="cb-box marginBottom row">
+
+            <div class="col-md-2">
+                {include file="$style_dir/blocks/group/group_left.html"}
+            </div>
+            <div class="col-md-7 nopadding ">
+                <div class="well well-sm margin-bottom-10"><a class="theme_color" href="#">{$group.group_name|htmlspecialchars_decode}</a></div>
+                <div class="btn-group">
+                    <a class="btn btn-primary"  href="{group_link details=$group}">
+                    {lang code="info"}
+                    </a>
+                    <a class="btn btn-primary"  href="{group_link details=$group type=view_topics}" >
+                    {lang code="grp_topics_title"}
+                    </a>
+                    <a class="btn btn-primary"  href="{group_link details=$group type='view_members'}" >
+                    {lang code="members"}
+                    </a>
+                    <a class="btn btn-primary"  href="{group_link details=$group type='view_videos'}" >
+                    {lang code="videos"}
+                    </a>
+                    <a class="btn btn-primary"  href="{group_link details=$group}{if config('seo')=='yes'}?{else}&{/if}mode=view_report_form">
+                    {lang code='report'}
+                    </a>
+                </div>
+                </div>
+
+
+
+        {if $usr_vids}
+
+        <form name="add_group_videos" id="add_group_videos" method="post" action="" style=" margin-top: 92px;">
+            <hr>
+        {foreach from=$usr_vids item=video}
+            {if $cbgroup->is_group_video($video.videoid,$group.group_id)}
+            {assign var='check_this' value='yes'}
+            {else}
+            {assign var='check_this' value=''}
+            {/if}
+            {include file="$style_dir/blocks/video.html" video=$video display_type='add_type'}
+        {/foreach}
+            <div class="col-md-1" style="   position: absolute; bottom: 224px;    right: 182px;">
+            <input type="submit" name="add_videos" id="add_videos" value="{lang code='grp_add_vdos'}" class="btn btn-primary btn-sm">
+            </div>
+        {else}
+            <div class="col-md-7">
+            <div align="center" style="font-weight:bold;font-style:italic">{lang code='you_dont_have_any_videos'}</div>
+            </div>
+        {/if}
+        </form>
+        <div class="clearfix"></div>
+        <div class="Gpagination" style="margin-left: 620px">
+        {include file="$style_dir/blocks/pagination.html"}
+            </div>
+        </div>
+
+
+
+
+
+
+
+            {include file="$style_dir/blocks/group/group_topics.html" group=$group}
+
+
+            {if $mode == "view_report_form"}
+            <div class="groupSep"><span class="SepText">{lang code="Report"} {lang code="group"}</span></div>
+            {show_flag_form id=$group.group_id type=Group display="block"}
+            {/if}
+
+        </div>
+
+
+
+
+
+<div style="height:20px"> </div>

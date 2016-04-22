@@ -1,0 +1,56 @@
+<link rel="stylesheet" href="{$cb_vjs_player_url}/css/video-js.css" />
+<link href="{$cb_vjs_player_url}/css/cb_vjs_res.css" rel="stylesheet" type="text/css" />
+<link href='//fonts.googleapis.com/css?family=PT+Sans:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
+
+<script src="{$cb_vjs_player_url}/js/video.dev.js"></script>
+<script src="{$cb_vjs_player_url}/js/cb_vjs_res.js"></script>
+
+<video id="cb_video_js" class="video-js vjs-default-skin" width="{$width}" height="{$height}" poster="{getThumb vdetails=$vdata size=500x283}" >
+    {foreach $video_files as $file}
+    {$quality = explode('-', $file)}
+    {$quality = end($quality)}
+    {$quality = explode('.',$quality)}
+    {$quality = $quality.0}
+    <source src='{$file}' type="video/mp4" data-res="{$quality}" />
+    {/foreach}
+    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+</video>
+
+<script type="text/javascript">
+var vid_id = "{$vdata.videoid}";
+var videotitle = "{$vdata.title}";
+var uploader = "{$vdata.username}";
+var branding_logo  = "{$cb_logo}";
+var product_link = "{$player_config.player_logo_url}";
+var show_logo = true;
+	// check if plugin is installed and call function
+	if (!(typeof(extract_yt_url_ajax)=='undefined'))
+	{
+		var the_data = extract_yt_id('{$vdata.embed_code}',vid_id);
+	}
+
+	var cb_player_setup = {
+		plugins : { resolutionSelector : {
+			// Pass any options here
+			default_res : 'HD'
+			// Define an on.ready function
+		} }, 
+		"techOrder" : ['html5', 'flash'],
+		"controls": true,
+		"autoplay": false,
+		"preload": "auto",
+		"vid_id" : vid_id,
+		"videotitle" : videotitle,
+		"uploader" : uploader,
+		"branding_logo" : branding_logo,
+		"show_logo" : show_logo,
+		"product_link" : product_link,
+		"data" : the_data
+	};
+	//Initializing
+	var player = videojs('cb_video_js', cb_player_setup , function(){
+		var cb_video_js = this;
+	});
+
+</script>
+<script src="{$cb_vjs_player_url}/js/cb_vjs_custom.js"></script>

@@ -1,0 +1,42 @@
+<div id="container">
+	<div class="container marginBottom">
+		<div class="cb-box clearfix row">
+    		<div class="well well-sm">
+    		<h2>{lang code="contact_us"}</h2>
+                <div class="panel-heading">
+                    <h4 id="contactLabel" class="panel-title"><span class="glyphicon glyphicon-info-sign"></span> {lang code="contact_us_msg"}</h4>
+                </div>
+                <form id="form1" name="form1" method="post" action="" class="contact_form">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">{lang code="name"}</label>
+                                <input type="text" required="required" placeholder="Enter name" id="name" name="name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">{lang code="email"|capitalize}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span>
+                                    </span>
+                                    <input type="email" required="required" placeholder="Enter email" id="email" name="email" class="form-control"></div>
+                            </div>
+                            <div class="form-group">
+                                 <label for="reason">{lang code="pelase_enter_reason"}</label>
+    			  				  <input type="text" required="required" placeholder="Enter name" id="reason" name="reason" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                               <label for="message">{lang code="message"}</label>
+                                <textarea placeholder="Message" required="required" cols="25" rows="9" class="form-control" id="message" name="message"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button id="button" class="btn btn-primary pull-right" name="contact" type="submit">Send Message</button>   
+                        </div>
+                    </div>
+                </form>
+            </div>			
+		</div>
+	</div>
+</div>			

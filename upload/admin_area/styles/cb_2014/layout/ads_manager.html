@@ -1,0 +1,151 @@
+{if $ad_data.ad_name !=''}
+<div class="heading">
+  <h2>Edit Advertisement here</h2>
+</div>
+<p class="alert alert-info">all fields are required</p>
+<form id="form1" name="form1" method="post" action="">
+  <input type="hidden" name="ad_id" value="{$ad_data.ad_id}" />
+    <div class="row">
+  <div class="col-md-6">
+    <label for="name">Advertisement name</label>
+    <input class="form-control" name="name" type="text" id="name" value="{$ad_data.ad_name}" />
+    e.g Home Banner
+  </div>
+
+  <div class="col-md-6">
+    <label for="placement">Advertisement placement</label>
+    <select class="form-control" name="placement" id="placement">
+      {assign var='ads_placements' value=$adsObj->get_placements()}
+      {section name=a_list loop=$ads_placements}
+      {if $ads_placements[a_list].placement_name!=''}
+        <option value="{$ads_placements[a_list].placement}" {if $ad_data.ad_placement==$ads_placements[a_list].placement} selected="selected"{/if} >{$ads_placements[a_list].placement_name}</option>
+      {/if}
+      {/section}
+    </select>
+    <a href="ads_add_placements.php">Add More Placements</a>
+  </div>
+    </div>
+    <div class="row">
+  <div class="col-md-6">
+    <label for="code">Advertisement code</label>
+    <textarea class="form-control" name="code" id="code">{$ad_data.ad_code}</textarea>
+  </div>
+
+  <div class="col-md-6">
+      <label for="status">Status</label>
+      <select class="form-control" name="status">
+          <option class="form-control"  value="1"  {if $ad_data.ad_status=='1'}checked="checked" {/if}>Active</option>
+          <option class="form-control"  value="0"{if $ad_data.ad_status=='0'}checked="checked"{/if}>Inactive</option>
+      </select>
+  </div>
+        <br><br><br><br>
+    <input type="submit" name="update" class="btn btn-primary pull-right" value="Update Advertisement" onclick="return _cb.validate_ad_form(add_adv)"/>
+    </div>
+</form>
+
+{else}
+{if $edit_ad != "show"}
+<div class="heading">
+  <h2>Add Advertisement</h2>
+</div>
+<form id="form1" name="form1" method="post" action="ads_manager.php">
+    <p class="alert alert-info">all fields are required</p>
+    <div class="row">
+  <div class="col-md-6">
+    <label for="name">Advertisement Name</label>
+    <input class="form-control" name="name" type="text" id="name" />
+    e.g Home Banner
+  </div>
+  <div class="col-md-6">
+    <label for="placement">Advertisement Placement</label>
+    <select class="form-control" name="placement" id="placement">
+      {assign var='ads_placements' value=$adsObj->get_placements()}
+      {section name=a_list loop=$ads_placements}
+      {if $ads_placements[a_list].placement_name!=''}
+        <option value="{$ads_placements[a_list].placement}" {$select} >{$ads_placements[a_list].placement_name}</option>
+      {/if}
+      {/section}
+    </select>
+    <a href="ads_add_placements.php">Add More Placements</a>
+  </div>
+        </div>
+    <div class="row">
+  <div class="col-md-6">
+    <label for="code">Advertisement code</label>
+    <textarea class="form-control" name="code" id="code"></textarea>
+  </div>
+
+  <div class="col-md-6">
+    <label for="status">Status</label>
+      <select class="form-control" name="status">
+          <option class="form-control" value="1">Active</option>
+          <option class="form-control" value="0">Inactive</option>
+      </select>
+      <br><br>
+      <input type="submit" name="add" class="btn btn-primary pull-right" value="Add Advertisement" onclick="return _cb.validate_ad_form(add_adv)"/>
+  </div>
+        </div>
+</form>
+ {/if}
+<div class="heading">
+  <h2>Advertisement Manager</h2>
+</div>
+<table class="table table-bordered table-striped">
+  <tr>
+      <td>AID</td>
+      <td>Advertisment name</td>
+      <td>Advertisment</td>
+      <td>Impressions</td>
+      <td>Date Added </td>
+      <td>Placement</td>
+      <td>Actions</td>
+  </tr>  
+     
+  {assign var='ads' value=$adsObj->get_advertisements()}
+  {if $ads}
+  {foreach item=ad from=$ads}
+  <tr>
+    <td>{$ad.ad_id}</td>
+    <td>{$ad.ad_name}</td>
+    <td>
+      {$ad.ad_codes}<a href="ads_manager.php?ad_id={$ad.ad_id}">View Advertisment</a>
+    </td>
+    <td>{$ad.ad_impressions|number_format}</td>
+    <td>{$ad.date_added|date_format}</td>       
+    <td>{$adsObj->get_placement_name($ad.ad_placement)}</td>
+    <td>
+      <div class="dropdown">
+        <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions <i class="caret"></i></button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+          <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="ads_manager.php?ad_id={$ad.ad_id}">Edit</a>
+          </li>
+          <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="ads_manager.php?delete={$ad.ad_id}">Delete</a>
+          </li>
+          <li role="presentation">
+            {if $ad.ad_status!=1}
+            {$ad.ad_status}
+            <a role="menuitem" tabindex="-1" href="?activate={$ad.ad_id}">Activate</a>
+            {else}
+            <a role="menuitem" tabindex="-1" href="?deactivate={$ad.ad_id}">Deactivate</a>
+            {/if}
+          </li>
+        </ul>
+      </div>
+    </td>        
+  </tr>
+  {/foreach}
+  {/if}
+</table>
+{/if}
+
+
+
+<script src="{$baseurl}/admin_area/styles/cb_2014/theme/bootstrap/js/summernote.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#code').summernote();
+    });
+</script>

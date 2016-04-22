@@ -1,0 +1,182 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        {if in_dev()}
+            {$cache_buster=microtime(true)}
+        {else}
+            {$cache_buster=$Cbucket->version}
+        {/if}
+
+        <script src="//code.jquery.com/jquery-latest.min.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            var loading = '<i class="fa fa-spinner fa-spin"></i> {lang code="loading"}...';
+            var baseurl = "{$baseurl}";
+            var imageurl = "{$imageurl}";
+        </script>
+      
+          <!-- custom scrollbars plugin -->
+        <script src="{$baseurl}/js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script>
+            (function($){
+                $(window).load(function(){
+                    $("#content_1").mCustomScrollbar({
+                        scrollButtons:{
+                            enable:true
+                        }
+                    });
+                });
+            })(jQuery);
+        </script>
+
+        <!-- ClipBucket v{$Cbucket->version} -->
+        {if $smarty.const.THIS_PAGE == 'index'}
+        <meta name="copyright" content="ClipBucket - Integrated Units 2007 - {$smarty.now|date_format:"%Y"}" />
+        <meta name="author" content="Arslan Hassan - http://clip-bucket.com/arslan-hassan" />
+        <meta name="author" content="Fawaz Tahir - http://clip-bucket.com/fawaz-tahir" />
+        <link rel="shortcut icon" href="{$baseurl}/favicon.ico">
+        <link rel="icon" type="image/ico" href="{$baseurl}/favicon.ico" />
+        {/if}
+
+        {if $smarty.const.THIS_PAGE == 'watch_video'}
+        <meta name="keywords" content="{$vdo.tags}" />
+        <meta name="description" content="{$vdo.description}" />
+        <meta name="distribution" content="global" />
+        {else}
+        <meta name="keywords" content="{$Cbucket->configs.keywords}" />
+        <meta name="description" content="{$Cbucket->configs.description}" />
+        <meta name="distribution" content="global" />
+        {/if}
+        <!-- RSS FEEDS -->
+        {rss_feeds link_tag=true}
+
+        <meta name="keywords" content="{$Cbucket->configs.keywords}" />
+        <meta name="description" content="{$Cbucket->configs.description}" />
+        <meta name="distribution" content="global" />
+
+
+        <title>{cbtitle}</title>
+
+
+        <link href='//fonts.googleapis.com/css?family=Rambla:400,700|Roboto:400,700|Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+
+
+        <link rel="stylesheet" href="{$theme}/css/bootstrap.min.css?cache={$cache_buster}" />
+        {if this_page('index')}
+        <link rel="stylesheet" href="{$theme}/css/home.css?cache={$cache_buster}" />
+        {/if}
+        
+     
+        <link rel="stylesheet" href="{$theme}/css/main.css?cache={$cache_buster}" />
+        <link rel="stylesheet" href="{$theme}/css/ClipBucket.css?cache={$cache_buster}" />
+        <link rel="stylesheet" href="{$theme}/css/channel.css?cache={$cache_buster}" />
+        <link rel="stylesheet" href="{$theme}/css/groups.css?cache={$cache_buster}" />
+        <link rel="stylesheet" href="{$theme}/css/header.css?cache={$cache_buster}">
+
+        
+
+        <link href="{$theme}/css/jquery.mCustomScrollbar.css" rel="stylesheet" />
+        <link rel="stylesheet" href="{$theme}/css/font-awesome.min.css">
+
+        {if this_page('watch_video') || this_page('view_item') || this_page('view_channel') || this_page('view_topic')}
+        <link rel="stylesheet" href="{$theme}/css/watch-video.css">
+        <link rel="stylesheet" href="{$theme}/css/comments.css" />
+        {/if}
+
+    	{if this_page('view_channel')}
+        <link rel="stylesheet" href="{$theme}/css/view-channel-header.css">
+    	{/if}
+
+
+    	
+        {if this_page('photo_upload') || this_page('upload')}
+        <link rel="stylesheet" href="{$theme}/css/uploader.css">
+        {/if}
+        {if this_page('view_channel')}
+         <link rel="stylesheet" href="{$theme}/css/view_channel.css">
+        {/if}
+
+        {if this_page('signup')}
+        <link rel="stylesheet" href="{$baseurl}/styles/global/jquery_ui.css">
+        {/if}
+       
+		{if this_page('index')}
+			<script src="{$theme}/js/custom-elements.js"></script>
+		{/if}
+        {ANCHOR place='ajax_data'}
+        <script type="text/javascript" src="{$baseurl}/js/functions.js"></script>
+        <script type="text/javascript" src="{$baseurl}/js/admin_functions.js"></script>
+        
+        <script src="{$theme}/js/bootstrap.min.js"></script>
+        <script src="{$theme}/js/masonary.desandro.min.js"></script>
+        <script src="{$baseurl}/js/clipbucket.js"></script>
+        <script src="{$theme}/js/masonary.desandro.min.js"></script>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <script src="{$theme}/js/dropdowns-enhancement.js"></script>
+
+
+
+		<!-- Script For Home Page Videos Slider //-->
+		<script src="{$theme}/js/jssor.slider.min.js"></script>
+
+        <script src="{$theme}/js/uslider_js/jquery.easing.js"></script>
+        <script src="{$theme}/js/uslider_js/jquery.mousewheel.js"></script>
+        <script src="{$theme}/js/uslider_js/jquery.ulslide.js?v=4"></script>
+		<!-- Script For Home Page Videos Slider //-->
+
+        {assign var=quicklist value=$cbvid->get_quicklist()|@json_encode}
+        
+        <script>
+            $(document).ready(function(){
+                var quicklist_videos = '{$quicklist}';
+                if (quicklist_videos)
+                quicklist_videos_check(quicklist_videos);
+
+                loading = '<i class="fa fa-spinner fa-spin"></i> {lang code="loading"}...';
+               /* var container = document.querySelector('.the_');
+                var msnry = new Masonry( container, {
+                    // options
+
+                    itemSelector: '.the-item',
+                    stamp : '.ad-box'
+
+                });
+    */
+    //            less.watch({
+    //            poll : 300
+    //            });
+
+            // For changing language on Click in footer
+            $( 'ul#photos li:visible' ).each( function( i ){
+                $( this )[ (1&i) ? 'addClass' : 'removeClass' ]( 'photo-land-no' );
+            });
+
+            // Language change select code
+            $('#lang_selector').change(function(){
+            var optionSelectedValue = $('#lang_selector option:selected').val();
+            if(optionSelectedValue)
+                {
+                    var $currentLocation = window.location.href,
+                            matchedElement = $currentLocation.match(/\?/);
+                            
+                    if(matchedElement == null)
+                    {
+                        window.location = "?set_site_lang="+optionSelectedValue;    
+                    } else {
+                        window.location = window.location+"&set_site_lang="+optionSelectedValue;    
+                    }
+                }
+            });
+            
+            });
+
+        </script>
+
+
+        {include_header file='global_header'}
+
+        <!-- Anchor for YouClip Plugin -->
+        {ANCHOR place="ajax_call"}
+    </head>

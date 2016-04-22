@@ -1,0 +1,512 @@
+{$myAccountLinks = $userquery->my_account_links()}
+<div class="container marginBottom">
+  {include file="$style_dir/blocks/manage/account_menu.html"}
+
+  {if $mode=='profile_settings' || $mode=='account_settings'}
+    <div class="cb-box row">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
+        {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+      </div>
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+          <div class="tabbable">
+
+              <ul class="nav nav-tabs" id="myTab">
+                  <li class="{if $mode=='profile_settings'}active{/if}">
+                      <a  href="{$baseurl}/edit_account.php?mode=profile">
+                          <h5>{lang code='channel_profile_settings'}</h5>
+                      </a>
+                  </li>
+                  <li class="{if $mode=='account_settings'}active{/if}">
+                      <a  href="{$baseurl}/edit_account.php?mode=account">
+                          <h5>{lang code='account_settings'}</h5>
+                      </a>
+                  </li>
+              </ul>
+              <div class="tab-content">
+                  <div id="cpsetting" class="tab-pane {if $mode=='profile_settings'}active{/if}">
+                      <form method="post" class="accountForm">
+                          <div class="channelSettings col-md-10">
+                              {$channel_profile_fields = $userquery->load_user_fields($p)}
+                              {foreach from=$channel_profile_fields item=field_group}
+                              <legend>{$field_group.group_name}</legend>
+                              {foreach from=$field_group.fields item=field}
+                              <div class="form-group">
+                                  {if $field.type == 'radiobutton'}
+                                  <label for="{$field.id}" class="show">{$field.title}</label>
+                                  {if $field.hint_1}{$field.hint_1}{/if}
+                                  {$field.label_class = 'radio-inline'}
+                                  {$field.class = ''}
+                                  {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+                                  {$field.hint_2}
+                                  {else}
+                                  <label for="{$field.id}">{$field.title}</label>
+                                  {if $field.hint_1}{$field.hint_1}{/if}
+                                  {$field.class = 'form-control'}
+                                  {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+
+                                  {$field.hint_2}
+                                  {/if}
+                              </div>
+                              {/foreach}
+                              {/foreach}
+                              <div class="form-group">
+                                  <button name="update_profile" id="button" value="submit" class="btn btn-primary">
+                                      {lang code='update'}
+                                  </button>
+                              </div>
+                          </div>
+                          </form>
+                  </div>
+                  <div id="asettings" class="tab-pane {if $mode=='account_settings'}active{/if}">
+                      <form method="post" class="accountForm">
+                      <div  class="accountSettings col-md-6">
+                          <!--- CHANGING USER ACCOUNT AND PROFILE -->
+                          {$signup_fields = $userquery->load_signup_fields($user)}
+                          {$cust_signup_fields = $userquery->load_custom_signup_fields($user,false,true)}
+                          <legend>{lang code='account_details'}</legend>
+                          <div class="form-group">
+                              <label for="country">{lang code='country'}</label>
+                              <select class="form-control" name="country" id="country">
+                                  {assign var='countries' value=$Cbucket->get_countries(iso2)}
+                                  {foreach from=$countries item=country key=code}
+                                  <option value="{$code}" {if $user.country==$code} selected="selected"{/if}>{$country}</option>
+                                  {/foreach}
+                              </select>
+                          </div>
+                          <div class="form-group">
+                              <label for="country" class="show">{lang code='gender'}</label>
+                              <label class="radio-inline">
+                                  <input type="radio" name="sex" value="male" id="sex_0" {if $user.sex == male} checked="checked"{/if} />
+                                  {lang code='male'}
+                              </label>
+                              <label class="radio-inline">
+                                  <input type="radio" name="sex" value="female" id="sex_1" {if $user.sex == female} checked="checked"{/if}/>
+                                  {lang code='female'}
+                              </label>
+                          </div>
+                          <div class="form-group">
+                              <label for="category">{lang code='account_details'}</label>
+                              {ANCHOR place=$signup_fields.cat.anchor_before}
+                              {$signup_fields.cat.class='form-control'}
+                              {$formObj->createField($signup_fields.cat)}
+                              {ANCHOR place=$signup_fields.cat.anchor_after}
+
+
+                                                  </div>
+                          <div class="form-group">
+                              <label for="dob">{lang code='user_date_of_birth'}</label>
+                              {ANCHOR place=$signup_fields.dob.anchor_before}
+                              {$signup_fields.dob.class='form-control'}
+                              {$formObj->createField($signup_fields.dob)}
+                              {ANCHOR place=$signup_fields.dob.anchor_after}
+                          </div>
+                          {if $cust_signup_fields}
+                          {foreach from=$cust_signup_fields item=field}
+                          <div class="form-group">
+                              <label for="{$field.id}">{$field.title}</label>
+                              {if $field.hint_1}
+                              {$field.hint_1}
+                              {/if}
+                              {ANCHOR place=$field.anchor_before}
+                              {$formObj->createField($field)}
+                              {ANCHOR place=$field.anchor_after}
+                              {$field.hint_2}
+                          </div>
+                          {/foreach}
+                          {/if}
+
+                          <div class="form-group">
+                                  <button name="update_profile" id="button" value="submit" class="btn btn-primary">
+                                      {lang code='update'}
+                                  </button>
+                              </div>
+                      </div>
+                          </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+  {/if}
+  {if $mode == "change_cover"}
+    <div class="row cb-box">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
+        {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+      </div>
+      <div class="col-md-9">
+        <div class="coverPhotoContainer">
+          <img src="{$coverPhoto}" alt="coverPhoto" id="coverPhoto" class="img-thumbnail">
+        </div>
+        <div class="avatar_bg">
+        <!-- <form method="post" enctype="multipart/form-data"> -->
+          <input type="file" name="coverPhoto" style="display:none">
+
+          <a href="javascript:none" id="selectCover" class="btn btn-primary">Select Cover</a>
+
+      </div>
+      </div>
+    </div>
+  {/if}
+  {if $mode == 'avatar_bg' || $mode == 'channel_bg'}
+    <div class="row cb-box">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
+        {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+      </div>
+      <div class="col-md-9">
+        <div class="tabbable">
+          <ul class="nav nav-tabs" id="myTab1">
+              <li class="{if $mode == 'avatar_bg'} active {/if}">
+                  <a  href="{$baseurl}/edit_account.php?mode=avatar_bg">
+                      <h5>{lang code='User Avatar'}</h5>
+                  </a>
+              </li>
+              <li class="{if $mode == 'channel_bg'} active {/if}">
+                   <a  href="{$baseurl}/edit_account.php?mode=channel_bg">
+                      <h5>{lang code='Channel Background'}</h5>
+                  </a>
+              </li>
+          </ul>
+          <div class="tab-content">
+            <div id="uavatar" class="tab-pane {if $mode == 'avatar_bg'} active {/if}">
+                <form method="post" enctype="multipart/form-data">
+                    <legend>{lang code='user_user_avatar'}</legend>
+                    <div class="show-image">
+                      <img src="{$userquery->getUserThumb($user)}" class="img-thumbnail" />
+                      
+                    </div>
+                    <div class="form-group">
+                        <label for="avatar_file">
+                            <h4>{lang code='user_user_avatar'}</h4>
+                            {lang code='please_select_img_file'}
+                        </label>
+                        <input type="file" name="avatar_file" id="avatar_file" class="the-buttons btn" />
+                    </div>
+                    <h3>{lang code='or'}</h3>
+                    <div class="form-group">
+                        <label for="avatar_url">{lang code='pelase_enter_image_url'}</label>
+                        <input class="form-control" name="avatar_url" type="text" id="avatar_url" value="{$user.avatar_url}" />
+                    </div>
+                    <div class="form-group">
+                        <label class="radio">
+                            <input name="delete_avatar" type="checkbox" id="delete_avatar" value="yes" />
+                            {lang code='delete_this_img'} - (if user has uploaded profile pic)
+                        </label>
+                        <input type="hidden" name="avatar_file_name" value="{$user.avatar}" />
+                    </div>
+                    <div class="form-group">
+                        <button name="update_avatar_bg" id="button1" value="submit" class="btn btn-primary">
+                            {lang code='update'}
+                        </button>
+                    </div>
+                  </form>
+              </div>
+              <div id="cbackground" class="tab-pane {if $mode == 'channel_bg'} active {/if}">
+                  <form method="post" enctype="multipart/form-data">
+                  <div class="avatar_bg">
+
+                    <legend>{lang code='user_bg'}</legend>
+                     <!-- <div class="show-image">
+                          {if $userquery->getUserBg($user)}
+                          <img src="{$userquery->getUserBg($user)}" class="img-thumbnail"/>
+                          <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn btn-danger position"  />
+                          {else}
+                          <em><strong>No Bg</strong></em>
+                          {/if}
+                      </div>-->
+
+                    <div class="show-image">
+                     {if $userquery->getUserBg($user)}
+                    <img src="{$userquery->getUserBg($user)}" class="img-thumbnail"/>
+                    <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn"  />
+                    {else}
+                    <em><strong>No Bg</strong></em>
+                     <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn"  />
+                    {/if}
+
+                    </div>
+
+                    <br> 
+
+                    <h3>{lang code='or'}</h3>
+                    <div class="form-group">
+                          <label for="background_url">{lang code='pelase_enter_image_url'}</label>
+                          <input class="form-control" name="background_url" type="text" id="background_url" value="{$user.background_url}" />
+                    </div>
+                    <h3>{lang code='or'}</h3>
+                    <div class="form-group">
+                        <label for="background_color">{lang code='please_enter_bg_color'}</label>
+                        <input class="form-control" name="background_color" type="text" id="background_color" value="{$user.background_color}" />
+                        <input type="hidden" name="bg_file_name" value="{$user.background}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="background_repeat">{lang code='bg_repeat_type'}</label>
+                        <select class="form-control" name="background_repeat" id="background_repeat" >
+                            <option value="repeat" {if $user.background_repeat=='repeat'} selected="selected"{/if}>
+                            repeat
+                            </option>
+                            <option value="repeat-x" {if $user.background_repeat=='repeat-x'} selected="selected"{/if}>
+                            repeat-x
+                            </option>
+                            <option value="repeat-y" {if $user.background_repeat=='repeat-y'} selected="selected"{/if}>
+                            repeat-y
+                            </option>
+                            <option value="no-repeat" {if $user.background_repeat=='no-repeat'} selected="selected"{/if}>
+                            no-repeat
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="background_attachement" class="checkbox">
+                            <input type="checkbox" {if $user.background_attachement=='yes'} checked="checked"{/if} value="yes" name="background_attachement" id="background_attachement" />
+                            {lang code='fix_bg'}
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        {if $userquery->getUserBg($user)}
+                        <label for="delete_bg" class="checkbox">
+                            <input name="delete_bg" type="checkbox" id="delete_bg" value="yes" />
+                            {lang code='delete_this_img'}
+                        </label>
+                        {/if}
+                    </div>
+                    <div class="form-group">
+                        <button name="update_avatar_bg" id="button2" value="submit" class="btn btn-primary">
+                            {lang code='update'}
+                        </button>
+                    </div>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    {else if $mode != 'profile_settings' && $mode != 'account_settings'}
+    <div class="cb-box row">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
+          {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+      </div>
+      <div class="col-md-8">
+          <div class="tabbable">
+              <ul class="nav nav-tabs" id="myTab2">
+
+
+                  <li class="{if $mode =='block_users'}active {/if}">
+                      <a href="{$baseurl}/edit_account.php?mode=block_users">
+                          <h5>{lang code='Block Users'}</h5>
+                      </a>
+                  </li>
+                  <li class="{if $mode =='change_password'}active {/if}">
+                       <a href="{$baseurl}/edit_account.php?mode=change_password">
+                          <h5>{lang code='Change Password'}</h5>
+                      </a>
+
+                  </li>
+                  <li class="{if $mode =='change_email'}active {/if}">
+                     <a href="{$baseurl}/edit_account.php?mode=change_email">
+                          <h5>{lang code='Change Email'}</h5>
+                      </a>
+                  </li>
+                  <li class="{if $mode =='subs'}active {/if}">
+                        <a href="{$baseurl}/edit_account.php?mode=subscriptions">
+                          <h5>{lang code='Manage  Subscription'}</h5>
+                      </a>
+                  </li>
+              </ul>
+              <div class="tab-content">
+                  <div id="busers" class="tab-pane {if $mode =='block_users'}active {/if}">
+
+                      <h2>{lang code='block_users'}</h2>
+                      <form method="post" name="ban_users">
+                          <div class="form-group">
+                              <label for="users">{lang code='block_users'}</label>
+                              <textarea class="form-control" name="users" id="users">{$user.banned_users}</textarea>
+                              {lang code='spe_users_by_comma'}
+                          </div>
+                          <div class="form-group">
+                              <button name="block_users" id="button5" value="submit" class="btn btn-primary">
+                                  {lang code='update_blocked_user_list'}
+                              </button>
+                          </div>
+                      </form>
+
+                  </div>
+                  <div id="cpassword" class="tab-pane {if $mode =='change_password'}active {/if}">
+                      <h2>{lang code='user_change_pass'}</h2>
+                      <form method="post" name="edit_profile">
+                          <div class="form-group">
+                              <label for="old_pass">{lang code='user_old_pass'}</label>
+                              <input class="form-control" name="old_pass" type="password" id="old_pass">
+                          </div>
+
+
+                          <div class="form-group">
+                              <label for="new_pass">{lang code='user_new_pass'}</label>
+                              <input class="form-control" name="new_pass" type="password" id="new_pass" />
+                          </div>
+
+                          <div class="form-group">
+                              <label for="c_new_pass">{lang code='user_c_new_pass'}</label>
+                              <input class="form-control" name="c_new_pass" type="password" id="c_new_pass" />
+                          </div>
+                          <div class="form-group">
+                              <button name="change_password" id="button4" value="submit" class="btn btn-primary">
+                                  {lang code='user_change_pass'}
+                              </button>
+                          </div>
+                      </form>
+                  </div>
+                  <div id="cemail" class="tab-pane {if $mode =='change_email'}active {/if}">
+                      <h2>{lang code='user_change_email'}</h2>
+                      <form method="post" name="edit_profile">
+                          <div class="form-group">
+                              <label for="curemail">{lang code='current_email'}</label>
+                              <input class="form-control" type="text" disabled value="{$user.email}" id="curemail">
+                          </div>
+
+
+                          <div class="form-group">
+                              <label for="new_email">{lang code='user_new_email'}</label>
+                              <input type="text" class="form-control" name="new_email" id="new_email">
+                          </div>
+
+                          <div class="form-group">
+                              <label for="cnew_email">{lang code='confirm_new_email'}</label>
+                              <input class="form-control" type="text" name="cnew_email" id="cnew_email">
+                          </div>
+
+                          <div class="form-group">
+                              <button name="change_email" id="button3" value="submit" class="btn btn-primary">
+                                  {lang code='user_change_email'}
+                              </button>
+                          </div>
+                      </form>
+                  </div>
+                  <div id="msubscription" class="tab-pane {if $mode =='subs'}active {/if}">
+                      <h2>{lang code='com_manage_subs'}</h2>
+                      {if $subs}
+                      <table class="table table-striped table-bordered">
+                          <tr>
+                              <td width="15">
+                                  <input type="checkbox" name="checkall"/>
+                              </td>
+                              <td width="50">&nbsp;</td>
+                              <td>Username</td>
+                              <td width="100">views</td>
+                              <td width="50">&nbsp;</td>
+                          </tr>
+                          {foreach from=$subs item=sub}
+                          <tr>
+                              <td>
+                                  <input type="checkbox" name="sub[]" id="check_userd-{$user_detail.userid}" value="{$sub.subscribed_to}" />
+                              </td>
+                              <td>
+                                  <a href="{$userquery->profile_link($sub)}"><img src="{$userquery->getUserThumb($sub)}" alt="{$sub.username}" width="40" height="40" border="0"></a>
+                              </td>
+                              <td>
+                                  <a href="{$userquery->profile_link($sub)}">{$sub.username}</a> | <a href="{$userquery->get_user_videos_link($sub)}">{lang code='grp_view_vdos'}</a></td>
+                              <td width="100">{$sub.profile_hits|number_format}
+                              </td>
+                              <td>
+                                  <a href="?mode=subscriptions&delete_subs={$sub.subscribed_to}">
+                                      <img src="{$imageurl}/cancel.png" width="16" height="16" border="0" />
+                                  </a>
+                              </td>
+                          </tr>
+                          {/foreach}
+                      </table>
+                      {else}
+                      <div><em><strong>{lang code='no_subs_found'}</strong></em></div>
+                      {/if}
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+{/if}
+</div>
+
+
+<script>
+(function(window){
+  $(document).ready(function(){
+    var extensions = "{$extensions}";
+    var baseurl = '{$baseurl}';
+    extensions = (extensions.substring(0, extensions.length - 1)) + ",png,jpeg";
+    $.get("{$theme}/js/plupload/js/plupload.full.min.js", function(e){
+      var uploader = new plupload.Uploader({
+          browse_button: 'selectCover',
+          runtimes : 'html5,flash,silverlight,html4',
+          url : baseurl + "/edit_account.php?mode=avatar_bg",
+          file_data_name : "coverPhoto",
+          filters: {
+            mime_types : [
+              { title : "Image files", extensions : extensions },
+            ],
+            max_file_size: "2mb",
+            prevent_duplicates: true,
+          }
+      });
+      window.uploader = uploader;
+      uploader.init();
+      uploader.bind("FilesAdded", function(up, uploadedFiles){
+        $("#coverPhoto").attr("src", "{$baseurl}/images/loading.png");
+        console.log("{$baseurl}/images/loading.png");
+        up.start();
+      });
+      uploader.bind('UploadComplete', function(plupload, files, response){
+        
+      });
+
+      uploader.bind("FileUploaded", function(plupload, files, response){
+        var response = $.parseJSON(response.response);
+        console.log(response);
+        if(response.status == true){
+          $("#coverPhoto").attr("src", response.url);
+        }else{
+          alert(response.msg);
+        }
+        plupload.refresh();
+      });
+
+      uploader.bind("Error", function(plupload, error){
+        alert(error.message);
+      });
+
+    });
+  });
+})(window);
+</script>
+<script>
+    $(document).ready(function()
+    {ldelim}
+    {if $on=='account'}
+        $('#accountSettings').toggle();
+        $('#accntSettingHead').toggleClass('accntSettingHeadarrowup')
+        {else}
+        $('#accntProfileSettings').toggle();
+        $('#accntProfileSettingHead').toggleClass('accntSettingHeadarrowup')
+        {/if}
+            {rdelim}
+        );
+</script>
+
+
+
+      <!--  <script>
+            jQuery(function() {                                              // <== Doc ready
+
+                jQuery(".the-buttons").hide();                  // Initially hide all buttons
+
+                jQuery('.show-image').hover(function() {
+                    jQuery(this).find('#avatar_file').fadeIn(1500);
+                    jQuery(this).find('#background_file').fadeIn(1500);// use .find() !
+                }, function() {
+                    jQuery(this).find('#avatar_file').fadeOut(1500);
+                    jQuery(this).find('#background_file').fadeOut(1500);// use .find() !
+                });
+            });
+        </script>-->

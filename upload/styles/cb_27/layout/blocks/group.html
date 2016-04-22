@@ -1,0 +1,25 @@
+<div class="clearfix group-tab">
+    
+    <div class="clearfix">
+        <div class="group-thumb">
+            <img src="{$cbgroup->get_group_thumb($group)}" width="50" height="50"/>
+        </div>
+        <div class="group-info">
+        	<div class="clearfix">
+            	<a href="{$baseurl}/view_group.php?url={$group.group_url}" target="_blank"> {$group.group_name}</a>
+            </div>
+            <div class="labels clearfix">
+                {if $group.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
+                <span class="label label-danger"><span>Members:</span>{$group.total_members|number_format}</span>
+                            <span class="label {if $group.active=='yes'}label-success{else}label-warning{/if}"><span></span>{if
+                                $group.active=="yes"} Active{else}Inactive{/if}</span>
+                <span class="label label-info"> {if $group.group_privacy =="0"}Public{elseif $group.group_privacy =="1"}Private{else}Invited{/if}</span>
+            </div>
+            <div class="clearfix">
+                {$user = $userquery->get_user_details($group.userid)}
+			    Owner: <a href="{$userquery->profile_link($user)}">{$group.userid|get_username}</a></strong>
+			</div>
+        </div>
+    </div>
+
+</div>

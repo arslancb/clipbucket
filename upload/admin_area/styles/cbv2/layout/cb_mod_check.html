@@ -1,0 +1,94 @@
+<h2>Server Video Conversion Modules &amp; Tools</h2>
+
+<p>
+A brief test to check weather server modules exist or not and what are there versions and paths
+</p>
+
+
+<div class="cb_title">
+	Modules and paths
+</div>
+
+
+<div class="cb_row font_12 font_ah">
+  
+   {check_module_path path='ffmpeg' get_path='true' assign='ffmpeg_status'}
+   <img src="{$imageurl}/{if $ffmpeg_status.status=='ok'}tick.png{else}alert.png{/if}" 
+   style="position:absolute"/><strong style="font-size:16px; margin-left:21px">FFMPEG</strong>
+    <div style="color:#999">FFmpeg is used to covert videos from different versions to FLV , MP4 and many other formats. <a href="http://clip-bucket.com/ffmpeg">Learn more</a></div>
+    
+    {if $ffmpeg_status.status=='ok'}
+	Version <strong>{$ffmpeg_status.version}</strong> &#8226; Expected Path <strong>{get_binaries path=ffmpeg type=server}</strong>
+    {else}
+    <strong>ffmpeg is not found</strong>
+    	{if $ffmpeg_status.error}
+        	<br /><span style="color:#e70000">{$ffmpeg_status.error}</span>
+        {/if}
+    {/if}
+
+</div>
+
+
+<div class="cb_row font_12 font_ah" style="margin-top:15px">
+  
+   {check_module_path path='php' get_path='true' assign='php_status'}
+   <img src="{$imageurl}/{if $php_status.status=='ok'}tick.png{else}alert.png{/if}" 
+   style="position:absolute"/><strong style="font-size:16px; margin-left:21px">PHP CLI</strong>
+    <div style="color:#999">PHP CLI is used to peform video conversion in a background process. 
+    <a href="http://php.net/manual/en/features.commandline.php">Learn more</a></div>
+    
+    {if $php_status.status=='ok'}
+	Version <strong>{$php_status.version}</strong> &#8226; Expected Path <strong>{get_binaries path=php type=server}</strong>
+    {else}
+    <strong>php is not found</strong>
+    	{if $php_status.error}
+        	<br /><span style="color:#e70000">{$php_status.error}</span>
+        {/if}
+    {/if}
+
+</div>
+
+
+
+<div class="cb_row font_12 font_ah" style="margin-top:15px">
+  
+   {check_module_path path='flvtool2' get_path='true' assign='flvtool2_status'}
+   <img src="{$imageurl}/{if $flvtool2_status.status=='ok'}tick.png{else}alert.png{/if}" 
+   style="position:absolute"/><strong style="font-size:16px; margin-left:21px">FLVTool2</strong>
+    <div style="color:#999">FLVTool2 is a tool to repair FLV files to make them streamable 
+    <a href="http://docs.clip-bucket.com/clipbucket-docs/flvtool2">Learn more</a></div>
+    
+    {if $flvtool2_status.status=='ok'}
+	Version <strong>{$flvtool2_status.version}</strong> &#8226; Expected Path <strong>{get_binaries path=flvtool2 type=server}</strong>
+    {else}
+    <strong>flvtool2 is not found</strong>
+    	{if $flvtool2_status.error}
+        	<br /><span style="color:#e70000">{$flvtool2_status.error}</span>
+        {/if}
+    {/if}
+
+</div>
+
+
+
+<div class="cb_row font_12 font_ah" style="margin-top:15px">
+  
+   {check_module_path path='mp4box' get_path='true' assign='mp4box_status'}
+   <img src="{$imageurl}/{if $mp4box_status.status=='ok'}tick.png{else}alert.png{/if}" 
+   style="position:absolute"/><strong style="font-size:16px; margin-left:21px">MP4Box</strong>
+    <div style="color:#999">MP4Box is a tool used to repair MP4 files to make them streamable
+    <a href="http://docs.clip-bucket.com/clipbucket-docs/mp4box">Learn more</a></div>
+    
+    {if $mp4box_status.status=='ok'}
+		Version 
+        {if $mp4box_status.version}
+        	<strong>{$mp4box_status.version}</strong>
+        {/if} &#8226; Expected Path <strong>{get_binaries path=mp4box type=server}</strong>
+    {else}
+    	<strong>Mp4box is not found</strong>
+        {if $mp4box_status.error}
+        	<br /><span style="color:#e70000">{$mp4box_status.error}</span>
+        {/if}
+    {/if}
+
+</div>

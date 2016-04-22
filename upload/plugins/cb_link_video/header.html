@@ -1,0 +1,57 @@
+<script type="text/javascript">
+{literal}
+function check_file_url(objid)
+{
+	var video_link = $('#remote_play_url').val();
+	var duration = $('#linkUploadForm'+objid+' #duration').val();
+	
+	var reg = /^([0-9\:]+)$/i;
+	
+	if(!video_link)
+	{
+		alert("Please enter valid video link");
+		$('#remote_play_url').focus();
+		return false;
+	}
+	if(!duration || !reg.test(duration))
+	{
+		alert("Please enter valid video duration");
+		$('#linkUploadForm'+objid+' #duration').focus();
+		return false;
+	}
+	
+	$.post(baseurl+"/actions/embed_form_verifier.php", 
+	{ 	
+		'mode' : 'remote_play',
+		'remote_play_url' :  $('#remote_play_url').val(),
+		duration : $("#linkUploadForm"+objid+" #duration").val(),
+		file_name : file_name,
+		thumb_file :  $("#linkUploadForm"+objid+" #thumb_file").val()
+	},				
+	
+	function (data) {
+		if(data.err)
+		{
+			alert(data.err);
+		}else{
+			$("#linkUploadForm"+objid).submit();
+		}
+	}, "json");
+	return false;
+}
+
+
+  
+    $("#embed_video_upload_btn").css("border", "solid 2px red");
+    $("#embed_video_upload_btn").on({
+      click: function(e){
+        e.preventDefault();
+        console.log("ok");
+        var objId = $("#embed_upload_id").val();
+        console.log(objId);
+        //check_file_url(objId);
+      }
+    });
+	
+{/literal}
+</script>

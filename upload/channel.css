@@ -1,0 +1,154 @@
+.channelContianer{
+	margin-top: 20px;
+}
+
+.coverContainer{
+	position: relative;
+	padding-bottom: 65px;
+}
+
+.channelCover img{
+	width: 100%;
+	height: 300px;
+}
+
+.userPhotoContainer{
+	position: absolute;
+	top: 180px;
+	left: 60px;
+	z-index: 1000;
+}
+
+.userPhotoContainer > div{
+	overflow: hidden;
+	padding: 10px 10px 18px;
+}
+
+.userPhotoContainer .userPhoto{
+	float: left;
+	width: 160px;
+	height: 160px;
+	background-color: #fff;
+	border-radius: 90px;
+	border: solid 1px #555;
+	box-shadow: 1px 1px 10px 0px #222;
+	padding: 2px;
+}
+
+.userPhotoContainer .userPhoto img{
+	width: 100%;
+	border-radius: 90px;
+}
+
+.userPhotoContainer .userInfo{
+	float: left;
+	line-height: 180px;
+	font-size: 2em;
+	padding-left: 10px;
+	position: relative;
+}
+
+.userPhotoContainer .userInfo a{
+	color: #444;
+	background-color: #fff;
+	padding: 8px;
+	position: relative;
+	bottom: 10px;
+	left: 0px;
+	border-radius: 4px;
+}
+
+/* featured pic */
+.featuredContainer{
+	/*background-color: #77ff22;*/
+/*	padding: 2px;*/
+	margin-bottom: 20px;
+	position: relative;
+}
+
+.featuredContainer h3{
+	position: absolute;
+	background-color: #fff;
+	bottom: 0px;
+	padding: 10px;
+	opacity: 0.7;
+	letter-spacing: 5px;
+	border-radius: 0 3px 3px 0;
+	font-size: 2em;
+}
+
+.featuredContainer > a{
+	display: block;
+}
+
+.featuredContainer img{
+	width: 100%;
+	text-align: center;
+}
+
+/* channel tabs menu */
+.channelTabs{
+	/*border-top: solid 4px #bbb;*/
+	border-bottom: solid 2px #bbb;
+	margin-bottom: 20px;
+}
+
+.channelTabs ul{
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
+	padding-bottom: 0px;
+	position: relative;
+}
+
+.channelTabs li{
+	float: left;
+	margin-right: 10px;
+	border-bottom: solid 5px transparent;
+}
+
+.channelTabs li.active{
+	border-bottom: solid 5px #2BA9D3;
+}
+
+.channelTabs li > a{
+	display: block;
+	color: #222;
+	font-weight: bold;
+	padding: 10px 10px 5px;
+}
+
+/* channel user menu */
+.channelUserMenu{
+	
+}
+
+.channelUserMenu ul{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.channelUserMenu > ul > li{
+	margin: 0;
+	/*background-color: #ccc;*/
+	border-bottom: solid 1px #aaa;
+}
+
+.channelUserMenu > ul > li:last-child{
+	border-bottom: none;
+}
+
+.channelUserMenu > ul > li a{
+	display: block;
+	padding: 2px;
+	margin-bottom: 5px;
+	font-size: 1.2em;
+	letter-spacing: 1px;
+	word-spacing: 2px;
+	color: #333;
+}
+
+p{
+	text-align: justify;
+}

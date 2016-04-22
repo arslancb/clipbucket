@@ -1,0 +1,468 @@
+	{if $userquery->udetails['soclid'] != ''}
+		{assign var="usr_head_thumb" value="{$userquery->getUserThumb('','',userid())}"}
+		{else}
+		{assign var="usr_head_thumb" value="{$userquery->getUserThumb('','small',userid())}"}
+	{/if}
+	<div id="quick_container">
+		<div id="quicklist_box">
+		</div>
+	</div>
+{$logged_in_user = $userquery->get_user_details(userid())}
+{$searchPage = $smarty.get.query}
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="navbar-container clearfix">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle navig-resp-bg" data-toggle="collapse" data-target="#khulja-sim-sim">
+				<!--<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span> -->
+			</button>
+			<button type="button" class="navbar-toggle nav-toggle search-resp-bg" data-toggle="collapse" data-target="#navbar-search-collapse">
+				<!--  <span class="glyphicon glyphicon-search"></span> -->
+			</button>
+			<a class="navbar-brand cb-logo" href="{$baseurl}">{$website_title}</a>
+		</div>
+		{ANCHOR place='mature_content'} 
+
+		{$head_menu=cb_menu()}
+
+		<div class="responsive-search collapse" id="navbar-search-collapse">
+			<!--<form class="" role="search" action="{$baseurl}">-->
+			<form class="navbar-form navbar-left no-border" role="search" action="{link name='search_result'}">
+				<div class="input-group cbsearchtype">
+					<input type="text" class="form-control" name="query" placeholder="search keyword here" value="{'query'|get_form_val:true}" id="query">
+					<div class="input-group-btn">
+						<input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
+						<button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
+							<span class="search-type">{if $smarty.get.type}{$smarty.get.type}{else}Videos{/if}</span>
+							<span class="caret"></span>
+							<span class="sr-only">Toggle Dropdown</span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							{$counter = 1}
+							{foreach from=$Cbucket->search_types item=t key=stypes}
+							{if $counter == 3}
+							<li value="{$stypes}" {if $smarty.get.type==$stypes || $smarty.get.type==''}  class="active"  {/if}>
+								<a  class="s-types" href="#">{$stypes|ucfirst}</a>
+							</li>
+							{else}
+							<li value="{$stypes}" {if $smarty.get.type==$stypes}  class="active" {/if}>
+								<a  class="s-types" href="#">{$stypes|ucfirst}</a>
+							</li>
+							{/if}
+							{$counter = $counter + 1}
+							{/foreach}
+						</ul>
+						<input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default minus-marginLeft" />
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<ul class="nav navbar-nav main-nav navbar-collapse collapse manual-height left-margin-xero pad-left-xero" id="khulja-sim-sim">
+			<li class="dropdown hidden-xs mega-dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i>&nbsp;Menu <span class="caret"></span></a>
+				<ul class="dropdown-menu clearfix mega-dropdown-menu noclose">
+					<li class="col col-lg-3 col-md-3 col-sm-4 col-xs-12">
+						<div id="menCollection" class="carousel slide clearfix" data-ride="carousel">
+							<div class="carousel-inner">
+							{$videos=get_videos(["order" =>"date_added DESC", "limit" =>4, "featured"=>"yes"])}
+							{if $videos}
+				        	{foreach $videos as $video}
+				        	{if $video@iteration == 1}
+				        	<div class="item active">
+				        	{else}
+				        	<div class="item">
+				        	{/if}				  
+								{include file="$style_dir/blocks/videos/video_head.html"}
+							</div>
+				        	{/foreach}
+							                              
+							</div><!-- End Carousel Inner -->
+						  	<!-- Controls -->
+							<a class="left carousel-control" href="#menCollection" role="button" data-slide="prev">
+								<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a>
+							<a class="right carousel-control" href="#menCollection" role="button" data-slide="next">
+								<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</a>
+						</div><!-- /.carousel -->
+						{else}
+						<span class="well well-info btn-block">
+						No Featured Video Added !
+						</span>
+						{/if} 
+					</li>
+					<li class="col col-lg-9 col-md-9 col-sm-8 clearfix col-xs-12">
+						<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+							<h2><i class="fa fa-video-camera"></i>&nbsp;Videos</h2>
+							{$sorting_links=sorting_links()}     
+                            {foreach from=$sorting_links item=name key=sort}
+                            <ul>
+                                <li class="head_sort_link">
+                                	<a class="" href="{link name=sort sort=$sort type=videos}">{$name}</a>
+                                </li>
+                            </ul>  
+                            {/foreach}
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+							<h2><i class="fa fa-camera"></i>&nbsp;Photos</h2>
+							{$sorting_links=sorting_links()}     
+                            {foreach from=$sorting_links item=name key=sort}
+                            <ul>
+                                <li class="head_sort_link">
+                                	<a class="" href="{link name=sort sort=$sort type=photos}">{$name}</a>
+                                </li>
+                            </ul>  
+                            {/foreach}
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+							<h2><i class="fa fa-desktop"></i>&nbsp;Channels</h2>
+							{$sorting_links=sorting_links()}     
+                            {foreach from=$sorting_links item=name key=sort}
+                            <ul>
+                                <li class="head_sort_link">
+                                	<a class="" href="{link name=sort sort=$sort type=channels}">{$name}</a>
+                                </li>
+                            </ul>  
+                            {/foreach}
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+							<h2><i class="fa fa-th-large"></i>&nbsp;Collections</h2>
+							{$sorting_links=sorting_links()}     
+                            {foreach from=$sorting_links item=name key=sort}
+                            <ul>
+                                <li class="head_sort_link">
+                                	<a class="" href="{link name=sort sort=$sort type=collections}">{$name}</a>
+                                </li>
+                            </ul>  
+                            {/foreach}
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+							<h2><i class="fa fa-users"></i>&nbsp;Groups</h2>
+							{$sorting_links=sorting_links()}     
+                            {foreach from=$sorting_links item=name key=sort}
+                            <ul>
+                                <li class="head_sort_link">
+                                	<a class="" href="{link name=sort sort=$sort type=groups}">{$name}</a>
+                                </li>
+                            </ul>  
+                            {/foreach}
+						</div>
+					</li>
+				</ul>				
+			</li>
+			
+			{foreach $head_menu as $menu}
+			<li class="visible-xs"><a href="{$menu.link}">{$menu.icon} {$menu.name}</a></li>
+			{/foreach}
+
+			{if userid()}
+			<li class="dropdown hvr myaccount-dd hidden-lg hidden-md hidden-sm">
+				<span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown">Setting<b class="caret"></b></span>
+				<ul class="dropdown-menu no-padding">
+					<li>
+						<div class="adminthumb">
+						<a href="{$userquery->profile_link($logged_in_user)}">
+							<img class="img-circle" src="{$usr_head_thumb}"/>
+							<h4>{$userquery->username}</h4> 
+						</a>    
+						</div>
+					</li>
+					{if has_access('admin_access')}
+					<li><a href="{$admin_baseurl}"><i class="fa fa-cogs"></i>&nbsp;{lang code="Admin area"}</a></li>
+					{/if}
+					<li><a href="{link name='my_account' }{userid}"><i class="fa fa-user"></i></i>&nbsp;&nbsp;{lang code="my_account"}</a></li>
+					{ANCHOR place='premium_button_link'}
+					<li><a href="{link name='my_videos'}"><i class="fa fa-video-camera"></i>&nbsp;&nbsp;{lang code="Manage Videos"}</a></li>
+					<li><a href="{link name='channels'}"><i class="fa fa-eye"></i>&nbsp;&nbsp;{lang code="View Channels"}</a></li>
+					<li><a href="{$baseurl}/view_channel.php?user={$userquery->username}"><i class="fa fa-desktop"></i>&nbsp;&nbsp;{lang code="My Channel"}</a></li>
+				</ul>
+			</li>
+
+			<li class="dropdown hidden-lg hidden-md hidden-sm ">
+				<a href="{link name='upload'}" class="dropdown-toggle" data-toggle="dropdown">{lang code="Uploads"} <b class="caret"></b></a>
+				<ul role="menu" class="dropdown-menu">
+					<li><a href="{link name='upload'}">{lang code="Upload Video"}</a></li>
+					<li><a href="{link name='photo_upload'}">{lang code="Upload Photo"}</a></li>
+				</ul>
+			</li>
+			<li class="navbar-sm-login-links"><a href="{link name='logout'}">{lang code='logout'}</a></li>
+			{else}
+			
+			<!-- Shown to small devices only Start  @todo : Add condition for logged in user -->
+
+			<li class="navbar-sm-login-links"><a href="#" data-toggle="modal" data-target="#login-modal">{lang code='login'}</a></li>
+			<li class="navbar-sm-login-links"><a href="{link name="signup"}">{lang code='Create new account'}</a></li>
+			<!-- Ends -->
+			{/if}
+			{if count($head_menu)>4}
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle visible-xs" data-toggle="dropdown">More <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+
+					{foreach $head_menu as $menu}
+					{if $menu@iteration > 4}
+					<li {if $smarty.get.type==$menu.name|lower } class="active"
+					{elseif !$smarty.get.type}
+					{if $menu.active} class="active"{/if}
+					{/if}><a href="{$menu.link}">{$menu.icon} {$menu.name}</a></li>
+					{/if}
+					{/foreach}
+				</ul>
+			</li>
+			{/if}
+		</ul>
+
+		<!-- Shown to small devices only Start-->
+		<form id="search" class="navbar-form navbar-search navbar-left" name="search" method="get" role="search" action="{link name='search_result'}">
+			<div class="input-group mtxs cbsearchtype">
+				<input type="text" class="form-control" name="query" placeholder="search keyword here"  value="{'query'|get_form_val:true}" id="query">
+				<div class="input-group-btn">
+					<input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
+					<button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
+						<span class="search-type">{if $smarty.get.type}{$smarty.get.type}{else}Videos{/if}</span>
+						<span class="caret"></span>
+						<span class="sr-only">Toggle Dropdown</span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						{$counter = 1}
+						{foreach from=$Cbucket->search_types item=t key=stypes}
+						{if $counter == 3}
+						<li value="{$stypes}" {if $smarty.get.type==$stypes || $smarty.get.type==''}  class="active"  {/if}>
+							<a  class="s-types" href="#">{$stypes|ucfirst}</a>
+						</li>
+						{else}
+						<li value="{$stypes}" {if $smarty.get.type==$stypes}  class="active" {/if}>
+							<a  class="s-types" href="#">{$stypes|ucfirst}</a>
+						</li>
+						{/if}
+						{$counter = $counter + 1}
+						{/foreach}
+					</ul>
+					<input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default minus-marginLeft" />
+				</div>
+			</div>
+		</form>
+		<!-- Ends -->
+
+		<!-- Shown to Large displays only Start -->
+		<ul class="nav navbar-nav navbar-right nav-login-btns">
+			{if userid()}
+			<li class="dropdown hvr myaccount-dd">
+				<span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown"> <img class="img-circle" src="{$usr_head_thumb}" style="width: 40px; height: 40px;"/> <b class="caret"></b></span>
+				<ul class="dropdown-menu no-padding">
+					<li>
+						<div class="adminthumb">
+							 <a href="{$userquery->profile_link($logged_in_user)}">
+							<img class="img-circle" src="{$usr_head_thumb}"/>
+							<h4>{$userquery->username}</h4>
+							</a>     
+						</div>
+					</li>
+					{if has_access('admin_access')}
+					<li><a href="{$admin_baseurl}"><i class="fa fa-cogs"></i>&nbsp;{lang code="Admin area"}</a></li>
+					{/if}
+					<li><a href="{link name='my_account' }{userid}"><i class="fa fa-user"></i></i>&nbsp;&nbsp;{lang code="my_account"}</a></li>
+					{ANCHOR place='premium_button_link'}
+					<li><a href="{link name='my_videos'}"><i class="fa fa-video-camera"></i>&nbsp;&nbsp;{lang code="Manage Videos"}</a></li>
+					<li><a href="{link name='channels'}"><i class="fa fa-eye"></i>&nbsp;&nbsp;{lang code="View Channels"}</a></li>
+					<li><a href="{$baseurl}/view_channel.php?user={$userquery->username}"><i class="fa fa-desktop"></i>&nbsp;&nbsp;{lang code="My Channel"}</a></li>
+					<li class="divider"></li>
+					<li><a href="{link name='logout'}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;{lang code="Logout"}</a></li>
+				</ul>
+			</li>
+			{else}
+			<li>
+				<div class="mrl">
+					<a href="{link name='signup'}" class="btn btn-primary btn-success btn-sm">{lang code="Create Account"}</a>
+					<a href="#" data-toggle="modal" data-target="#login-modal" class="btn btn-primary btn-sm">{lang code="Login"}</a>
+				</div>
+			</li>
+			{/if}
+		</ul>
+		<!-- Ends -->
+
+		<!-- Shown to Large displays only Start -->
+		{if userid()}
+		<div class="upload-dropdown-btn-d hidden-xs ">
+			<div class="btn-group">
+				<button title="Upload" class="btn btn-primary" type="button">
+					<a class="upload-vid-photo-icon" href="{link name='upload'}">Upload</a>
+				</button>
+				<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+					<span class="caret"></span>
+					<span class="sr-only">Toggle Dropdown</span>
+				</button>
+				<ul role="menu" class="dropdown-menu upload-dropdown">
+					<li><a href="{link name='upload'}">{lang code="Upload Video"}</a></li>
+					<li><a href="{link name='photo_upload'}">{lang code="Upload Photo"}</a></li>
+				</ul>
+			</div>
+		</div>
+		{/if}
+		<!-- Ends -->
+
+		<!-- SHown to middle size displays only  @todo : Add condition for logged in user -->
+		<ul class="nav navbar-nav navbar-right nav-login-dd">
+			<li class="search-form show-small-form pull-left mrxll" >
+				<i class="glyphicon glyphicon-search cursor-pointer"></i>
+			</li>
+			<div class="form-small full-width">                    
+				<form action="{link name='search_result'}" role="search" method="get" name="search_small" id="search_small">
+					<div class="input-group cbsearchtype">
+						<input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" placeholder="search keyword here" id="query">
+						<div class="input-group-btn">
+							<input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
+							<button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
+								<span class="search-type">{if $smarty.get.type}{$smarty.get.type}{else}Videos{/if}</span>
+								<span class="caret"></span>
+								<span class="sr-only">Toggle Dropdown</span>
+							</button>
+							<ul role="menu" class="dropdown-menu">
+								{$counter = 1}
+								{foreach from=$Cbucket->search_types item=t key=stypes}
+								{if $counter == 3}
+								<li value="{$stypes}" {if $smarty.get.type==$stypes || $smarty.get.type==''}  class="active"  {/if}>
+									<a class="s-types" href="#">{$stypes|ucfirst}</a>
+								</li>
+								{else}
+								<li value="{$stypes}" {if $smarty.get.type==$stypes}  class="active" {/if}>
+									<a class="s-types" href="#">{$stypes|ucfirst}</a>
+								</li>
+								{/if}
+								{$counter = $counter + 1}
+								{/foreach}
+							</ul>
+							<input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default minus-marginLeft" />
+						</div>
+					</div>
+				</form>
+			</div>
+			{if userid()}
+			<li class="dropdown hvr myaccount-dd">
+				<span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown"><img class="img-circle" src="{$usr_head_thumb}" style="width: 40px; height: 40px;"/><b class="caret"></b></span>
+				<ul class="dropdown-menu">
+					<li>
+						<div class="adminthumb">
+							<a href="{$userquery->profile_link($logged_in_user)}">
+							<img class="img-circle" src="{$usr_head_thumb}"/>
+							<h4>{$userquery->username}</h4>     
+							</a>
+		
+						</div>
+					</li>
+					{if has_access('admin_access')}
+					<li><a href="{$admin_baseurl}">{lang code="Admin area"}</a></li>
+					{/if}
+					<li><a href="{link name='my_account' }{userid}">{lang code="my_account"}</a></li>
+					{ANCHOR place='premium_button_link'}
+					<li><a href="{link name='my_videos'}">{lang code="Manage Videos"}</a></li>
+					<li><a href="{link name='channels'}">{lang code="View Channels"}</a></li>
+					<li class="divider"></li>
+					<li><a href="{link name='logout'}">{lang code="Logout"}</a></li>
+				</ul>
+			</li>
+			{else}
+			<li>
+				<div class=" mlm mrm">
+					<a href="#" data-toggle="modal" data-target="#login-modal"><span class="glyphicon glyphicon-user"></span></a>
+				</div>
+			</li>
+			{/if}
+		</ul>
+		
+		
+	</div>
+</nav>
+
+<div class="modal fade" id="login-modal" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<form name="login-form" role="form" action="{link name='signup'}" method="post">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">{lang code="Login"}</h4>
+				</div>
+				<div class="modal-body">
+
+					<div class="form-group">
+						<label for="login_username">{lang code="Username"}</label>
+						<input type="text" class="form-control" id="login_username"  name="username"  placeholder="Enter username">
+					</div>
+
+					<div class="form-group">
+						<label for="login_password">{lang code="Password"}</label>
+						<input type="password" class="form-control" id="login_password" name="password" placeholder="Enter password">
+					</div>
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> {lang code="Remember me"}
+						</label>
+					</div>
+
+					<div align="center"><a href="{$baseurl}/forgot.php">{lang code='user_forgot_password'}</a> | <a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='user_forgot_username'}</a></div>
+				</div>
+				<div class="modal-footer">
+					<a href="{link name='signup'}" class="btn btn-primary btn-success btn-sm pull-left">{lang code="Create Account"}</a>
+					<button type="button" class="btn btn-default" data-dismiss="modal">{lang code="Cancel"}</button>
+					<input type="submit" class="btn btn-primary" value="{lang code='Login'}" name="login">
+				</div>
+			</div><!-- /.modal-content -->
+		</form>
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+function rm_hvr() {
+	if ( $(window).width() > 767 )
+	{
+		$(".dropdown.hvr").on("mouseenter",function(){
+			$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
+		});
+		$(".dropdown.hvr").on("mouseleave",function(){
+			$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
+		});
+	}
+	else
+	{
+		
+	}
+}
+//header menu-width function
+function headerMenuWidth(){
+	var headerWidth = $(window).width();
+	$(".mega-dropdown-menu .col:nth-child(2)").css("width",headerWidth-350+"px");
+}
+$(window).resize(function(){
+	rm_hvr();
+	headerMenuWidth();
+});
+	$(document).ready(function(){
+		rm_hvr();
+		headerMenuWidth();
+		$(".cbsearchtype a").on({
+			click: function(e){
+				e.preventDefault();
+				var prent_li = $(this).parents();
+				$('.type').val($(this).html());
+				$('.cbsearchtype li').removeClass('active');
+				prent_li.addClass('active');
+			}
+			});
+		
+		$('.show-small-form').click(function() {
+			$('.form-small').toggleClass('show');   
+		});
+
+		$('.s-types').on("click", function(){
+			var _this = $(this);
+			var text = _this.html();
+			$('.search-type').html(text);
+		});
+	});
+</script>

@@ -1,0 +1,203 @@
+<meta charset="UTF-8">
+<title>{cbtitle}</title>
+
+<link rel="stylesheet" href="{$theme_url}/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="{$theme_url}/assets/css/font-awesome.min.css" />
+<link rel="stylesheet" href="{$theme_url}/css/styles.css" />
+
+<!--[if IE 7]>
+  <link rel="stylesheet" href="{$theme_url}/assets/css/font-awesome-ie7.min.css" />
+<![endif]-->
+
+<!-- page specific plugin styles -->
+
+<!-- fonts -->
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300" />
+
+<!-- ace styles -->
+{if !this_page('admin_login')} <!-- these css file not includes in admin area login.html -->
+<link rel="stylesheet" href="{$theme_url}/assets/css/ace.min.css" />
+<link rel="stylesheet" href="{$theme_url}/assets/css/ace-rtl.min.css" />
+<link rel="stylesheet" href="{$theme_url}/assets/css/ace-skins.min.css" />
+{/if}
+
+<!--[if lte IE 8]>
+  <link rel="stylesheet" href="{$theme_url}/assets/css/ace-ie.min.css" />
+<![endif]-->
+
+<!-- inline styles related to this page -->
+
+<script type="text/javascript">
+    var baseurl = "{$baseurl}";
+    var imageurl = "{$imageurl}";
+</script>
+
+
+
+
+
+<!-- ace settings handler -->
+
+<script src="{$theme_url}/assets/js/ace-extra.min.js"></script>
+<script src="{$baseurl}/js/clipbucket.js"></script>
+
+
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+<!--[if lt IE 9]>
+<script src="assets/js/html5shiv.js"></script>
+<script src="assets/js/respond.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="{$theme_url}/../../../../js/functions.js"></script>
+<script type="text/javascript" src="{$theme_url}/../../../../js/admin_functions.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!-- for bootstrap wysiwyg -->
+<link rel="stylesheet" href="{$theme_url}/css/summernote.css" />
+
+
+<script src="{$theme_url}/js/editor.js"></script>
+<script src="{$theme_url}/js/main.js"></script>
+
+<!-- for bootstrap wysiwyg -->
+
+        <!-- for popovers -->
+<script>
+    $(function (){
+        $(".popoverButton").popover();
+    });
+
+</script>
+
+<!-- bootstrap x-editable -->
+<link rel="stylesheet" href="{$theme_url}/bootstrap-editable/css/bootstrap-editable.css" />
+<script src="{$theme_url}/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.xedit').editable({
+            mode: 'inline',
+            url:baseurl+'/admin_area/index.php?mode=update_pharse',
+            pk: function(){
+                var id = $(this).attr("id");
+                
+                id = id.match(/([0-9]+)$/g);
+               return id.pop();
+            },
+        });
+    });
+
+
+
+</script>
+<script>
+$(document).ready(function() {
+             $('.edit_lang').editable(baseurl+'/actions/update_phrase.php', {  alert('yu');
+            // cancel    : 'Cancel',
+            // submit    : 'OK',
+             indicator : '<img src="'+baseurl+'/images/icons/progIndicator.gif">',
+             tooltip   : 'Click to edit...',
+            });
+        });
+    $(document).ready(function(){
+        $(".drop").on({
+            click: function(e){
+                var ele = $(this).parent().nextAll("#content").get(0);
+                $(ele).toggle();
+            }
+        });
+    });
+
+
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#desc').summernote();
+    });
+</script>
+
+
+
+
+
+<script>
+    $(function(){
+
+
+        $(".saveTodo").click(function(e){
+            var self = this;
+             var newVal = $(this).parent().parent().find("input[name='todo']").val();
+             if(newVal.length){
+                var ajaxCall = $.ajax({
+                    url: "{$baseurl}" + "/admin_area/index.php",
+                    type: "post",
+                    data: {
+                        val: newVal,
+                        mode: "add_todo",
+                    },
+                });
+                ajaxCall.success(function(data){
+                    data = $.parseJSON(data);
+                    var p = document.createElement("p");
+                    p.className = "xedit editable editable-click";
+                    var input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = "todoid";
+                    input.value = data.id;
+                    var b = document.createElement("b");
+                    b.innerHTML = data.todo;
+                    p.appendChild(input);
+                    p.appendChild(b);
+                    console.log(p);
+                    $(self).parents("form").after(p);
+                });
+             }else{
+                alert("Please enter a valid value");
+             }
+        });
+
+
+    $("#todolist").on("click", ".editable-clear-x", function(e){
+        e.preventDefault();
+            var self = this;
+            var id = $(this).parents(".editable-container").prev().attr("id");
+            id = id.match(/([0-9]+)$/g);
+            id = id.pop();
+            var ajaxCall = $.ajax({
+                url: "{$baseurl}" + "/admin_area/index.php",
+                type: "post",
+                data: {
+                    id: id,
+                    mode: "delete_todo",
+                },
+            });
+            ajaxCall.success(function(data){
+                $(self).parents("p").remove();
+                $(self).parents(".editable-container").remove();
+            });
+            e.stopPropagation();
+    });
+
+    });
+</script>
+
+{if $Cbucket->AdminJSArray}
+<!-- Including JS Files-->
+{foreach from=$Cbucket->AdminJSArray key=file item=type}
+    {if $curActive == $type ||  $type=='global' }
+        {include_js type=$type file=$file}
+    {/if}
+{/foreach}
+<!-- Including JS Files-->
+{/if}
+
+{if $Cbucket->admin_header_files}
+    <!-- Including Headers -->
+    {foreach from=$Cbucket->admin_header_files key=file item=type}
+        {include_header type=$type file=$file}
+    {/foreach}
+    <!-- Ending Headers -->
+{/if}

@@ -1,0 +1,33 @@
+<h2>{$total} users are online</h2>
+<div style="height:10px"></div>
+
+<div style="padding:3px; background-color:#09c; font-weight:bold; color:#fff">
+<table width="100%" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td width="150">User</td>
+    <td>Browsing</td>
+    <td width="150">Access time</td>
+    <td width="100">IP</td>
+    </tr>
+</table>
+</div>
+
+
+{if $online_users}
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="browsingUsers">
+{foreach from=$online_users item=user}
+{$user.agent|get_browser_details:theBrowser}
+
+    
+      <tr >
+        <td width="150">{if $user.username}<a href="view_user?uid={$user.userid}">{$user.username}</a>{else}{$user.session_string}{/if} <img class="tipsy_tip browser {$theBrowser.bname}" src="{$imageurl}/dot.gif" title="{$theBrowser.name} {$theBrowser.version} on {$theBrowser.platform}" /></td>
+        <td><a href="{$user.current_page}">{$user.current_page|truncate:40:'..':false:true}</a>
+        
+        {if $user.referer} <sub class="tipsy_tip" title="{$user.referer}"><a href="{$user.referer}" target="_blank" style="color:#030">view referer</a></sub>{/if}</td>
+        <td width="150">{$user.session_date|niceTime}<br><a href="{$queryString}kick={$user.session_id}" class="kick" title="This will make user force logout">KICK</a></td>
+        <td width="100">{$user.ip}</td>
+      </tr>
+  
+{/foreach}
+</table>
+{/if}

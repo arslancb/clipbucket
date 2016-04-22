@@ -1,0 +1,94 @@
+<div class="advanceSearchButton clearfix">
+    <a href="#" class="btn btn-primary btn-sm pull-right current after" onclick="$('#groupsearchdiv').toggle();return false;" style="margin-bottom: 0px;position: relative; top: 15px;z-index:10000">
+        Advanced Search
+        <i class="glyphicon glyphicon-chevron-down down"></i>
+         <i class="glyphicon glyphicon-chevron-up up" style="display:none"></i>
+    </a>
+</div>
+<div class="search_box well" id="groupsearchdiv" {if $smarty.cookies.show_groupsearchdiv_search!='show'} style="display:none"{/if}>
+<form id="group_search" name="group_search" method="get" action="groups_manager.php" >
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="title">Group title</label>
+                <input name="title" type="text" class="form-control" id="title" value="{'title'|get_form_val:true}" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="groupid">Group id</label>
+                <input name="group_id" type="text" class="form-control" id="groupid" value="{'group_id'|get_form_val:true}" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="tags">Group tags</label>
+                <input name="tags" type="text" class="form-control" id="tags" value="{'tags'|get_form_val:true}"/>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="featured">Featured</label>
+                <select name="featured" id="featured" class="form-control">
+                    <option value=""></option>
+                    <option value="yes"{if $smarty.get.featured=='yes'} selected="selected"{/if}>Yes</option>
+                    <option value="no"{if $smarty.get.featured=='no'} selected="selected"{/if}>No</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="active">Active</label>
+                <select name="active" id="active" class="form-control">
+                    <option value=""></option>
+                    <option class="f" value="yes" {if $smarty.get.active=='yes'} selected="selected"{/if}>Yes</option>
+                    <option class="f" value="no" {if $smarty.get.active=='no'} selected="selected"{/if}>No</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="userid">Userid</label>      
+                <input name="userid" type="text" class="form-control" id="userid" value="{'userid'|get_form_val:true}"/>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="category">Category</label>
+                <div class="boxBordered">
+                    {$cat_array.notShowSeprator = true}
+                    {$cat_array.label_class = "checkbox"}
+                    {$formObj->createField($cat_array)}
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" name="search" id="search" value="Search" class="btn btn-success btn-sm"/>
+</form>
+</div>
+
+<script type="text/javascript">
+       
+
+        $(document).ready(function neww () {
+        $(".current").click(function() {
+        $(this).toggleClass('after');
+        if(!$(this).hasClass('after')) 
+           {
+      
+          $('.down').hide();
+          $('.up').show();
+           }
+    
+        else
+       {
+ 
+        $('.down').show();
+         $('.up').hide();
+       }
+ 
+});
+
+       })
+       
+</script >

@@ -1,0 +1,63 @@
+{assign var='types' value=$userquery->get_level_types()}
+<div style="width:98%; margin:auto" align="left">
+{section name=t loop=$types}
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<tr>
+<td width="30" class="left_head">&nbsp;</td>
+<td align="center" class="head">{$types[t].user_permission_type_name}</td>
+<td width="30" class="right_head">&nbsp;</td>
+</tr>
+</table>
+{assign var=perms value=$userquery->get_permissions($types[t].user_permission_type_id)}
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+{assign var = bgcolor value = ""}
+{foreach from=$perms item=perm}
+{if $perm.permission_id !=""}
+
+
+<tr bgcolor="{$bgcolor}" class="item_listing">
+<td width="20" style="text-indent:10px">{$perm.permission_id}</td>
+<td width="150" style="text-indent:10px">{$perm.permission_name}</td>
+
+<td width="150" style="text-indent:10px">{$perm.permission_code}</td>
+<td style="text-indent:10px">{$perm.permission_desc}</td>
+<td width="100" style="text-indent:10px"><a href="?perm_del={$perm.permission_id}">Delete</a></td>
+
+</tr>
+{else}
+<tr><td><div style="width:100%; margin:auto" align="center"><em>No Permission Found</em></div></td></tr>
+{/if}
+{if $bgcolor == ""}
+{assign var = bgcolor value = "#EEEEEE"}
+{else}
+{assign var = bgcolor value = ""}
+{/if}
+{foreachelse}
+<tr><td><div style="width:100%; margin:auto" align="center"><em>No Permission Found</em></div></td></tr>
+{/foreach}
+</table>
+<form method="post" action="_permission.php">
+	<fieldset class="fieldset" style="margin-bottom:10px"><legend>Add New Permission</legend>
+	<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    <tr><td><label for="name{$types[t].user_permission_type_id}">Permission Name</label>
+	<input type="text" name="name" id="name{$types[t].user_permission_type_id}">
+	<label for="code{$types[t].user_permission_type_id}">Permission Code</label>
+	<input type="text" name="code" id="code">
+	<label for="desc{$types[t].user_permission_type_id}">Permission Description</label>
+	<input type="text" name="desc" id="desc{$types[t].user_permission_type_id}">
+    <input type="hidden" name="type" value="{$types[t].user_permission_type_id}">
+
+      <label>
+        <input type="radio" name="default" value="yes" id="default_0">
+        yes</label>
+
+      <label>
+        <input type="radio" name="default" value="no" id="default_1">
+        no</label>
+
+<input type="submit" class="button" value="Add" name="add_permission">
+    </td></tr></table>
+    </fieldset>
+</form>
+{/section}
+</div>

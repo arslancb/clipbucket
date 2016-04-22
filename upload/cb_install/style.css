@@ -1,0 +1,286 @@
+body
+{
+	margin:10px; padding:0px;
+	font-family:tahoma;
+	font-size:11px;
+	color:#000;
+}
+
+a{color:#06c}
+
+#container
+{
+	margin:auto;
+	width:880px;
+	border:0px solid #eee;
+	padding:0px;
+}
+
+#sub_container
+{
+	margin:auto;
+	width:980px;
+	border:0px solid #eee;
+	padding:0px;
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
+
+#head{margin:auto;width:900px; margin-bottom:10px}
+.highlight{
+
+
+
+
+}
+#header
+{
+	height:25px; width:900px; border:1px solid #d4d4d4;
+	line-height:25px; background-image:url(images/header_grad.png); background-repeat:repeat-x;
+	background-position:center;
+	margin:auto; margin-bottom:5px;
+}
+
+
+.cb_container.arvixe_banner{
+background:url(images/Arvixe-Banner.png) ;
+
+}
+
+.grey-text{
+color:#797979;
+
+
+}
+.font-size{
+font-size: 9px;
+
+}
+
+
+.register{
+
+	background: #F2F2F2;
+    margin:auto;
+	width:880px;
+	border:1px solid #CFCFCF;
+	padding:0px;
+	margin-top: 20px;
+
+}
+
+.br5px
+{
+	
+}
+
+
+.finish{
+width: 50%;
+
+
+
+
+}
+.headstatus
+{
+	
+	background-repeat:repeat-x;
+	background-position:center;
+	width:100%; margin:auto
+}
+
+
+/*.logo{background:url(/clipbucket_installer/images/logo.png) no-repeat; width:465px; height:50px; float:left; margin-left:12px; margin-top:15px;}*/
+.top_tabs { float: right; margin-top: 14px; padding: 0px;margin-right: 14px; clear: both; overflow: hidden;}
+.top_tabs ul { margin:0px; padding:0px; list-style:none; float:left; position:relative; left:50%;  }
+.top_tabs ul li { margin:0px; padding:0px; float:left; list-style:none; position:relative; right:50%; top:1px; }
+.top_tabs ul li a {display:block; padding:5px 4px;  text-align:center; float:left; text-decoration:none; color:#5b5959; margin-right:0px; font-size:14px; }
+.top_tabs ul li span {
+font-size: 10px;
+float: left;
+line-height: 29px;
+margin-left: 6px;}
+
+.top_nav{background: -moz-linear-gradient(top, #ffffff 0%, #e3e3e3 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e3e3e3)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #ffffff 0%,#e3e3e3 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #ffffff 0%,#e3e3e3 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #ffffff 0%,#e3e3e3 100%); /* IE10+ */
+background: linear-gradient(to bottom, #ffffff 0%,#e3e3e3 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e3e3e3',GradientType=0 ); /* IE6-9 */
+height:40px; border-top:1px solid #aaaaaa;}
+.cb_container{  width:990px; margin:auto;}
+.cb_navbar { float: left;margin-top: 3px;padding: 0px;clear: both;overflow: hidden;}
+.cb_navbar ul { margin:0px; padding:0px; list-style:none; float:left; position:relative; left:50%;  }
+.cb_navbar .headstatus li 
+{ 
+margin:0px; 
+padding:4px 4px; 
+float:left; 
+list-style:none; 
+position:relative; 
+right:50%; 
+top:0px; 
+color:#000; 
+font-weight:bold; 
+}
+
+.cb_navbar .headstatus .selected 
+{
+/* background:url(images/des_arrow.png) no-repeat right 50% bottom 0px; */
+/*background-position: 50 100;*/
+
+display:block; 
+padding:5px 4px;  
+text-align:center; 
+float:left; 
+text-decoration:none; 
+color:#428bca; 
+margin-right:0px; 
+font-size:14px; 
+font-family: Arial, Helvetica, sans-serif; 
+font-weight:bold; 
+}
+.cb_navbar ul li a {display:block; padding:5px 4px; cursor:default; font-weight:bold;  text-align:center; float:left; text-decoration:none; color:#5b5959; margin-right:0px; font-size:14px;font-family:Arial, Helvetica, sans-serif; font-weight:bold;}
+
+
+
+.cb_navbar .headstatus   span { background:url(images/nav_arrow.png) no-repeat; height:26px; width:14px;float: left;margin-right: 5px; margin-top: -4px;}
+.nav_des{ background:#09c; padding:10px;}
+.license_des{ height:200px; background:#f5f5f5; border:1px solid #cfcece; padding:10px; overflow:auto;}
+.reg_des{ background:#f5f5f5; border:1px solid #cfcece; padding:10px; height:auto;}
+.cb_btn-group{ float:right; margin-top:10px;}
+.cb_button{ background:#428bca; color:#fff; border:1px solid #cfcece; padding:7px; font-weight:bold;}
+.cb_button-green{ background:#5cb85c; color:#fff; border:1px solid #cfcece; padding:7px; font-weight:bold;}
+.left-side{ width:375px; float:left;}
+.db_font{ color:#6b6a6a;font-size: 16px;}
+.right-side{width:470px; float:right;}
+.reg-left-side{width:770px; float:left;}
+.ins_dlt{padding: 11px;border: 1px solid #eed3d7; margin-top:35px; font-weight:bold;border-radius: 7px; background:#f2dede; color:#b94a48;}
+.finish-left{ width:360px; float:left;}
+.finish-right{ width:630px; float:left; background:#f5f5f5; padding:10px; border:1px solid #cfcece;}
+
+
+
+
+#sub_container .db_fields .field .form-control{
+
+	width: 350px;
+	font-size: 15px;
+}
+
+
+
+#sub_container .field .form-control{
+
+	width: 350px;
+	font-size: 15px;
+}
+
+
+
+
+
+
+
+
+/*.headstatus li 
+{
+	
+	background-repeat:repeat-x;
+	background-position:center;
+	display:inline-block;
+	margin:0px 5px;
+	padding:0px 5px;
+	color:#999
+}
+
+/*.headstatus li a
+{
+	
+	background-repeat:repeat-x;
+	background-position:center;
+	display:inline-block;
+	margin:0px 5px;
+	padding:0px 5px;
+	color:#999
+}*/
+
+/*.headstatus .selected { color:yellow; font-weight:bold}*/
+
+#logo{font-family: 'Cabin', arial, serif; font-size:28px; font-weight:bold; padding: 5px 0px 15px 20px;}
+
+.bttnleft,.bttncenter,.bttnright,.bttnrightalt
+{
+	height:34px; display:inline-block;line-height:32px; font-size:14px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#fff;
+	cursor:pointer;
+}
+.bttnleft{background-image:url(images/bttnleft.png); width:14px; }
+.bttncenter{background-image:url(images/bttncenter.png);min-width:50px;padding-right:10px; }
+.bttnright{background-image:url(images/bttnright.png);width:37px; }
+.bttnrightalt{background-image:url(images/bttnrightalt.png); width:14px;  }
+
+dt{font-weight:bold; float:left; width:80px; display:inline-block;border-bottom:1px dotted #999; padding:5px 3px; line-height:20px; }
+dd{ width:auto; border-bottom:1px dotted #999; padding:5px 3px; margin:0px; line-height:20px;}  
+dd .red{color:ed0000} dd .green{color:#060; } 
+dd .ok{background-image:url(images/tick_arrow.png); background-repeat:no-repeat; height:20px; padding-left:23px; display:inline-block}
+dd .alert_cross{background-image:url(images/cross_arrow.png); background-repeat:no-repeat; height:20px; padding-left:23px; display:inline-block}
+
+dd:last-child{border-bottom:none}
+dl{background-color:#F7F7F7; padding:0px; border:1px dotted #999}
+
+.inside_shadow
+{
+	-moz-box-shadow: inset -5px -5px 5px #ccc;
+	-webkit-box-shadow: inset -5px -5px 5px #ccc;
+	box-shadow: inset -5px -5px 5px #ccc; 
+}
+
+.field{margin-bottom:10px}
+.field input{border:1px solid #ccc; padding:5px 3px; font-size:13px; color:#666; width:300px}
+.field label{display:block; margin-top:10px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica, sans-serif}
+
+.errorDiv
+{
+	padding:5px; margin:10px 0px;
+	background-color:rgba(255, 214, 214, 1);
+	border-radius: 8px;
+	/*border:1px solid #FA7C80;*/
+}
+
+.alert{background:url(images/cross_arrow.png) no-repeat left 0px bottom 0px; height:10px;
+ padding-left:23px; display:inline-block; margin-right-right:23px;
+line-height:20px}
+
+.ok{background:url(images/tick_arrow.png); background-repeat:no-repeat; height:20px; padding-left:23px; display:inline-block;line-height:20px}
+.line{height: 1px; background-color: #C9C9C9; margin-top: 10px; margin-bottom: 10px;}
+.green{display:block; margin-bottom:10px}
+.fb_finish{width: 39.6%;  background-color:#f3f3f3;}
+
+.finish{margin-left: 28%; border:1px solid #d6d6d6; background-color:#f3f3f3; width: 38%; margin-top: -500px; position: absolute; height : 500px; overflow: auto;}
+.product{margin-top:0px; width:94%; padding:0px;   float:left; margin:0px 10px}
+.product a{font-size:15px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#0099CC; text-decoration:none; display:block}
+.product .desc{color:#666; font-size:12px; margin-top:5px}
+
+/*.product:hover{background-color:#eaeaea; border:1px solid #09c}*/
+
+/* usman css start cb-install */
+
+.cb-instal-licenc-holder{
+	padding:5px; 
+	width:100%; 
+	background-color:#F5F5F5; 
+	border:1px solid #ADADAD;
+	border-radius: 3px;
+	box-shadow: inset 0px 0px 6px rgba(0,0,0,0.2);
+}
+.cb-instal-licenc-sec{
+	padding:3px 15px; 
+	height:300px; 
+	width:100%; 
+	color:#555; 
+	font-size:14px; 
+	text-align:left; 
+	overflow:auto; 
+}

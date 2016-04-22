@@ -1,0 +1,237 @@
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
+{lang code='channel' assign='object_type'}
+
+<div class="container">
+	{*include file="$style_dir/blocks/manage/account_menu.html"*}
+	<div class="row cb-box">
+		{include file="$style_dir/blocks/view_channel/channel_header.html" }
+		<div class="row clearfix">
+			<div class="col-md-8 col-sm-8  col-xs-12 view_chnl">
+				<div id="cb_player">
+					{FlashPlayer vdetails=$firstVideo width='100%' height='355'}
+				</div>
+				<hr class="hr">
+				<div class="tabbable viewChanelTabs">
+					<ul class="nav nav-tabs" id="myTab">
+						<li class="active"><a href="javascript:void(0)" class="selected" rel="infoDIV"  id="infoTab" onClick="channelObjects(this,'#channelDetailsBox','info','{$u.userid}'); return false;">{lang code='info'}</a></li>
+				                {if isSectionEnabled('videos') && $u_control.show_my_videos == 'yes'}
+						<li><a href="javascript:void(0)" onClick="channelObjects(this,'#channelDetailsBox','videos','{$u.userid}'); return false;">{lang code='videos'}</a></li>{/if}
+						{if isSectionEnabled('groups') && $u_control.show_my_friends == 'yes'}
+						<li><a href="javascript:void(0)" onClick="channelObjects(this,'#channelDetailsBox','groups','{$u.userid}'); return false;">{lang code='groups'}</a></li>{/if}
+						{if isSectionEnabled('photos') && $u_control.show_my_photos == 'yes'}
+						<li><a href="javascript:void(0)" onClick="channelObjects(this,'#channelDetailsBox','photos','{$u.userid}'); return false;">{lang code='photos'}</a></li>{/if}
+						<li><a href="javascript:void(0)" onClick="channelObjects(this,'#channelDetailsBox','playlists','{$u.userid}'); return false;">{lang code='Playlists'}</a></li>
+					</ul>
+
+					<div  id="channelDetailsBox">
+						<div class="" id="infoDIV" style="display:block;">
+							
+							<div class="clearfix">
+				            	<h2>{lang code='user_activity'}</h2>
+				            	<table class="table">
+				            		<tr>
+				            			<td>{lang code='joined'}</td>
+				            			<td>{$u.doj|niceTime}</td>
+				            		</tr>
+				            		<tr>
+				            			<td>{lang code='user_last_login'}</td>
+				            			<td>{$u.last_logged|niceTime}</td>
+				            		</tr>
+				            		<tr>
+				            			<td>{lang code='online_status'}</td>
+				            			<td>
+				            				{if $userquery->isOnline($u.last_active,$p.online_status)}
+												<span style="color:#060">{lang code='online'}</span>
+											{else}
+												<span style="color:#ed0000">{lang code='offline'}</span>
+											{/if}
+				            			</td>
+				            		</tr>
+				            	</table>
+							</div>
+							
+						{assign var='channel_profile_fields' value=$userquery->load_user_fields($p,'profile')}
+						{foreach from=$channel_profile_fields item=field_group name=profile_groups}
+					        {if $smarty.foreach.profile_groups.iteration==2}
+							<div id="moreDetailsDIV" style="display:none">
+							{/if}
+							{if $field_group.channel_view !='no'}              
+								<div class="channelFieldset clearfix">
+									<h2>{$field_group.group_name}</h2>
+									<table class="table">
+										{if $field_group.group_id=='profile_location'}
+										<tr>
+											<td>{lang code='country'}</td>
+											<td>{$u.country|country}</td>
+										</tr>
+										{/if}
+
+										{foreach from=$field_group.fields item=field}
+											{if $field.auto_view=='yes' && $field.value}
+											<tr>
+											{if $field.type !='textarea' && $field.type !='text' && $field.type !='textfield'}
+												<td>{$field.title}</td>
+												<td>{input_value input=$field}</td>
+											{elseif $field.type =='textarea'}
+												<td>{$field.title}</td>
+												<td>{$field.value|nl2br}</td>
+										    {else}
+												<td>{$field.title}</td>
+												<td>{input_value input=$field}</td>                    
+										    {/if}                                                
+											</tr>
+											{/if}
+							                {if $field_group.group_id=='profile_basic_info' 
+							                  && $field.name=='relation_status'
+							                      && $p.show_dob!='no'}
+											<tr>
+												<td>{lang code='user_date_of_birth'}</td>
+												<td>{$u.dob}</td>
+											</tr>
+											{/if}
+										{/foreach}
+									</table>
+								</div>
+							{/if}
+							{if $smarty.foreach.profile_groups.last}
+							</div>
+							{/if}
+						{/foreach}
+					    
+							<div id="moreDetails" class="channelFieldset">
+								<a class="btn btn-primary btn-sm channelLegend" href="javascript:void(0)" onClick="$('#moreDetails').hide(); $('#moreDetailsDIV').show();">{lang code='more'}</a>
+							</div>
+						</div>
+					</div>
+				</div>	
+			</div>
+			<div class="col-md-4 col-sm-4  hidden-xs">
+				{include file="$style_dir/blocks/view_channel/channel_right.html" }
+
+				<div class="cb-item-desc-container report-video-area clearfix viewChanelTabs">
+					<ul class="nav nav-tabs" id="reportTab">
+						<li>
+							<a id="reportVideo" href="#cb-item-report" data-toggle="tab">{lang('Report')}</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane" id="cb-item-report">
+						{show_flag_form id=$user.userid type=user}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="clearfix bottom-hieght" ></div>
+<script>
+$('#changeCover').on("click", function(){
+
+$('#cover_info').show();
+
+});
+
+
+
+
+(function(window){
+  $(document).ready(function(){
+    $("#reportVideo").on({
+        click : function(e){
+            e.preventDefault();
+            $("#flag_item").show();
+        }
+    });
+    var extensions = "{$extensions}";
+    var baseurl = '{$baseurl}';
+    var channelId = "{$user['userid']}";
+    extensions = (extensions.substring(0, extensions.length - 1)) + ",png,jpeg,jpg";
+    $.get("{$theme}/js/plupload/js/plupload.full.min.js", function(e){
+      var uploader = new plupload.Uploader({
+          browse_button: 'changeCover',
+          runtimes : 'html5,flash,silverlight,html4',
+          url : baseurl + "/edit_account.php?mode=avatar_bg",
+          file_data_name : "coverPhoto",
+          filters: {
+            mime_types : [
+              { title : "Image files", extensions : extensions },
+            ],
+            max_file_size: "2mb",
+            prevent_duplicates: false,
+          }
+      });
+      window.uploader = uploader;
+      uploader.init();
+      uploader.bind("FilesAdded", function(up, uploadedFiles){
+        $("#coverConainer").css("background", "url({$baseurl}/images/loading.png) center #000000");
+        up.start();
+      });
+      uploader.bind('UploadComplete', function(plupload, files, response){
+        
+      });
+
+      uploader.bind("FileUploaded", function(plupload, files, response){
+        var response = $.parseJSON(response.response);
+        if(response.status == true){
+          $("#coverConainer").css("background", "url(" + response.url + ") center #000000 no-repeat");
+        }else{
+          $("#coverConainer").css("background", "url(" + response.url + ") center #000000 no-repeat");
+          alert(response.msg);
+        }
+      });
+
+      uploader.bind("Error", function(plupload, error){
+        alert(error.message);
+      });
+    });
+    $("#coverConainer").hover(function(e){
+      $("#changeCover").removeClass("sr-only");
+    }, function(e){
+      $("#changeCover").addClass("sr-only");
+    });
+    $("#channelVoteUp, #channelVoteDown").one({
+      click: function(e){
+        var vote = "";
+        var id = "" + this.id;
+        var likes = parseInt($("#likes").text());
+        var totalVotes = parseInt($("#totalVotes").text()) + 1;
+        if(this.id == "channelVoteDown"){
+          vote  = "no";
+           likes = likes - 1;
+
+        }else{
+          vote = "yes";
+          likes = likes + 1;
+        }
+        $.ajax({
+          type: "POST",
+          url: "{$baseurl}/actions/vote_channel.php",
+          data: { vote: vote, channelId : channelId}
+        }).success(function(data){
+          $("#likes").text(likes);
+          $("#totalVotes").text(totalVotes);
+        });
+      }
+    })
+  });
+})(window);
+
+	$(document).ready(function (){
+		var id ='{$user.userid}';
+		$('#subscribe_channel').on({
+		click: function(e){
+		    e.preventDefault();
+		   _cb.subscribeToChannel(id,'subscribe_user','video_detail_result_cont');
+		   
+		 }
+		});
+	});
+
+	$('#myTab a, #reportTab a').click(function (e) {
+		e.preventDefault()
+		$(this).tab('show')
+	});
+</script>

@@ -1,0 +1,15 @@
+
+<div class="dataTables_paginate paging_bootstrap">
+    <ul class="pagination">
+        <li class="prev disabled">
+            <a href="#">
+            <i class="icon-double-angle-left"></i></a></li>
+        <li class="active">{if $pagination}
+          {if $first_link !=''}<a class="active" {$first_link}>&laquo;</a>{/if}  {if $pre_link !=''}<a {$pre_link} >&#8249;</a>{/if} {$pagination}  {if $next_link !=''}<a {$next_link}>&#8250;</a>{/if}
+            {/if}</li>
+        <li class="next"> {if $last_link !=''}<a {$last_link}>&raquo;</a>{/if}</li>
+    </ul>
+
+</div>
+
+
