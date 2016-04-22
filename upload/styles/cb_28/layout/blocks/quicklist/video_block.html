@@ -1,0 +1,23 @@
+{if !$videoLink}
+	{videoLink vdetails=$video assign='videoLink'}
+{/if}
+<div class="qlist_item clearfix" style="background-color:#{$bg}; {if $selected==$video.videoid} border:1px solid #999{/if}"  id="{$unique_id}playlist_cont_{$video.videoid}">
+	<div class="pl_num">{$smarty.section.item.iteration}</div>
+	<div class="pl_thumb">
+		<a href="{videoLink($video)}" target="blank">
+			<img src="{getThumb vdetails=$video}" class="img-responsive" alt="">
+			<img src="{$theme}/images/thumb-ratio.png" alt="" class="thumb-ratio">
+		</a>
+		<span class="pl_duration">{$video.duration|SetTime}</span>
+	</div>
+	<div class="pl_details" onclick="window.location='{$videoLink}'">
+		<p><a href="{videoLink($video)}" target="blank" >{$video.title|truncate:25}</a></p>
+		<p>by {$video.username}</p>
+	</div>
+	{if $show_delete=='yes'}
+	<button class="ql_delete glyphicon glyphicon-trash btn btn-danger btn-sm" onclick="remove_qucklist('#{$unique_id}playlist_cont_{$video.videoid}','{$video.videoid}')" title="remove {$video.title} from qucklist" alt="quicklist">
+	</button>
+	{/if}
+</div>
+	
+	

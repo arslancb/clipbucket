@@ -1,0 +1,54 @@
+{if $slider !=''}
+
+<div id="slide1">
+{foreach from=$videos_06_da item=video_06_da}
+<div class="col-md-2 text-center nopadding mouse_hover">
+<div class="col-md-11 text-center nopadding">
+	<a href="{videoLink vdetails=$video_06_da}" title="{$video_06_da.title}">
+    <img class="cb_img_thum" src="{getThumb vdetails=$video_06_da}" width="135" height="75"  {ANCHOR place="video_thumb" data=$video_06_da} />
+    <div class="cbHomeVidTitle cbHomeVidTitle_slid-title mouse_hover_on">{$video_06_da.title|truncate:10}</div>
+    </a>
+    <div class="cbHomeVidDuration cbHomeVidDuration_slide mouse_hover_on">
+    {$video_06_da.duration|date_format:$config.time}
+    </div>
+</div>
+</div>
+{/foreach}
+</div>
+<div class="nxt-pre">
+		<a href="#" class="circle" id="slide_prev1">
+		<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+		<a href="#" class="circle" id="slide_next1">
+		<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+		</div>
+{/if}
+{if $slider3 !=''}
+
+<div id="slide3">
+{foreach from=$videos_06_da item=video_06_da}
+<div class="col-md-2 text-center nopadding mouse_hover">
+<div class="col-md-11 text-center nopadding">
+	<a href="{videoLink vdetails=$video_06_da}" title="{$video_06_da.title}">
+    <img class="cb_img_thum" src="{getThumb vdetails=$video_06_da}" width="135" height="75"  {ANCHOR place="video_thumb" data=$video_06_da} />
+    <div class="cbHomeVidTitle cbHomeVidTitle_slid-title mouse_hover_on">{$video_06_da.title|truncate:10}</div>
+    </a>
+    <div class="cbHomeVidDuration cbHomeVidDuration_slide mouse_hover_on">
+    {$video_06_da.duration|date_format:$config.time}
+    </div>
+</div>
+</div>
+{/foreach}
+</div>
+<div class="nxt-pre">
+		<a href="#" class="circle" id="slide_prev3">
+		<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+		<a href="#" class="circle" id="slide_next3">
+		<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+		</div>
+{/if}
+
+

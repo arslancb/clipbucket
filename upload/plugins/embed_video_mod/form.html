@@ -1,0 +1,153 @@
+{$videoFields = $Upload->load_video_fields($input)}
+{$requiredFields = $videoFields[0]}
+{$sharingOptions = $videoFields[1]}
+{$dateAndLocation = $videoFields[2]}
+<div class="alert alert-info">
+{lang code='embed_video_msg'}
+</div>
+
+<div class="upload_info" id="upload_form{$objId}" style="margin-top:10px;border:none">
+	      
+	<form name="embedUploadForm{$objId}" class="upload_form" id="embedUploadForm{$objId}" method="post" action="{link name='upload'}#currnet_{$divid}"  enctype="multipart/form-data">
+
+		{* Adding Embed Form *}
+
+		<h3>Embed video details</h3>
+
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+					<label for="embed_code">Embed Code</label>
+					<textarea name="embed_code" id="embed_code" class="form-control">{"embed_code"|post|form_val}</textarea>
+					<small class="hint">supports embed, object and iframes</small>
+				</div>
+				<div class="form-group">
+					<label for="thumb_file">Thumb file</label>
+					<input name="thumb_file" type="file"  class="" id="thumb_file" />
+				</div>
+			</div>
+			<div class="col-md-4 right-col">
+				<div class="form-group">
+					<label for="duration">Video duration</label>
+					<input type="text" name="duration" id="duration" class="form-control" value="{"duration"|post|form_val}"/>
+					<small class="hint">duration format is hours:minutes:seconds</small>
+				</div>
+			</div>
+		</div>
+       
+		<div class="row">
+			<div class="col-md-8">
+				<div class="" id="updateVideoInfo">
+					<h3>{$requiredFields.group_name}</h3>
+					<div class="clearfix requiredFields">
+						{foreach $requiredFields.fields as $field}
+						    <div class="form-group">
+						    {$field.class='form-control'}
+						    {$field.notShowSeprator='yes'}
+						    {if $field.type == 'radiobutton'}
+						        {$field.label_class='radio'}
+						        {$field.class=''}
+						        {$formObj->createField($field)}
+						    {elseif $field.type == 'checkbox'}
+						        {$categories = $field}
+						    {else}
+						        <label for="{$field.id}">{$field.title}</label>
+						        {$formObj->createField($field)}
+						    {/if}
+						    </div>
+						{/foreach}
+					</div>
+
+					<div class="formSection clear">
+						<h4>{$dateAndLocation.group_name} <i class="glyphicon glyphicon-chevron-down pull-right"></i></h4>
+						<div class="sectionContent hidden">
+							{foreach $dateAndLocation.fields as $field}
+							<div class="form-group">
+							{$field.class='form-control'}
+							    {$field.notShowSeprator='yes'}
+							    {if $field.type == 'radiobutton'}
+							        {$field.label_class='radio'}
+							        {$field.class=''}
+							        {$formObj->createField($field)}
+							    {elseif $field.type == 'checkbox'}
+							        <h4>{$field.title}</h4>
+							        {$field.label_class='checkbox'}
+							        {$field.class='checkbox'}
+							        {$formObj->createField($field)}
+							    {else}
+							        <label for="{$field.id}">{$field.title}</label>
+							        {$formObj->createField($field)}
+							    {/if}
+							    </div>
+							{/foreach}
+						</div>
+					</div>
+
+					<div class="formSection clear">
+						<h4>{$sharingOptions.group_name}<i class="glyphicon glyphicon-chevron-down pull-right"></i></h4>
+						<div class="sectionContent hidden">
+							{foreach $sharingOptions.fields as $field}
+							<div class="form-group">
+							{$field.class='form-control'}
+							{$field.notShowSeprator='yes'}
+							{if $field.type == 'radiobutton'}
+							    {$field.label_class='radio'}
+							    {$field.class=''}
+							    {$formObj->createField($field)}
+							{else}
+							    <label for="{$field.id}">{$field.title}</label>
+							    {$formObj->createField($field)}
+							{/if}
+							</div>
+							{/foreach}
+						</div>
+					</div>
+
+					<div class="pad-bottom-sm text-right">
+						<input name="submit_upload" type="hidden" value="just_do_it">
+						<input type="button" name="embed_upload" id="embed_upload" value="Upload" onClick="check_embed_code('{$objId}')" class="btn btn-primary"/>  
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 uploadFormSidebarDiv right-col">
+				<h3>{$categories.title}</h3>
+				<small>{$categories.hint_1}</small>
+				<div class="categoriesContainer">
+					{$categories.label_class='checkbox'}
+					{$categories.class='checkbox'}
+					{$formObj->createField($categories)}
+				</div>
+			</div>
+		</div>
+
+
+		<input type="hidden" name="time_stamp" value="{time()}" />
+
+    
+    </form>
+    
+</div>
+
+
+
+<script>
+  
+  $(document).ready(function(){
+    $(".formSection h4").on({
+        click: function(e){
+            e.preventDefault();
+            if($(this).find("i").hasClass("glyphicon-chevron-down")){
+                $(this).find("i").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+                $(this).next().toggleClass("hidden");
+            }else{
+                $(this).find("i").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+                $(this).next().toggleClass("hidden");
+            }
+        }
+    });
+
+    $(".upload_form").find("input[name='category[]']:first").attr('checked', 'checked');
+
+  });
+
+</script>

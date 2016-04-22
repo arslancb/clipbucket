@@ -1,0 +1,58 @@
+{assign var='required_fields' value=$userquery->load_signup_fields()}
+{assign var='custom_field' value=$userquery->custom_signup_fields}
+
+<h2>Add New Member</h2>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="10" align="center" valign="middle" class="left_head">&nbsp;</td>
+    <td class="head">Required Member Details</td>
+    <td width="10" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+<form action="" method="post">
+  <fieldset class="fieldset">
+    <legend>User Information</legend>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+      {foreach from=$required_fields item=field}
+      <tr>
+        <td width="200"><label for="{$field.id}" class="label">{$field.title}</label></td>
+        <td>{if $field.hint_1}{$field.hint_1}<br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}{if $field.hint_2}<br>{$field.hint_2}{/if}</td>
+      </tr>
+      {/foreach} 
+      <tr>
+          <td width="200"><label for="level" class="label">User level</label></td>
+          <td><select name="level" id="level">
+        {assign var=levels value=$userquery->get_levels()}
+        {foreach from=$levels item=level}
+        	<option value="{$level.user_level_id}"  {if $smarty.post.level==$level.user_level_id} selected{elseif $level.user_level_id==2}selected{/if}>{$level.user_level_name}</option>
+        {/foreach}
+        </select></td>
+      </tr>
+      <tr>
+        <td>Status</td>
+        <td><label for="active"></label>
+          <select name="active" id="active">
+            <option value="Ok">Active</option>
+            <option value="ToActivate">Inactive</option>
+        </select></td>
+      </tr>
+    </table>
+  </fieldset>
+    
+    {if $custom_field}
+    <fieldset class="fieldset">
+      <legend>Other</legend>
+      <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+      {foreach from=$custom_field item=field}
+        <tr>
+          <td width="200"><label for="{$field.id}" class="label">{$field.title}</label></td>
+          <td>{if $field.hint_1}{$field.hint_1}<br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}{if $field.hint_2}<br>{$field.hint_2}{/if}</td>
+        </tr>
+      {/foreach} 
+      </table>
+    </fieldset>
+    {/if}
+    
+    <div align="left" style="padding:10px"><input type="submit" name="add_member" value="Add Member" class="button" id="add_member" ></div>
+</form>

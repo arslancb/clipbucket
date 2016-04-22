@@ -1,0 +1,193 @@
+{$myAccountLinks = $userquery->my_account_links()}
+<div class="container marginBottom">
+    {include file="$style_dir/blocks/manage/account_menu.html"}
+    <div class="cb-box">
+    	<div class="row">
+	        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
+	            {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+	        </div>
+
+	        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+	            {if $mode=='uploaded'}
+	            <div class="tabbable managevideo-tabarea">
+	                <ul class="nav nav-tabs manageTabs" id="myTab2">
+	                    <li class="active">
+	                        <a data-toggle="tab" href="#myvideos">
+	                            {lang code='Uploaded Videos'}
+	                        </a>
+	                    </li>
+	                </ul>
+	                <div class="tab-content">
+	                    <div id="myvideos" class="tab-pane active">
+	                        {if $mode =='uploaded'}
+	                        <header class="clearfix manage-tab-header">
+	                        	<div class="no-padding col-lg-6 col-md-6 col-sm-12">
+	                        		<h2>{lang code='com_manage_vids'}</h2>
+	                        	</div>
+	                        	
+	                        	<div class="pull-right col-lg-6 col-md-6 col-sm-12">
+	                        	<div class="row">
+	                        	    <form clasws="clearfix" id="form1" name="form1" method="get" action="">
+	                        	    	<div class="input-group">
+	                	                	<input name="query" type="text" class="form-control" id="query" value="{$smarty.get.query|form_val}" />
+	            	                    	<span class="input-group-btn">
+	            	                        	<input name="mode" value="{$mode}" type="hidden" />
+	            	                        	<button class="btn btn-primary" type="submit" name="input">{lang code='search'}</button>
+	            	                    	</span>
+	            	                    </div>
+	                        	    </form>
+	                        	</div>
+	                        	</div>
+	                        </header>
+	                        <table class="table table-bordered table-striped manageUsersTable">
+	                            <tr>
+	                                <td><i class="icon-facetime-video"></i> Videos Details</td>
+	                                <td>Option</td>
+	                            </tr>
+	                            {section name=uvid loop=$uservids}
+	                            {include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] control='full' bg=$bg}
+	                            {sectionelse}
+	                            <div><strong><em>{lang code='you_dont_hv_fav_vids'}</em></strong></div>
+	                            {/section}
+	                        </table>
+	                        {include file="$style_dir/blocks/pagination.html"}
+	                        {/if}
+	                    </div>
+	                    <div id="fvideos" class="tab-pane" style="display: none">
+	                        {if $mode =='favorites'}
+	                        <h2>{lang code='com_manage_fav'}</h2>
+	                        <!-- Manage Uploaded Videos Start -->
+	                        <div>
+	                            <form clasws="form-inline" id="form1" name="form1" method="get" action="">
+	                                <div class="row">
+	                                    <div class="col-md-6 col-md-offset-3">
+	                                        <div class="col-md-11">
+	                                            <div class="form-group">
+	                                                <input name="query" type="text" class="form-control" id="query" value="{$smarty.get.query|form_val}" />
+	                                            </div>
+	                                        </div>
+	                                        <div class="col-md-1">
+	                                            <div class="form-group text-right">
+	                                                <input name="input" type="submit" class="btn btn-primary" value="{lang code='search'}"/>
+	                                                <input name="mode" value="{$mode}" type="hidden" />
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </form>
+	                        </div>
+	                        <form name="videos_manager" method="post">
+	                            <table class="table table-bordered table-striped manageUsersTable">
+	                                <tr>
+	                                    <td><i class="icon-facetime-video"></i> Videos Details</td>
+	                                    <td>Option</td>
+	                                </tr>
+	                                {section name=uvid loop=$uservids}
+	                                {include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] control='full' bg=$bg}
+	                                {sectionelse}
+	                                <div><strong><em>{lang code='you_dont_hv_fav_vids'}</em></strong></div>
+	                                {/section}
+	                            </table>
+	                            {include file="$style_dir/blocks/pagination.html"}
+	                        </form>
+	                        {/if}
+	                    </div>
+	                    </div>
+	                </div>
+	            {elseif $mode =='favorites'}
+	            <div class="tabbable">
+	                <ul class="nav nav-tabs" id="myTab2">
+	                    <li class="active">
+
+	                        <a data-toggle="tab" href="#fvideos">
+	                            <h5>{lang code='Favorite Videos'}</h5>
+	                        </a>
+	                    </li>
+	                </ul>
+	                <div class="tab-content">
+	                    <div id="fvideos" class="tab-pane" style="display: none">
+	                        {if $mode =='favorites'}
+	                        <h2>{lang code='com_manage_fav'}</h2>
+	                        <!-- Manage Uploaded Videos Start -->
+	                        <div>
+	                            <form clasws="form-inline" id="form1" name="form1" method="get" action="">
+	                                <div class="row">
+	                                    <div class="col-md-6 col-md-offset-3">
+	                                        <div class="col-md-11">
+	                                            <div class="form-group">
+	                                                <input name="query" type="text" class="form-control" id="query" value="{$smarty.get.query|form_val}" />
+	                                            </div>
+	                                        </div>
+	                                        <div class="col-md-1">
+	                                            <div class="form-group text-right">
+	                                                <input name="input" type="submit" class="btn btn-primary" value="{lang code='search'}"/>
+	                                                <input name="mode" value="{$mode}" type="hidden" />
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </form>
+	                        </div>
+	                        <form name="videos_manager" method="post">
+	                            <table class="table table-bordered table-striped manageUsersTable">
+	                                <tr>
+	                                    <td><i class="icon-facetime-video"></i> Videos Details</td>
+	                                    <td>Option</td>
+	                                </tr>
+	                                {section name=uvid loop=$uservids}
+	                                {include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] control='full' bg=$bg}
+	                                {sectionelse}
+	                                <div><strong><em>{lang code='you_dont_hv_fav_vids'}</em></strong></div>
+	                                {/section}
+	                            </table>
+	                            {include file="$style_dir/blocks/pagination.html"}
+	                        </form>
+	                        {/if}
+	                    </div>
+	                </div>
+	            </div>
+
+
+
+	            <h2>{lang code='com_manage_fav'}</h2>
+	            <!-- Manage Uploaded Videos Start -->
+	            <div>
+	                <form clasws="form-inline" id="form1" name="form1" method="get" action="">
+	                    <div class="row">
+	                        <div class="col-md-6 col-md-offset-3">
+	                            <div class="col-md-11">
+	                                <div class="form-group">
+	                                    <input name="query" type="text" class="form-control" id="query" value="{$smarty.get.query|form_val}" />
+	                                </div>
+	                            </div>
+	                            <div class="col-md-1">
+	                                <div class="form-group text-right">
+	                                    <input name="input" type="submit" class="btn btn-primary" value="{lang code='search'}"/>
+	                                    <input name="mode" value="{$mode}" type="hidden" />
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </form>
+	            </div>
+	            <form name="videos_manager" method="post">
+	                <table class="table table-bordered table-striped manageUsersTable">
+	                    <tr>
+	                        <td><i class="icon-facetime-video"></i> Videos Details</td>
+	                        <td>Option</td>
+	                    </tr>
+	                    {section name=uvid loop=$uservids}
+	                    {include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] control='full' bg=$bg}
+	                    {sectionelse}
+	                    <div><strong><em>{lang code='you_dont_hv_fav_vids'}</em></strong></div>
+	                    {/section}
+	                </table>
+	                {include file="$style_dir/blocks/pagination.html"}
+	            </form>
+	            {/if}
+	        </div>
+	    </div>
+	</div>
+</div>
+
+

@@ -1,0 +1,98 @@
+<div class="heading clearfix">
+    <h2 class="pull-left">Groups Manager</h2>
+    {include file="$layout_dir/blocks/advanced_group_search.html" }
+</div>
+
+<form name="group_manage" method="post">
+    <div class="btn-group">
+        <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate" class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured" class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete" class="button"
+               onclick="return _cb.confirm_it('Are you sure you want to delete selected Groups(s)')"/>
+    </div>
+        <table class="table table-bordered table-striped">
+                <tr>
+                    <td width="30">
+                        <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+                    <td width="50">GP-ID</td>
+                    <td class="head">Details</td>
+                    <td>Options</td>
+                </tr>
+                {section name=gp_list loop=$groups}
+                <tr>
+                    <td width="30" >
+                        <input name="check_group[]"  type="checkbox"  id="check_group"   value="{$groups[gp_list].group_id}"/>
+                    </td>
+                    <td width="50" >{$groups[gp_list].group_id}</td>
+                    <td>
+                        <div class="row">
+                        <div class="col-md-10">
+                            <div class="row">
+                            <div class="col-md-3">
+                            <img src="{$cbgroup->get_group_thumb($groups[gp_list])}"  width="50" height="50"/>
+                                </div>
+                            <div class="col-md-9">
+                                <a href="{$baseurl}/view_group.php?url={$groups[gp_list].group_url}" target="_blank"> {$groups[gp_list].group_name}
+                                </a>
+                                <div class="labels">
+                                    {if $groups[gp_list].featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
+                                    <span class="label"><span>Members:</span>{$groups[gp_list].total_members|number_format}</span>
+                                <span class="label {if $groups[gp_list].active=='yes'}label-success{else}label-warning{/if}"><span></span>{if
+                                    $groups[gp_list].active=="yes"} Active{else}Inactive{/if}</span>
+                                    <span class="label label-info"> {if $groups[gp_list].group_privacy =="0"}Public{elseif $groups[gp_list].group_privacy =="1"}Private{else}Invited{/if}</span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                            <div class="col-md-2">
+                               Owner: <a href="view_user.php?uid={$groups[gp_list].userid}">{$groups[gp_list].userid|get_username}</a></strong>
+                            </div>
+                        </div>
+                </td>
+                    <td>
+                        <div id="vid_opt-{$groups[gp_list].group_id}" class="dropdown">
+                            <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle pull-right"
+                                    data-toggle="dropdown">Actions <i class="caret"></i></button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{group_link details=$groups[gp_list]}"target="_blank">View</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_group.php?group_id={$groups[gp_list].group_id}">Edit</a>
+                                </li>
+                                {if $groups[gp_list].featured == yes}
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="?unfeature={$groups[gp_list].group_id}">Make
+                                    Unfeatured</a> {/if}
+                                </li>
+                                {if $groups[gp_list].featured == no}
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="?feature={$groups[gp_list].group_id}">Make
+                                    Featured</a> {/if}
+                                </li>
+
+                                {if $groups[gp_list].active == yes}
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="?deactivate={$groups[gp_list].group_id}">Deactivate</a>
+                                    {else}
+                                </li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="?activate={$groups[gp_list].group_id}">Activate</a>
+                                    {/if}
+                                </li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{$baseurl}/manage_groups.php?mode=manage_videos&gid={$groups[gp_list].group_id}">Manage</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_group={$groups[gp_list].group_id}">Delete</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {/section}
+            </table>
+    <div class="btn-group">
+        <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate" class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured" class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete" class="button" onclick="return _cb.confirm_it('Are you sure you want to delete selected Groups(s)')"/>
+    </div>
+</form>
+
+{include file="$style_dir/blocks/pagination.html" }

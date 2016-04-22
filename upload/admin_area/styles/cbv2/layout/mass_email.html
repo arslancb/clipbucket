@@ -1,0 +1,229 @@
+<h2>Send email to users</h2>
+
+<p><br />
+  Send mass email to your users with our new and updated email manager
+</p>
+
+
+{if $send_email==""}
+<form name="mass_email" method="post" action="mass_email.php?action=new">
+<div class="cb_title">
+	Email manager
+</div>
+
+<div style="padding:5px" class="cb_form">
+	<div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>Email to send at once</strong>
+        <br />loop size of emails when mass emails are sent</div>
+        <div class="cb_fieldR"><input name="loop_size" type="text" value="500"/></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>From</strong>
+        <br />Enter email address to tell user who sent it</div>
+        <div class="cb_fieldR"><input type="text" name="from" value="{'from'|post}"/></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>Subject</strong>
+        <br />Enter your email subject</div>
+        <div class="cb_fieldR"><input type="text" name="subject" value="{'subject'|post}"//></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>Message</strong>
+        <br />Enter your email message</div>
+        <div class="cb_fieldR"><textarea name="message" cols="50" rows="5" draggable="false"></textarea><br />
+{literal}You can use {username}, {userid}, {email}, {datejoined},{avcode} in your message{/literal}</div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div class="cb_field_cont" style="display:none">
+    	<div class="cb_fieldL"><strong>Email delivery method</strong>
+        <br />Please choose weather you want browser to send emails or create a background process </div>
+        <div class="cb_fieldR"><label><input type="radio" name="method" value="browser" checked="checked" />Browser</label>
+        <label><input type="radio" name="method" value="background" />Background Process</label></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+</div>
+    
+    <div class="cb_title" style="background-color:#FFFFFF; margin-top:10px">
+    More options
+    </div>
+
+<div style="padding:5px" class="cb_form">    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>Active status</strong>
+        <br />
+      Choose whether to send to active users or non active</div>
+        <div class="cb_fieldR"><label><input name="active" type="radio" value="yes" checked="checked" />Yes</label>
+        <label><input type="radio" name="active" value="no" />No</label><label><input name="active" type="radio" value="any" />Any</label></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>Banned status</strong>
+        <br />Send email to banned users</div>
+        <div class="cb_fieldR"><label><input type="radio" name="ban" value="yes" />Yes</label>
+        <label><input name="ban" type="radio" value="no" checked="checked" />No</label>
+        <label><input name="ban" type="radio" value="any" />Any</label></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>User level</strong>
+        <br />Choose which user level to send email</div>
+        <div class="cb_fieldR">
+      	
+        {assign var=levels value=$userquery->get_levels()}
+        {foreach from=$levels item=level}
+        	{if $level.user_level_id !='4'}
+       	  <label style="width:120px; float:left"><input type='checkbox' 
+          name="level[]" value="{$level.user_level_id}" checked="checked"/>{$level.user_level_name}</label>
+            {/if}
+        {/foreach}
+        </div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>User category</strong>
+        <br />User category</div>
+        <div class="cb_fieldR">
+		{assign var=cats value=$userquery->get_categories()}
+        {foreach from=$cats item=cat}
+
+        	<label style="width:120px; float:left">
+            <input type='checkbox' name="cat[]" value="{$cat.category_id}" checked="checked"/>{$cat.category_name}</label>
+
+        {/foreach}
+        </div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div class="cb_field_cont" style="display:none">
+    	<div class="cb_fieldL"><strong>Send to specified users</strong>
+        <br />Enter emails or usernames, seperate by commas,leave blank to follow criteria given above</div>
+        <div class="cb_fieldR"><textarea name="users" cols="50" rows="5" draggable="true" id="users"></textarea></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div>
+    	<input name="create_email" type="submit" class="button" id="create" value="Create email" />
+    </div>
+    
+</div>
+
+</form>
+
+
+<div style="height:30px"></div>
+<div class="cb_title">
+	Mass email campaigns
+</div>
+{if $emails}
+    {foreach from=$emails item=email}
+    <div class="cb_row">
+        <div>
+            <strong>{$email.email_subj}</strong> &#8212; 
+          <a href="?send_email={$email.id}">Send Email</a> | 
+          <a href="?delete={$email.id}">Delete</a> | <a href="javascript:void(0)" onclick="$('#mytest').dialog('open')">View</a><br />
+            <span style="font-size:11px; color:#666"><strong>From</strong> 
+            : {$email.email_from} &#8226; <strong>Method</strong> : {$email.method}
+          &#8226; <strong>Sent</strong> : {$email.sent} &#8226; <strong>Status</strong> : {$email.status}</span><br />
+            {$email.date_added|niceTime}
+      </div>
+        <div id="mytest" style="display:none" class="email_content">{$email.email_msg|nl2br}</div>
+        <div class="clear clearfix"></div>
+    </div>
+    {/foreach}
+{else}
+<div class="cb_row">
+	<span style="font-weight:bold">No email campaign was  found</span>
+</div>
+{/if}
+
+{literal}
+<script type="text/javascript">
+	$( ".email_content" ).dialog({autoOpen:false,modal:true});
+</script>
+{/literal}
+
+
+{else}
+
+<div class="cb_title">
+Sending emails &#8212; <a href="mass_email.php">Go back to mass email page</a></div>
+{if $send_email}
+{assign var=email value=$send_email}
+    <div class="cb_row">
+        <div>
+            <strong>{$email.email_subj}</strong> &#8212; 
+           	<a href="javascript:void(0)" onclick="$('#mytest').dialog('open')">View</a><br />
+            <span style="font-size:11px; color:#666"><strong>From</strong> 
+            : {$email.email_from} &#8226; <strong>Method</strong> : {$email.method}
+          &#8226; <strong>Sent</strong> : {$email.sent} &#8226; <strong>Status</strong> : {$email.status}</span><br />
+            {$email.date_added|niceTime}
+      </div>
+        <div id="mytest" style="display:none" class="email_content">{$email.email_msg|nl2br}</div>
+        <div class="clear clearfix"></div>
+    </div>
+    
+   
+    
+    <div style="height:10px"></div>
+     {$eh->message_list.0}
+    {if $msgs}
+    <ul>
+    	{foreach from=$msgs item=msg}
+        	<li>{$msg}</li>
+        {/foreach}
+    </ul>
+    {/if}
+    
+    
+    {if ($email.total==$email.sent && $email.sent>0)|| $email.status=='completed'}
+<div style="background-color:#fff9e3; border:1px solid #e1d5a8; padding:8px; font-size:12px; margin-left:5px">
+    	Email has been sent to {$email.total} users
+</div>
+    {else} 
+    <div style="background-color:#fff9e3; border:1px solid #e1d5a8; padding:8px; font-size:12px; margin-left:5px">
+    	Pelase wait, do not close this window... 
+        
+        (<a href="javascript:void(0);" id="pause" onclick="pause=true; $('#pause,#resume').toggle()">pause</a><a href="javascript:void(0);" onclick="$(window.location).attr('href', '?send_email='+email_id+'&index='+start_index); $('#pause,#resume').toggle()" id="resume" style="display:none">resume</a>)
+        
+    </div>
+    
+<script>
+		var start_index = '{$email.start_index}';
+		var email_id = '{$email.id}';
+		var pause = false;
+		{literal}$(document).oneTime(5000,function(){
+			if(!pause)
+			$(window.location).attr('href', '?send_email='+email_id+'&index='+start_index)});{/literal}
+	</script>
+    {/if}
+
+{/if}
+
+{literal}
+<script type="text/javascript">
+	$( ".email_content" ).dialog({autoOpen:false,modal:true});
+</script>
+{/literal}
+
+
+{/if}

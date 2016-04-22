@@ -1,0 +1,54 @@
+<div class="heading">
+  <h2>PHP Server Configuration Info - ClipBucket {$VERSION}</h2>
+</div>
+
+<p class="alert alert-info">
+A brief view of PHP server configuration Info  
+</p>
+
+
+<h3>configurations and values</h3>
+
+<div class="well">
+  	<h4>POST MAX SIZE </h4>
+    {if $post_max_size > 50}
+   	<img style="float:left;" src="{$imageurl}/button_ok.png"/>
+    <div ><strong> &nbsp;&nbsp;{$post_max_size}</strong></div>
+    {else}
+    <img style="float:left;" src="{$imageurl}/cross.png"/>
+    <div ><strong> &nbsp;&nbsp;{$post_max_size} It must be atleast 50M</strong></div>
+    {/if}
+</div>
+
+<div class="well">
+  	<h4>UPLOAD MAX FILESIZE</h4>
+    {if $upload_max_filesize > 50}
+    <img style="float:left;" src="{$imageurl}/button_ok.png"/>
+    <div ><strong> &nbsp;&nbsp;{$upload_max_filesize}</strong></div>
+    {else}
+    <img style="float:left;" src="{$imageurl}/cross.png"/>
+    <div ><strong> &nbsp;&nbsp;{$upload_max_filesize} - It must be atleast 50M</strong></div>
+    {/if}
+</div>
+
+<div class="well">
+  	<h4>MEMORY LIMIT</h4>
+    {if $memory_limit >= 128}
+    <img style="float:left;" src="{$imageurl}/button_ok.png"/>
+    <div ><strong> &nbsp;&nbsp;{$memory_limit}</strong></div>
+    {else}
+    <img style="float:left;" src="{$imageurl}/cross.png"/>
+    <div ><strong> &nbsp;&nbsp;{$memory_limit} - It must be atleast 128M</strong></div>
+    {/if}
+</div>
+
+<div class="well">
+  	<h4>MAX EXECUTION TIME </h4>
+    {if $max_execution_time > 7200}
+    <img style="float:left;" src="{$imageurl}/button_ok.png"/>
+    <div ><strong> &nbsp;&nbsp;{$max_execution_time}</strong></div>
+    {else}
+    <img style="float:left;" src="{$imageurl}/cross.png"/>
+    <div ><strong> &nbsp;&nbsp;{$max_execution_time} - It must be atleast 7200</strong></div>
+    {/if}
+</div>

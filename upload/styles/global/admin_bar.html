@@ -1,0 +1,85 @@
+<style type="text/css">
+{literal}
+.CBadminBar { min-width:980px; width:980px; width:auto !important; background:#333; border-bottom:1px solid #000; padding:0px; font:bold 11px Tahoma, Geneva, sans-serif; color:#FFF; margin:0px; }
+.CBadminBar .CBadminBarWrapper { margin:0px; padding:0px; position:relative; top:0px; z-index:9999999999; }
+.CBadminBarWrapper { margin:0px; padding:0px; list-style:none; width:100%; }
+.CBadminBarWrapper li { margin:0px; padding:0px; list-style:none; }
+.CBadminBarHeading {  margin:0px; padding:0px; position:relative; float:left;}
+.CBadminBarHeading a { color:#CCC; text-decoration:none; display:inline-block;  padding:6px; }
+.CBadminBarHeading:hover a { background:#EEE; color:black; }
+
+.CBadminBarSubMenuWrapper { display:none; position:absolute; top:25px; width:175px; left:0px; margin:0px; list-style:none; padding:0px; height:auto; z-index:999999999; background:#EEE; }
+.CBadminBarSubMenu { display:block; margin:0px; padding:0px; list-style:none;  }
+
+.CBadminBarHeading:hover .CBadminBarSubMenuWrapper { display:block; }
+.CBadminBarHeading:hover .CBadminBarSubMenu a { color:#666; width:100%; border:1px solid #EEE;}
+.CBadminBarHeading:hover .CBadminBarSubMenu a:hover { color:#FFF; border:1px solid #000; background:#333; }
+.CBadminBarToggle { padding:5px; background:#121212; border:1px solid #000; position:fixed; top:10px; left:0px; font:bold 11px Tahoma, Geneva, sans-serif; color:#FFF; }
+#showCBadminBar:hover { cursor:pointer }
+.clearfix { }
+.clearfix:after{ content: "."; display:block; height:0; font-size:0; clear:both; visibility:hidden;  }
+{/literal}
+</style>
+<script type="text/javascript">
+{literal}
+function showCBadminBarButton(height)
+{
+	$("<div></div>")
+	.attr({'id':'showCBadminBar','onClick' : 'showCBadminBar(this,"'+height+'")'})
+	.css({ 'position':'fixed',
+		   'top':'-'+height+'px',
+		   'right':'0px',
+		   'width':'auto',
+		   'padding' : '6px',
+		   'background':'#333333',
+		   'border' : '1px solid #000',
+		   'font' : 'bold 11px Tahoma',
+		   'color':'#FFF'}).html("Show Menu").insertAfter('#CBadminBar').animate({ 'top':'0px','opacity': 1 },500);
+	$.cookie('CBadminBar','hidden',{expires:1,path:'/'});	   	
+}
+
+function showCBadminBar(obj,height)
+{
+	$(obj).animate({ 'opacity' : 0, 'top' : '-'+height+'px' },500,function()
+	{
+		$('#CBadminBar').slideDown(350);
+		$(obj).remove();
+		var Divoffset = $('#CBadminBar').offset().top;
+		$('html,body').animate({ scrollTop : Divoffset },500);	
+		$.cookie('CBadminBar','shown',{expires:1,path:'/'});	
+	});
+}
+
+$(document).ready(function(){
+	$('#CBadminBarToggle').bind({
+		click : function(event)
+		{
+			var height = $("#CBadminBar").outerHeight();
+			$("#CBadminBar").slideUp(350,function() { showCBadminBarButton(height); });	
+		}	
+	});		
+});
+{/literal}
+</script>
+<div id="CBadminBar" class="CBadminBar clearfix"{if $smarty.cookies.CBadminBar == 'hidden'} style="display:none"{/if}>
+	<ul class="CBadminBarWrapper">
+    {assign var=adminLinks value=$Cbucket->AdminMenu}
+    {foreach from=$adminLinks item=menu key=name}
+          <li class="CBadminBarHeading">
+          	<a href="javascript:void(0)">{$name}</a>
+            <ul class="CBadminBarSubMenuWrapper" id="{$name}">
+            {foreach from=$menu key=sub_menu item=sub_link}        	
+                	<li class="CBadminBarSubMenu"><a target="_blank" href="{$baseurl}/admin_area/{$sub_link}">{$sub_menu}</a></li>                           	
+            {/foreach}
+            </ul>
+          </li>
+    {/foreach}
+ 	{if $userquery->is_admin_logged_as_user()}   
+    	<li class="CBadminBarHeading" style="float:right;"><a href="{$baseurl}/admin_area/login_as_user.php?revert=yes">{lang code='revert_back_to_admin'}</a></li>
+    {/if}
+    <li id="CBadminBarToggle" class="CBadminBarHeading" style="float:right;"><a href="#">Hide Menu</a></li>
+    </ul>      
+</div>
+{if $smarty.cookies.CBadminBar == 'hidden'}
+	<div id="showCBadminBar" style="position:fixed; top:0px; right:0px; width:auto; padding:6px; background:#333333; border:1px solid #000; color:#fff; font:bold 11px Tahoma;" onclick="showCBadminBar(this,'26');">Show Menu</div>
+{/if}

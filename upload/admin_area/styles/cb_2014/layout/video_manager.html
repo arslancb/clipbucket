@@ -1,0 +1,136 @@
+<div class="heading clearfix">
+    <h2 class="pull-left">Video Manager</h2>
+
+    {include file="$layout_dir/blocks/advanced_search.html" }
+</div>
+<!-- DIsplaying Videos -->
+<form name="video_manage marginBottomLarge" method="post">
+    <div class="btn-group">
+        <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate" class="button"/>
+        {if $smarty.get.active!='no'}
+        <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate"
+               class="button"/>
+        {/if}
+        <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured"
+               class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured"
+               class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete" class="button"
+               onclick="return _cb.confirm_it('Are you sure you want to delete selected video(s)')"/>
+    </div>
+    <table class="table table-bordered table-striped manageUsersTable marginTop">
+        <tr>
+            <td>
+                <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+            <td>VID</td>
+            <td>Videos Details</td>
+            <td>&nbsp;</td>
+        </tr>
+        {if $videos}
+       {foreach from=$videos item=video}
+        
+        <tr>
+            <td>
+                <input name="check_video[]" type="checkbox" id="check_video" value="{$video.videoid}"/>
+            </td>
+            <td>{$video.videoid}</td>
+            <td>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" title=""/>
+                            </div>
+                            <div class="col-md-9">
+                                <a href="edit_video.php?video={$video.videoid}">
+                                    {$video.title|truncate:80} </a>({if
+                                $video.duration>1}{$video.duration|SetTime}{else}00:00{/if})<br>
+                         <span class="labels1"> <strong>{$video.date_added|niceTime}</strong> | 
+                            {lang code='views'} : <strong>{$video.views|number_format}</strong></span>
+                                <div class="labels mtl">
+                                   
+                                    <span class="label {if $video.active=='yes'}label-success{else}label-danger{/if}">
+                                        {if $video.active=='yes'}Active{else}Inactive{/if} </span>
+                                    <span class="label {if $video.status=='Successful'}label-success{else}label-warning{/if}">
+                                        {$video.status} </span>
+                                        {if $video.featured=='yes'}
+                                         <span class="label label-info">
+                                          Featured</span>
+                                           {/if}
+                                    
+
+                                        {foreach from=$cbvid->video_manager_link_new item=links}
+                                        {$cbvid->video_manager_link_new($links,$video)}
+                                        {/foreach}
+                                       
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="view_user.php?uid={$video.userid}">{$video.username}</a>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="dropdown">
+                    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                        Actions <i class="caret"></i></button>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
+                        <li><a role="menuitem" tabindex="-1"
+                                                   href="edit_video.php?video={$video.videoid}" class="">Edit</a></li>
+                        <li><a role="menuitem" tabindex="-1"
+                            href="{$baseurl}/watch_video.php?v={$video.videokey}"target="_blank">Watch</a>
+                        </li>
+
+                        
+                        {if $video.featured == yes}
+                        <li><a role="menuitem" tabindex="-1" href="?make_unfeature={$video.videoid}">Make Unfeatured</a></li>
+                        {/if}
+                        {if $video.featured == no}
+                        <li><a role="menuitem" tabindex="-1" href="?make_feature={$video.videoid}">Make
+                            Featured</a></li>
+                        {/if}
+                        {if $video.active == yes}
+                        <li><a role="menuitem" tabindex="-1" href="?deactivate={$video.videoid}">Deactivate</a>
+                        </li>
+                        {else}
+                        <li><a role="menuitem" tabindex="-1" href="?activate={$video.videoid}">Activate</a>
+                        </li>
+                        {/if}
+                        <li><a role="menuitem" tabindex="-1"
+                                                   href="view_conversion_log.php?file_name={$video.file_name}">File
+                            conversion details</a></li>
+                        <li class="divider"></li>
+                        <li><a role="menuitem" tabindex="-1" href="?delete_video={$video.videoid}">Delete</a>
+                        </li>
+                        {foreach from=$cbvid->video_manager_link item=links}
+                        {$cbvid->video_manager_link($links,$video)}
+                        {/foreach}
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        {/foreach}
+    </table>
+    {else}
+    <div align="center"><strong><em>No Video Found</em></strong></div>
+    {/if}
+    <div class="btn-group marginBotoomLarge marginTopLarge paddingBotoomLarge paddingTopLarge">
+        <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate" class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate"
+               class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured"
+               class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured"
+               class="button"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete" class="button"
+               onclick="return _cb.confirm_it('Are you sure you want to delete selected video(s)')"/>
+    </div>
+</form>
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }
+<div class="marginBottomLarge"></div>
+
+

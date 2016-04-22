@@ -1,0 +1,236 @@
+<!-- Defining object type-->
+{lang code='photo' assign='object_type'}
+{assign var=json value=$photo.photo_details|json_decode}
+
+	<div class="clearfix">
+		<section id="content" class="clearfix">
+			<div class="clearfix leaderboard-ad ad">
+				{AD place='ad_728x90'}
+			</div>
+			<div class="clearfix photo-view">
+				{get_photo details=$photo size='l' class='img-responsive center-block' output='html' height="100"}
+		
+				{assign var=objctid value=$object.ci_id}
+				{assign var=collid value=$object.collection_id}
+				
+				{assign var=preLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'prev')}
+		
+				{assign var=nextLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'next')}
+				
+				<div class="btn-holder clearfix">
+					<a class="btn view-photo-nxt icon-right-arrow" href="{$cbphoto->photo_links($nextLink.0,'view_item')}"><i>next</i></a>
+					
+					<a class="btn view-photo-pre icon-left-arrow" href="{$cbphoto->photo_links($preLink.0,'view_item')}"><i>prev</i></a>
+				</div>
+			</div>
+			
+			<section class="view-details clearfix">
+				<header class="clearfix details">
+					<div id="result_cont"></div>
+					<h1>{$photo.photo_title}</h1>
+					<div class="user-video-info clearfix">
+						<a href="{$userquery->profile_link($user)}" class="avatar">
+							<img src="{$userquery->avatar($user,'small',userid())}" class="img-responsive">
+						</a>
+						<h2 class="user-title">
+							<a href="{$userquery->profile_link($user)}">{$user.username}</a>
+						</h2>
+						<div class="views-counter">
+							<span>{prettyNum($photo.views)}&nbsp;{lang code='views'}</span>
+						</div>
+					</div>
+					<div class="user-likes-sub clearfix">
+						<div class="clearfix like-rating col-lg-6 col-md-6 col-sm-6 col-xs-12" id="rating_container">
+							{if $photo.allow_rating != 'no'}
+								{show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
+							{/if}
+						</div>
+						<div class="clearfix subscribe-col col-lg-6 col-md-6 col-sm-6 col-xs-12">
+							{if $photo.userid != userid()}
+								<a id="subscribeUser" class="btn btn-subscribe btn-primary" href="javascript:void(0)" onclick="_cb.subscribeToChannelNew('{$user.userid}','subscribe_user','video_detail_result_cont')">
+									<span>{lang('subscribe')}</span>
+								</a>
+							{/if}
+						</div>
+					</div>
+				</header>
+				<div id="messageFav" class="alert alert-info marginTop" style="display:none"></div>
+				<div class="view-tabs clearfix">
+					<ul class="clearfix nav nav-tabs">
+						<li class="active">
+							<a href="#cb-item-info" data-toggle="tab"><span class="icon-info"></span>{lang code='info'}</a>
+						</li>
+						<li>
+							<a href="#cb-item-share" data-toggle="tab"><span class="icon-share"></span>{lang code='share_embed'}</a>
+						</li>
+						<li>
+							<a href="#cb-item-addto" data-toggle="tab"><span class="icon-plusrounded"></span>{lang code='add_to'}</a>
+						</li>
+						<li>
+							<a href="#cb-item-report" data-toggle="tab"><span class="icon-flag"></span>{lang code='report_this'}</a>
+						</li>
+					</ul>
+					<div class="tab-content clearfix">
+						<div class="tab-pane fade in clearfix active" id="cb-item-info">
+							<div class="clearfix watch-vid-details">
+								<ul class="clearfix desc-list">
+									<li><strong>{lang code='photo_description'}</strong>:&nbsp;{$photo.photo_description|truncate:90}</li>
+									{assign var=category value=$userquery->get_category($user.category)}
+									<li><strong>{lang code='category'}</strong>:&nbsp;{$category.category_name}</li>
+									<li><strong>{lang code='tags'}</strong>:&nbsp;{$photo.photo_tags|tags:photos}</li>
+									{*<li><strong>{$photo.views|number_format}</strong>&nbsp;{lang code='views'}</li>*}
+								</ul>
+							</div>
+						</div>
+		
+						<div class="tab-pane fade in clearfix" id="cb-item-share">
+							<ul class="social-share">
+								<li>
+									<a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank" class="btn-fb icon-facebook">
+										<span>Facebook</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://twitter.com/share" target="_blank" class="btn-tw icon-twitter">
+										<span>Twitter</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank" class="btn-gplus icon-gplus">
+										<span>Google Plus</span>
+									</a>
+								</li>
+							</ul>
+							{show_share_form id=$photo.photo_id type=Photo}
+						</div>
+		
+						<div class="tab-pane fade in clearfix" id="cb-item-addto">
+							<div class="clearfix form-horizontal row">
+							{$codes=$cbphoto->photo_embed_codes(['type'=>'all','with_url'=>true, 'details'=>$photo])}
+								{foreach from=$codes item=item}
+								
+								<div class="photo-share-tab col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
+									<label class="col-sm-2 col-xs-3 control-label" for="{$item.type}">{$item.name}</label>
+									<div class="col-sm-10 col-xs-9">
+										<input class="form-control" onFocus="this.select();" value="{$item.code}" id="{$item.type}">
+									</div>
+								</div>
+								
+								{/foreach}
+							</div>
+						</div>
+		
+						<div class="tab-pane fade in clearfix custom-elements" id="cb-item-report">
+							{show_flag_form id=$photo.photo_id type=Photo}
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="clearfix comments-block" id="comments-block">
+				<div id="test1"></div>
+				<div id="reply" class="clearfix"> 
+					<div class="pad-bottom">
+						<div  class="addComment clearfix">
+							<div class="com_count" id="com_count">
+								<h2>{$photo.total_comments}&nbsp;<span>{lang code='comments'}</span></h2>
+							</div>
+							{if $myquery->is_commentable($photo,'p')}
+							{include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
+							{else}
+							<div class="alert alert-warning">{lang code='Comments disabled for this photo'}</div>
+							{/if}
+						</div>
+						<div id="comments"></div>
+						<div id="userCommentsList">
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+		<aside id="sidebar">
+			<div class="box-ad ad">{AD place='ad_300x250'}</div>
+			{$related_photos=get_photos(['title'=>$photo.photo_title,'tags'=>$photo.photo_tags,
+			'exclude'=>$photo.photo_id,'show_related'=>'yes','limit'=>6,'order'=>'date_added DESC'])}
+		
+			{if $related_photos}
+			<h2>{lang code='Related Photos'}</h2>
+			<div class="clearfix sidebar-items">
+		
+				<div class="row">
+					{foreach $related_photos as $photo}
+						<div class="item-photo col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							{include file="$style_dir/blocks/photo.html" display_type='relatedPhoto_sidebar'}
+						</div>
+					{/foreach}
+				</div>
+			</div>
+			{/if}
+		
+			{$row = $myquery->Get_Website_Details()}
+			{if $row.collectionsSection == 'yes'}
+			{$collections = $cbcollection->get_collections(['limit'=>5, 'active'=>'yes'])}
+			<h2>{lang code="top_collections"}</h2>
+			<div class="clearfix sidebar-items collections-grid">
+				<div class="clearfix row">
+				{$limit=10}
+				{if $collections}        
+				{foreach from=$collections item=collection}
+				{$first_col_thumb = $cbcollection->coll_first_thumb($collection,'l')}
+					<div class="clearfix collection-item col-lg-6 col-md-6 col-sm-12 col-xs-12"> 
+						<div class="collection-holder">
+							<div class="photo-block">
+								<a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}">
+									<img alt="{$collection.title}" title="{$collection.title}" class="img-responsive" id="photo_{$collection.ci_id}" src="{$first_col_thumb}">
+									<div class="collection-info">
+										<span>{$collection.total_objects}</span>{lang code='photos'}
+									</div>
+								</a>
+							</div>
+							<img src="{$theme}/images/photo-bg.png" alt="" class="photo-bg">
+						</div>
+						<span class="title">{$collection.collection_name}</span>
+					</div>
+				{/foreach}
+				</div>
+				{else}
+				<div class="well well-info">No Collection</div>
+				{/if}
+			</div>
+			{/if}
+		</aside>
+		{*section name=list loop=$uphotos}
+		{include file="$style_dir/blocks/photo.html" display_type="related_photos" photo=$uphotos[list]}
+		{/section*}
+	</div>
+
+<script>
+	$(document).ready(function()
+		{ldelim}
+		$(".clip_read").click(function() {
+			$(this).toggleClass('clip_hide');
+			if(!$(this).hasClass('clip_hide')) 
+
+			{
+			  $('.not_show').show();
+			  $('.will_show').hide();
+			  $(".clip_read").text("Show Less");
+		  }
+
+		  else
+		  {
+		   $('.not_show').hide();
+		   $('.will_show').show();
+		   $(".clip_read").text("Show More");
+	   }
+   });
+
+	comments_voting = 'no';
+	getComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}')
+	{rdelim}
+	);
+</script>
+
+{literal}
+
+{/literal}

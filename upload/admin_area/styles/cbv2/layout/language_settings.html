@@ -1,0 +1,113 @@
+{if $edit_lang != 'yes'}
+<h2>Language Settings</h2>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:15px">
+  <tr>
+    <td width="20" class="left_head" style="padding-left:5px">ID</td>
+    <td width="100" align="left" class="head"><div class="head_sep_left">Default</div></td>
+    <td class="head"><div class="head_sep_left" style="width:100px">Language</div></td>    
+  </tr>
+</table>
+
+<form name="default_lang" method="post" action="?default">
+{section name=l_list loop=$language_list}
+<div class="row_white">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="20" height="25" valign="top" style="padding-left:5px">{$language_list[l_list].language_id}</td>
+    <td width="100" align="left" valign="top"><label>
+      <input type="radio" name="make_default" id="radio" value="{$language_list[l_list].language_id}" {if $language_list[l_list].language_default =='yes'}checked="checked"{/if} onclick="document.default_lang.submit()"/>
+    </label></td>
+    <td valign="top">{$language_list[l_list].language_name}({$language_list[l_list].language_code})
+      <div><a href="?create_package={$language_list[l_list].language_code}">Recreate Pack</a>
+       -  <a href="?recreate_from_pack={$language_list[l_list].language_code}" >Recreate from pack</a>
+        -  <a href="?edit_language={$language_list[l_list].language_id}" >Edit Phrases</a>
+        - <a href="?edit_language={$language_list[l_list].language_id}">Edit</a>
+        - <a href="javascript:void(0)" onclick="if(confirm_it('Are you sure you want to delete \'{$language_list[l_list].language_name}\' pack')) window.location = '?delete={$language_list[l_list].language_id}'">Delete</a>
+        - <a href="?download={$language_list[l_list].language_id}" target="_blank">Export</a>{if $language_list[l_list].language_active!='yes'}
+        - <a href="?action=activate&id={$language_list[l_list].language_id}">Activate</a>{/if}{if $language_list[l_list].language_active=='yes'}
+        - <a href="?action=deactivate&id={$language_list[l_list].language_id}">Dectivate</a>{/if}</div></td>
+    </tr>
+</table>
+</div>
+{/section}  
+</form>
+
+<div style="height:50px"></div>
+<h2> Add New Language </h2>
+<form action="?import" method="post" enctype="multipart/form-data" name="import_language" id="import_language">
+	<fieldset>
+    	<legend>Upload file</legend>
+        	<table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
+            <tr>
+              <td>Browse ClipBucket Language File ( must be .xml format ) 
+              <input type="file" name="lang_file" id="lang_file" />
+              <input type="submit" name="add_language" id="add_language" value="Add Language" class="button" /></td>
+            </tr>
+            </table>
+    </fieldset>
+</form>
+{else}
+<span class="page_title">Edit {$lang_details.language_name}</span>
+
+<div class="search_box">  <form id="form1" name="form1" method="post" action="">
+    <label>Language Name 
+      <input name="name" type="text" id="name" value="{$lang_details.language_name}" />
+Language Code   </label>
+    <input name="code" type="text" id="code" value="{$lang_details.language_code}" />
+Language Regex 
+<input name="regex" type="text" id="regex" value="{$lang_details.language_regex}" /> 
+<input type="submit" name="update_language" class="button" value="Update"  style="margin-top:10px" id="update_language"/>
+<br />
+</form></div>
+  
+<div style="height:10px">
+
+</div>
+<span class="page_title">Editing {$lang_details.language_name} Phrases</span>
+
+<div style="height:10px">
+
+</div>
+
+
+<div class="search_box">  <form id="form1" name="form1" method="get" action="?">
+    <label>Phrase Code - Name<br />
+<input name="varname" type="text" id="varname" value="{$smarty.get.varname|form_val}" />
+<input name="edit_language" type="hidden" value="{$smarty.get.edit_language}" />
+    </label>
+    <br />
+    <label>Phrase Text<br />
+<input name="text" type="text" id="text" value="{$smarty.get.text|form_val}" />
+    </label>
+    <br />
+    <label>
+      <input type="submit" name="search_phrase" class="button" value="Submit"  style="margin-top:10px" id="search_phrase"/>
+    </label>
+  </form></div>
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="5" class="left_head" ></td>
+    <td width="200" class="head">Phrase Code</td>
+    <td align="left" class="head">Phrase</td>
+    <td width="200"  class="right_head"></td>
+  </tr>
+</table>
+
+{section name=p_list loop=$lang_phrases}
+<div class="row_white">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="5"  ></td>
+    <td width="200" >{$lang_phrases[p_list].varname}</td>
+    <td align="left"><div class="edit_lang" id="{$lang_phrases[p_list].id}">{$lang_phrases[p_list].text}</div></td>
+    <td width="200" ></td>
+  </tr>
+</table>
+</div>
+{/section}
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }
+
+{/if}

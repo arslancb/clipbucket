@@ -1,0 +1,145 @@
+<div id="navbar" class="navbar navbar-default">
+	<div id="navbar" class="navbar-container container">
+		<div class="navbar-header pull-left">
+            <div class="logoContainer clearfix">
+    			<a class="navbar-brand" href="{$baseurl}/admin_area">
+                    <img class="pull-left" src="{$imageurl}/login_logo.png" height="30">                   
+                </a>
+            </div>
+		   </div>
+        <div class="navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+                <li class="purple">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-bell-alt icon-animated-bell"></i>
+                                <span class="badge badge-important">{math equation="x + a + b + c + d + e" x={get_videos active='no' count_only=true} a={get_groups active='no' count_only=true} b=$cbgroup->action->count_flagged_objects() c=$cbvid->action->count_flagged_objects() d=$userquery->action->count_flagged_objects() e={get_users count_only=yes status='ToActivate'}}</span>
+                            </a>
+
+                            <ul class="dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close pull-right">
+                                <li class="dropdown-header">
+                                    <i class="icon-warning-sign"></i>
+                                    {math equation="x + a + b + c + d + e" x={get_videos active='no' count_only=true} a={get_groups active='no' count_only=true} b=$cbgroup->action->count_flagged_objects() c=$cbvid->action->count_flagged_objects() d=$userquery->action->count_flagged_objects() e={get_users status='ToActivate' count_only=true}} Notifications
+                                </li>
+                                <li>
+                                    <a href="video_manager.php?search=search&active=no">
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <i class="btn btn-xs no-hover btn-pink icon-facetime-video"></i>
+                                                Approve Videos
+                                            </span>
+                                            <span class="badge badge-info pull-right">{get_videos active='no' count_only=true} </span>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="members.php?search=yes&amp;status=ToActivate">
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <i class="btn btn-xs no-hover btn-success icon-user"></i>
+                                                Approve Members
+                                            </span>
+                                            <span class="badge badge-success pull-right">{get_users status='ToActivate' count_only=true}</span>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="groups_manager.php?active=no&amp;search=yes">
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <i class="btn btn-xs no-hover btn-info icon-group"></i>
+                                                Approve Groups 
+                                            </span>
+                                            <span class="badge badge-info pull-right">{get_groups active='no' count_only=true}</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="flagged_videos.php">
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <i class="btn btn-xs no-hover btn-error icon-flag"></i>
+                                                Flagged
+                                            </span>
+                                            <span class="badge badge-info pull-right">{math equation="x + y + z" x=$cbgroup->action->count_flagged_objects() y=$cbvid->action->count_flagged_objects() z=$userquery->action->count_flagged_objects()} </span>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="{$baseurl}/admin_area/notification_settings.php">
+                                        See all notifications
+                                        <i class="icon-arrow-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+
+                <li class="dropdown blue">
+                    <a data-toggle="dropdown" class="dropdown-toggle clickable" href="#">
+                        <i class="glyphicon glyphicon-arrow-down"></i>
+                        <span class="badge badge-important">Display Option</span>
+                    </a>
+                    <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu1">
+                        <li class="dropdown-header">
+                            <i class="icon-info-sign"></i>
+                            <form id="display_opts" name="display_opts" method="post" action="">
+                                Results Per Page :
+                                <input name="admin_pages" type="text" style="width:50px" value="{$Cbucket->configs.admin_pages}"/>
+                                <input type="submit" name="update_dp_options" id="button" value="Update"  class="btn btn-primary btn-xs"/>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="blue">
+                    <a target="_blank" href="{$baseurl}">
+                        <i class="glyphicon glyphicon-home"></i>
+                        <span class="badge badge-success"></span>
+                    </a>
+
+                <li class="blue">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img src="{$userquery->getUserThumb($u)}" class="img-circle" width="25" height="25"/>
+								<span class="user-info">
+									{$userquery->username}<br>
+                                    {assign var=levels value=$userquery->get_levels()}
+                                        {section name=l loop=$levels}
+                                    {$levels[l].user_level_name}
+                                    {/section}
+								</span>
+                        <i class="icon-caret-down"></i>
+                    </a>
+                    <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li>
+                            <a href="main.php">
+                                <i class="icon-cog"></i>
+                                Settings
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="index.php">
+                                <i class="icon-user"></i>
+                                Profile
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li>
+                            <a href="logout.php">
+                                <i class="icon-off"></i>
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                   </li>
+                </ul>
+            </div>
+    </div>
+    </div>
+                        <!-- /.navbar-header -->
+<!-- /.container -->

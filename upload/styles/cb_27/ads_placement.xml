@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ads_placements>
+	<ad>
+	    <name>Wide Skyscrapper 160x600</name>
+	  	<place>Videos page</place>
+        <place>channels page</place>
+        <place>photos page</place>
+        <place>view photo page</place>
+    </ad>
+	<ad>
+	    <name>Banner 468x60</name>
+	    <place>Search page</place>
+	</ad>
+	<ad>
+	    <name>Medium Rectangle 300x250</name>
+	    <place>Home Page</place>
+	</ad>
+	<ad>
+	    <name>Leader Board 728x90</name>
+	    <place>VideoUpload page</place>
+	</ad>
+	<ad>
+	    <name>Skyscrapper 120x600</name>
+	</ad>
+</ads_placements>

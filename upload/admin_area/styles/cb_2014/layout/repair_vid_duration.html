@@ -1,0 +1,64 @@
+<div class="heading">
+  <h2>ClipBucket video duration fix</h2>
+</div>
+<div class="well">
+  Clipbucket repair video duration using file conversion logs of each file, if there is no log, duration fix is likely not possible.<br />
+  * with log => those videos that have file conversion log<br />
+  * with no log => those don't have any conversion log
+</div>
+
+<div class="cb_div">
+  {if $videos}
+  <div class="btn-group">
+    <form name="fix duration" method="post">
+      <input type="submit" name="fix_duration" value="Fix duration (only with log)" class="btn btn-primary btn-xs"/>
+      <input type="submit" name="mark_failed" value="Mark failed (with no log)" class="btn btn-primary btn-xs"/>
+      <input type="submit" name="mark_delete" value="Delete (with no log)" class="btn btn-primary btn-xs"/>
+    </form>
+  </div>
+	
+	{foreach from=$videos item=video}
+    {assign var=filename value=$video.file_name}
+    {assign var=log value=get_file_details($filename)}
+  <div>
+  	<div class="marginTopLarge">
+      <img src="{getThumb vdetails=$video}"/>
+    </div>
+
+  	<div class="marginTopLarge">
+      <table class="table table-bordered table-striped">
+        <tr>
+          <td>Filename</td>
+          <td>Duration</td>
+          <td>Has log</td>
+        </tr>
+        <tr>
+          <td>
+            {if $fixed_array.$filename}
+              <strong>[FIXED]</strong> 
+            {/if}
+            <a href='edit_video.php?video={$video.videoid}' >
+              {$video.title}
+            </a>  
+          </td>
+          <td>
+            <strong>{$vdo.duration|setTime}</strong> 
+          </td>
+          <td>
+            <strong>
+              {if $log} 
+              <span style="color:#060">yes</span>
+              {else}
+              <span style="color:#ed0000">no</span>
+              {/if} 
+            </strong>
+          </td>
+        </tr>   
+      </table>
+    </div>
+  </div>
+    {/foreach}
+    {else}
+    	<em><strong>No videos found with duration less than or equal to 1</strong></em>
+    {/if}
+</div>

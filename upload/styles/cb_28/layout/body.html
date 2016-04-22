@@ -1,0 +1,23 @@
+{include file="$style_dir/global_header.html"}
+    <body>
+		<div id="container">
+			{ANCHOR place='premium_button'}
+			{include file="$style_dir/header.html" }
+
+			{*if this_page('channels')*}
+			{*include file="$style_dir/sidebar.html" display_type='channels'*}
+
+			{*else*}
+			{*include file="$style_dir/sidebar.html" display_type='categories'*}
+			{*/if*}
+			<!-- Message -->
+			{include file="$style_dir/message.html"}
+			
+			{foreach from=$template_files item=file}
+			    {include_template_file file=$file}
+			{/foreach}
+
+			{include file="$style_dir/footer.html" }
+		</div>
+    </body>
+</html>

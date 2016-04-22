@@ -1,0 +1,69 @@
+{if $control == 'full'}
+    
+    <tr>
+        <td>
+            <input type="checkbox" name="check_photo[]" id="check_photo-{$photo.photo_id}" value="{$photo.photo_id}" />
+        </td>
+        <td valign="middle">
+            <label for="check_photo-{$photo.photo_id}">{get_photo details=$photo output='html' class='acc_usr_video_thumb' style='width:auto;'}</label>
+            {$photo.photo_title|truncate:100}<br />
+            <span class="btn-group show">
+                <a class="btn btn-primary btn-sm" href="{$cbphoto->photo_links($photo,'view_item')}">view</a>
+                <a class="btn btn-primary btn-sm" href="{$baseurl}/edit_photo.php?photo={$photo.photo_id}">edit</a>
+                <a class="btn btn-primary btn-sm" href="javascript:void(0)"  onmousedown="delete_item('delete_icon_a','{$photo.photo_id}','{lang code="Are you sure you want to delete this photo? This action will delete photo permanently."}','?mode=uploaded&amp;delete_photo={$photo.photo_id}')"  id="delete_icon_a-{$photo.photo_id}">delete</a>      
+                {if !$userquery->isProfileItem($photo.photo_id,'p')}
+                <a class="btn btn-primary btn-sm" href="{$queryString}makeProfileItem={$photo.photo_id}&type=p">{lang code='make_profile_item'}</a>
+                {else}
+                <a class="btn btn-primary btn-sm" href="{$queryString}removeProfileItem={$photo.photo_id}&type=p">{lang code='remove_profile_item'}</a>
+                {/if}
+            </span>
+        </td>
+        <td>{$photo.date_added|date_format}</td>
+        <td>{$photo.views|number_format}</td>
+        <td>{$photo.total_comments|number_format}</td>
+        <td>{$photo.total_favorites|number_format}</td>
+    </tr>
+    
+{/if}
+
+{if $control == "partail"}
+    
+        	<tr>
+            	<td><input type="checkbox" name="check_photo[]" id="check_photo-{$photo.photo_id}" value="{$photo.photo_id}" /></td>
+                <td valign="middle">
+                	<label for="check_photo-{$photo.photo_id}">{get_photo details=$photo output='html' class='acc_usr_video_thumb' style='width:auto;'}</label>
+                    {$photo.photo_title|truncate:100}<br />
+                    <span class="btn-group show">
+                    	<a class="btn btn-primary btn-sm" href="{$cbphoto->photo_links($photo,'view_item')}">view</a> 
+                        <a class="btn btn-primary btn-sm" href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$photo.photo_id}','{lang code="Are you sure you want to remove photo from favorites?"}','?mode={$mode}&amp;remove_fav_photo={$photo.photo_id}')" id="delete_icon_a-{$photo.photo_id}">{lang code='delete'}</a>
+                    </span>
+                </td>
+                <td>{$photo.date_added|date_format}</td>
+                <td>{$photo.views|number_format}</td>
+                <td>{$photo.total_comments|number_format}</td>
+                <td>{$photo.total_favorites|number_format}</td>
+            </tr>
+       
+{/if}
+
+{if $control == 'orphan'}
+  
+        	<tr>
+            	<td><input type="checkbox" name="check_photo[]" id="check_photo-{$photo.photo_id}" value="{$photo.photo_id}" /></td>
+
+                 <td valign="middle">
+                	<label for="check_photo-{$photo.photo_id}">{get_photo details=$photo output='html' class='acc_usr_video_thumb' style='width:auto;'}</label>
+                    {$photo.photo_title|truncate:100}<br />
+                    <span class="btn-group show">
+                    	<a class="btn btn-primary btn-sm" href="{$baseurl}/edit_photo.php?photo={$photo.photo_id}">edit</a>  
+                        <a class="btn btn-primary btn-sm" href="{get_photo size='o' details=$photo}">Direct Link</a> 
+                        <a class="btn btn-primary btn-sm" href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$photo.photo_id}','{lang code="Are you sure you want to delete this photo? This action will delete photo permanently."}','?mode={$mode}&amp;delete_orphan_photo={$photo.photo_id}')" id="delete_icon_a-{$photo.photo_id}">{lang code='delete'}</a>
+                    </span>
+                </td>
+                <td>{$photo.date_added|date_format}</td>
+                <td>{$photo.views|number_format}</td>
+                <td>{$photo.total_comments|number_format}</td>
+                <td>{$photo.total_favorites|number_format}</td>
+            </tr>
+
+{/if}

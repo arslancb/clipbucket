@@ -1,0 +1,1420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>繁體中文</name>
+	<iso_code>zh</iso_code>
+	<phrases>
+	<ad_name_error>請輸入廣告名稱</ad_name_error>
+	<ad_code_error>錯誤 : 請輸入廣告號碼</ad_code_error>
+	<ad_exists_error1>廣告不存在</ad_exists_error1>
+	<ad_exists_error2>錯誤 : 廣告名稱不能重複</ad_exists_error2>
+	<ad_add_msg>廣告已添加</ad_add_msg>
+	<ad_msg>廣告已 </ad_msg>
+	<ad_update_msg>廣告已更新</ad_update_msg>
+	<ad_del_msg>廣告已刪除</ad_del_msg>
+	<ad_deactive>暫停</ad_deactive>
+	<ad_active>運行</ad_active>
+	<ad_placment_delete_msg>廣告位置已刪除</ad_placment_delete_msg>
+	<ad_placement_err1>廣告位置已存在</ad_placement_err1>
+	<ad_placement_err2>請輸入廣告位置名稱</ad_placement_err2>
+	<ad_placement_err3>請輸入廣告位置號碼</ad_placement_err3>
+	<ad_placement_msg>廣告位置已添加</ad_placement_msg>
+	<cat_img_error>上傳只支持 JPEG, GIF or PNG 圖片檔格式</cat_img_error>
+	<cat_exist_error><![CDATA[Category doesn&#8217;t exist]]></cat_exist_error>
+	<cat_add_msg>分類已添加</cat_add_msg>
+	<cat_update_msg>分類已更新</cat_update_msg>
+	<grp_err><![CDATA[Group Doesn&#8217;t Exist]]></grp_err>
+	<grp_fr_msg>群組已被設定為"焦點"</grp_fr_msg>
+	<grp_fr_msg1>群組已被取消設定為"焦點"</grp_fr_msg1>
+	<grp_ac_msg>所選群組已運行</grp_ac_msg>
+	<grp_dac_msg>所選群組已暫停</grp_dac_msg>
+	<grp_del_msg>群組已刪除</grp_del_msg>
+	<editor_pic_up>影片已向上移動</editor_pic_up>
+	<editor_pic_down>影片已向下移動</editor_pic_down>
+	<plugin_install_msg>插件已安裝</plugin_install_msg>
+	<plugin_no_file_err>插件不存在</plugin_no_file_err>
+	<plugin_file_detail_err>未知插件</plugin_file_detail_err>
+	<plugin_installed_err>插件已安裝</plugin_installed_err>
+	<plugin_no_install_err>插件未安裝</plugin_no_install_err>
+	<grp_name_error>請輸入群組名稱</grp_name_error>
+	<grp_name_error1>群組名稱不能重複</grp_name_error1>
+	<grp_des_error>請輸入群組描述</grp_des_error>
+	<grp_tags_error>請輸入群組標記</grp_tags_error>
+	<grp_url_error>請輸入有效的群組網址</grp_url_error>
+	<grp_url_error1>請輸入有效的網址名稱</grp_url_error1>
+	<grp_url_error2>群組網址不能重複</grp_url_error2>
+	<grp_tpc_error>請輸入群組標題</grp_tpc_error>
+	<grp_comment_error>請輸入留言</grp_comment_error>
+	<grp_join_error>已經加入的群組</grp_join_error>
+	<grp_prvt_error>私密群組，需要登入權限</grp_prvt_error>
+	<grp_inact_error>此群組無效，請聯系管理員</grp_inact_error>
+	<grp_join_error1>您未加入此群組</grp_join_error1>
+	<grp_exist_error><![CDATA[Sorry, Group Doesn&#8217;t Exist]]></grp_exist_error>
+	<grp_tpc_error1>群組標題未被核准</grp_tpc_error1>
+	<grp_cat_error>請選擇群組分類</grp_cat_error>
+	<grp_tpc_error2>請輸入群組標題</grp_tpc_error2>
+	<grp_tpc_error3>群組標題需要等待通過核准</grp_tpc_error3>
+	<grp_tpc_msg>群組標題已添加</grp_tpc_msg>
+	<grp_comment_msg>評論已添加</grp_comment_msg>
+	<grp_vdo_msg>影片已刪除</grp_vdo_msg>
+	<grp_vdo_msg1>影片已添加</grp_vdo_msg1>
+	<grp_vdo_msg2>影片已核准</grp_vdo_msg2>
+	<grp_mem_msg>會員已被移除群組</grp_mem_msg>
+	<grp_mem_msg1>會員已核准</grp_mem_msg1>
+	<grp_inv_msg>邀請已傳送</grp_inv_msg>
+	<grp_tpc_msg1>標題已刪除</grp_tpc_msg1>
+	<grp_tpc_msg2>標題已核准</grp_tpc_msg2>
+	<grp_fr_msg2>群組已從"焦點"移除</grp_fr_msg2>
+	<grp_inv_msg1>邀請您加入群組 </grp_inv_msg1>
+	<grp_av_msg>群組已啟用</grp_av_msg>
+	<grp_da_msg>群組已停用</grp_da_msg>
+	<grp_post_msg>貼文被刪除</grp_post_msg>
+	<grp_update_msg>群組已更新</grp_update_msg>
+	<grp_owner_err>只有群組管理員才能上載影片</grp_owner_err>
+	<grp_owner_err1>您不是群組管理員</grp_owner_err1>
+	<grp_owner_err2>您是群組管理員，不能離開群組</grp_owner_err2>
+	<grp_prvt_err1>私密群組，需要邀請加入</grp_prvt_err1>
+	<grp_rmv_msg>您已退出所選的群組</grp_rmv_msg>
+	<grp_tpc_err4><![CDATA[Sorry, Topic Doesn&#8217;t Exist]]></grp_tpc_err4>
+	<grp_title_topic>群組 - 標題 - </grp_title_topic>
+	<grp_add_title>- 上載影片</grp_add_title>
+	<usr_sadmin_err>管理員的用戶名不能為空的</usr_sadmin_err>
+	<usr_cpass_err><![CDATA[Confirm Password Doesn&#8217;t Match]]></usr_cpass_err>
+	<usr_pass_err>舊密碼不正確</usr_pass_err>
+	<usr_email_err>電子郵件地址不正確</usr_email_err>
+	<usr_cpass_err1>確認密碼不正確</usr_cpass_err1>
+	<usr_pass_err1>密碼不正確</usr_pass_err1>
+	<usr_cmt_err>您需要登入後才能留言</usr_cmt_err>
+	<usr_cmt_err1>留言不能為空的</usr_cmt_err1>
+	<usr_cmt_err2>您不能在您的影片內留言</usr_cmt_err2>
+	<usr_cmt_err3>您已經在這個群組內留言</usr_cmt_err3>
+	<usr_cmt_err4>留言已被添加</usr_cmt_err4>
+	<usr_cmt_del_msg>留言已被刪除</usr_cmt_del_msg>
+	<usr_cmt_del_err>錯誤留言已被刪除</usr_cmt_del_err>
+	<usr_cnt_err>您不能添加您自己</usr_cnt_err>
+	<usr_cnt_err1>該會員已經是您的聯系人</usr_cnt_err1>
+	<usr_sub_err>您已經訂閱過 %s</usr_sub_err>
+	<usr_exist_err>會員不存在</usr_exist_err>
+	<usr_ccode_err>認証碼不正確</usr_ccode_err>
+	<usr_exist_err1>郵箱不存在</usr_exist_err1>
+	<usr_exist_err2>會員不存在</usr_exist_err2>
+	<usr_uname_err>會員名稱是空的</usr_uname_err>
+	<usr_uname_err2>會員名稱已經存在</usr_uname_err2>
+	<usr_pass_err2>密碼是空的</usr_pass_err2>
+	<usr_email_err1>電子郵箱是空的</usr_email_err1>
+	<usr_email_err2>請輸入一個有效的郵箱</usr_email_err2>
+	<usr_email_err3>電子郵箱已存在</usr_email_err3>
+	<usr_pcode_err>郵編只能為數字</usr_pcode_err>
+	<usr_fname_err>姓氏是空的</usr_fname_err>
+	<usr_lname_err>名字是空的</usr_lname_err>
+	<usr_uname_err3>會員名稱含有非法符號</usr_uname_err3>
+	<usr_pass_err3>確認密碼不符</usr_pass_err3>
+	<usr_dob_err>請選擇出生日期</usr_dob_err>
+	<usr_ament_err>請確認細閱並同意本網站條款</usr_ament_err>
+	<usr_reg_err>新會員註冊暫停</usr_reg_err>
+	<usr_ban_err>會員資格已被管理員暫停</usr_ban_err>
+	<usr_login_err><![CDATA[Username and Password Didn&#8217;t Match]]></usr_login_err>
+	<usr_sadmin_msg>管理員資料已更新</usr_sadmin_msg>
+	<usr_pass_msg>新密碼設定已更新</usr_pass_msg>
+	<usr_cnt_msg>該會員已成為您的聯系人</usr_cnt_msg>
+	<usr_sub_msg>您已訂閱 %s</usr_sub_msg>
+	<usr_uname_email_msg>系統已發出一封含有會員資訊的電子郵件，請查看您的電子郵箱</usr_uname_email_msg>
+	<usr_rpass_email_msg>系統已發出一封含有會員密碼重設的電子郵件，請查看您的電子郵箱</usr_rpass_email_msg>
+	<usr_pass_email_msg>新密碼設定已更新</usr_pass_email_msg>
+	<usr_email_msg>電子郵箱設定已更新</usr_email_msg>
+	<usr_del_msg>會員已被刪除</usr_del_msg>
+	<usr_dels_msg>所選的會員已被刪除</usr_dels_msg>
+	<usr_ac_msg>會員資格已啟用</usr_ac_msg>
+	<usr_dac_msg>會員資格已暫停</usr_dac_msg>
+	<usr_mem_ac>所選會員資格已啟用</usr_mem_ac>
+	<usr_mems_ac>所選會員資格已暫停</usr_mems_ac>
+	<usr_fr_msg>會員已成為焦點會員</usr_fr_msg>
+	<usr_ufr_msg>焦點會員資格已被移除</usr_ufr_msg>
+	<usr_frs_msg>所選會員已成為焦點會員</usr_frs_msg>
+	<usr_ufrs_msg>所選的焦點會員資格已被移除</usr_ufrs_msg>
+	<usr_uban_msg>會員資格已停用</usr_uban_msg>
+	<usr_uuban_msg>會員資格已啟用</usr_uuban_msg>
+	<usr_ubans_msg>所選會員資格已停用</usr_ubans_msg>
+	<usr_uubans_msg>所選會員資格已啟用</usr_uubans_msg>
+	<usr_pass_reset_conf>密碼重設確認</usr_pass_reset_conf>
+	<usr_dear_user>您好，</usr_dear_user>
+	<usr_pass_reset_msg>請按照連結指示重設密碼</usr_pass_reset_msg>
+	<usr_rpass_msg>密碼設定已被重設</usr_rpass_msg>
+	<usr_rpass_req_msg>密碼設定已重設，新密碼為 : </usr_rpass_req_msg>
+	<usr_uname_req_msg>會員名稱查詢成功，您的用戶名稱為: </usr_uname_req_msg>
+	<usr_uname_recovery>會員名稱查詢</usr_uname_recovery>
+	<usr_add_succ_msg>會員已被添加</usr_add_succ_msg>
+	<usr_upd_succ_msg>會員資訊已更新</usr_upd_succ_msg>
+	<usr_activation_msg>您的會員資格已啟用</usr_activation_msg>
+	<usr_activation_err>您的會員資格已啟用</usr_activation_err>
+	<usr_activation_em_msg>系統已發出一封含有會員啟動操作的電子郵件，請查看您的電子郵箱</usr_activation_em_msg>
+	<usr_activation_em_err><![CDATA[Email Doesn&#8217;t Exist or a User With This Email is already Activated]]></usr_activation_em_err>
+	<usr_no_msg_del_err>沒有消息被選擇</usr_no_msg_del_err>
+	<usr_sel_msg_del_msg>所選的消息已被刪除</usr_sel_msg_del_msg>
+	<usr_pof_upd_msg>會員資訊已更新</usr_pof_upd_msg>
+	<usr_arr_no_ans>沒有答案</usr_arr_no_ans>
+	<usr_arr_elementary>小學程度</usr_arr_elementary>
+	<usr_arr_hi_school>初中程度</usr_arr_hi_school>
+	<usr_arr_some_colg>高中程度</usr_arr_some_colg>
+	<usr_arr_assoc_deg>大專程度</usr_arr_assoc_deg>
+	<usr_arr_bach_deg><![CDATA[Bachelor&#8217;s Degree]]></usr_arr_bach_deg>
+	<usr_arr_mast_deg><![CDATA[Master&#8217;s Degree]]></usr_arr_mast_deg>
+	<usr_arr_phd>Ph.D.</usr_arr_phd>
+	<usr_arr_post_doc>Postdoctoral</usr_arr_post_doc>
+	<usr_arr_single>單身</usr_arr_single>
+	<usr_arr_married>已婚</usr_arr_married>
+	<usr_arr_comitted>訂婚</usr_arr_comitted>
+	<usr_arr_open_marriage>開放式婚姻</usr_arr_open_marriage>
+	<usr_arr_open_relate>開放式性關系</usr_arr_open_relate>
+	<title_crt_new_msg>撰寫新消息</title_crt_new_msg>
+	<title_forgot>Forgot Something? Find it now !</title_forgot>
+	<title_inbox> - 收件箱</title_inbox>
+	<title_sent> - 寄件備份</title_sent>
+	<title_usr_contact><![CDATA[&#8217;s Contact List]]></title_usr_contact>
+	<title_usr_fav_vids>%s 的最愛影片</title_usr_fav_vids>
+	<title_view_channel><![CDATA[&#8217;s Channel]]></title_view_channel>
+	<title_edit_video>編輯影片 - </title_edit_video>
+	<vdo_title_err>請輸入影片標題</vdo_title_err>
+	<vdo_des_err>請輸入影片簡介</vdo_des_err>
+	<vdo_tags_err>請輸入影片標籤</vdo_tags_err>
+	<vdo_cat_err>請選擇最少一個分類</vdo_cat_err>
+	<vdo_cat_err1>請選擇最多三個分類</vdo_cat_err1>
+	<vdo_sub_email_msg> 所以您收到這個自動消息 </vdo_sub_email_msg>
+	<vdo_has_upload_nv>已上載新影片</vdo_has_upload_nv>
+	<vdo_del_selected>所選影片已被刪除</vdo_del_selected>
+	<vdo_cheat_msg>請不要這樣做</vdo_cheat_msg>
+	<vdo_limits_warn_msg>請不要嘗試超過限制</vdo_limits_warn_msg>
+	<vdo_cmt_del_msg>留言已被刪除</vdo_cmt_del_msg>
+	<vdo_iac_msg>影片已被暫停</vdo_iac_msg>
+	<vdo_is_in_process>影片正在轉換</vdo_is_in_process>
+	<vdo_upload_allow_err>不允許上載新影片</vdo_upload_allow_err>
+	<vdo_download_allow_err>不允許下載影片</vdo_download_allow_err>
+	<vdo_edit_owner_err>您不是影片擁有人</vdo_edit_owner_err>
+	<vdo_embed_code_wrong>代碼不正確</vdo_embed_code_wrong>
+	<vdo_seconds_err>錯誤輸入 - 影片 秒</vdo_seconds_err>
+	<vdo_mins_err>錯誤輸入 - 影片 分</vdo_mins_err>
+	<vdo_thumb_up_err>錯誤上載截圖</vdo_thumb_up_err>
+	<class_error_occured>出錯了</class_error_occured>
+	<class_cat_del_msg>分類已被刪除</class_cat_del_msg>
+	<class_vdo_del_msg>影片已被刪除</class_vdo_del_msg>
+	<class_vdo_fr_msg><![CDATA[Video has been marked as &#8220;Featured Video&#8221;]]></class_vdo_fr_msg>
+	<class_fr_msg1><![CDATA[Video has been removed from &#8220;Featured Videos&#8221;]]></class_fr_msg1>
+	<class_vdo_act_msg>影片已啟用</class_vdo_act_msg>
+	<class_vdo_act_msg1>影片已暫停</class_vdo_act_msg1>
+	<class_vdo_update_msg>影片資訊已更新</class_vdo_update_msg>
+	<class_comment_err>需要登入才能留言</class_comment_err>
+	<class_comment_err1>留言不能為空白</class_comment_err1>
+	<class_comment_err2>您不能在自己的影片內留言</class_comment_err2>
+	<class_comment_err3>您已經在這個影片貼過留言</class_comment_err3>
+	<class_comment_err4>您已經在這個影片貼過留言</class_comment_err4>
+	<class_comment_err5>您不能在自己的留言內回覆</class_comment_err5>
+	<class_comment_msg>留言已添加</class_comment_msg>
+	<class_comment_err6>需要登入才能評分</class_comment_err6>
+	<class_comment_err7>您已經為這個留言評過分</class_comment_err7>
+	<class_vdo_fav_err>已收藏過此影片</class_vdo_fav_err>
+	<class_vdo_fav_msg>已收藏此影片</class_vdo_fav_msg>
+	<class_vdo_flag_err>已投訴過此影片</class_vdo_flag_err>
+	<class_vdo_flag_msg>已投訴此影片</class_vdo_flag_msg>
+	<class_vdo_flag_rm>投訴已處理</class_vdo_flag_rm>
+	<class_send_msg_err>請輸入收件者</class_send_msg_err>
+	<class_invalid_user>會員不存在</class_invalid_user>
+	<class_subj_err>消息標題是空的</class_subj_err>
+	<class_msg_err>消息內容是空的</class_msg_err>
+	<class_sent_you_msg>收到一封信息</class_sent_you_msg>
+	<class_sent_prvt_msg>收到一封私密信息 </class_sent_prvt_msg>
+	<class_click_inbox>按此進入收件箱</class_click_inbox>
+	<class_click_login>按此登錄</class_click_login>
+	<class_email_notify>電子郵件通知</class_email_notify>
+	<class_msg_has_sent_to>消息已發送到 </class_msg_has_sent_to>
+	<class_inbox_del_msg>消息已被移除 </class_inbox_del_msg>
+	<class_sent_del_msg>消息已被移除</class_sent_del_msg>
+	<class_msg_exist_err>消息不存在</class_msg_exist_err>
+	<class_vdo_del_err>影片不存在</class_vdo_del_err>
+	<class_unsub_msg>您已取消訂閱</class_unsub_msg>
+	<class_sub_exist_err>訂閱不存在</class_sub_exist_err>
+	<class_vdo_rm_fav_msg>影片已從收藏移除</class_vdo_rm_fav_msg>
+	<class_vdo_fav_err1>影片並未被收藏</class_vdo_fav_err1>
+	<class_cont_del_msg>聯絡人已被移除</class_cont_del_msg>
+	<class_cot_err>聯系人不存在</class_cot_err>
+	<class_vdo_ep_add_msg><![CDATA[Video Has Been Added To Editor&#8217;s Pick]]></class_vdo_ep_add_msg>
+	<class_vdo_ep_err><![CDATA[Video Is Already In The Editor&#8217;s Pick]]></class_vdo_ep_err>
+	<class_vdo_ep_err1>不能選擇超過10段影片</class_vdo_ep_err1>
+	<class_vdo_ep_msg><![CDATA[Video Has Been Removed From Editor&#8217;s Pick]]></class_vdo_ep_msg>
+	<class_vdo_exist_err>影片不存在</class_vdo_exist_err>
+	<class_img_gif_err>只允許GIF圖片格式</class_img_gif_err>
+	<class_img_png_err>只允許PNG圖片格式</class_img_png_err>
+	<class_img_jpg_err>只允許JPG圖片格式</class_img_jpg_err>
+	<class_logo_msg>標誌已更新</class_logo_msg>
+	<com_forgot_username>忘記會員名稱|密碼</com_forgot_username>
+	<com_join_now>加入會員</com_join_now>
+	<com_my_account>我的會員</com_my_account>
+	<com_manage_vids>管理影片</com_manage_vids>
+	<com_view_channel>檢視我的頻道</com_view_channel>
+	<com_my_inbox>收件箱</com_my_inbox>
+	<com_welcome>歡迎回來</com_welcome>
+	<com_top_mem>男神排名 </com_top_mem>
+	<com_vidz>影片</com_vidz>
+	<com_sign_up_now>加入會員</com_sign_up_now>
+	<com_my_videos>我的影片</com_my_videos>
+	<com_my_channel>我的頻道</com_my_channel>
+	<com_my_subs>我的訂閱</com_my_subs>
+	<com_user_no_contacts>沒有聯絡人</com_user_no_contacts>
+	<com_user_no_vides>沒有收藏</com_user_no_vides>
+	<com_user_no_vid_com>沒有留言</com_user_no_vid_com>
+	<com_view_all_contacts>檢視全部聯絡人</com_view_all_contacts>
+	<com_view_fav_all_videos>檢視全部收藏</com_view_fav_all_videos>
+	<com_login_success_msg>您已成功登入</com_login_success_msg>
+	<com_logout_success_msg>您已成功登出</com_logout_success_msg>
+	<com_not_redirecting>您即將被重新指向到</com_not_redirecting>
+	<com_not_redirecting_msg>如果頁面沒有反應</com_not_redirecting_msg>
+	<com_manage_contacts>管理聯絡人 </com_manage_contacts>
+	<com_send_message>發送消息</com_send_message>
+	<com_manage_fav>管理收藏 </com_manage_fav>
+	<com_manage_subs>管理訂閱</com_manage_subs>
+	<com_subscribe_to><![CDATA[Subscribe to %s&#8217;s channel]]></com_subscribe_to>
+	<com_total_subs>訂閱總數</com_total_subs>
+	<com_total_vids>影片總數</com_total_vids>
+	<com_date_subscribed>訂閱日期</com_date_subscribed>
+	<com_search_results>搜索結果</com_search_results>
+	<com_advance_results>進階搜索</com_advance_results>
+	<com_search_results_in>搜索結果 </com_search_results_in>
+	<videos_being_watched>最近觀看...</videos_being_watched>
+	<latest_added_videos>最新影片</latest_added_videos>
+	<most_viewed>熱門影片</most_viewed>
+	<recently_added>最新影片</recently_added>
+	<featured>焦點影片</featured>
+	<highest_rated>最高評分</highest_rated>
+	<most_discussed>最多評論</most_discussed>
+	<style_change>轉換模版</style_change>
+	<rss_feed_latest_title>RSS Feed for Most Recent Videos</rss_feed_latest_title>
+	<rss_feed_featured_title>RSS Feed for Featured Videos</rss_feed_featured_title>
+	<rss_feed_most_viewed_title>RSS Feed for Most Popular Videos</rss_feed_most_viewed_title>
+	<lang_folder>繁體中文</lang_folder>
+	<reg_closed>會員註冊暫停</reg_closed>
+	<reg_for>會員註冊</reg_for>
+	<is_currently_closed>暫停</is_currently_closed>
+	<about_us>關於我們</about_us>
+	<account>會員</account>
+	<added>加入</added>
+	<advertisements>廣告</advertisements>
+	<all>全部</all>
+	<active>生效</active>
+	<activate>啟用</activate>
+	<age>年齡</age>
+	<approve>核准</approve>
+	<approved>已核准</approved>
+	<approval>核准</approval>
+	<books>書本</books>
+	<browse>瀏覽</browse>
+	<by>上載者</by>
+	<cancel>取消</cancel>
+	<categories>分類</categories>
+	<category>分類</category>
+	<channels>頻道</channels>
+	<check_all>全選</check_all>
+	<click_here>按此</click_here>
+	<comments>留言</comments>
+	<community>群組</community>
+	<companies>公司</companies>
+	<contacts>聯絡</contacts>
+	<contact_us>聯絡我們</contact_us>
+	<country>國家</country>
+	<created>創建</created>
+	<date>日期</date>
+	<date_added>上載日期</date_added>
+	<date_joined>加入日期</date_joined>
+	<dear>親愛的</dear>
+	<delete>刪除</delete>
+	<delete_selected>刪除已選擇</delete_selected>
+	<des_title>簡介:</des_title>
+	<duration>影片長度</duration>
+	<education>教育程度</education>
+	<email>電子郵箱</email>
+	<embed>內嵌</embed>
+	<embed_code>內嵌碼</embed_code>
+	<favourite>收藏</favourite>
+	<favourited>收藏</favourited>
+	<favourites>收藏</favourites>
+	<female>女</female>
+	<filter>篩選</filter>
+	<forgot>忘記</forgot>
+	<friends>好友</friends>
+	<from>來自</from>
+	<gender>姓別</gender>
+	<groups>群組</groups>
+	<hello>您好</hello>
+	<help>幫助</help>
+	<hi>您好</hi>
+	<hobbies>嗜好</hobbies>
+	<Home>主頁</Home>
+	<inbox>收件箱</inbox>
+	<interests>興趣</interests>
+	<join_now>現在加入</join_now>
+	<joined>加入</joined>
+	<join>加入</join>
+	<keywords>關鍵字</keywords>
+	<latest>最新</latest>
+	<leave>離開</leave>
+	<location>地點</location>
+	<login>登入</login>
+	<logout>登出</logout>
+	<male>男</male>
+	<members>會員</members>
+	<messages>信息</messages>
+	<message>信息</message>
+	<minutes>分鐘</minutes>
+	<most_members>最新加入會員</most_members>
+	<most_recent>最新上載</most_recent>
+	<most_videos>最新影片</most_videos>
+	<music>音樂</music>
+	<my_account>我的會員</my_account>
+	<next>下一步</next>
+	<no>不</no>
+	<no_user_exists>沒有會員</no_user_exists>
+	<no_video_exists>沒有影片</no_video_exists>
+	<occupations>職業</occupations>
+	<optional>自選</optional>
+	<owner>擁有人</owner>
+	<password>密碼</password>
+	<please>請</please>
+	<privacy>私隱</privacy>
+	<privacy_policy>私隱政策</privacy_policy>
+	<random>隨機</random>
+	<rate>評分</rate>
+	<request>請求</request>
+	<related>關於</related>
+	<reply>回覆</reply>
+	<results>結果</results>
+	<relationship>關系</relationship>
+	<seconds>秒</seconds>
+	<select>選擇</select>
+	<send>發送</send>
+	<sent>發送</sent>
+	<signup>註冊</signup>
+	<subject>主題</subject>
+	<tags>標籤</tags>
+	<times>時間</times>
+	<to>收件人</to>
+	<type>類型</type>
+	<update>更新</update>
+	<upload>上址</upload>
+	<url>URL地址</url>
+	<verification>驗証</verification>
+	<videos>影片</videos>
+	<viewing>觀看</viewing>
+	<welcome>歡迎</welcome>
+	<website>網站</website>
+	<yes>是</yes>
+	<of>的</of>
+	<on>在</on>
+	<previous>上一步</previous>
+	<rating>評分</rating>
+	<ratings>評分</ratings>
+	<remote_upload>遠端上傳</remote_upload>
+	<remove>移除</remove>
+	<search>搜索</search>
+	<services>服務</services>
+	<show_all>全部顯示</show_all>
+	<signupup>註冊</signupup>
+	<sort_by>排序方式</sort_by>
+	<subscriptions>訂閱</subscriptions>
+	<subscribers>追隨者</subscribers>
+	<tag_title>標籤</tag_title>
+	<time>時間</time>
+	<top>最高</top>
+	<tos_title>使用條款</tos_title>
+	<username>會員名稱</username>
+	<views>觀看次數</views>
+	<proccession_wait>轉換中,請稍後</proccession_wait>
+	<mostly_viewed>最受歡迎</mostly_viewed>
+	<most_comments>熱烈討論</most_comments>
+	<group>群組</group>
+	<not_logged_in>您沒有權限訪問本頁面，請檢查:</not_logged_in>
+	<fill_auth_form>您並未登入，請重新嘗試</fill_auth_form>
+	<insufficient_privileges>會員權限不足</insufficient_privileges>
+	<admin_disabled_you>會員資格被暫停 或 未啟用</admin_disabled_you>
+	<Recover_Password>找回密碼</Recover_Password>
+	<Submit>遞交</Submit>
+	<Reset_Fields>重設欄位</Reset_Fields>
+	<admin_reg_req>您需要註冊才能訪問此頁面</admin_reg_req>
+	<lang_change>更換語言</lang_change>
+	<lang_changed>語言設定已更新</lang_changed>
+	<lang_choice>語言</lang_choice>
+	<if_not_redir>按此繼續跳轉頁面</if_not_redir>
+	<style_changed>模板設定已更新</style_changed>
+	<style_choice>模板</style_choice>
+	<vdo_edit_vdo>編輯影片</vdo_edit_vdo>
+	<vdo_stills>影片截圖</vdo_stills>
+	<vdo_watch_video>觀看影片</vdo_watch_video>
+	<vdo_video_details>影片詳情</vdo_video_details>
+	<vdo_title>標題</vdo_title>
+	<vdo_desc>簡介</vdo_desc>
+	<vdo_cat>影片分類</vdo_cat>
+	<vdo_cat_msg>您可以設定 %s 個分類</vdo_cat_msg>
+	<vdo_tags_msg>標籤是以逗號作分隔</vdo_tags_msg>
+	<vdo_br_opt>影片權限設定</vdo_br_opt>
+	<vdo_br_opt1>公開 - 任何人都可以觀看</vdo_br_opt1>
+	<vdo_br_opt2>私隱 - 只有您及您邀請的人才能觀看</vdo_br_opt2>
+	<vdo_date_loc>日期及地點</vdo_date_loc>
+	<vdo_date_rec>拍攝日期</vdo_date_rec>
+	<vdo_for_date>日期格式 MM / DD / YYYY </vdo_for_date>
+	<vdo_add_eg>例子, London Greenland, Sialkot Mubarak Pura</vdo_add_eg>
+	<vdo_share_opt>分享及私隱設定</vdo_share_opt>
+	<vdo_allow_comm>允許留言 </vdo_allow_comm>
+	<vdo_dallow_comm>不允許留言</vdo_dallow_comm>
+	<vdo_comm_vote>留言評分</vdo_comm_vote>
+	<vdo_allow_com_vote>允許對留言評分</vdo_allow_com_vote>
+	<vdo_dallow_com_vote>不允許對留言評分</vdo_dallow_com_vote>
+	<vdo_allow_rating>允許對影片評分</vdo_allow_rating>
+	<vdo_dallow_ratig>不允許對影片評分</vdo_dallow_ratig>
+	<vdo_embedding>影片內嵌</vdo_embedding>
+	<vdo_embed_opt1>允許影片內嵌於其他網站</vdo_embed_opt1>
+	<vdo_embed_opt2>不允許影片內嵌於其他網站</vdo_embed_opt2>
+	<vdo_update_title>更新</vdo_update_title>
+	<vdo_inactive_msg>您的會員資格並未啟用，請</vdo_inactive_msg>
+	<vdo_click_here>按此</vdo_click_here>
+	<vdo_continue_upload>繼續上載</vdo_continue_upload>
+	<vdo_upload_step1>影片上載</vdo_upload_step1>
+	<vdo_upload_step2>影片上載 %s/2</vdo_upload_step2>
+	<vdo_upload_step3>(2/2)</vdo_upload_step3>
+	<vdo_select_vdo>選擇一個影片上載</vdo_select_vdo>
+	<vdo_enter_remote_url>輸入影片的URL地址</vdo_enter_remote_url>
+	<vdo_enter_embed_code_msg>輸入影片的內嵌代碼(支持影片網站： Youtube)</vdo_enter_embed_code_msg>
+	<vdo_enter_embed_code>輸入內嵌代碼</vdo_enter_embed_code>
+	<vdo_enter_druation>輸入影片長度</vdo_enter_druation>
+	<vdo_select_vdo_thumb>選擇影片縮圖</vdo_select_vdo_thumb>
+	<vdo_having_trouble>遇到問題?</vdo_having_trouble>
+	<vdo_if_having_problem>如果您上載影片遇到問題</vdo_if_having_problem>
+	<vdo_clic_to_manage_all>按此管理全部影片</vdo_clic_to_manage_all>
+	<vdo_manage_vdeos>管理影片</vdo_manage_vdeos>
+	<vdo_status>狀態</vdo_status>
+	<vdo_rawfile>原始檔</vdo_rawfile>
+	<vdo_video_upload_complete>影片上載 - 上載完成</vdo_video_upload_complete>
+	<vdo_thanks_you_upload_complete_1>正呀! 您的上載已完成</vdo_thanks_you_upload_complete_1>
+	<vdo_thanks_you_upload_complete_2>影片訪問地址：</vdo_thanks_you_upload_complete_2>
+	<vdo_after_it_has_process>等待轉換完成</vdo_after_it_has_process>
+	<vdo_embed_this_video_on_web>將影片內嵌到您的網站</vdo_embed_this_video_on_web>
+	<vdo_copy_and_paste_the_code>複制下面的影片內嵌代碼</vdo_copy_and_paste_the_code>
+	<vdo_upload_another_video>上載另一段影片</vdo_upload_another_video>
+	<vdo_goto_my_videos>我的影片</vdo_goto_my_videos>
+	<vdo_sperate_emails_by>用逗號將電子郵箱分隔</vdo_sperate_emails_by>
+	<vdo_personal_msg>信息內容</vdo_personal_msg>
+	<vdo_related_tags>標籤</vdo_related_tags>
+	<vdo_reply_to_this>回覆</vdo_reply_to_this>
+	<vdo_add_reply>添加回覆</vdo_add_reply>
+	<vdo_share_video>分享影片</vdo_share_video>
+	<vdo_about_this_video>關於影片</vdo_about_this_video>
+	<vdo_post_to_a_services>Post to an Aggregating Service</vdo_post_to_a_services>
+	<vdo_commentary>評論</vdo_commentary>
+	<vdo_post_a_comment>添加評論</vdo_post_a_comment>
+	<grp_add_vdo_msg>添加影片到群組</grp_add_vdo_msg>
+	<grp_no_vdo_msg><![CDATA[You Don&#8217;t Have Any Video]]></grp_no_vdo_msg>
+	<grp_add_to>添加到群組</grp_add_to>
+	<grp_add_vdos>添加影片</grp_add_vdos>
+	<grp_name_title>群組名稱</grp_name_title>
+	<grp_tag_title>標籤:</grp_tag_title>
+	<grp_des_title>簡介:</grp_des_title>
+	<grp_tags_msg>輸入標籤,以空隔分開</grp_tags_msg>
+	<grp_tags_msg1>輸入標籤,以空隔分開</grp_tags_msg1>
+	<grp_url_title>選擇一個群組名稱 URL 地址:</grp_url_title>
+	<grp_url_msg><![CDATA[Enter 3-18 characters with no spaces (such as &#8220;skateboarding skates&#8221;), that will become part of your group&#8217;s web address. Please note, the group name URL you pick is permanent and can&#8217;t be changed.]]></grp_url_msg>
+	<grp_cat_tile>分組類別:</grp_cat_tile>
+	<grp_vdo_uploads>影片上傳:</grp_vdo_uploads>
+	<grp_forum_posting>討論貼文：:</grp_forum_posting>
+	<grp_join_opt1>公開, 任何人都可以加入</grp_join_opt1>
+	<grp_join_opt2>保護, 需要審核才能加入</grp_join_opt2>
+	<grp_join_opt3>私人, 只有邀請者才能看到群組</grp_join_opt3>
+	<grp_vdo_opt1>立即張貼影片</grp_vdo_opt1>
+	<grp_vdo_opt2>需要審核才能顯示影片</grp_vdo_opt2>
+	<grp_vdo_opt3>只有管理員才能張貼影片</grp_vdo_opt3>
+	<grp_post_opt1>立即張貼貼文</grp_post_opt1>
+	<grp_post_opt2>需要審核才能顯示貼文</grp_post_opt2>
+	<grp_post_opt3>只有管理員才能張貼貼文</grp_post_opt3>
+	<grp_crt_grp>建立群組</grp_crt_grp>
+	<grp_thumb_title>群組縮圖</grp_thumb_title>
+	<grp_upl_thumb>上載群組縮圖</grp_upl_thumb>
+	<grp_must_be>必需</grp_must_be>
+	<grp_90x90>90 x 90 象素能獲最佳效果</grp_90x90>
+	<grp_thumb_warn>圖片必須遵守使用細則條款</grp_thumb_warn>
+	<grp_del_confirm>您確定希望刪除群組?</grp_del_confirm>
+	<grp_del_success>群組已被刪除</grp_del_success>
+	<grp_click_go_grps>按此檢視群組</grp_click_go_grps>
+	<grp_edit_grp_title>編輯群組</grp_edit_grp_title>
+	<grp_manage_vdos>管理影片</grp_manage_vdos>
+	<grp_manage_mems>管理會員</grp_manage_mems>
+	<grp_del_group_title>刪除群組</grp_del_group_title>
+	<grp_add_vdos_title>添加影片</grp_add_vdos_title>
+	<grp_join_grp_title>加入群組</grp_join_grp_title>
+	<grp_leave_group_title>離開群組</grp_leave_group_title>
+	<grp_invite_grp_title>邀請會員</grp_invite_grp_title>
+	<grp_view_mems>檢視會員</grp_view_mems>
+	<grp_view_vdos>檢視影片</grp_view_vdos>
+	<grp_create_grp_title>建站新群組</grp_create_grp_title>
+	<grp_most_members>熱門群組</grp_most_members>
+	<grp_most_discussed>熱門討論</grp_most_discussed>
+	<grp_invite_msg>邀請會員進入群組</grp_invite_msg>
+	<grp_invite_msg1>邀請您進入群組</grp_invite_msg1>
+	<grp_invite_msg2>輸入電子郵箱或會員名稱(請以逗號分隔)</grp_invite_msg2>
+	<grp_url_title1>群組URL地址</grp_url_title1>
+	<grp_invite_msg3>發送邀請</grp_invite_msg3>
+	<grp_join_confirm_msg>您確認加入群組?</grp_join_confirm_msg>
+	<grp_join_msg_succ>您已加入群組</grp_join_msg_succ>
+	<grp_click_here_to_go>按此檢視</grp_click_here_to_go>
+	<grp_leave_confirm>您確認離開此群組?</grp_leave_confirm>
+	<grp_leave_succ_msg>您已離開群組</grp_leave_succ_msg>
+	<grp_manage_members_title>管理會員</grp_manage_members_title>
+	<grp_for_approval>需要批准</grp_for_approval>
+	<grp_rm_videos>刪除影片</grp_rm_videos>
+	<grp_rm_mems>刪除會員</grp_rm_mems>
+	<grp_groups_title>管理群組</grp_groups_title>
+	<grp_joined_title>管理已加入群組</grp_joined_title>
+	<grp_remove_group>刪除群組</grp_remove_group>
+	<grp_bo_grp_found>群組不存在</grp_bo_grp_found>
+	<grp_joined_groups>已加入的群組</grp_joined_groups>
+	<grp_owned_groups>擁有的群組</grp_owned_groups>
+	<grp_edit_this_grp>編輯這個群組</grp_edit_this_grp>
+	<grp_topics_title>貼文</grp_topics_title>
+	<grp_topic_title>貼文</grp_topic_title>
+	<grp_posts_title>貼文</grp_posts_title>
+	<grp_discus_title>討論</grp_discus_title>
+	<grp_author_title>作者</grp_author_title>
+	<grp_replies_title>回覆</grp_replies_title>
+	<grp_last_post_title>最新貼文 </grp_last_post_title>
+	<grp_viewl_all_videos>檢視所有屬於此群組的影片</grp_viewl_all_videos>
+	<grp_add_new_topic>添加貼文</grp_add_new_topic>
+	<grp_attach_video>添加影片 </grp_attach_video>
+	<grp_add_topic>添加貼文</grp_add_topic>
+	<grp_please_login>請先登入</grp_please_login>
+	<grp_please_join>請先加入此群組</grp_please_join>
+	<grp_inactive_account>等待群組管理員核准加入群組申請</grp_inactive_account>
+	<grp_about_this_grp>關於此群組 </grp_about_this_grp>
+	<grp_no_vdo_err>此群組沒有影片</grp_no_vdo_err>
+	<grp_posted_by>作者</grp_posted_by>
+	<grp_add_new_comment>添加回覆</grp_add_new_comment>
+	<grp_add_comment>添加回覆</grp_add_comment>
+	<grp_pls_login_comment>請先登入</grp_pls_login_comment>
+	<grp_pls_join_comment>請先加入此群組</grp_pls_join_comment>
+	<usr_activation_title>會員啟用</usr_activation_title>
+	<usr_actiavation_msg>請輸入您的會員名稱及顯示在電子郵件上的啟用碼</usr_actiavation_msg>
+	<usr_actiavation_msg1>發送啟用碼電子郵件</usr_actiavation_msg1>
+	<usr_activation_code_tl>啟用碼</usr_activation_code_tl>
+	<usr_compose_msg>寫消息</usr_compose_msg>
+	<usr_inbox_title>收件箱</usr_inbox_title>
+	<usr_sent_title>已發送</usr_sent_title>
+	<usr_to_title>收件人: (輸入會員名稱)</usr_to_title>
+	<usr_or_select_frm_list>或從聯絡人中選取</usr_or_select_frm_list>
+	<usr_attach_video>添加影片</usr_attach_video>
+	<user_attached_video>已添加影片</user_attached_video>
+	<usr_send_message>發送消息</usr_send_message>
+	<user_no_message>沒有消息</user_no_message>
+	<user_delete_message_msg>刪除此消息</user_delete_message_msg>
+	<user_forgot_message>忘記密碼</user_forgot_message>
+	<user_forgot_message_2>馬上找回密碼</user_forgot_message_2>
+	<user_pass_reset_msg>找回密碼</user_pass_reset_msg>
+	<user_pass_forgot_msg>如果您忘記了密碼,請輸入會員名稱及電子郵件上的驗証碼,新的密碼將發送到您的郵箱</user_pass_forgot_msg>
+	<user_veri_code>驗証碼</user_veri_code>
+	<user_reocover_user>忘記會員名稱</user_reocover_user>
+	<user_user_forgot_msg>忘記會員名稱?</user_user_forgot_msg>
+	<user_recover>找回</user_recover>
+	<user_reset>重設</user_reset>
+	<user_inactive_msg><![CDATA[Your account is inactive, please activate your account by going to <a href="./activation.php">activation page</a>]]></user_inactive_msg>
+	<user_dashboard>會員狀況</user_dashboard>
+	<user_manage_prof_chnnl><![CDATA[Manage Profile &amp; Channel]]></user_manage_prof_chnnl>
+	<user_manage_friends><![CDATA[Manage Friends &amp; Contacts]]></user_manage_friends>
+	<user_prof_channel>會員資料/頻道</user_prof_channel>
+	<user_message_box>收件箱</user_message_box>
+	<user_new_messages>新消息</user_new_messages>
+	<user_goto_inbox>檢視收件箱</user_goto_inbox>
+	<user_goto_sentbox>檢裡寄件箱</user_goto_sentbox>
+	<user_compose_new>寫新消息</user_compose_new>
+	<user_total_subs_users>總訂閱人數</user_total_subs_users>
+	<user_you_have>您有</user_you_have>
+	<user_fav_videos>收藏影片</user_fav_videos>
+	<user_your_vids_watched>您已觀看的影片</user_your_vids_watched>
+	<user_times>時間</user_times>
+	<user_you_have_watched>您已觀看</user_you_have_watched>
+	<user_channel_profiles><![CDATA[Channel &amp; Profile]]></user_channel_profiles>
+	<user_channel_views>頻道觀看人數</user_channel_views>
+	<user_channel_comm>頻道留言 </user_channel_comm>
+	<user_manage_prof>管理會員資料/頻道</user_manage_prof>
+	<user_you_created>您已添加</user_you_created>
+	<user_you_joined>您已加入</user_you_joined>
+	<user_create_group>創建新群組</user_create_group>
+	<user_manage_my_account>管理我的會員 </user_manage_my_account>
+	<user_manage_my_videos>管理我的影片</user_manage_my_videos>
+	<user_manage_my_channel>管理我的頻道</user_manage_my_channel>
+	<user_sent_box>我的寄件</user_sent_box>
+	<user_manage_channel>管理頻道</user_manage_channel>
+	<user_manage_my_contacts>管理我的聯絡人</user_manage_my_contacts>
+	<user_manage_contacts>管理聯絡人</user_manage_contacts>
+	<user_manage_favourites>管理收藏</user_manage_favourites>
+	<user_mem_login>會員登入</user_mem_login>
+	<user_already_have>請先登入</user_already_have>
+	<user_forgot_username>忘記會員名稱</user_forgot_username>
+	<user_forgot_password>忘記密碼</user_forgot_password>
+	<user_create_your>建立您的 </user_create_your>
+	<user_all_fields_req>全部欄位都需要填寫</user_all_fields_req>
+	<user_valid_email_addr>有效的電子郵箱</user_valid_email_addr>
+	<user_allowed_format>英文字母 A-Z 或 a-z , 數字 0-9 , 底線 _</user_allowed_format>
+	<user_confirm_pass>確認密碼</user_confirm_pass>
+	<user_reg_msg_0>註冊為 </user_reg_msg_0>
+	<user_reg_msg_1>會員, 只需要填寫下列表格</user_reg_msg_1>
+	<user_date_of_birth>出生日期</user_date_of_birth>
+	<user_enter_text_as_img>請輸入圖片內的文字</user_enter_text_as_img>
+	<user_refresh_img>刷新圖片</user_refresh_img>
+	<user_i_agree_to_the><![CDATA[I Agree to  <a href="%s" target="_blank">Terms of Service</a> and <a href="%s" target="_blank" >Privacy Policy</a>]]></user_i_agree_to_the>
+	<user_thanks_for_reg>感謝您的註冊 </user_thanks_for_reg>
+	<user_email_has_sent>一封信息已經發送到您的電子郵箱</user_email_has_sent>
+	<user_and_activation><![CDATA[&amp; Activation]]></user_and_activation>
+	<user_details_you_now>您現已可以在本網站內</user_details_you_now>
+	<user_upload_share_vds>上載,分享影片</user_upload_share_vds>
+	<user_make_friends>認識共同好友</user_make_friends>
+	<user_send_messages>發送消息</user_send_messages>
+	<user_grow_your_network>邀請更多朋友來擴大您的好友網絡</user_grow_your_network>
+	<user_rate_comment>對影片評分及留言</user_rate_comment>
+	<user_make_customize>建立您的頻道</user_make_customize>
+	<user_to_upload_vid>您需要啟用您的會員資格後才可上傳影片，啟用碼已經發送到您的電子郵箱</user_to_upload_vid>
+	<user_click_to_login>按此登入</user_click_to_login>
+	<user_view_my_channel>檢視我的頻道</user_view_my_channel>
+	<user_change_pass>更改密碼</user_change_pass>
+	<user_email_settings>電子郵件設定</user_email_settings>
+	<user_profile_settings>會員資料設定</user_profile_settings>
+	<user_usr_prof_chnl_edit><![CDATA[User Profile &amp; Channel Edit]]></user_usr_prof_chnl_edit>
+	<user_personal_info>會員資料</user_personal_info>
+	<user_fname>姓</user_fname>
+	<user_lname>名</user_lname>
+	<user_gender>性別</user_gender>
+	<user_relat_status>交往狀況</user_relat_status>
+	<user_display_age>顯示年齡</user_display_age>
+	<user_about_me>關於我</user_about_me>
+	<user_website_url>我的網站</user_website_url>
+	<user_eg_website>例如 臉書,網誌</user_eg_website>
+	<user_prof_info>專業學歷</user_prof_info>
+	<user_education>教育程度</user_education>
+	<user_school_colleges>學校</user_school_colleges>
+	<user_occupations>職業</user_occupations>
+	<user_companies>公司</user_companies>
+	<user_sperate_by_commas>使用逗號分隔</user_sperate_by_commas>
+	<user_interests_hobbies>興趣與嗜好</user_interests_hobbies>
+	<user_fav_movs_shows><![CDATA[Favorite Movies &amp; Shows]]></user_fav_movs_shows>
+	<user_fav_music>喜愛音樂</user_fav_music>
+	<user_fav_books>喜愛書藉</user_fav_books>
+	<user_user_avatar>會員頭像</user_user_avatar>
+	<user_upload_avatar>上載頭像</user_upload_avatar>
+	<user_channel_info>頻道內容</user_channel_info>
+	<user_channel_title>頻道標題</user_channel_title>
+	<user_channel_description>頻道簡介</user_channel_description>
+	<user_channel_permission>頻道權限</user_channel_permission>
+	<user_allow_comments_msg>會員允許留言</user_allow_comments_msg>
+	<user_dallow_comments_msg>會員不允許留言</user_dallow_comments_msg>
+	<user_allow_rating>允許評分</user_allow_rating>
+	<user_dallow_rating>不允許評分</user_dallow_rating>
+	<user_allow_rating_msg1>會員允許評分</user_allow_rating_msg1>
+	<user_dallow_rating_msg1>會員不允許評分</user_dallow_rating_msg1>
+	<user_channel_feature_vid>頻道焦點影片</user_channel_feature_vid>
+	<user_select_vid_for_fr>選擇頻道焦點影片</user_select_vid_for_fr>
+	<user_chane_channel_bg>更換頻道背景</user_chane_channel_bg>
+	<user_remove_bg>刪除背景</user_remove_bg>
+	<user_currently_you_d_have_pic><![CDATA[Currently You Don&#8217;t Have a Background Picture]]></user_currently_you_d_have_pic>
+	<user_change_email>更改電子郵箱</user_change_email>
+	<user_email_address>電子郵箱</user_email_address>
+	<user_new_email>新電子郵箱</user_new_email>
+	<user_notify_me>如收到新消息請通知我</user_notify_me>
+	<user_old_pass>舊密碼</user_old_pass>
+	<user_new_pass>新密碼</user_new_pass>
+	<user_c_new_pass>確認新密碼</user_c_new_pass>
+	<user_doesnt_exist><![CDATA[User Doesn&#8217;t Exist]]></user_doesnt_exist>
+	<user_do_not_have_contact>此會員沒有任何聯絡人</user_do_not_have_contact>
+	<user_no_fav_video_exist>此會員沒有任何收藏</user_no_fav_video_exist>
+	<user_have_no_vide>此會員沒有任何影片</user_have_no_vide>
+	<user_s_channel><![CDATA[%s&#8217;s Channel ]]></user_s_channel>
+	<user_last_login>最後登入</user_last_login>
+	<user_send_message>發消息</user_send_message>
+	<user_add_contact>添加聯絡人</user_add_contact>
+	<user_dob>生日</user_dob>
+	<user_movies_shows><![CDATA[Movies &amp; Shows]]></user_movies_shows>
+	<user_add_comment>添加留言 </user_add_comment>
+	<user_view_all_comments>檢視所有留言</user_view_all_comments>
+	<user_no_fr_video>此會員沒有任何焦點影片</user_no_fr_video>
+	<user_view_all_video_of>檢視所有影片 - </user_view_all_video_of>
+	<menu_home>主頁</menu_home>
+	<menu_videos>影片</menu_videos>
+	<menu_upload>上載</menu_upload>
+	<menu_signup>註冊</menu_signup>
+	<menu_account>會員</menu_account>
+	<menu_groups>群組</menu_groups>
+	<menu_channels>頻道</menu_channels>
+	<menu_community>社區</menu_community>
+	<menu_inbox>收件箱</menu_inbox>
+	<vdo_cat_err2>您不能選擇超過 %d 個分類</vdo_cat_err2>
+	<user_subscribe_message>您好 %subscriber%
+您的訂閱聯絡人 %user% 剛剛上傳了一段新的影片
+%website_title%</user_subscribe_message>
+	<user_subscribe_subject>%user% 剛剛上傳了一段新影片</user_subscribe_subject>
+	<you_already_logged>您已登入</you_already_logged>
+	<you_not_logged_in>您尚未登入</you_not_logged_in>
+	<invalid_user>無效會員資格</invalid_user>
+	<vdo_cat_err3>請選擇最少 1 個分類</vdo_cat_err3>
+	<embed_code_invalid_err>無效影片內嵌碼</embed_code_invalid_err>
+	<invalid_duration>無效長度</invalid_duration>
+	<vid_thumb_changed>影片縮圖已經更新</vid_thumb_changed>
+	<vid_thumb_change_err>影片縮圖不存在</vid_thumb_change_err>
+	<upload_vid_thumbs_msg>全部影片縮圖已更新</upload_vid_thumbs_msg>
+	<video_thumb_delete_msg>影片縮圖已刪除</video_thumb_delete_msg>
+	<video_thumb_delete_err>無法刪除影片縮圖</video_thumb_delete_err>
+	<no_comment_del_perm>您沒有權限刪除留言</no_comment_del_perm>
+	<my_text_context>我的測試內容</my_text_context>
+	<user_contains_disallow_err>會員名稱不能含有非法字串</user_contains_disallow_err>
+	<add_cat_erro>分類已經存在</add_cat_erro>
+	<add_cat_no_name_err>請輸入分類名稱</add_cat_no_name_err>
+	<cat_default_err><![CDATA[Default cannot be deleted, please choose another category as &#8220;default&#8221; and then delete this one]]></cat_default_err>
+	<pic_upload_vali_err>請上傳有效的 JPG, GIF 或 PNG 圖片</pic_upload_vali_err>
+	<cat_dir_make_err>創建分類縮圖目錄失敗</cat_dir_make_err>
+	<cat_set_default_ok>此分類已設定為默認</cat_set_default_ok>
+	<vid_thumb_removed_msg>影片縮圖已刪除</vid_thumb_removed_msg>
+	<vid_files_removed_msg>影片檔已刪除</vid_files_removed_msg>
+	<vid_log_delete_msg>影片操作紀錄已刪除</vid_log_delete_msg>
+	<vdo_multi_del_erro>影片已刪除</vdo_multi_del_erro>
+	<add_fav_message>%s 已加入收藏</add_fav_message>
+	<obj_not_exists>%s 不存在</obj_not_exists>
+	<already_fav_message>%s 已加入收藏</already_fav_message>
+	<obj_report_msg>我們已收到對影片%s 的投訴</obj_report_msg>
+	<obj_report_err>我們已收到您對影片 %s 的投訴</obj_report_err>
+	<user_no_exist_wid_username><![CDATA[&#8216;%s&#8217; does not exist]]></user_no_exist_wid_username>
+	<share_video_no_user_err>請輸入會員名稱或電子郵箱來發送 %s</share_video_no_user_err>
+	<uploaded>已上載</uploaded>
+	<today>今日</today>
+	<yesterday>昨日</yesterday>
+	<thisweek>本週</thisweek>
+	<lastweek>上週</lastweek>
+	<thismonth>本月</thismonth>
+	<lastmonth>上月</lastmonth>
+	<thisyear>今年</thisyear>
+	<lastyear>上年</lastyear>
+	<favorites>收藏</favorites>
+	<alltime>全部</alltime>
+	<insufficient_privileges_loggin>您沒有足夠權限檢視此頁面</insufficient_privileges_loggin>
+	<profile_title>我的會員標題</profile_title>
+	<show_dob>顯示出生日期</show_dob>
+	<profile_tags>會員資料標籤</profile_tags>
+	<profile_desc>會員資料簡介</profile_desc>
+	<online_status>會員狀況</online_status>
+	<show_profile>顯示會員資料</show_profile>
+	<allow_ratings>允許會員資料評分</allow_ratings>
+	<postal_code>郵政編號</postal_code>
+	<temp_file_load_err><![CDATA[Unable to load tempalte file &#8216;%s&#8217; in directory &#8216;%s&#8217;]]></temp_file_load_err>
+	<no_date_provided>請填寫日期</no_date_provided>
+	<second>秒</second>
+	<minute>分</minute>
+	<bad_date>從未</bad_date>
+	<users_videos><![CDATA[%s&#8217;s Videos]]></users_videos>
+	<please_login_subscribe>請先登入訂閱 %s</please_login_subscribe>
+	<users_subscribers><![CDATA[%s&#8217;s Subscribers]]></users_subscribers>
+	<user_no_subscribers>%s 暫沒有追隨者</user_no_subscribers>
+	<user_subscriptions><![CDATA[%s&#8217;s Subscriptions]]></user_subscriptions>
+	<user_no_subscriptions>%s 暫沒有訂閱</user_no_subscriptions>
+	<usr_avatar_bg_update>會員頭像及背景已更新</usr_avatar_bg_update>
+	<user_email_confirm_email_err>確認郵箱不符</user_email_confirm_email_err>
+	<email_change_msg>電子郵箱已經更新</email_change_msg>
+	<no_edit_video>您不能編輯此影片</no_edit_video>
+	<confirm_del_video>您確認要刪除此影片嗎?</confirm_del_video>
+	<remove_fav_video_confirm>您確認要將此影片從收藏中移除?</remove_fav_video_confirm>
+	<fav_remove_msg>%s 已從收藏中移除</fav_remove_msg>
+	<unknown_favorite>未知收藏 %s</unknown_favorite>
+	<vdo_multi_del_fav_msg>所選影片已從收藏中移除</vdo_multi_del_fav_msg>
+	<unknown_sender>未知發送人</unknown_sender>
+	<please_enter_message>消息不能為空的</please_enter_message>
+	<unknown_reciever>未知收件者</unknown_reciever>
+	<no_pm_exist>私人消息不存在</no_pm_exist>
+	<pm_sent_success>私人消息已發送</pm_sent_success>
+	<msg_delete_inbox>消息已刪除</msg_delete_inbox>
+	<msg_delete_outbox>消息已刪除</msg_delete_outbox>
+	<private_messags_deleted>消息已刪除</private_messags_deleted>
+	<ban_users>限制會員</ban_users>
+	<spe_users_by_comma>用逗號分隔會員名稱</spe_users_by_comma>
+	<user_ban_msg>會員限制列表已更新</user_ban_msg>
+	<no_user_ban_msg>會員限制列表是空的</no_user_ban_msg>
+	<thnx_sharing_msg>感謝您的分享 %s</thnx_sharing_msg>
+	<no_own_commen_rate>您不能夠為自己的留言評分</no_own_commen_rate>
+	<no_comment_exists>留言不存在</no_comment_exists>
+	<thanks_rating_comment>感謝您的評分</thanks_rating_comment>
+	<please_login_create_playlist>請先登入設定播放列表</please_login_create_playlist>
+	<user_have_no_playlists>會員沒有任何播放列表</user_have_no_playlists>
+	<play_list_with_this_name_arlready_exists><![CDATA[Playlist with name &#8216;%s&#8217; already exists]]></play_list_with_this_name_arlready_exists>
+	<please_enter_playlist_name>請輸入播放列表名稱</please_enter_playlist_name>
+	<new_playlist_created>已建立播放列表</new_playlist_created>
+	<playlist_not_exist>播放列表不存在</playlist_not_exist>
+	<playlist_item_not_exist>播放列表項目不存在</playlist_item_not_exist>
+	<playlist_item_delete>播放列表項目已刪除</playlist_item_delete>
+	<play_list_updated>播放列表已更新</play_list_updated>
+	<you_dont_hv_permission_del_playlist>您沒有權限刪除播放列表</you_dont_hv_permission_del_playlist>
+	<playlist_delete_msg>播放列表已刪除</playlist_delete_msg>
+	<playlist_name>播放列表名稱</playlist_name>
+	<add_new_playlist>添加播放列表</add_new_playlist>
+	<this_thing_added_playlist>%s 已添加到播放列表</this_thing_added_playlist>
+	<this_already_exist_in_pl>%s 已存在於播放列表</this_already_exist_in_pl>
+	<edit_playlist>編輯播放列表</edit_playlist>
+	<remove_playlist_item_confirm>您確認要刪除播放列表項目?</remove_playlist_item_confirm>
+	<remove_playlist_confirm>您確認要刪除播放列表?</remove_playlist_confirm>
+	<avcode_incorrect>啟用碼錯誤</avcode_incorrect>
+	<group_join_login_err>請先登入操作加入群組</group_join_login_err>
+	<manage_playlist>管理播放列表</manage_playlist>
+	<my_notifications>我的消息通知</my_notifications>
+	<users_contacts><![CDATA[%s&#8217;s contacts]]></users_contacts>
+	<type_flags_removed>%s 投訴已移除</type_flags_removed>
+	<terms_of_serivce>使用條款</terms_of_serivce>
+	<users>會員</users>
+	<login_to_mark_as_spam>請登入操作垃圾留言投訴</login_to_mark_as_spam>
+	<no_own_commen_spam>您不投訴自己的留言</no_own_commen_spam>
+	<already_spammed_comment>您已投訴此留言</already_spammed_comment>
+	<spam_comment_ok>留言投訴成功</spam_comment_ok>
+	<arslan_hassan>Arslan Hassan</arslan_hassan>
+	<you_not_allowed_add_grp_vids>只有群組會員才能添加影片</you_not_allowed_add_grp_vids>
+	<sel_vids_updated>所選影片已更新</sel_vids_updated>
+	<unable_find_download_file>找不到下載檔</unable_find_download_file>
+	<you_cant_edit_group>您沒有權限編輯此群組</you_cant_edit_group>
+	<you_cant_invite_mems>您沒有權限邀請會員</you_cant_invite_mems>
+	<you_cant_moderate_group>您沒有權限管理此群組</you_cant_moderate_group>
+	<page_doesnt_exist>頁面不存在</page_doesnt_exist>
+	<pelase_select_img_file_for_vdo>請選擇圖像檔</pelase_select_img_file_for_vdo>
+	<new_mem_added>新會員已加入</new_mem_added>
+	<this_vdo_not_working>此影片存在技術性問題</this_vdo_not_working>
+	<email_template_not_exist>電子郵件範本不存在</email_template_not_exist>
+	<email_subj_empty>電子郵件標題不能為空的</email_subj_empty>
+	<email_msg_empty>電子郵件內容不能為空的</email_msg_empty>
+	<email_tpl_has_updated>電子郵件範本已更新</email_tpl_has_updated>
+	<page_name_empty>頁面名稱不能為空的</page_name_empty>
+	<page_title_empty>頁面標題不能為空的</page_title_empty>
+	<page_content_empty>頁面內容不能為空的</page_content_empty>
+	<new_page_added_successfully>新頁面已添加</new_page_added_successfully>
+	<page_updated>頁面已更新</page_updated>
+	<page_deleted>頁面已刪除</page_deleted>
+	<page_activated>頁面已啟用</page_activated>
+	<page_deactivated>頁面已停用</page_deactivated>
+	<you_cant_delete_this_page>您不能刪除此頁面</you_cant_delete_this_page>
+	<ad_placement_err4>位置不存在</ad_placement_err4>
+	<grp_details_updated>群組詳情已更新</grp_details_updated>
+	<you_cant_del_topic>您不能夠刪除此貼文</you_cant_del_topic>
+	<you_cant_del_user_topics>您不能夠刪除會員貼文</you_cant_del_user_topics>
+	<topics_deleted>貼文已被刪除</topics_deleted>
+	<you_cant_delete_grp_topics>您不能夠刪除群組貼文</you_cant_delete_grp_topics>
+	<you_not_allowed_post_topics>您沒有權限張貼貼文</you_not_allowed_post_topics>
+	<you_cant_add_this_vdo>您不能添加此影片</you_cant_add_this_vdo>
+	<video_added>影片已添加</video_added>
+	<you_cant_del_this_vdo>您不能刪除些影片</you_cant_del_this_vdo>
+	<video_removed>影片已刪除</video_removed>
+	<user_not_grp_mem>該會員不屬於此群組</user_not_grp_mem>
+	<user_already_group_mem>該會員已加入此群組</user_already_group_mem>
+	<invitations_sent>邀請已發送</invitations_sent>
+	<you_not_grp_mem>您不是群組會員</you_not_grp_mem>
+	<you_cant_delete_this_grp>您不能刪除此群組</you_cant_delete_this_grp>
+	<grp_deleted>群組已刪除</grp_deleted>
+	<you_cant_del_grp_mems>您不能移除群組會員</you_cant_del_grp_mems>
+	<mems_deleted>會員已移除</mems_deleted>
+	<you_cant_del_grp_vdos>您沒有權限刪除群組影片</you_cant_del_grp_vdos>
+	<thnx_for_voting>感謝您的投票</thnx_for_voting>
+	<you_hv_already_rated_vdo>您已對此影片評分</you_hv_already_rated_vdo>
+	<please_login_to_rate>請登入操作評分</please_login_to_rate>
+	<you_not_subscribed>您沒有訂閱</you_not_subscribed>
+	<you_cant_delete_this_user><![CDATA[You cannot delete this user&#8221;]]></you_cant_delete_this_user>
+	<you_dont_hv_perms>您沒有足夠權限</you_dont_hv_perms>
+	<user_subs_hv_been_removed>會員訂閱已移除</user_subs_hv_been_removed>
+	<user_subsers_hv_removed>會員訂閱者已移除</user_subsers_hv_removed>
+	<you_already_sent_frend_request>您已發送好友邀請</you_already_sent_frend_request>
+	<friend_added>好友已添加</friend_added>
+	<friend_request_sent>好友邀請已發送</friend_request_sent>
+	<friend_confirm_error>好友邀講無效</friend_confirm_error>
+	<friend_confirmed>好友邀請已確認</friend_confirmed>
+	<friend_request_not_found>沒有收到好友邀請</friend_request_not_found>
+	<you_cant_confirm_this_request>您不能確認此邀請</you_cant_confirm_this_request>
+	<friend_request_already_confirmed>好友邀請已確認</friend_request_already_confirmed>
+	<user_no_in_contact_list>該會員不屬於您的聯絡人</user_no_in_contact_list>
+	<user_removed_from_contact_list>該會員已從您的聯絡人中移除</user_removed_from_contact_list>
+	<cant_find_level>Cannot find level</cant_find_level>
+	<please_enter_level_name>Please enter level name</please_enter_level_name>
+	<level_updated>Level has been updated</level_updated>
+	<level_del_sucess>User level has been deleted, all users of this level has been transfered to %s</level_del_sucess>
+	<level_not_deleteable>This level is not deletable</level_not_deleteable>
+	<pass_mismatched>密碼不正確</pass_mismatched>
+	<user_blocked>會員已被停用</user_blocked>
+	<user_already_blocked>會員已被停用</user_already_blocked>
+	<you_cant_del_user>您沒有權限停用會員</you_cant_del_user>
+	<user_vids_hv_deleted>會員影片已刪除</user_vids_hv_deleted>
+	<user_contacts_hv_removed>會員聯絡人已移除</user_contacts_hv_removed>
+	<all_user_inbox_deleted>所有會員的收件箱消息已刪除</all_user_inbox_deleted>
+	<all_user_sent_messages_deleted>所有會員的送件箱消息已刪除</all_user_sent_messages_deleted>
+	<pelase_enter_something_for_comment>留言不能為空的</pelase_enter_something_for_comment>
+	<please_enter_your_name>請輸入名稱</please_enter_your_name>
+	<please_enter_your_email>請輸入電子郵箱</please_enter_your_email>
+	<template_activated>範本已啟用</template_activated>
+	<error_occured_changing_template>更改範本出現錯誤</error_occured_changing_template>
+	<phrase_code_empty>Phrase code was empty</phrase_code_empty>
+	<phrase_text_empty>Phrase text was empty</phrase_text_empty>
+	<language_does_not_exist>Language does not exist</language_does_not_exist>
+	<name_has_been_added>%s 已經加入</name_has_been_added>
+	<name_already_exists><![CDATA[&#8216;%s&#8217; already exist]]></name_already_exists>
+	<lang_doesnt_exist>language does not exist</lang_doesnt_exist>
+	<no_file_was_selected>找不到檔案</no_file_was_selected>
+	<err_reading_file_content>讀取檔案時出錯</err_reading_file_content>
+	<cant_find_lang_name>Cant find language name</cant_find_lang_name>
+	<cant_find_lang_code>Cant find language code</cant_find_lang_code>
+	<no_phrases_found>No phrases were found</no_phrases_found>
+	<language_already_exists>Language already exists</language_already_exists>
+	<lang_added>Language has been added successfully</lang_added>
+	<error_while_upload_file>Error occured while uploading language file</error_while_upload_file>
+	<default_lang_del_error><![CDATA[This is the default language, please select another language as &#8220;default&#8221; and then delete this pack]]></default_lang_del_error>
+	<lang_deleted>Language pack has been deleted</lang_deleted>
+	<lang_name_empty>Language name was empty</lang_name_empty>
+	<lang_code_empty>Language code was empty</lang_code_empty>
+	<lang_regex_empty>Language regular expression was empty</lang_regex_empty>
+	<lang_code_already_exist>Language code already exists</lang_code_already_exist>
+	<lang_updated>Language has been updated</lang_updated>
+	<player_activated>播放器已生效</player_activated>
+	<error_occured_while_activating_player>播放器生效時出錯</error_occured_while_activating_player>
+	<plugin_has_been_s>插件已被 %s</plugin_has_been_s>
+	<plugin_uninstalled>插件已被移除</plugin_uninstalled>
+	<perm_code_empty>Permission code is empty</perm_code_empty>
+	<perm_name_empty>Permission name is empty</perm_name_empty>
+	<perm_already_exist>Permission already exists</perm_already_exist>
+	<perm_type_not_valid>Permission type is not valid</perm_type_not_valid>
+	<perm_added>New Permission has been added</perm_added>
+	<perm_deleted>Permission has been deleted</perm_deleted>
+	<perm_doesnt_exist>Permission does not exist</perm_doesnt_exist>
+	<acitvation_html_message>請輸入您的會員名稱及啟用碼, 請檢查電子郵箱以獲得啟用碼</acitvation_html_message>
+	<acitvation_html_message2>請輸入您的電子郵箱以獲得啟用碼</acitvation_html_message2>
+	<admin_panel>管理員平台</admin_panel>
+	<moderate_videos>管理影片</moderate_videos>
+	<moderate_users>管理會員</moderate_users>
+	<revert_back_to_admin>返回管理平台</revert_back_to_admin>
+	<more_options>更多操作</more_options>
+	<downloading_string>%s 下載中...</downloading_string>
+	<download_redirect_msg><![CDATA[<a href="%s">click here if you don't redirect automatically</a> - <a href="%s"> Click Here to Go Back to Video Page</a>]]></download_redirect_msg>
+	<account_details>會員詳情</account_details>
+	<profile_details>會員資料詳情</profile_details>
+	<update_profile>更新會員資料</update_profile>
+	<please_select_img_file>請選擇圖像文檔</please_select_img_file>
+	<or>或</or>
+	<pelase_enter_image_url>請輸入圖像URL地址</pelase_enter_image_url>
+	<user_bg>頻道背景</user_bg>
+	<user_bg_img>頻道背景圖像</user_bg_img>
+	<please_enter_bg_color>請輸入背色顏色</please_enter_bg_color>
+	<bg_repeat_type>背景圖像重複類別</bg_repeat_type>
+	<fix_bg>固定</fix_bg>
+	<delete_this_img>刪除此圖像</delete_this_img>
+	<current_email>現有電郵地址</current_email>
+	<confirm_new_email>確認新電子郵件</confirm_new_email>
+	<no_subs_found>沒有找到訂閱</no_subs_found>
+	<video_info_all_fields_req>影片詳情 - 全部欄均需填寫</video_info_all_fields_req>
+	<update_group>更新群組</update_group>
+	<default>預設</default>
+	<grp_info_all_fields_req>群組詳情 - All Fields Are Required</grp_info_all_fields_req>
+	<date_recorded_location><![CDATA[Date recorded &amp; Location]]></date_recorded_location>
+	<update_video>更新影片</update_video>
+	<click_here_to_recover_user>按此找回會員名稱</click_here_to_recover_user>
+	<click_here_reset_pass>按此重設會員密碼</click_here_reset_pass>
+	<remember_me>記住資料</remember_me>
+	<howdy_user>您好 %s</howdy_user>
+	<notifications>消息通知</notifications>
+	<playlists>播放列表</playlists>
+	<friend_requests>好友邀請</friend_requests>
+	<after_meny_guest_msg><![CDATA[Welcome Guest ! Please <a href="%s">Login</a> or <a href="%s">Register</a>]]></after_meny_guest_msg>
+	<being_watched>觀看</being_watched>
+	<change_style_of_listing>變更列表模式</change_style_of_listing>
+	<website_members>%s 會員</website_members>
+	<guest_homeright_msg>觀看, 上載, 分享</guest_homeright_msg>
+	<reg_for_free>免費註冊</reg_for_free>
+	<rand_vids>隨機影片</rand_vids>
+	<t_10_users>熱門會員</t_10_users>
+	<pending>待審核</pending>
+	<confirm>確認</confirm>
+	<no_contacts>沒有聯絡人</no_contacts>
+	<you_dont_hv_any_grp>您沒有任何群組</you_dont_hv_any_grp>
+	<you_dont_joined_any_grp>您沒有加入任何群組</you_dont_joined_any_grp>
+	<leave_groups>離開群組</leave_groups>
+	<manage_grp_mems>管理群組會員</manage_grp_mems>
+	<pending_mems>待審核會員</pending_mems>
+	<active_mems>活躍會員</active_mems>
+	<disapprove>拒絕</disapprove>
+	<manage_grp_vids>管理群組影片</manage_grp_vids>
+	<pending_vids>待審核影片</pending_vids>
+	<no_pending_vids>沒有待審核影片</no_pending_vids>
+	<no_active_videos>沒有在線影片</no_active_videos>
+	<active_videos>在線影片</active_videos>
+	<manage_playlists>管理播放列表</manage_playlists>
+	<total_items>項目數量</total_items>
+	<play_now>馬上播放</play_now>
+	<no_video_in_playlist>此播放列表沒有影片</no_video_in_playlist>
+	<view>檢視</view>
+	<you_dont_hv_fav_vids>您沒有任何收藏</you_dont_hv_fav_vids>
+	<private_messages>私人消息</private_messages>
+	<new_private_msg>撰寫私人消息</new_private_msg>
+	<search_for_s>搜尋 %s</search_for_s>
+	<signup_success_usr_ok><![CDATA[<h2 style="margin: 5px 5px 8px; font-family: Arial,Verdana,sans-serif;">Just One More Step</h2>     	<p style="margin: 0px 5px; line-height: 18px; font-size: 11px;">Your are just one step behind from becoming an official memeber of our website.  Please check your email, we have sent you a confirmation email which contains a confirmation link from our website, Please click it to complete your registration.</p>]]></signup_success_usr_ok>
+	<signup_success_usr_emailverify><![CDATA[<h2 style="font-family:Arial,Verdana,sans-serif; margin:5px 5px 8px;">Welcome To our community</h2>
+    	<p style="margin:0px 5px; line-height:18px; font-size:11px;">Your email has been confirmed, Please <strong><a href="%s">click here to login</a></strong> and continue as our registered member.</p>]]></signup_success_usr_emailverify>
+	<if_you_already_hv_account>if you already have an account, please login here </if_you_already_hv_account>
+	<signup_message_under_login><![CDATA[ <p>Our website is the home for video online:</p>
+          
+            <ul><li><strong>Watch</strong> millions  of videos</li><li><strong>Share favorites</strong> with friends and family</li>
+            <li><strong>Connect with other users</strong> who share your interests</li><li><strong>Upload your videos</strong> to a worldwide audience
+
+</li></ul>]]></signup_message_under_login>
+	<new_mems_signup_here>New Members Signup Here</new_mems_signup_here>
+	<register_as_our_website_member>Register as a member, it's free and easy just </register_as_our_website_member>
+	<video_complete_msg><![CDATA[<h2>Video Upload Has Been Completed</h2>
+<span class="header1">Thank you! Your upload is complete.</span><br>
+<span class="tips">This video will be available in <a href="%s"><strong>My Videos</strong></a> after it has finished processing.</span>  
+<div class="upload_link_button" align="center">
+    <ul>
+        <li><a href="%s" >Upload Another Video</a></li>
+        <li><a href="%s" >Go to My Videos</a></li>
+    </ul>
+<div class='clearfix'></div>
+</div>
+]]></video_complete_msg>
+	<upload_right_guide><![CDATA[ <div>
+            <div>
+              <p>
+                <strong>
+                <strong>Important:</strong>
+                Do not upload any TV shows, music videos, music concerts, or  commercials without permission unless they consist entirely of content  you created yourself.</strong></p>
+                <p>The 
+                <a href="#">Copyright Tips page</a> and the 
+                <a href="#">Community Guidelines</a> can help you determine whether your video infringes someone else's copyright.</p>
+                <p>By clicking "Upload Video", you are representing that this video does not violate Our website's 
+                <a id="terms-of-use-link" href="#">Terms of Use</a> 
+                and that you own all copyrights in this video or have authorization to upload it.</p>
+            </div>
+        </div>]]></upload_right_guide>
+	<report_this_user>投訴會員</report_this_user>
+	<add_to_favs>收藏</add_to_favs>
+	<report_this>投訴</report_this>
+	<share_this>分享</share_this>
+	<add_to_playlist>添加到播放列表</add_to_playlist>
+	<view_profile>檢視會員資料</view_profile>
+	<subscribe>訂閱</subscribe>
+	<uploaded_by_s>%s 上傳</uploaded_by_s>
+	<more>更多</more>
+	<link_this_video>連結此影片</link_this_video>
+	<click_to_download_video>按此下載此影片</click_to_download_video>
+	<name>名稱</name>
+	<email_wont_display>電子郵箱(不會顯示)</email_wont_display>
+	<please_login_to_comment>請登入以操作留言</please_login_to_comment>
+	<marked_as_spam_comment_by_user><![CDATA[Marked as spam, commented by <em>%s</em>]]></marked_as_spam_comment_by_user>
+	<spam>垃圾留言</spam>
+	<user_commented_time><![CDATA[<a href="%s">%s</a> commented %s]]></user_commented_time>
+	<no_comments>%s 沒有任何留言</no_comments>
+	<view_video>檢視影片</view_video>
+	<topic_icon>貼文貼圖</topic_icon>
+	<group_options>群組選項</group_options>
+	<info>資料</info>
+	<basic_info>基本資料</basic_info>
+	<group_owner>群組管理員</group_owner>
+	<total_mems>會員總數</total_mems>
+	<total_topics>貼文總數</total_topics>
+	<grp_url>群組URL地址</grp_url>
+	<more_details>更多詳情</more_details>
+	<view_all_mems>檢視所有會員</view_all_mems>
+	<view_all_vids>檢視所有影片</view_all_vids>
+	<topic_title>貼文標題</topic_title>
+	<last_reply>最後回覆</last_reply>
+	<topic_by_user><![CDATA[<a href="%s">%s</a></span> by <a href="%s">%s</a>]]></topic_by_user>
+	<no_topics>沒有標題</no_topics>
+	<last_post_time_by_user><![CDATA[%s<br />
+by <a href="%s">%s]]></last_post_time_by_user>
+	<profile_views>瀏覽人數</profile_views>
+	<last_logged_in>最後登錄時間</last_logged_in>
+	<last_active>最後活躍時間</last_active>
+	<total_logins>登入總次數</total_logins>
+	<total_videos_watched>影片觀看總次數</total_videos_watched>
+	<view_group>檢視分組</view_group>
+	<you_dont_hv_any_pm>沒有任何消息</you_dont_hv_any_pm>
+	<date_sent>送出日期</date_sent>
+	<show_hide>顯示 - 隱藏</show_hide>
+	<quicklists>快速列表</quicklists>
+	<are_you_sure_rm_grp>您確認移除此群組?</are_you_sure_rm_grp>
+	<are_you_sure_del_grp>您確認刪除此群組?</are_you_sure_del_grp>
+	<change_avatar>更換頭像</change_avatar>
+	<change_bg>更換背景</change_bg>
+	<uploaded_videos>上載影片</uploaded_videos>
+	<video_playlists>影片播放列表</video_playlists>
+	<add_contact_list>添加聯絡人</add_contact_list>
+	<topic_post>標題貼文</topic_post>
+	<invite>邀請</invite>
+	<time_ago>%s %s 前</time_ago>
+	<from_now>%s %s 起</from_now>
+	<lang_has_been_activated>語言已生效</lang_has_been_activated>
+	<lang_has_been_deactivated>語言已停用</lang_has_been_deactivated>
+	<lang_default_no_actions>您不能操作預設語言</lang_default_no_actions>
+	<private_video_error>此為私人影片，只有邀請人仕才有權限檢視</private_video_error>
+	<email_send_confirm>系統已紀錄您的要求</email_send_confirm>
+	<name_was_empty>名稱是空的</name_was_empty>
+	<invalid_email>電子郵件不合法</invalid_email>
+	<pelase_enter_reason>原因</pelase_enter_reason>
+	<please_enter_something_for_message>消息不能為空的</please_enter_something_for_message>
+	<comm_disabled_for_vid>此影片禁止留言</comm_disabled_for_vid>
+	<coments_disabled_profile>此會員資料禁止留言</coments_disabled_profile>
+	<file_size_exceeds>檔案超過 '%s KB'</file_size_exceeds>
+	<vid_rate_disabled>此影片禁止評分</vid_rate_disabled>
+	<chane_lang>- 更換語言 -</chane_lang>
+	<recent>最近</recent>
+	<viewed>觀看</viewed>
+	<top_rated>最高評分</top_rated>
+	<commented>留言</commented>
+	<searching_keyword_in_obj>搜索 '%s' 於 %s</searching_keyword_in_obj>
+	<no_results_found>沒有找到結果</no_results_found>
+	<please_enter_val_bw_min_max>請輸入 '%s' 數值介乎於 '%s' 及 '%s'</please_enter_val_bw_min_max>
+	<no_new_subs_video>此訂閱暫未有新影片</no_new_subs_video>
+	<inapp_content>不合適內容</inapp_content>
+	<copyright_infring>侵犯版權</copyright_infring>
+	<sexual_content>反感色情</sexual_content>
+	<violence_replusive_content>血腥暴力</violence_replusive_content>
+	<disturbing>厭煩</disturbing>
+	<other>其他</other>
+	<pending_requests>待審核請求</pending_requests>
+	<friend_add_himself_error>您不能夠添加自己為好友</friend_add_himself_error>
+	<contact_us_msg>您的意見對我們相當重要,您將以自願方式提供下列資料,我們將有可能再聯絡您以提供更詳盡資訊以改進我們的服務</contact_us_msg>
+	<Successful>成功</Successful>
+	<required_fields>必填欄位</required_fields>
+	<more_fields>更多欄位</more_fields>
+	<remote_upload_file><![CDATA[uploading file <span id=\"remoteFileName\"></span>, please wait...]]></remote_upload_file>
+	<please_enter_remote_file_url>請輸入遠端檔案URL地址</please_enter_remote_file_url>
+	<remoteDownloadStatusDiv><![CDATA[<div class="remoteDownloadStatus" id="remoteDownloadStatus" >Downloaded 
+                <span id="status">-- of --</span> @ 
+                <span id="dspeed">-- Kpbs</span>, EST 
+                <span id="eta">--:--</span>, Time took 
+                <span id="time_took">--:--</span>
+            </div>]]></remoteDownloadStatusDiv>
+	<upload_data_now>現在上載</upload_data_now>
+	<save_data>儲存</save_data>
+	<saving>正在儲存...</saving>
+	<upload_file>上載檔案</upload_file>
+	<grab_from_youtube>轉存自Youtube</grab_from_youtube>
+	<upload_video_button>瀏覽影片</upload_video_button>
+	<upload_videos_can_be><![CDATA[<span style=\"font-weight: bold; font-size: 13px;\">Videos can be</span>     <ul>         <li>High Definition</li>         <li>Up to %s in size</li>         <li>Up to %s in length</li>         <li>A wide variety of formats</li>     </ul>]]></upload_videos_can_be>
+	<photo_not_exist>相片不存在</photo_not_exist>
+	<photo_not_exists>相片不存在</photo_not_exists>
+	<photo_success_deleted>相片已刪除</photo_success_deleted>
+	<cant_edit_photo>您沒有權限刪除相片</cant_edit_photo>
+	<you_hv_already_rated_photo>您已經為此相片評分</you_hv_already_rated_photo>
+	<photo_rate_disabled>此相片禁止評分</photo_rate_disabled>
+	<need_photo_details>需要相片詳情</need_photo_details>
+	<embedding_is_disabled>禁止轉載</embedding_is_disabled>
+	<photo_activated>相片已生效</photo_activated>
+	<photo_deactivated>相片已禁止</photo_deactivated>
+	<photo_featured>相片標記為焦點</photo_featured>
+	<photo_unfeatured>相片已移除焦點</photo_unfeatured>
+	<photo_updated_successfully>相片已更新</photo_updated_successfully>
+	<success_delete_file>%s 檔案已刪除</success_delete_file>
+	<no_watermark_found>找不到浮水印檔案</no_watermark_found>
+	<watermark_updated>浮水印已更新</watermark_updated>
+	<upload_png_watermark>請上儲 24-bit PNG 圖像檔案</upload_png_watermark>
+	<photo_non_readable>不能讀取相片</photo_non_readable>
+	<wrong_mime_type>錯誤 MIME 類型</wrong_mime_type>
+	<you_dont_have_photos>找不到相片</you_dont_have_photos>
+	<you_dont_have_fav_photos>找不到收藏相片</you_dont_have_fav_photos>
+	<manage_orphan_photos>管理無效圖片</manage_orphan_photos>
+	<manage_favorite_photos>管理收藏圖片</manage_favorite_photos>
+	<manage_photos>管理圖片</manage_photos>
+	<you_dont_have_orphan_photos>找不到無效圖片</you_dont_have_orphan_photos>
+	<item_not_exist>項目不存在</item_not_exist>
+	<collection_not_exist>作品集不存在</collection_not_exist>
+	<selected_collects_del>所選作品集已刪除</selected_collects_del>
+	<manage_collections>管理作品集</manage_collections>
+	<create_collection>創建作品集</create_collection>
+	<selected_items_removed>所選項目 %s 已刪除</selected_items_removed>
+	<edit_collection>編輯作品集</edit_collection>
+	<manage_collection_items>編輯作品集項目</manage_collection_items>
+	<manage_favorite_collections>管理收藏作品集</manage_favorite_collections>
+	<total_fav_collection_removed>%s 作品集已從收藏移除</total_fav_collection_removed>
+	<total_photos_deleted>%s 相片已刪除</total_photos_deleted>
+	<total_fav_photos_removed>%s 相片已從收藏刪除</total_fav_photos_removed>
+	<photos_upload>相片上傳</photos_upload>
+	<no_items_found_in_collect>此作品集是空的</no_items_found_in_collect>
+	<You dont have any favorite collection>您沒有收藏任何作品集</You dont have any favorite collection>
+	<manage_items>管理項目</manage_items>
+	<add_new_collection>添加新作品集</add_new_collection>
+	<update_collection>更新作品集</update_collection>
+	<update_photo>更新圖片</update_photo>
+	<no_collection_found>您沒有任何作品集</no_collection_found>
+	<photo_title>圖片標題</photo_title>
+	<photo_caption>圖片簡介</photo_caption>
+	<photo_tags>圖片標籤</photo_tags>
+	<collection>作品集</collection>
+	<photo>圖片</photo>
+	<pic_allow_embed>允許圖片轉載</pic_allow_embed>
+	<pic_dallow_embed>禁止圖片轉載</pic_dallow_embed>
+	<pic_allow_rating>允許圖片評分</pic_allow_rating>
+	<pic_dallow_rating>禁止圖片評分</pic_dallow_rating>
+	<add_more>添加更多</add_more>
+	<download_photo>下載圖片</download_photo>
+	<collect_name_er>作品集名稱是空的</collect_name_er>
+	<collect_descp_er>作品集簡介是空的</collect_descp_er>
+	<collect_tag_er>作品集標籤是空的</collect_tag_er>
+	<collect_cat_er>選擇作品集分類</collect_cat_er>
+	<collect_borad_pub>設定作品集為公開</collect_borad_pub>
+	<collect_allow_public_up>公開上載</collect_allow_public_up>
+	<collect_pub_up_dallow>禁止其他會員添加項目</collect_pub_up_dallow>
+	<collect_pub_up_allow>允許其他會員添加項目</collect_pub_up_allow>
+	<collection_name>作品集名稱</collection_name>
+	<collection_description>作品集簡介</collection_description>
+	<collection_tags>作品集標籤</collection_tags>
+	<collect_category>作品集分類</collect_category>
+	<collect_added_msg>作品集已添加</collect_added_msg>
+	<collect_not_exist>作品集不存在</collect_not_exist>
+	<no_upload_opt>沒有上載選項 {title}, 請聯絡系統管理員</no_upload_opt>
+	<Uploaded Photos>已上載圖片</Uploaded Photos>
+	<Favorite Photos>收藏圖片</Favorite Photos>
+	<Orphan Photos>無效圖片</Orphan Photos>
+	<photos>圖片</photos>
+	<cat_all>全部</cat_all>
+	<upload_desktop_msg>從本地裝置上載檔案分享到互聯網</upload_desktop_msg>
+	<upload_remote_video_msg>從遠程URL地址轉載檔案分享到互聯網</upload_remote_video_msg>
+	<embed_video_msg><![CDATA[Embed videos from different website using their "video embed code" , simply enter embed code, enter video duration and select its thumb, fill in the required details and click on upload.]]></embed_video_msg>
+	<link_video_msg>從遠程URL地址轉載檔案無須等待本地裝置上載時間,同時節省頻寬</link_video_msg>
+	<browse_photos>瀏覽圖片</browse_photos>
+	<photo_is_saved_now>圖片作品集已儲存</photo_is_saved_now>
+	<photo_success_heading>圖片作品集已更新</photo_success_heading>
+	<share_embed>分享 / 內嵌</share_embed>
+	<item_added_in_collection>%s 已添加到作品集</item_added_in_collection>
+	<object_exists_collection>%s 已在作品集</object_exists_collection>
+	<collect_tag_hint>alpha bravo charlie, ptv classics, hasb-e-haal</collect_tag_hint>
+	<collect_broad_pri>將作品集權限設定為私人</collect_broad_pri>
+	<collect_item_removed>%s 已從作品集中移除</collect_item_removed>
+	<most_downloaded>熱門下載</most_downloaded>
+	<total_videos>影片總數</total_videos>
+	<collection_featured>作品集已設定為焦點</collection_featured>
+	<collection_unfeatured>作品集已移除焦點</collection_unfeatured>
+	<upload_right_guide_photo><![CDATA[<strong>Important: Do not upload any photo that can be construed as Obscenity, copyrighted material, harassment, or spam.</strong>
+<p>By continuing "Your Upload", you are representing that these photos do not violate Our website's <a id="terms-of-use-link" href="%s"><span style="color:orange;">Terms of Use</span></a> and that you own all copyrights of these photos or have authorization to upload it.</p>]]></upload_right_guide_photo>
+	<upload_right_guide_vid><![CDATA[<strong>Important: Do not upload any video that can be construed as Obscenity, copyrighted material, harassment, or spam.</strong>
+<p>By continuing "Your Upload", you are representing that these videos do not violate Our website's <a id="terms-of-use-link" href="%s"><span style="color:orange;">Terms of Use</span></a> and that you own all copyrights of these videos or have authorization to upload it.</p>]]></upload_right_guide_vid>
+	<collection_deactivated>作品集已禁止</collection_deactivated>
+	<collection_activated>作品集已上線</collection_activated>
+	<collection_updated>作品集已更新</collection_updated>
+	<cant_edit_collection>您沒有權限編輯此作品集</cant_edit_collection>
+	<object_not_in_collect>%s 不存在於此作品集</object_not_in_collect>
+	<object_does_not_exists>%s 不存在</object_does_not_exists>
+	<cant_perform_action_collect>您沒有權限操作此作品集</cant_perform_action_collect>
+	<collection_deleted>作品集已刪除</collection_deleted>
+	<collection_not_exists>作品集不存在</collection_not_exists>
+	<collect_items_deleted>作品集已刪除</collect_items_deleted>
+	<photo_title_err>請輸入合法圖片標題</photo_title_err>
+	<rand_photos>隨機圖片</rand_photos>
+	<this_has_set_profile_item>%s 已設定為您的會員資料項目</this_has_set_profile_item>
+	<profile_item_removed>會員資料項目已移除</profile_item_removed>
+	<make_profile_item>設定為會員資料項目</make_profile_item>
+	<remove_profile_item>移除會員資料項目</remove_profile_item>
+	<content_type_empty>內容類別是空的</content_type_empty>
+	<watch_video_page>檢視影片</watch_video_page>
+	<watch_on_photo_page>檢視圖片</watch_on_photo_page>
+	<found_no_videos>沒有找到影片</found_no_videos>
+	<found_no_photos>沒有找到圖片</found_no_photos>
+	<collections>作品集</collections>
+	<related_videos>相關影片</related_videos>
+	<this_video_found_in_no_collection>此影片已在作品集內</this_video_found_in_no_collection>
+	<more_from>更多來自 %s</more_from>
+	<this_collection>作品集 : %s</this_collection>
+	<vdo_broadcast_unlisted>不公開 (透過連接及密碼訪問)</vdo_broadcast_unlisted>
+	<video_link>影片連接</video_link>
+	<channel_settings>頻道設定</channel_settings>
+	<channel_account_settings><![CDATA[Channel & Account Settings]]></channel_account_settings>
+	<account_settings>帳號設定</account_settings>
+	<allow_subscription>允許訂閱</allow_subscription>
+	<allow_subscription_hint>允許會員訂閱頻道?</allow_subscription_hint>
+	<channel_title>頻道標題</channel_title>
+	<channel_desc>頻道簡介</channel_desc>
+	<show_my_friends>顯示我的好友</show_my_friends>
+	<show_my_videos>顯示我的影片</show_my_videos>
+	<show_my_photos>顯示我的圖片</show_my_photos>
+	<show_my_subscriptions>顯示我的訂閱</show_my_subscriptions>
+	<show_my_subscribers>顯示我的追隨者</show_my_subscribers>
+	<profile_basic_info>基本資料</profile_basic_info>
+	<profile_education_interests>教育程度, 興趣, 等等</profile_education_interests>
+	<channel_profile_settings><![CDATA[Channel & Profile Settings]]></channel_profile_settings>
+	<show_my_collections>顯示我的作品集</show_my_collections>
+	<user_doesnt_any_collection>此會員沒有任何作品集</user_doesnt_any_collection>
+	<unsubscribe>取消訂閱</unsubscribe>
+	<you_have_already_voted_channel>您已經為頻道評分</you_have_already_voted_channel>
+	<channel_rating_disabled>頻道禁止評分</channel_rating_disabled>
+	<user_activity>會員動態</user_activity>
+	<you_cant_view_profile>您沒有權限檢視此頻道 :/</you_cant_view_profile>
+	<only_friends_view_channel>只有 %s 的好友能夠檢視此頻道</only_friends_view_channel>
+	<collect_type>作品集類型</collect_type>
+	<add_to_my_collection>添加到我的作品集</add_to_my_collection>
+	<total_collections>作品集總數</total_collections>
+	<total_photos>圖片總數</total_photos>
+	<comments_made>留言數量</comments_made>
+	<block_users>限制會員</block_users>
+	<tp_del_confirm>您確認刪除此貼文?</tp_del_confirm>
+	<you_need_owners_approval_to_view_group>您需要批准才能檢視此群組</you_need_owners_approval_to_view_group>
+	<you_cannot_rate_own_collection>您不能夠為自己的作品集評分</you_cannot_rate_own_collection>
+	<collection_rating_not_allowed>作品集禁止評分</collection_rating_not_allowed>
+	<you_cant_rate_own_video>您不能夠為自己的影片評分</you_cant_rate_own_video>
+	<you_cant_rate_own_channel>您不能夠為自己的頻道評分</you_cant_rate_own_channel>
+	<you_cannot_rate_own_photo>您不能夠為自己的圖片評分</you_cannot_rate_own_photo>
+	<cant_pm_banned_user>您不能夠發私人消息至 %s</cant_pm_banned_user>
+	<you_are_not_allowed_to_view_user_channel>您沒有權限檢視 %s 的頻道</you_are_not_allowed_to_view_user_channel>
+	<you_cant_send_pm_yourself>您不能夠向自己發私人消息</you_cant_send_pm_yourself>
+	<please_enter_confimation_ode>請輸入驗証碼</please_enter_confimation_ode>
+	<vdo_brd_confidential>私密 (指定會員才能檢視)</vdo_brd_confidential>
+	<video_password>影片密碼</video_password>
+	<set_video_password><![CDATA[Enter video password to make it "password protected"]]></set_video_password>
+	<video_pass_protected>此影片受密碼保護,請輸入密碼以獲取權限</video_pass_protected>
+	<please_enter_video_password>此影片受密碼保護,請輸入密碼以獲取權限</please_enter_video_password>
+	<video_is_password_protected>%s 此影片受密碼保護</video_is_password_protected>
+	<invalid_video_password>不正確影片密碼</invalid_video_password>
+	<logged_users_only>會員 (只有會員才能觀看)</logged_users_only>
+	<specify_video_users>請輸入會員名稱 , 以逗號分隔</specify_video_users>
+	<video_users>影片會員</video_users>
+	<not_logged_video_error>您不能觀看此影片因為您並未登入</not_logged_video_error>
+	<no_user_subscribed_to_uploader>沒有用戶訂閱 %s</no_user_subscribed_to_uploader>
+	<subs_email_sent_to_users>訂閱郵件已發送到 %s 用戶 %s</subs_email_sent_to_users>
+	<user_has_uploaded_new_photo>%s 已上載新圖片</user_has_uploaded_new_photo>
+	<please_provide_valid_userid>請提供有效的會員ID</please_provide_valid_userid>
+	<user_joined_us>%s 已加入 %s , 請歡迎 %s</user_joined_us>
+	<user_has_uploaded_new_video>%s 已上載新影片</user_has_uploaded_new_video>
+	<user_has_created_new_group>%s 已創建新群組</user_has_created_new_group>
+	<total_members>會員總數</total_members>
+	<watch_video>觀看影片</watch_video>
+	<view_photo>檢視圖片</view_photo>
+	<user_has_joined_group>%s 已加入新群組</user_has_joined_group>
+	<user_is_now_friend_with_other>%s 與 %s 已成為好友</user_is_now_friend_with_other>
+	<user_has_created_new_collection>%s 已創建新作品集s</user_has_created_new_collection>
+	<view_collection>檢視作品集</view_collection>
+	<user_has_favorited_video>%s 已添加影片到收藏</user_has_favorited_video>
+	<activity>動態</activity>
+	<no_activity>%s 沒有最新動態</no_activity>
+	<feed_has_been_deleted>動態更新</feed_has_been_deleted>
+	<you_cant_del_this_feed>您不能刪除些動態</you_cant_del_this_feed>
+	<you_cant_sub_yourself>您不能夠訂閱您自己</you_cant_sub_yourself>
+	<manage_my_album>管理我的相簿</manage_my_album>
+	<you_dont_have_permission_to_update_this_video>您沒有權限更新此影片</you_dont_have_permission_to_update_this_video>
+	<group_is_public>公開群組</group_is_public>
+	<collection_thumb>作品集縮圖</collection_thumb>
+	<collection_is_private>私人作品集</collection_is_private>
+	<edit_type_collection>正在編輯 %s</edit_type_collection>
+	<comm_disabled_for_collection>此作品集禁止留言</comm_disabled_for_collection>
+	<share_this_type>分享 %s</share_this_type>
+	<seperate_usernames_with_comma>以逗號分隔會員名稱</seperate_usernames_with_comma>
+	<view_all>檢視全部</view_all>
+	<album_privacy_updated>相簿權限已更新</album_privacy_updated>
+	<you_dont_have_any_videos>您沒有相片</you_dont_have_any_videos>
+	<update_blocked_use>會員黑名單已更新</update_blocked_use>
+	<you_dont_have_fav_collections>您沒有收藏作品集</you_dont_have_fav_collections>
+	<remote_play>速端播放</remote_play>
+	<remote_upload_example>e.g http://clipbucket.com/sample.flv http://www.youtube.com/watch?v=QfRAHfquzM0</remote_upload_example>
+	<update_blocked_user_list>會員黑名單</update_blocked_user_list>
+	<group_is_private>私密群組</group_is_private>
+	<no_user_associated_with_email>此電子郵件沒有會員連結</no_user_associated_with_email>
+	<pass_changed_success><![CDATA[<div class="simple_container">
+    	<h2 style="margin: 5px 5px 8px; font-family: Arial,Verdana,sans-serif;">Password has been changed, please check your email</h2>     	<p style="margin: 0px 5px; line-height: 18px; font-size: 11px;">You password has been successfully changed, please check your inbox for the newly generated password, once you login please change it accordingly by going to your account and click on change password.</p>
+ </div>]]></pass_changed_success>
+	<add_as_friend>添加好友</add_as_friend>
+	<block_user>黑名單</block_user>
+	<send_message>發送消息</send_message>
+	<no_item_was_selected_to_delete>沒有選擇項目</no_item_was_selected_to_delete>
+	<playlist_items_have_been_removed>播放列表項目已刪除</playlist_items_have_been_removed>
+	<you_not_grp_mem_or_approved>您沒有此群組權限</you_not_grp_mem_or_approved>
+	<no_playlist_was_selected_to_delete>請選擇播放列表</no_playlist_was_selected_to_delete>
+	</phrases>
+</clipbucket_language>

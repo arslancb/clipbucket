@@ -1,0 +1,74 @@
+<link rel="stylesheet" href="{$cb_vjs_player_url}/css/video-js.css" />
+<link href="{$cb_vjs_player_url}/css/cb_vjs_res.css" rel="stylesheet" type="text/css" />
+<link href='//fonts.googleapis.com/css?family=PT+Sans:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
+
+<script src="{$cb_vjs_player_url}/js/video.dev.js"></script>
+<script src="{$cb_vjs_player_url}/js/cb_vjs_res.js"></script>
+
+<video id="cb_video_js" class="video-js vjs-default-skin" width="{$width}" height="{$height}" poster="{getThumb vdetails=$vdata size=768x432}" >
+    {foreach $video_files as $file}
+    {$quality = explode('-', $file)}
+    {$quality = end($quality)}
+    {$quality = explode('.',$quality)}
+    {$quality = $quality.0}
+
+    {if $flv_vid == true}
+    	<source src='{$file}' type="video/x-flv" />
+    {else}
+    	<source src='{$file}' type="video/mp4" data-res="{$quality}" />
+    {/if}
+    {/foreach}
+    {ANCHOR place="play_def_sub"}
+    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+</video>
+
+<script type="text/javascript">
+var vid_id = "{$vdata.videoid}";
+var videotitle = "{$vdata.title|escape_quotes}";
+var uploader = "{$vdata.username}";
+var branding_logo  = "{$cb_logo}";
+var product_link = "{$player_config.player_logo_url}";
+var show_logo = true;
+
+	var cb_player_setup = {
+		plugins : { resolutionSelector : {
+			// Pass any options here
+			default_res : '360'
+			// Define an on.ready function
+		} }, 
+		"techOrder" : ['html5', 'flash'],
+		"controls": true,
+		"autoplay": false,
+		"preload": "auto",
+		"vid_id" : vid_id,
+		"videotitle" : videotitle,
+		"uploader" : uploader,
+		"branding_logo" : branding_logo,
+		"show_logo" : show_logo,
+		"product_link" : product_link,
+	};
+	
+	//Setting CallBack
+	var cb_vjs_callback = function(){
+			var cb_vjs = this;
+			console.log("CB Player Ready !");
+	}
+	//Initializing
+	var cb_player = videojs('cb_video_js', cb_player_setup , cb_vjs_callback);
+	
+	$(document).ready(function(){	
+		
+		// Editing Video Js > to be Improved in near Future ! 
+		var cb_vjs_settings = function(){
+			var cb_video_js = cb_player;
+			var is_this_player_muted = $.cookie("_this_player_muted");
+			if (is_this_player_muted == 'Muted' ){
+				$( ".vjs-mute-control" ).trigger( "click" );
+			}
+		}
+		
+		cb_vjs_settings();
+	});
+	
+</script>
+<script src="{$cb_vjs_player_url}/js/cb_vjs_custom.js"></script>

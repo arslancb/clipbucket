@@ -1,0 +1,95 @@
+<div class="heading clearfix">
+    <h2 class="pull-left">Collection Manager</h2>
+    {include file="$layout_dir/blocks/advanced_collection_search.html" }
+</div>
+
+<form name="video_manage" method="post">
+        <div class="btn-group marginBottomLarge">
+     		<input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected collection(s)')"/>
+    </div>
+    <table class="table table-bordered table-striped manageUsersTable">
+    <tr>
+        <td>
+            <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+            <td>C-ID</td>
+            <td>Details</td>
+            <td>Options</td>
+  </tr>
+        {if $c}
+        {section name=list loop=$c}
+    <tr>
+        <td>
+            <input name="check_collection[]" type="checkbox" id="check_collection" value="{$c[list].collection_id}" /></td>
+        <td>{$c[list].collection_id}</td>
+
+        <td>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-3">
+                    <img src="{$cbcollection->get_thumb($c[list],'small',TRUE)}"/>
+                        </div>
+                <div class="col-md-9">
+                    <a href="{$baseurl}/admin_area/edit_collection.php?collection={$c[list].collection_id}">{$c[list].collection_name}</a> ({$c[list].total_objects} {$c[list].type})
+                    </a>
+                    <div class="labels">
+                        {if $c[list].featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
+                        <span class="label {if $c[list].active=='yes'}label-success{else}label-warning{/if}">{if $c[list].active=='yes'}Active{else}NotActive{/if} </span>
+                        <span class="label label-info"><strong>{$c[list].type}</strong>Type </span>
+                        <span class="label label-info"><strong>{$c[list].date_added|niceTime}</strong> </span>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+                    <div class="col-md-2">
+                        <a href="view_user.php?uid={$c[list].userid}">{$c[list].username}</a>
+                    </div>
+                </div>
+        <td>
+            <div class="dropdown">
+                <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions <i class="caret"></i></button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$c[list].collection_id}" class="">Edit</a> </li>
+
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{$baseurl}/view_collection.php?cid={$c[list].collection_id}">View</a> </li>
+                    {if $c[list].featured == yes}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?make_unfeature={$c[list].collection_id}">Make Unfeatured</a></li> {/if}
+                    {if $c[list].featured == no}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?make_feature={$c[list].collection_id}">Make Featured</a></li> {/if}
+                    {if $c[list].active == yes}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?deactivate={$c[list].collection_id}">Deactivate</a>
+                    </li>
+                    {else}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?activate={$c[list].collection_id}">Activate</a>
+                    </li>
+                    {/if}
+                    <li class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_collection={$c[list].collection_id}">Delete</a></li>
+                    {foreach from=$cbvid->video_manager_links item=links}
+                </ul>
+            </div>
+    </td>
+    </tr>
+        {/foreach}
+        {/section}
+        {else}
+        <div align="center"><strong><em>No Photo Found</em></strong></div>
+        {/if}
+    </table>
+</form>
+
+
+        <div class="btn-group">
+     		<input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected collection(s)')"/>
+	    </div>
+
+
+{include file="$style_dir/blocks/pagination.html" }

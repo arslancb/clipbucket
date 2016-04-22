@@ -1,0 +1,124 @@
+<script>
+	var labRUrl = '{$smarty.const.ADMIN_BASEURL}/lab_resources';
+	{literal}
+		function experimentPart(mode){
+			if(mode=='getPreDetails')
+				$('#expOut').html('');
+			
+			var victim = $('#victim option:selected').val();
+
+			var expHeads = 
+			{
+				'getPreDetails' : "Getting modules and video details...",
+				'convertVideo1' : "Testing "+victim+" conversion Phase 1.."
+			}
+			
+			$('#expOut').append('<div class="expHead" onClick="$(\'#'+mode+'\').slideToggle()" >'+expHeads[mode]+'</div>');
+			
+			$('#expOut').append('<div id="loadinDetails">please wait...</div>'); 
+			
+			$.post(labRUrl+'/experiments.php',{
+			 "experiment":"yes",mode : mode,"victim":victim},
+			 	function(data){
+					
+					var dataMsg = "";
+					var dataErr = "";
+					
+					if(data.err)
+						dataErr = data.err;
+					
+					if(data.msg)
+						dataMsg = data.msg;
+									
+					$('#loadinDetails').after("<div id='"+mode+"'>"+dataMsg+dataErr+"</div>");
+					$('#loadinDetails').remove();
+					
+					if(data.status)
+					{
+						$('#'+mode).slideToggle();
+						experimentPart(data.status)
+					}
+				}
+			 ,"json");
+		}
+	{/literal}
+</script>
+
+
+{literal}
+<style>
+	.expHead{ 
+		color:#fff; 
+		font-size:13px; 
+		font-weight:bold; 
+		background-color:#0099cc; 
+		padding:3px; 
+		font-family:Arial, Helvetica, sans-serif;
+	 	margin-bottom:5px; 
+	 	cursor:pointer
+	 }
+	#expOut{
+		margin-top:10px;
+	}
+	.expMsg{
+		margin-bottom:20px
+	}
+	.expOK{ 
+		height:16px; 
+		{/literal}
+		background:url({$imageurl}/button_ok.png)
+		{literal} no-repeat; 
+		padding-left:18px; 
+		color:#2C7300; 
+		font-weight:bold
+	}
+	.expErr{ 
+		height:16px; 
+		{/literal}
+		background:url({$imageurl}/error.png)
+		{literal} no-repeat; padding-left:18px; 
+		color:#ed0000; 
+		font-weight:bold
+	}
+	.code{
+		background-color:#ccc; 
+		width:100%; 
+		overflow:auto; 
+		height:30px; 
+		border:none
+	}
+</style>
+{/literal}
+
+<div class="heading">
+	<h2>Conversion lab - <strong>&alpha;</strong>lpha</h2>
+</div>
+<img src="{$imageurl}/botal.png">
+<p>
+	Conversion environment for clipbucket users so they can test why their videos are not converting. This test is in early beta stages, we are hopeful to get best outcome results.
+</p>
+<div class="well">
+	<span>Current scientists</span> : <strong>Arslan Hassan</strong><br>
+	<span>Current version</span> : <strong>1.0 &alpha;</strong>
+</div>
+
+<div class="form-group">
+	<label for="victim">Choose your victime</label>
+	<select class="form-control" name="victim" id="victim">
+		{if $vdoFiles}
+	    	{foreach from=$vdoFiles item=vFile}
+	    		<option value="{$vFile.name}">{$vFile.name}</option>
+	        {/foreach}
+	    {else}
+	    	<option value="">No victim found</option>
+	    {/if}
+	</select>	
+</div>
+
+<input class="btn btn-primary btn-sm" type="submit" name="button" id="button" value="Start Experiment..." onClick="experimentPart('getPreDetails')">
+
+
+
+<div id="expOut">
+
+</div>

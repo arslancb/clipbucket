@@ -1,0 +1,57 @@
+<!-- Add To Playlist This {$type} -->
+<div id="playlist_form" class="action_box" >
+    <div class="form_container" align="center">
+        <div class="form_result" id="playlist_form_result" style="display:none"></div>
+
+        <form id="add_playlist_form" name="playlist_form" method="post" action="" class="">
+
+            {lang("Please select playlist name from following")}<br>
+            <select name="playlist_id" id="playlist_id" class="form-control mtm">
+                {if $playlists}
+                    {foreach $playlists as $playlist}
+                        <option value="{$playlist.playlist_id}">{$playlist.playlist_name}</option>
+                    {/foreach}
+                {else}
+                    <option value="" placeholder>--- {lang("No playlist exists")} ---</option>
+                {/if}
+            </select>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <input type="button" class="btn mtm btn-block btn-primary" name="add_to_playlist" value="Add to playlist" class="cb_button" onclick="add_playlist('add','{$params.id}','add_playlist_form','{$type}')"/>
+
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <a class="btn btn-block mtm btn-success" href="javascript:void(0)" onClick="$('#add_playlist_form').css('display','none');$('#new_playlist_form').css('display','block')">{lang('create new playlist')}</a>
+                </div>
+            </div>
+
+
+        </form>
+
+      <form id="new_playlist_form" name="new_playlist_form" method="post" action="" class="" style="display:none">
+            <div class="form-group">
+                <label for="playlist_name">{lang("Enter playlist name")}</label>
+                <input name="playlist_name" type="text" class="form-control" id="playlist_name" value=""/>
+              
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                   <!-- <input type="button" name="add_new_playlist" value="Add new playlist" class="btn mtm btn-block btn-success " onclick="add_playlist('add','{$params.id}','add_playlist_form','{$type}')"/>-->
+                   <input type="button" name="add_new_playlist" value="Add new playlist" class="btn mtm btn-block btn-success cb_button" onclick="add_playlist('new','{$params.id}','new_playlist_form','{$type}')"/>
+                   
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <a href="javascript:void(0)" class="btn btn-block mtm btn-primary" onClick="$('#add_playlist_form').css('display','block');$('#new_playlist_form').css('display','none')">Select from list </a>                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Add To Playlist This {$type} -->
+
+
+
+ 
+  

@@ -1,0 +1,39 @@
+{assign var=quicklist value=$cbvid->get_quicklist()}
+{assign var=quicklist_json value=$quicklist|@json_encode}
+
+<div  class="quicklist_box">
+	<div class="quicklist_box_head">
+		<a class="ql_show-hide" href="javascript:void(0)" onClick="quick_show_hide_toggle('#quicklist_cont')">{lang code='Hide'}</a>
+		<a class="ql_rem" href="javascript:void(0)" onClick='clear_quicklist({$quicklist_json})' >{lang code='remove'}</a>
+		<h1>{lang code='quicklists'}({$cbvid->total_quicklist()})</h1>
+	</div>
+	<div id="quicklist_cont" class="quicklist_cont">
+	
+	{if $quicklist}
+		<div id="my_quicklist" class="my_quicklist">
+			
+			<!-- Getting Playlist Items-->
+			{assign var='bg' value='fff'}
+			{foreach from=$quicklist item=vid}
+			    {assign var=item value=$cbvid->get_video_details($vid)}
+			    
+				{include file="$style_dir/blocks/quicklist/video_block.html" video=$item bg=$bg show_delete='yes' unique_id="quicklist_"}
+			    
+			    {if $bg=='fff'}
+			    {assign var='bg' value='EFF5F8'}
+			    {else}
+			    {assign var='bg' value='fff'}
+			    {/if}    
+			{/foreach}
+			<div class="clearfix"></div>
+		</div>
+		{/if}
+	</div>
+</div>
+
+<script>
+
+
+
+
+</script>

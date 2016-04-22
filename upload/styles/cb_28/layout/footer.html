@@ -1,0 +1,85 @@
+{ANCHOR place="play_front_anchor"}
+<footer id="footer" class="clearfix">
+	{$Cbucket->footer()}
+	<div class="container">
+		<div class="footer-holder">
+			<ul class="footer-links column">
+				{$foot_menu=foot_menu()}
+				{foreach from=$foot_menu item=fm}
+				{if $fm.name!=''}
+					<li><a href="{$fm.link}" {if $fm.target} target="{$fm.target}"{/if} {if $fm.onclick} onclick="{$fm.onclick}" {/if}>{$fm.name}</a></li>
+				{/if}
+				{/foreach}
+			</ul>
+			<div class="lang_wrapper column">
+				{if config("allow_language_change")}
+				{$langs = $lang_obj->get_langs('yes')}
+				{$total_langs = count($langs)}
+				{if $total_langs >= 2}
+					<div class="langdrop dropup">
+					<button class="btn btn-default dropdown-toggle" id="cblang-selector" type="button" data-toggle="dropdown">
+						<span>{$lang_obj->lang_name}</span>
+						<i class="icon-down-arrow"></i>
+					</button>
+					<ul class="dropdown-menu">
+						{foreach $langs as $lang}
+							{if $lang_obj->lang == $lang.language_code}
+								{$selected = "selected" }
+							{else}
+								{$selected = "" }
+							{/if}
+							<li data-lang="{$lang.language_code}" class="pick-lang {$selected}"><a href="javascript:void(0);">{$lang.language_name}</a></li>
+						{/foreach}
+				 	</ul>
+				</div>
+				{/if}
+				{/if}
+			</div>
+			<div class="copyright-poweredby column">
+				<span>#ClipBucket#</span>
+			</div>
+		</div>
+	</div><!-- end of custom-container -->
+</footer>
+
+<script>
+	$(document).on('click','.pick-lang',function(){
+		var _this = $(this);
+		var lang_code = _this.data('lang');
+		var $currentLocation = window.location.href,
+		matchedElement = $currentLocation.match(/\?/);
+			  
+		if(matchedElement == null)
+		{
+			window.location = "?set_site_lang="+lang_code;    
+		} else {
+			window.location = window.location+"&set_site_lang="+lang_code;    
+		}
+	});
+
+	$(document).on('click','#cbsearch',function(e){
+		e.preventDefault();
+		searchForm = $('.search-form');
+		searchQuery = $('#query').val();
+		queryLen = searchQuery.length;
+		if (queryLen <= 2) {
+			msg = 'Search query<strong> '+searchQuery+'</strong> is too short. Open up!';
+			_cb.throwHeadMsg('warning', msg, 3000,true);
+			//alert("Search term is too short");
+		} else {
+			$('.search-form').submit();
+		}
+	});
+
+	$('.dropdown-menu li').on('click',function(){
+		var searchType = $('#searchTypes').find('span.search-type').html();
+		var searchQuery = $('input#query').val();
+		if (searchQuery.length > 1) {
+			$('#cbsearch').trigger('click');
+		}
+	});
+
+
+
+</script>
+{$Cbucket->footer()}

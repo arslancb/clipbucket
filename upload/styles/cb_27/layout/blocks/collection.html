@@ -1,0 +1,135 @@
+{if $display_type == "" || $display_type == "normal"}
+
+<!--<div class="show-image">
+    <div class="col-md-4 col-sm-4 col-xs-6" style="padding-right: 0px">
+        <a href="{$cbcollection->collection_links($collection,'view')}">
+        <span class="CollectionName" id="collection" style="display: none; height: 125px;">
+            <div align="center" class="CollectionP"><b>{$collection.collection_name|truncate:30}</b></div> <div align="center" class="CollectionP1">{$collection.total_objects} {$collection.type} <br>
+            {lang code="Views:"}      {$collection.views|number_format}
+        </div>
+        </span>
+            <img src="http://dev.clipbucket/images/collection_thumbs/16-small.jpg" class="loading" style="height: 125px;">
+       </a>
+
+    </div>
+</div>-->
+<li class="mouse_hover">
+    <div class="collection_home mouse_hover">
+        <img class="cb_img_thum" src="{$cbcollection->get_thumb($collection,'',TRUE)}"/>
+    </div>
+    <a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
+        <div class="details mouse_hover_on">
+            <div align="center" class="collection_name">{$collection.collection_name|truncate:30}</div>
+            <div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
+        </div>
+    </a>
+</li>
+
+
+<!--<div class="col-md-4 comment_home">-->
+    <!--<div class="collection_home mouse_hover">-->
+        <!--<a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">-->
+            <!--<div class="details mouse_hover_on">-->
+                <!--<div align="center" class="collection_name">{$collection.collection_name}</div>-->
+                <!--<div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>-->
+            <!--</div>-->
+        <!--</a>-->
+
+    <!--</div>-->
+
+<!--</div>-->
+<!--<div class="show-image col-md-4 col-sm-4 col-xs-6" style="padding: 0px">-->
+    <!--<div class="loading" id="photos">-->
+        <!--<span class="photoname col-md-4" id="avatar1_file" >{$collection.collection_name}</span>-->
+        <!--({$collection.total_objects} {$collection.type})-->
+        <!--<a href="{$cbphoto->photo_links($photo,'view_item')}" >-->
+            <!--<img src="{$cbcollection->get_thumb($collection,'small',TRUE)}"/>-->
+        <!--</a>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="row">-->
+    <!--<div class="col-md-10">-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-5">-->
+                   <!--<a href="{$cbcollection->collection_links($collection,'view')}"><img class="loading"  src="{$cbcollection->get_thumb($collection,'small')}" /></a>-->
+            <!--</div>-->
+            <!--<div class="col-md-9 show-image">-->
+                <!--<a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name}</a> ({$collection.total_objects} {$collection.type})-->
+
+                <!--<div class="labels" id="collection" style="display: none">-->
+                    <!--{if $collection.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>-->
+                    <!--<span class="label {if $collection.active=='yes'}label-success{else}label-warning{/if}">{if $collection.active=='yes'}Active{else}NotActive{/if}</span>-->
+                    <!--<span class="label label-info"><strong>Type</strong>      {$collection.type}</span>-->
+                    <!--<span class="label label-info"><strong>{$collection.date_added|niceTime}</strong> </span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<hr>-->
+    <!--</div>-->
+<!--</div>-->
+{/if}
+
+{if $display_type == "view_collection"}
+
+    <div class="collectItemBox relative">
+    	{if $type == "videos"}
+
+        <div class="the_item">   <!--col-md-2 col-lg-2 col-sm-4 col-xs-6-->
+            <div class="onePhotoContainer oneVideoContainer">
+                <div class="onePhotoTitle">
+                    <a href="{$cbphoto->photo_links($object,'view_item')}">{$object.title|truncate:15}</a>
+                </div>
+
+                <a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
+                    <img src="{getThumb vdetails=$object}" alt="{$object.title}" />
+                </a>
+            </div>
+        </div>
+
+        {/if}
+        {if $type == "photos"}
+        <div class="show-image mouse_hover">
+            <div class="" style="padding-right: 0px;">
+                    <a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
+                    {get_photo details=$object size='l' class='photo-land' output='html'}
+                </a>
+            </div>
+            <span class="photoname mouse_hover_on" style="height: 30px; overflow: hidden;" >{$object.photo_title|truncate:15}</span>
+        </div>
+        <!--<div class="show-image">
+            <div class="col-md-4 col-sm-4 col-xs-6" style="padding-right: 0px">
+                <span class="UserPhotos" id="collection" >{$object.photo_title|truncate:15}</span>
+                <a href="{$cbphoto->photo_links($object,'view_item')}">
+                    {get_photo details=$object size='l' class='loading' output='html'}
+                </a>
+
+            </div>
+        </div>-->
+        
+        <!--<div class="the_item col-md-2 col-lg-2 col-sm-4 col-xs-6">-->
+            <!--<div class="onePhotoContainer">-->
+                <!--<div class="onePhotoTitle">-->
+                    <!--<a href="{$cbphoto->photo_links($object,'view_item')}">{$object.video_title|truncate:15}</a>-->
+                <!--</div>-->
+
+                <!--<a href="{$cbphoto->photo_links($object,'view_item')}">-->
+                    <!--{get_photo details=$object size='t' output='html' alt=$object.photo_title}-->
+                <!--</a>-->
+            <!--</div>-->
+
+        <!--</div>-->
+        {/if}
+    </div>  
+{/if}
+
+{if $display_type == "user_collections"}
+	<div class="moveL">
+   		<a href="{$cbcollection->collection_links($collection,'view')}" style="width:47px; height:47px;" title="{$collection.collection_name}">
+            <img src="{$imageurl}/dot.gif" style="background:url({$cbcollection->get_thumb($collection,'small')}) center top no-repeat;" />
+        </a>
+    </div>
+{/if}
+
+
+
+

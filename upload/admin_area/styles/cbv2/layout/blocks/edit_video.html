@@ -1,0 +1,194 @@
+{assign var='requiredFields' value=$Upload->loadRequiredFields($data)}
+{assign var='optionFields' value=$Upload->loadOptionFields($data)}
+{assign var='locationFields' value=$Upload->loadLocationFields($data)}
+
+{assign var='custom_fields' value=$Upload->load_custom_upload_fields($data,TRUE)}
+{assign var='custom_form_fields' value=$Upload->load_custom_form_fields($data,TRUE)}
+
+
+{if $data.title neq ""}
+
+
+
+
+
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="200" align="left" class="left_head" style="text-indent:10px">Editing {$data.title}</td>
+    <td class="head">&nbsp;</td>
+    <td width="200" align="right" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+<div style="width:98%; margin:auto; padding:10px">
+<button onClick="location.href='view_video.php?video={$data.videoid}'" class="button">View This video</button>
+
+<input type="button" onClick="window.open('{videoLink vdetails=$data}')" class="button" value="Watch this video" />
+<input type="button" onClick="javascript:Confirm_Delete('video_manager.php?delete_video={$data.videoid}')" class="button" value="Delete this video" />
+
+</div>
+
+<form action="" method="post" name="Edit Member" id="Edit Member">
+  
+
+<input name="admin" type="hidden" id="admin" value="true" />
+<input name="videoid" type="hidden"  value="{$data.videoid}" />
+
+<fieldset class="fieldset">
+  <legend>User Information</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    <tr>
+      <td width="200"><strong>Useid</strong></td>
+      <td><a href="view_user.php?uid={$data.userid}">{$data.userid}</a></td>
+    </tr>
+  </table>
+</fieldset>
+
+<fieldset class="fieldset">
+  <legend>Important Details</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    <tr>
+      <td width="200"><strong>Video Id</strong></td>
+      <td>
+        <input disabled="disabled" name="videokey" type="text" id="videokey" value="{$data.videoid}" size="45" />
+      </td>
+    </tr>
+    <tr>
+      <td width="200"><strong>Video Key</strong></td>
+      <td>
+        <input disabled="disabled" name="flvname" type="text" id="flvname" value="{$data.videokey}" size="45" />
+      </td>
+    </tr>
+    <tr>
+      <td width="200"><strong>File Name</strong></td>
+      <td>
+        <input disabled="disabled" name="flvname" type="text" id="flvname" value="{$data.file_name}" size="45" />
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Referal URL</strong></td>
+      <td><input disabled="disabled" name="refer_url" type="text" id="refer_url" value="{$data.refer_url}" size="45" /></td>
+    </tr>
+    <tr>
+      <td width="200"><strong>Total Video Files</strong></td>
+      <td>{get_all_video_files vdetails=$data count_only=true} - <a href="view_conversion_log.php?file_name={$data.file_name}"><strong>View File Details and Conversion Log</strong></a></td>
+    </tr>
+    <tr>
+      <td width="200"><strong>Total Thumbnails</strong></td>
+      <td>{get_thumb vdetails=$data count_only=true}</td>
+    </tr>
+
+    <tr>
+      <td width="200"><strong>Thumbnails<BR>
+{if $data.embeded !=yes}<a href="upload_thumbs.php?video={$data.videoid}&amp;gen_more=true">Regenerate  Thumbs</a>{/if}<br />
+    <a href="upload_thumbs.php?video={$data.videoid}">Manage Thumbs</a></strong></td>
+      <td>{assign var=vidthumbs value=func->get_thumb($data,1,TRUE)}
+
+    {foreach from=$vidthumbs item=vid_thumb}
+    	<div style="width:140px; float:left" align="center">
+    	<label for="{$vid_thumb|getname}"><img src="{$vid_thumb}" border="1" style="margin:4px" /><br />
+        <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $data.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />Default</label><br />
+  {if $vid_thumb|getname!='processing'}
+  <a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">Delete</a>
+  {/if}
+  </div>
+    {/foreach}
+    
+    </td>
+    </tr>
+    
+    {foreach from=$requiredFields item=field}
+  <tr>
+    <td width="200" ><strong>{$field.title} :</strong></td>
+    <td >{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)} 
+{$field.hint_2}</td>
+  </tr>
+  {/foreach}
+  
+    <tr>
+      <td width="200"><strong>Status</strong></td>
+      <td>
+        <select name="status">
+          <option value="Successful" {if $data.status=='Successful'} selected {/if}>Successfull</option>
+          <option value="processing" {if $data.status=='processing'} selected {/if}>Processing</option>
+          <option value="Failed" 	{if $data.status=='Failed'} selected {/if}>Failed</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td width="200"><strong>Duration (seconds) </strong></td>
+      <td>
+        <label>
+          <input name="duration" type="text" id="duration" value="{$data.duration}" size="5" />
+        </label>
+seconds</td>
+    </tr>
+  </table>
+</fieldset>
+
+
+
+<fieldset class="fieldset">
+  <legend>Recording Details</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+   {foreach from=$locationFields item=field}
+                  <tr>
+                    <td width="200"><strong>{$field.title} </strong></td>
+                    <td >{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)} 
+{$field.hint_2}</td>
+    </tr>
+                {/foreach}
+  </table>
+</fieldset>
+
+
+
+<fieldset class="fieldset">
+  <legend>Sharing</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+      {foreach from=$optionFields item=field}
+  <tr>
+    <td width="200"><strong>{$field.title} </strong></td>
+    <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    <br>
+      {$field.hint_2}</td>
+  </tr>
+  {/foreach}
+  </table>
+</fieldset>
+
+
+
+<fieldset class="fieldset">
+  <legend>Custom Form Fields</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+      {foreach from=$custom_form_fields item=field}
+  <tr>
+    <td width="200"><strong>{$field.title}</strong></td>
+    <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    <br>
+      {$field.hint_2}</td>
+  </tr>
+  {/foreach}
+  </table>
+</fieldset>
+
+
+<fieldset class="fieldset">
+  <legend>Custom Upload Fields</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+      {foreach from=$custom_fields item=field}
+  <tr>
+    <td width="200"><strong>{$field.title}</strong></td>
+    <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    <br>
+      {$field.hint_2}</td>
+  </tr>
+  {/foreach}
+  </table>
+</fieldset>
+<div style="width:98%; margin:auto">
+<input type="submit" class="button" value="Update video details" style="margin:5px 0px 15px 0px" name="update">
+</div>
+</form>
+{/if}

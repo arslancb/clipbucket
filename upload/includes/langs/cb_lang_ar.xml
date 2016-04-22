@@ -1,0 +1,1173 @@
+
+
+
+
+ <?xml version="1.0" encoding="UTF-8"?>			<clipbucket_language>
+				<name>arabic</name>
+				<iso_code>ar</iso_code>
+				<phrases>
+						<ad_name_error>الرجاء ادخال اسم للاعلان</ad_name_error>
+	<ad_code_error>خطأ : الرجاء إدخال رمز للإعلانات</ad_code_error>
+	<ad_exists_error1>لا يوجد اعلان</ad_exists_error1>
+	<ad_exists_error2>خطأ: يوجد اسم سابق لهذا الاعلان</ad_exists_error2>
+	<ad_add_msg>تمت اضافة الاعلان بنجاح</ad_add_msg>
+	<ad_msg>تم الاعلان </ad_msg>
+	<ad_update_msg>تم تحديث الاعلان</ad_update_msg>
+	<ad_del_msg>تم حذف الاعلان</ad_del_msg>
+	<ad_deactive>معطلة</ad_deactive>
+	<ad_active>نشيطة</ad_active>
+	<ad_placment_delete_msg>تمت ازالة المحدد</ad_placment_delete_msg>
+	<ad_placement_err1>ما قمت بتحديده موجود مسبقاً</ad_placement_err1>
+	<ad_placement_err2>من فضلك، أدخل اسماً جديداً</ad_placement_err2>
+	<ad_placement_err3>الرجاء ادخال رمز جديد</ad_placement_err3>
+	<ad_placement_msg>تمت اضافة المحدد</ad_placement_msg>
+	<cat_img_error>الرجاء قم بتحميل أحد الانواع المسموحة JPEG, GIF أو PNG من الصور فقط</cat_img_error>
+	<cat_exist_error><![CDATA[Category doesn&#8217;t exist]]></cat_exist_error>
+	<cat_add_msg>تم ادراج الفئة بنجاح</cat_add_msg>
+	<cat_update_msg>تم تحديث الفئة</cat_update_msg>
+	<grp_err><![CDATA[Group Doesn&#8217;t Exist]]></grp_err>
+	<grp_fr_msg>تم تحديد المجموعة المميزة</grp_fr_msg>
+	<grp_fr_msg1>تمت ازالة المجموعة المختارة</grp_fr_msg1>
+	<grp_ac_msg>تم تفعيل المجموعة المختارة</grp_ac_msg>
+	<grp_dac_msg>تم تعطيل المجموعة المختارة</grp_dac_msg>
+	<grp_del_msg>تم حذف المجموعة</grp_del_msg>
+	<editor_pic_up>تم نقل الفيديو الى الاعلى</editor_pic_up>
+	<editor_pic_down>تم نقل الفيديو الى الاسفل</editor_pic_down>
+	<plugin_install_msg>تم تركيب الاضافة المساعدة</plugin_install_msg>
+	<plugin_no_file_err>لم يتم العثور على الملف</plugin_no_file_err>
+	<plugin_file_detail_err>تفاصيل هذه الاضافة، مجهولة!</plugin_file_detail_err>
+	<plugin_installed_err>هذه الاضافة مثبتة مسبقاً</plugin_installed_err>
+	<plugin_no_install_err>لم يتم تثبيت الاضافة المساعدة</plugin_no_install_err>
+	<grp_name_error>الرجاء إدخال اسم المجموعة</grp_name_error>
+	<grp_name_error1>اسم المجموعة موجود سابقاً</grp_name_error1>
+	<grp_des_error>الرجاء قم بادخال وصفاً لهذه المجموعة</grp_des_error>
+	<grp_tags_error>من فضلك، ادخل الكلمات الدليلية لهذه المجموعة</grp_tags_error>
+	<grp_url_error>الرجاء ادخال رابطاً صحيحاً للمجموعة</grp_url_error>
+	<grp_url_error1>الرجاء ادخال اسماً صالحاً للرابط</grp_url_error1>
+	<grp_url_error2>اسم هذه المجموعة، موجود مسبقاً.. الرجاء تحديد اسماً مختلف</grp_url_error2>
+	<grp_tpc_error>الرجاء كتابة عنوان لهذه الاضافة</grp_tpc_error>
+	<grp_comment_error>يجب عليك كتابة تعليق</grp_comment_error>
+	<grp_join_error>تم انضمامك الى هذه المجموعة</grp_join_error>
+	<grp_prvt_error>هذه المجموعة خاصة، ويتوجب عليك تسجيل الدخول، لمشاهدة هذه المجموعة</grp_prvt_error>
+	<grp_inact_error>هذه المجموعة لا تعمل! يرجى منك الاتصال بالادارة، لابلاغهم عن هذه المشكلة</grp_inact_error>
+	<grp_join_error1>لم تقم بالانضمام الى هذه المجموعة</grp_join_error1>
+	<grp_exist_error><![CDATA[Sorry, Group Doesn&#8217;t Exist]]></grp_exist_error>
+	<grp_tpc_error1>نعتذر.. لم توافق الادارة على هذا الموضوع!</grp_tpc_error1>
+	<grp_cat_error>الرجاء اختيار عنوان للحصول على مجموعتك</grp_cat_error>
+	<grp_tpc_error2>الرجاء إدخال عنوان، لموضوع الاضافة</grp_tpc_error2>
+	<grp_tpc_error3>الموضوع، يتطلب موافقة صاحب هذه المجموعة</grp_tpc_error3>
+	<grp_tpc_msg>تمت اضافة الموضوع</grp_tpc_msg>
+	<grp_comment_msg>تمت اضافة تعليق</grp_comment_msg>
+	<grp_vdo_msg>حذف الفيديو</grp_vdo_msg>
+	<grp_vdo_msg1>تمت اضافة الفيديو بنجاح</grp_vdo_msg1>
+	<grp_vdo_msg2>تمت الموافقة على الفيديو</grp_vdo_msg2>
+	<grp_mem_msg>تم حذف العضو</grp_mem_msg>
+	<grp_mem_msg1>هل تمت الموافقة على عضو</grp_mem_msg1>
+	<grp_inv_msg>تم ارسال دعوتك</grp_inv_msg>
+	<grp_tpc_msg1>تم حذف الموضوع</grp_tpc_msg1>
+	<grp_tpc_msg2>تم اعتماد الموضوع</grp_tpc_msg2>
+	<grp_fr_msg2>تمت ازالة المجموعة، من قائمة التميّز</grp_fr_msg2>
+	<grp_inv_msg1>مدعو للانضمام </grp_inv_msg1>
+	<grp_av_msg>تم تنشيط المجموعة</grp_av_msg>
+	<grp_da_msg>تم تعطيل المجموعة</grp_da_msg>
+	<grp_post_msg>تم الحذف</grp_post_msg>
+	<grp_update_msg>تم تحديث المجموعة</grp_update_msg>
+	<grp_owner_err>يمكن لمسؤول المجموعة فقط، اضافة فيديو لهذه المجموعة</grp_owner_err>
+	<grp_owner_err1>لست انت المسؤول عن هذه المجموعة</grp_owner_err1>
+	<grp_owner_err2>أنت صاحب هذه المجموعة. لا يمكنك ترك مجموعتك.</grp_owner_err2>
+	<grp_prvt_err1>هذه المجموعة خاصة، تحتاج الى دعوة من مسؤول المجموعة، للانضمام اليها.</grp_prvt_err1>
+	<grp_rmv_msg>تم ازالة المجموعة المختارة، من حسابك</grp_rmv_msg>
+	<grp_tpc_err4><![CDATA[Sorry, Topic Doesn&#8217;t Exist]]></grp_tpc_err4>
+	<grp_title_topic>المجموعات - المواضيع -</grp_title_topic>
+	<grp_add_title>- إضافة فيديو</grp_add_title>
+	<usr_sadmin_err>لا يمكن تعيين اسم المستخدم فارغ!</usr_sadmin_err>
+	<usr_cpass_err><![CDATA[Confirm Password Doesn&#8217;t Match]]></usr_cpass_err>
+	<usr_pass_err>كلمة المرور القديمة، غير صحيحة!</usr_pass_err>
+	<usr_email_err>يرجى توفير عنوان بريد إلكتروني صالح</usr_email_err>
+	<usr_cpass_err1>تأكيد كلمة السر غير صحيحة</usr_cpass_err1>
+	<usr_pass_err1>كلمة المرور غير صحيحة</usr_pass_err1>
+	<usr_cmt_err>يجب عليك تسجيل الدخول، لتتمكن من اضافة تعليق</usr_cmt_err>
+	<usr_cmt_err1>من فضلك اكتب شيئا في مربع التعليق</usr_cmt_err1>
+	<usr_cmt_err2>لا يمكنك التعليق على الفيديو الخاص بك</usr_cmt_err2>
+	<usr_cmt_err3>قمت سابقاً باضافة تعليق على هذه القناة.</usr_cmt_err3>
+	<usr_cmt_err4>تمت اضافة التعليق</usr_cmt_err4>
+	<usr_cmt_del_msg>تم حذف التعليق</usr_cmt_del_msg>
+	<usr_cmt_del_err>حدث خطأ أثناء حذف التعليق</usr_cmt_del_err>
+	<usr_cnt_err>لا يمكنك اضافة نفسك</usr_cnt_err>
+	<usr_cnt_err1>قمت بالفعل بإضافة هذا المستخدم إلى قائمة الاتصال</usr_cnt_err1>
+	<usr_sub_err>سبق لك الانضمام الى %s</usr_sub_err>
+	<usr_exist_err>المسخدم غير موجود</usr_exist_err>
+	<usr_ccode_err>خطأ في ادخال رمز التأكيد</usr_ccode_err>
+	<usr_exist_err1>آسف لعدم وجود دليل على أن هذا المستخدم موجود أو هذا البريد الالكتروني</usr_exist_err1>
+	<usr_exist_err2>آسف، لعدم وجود هذا المستخدم</usr_exist_err2>
+	<usr_uname_err>اسم المستخدم فارغ</usr_uname_err>
+	<usr_uname_err2>اسم المستخدم موجود بالفعل</usr_uname_err2>
+	<usr_pass_err2>كلمة المرور فارغة</usr_pass_err2>
+	<usr_email_err1>البريد الإلكتروني فارغ</usr_email_err1>
+	<usr_email_err2>الرجاء إدخال عنوان بريد إلكتروني صالح</usr_email_err2>
+	<usr_email_err3>عنوان البريد الالكتروني قيد الاستخدام</usr_email_err3>
+	<usr_pcode_err>رموز بريدية تحتوي على أرقام فقط</usr_pcode_err>
+	<usr_fname_err>الاسم الأول فارغ</usr_fname_err>
+	<usr_lname_err>الاسم الأخير فارغ</usr_lname_err>
+	<usr_uname_err3>اسم المستخدم يحتوي على أحرف ممنوعة!</usr_uname_err3>
+	<usr_pass_err3>كلمات المرور غير متطابقة</usr_pass_err3>
+	<usr_dob_err>يرجى تحديد تاريخ الميلاد</usr_dob_err>
+	<usr_ament_err>آسف ، أنت بحاجة إلى الموافقة على شروط الاستخدام وسياسة الخصوصية لإنشاء حساب</usr_ament_err>
+	<usr_reg_err>التسجيل مغلق حالياً.. يرجى المحاولة لاحقاً، وشكراً لتفهمكم.</usr_reg_err>
+	<usr_ban_err>حساب المستخدم محظور ، يرجى مراسلة مسؤول الموقع</usr_ban_err>
+	<usr_login_err><![CDATA[Username and Password Didn&#8217;t Match]]></usr_login_err>
+	<usr_sadmin_msg>تم تحديث السوبر الاداري</usr_sadmin_msg>
+	<usr_pass_msg>تغيير كلمة المرور</usr_pass_msg>
+	<usr_cnt_msg>تمت اضافة هذا المستخدم، الى جهة الاتصال الخاصة بك</usr_cnt_msg>
+	<usr_sub_msg>أنت الآن مشترك في %s</usr_sub_msg>
+	<usr_uname_email_msg>لقد أرسلنا إليك رسالة بريد إلكتروني تحتوي على اسم المستخدم الخاص بك ، يرجى التحقق منه</usr_uname_email_msg>
+	<usr_rpass_email_msg>بريد إلكتروني تم إرساله إليك. الرجاء اتباع الإرشادات الموجودة هناك لإعادة تعيين كلمة المرور</usr_rpass_email_msg>
+	<usr_pass_email_msg>تم تغيير كلمة المرور</usr_pass_email_msg>
+	<usr_email_msg>تم تحديث بيانات البريد الالكتروني</usr_email_msg>
+	<usr_del_msg>تم حذف المستخدم</usr_del_msg>
+	<usr_dels_msg>تم حذف الاعضاء المحددين</usr_dels_msg>
+	<usr_ac_msg>تم التنشيط</usr_ac_msg>
+	<usr_dac_msg>تم التعطيل</usr_dac_msg>
+	<usr_mem_ac>تم تفعيل الاعضاء المحددين</usr_mem_ac>
+	<usr_mems_ac>تم تعطيل الأعضاء المحددين</usr_mems_ac>
+	<usr_fr_msg>المستخدم الذي تم تحديده، عضو مميز</usr_fr_msg>
+	<usr_ufr_msg>تم تمييز المستخدم</usr_ufr_msg>
+	<usr_frs_msg>تم تعيين المستخدمين المحددين، الى مميزين</usr_frs_msg>
+	<usr_ufrs_msg>تم ازالة المستخدمين المحددين، من قائمة التميز</usr_ufrs_msg>
+	<usr_uban_msg>تم حظر المستخدم</usr_uban_msg>
+	<usr_uuban_msg>المستخدم غير ممنوع</usr_uuban_msg>
+	<usr_ubans_msg>تم حظر الأعضاء المحددين</usr_ubans_msg>
+	<usr_uubans_msg>تم الغاء الحظر عن العضويات المختارة</usr_uubans_msg>
+	<usr_pass_reset_conf>إعادة تعيين كلمة المرور تأكيد</usr_pass_reset_conf>
+	<usr_dear_user>عزيزي المستخدم</usr_dear_user>
+	<usr_pass_reset_msg>اذا كنت طلبت إعادة تعيين كلمة المرور ، اتبع الارتباط لإعادة تعيين كلمة المرور</usr_pass_reset_msg>
+	<usr_rpass_msg>تمت إعادة تعيين كلمة المرور</usr_rpass_msg>
+	<usr_rpass_req_msg>اذا كنت طلبت إعادة تعيين كلمة المرور ، ها هي كلمة السر الجديدة:</usr_rpass_req_msg>
+	<usr_uname_req_msg>اذا كنت طلبت استرداد اسم المستخدم الخاص بك، هنا هو اسم المستخدم الخاص بك: </usr_uname_req_msg>
+	<usr_uname_recovery>اسم المستخدم إستعادة البريد الالكتروني</usr_uname_recovery>
+	<usr_add_succ_msg>تمت اضافة المستخدم</usr_add_succ_msg>
+	<usr_upd_succ_msg>تم تحديث المستخدم</usr_upd_succ_msg>
+	<usr_activation_msg>تم تفعيل حسابك. الآن يمكنك الدخول إلى حسابك وتحميل ملفات الفيديو</usr_activation_msg>
+	<usr_activation_err>هذا المستخدم هو منشط بالفعل!</usr_activation_err>
+	<usr_activation_em_msg>لقد أرسلت لك رسالة بريد إلكتروني تحتوي على رمز التفعيل الخاص بك ، يرجى مراجعة صندوق بريدك</usr_activation_em_msg>
+	<usr_activation_em_err><![CDATA[Email Doesn&#8217;t Exist or a User With This Email is already Activated]]></usr_activation_em_err>
+	<usr_no_msg_del_err>لم تقم بتحديد رسالة لحذفها</usr_no_msg_del_err>
+	<usr_sel_msg_del_msg>تم حذف الرسائل المحددة</usr_sel_msg_del_msg>
+	<usr_pof_upd_msg>تم تحديث ملف التعريف الخاص بك</usr_pof_upd_msg>
+	<usr_arr_no_ans>لا جواب</usr_arr_no_ans>
+	<usr_arr_elementary>الابتدائية</usr_arr_elementary>
+	<usr_arr_hi_school>المدرسة الثانوية</usr_arr_hi_school>
+	<usr_arr_some_colg>الكليّة أو الجامعة</usr_arr_some_colg>
+	<usr_arr_assoc_deg>نسبة الدرجة</usr_arr_assoc_deg>
+	<usr_arr_bach_deg><![CDATA[Bachelor&#8217;s Degree]]></usr_arr_bach_deg>
+	<usr_arr_mast_deg><![CDATA[Master&#8217;s Degree]]></usr_arr_mast_deg>
+	<usr_arr_phd>دكتوراه</usr_arr_phd>
+	<usr_arr_post_doc>مرحلة ما بعد الدكتوراه</usr_arr_post_doc>
+	<usr_arr_single>أعزب</usr_arr_single>
+	<usr_arr_married>متزوج</usr_arr_married>
+	<usr_arr_comitted>مرتبط</usr_arr_comitted>
+	<usr_arr_open_marriage>الزواج</usr_arr_open_marriage>
+	<usr_arr_open_relate>علاقة</usr_arr_open_relate>
+	<title_crt_new_msg>كتابة رسالة جديدة</title_crt_new_msg>
+	<title_forgot>نسيت شيئا؟ العثور عليه الآن!</title_forgot>
+	<title_inbox> - علبة البريد</title_inbox>
+	<title_sent> - أرسل مجلد</title_sent>
+	<title_usr_contact><![CDATA[&#8217;s Contact List]]></title_usr_contact>
+	<title_usr_fav_vids><![CDATA[%&#8217;s Favorite Videos]]></title_usr_fav_vids>
+	<title_view_channel><![CDATA[&#8217;s Channel]]></title_view_channel>
+	<title_edit_video>تحرير الفيديو - </title_edit_video>
+	<vdo_title_err>من فضلك أدخل عنوان الفيديو</vdo_title_err>
+	<vdo_des_err>من فضلك أدخل وصف الفيديو</vdo_des_err>
+	<vdo_tags_err>من فضلك، ادخل كلمات دليلية للفيديو</vdo_tags_err>
+	<vdo_cat_err>رجاءً اختر على الأقل فئة واحدة</vdo_cat_err>
+	<vdo_cat_err1>يمكنك فقط اختيار ما يصل إلى 3 فئات</vdo_cat_err1>
+	<vdo_sub_email_msg>هذه الرسالة ترسل اليك آلياً </vdo_sub_email_msg>
+	<vdo_has_upload_nv>أرسل فيديو جديد</vdo_has_upload_nv>
+	<vdo_del_selected>تم حذف ملفات الفيديو المحددة</vdo_del_selected>
+	<vdo_cheat_msg>رجاءً لا تحاول الخداع ^_^</vdo_cheat_msg>
+	<vdo_limits_warn_msg>رجاءً التزم حدودك ^_^</vdo_limits_warn_msg>
+	<vdo_cmt_del_msg>تم حذف التعليق</vdo_cmt_del_msg>
+	<vdo_iac_msg>الفيديو لا يعمل، الرجاء مراسلة الادارة لمعرفة التفاصيل</vdo_iac_msg>
+	<vdo_is_in_process>جاري معالجة الفيديو، الرجاء مراسلة الادارة، لمعرفة التفاصيل</vdo_is_in_process>
+	<vdo_upload_allow_err>تم الغاء الارسال، من قِبل ادارة الموقع</vdo_upload_allow_err>
+	<vdo_download_allow_err>تحميل الفيديو غير مسموح</vdo_download_allow_err>
+	<vdo_edit_owner_err>أنت لست مالك الفيديو؟</vdo_edit_owner_err>
+	<vdo_embed_code_wrong>الرمز خطأ</vdo_embed_code_wrong>
+	<vdo_seconds_err>تم ادخال قيمة خاطئة، في حقل الثواني</vdo_seconds_err>
+	<vdo_mins_err>تم ادخال قيمة خاطئة، في حقل الدقائق</vdo_mins_err>
+	<vdo_thumb_up_err>خطأ في ارسال البصمة</vdo_thumb_up_err>
+	<class_error_occured>المعذرة، حدث خطأ..</class_error_occured>
+	<class_cat_del_msg>تم حذف الفئة</class_cat_del_msg>
+	<class_vdo_del_msg>تم حذف الفيديو</class_vdo_del_msg>
+	<class_vdo_fr_msg><![CDATA[Video has been marked as &#8220;Featured Video&#8221;]]></class_vdo_fr_msg>
+	<class_fr_msg1><![CDATA[Video has been removed from &#8220;Featured Videos&#8221;]]></class_fr_msg1>
+	<class_vdo_act_msg>الفيديو نشط</class_vdo_act_msg>
+	<class_vdo_act_msg1>الفيديو معطّل</class_vdo_act_msg1>
+	<class_vdo_update_msg>تم تحديث تفاصيل الفيديو</class_vdo_update_msg>
+	<class_comment_err>يجب عليك تسجيل الدخول قبل كتابة تعليقات</class_comment_err>
+	<class_comment_err1>من فضلك اكتب شيئا في مربع التعليق</class_comment_err1>
+	<class_comment_err2>لا يمكنك إرسال تعليق على الفيديو الخاص بك</class_comment_err2>
+	<class_comment_err3>سبق أن أدرجت تعليقاً.. لا يمكنك ادراج تعليقين متتاليين.</class_comment_err3>
+	<class_comment_err4>سبق أن وضعت رد على هذا التعليق من فضلك انتظر آخرون.</class_comment_err4>
+	<class_comment_err5>لا يمكنك إضافة رد على نفسك</class_comment_err5>
+	<class_comment_msg>تمت اضافة التعليق</class_comment_msg>
+	<class_comment_err6>الرجال سجل الدخول، لتقييم التعليق</class_comment_err6>
+	<class_comment_err7>سبق لك تقييم التعليق، أو المشاركة</class_comment_err7>
+	<class_vdo_fav_err>تمت اضافة هذا الفيديو الى مفضلتك</class_vdo_fav_err>
+	<class_vdo_fav_msg>هذا الفيديو مضاف الى مفضلتك</class_vdo_fav_msg>
+	<class_vdo_flag_err>قمت بتحديد هذا الفيديو سابقاً</class_vdo_flag_err>
+	<class_vdo_flag_msg>هذا الفيديو قيّم كـ غير لائق</class_vdo_flag_msg>
+	<class_vdo_flag_rm>علّم عليه(s) خاص/تمت ازالته</class_vdo_flag_rm>
+	<class_send_msg_err>من فضلك أدخل اسم المستخدم أو اختر أي مستخدم لإرسال رسالة</class_send_msg_err>
+	<class_invalid_user>اسم المستخدم غير صالح</class_invalid_user>
+	<class_subj_err>عنوان الرسالة فارغ</class_subj_err>
+	<class_msg_err>من فضلك اكتب شيء في مربع الرسالة</class_msg_err>
+	<class_sent_you_msg>أرسل اليك رسالة</class_sent_you_msg>
+	<class_sent_prvt_msg>أرسلت لك رسالة خاصة على </class_sent_prvt_msg>
+	<class_click_inbox>الرجاء انقر هنا لمشاهدة صندوق بريدك</class_click_inbox>
+	<class_click_login>اضغط هنا للدخول</class_click_login>
+	<class_email_notify>اخطار بالبريد الالكتروني</class_email_notify>
+	<class_msg_has_sent_to>تم ارسال الرسالةا إلى </class_msg_has_sent_to>
+	<class_inbox_del_msg>تم حذف الرسالة من علبة الوارد </class_inbox_del_msg>
+	<class_sent_del_msg>الرسالة قد حذف من مجلد الرسائل المرسلة</class_sent_del_msg>
+	<class_msg_exist_err>الرسالة غير موجودة</class_msg_exist_err>
+	<class_vdo_del_err>الفيديو غير موجود</class_vdo_del_err>
+	<class_unsub_msg>تم اشتراكك بنجاح</class_unsub_msg>
+	<class_sub_exist_err>لا يوجد اشتراك</class_sub_exist_err>
+	<class_vdo_rm_fav_msg>تمت ازالة الفيديو من المفضلة</class_vdo_rm_fav_msg>
+	<class_vdo_fav_err1>هذا الفيديو غير موجود في قائمة المفضلة</class_vdo_fav_err1>
+	<class_cont_del_msg>تم حذف جهة الاتصال</class_cont_del_msg>
+	<class_cot_err>آسف، هذه الجهة، ليست في قائمة اتصالك</class_cot_err>
+	<class_vdo_ep_add_msg><![CDATA[Video Has Been Added To Editor&#8217;s Pick]]></class_vdo_ep_add_msg>
+	<class_vdo_ep_err><![CDATA[Video Is Already In The Editor&#8217;s Pick]]></class_vdo_ep_err>
+	<class_vdo_ep_err1>قمت باختيار 10 ملفات فيديو، يرجى حذف ملف واحد، لادراج ملف آخر مكانه</class_vdo_ep_err1>
+	<class_vdo_ep_msg><![CDATA[Video Has Been Removed From Editor&#8217;s Pick]]></class_vdo_ep_msg>
+	<class_vdo_exist_err>آسف، هذا الفيديو غير موجود</class_vdo_exist_err>
+	<class_img_gif_err>الرجاء حمّل صورة GIF فقط</class_img_gif_err>
+	<class_img_jpg_err>الرجاء حمّل صورة JPG فقط</class_img_jpg_err>
+	<class_logo_msg>تم تغيير الشعار، الرجاء مسح ذاكرة التخزين المؤقت، اذا لم تشاهد التغييرات بعد</class_logo_msg>
+	<com_forgot_username>نسيت اسم المستخدم | كلمة السر</com_forgot_username>
+	<com_join_now>إشترك الآن</com_join_now>
+	<com_my_account>حسابي</com_my_account>
+	<com_manage_vids>إدارة الفيديو</com_manage_vids>
+	<com_view_channel>عرض قناتي</com_view_channel>
+	<com_my_inbox>علبة الوارد</com_my_inbox>
+	<com_welcome>مرحبا</com_welcome>
+	<com_top_mem>أفضل الأعضاء </com_top_mem>
+	<com_vidz>الفيديو</com_vidz>
+	<com_sign_up_now>سجل الآن!</com_sign_up_now>
+	<com_my_videos>فيديواتي</com_my_videos>
+	<com_my_channel>قناتي</com_my_channel>
+	<com_my_subs>اشتراكي</com_my_subs>
+	<com_user_no_contacts>ليس لدى المستخدم أي بيانات اتصال</com_user_no_contacts>
+	<com_user_no_vides>ليس لدى المستخدم أي فيديو مفضل</com_user_no_vides>
+	<com_user_no_vid_com>المستخدم ليس لديه تعليقات فيديو</com_user_no_vid_com>
+	<com_view_all_contacts>عرض جميع الأسماء من</com_view_all_contacts>
+	<com_view_fav_all_videos>عرض جميع الفيديو المفضل من</com_view_fav_all_videos>
+	<com_login_success_msg>تم تسجيل دخولك بنجاح، أهلاً وسهلاً بك</com_login_success_msg>
+	<com_logout_success_msg>تم تسجيل خروجك بنجاح، وداعاً</com_logout_success_msg>
+	<com_not_redirecting>تتم الآن اعادة توجيهك..</com_not_redirecting>
+	<com_not_redirecting_msg>اذا لم يتم توجيهك آلياً..</com_not_redirecting_msg>
+	<com_manage_contacts>إدارة جهات الاتصال </com_manage_contacts>
+	<com_send_message>إرسال رسالة</com_send_message>
+	<com_manage_fav>تحرير المفضلة </com_manage_fav>
+	<com_manage_subs>إدارة الاشتراكات</com_manage_subs>
+	<com_subscribe_to><![CDATA[Subscribe to %s&#8217;s channel]]></com_subscribe_to>
+	<com_total_subs>مجموع الإشتراكات</com_total_subs>
+	<com_total_vids>مجموع ملفات الفيديو</com_total_vids>
+	<com_date_subscribed>تاريخ الانتساب</com_date_subscribed>
+	<com_search_results>نتائج البحث</com_search_results>
+	<com_advance_results>بحث متقدم</com_advance_results>
+	<com_search_results_in>المبحوث عنه</com_search_results_in>
+	<videos_being_watched>آخر ما تمت مشاهدته..</videos_being_watched>
+	<latest_added_videos>الاضافات الأخيرة</latest_added_videos>
+	<most_viewed>الأكثر مشاهدة</most_viewed>
+	<recently_added>أضيفت مؤخرا</recently_added>
+	<featured>المميزة</featured>
+	<highest_rated>أعلى تقييم</highest_rated>
+	<most_discussed>الأكثر تعليق</most_discussed>
+	<style_change>تغيير الستايل</style_change>
+	<rss_feed_featured_title>تغذية RSS لأحدث ملفات الفيديو</rss_feed_featured_title>
+	<rss_feed_most_viewed_title>تغذية RSS لملفات الفيديو الأكثر شعبية</rss_feed_most_viewed_title>
+	<lang_folder>ar</lang_folder>
+	<reg_closed>التسجيل مغلق</reg_closed>
+	<reg_for>للتسجيل</reg_for>
+	<is_currently_closed>مغلق حالياً</is_currently_closed>
+	<about_us>عنّا</about_us>
+	<account>الحساب</account>
+	<added>اضافي</added>
+	<advertisements>الاعلانات</advertisements>
+	<all>الكل</all>
+	<active>انشيط</active>
+	<activate>تفعيل</activate>
+	<age>العمر</age>
+	<approve>الموافقة</approve>
+	<approved>وافق</approved>
+	<approval>موافقة</approval>
+	<books>الكتب</books>
+	<browse>استعراض..</browse>
+	<by>بواسطة</by>
+	<cancel>إلغاء</cancel>
+	<categories>الفئات</categories>
+	<category>الفئة</category>
+	<channels>القنوات</channels>
+	<check_all>فحص الكل</check_all>
+	<click_here>اضغط هنا</click_here>
+	<comments>تعليقات</comments>
+	<community>المجتمع</community>
+	<companies>الشركات</companies>
+	<contacts>اتصالات</contacts>
+	<contact_us>اتصل بنا</contact_us>
+	<country>البلد</country>
+	<created>المولد</created>
+	<date>التاريخ</date>
+	<date_added>تاريخ الاضافة</date_added>
+	<date_joined>تاريخ التسجيل</date_joined>
+	<dear>عزيز</dear>
+	<delete>حذف</delete>
+	<delete_selected>حذف المحدد</delete_selected>
+	<des_title>الوصف:</des_title>
+	<duration>المدّة</duration>
+	<education>التعليم</education>
+	<email>البريد</email>
+	<embed>صِمن</embed>
+	<embed_code>ضِمن الرمز</embed_code>
+	<favourite>المفضلة</favourite>
+	<favourited>مفضّل</favourited>
+	<favourites>المفضلة</favourites>
+	<female>أنثى</female>
+	<filter>الترشيح</filter>
+	<forgot>نسيت</forgot>
+	<friends>أصدقاء</friends>
+	<from>من</from>
+	<gender>النوع</gender>
+	<groups>المجموعات</groups>
+	<hello>أهلاً و سهلاً</hello>
+	<help>مساعدة</help>
+	<hi>مرحبا</hi>
+	<hobbies>الهوايات</hobbies>
+	<Home>الرئيسية</Home>
+	<inbox>البريد الوارد</inbox>
+	<interests>المصالح</interests>
+	<join_now>اشترك الآن</join_now>
+	<joined>إنضم</joined>
+	<join>ينّضم</join>
+	<keywords>الكلمات الدليلية</keywords>
+	<latest>آخر</latest>
+	<leave>الاجازة</leave>
+	<location>الموقع</location>
+	<login>تسجيل الدخول</login>
+	<logout>تسجيل الخروج</logout>
+	<male>ذكـر</male>
+	<members>أعضاء</members>
+	<messages>رسائل</messages>
+	<message>رسالة</message>
+	<minutes>دقائق</minutes>
+	<most_members>أكثر الأعضاء</most_members>
+	<most_recent>الأحدث</most_recent>
+	<most_videos>أكثر الفيديو</most_videos>
+	<music>موسيقى</music>
+	<my_account>حسابي</my_account>
+	<next>التالي</next>
+	<no>لا</no>
+	<no_user_exists>لا يوجد مستخدم</no_user_exists>
+	<no_video_exists>لا يوجد فيديو</no_video_exists>
+	<occupations>الوظائف</occupations>
+	<optional>اختياري</optional>
+	<owner>المالك</owner>
+	<password>كلمة السر</password>
+	<please>من فضلك</please>
+	<privacy>الخصوصية</privacy>
+	<privacy_policy>سياسة الخصوصية</privacy_policy>
+	<random>عشوائي</random>
+	<rate>النسبة</rate>
+	<request>الطلب</request>
+	<related>ذو علاقة</related>
+	<reply>ردّ</reply>
+	<results>النتائج</results>
+	<relationship>العلاقة</relationship>
+	<seconds>ثانية</seconds>
+	<select>تحديد</select>
+	<send>ارسال</send>
+	<sent>ارسل</sent>
+	<signup>إشتراك</signup>
+	<subject>الموضوع</subject>
+	<tags>السمات</tags>
+	<times>الأوقات</times>
+	<to>الى</to>
+	<type>نوع</type>
+	<update>تحديث</update>
+	<upload>الرفع</upload>
+	<url>رابط</url>
+	<verification>التحقق</verification>
+	<videos>الفيديو</videos>
+	<viewing>عرض</viewing>
+	<welcome>مرحبا</welcome>
+	<website>الموقع</website>
+	<yes>نعم</yes>
+	<of>من</of>
+	<on>على</on>
+	<previous>السابق</previous>
+	<rating>التصنيف</rating>
+	<ratings>التقييم</ratings>
+	<remote_upload>الارسال البعيد</remote_upload>
+	<remove>إزالة</remove>
+	<search>بحث</search>
+	<services>الخدمات</services>
+	<show_all>عرض الكل</show_all>
+	<signupup>التوقيع</signupup>
+	<sort_by>النوع</sort_by>
+	<subscriptions>الاشتراكات</subscriptions>
+	<subscribers>المشتركون</subscribers>
+	<tag_title>السمات</tag_title>
+	<time>الوقت</time>
+	<top>أعلى</top>
+	<tos_title>شروط الاستخدام</tos_title>
+	<username>اسم المستخدم</username>
+	<views>وجهات النظر</views>
+	<proccession_wait>معالجة.. نرجوا الانتظار.</proccession_wait>
+	<mostly_viewed>أكثر مشاهدة</mostly_viewed>
+	<most_comments>أكثر تعليق</most_comments>
+	<group>المجموعة</group>
+	<not_logged_in>انك لم تقم بعد أو أنك لا تملك الصلاحية لدخول هذه الصفحة. هذا قد يكون عائدا لأحد هذه الأسباب:</not_logged_in>
+	<fill_auth_form>انك لم تقم بتسجيل الدخول. املأ الاستمارة أدناه وحاول مرة أخرى.</fill_auth_form>
+	<insufficient_privileges>قد لا يكون لديك امتيازات كافية لدخول هذه الصفحة.</insufficient_privileges>
+	<admin_disabled_you>المسؤول عن الموقع قد تم تعطيل حسابك ، أو أنه قد يتم تفعيله بعد.</admin_disabled_you>
+	<Recover_Password>استعادة كلمة المرور</Recover_Password>
+	<Submit>ارسل</Submit>
+	<Reset_Fields>تعيين الحقول</Reset_Fields>
+	<admin_reg_req>ويتوجب عليك التسجيل قبل أن تتمكن من عرض هذه الصفحة.</admin_reg_req>
+	<lang_change>تغيير اللغة</lang_change>
+	<lang_changed>تم تغيير اللغة</lang_changed>
+	<lang_choice>اللغة</lang_choice>
+	<if_not_redir>انقر هنا اذا كنت لا تريد الانتظار، او لم تتم اعادة توجيهك آلياً</if_not_redir>
+	<style_changed>تم تغيير الستايل</style_changed>
+	<style_choice>الستايل</style_choice>
+	<vdo_edit_vdo>تحرير الفيديو</vdo_edit_vdo>
+	<vdo_stills>لقطات الفيديو</vdo_stills>
+	<vdo_watch_video>مشاهدة الفيديو</vdo_watch_video>
+	<vdo_video_details>تفاصيل الفيديو</vdo_video_details>
+	<vdo_title>العنوان</vdo_title>
+	<vdo_desc>الوصف</vdo_desc>
+	<vdo_cat>تصنيف الفيديو</vdo_cat>
+	<vdo_cat_msg>يمكنك اختيار ما يصل الى %s من الفئات.</vdo_cat_msg>
+	<vdo_tags_msg>الكلمات الدليلية، مفصولة بفواصل مثل: مصممي, عبدالمحسن, وغيرها.</vdo_tags_msg>
+	<vdo_br_opt>عرض الخيارات</vdo_br_opt>
+	<vdo_br_opt1>الجمهور - شارك الفيديو الخاص بك مع الجميع! (مستحسن)</vdo_br_opt1>
+	<vdo_br_opt2>القطاع الخاص - عرض لك و لأصدقائك فقط.</vdo_br_opt2>
+	<vdo_date_loc>التاريخ والمكان</vdo_date_loc>
+	<vdo_date_rec>تاريخ تسجيل الفيديو</vdo_date_rec>
+	<vdo_for_date>تنسيق شهر / يوم / سنة </vdo_for_date>
+	<vdo_add_eg>ومثال على ذلك: طبرجل، القريات، الجوف، سكاكا، السعودية</vdo_add_eg>
+	<vdo_share_opt>خيارات المشاركة</vdo_share_opt>
+	<vdo_allow_comm>السماح بالتعليقات </vdo_allow_comm>
+	<vdo_dallow_comm>عدم السماح للتعليقات</vdo_dallow_comm>
+	<vdo_comm_vote>تعليقات والتصويت، والتقييم</vdo_comm_vote>
+	<vdo_allow_com_vote>السماح بتقييم التعليقات</vdo_allow_com_vote>
+	<vdo_dallow_com_vote>لا تسمح بتقييم التعليقات</vdo_dallow_com_vote>
+	<vdo_allow_rating>نعم ، والسماح للتصنيف على هذا الفيديو</vdo_allow_rating>
+	<vdo_dallow_ratig>لا ، لا تسمح للتصنيف على هذا الفيديو</vdo_dallow_ratig>
+	<vdo_embedding>التضمين</vdo_embedding>
+	<vdo_embed_opt1>نعم ، يمكن للزوار عرض هذا الفيديو على مواقع أخرى</vdo_embed_opt1>
+	<vdo_embed_opt2>لا ، لا يستطيع الزوار عرض هذا الفيديو على مواقع أخرى</vdo_embed_opt2>
+	<vdo_update_title>تحديث</vdo_update_title>
+	<vdo_inactive_msg>حسابك غير مفعّل! الرجاء تفعيل الحساب، وذلك لتتمكن من تحميل الفيديو ، ولتنشيط حسابك من فضلك</vdo_inactive_msg>
+	<vdo_click_here>اضغط هنا</vdo_click_here>
+	<vdo_continue_upload>الاستمرار في التحميل..</vdo_continue_upload>
+	<vdo_upload_step1>حمل الفيديو</vdo_upload_step1>
+	<vdo_upload_step2>الفيديو، الخطوة %s/2</vdo_upload_step2>
+	<vdo_upload_step3>(الخطوة 2 / 2)</vdo_upload_step3>
+	<vdo_select_vdo>حدد فيديو ليتم تحميله.</vdo_select_vdo>
+	<vdo_enter_remote_url>أدخل عنوان الفيديو.</vdo_enter_remote_url>
+	<vdo_enter_embed_code_msg>حملها من مواقع أخرى مثل (يوتيوب) و (ie) و (Metacafe) و غوغل.</vdo_enter_embed_code_msg>
+	<vdo_enter_embed_code>أدخل الكود</vdo_enter_embed_code>
+	<vdo_enter_druation>أدخل المدّة</vdo_enter_druation>
+	<vdo_select_vdo_thumb>حدد تضمين الفيديو</vdo_select_vdo_thumb>
+	<vdo_having_trouble>تواجه مشكلة؟</vdo_having_trouble>
+	<vdo_if_having_problem>إذا كنت تواجه مشاكل مع الرفع</vdo_if_having_problem>
+	<vdo_clic_to_manage_all>اضغط هنا لادارة جميع ملفات الفيديو</vdo_clic_to_manage_all>
+	<vdo_manage_vdeos>إدارة ملفات الفيديو </vdo_manage_vdeos>
+	<vdo_status>الحالة</vdo_status>
+	<vdo_rawfile>ملف خامل</vdo_rawfile>
+	<vdo_video_upload_complete>تحميل الفيديو - التحميل المكتمل</vdo_video_upload_complete>
+	<vdo_thanks_you_upload_complete_1>شكرا لك، اكتمل التحميل</vdo_thanks_you_upload_complete_1>
+	<vdo_thanks_you_upload_complete_2>هذا الفيديو متوفر في</vdo_thanks_you_upload_complete_2>
+	<vdo_after_it_has_process>بعد انتهاء المعالجة</vdo_after_it_has_process>
+	<vdo_embed_this_video_on_web>تضمين هذا الفيديو على موقع الويب الخاص بك.</vdo_embed_this_video_on_web>
+	<vdo_copy_and_paste_the_code>انسخ الكود أدناه، وألصقه في صفحتة، ليتم عرضه فيها.</vdo_copy_and_paste_the_code>
+	<vdo_upload_another_video>ارسال فيديو آخر</vdo_upload_another_video>
+	<vdo_goto_my_videos>اذهب الى ملفات الفيديو الخاصة بك</vdo_goto_my_videos>
+	<vdo_sperate_emails_by>رسائل البريد الإلكتروني منفصلة بفواصل</vdo_sperate_emails_by>
+	<vdo_personal_msg>رسالة شخصية</vdo_personal_msg>
+	<vdo_related_tags>أوصاف مشابهة</vdo_related_tags>
+	<vdo_reply_to_this>الرد على هذا </vdo_reply_to_this>
+	<vdo_add_reply>إضافة رد</vdo_add_reply>
+	<vdo_share_video>مشاركة الفيديو</vdo_share_video>
+	<vdo_about_this_video>حول هذا الفيديو</vdo_about_this_video>
+	<vdo_post_to_a_services>علّم لخدمات الأرشفة</vdo_post_to_a_services>
+	<vdo_commentary>التعليق</vdo_commentary>
+	<vdo_post_a_comment>علّم أول تعليق</vdo_post_a_comment>
+	<grp_add_vdo_msg>إضافة إلى مجموعة الفيديو </grp_add_vdo_msg>
+	<grp_no_vdo_msg><![CDATA[You Don&#8217;t Have Any Video]]></grp_no_vdo_msg>
+	<grp_add_to>إضافة إلى مجموعة</grp_add_to>
+	<grp_add_vdos>اضافة ملفات فيديو</grp_add_vdos>
+	<grp_name_title>اسم المجموعة</grp_name_title>
+	<grp_tag_title>الكلمات الدليلية:</grp_tag_title>
+	<grp_des_title>الوصف:</grp_des_title>
+	<grp_tags_msg>أدخل واحدة أو أكثر من الكلمات الدليلية ، مفصولة بمسافات.</grp_tags_msg>
+	<grp_tags_msg1>أدخل واحدة أو أكثر من الكلمات الدليلية ، مفصولة بمسافات. الكلمات الدليلية هي المصطلحات المستخدمة في وصف مجموعتك بحيث يمكن العثور عليها بسهولة، من قِبل المستخدمين الآخرين. على سبيل المثال ، إذا كان لديك مجموعة لدروس الفوتوشوب ، اكتب كالتالي : دروس فوتوشوب ، تعلم الفوتوشوب.</grp_tags_msg1>
+	<grp_url_title>اختر اسماً مميزاً لاسم رابط المجموعة</grp_url_title>
+	<grp_url_msg><![CDATA[Enter 3-18 characters with no spaces (such as &#8220;skateboarding skates&#8221;), that will become part of your group&#8217;s web address. Please note, the group name URL you pick is permanent and can&#8217;t be changed.]]></grp_url_msg>
+	<grp_cat_tile>عنوان المجموعة:</grp_cat_tile>
+	<grp_vdo_uploads>تحميل الفيديو:</grp_vdo_uploads>
+	<grp_forum_posting>منتدى النشر:</grp_forum_posting>
+	<grp_join_opt1>عامة ، يمكن لأي شخص الانضمام.</grp_join_opt1>
+	<grp_join_opt2>محمية، يتطلب موافقة موسس المجموعة للانضمام.</grp_join_opt2>
+	<grp_join_opt3>خاصة، لا يمكن عرضها الا للمدعوين، او أعضاء المجموعة.</grp_join_opt3>
+	<grp_vdo_opt1>اعتماد فوري للفيديو، وعرضه</grp_vdo_opt1>
+	<grp_vdo_opt2>يتطلب موافقة المشرف قبل النشر</grp_vdo_opt2>
+	<grp_vdo_opt3>المؤسس فقط، من يستطيع اضافة فيديو جديد</grp_vdo_opt3>
+	<grp_post_opt1>مشاركة المواضيع فورا.</grp_post_opt1>
+	<grp_post_opt2>يتطلب موافقة المشرف، قبل عرض الموضوع</grp_post_opt2>
+	<grp_post_opt3>المشرف فقط، يستطيع اضافة موضوع جديد.</grp_post_opt3>
+	<grp_crt_grp>إنشاء مجموعة</grp_crt_grp>
+	<grp_thumb_title>رمز المجموعة</grp_thumb_title>
+	<grp_upl_thumb>تحميل رمز المجموعة</grp_upl_thumb>
+	<grp_must_be>يجب أن يكون</grp_must_be>
+	<grp_90x90>أفضل مقاس 90 × 90</grp_90x90>
+	<grp_thumb_warn>لا ترسل أي مادة محفوظة الحقوق، أو مخالفة</grp_thumb_warn>
+	<grp_del_confirm>هل أنت متأكد من أنك تريد حذف هذه المجموعة؟</grp_del_confirm>
+	<grp_del_success>تم الحذف بنجاح</grp_del_success>
+	<grp_click_go_grps>اضغط هنا، للذهاب الى المجموعات.</grp_click_go_grps>
+	<grp_edit_grp_title>تعديل المجموعة</grp_edit_grp_title>
+	<grp_manage_vdos>ادارة ملفات الفيديو</grp_manage_vdos>
+	<grp_manage_mems>ادارة الأعضاء</grp_manage_mems>
+	<grp_del_group_title>حذف مجموعة</grp_del_group_title>
+	<grp_add_vdos_title>اضافة فيديو</grp_add_vdos_title>
+	<grp_join_grp_title>انضمام لمجموعة</grp_join_grp_title>
+	<grp_leave_group_title>اعتزال المجموعة</grp_leave_group_title>
+	<grp_invite_grp_title>دعوة الأعضاء</grp_invite_grp_title>
+	<grp_view_mems>عرض الأعضاء</grp_view_mems>
+	<grp_view_vdos>عرض الفيديو</grp_view_vdos>
+	<grp_create_grp_title>إنشاء مجموعة جديدة</grp_create_grp_title>
+	<grp_most_members>أكثر الأعضاء</grp_most_members>
+	<grp_most_discussed>أكثر تعليق</grp_most_discussed>
+	<grp_invite_msg>دعوة المستخدمين إلى هذه المجموعة</grp_invite_msg>
+	<grp_invite_msg1>دعاك للانضمام</grp_invite_msg1>
+	<grp_invite_msg2>أدخل عناوين البريد، او أسماء الأعضاء، مفصولة بفاصلة</grp_invite_msg2>
+	<grp_url_title1>رابط المجموعة</grp_url_title1>
+	<grp_invite_msg3>إرسال دعوة</grp_invite_msg3>
+	<grp_join_confirm_msg>هل أنت متأكد، من أنك تريد الانضمام لهذه المجموعة</grp_join_confirm_msg>
+	<grp_join_msg_succ>تم انضمامك للمجموعة بنجاح</grp_join_msg_succ>
+	<grp_click_here_to_go>انقر هنا للذهاب الى</grp_click_here_to_go>
+	<grp_leave_confirm>هل أنت متأكد من أنك تريد ترك هذه المجموعة؟</grp_leave_confirm>
+	<grp_leave_succ_msg>تمت مغادرة المجموعة</grp_leave_succ_msg>
+	<grp_manage_members_title>إدارة الأعضاء </grp_manage_members_title>
+	<grp_for_approval>للموافقة</grp_for_approval>
+	<grp_rm_videos>إزالة الفيديو</grp_rm_videos>
+	<grp_rm_mems>إزالة الأعضاء</grp_rm_mems>
+	<grp_groups_title>إدارة المجموعات</grp_groups_title>
+	<grp_remove_group>حذف مجموعة</grp_remove_group>
+	<grp_bo_grp_found>لم يتم العثور على مجموعة</grp_bo_grp_found>
+	<grp_joined_groups>إنضمام المجموعات</grp_joined_groups>
+	<grp_owned_groups>مالك المجموعات</grp_owned_groups>
+	<grp_edit_this_grp>تعديل هذه المجموعة</grp_edit_this_grp>
+	<grp_topics_title>المواضيع</grp_topics_title>
+	<grp_topic_title>موضوع</grp_topic_title>
+	<grp_posts_title>مشاركات</grp_posts_title>
+	<grp_discus_title>مناقشات</grp_discus_title>
+	<grp_author_title>كاتب</grp_author_title>
+	<grp_replies_title>الردود</grp_replies_title>
+	<grp_last_post_title>آخر مشاركة </grp_last_post_title>
+	<grp_viewl_all_videos>عرض جميع أفلام من هذه المجموعة</grp_viewl_all_videos>
+	<grp_add_new_topic>إضافة موضوع جديد</grp_add_new_topic>
+	<grp_attach_video>ارفاق فيديو </grp_attach_video>
+	<grp_add_topic>اضافة موضوع</grp_add_topic>
+	<grp_please_login>الرجاء تسجيل الدخول، لاضافة موضوع</grp_please_login>
+	<grp_please_join>يرجى الانضمام الى هذه المجموعة، لتتمكن من اضافة موضوع</grp_please_join>
+	<grp_inactive_account>حسابك غير منشّط، ويتطلب التنشيط من مشرف المجموعة</grp_inactive_account>
+	<grp_about_this_grp>حول هذه المجموعة </grp_about_this_grp>
+	<grp_no_vdo_err>هذه المجموعة، ليس لديها ملفات فيديو</grp_no_vdo_err>
+	<grp_posted_by>اضيف بواسطة</grp_posted_by>
+	<grp_add_new_comment>إضافة تعليق جديد</grp_add_new_comment>
+	<grp_add_comment>اضافة تعليق</grp_add_comment>
+	<grp_pls_login_comment>يرجى تسجيل الدخول لتتمكن من اضافة تعليق</grp_pls_login_comment>
+	<grp_pls_join_comment>يرجى الانضمام الى هذه المجموعة، لتتمكن من اضافة تعليق</grp_pls_join_comment>
+	<usr_activation_title>تفعيل المستخدم</usr_activation_title>
+	<usr_actiavation_msg>أدخل اسم المستخدم، ورمز التفعيل الذي تم ارساله الى بريدك</usr_actiavation_msg>
+	<usr_actiavation_msg1>طلب رمز التفعيل</usr_actiavation_msg1>
+	<usr_activation_code_tl>رمز التنشيط</usr_activation_code_tl>
+	<usr_compose_msg>كتابة رسالة</usr_compose_msg>
+	<usr_inbox_title>البريد الوارد</usr_inbox_title>
+	<usr_sent_title>ارسال</usr_sent_title>
+	<usr_to_title>إلى : (أدخل اسم المستخدم)</usr_to_title>
+	<usr_or_select_frm_list>أو اختر من قائمة الاتصال</usr_or_select_frm_list>
+	<usr_attach_video>ارفاق فيديو</usr_attach_video>
+	<user_attached_video>تم ارفاق الفيديو</user_attached_video>
+	<usr_send_message>إرسال رسالة</usr_send_message>
+	<user_no_message>لا توجد رسالة</user_no_message>
+	<user_delete_message_msg>حذف هذه الرسالة</user_delete_message_msg>
+	<user_forgot_message>نسيت كلمة المرور</user_forgot_message>
+	<user_forgot_message_2>لا تقلق ، استعيده الآن</user_forgot_message_2>
+	<user_pass_reset_msg>إعادة تعيين كلمة المرور</user_pass_reset_msg>
+	<user_pass_forgot_msg>إذا كنت نسيت اسم العضو أو كلمة المرور , يمكنك استرجاع اسم العضو إلى بريدك الإلكتروني وإستعادة كلمة المرور. عندما تكتب عنوان بريدك الإلكتروني المسجل لدينا عند تسجيلك الأول، وادخال رمز التحقق, سترسل لك التعليمات حول كيفية إستعادة كلمة المرور، مع اسم العضو الذي سيظهر تلقائيا في الرسالة.</user_pass_forgot_msg>
+	<user_veri_code>رمز التحقق</user_veri_code>
+	<user_reocover_user>استعادة اسم المستخدم</user_reocover_user>
+	<user_user_forgot_msg>نسيت اسم المستخدم؟</user_user_forgot_msg>
+	<user_recover>استعادة</user_recover>
+	<user_reset>إعادة تعيين</user_reset>
+	<user_inactive_msg>حسابك غير مفعّل، الرجاء تفعيل حسابك</user_inactive_msg>
+	<user_dashboard>حركة اللوحة</user_dashboard>
+	<user_manage_prof_chnnl><![CDATA[Manage Profile &amp; Channel]]></user_manage_prof_chnnl>
+	<user_manage_friends><![CDATA[Manage Friends &amp; Contacts]]></user_manage_friends>
+	<user_prof_channel>ملف تعريف / قناة</user_prof_channel>
+	<user_message_box>صندوق الرسائل</user_message_box>
+	<user_new_messages>رسالة جديدة</user_new_messages>
+	<user_goto_inbox>اذهب الى علبة الوارد</user_goto_inbox>
+	<user_goto_sentbox>اذهب الى الرسائل المرسلة</user_goto_sentbox>
+	<user_compose_new>كتابة رسالة جديدة</user_compose_new>
+	<user_total_subs_users>مجموع المستخدمين المشتركين</user_total_subs_users>
+	<user_you_have>لديك</user_you_have>
+	<user_fav_videos>ملفات الفيديو المفضلة</user_fav_videos>
+	<user_your_vids_watched>فيديواتك المراقبة</user_your_vids_watched>
+	<user_times>الوقت</user_times>
+	<user_you_have_watched>المراقبة من قِبلك</user_you_have_watched>
+	<user_channel_profiles><![CDATA[Channel &amp; Profile]]></user_channel_profiles>
+	<user_channel_views>مشاهدات القناة</user_channel_views>
+	<user_channel_comm>تعليقات القناة </user_channel_comm>
+	<user_manage_prof>إدارة الملف / القناة</user_manage_prof>
+	<user_you_created>قمت بإنشائها</user_you_created>
+	<user_you_joined>انضممت اليها</user_you_joined>
+	<user_create_group>إنشاء مجموعة جديدة</user_create_group>
+	<user_manage_my_account>إدارة حسابي </user_manage_my_account>
+	<user_manage_my_videos>إدارة فيديواتي</user_manage_my_videos>
+	<user_manage_my_channel>تحرير قناتي</user_manage_my_channel>
+	<user_sent_box>العناصر المرسلة</user_sent_box>
+	<user_manage_channel>إدارة القناة</user_manage_channel>
+	<user_manage_my_contacts>إدارة جهات الاتصال الخاصة بي</user_manage_my_contacts>
+	<user_manage_contacts>إدارة جهات الاتصال</user_manage_contacts>
+	<user_manage_favourites>إدارة ملفات الفيديو المفضلة</user_manage_favourites>
+	<user_mem_login>الأعضاء المتواجدون</user_mem_login>
+	<user_already_have>الرجاء تسجيل الدخول، اذا كان لديك حساب </user_already_have>
+	<user_forgot_username>نسيت اسم المستخدم</user_forgot_username>
+	<user_forgot_password>نسيت كلمة المرور</user_forgot_password>
+	<user_create_your>أنشأت </user_create_your>
+	<user_all_fields_req>جميع الحقول مطلوبة</user_all_fields_req>
+	<user_valid_email_addr>عنوان بريد إلكتروني صالح</user_valid_email_addr>
+	<user_allowed_format>الحروف الانجليزية، من A الى Z أو a إلى z والأرقام من 0 إلى 9 وتستطيع استخدام العلامة _ بدلاً من المسافة بين الكلمات</user_allowed_format>
+	<user_confirm_pass>تأكيد كلمة السر</user_confirm_pass>
+	<user_reg_msg_0>سجّل بـ</user_reg_msg_0>
+	<user_reg_msg_1>الحصول على العضوية مجاناً، وسهل جداً.. فقط قم بتعبئة النموذج في الاسفل</user_reg_msg_1>
+	<user_date_of_birth>تاريخ الميلاد</user_date_of_birth>
+	<user_enter_text_as_img>أدخل النص كما يتضح في الصورة</user_enter_text_as_img>
+	<user_refresh_img>تغيير الصورة</user_refresh_img>
+	<user_i_agree_to_the><![CDATA[I Agree to  <a href="%s" target="_blank">Terms of Service</a> and <a href="%s" target="_blank" >Privacy Policy]]></user_i_agree_to_the>
+	<user_thanks_for_reg>شكرا لتسجيل في </user_thanks_for_reg>
+	<user_email_has_sent>ولقد تم ارسال تفاصل حسابك، الى بريدك الذي قمت بكتابته أثناء التسجيل</user_email_has_sent>
+	<user_and_activation><![CDATA[&amp; Activation]]></user_and_activation>
+	<user_details_you_now>التفاصيل. يمكنك الآن ان تفعل الاشياء التالية على شبكتنا</user_details_you_now>
+	<user_upload_share_vds>تحميل ومشاركة الفيديو</user_upload_share_vds>
+	<user_make_friends>تكوين صداقات</user_make_friends>
+	<user_send_messages>ارسال رسائل</user_send_messages>
+	<user_grow_your_network>توسيع شبكتك، من خلال دعوة الأصدقاء</user_grow_your_network>
+	<user_rate_comment>التقييم، والتعليق على ملفات الفيديو</user_rate_comment>
+	<user_make_customize>انشاء، وتخصيص قناتك الخاصة</user_make_customize>
+	<user_to_upload_vid>لرفع أو تحميل الفيديو، تحتاج الى تنشيط حسابك أولاً، وتفاصيل الحساب، تم ارسالها الى بريدك المسجل لدينا، وقد يستغرق بعض الوقت، لوصول الرسالة الى بريدك.</user_to_upload_vid>
+	<user_click_to_login>اضغط هنا لتسجيل الدخول إلى حسابك</user_click_to_login>
+	<user_view_my_channel>عرض قناتي</user_view_my_channel>
+	<user_change_pass>تغيير كلمة المرور</user_change_pass>
+	<user_email_settings>إعدادات البريد الإلكتروني</user_email_settings>
+	<user_profile_settings>إعدادات ملف التعريف</user_profile_settings>
+	<user_usr_prof_chnl_edit><![CDATA[User Profile &amp; Channel Edit]]></user_usr_prof_chnl_edit>
+	<user_personal_info>المعلومات الشخصية</user_personal_info>
+	<user_fname>الاسم الأول</user_fname>
+	<user_lname>الاسم الأخير</user_lname>
+	<user_gender>النوع</user_gender>
+	<user_relat_status>الحالة الاجتماعية</user_relat_status>
+	<user_display_age>عرض العمر</user_display_age>
+	<user_about_me>عنّي</user_about_me>
+	<user_website_url>عنوان الموقع الالكتروني</user_website_url>
+	<user_eg_website>مثال على ذلك www.msmmy.com</user_eg_website>
+	<user_prof_info>معلومات المهنة</user_prof_info>
+	<user_education>التعليم</user_education>
+	<user_school_colleges>المدارس والكليات</user_school_colleges>
+	<user_occupations>الوظيفة</user_occupations>
+	<user_companies>الشركات</user_companies>
+	<user_sperate_by_commas>منفصلة بفواصل</user_sperate_by_commas>
+	<user_interests_hobbies>اهتمامات وهوايات</user_interests_hobbies>
+	<user_fav_movs_shows><![CDATA[Favorite Movies &amp; Shows]]></user_fav_movs_shows>
+	<user_fav_music>الموسيقى المفضلة</user_fav_music>
+	<user_fav_books>الكتب المفضلة</user_fav_books>
+	<user_user_avatar>صورة العضو</user_user_avatar>
+	<user_upload_avatar>رفع صورة</user_upload_avatar>
+	<user_channel_info>معلومات القناة</user_channel_info>
+	<user_channel_title>عنوان القناة</user_channel_title>
+	<user_channel_description>وصف القناة</user_channel_description>
+	<user_channel_permission>تصاريح القناة</user_channel_permission>
+	<user_allow_comments_msg>يمكن للمستخدمين التعليق</user_allow_comments_msg>
+	<user_dallow_comments_msg>لا يمكن للمستخدمين التعليق</user_dallow_comments_msg>
+	<user_allow_rating>السماح بالتقييم</user_allow_rating>
+	<user_dallow_rating>لا تسمح بالتقييم</user_dallow_rating>
+	<user_allow_rating_msg1>يمكن للمستخدمين التقييم</user_allow_rating_msg1>
+	<user_dallow_rating_msg1>لا يمكن للمستخدمين التقييم</user_dallow_rating_msg1>
+	<user_channel_feature_vid>ابراز فيديو للقناة</user_channel_feature_vid>
+	<user_select_vid_for_fr>حدد فيدو لابرازه في القناة</user_select_vid_for_fr>
+	<user_chane_channel_bg>تغيير لون خلفية القناة</user_chane_channel_bg>
+	<user_remove_bg>إزالة الخلفية</user_remove_bg>
+	<user_currently_you_d_have_pic><![CDATA[Currently You Don&#8217;t Have a Background Picture]]></user_currently_you_d_have_pic>
+	<user_change_email>تغيير البريد</user_change_email>
+	<user_email_address>عنوان البريد الإلكتروني</user_email_address>
+	<user_new_email>بريد جديد</user_new_email>
+	<user_notify_me>Notify Me When User Sends Me A Message</user_notify_me>
+	<user_old_pass>كلمة السر القديمة</user_old_pass>
+	<user_new_pass>كلمة السر الجديدة</user_new_pass>
+	<user_c_new_pass>تأكيد كلمة السر الجديدة</user_c_new_pass>
+	<user_doesnt_exist><![CDATA[User Doesn&#8217;t Exist]]></user_doesnt_exist>
+	<user_do_not_have_contact>المستخدم ليس لديه أي اتصالات</user_do_not_have_contact>
+	<user_no_fav_video_exist>المستخدم ليس لديه أي ملفات فيدية مفضلة</user_no_fav_video_exist>
+	<user_have_no_vide>المستخدم ليس لديه أي ملفات</user_have_no_vide>
+	<user_s_channel><![CDATA[%s&#8217;s Channel ]]></user_s_channel>
+	<user_last_login>آخر عملية تسجيل دخول</user_last_login>
+	<user_send_message>إرسال رسالة</user_send_message>
+	<user_add_contact>إضافة جهة اتصال</user_add_contact>
+	<user_dob>DoB</user_dob>
+	<user_movies_shows><![CDATA[Movies &amp; Shows]]></user_movies_shows>
+	<user_add_comment>إضافة تعليق </user_add_comment>
+	<user_view_all_comments>عرض جميع التعليقات</user_view_all_comments>
+	<user_no_fr_video>المستخدم لم يحدد أي فيديو لتعيينه كـ مميز</user_no_fr_video>
+	<user_view_all_video_of>عرض جميع فيديوات </user_view_all_video_of>
+	<menu_home>الرئيسية</menu_home>
+	<menu_videos>الفيديو</menu_videos>
+	<menu_upload>رفع</menu_upload>
+	<menu_signup>التوقيع</menu_signup>
+	<menu_account>حساب</menu_account>
+	<menu_groups>مجموعات</menu_groups>
+	<menu_channels>قنوات</menu_channels>
+	<menu_community>المجتمع</menu_community>
+	<menu_inbox>علبة الوارد</menu_inbox>
+	<vdo_cat_err2>لا يمكنك تحديد أكثر من %d فئة</vdo_cat_err2>
+	<user_subscribe_message>مرحبا %subscriber%
+لقد قمت بالاشتراك في %user% وبالتالي يتم إرسال هذه الرسالة إليك تلقائيا.
+وذلك لأن %user% قام برفع ملف فيديو جديد..
+
+%website_title%</user_subscribe_message>
+	<user_subscribe_subject>%user% قام برفع ملف فيديو جديد</user_subscribe_subject>
+	<you_already_logged>أنت بالفعل مسجل في</you_already_logged>
+	<you_not_logged_in>أنت لم تسجل في</you_not_logged_in>
+	<invalid_user>هذا المستخدم غير صالح</invalid_user>
+	<vdo_cat_err3>الرجاء اختيار على الأقل فئة واحدة</vdo_cat_err3>
+	<embed_code_invalid_err>رمز غير صالح لتضمين الفيديو</embed_code_invalid_err>
+	<invalid_duration>المدة غير صالحة</invalid_duration>
+	<vid_thumb_changed>تم تغيير الفيديو الافتراضي</vid_thumb_changed>
+	<vid_thumb_change_err>لم يتم العثور على مصغرات الفيديو</vid_thumb_change_err>
+	<upload_vid_thumbs_msg>جميع روابط الفيديو التي تم تحميلها</upload_vid_thumbs_msg>
+	<video_thumb_delete_msg>تم حذف رمز الفيديو</video_thumb_delete_msg>
+	<video_thumb_delete_err>لا يمكن حذف رمز الفيديو</video_thumb_delete_err>
+	<no_comment_del_perm>أنت لا تملك الصلاحيات لحذف هذا التعليق</no_comment_del_perm>
+	<my_text_context>فحص الحالة</my_text_context>
+	<user_contains_disallow_err>اسم المستخدم يحتوي على أحرف غير مسموح بها</user_contains_disallow_err>
+	<add_cat_erro>فئة موجودة سابقاً</add_cat_erro>
+	<add_cat_no_name_err>الرجاء إدخال اسم لهذه الفئة</add_cat_no_name_err>
+	<cat_default_err><![CDATA[Default cannot be deleted, please choose another category as &#8220;default&#8221; and then delete this one]]></cat_default_err>
+	<pic_upload_vali_err>يرجى تحميل صورة من نوع GIF أو PNG أو JPG فقط</pic_upload_vali_err>
+	<cat_dir_make_err>غير قادر على إنشاء الدليل</cat_dir_make_err>
+	<cat_set_default_ok>تم التعيين كافتراضي</cat_set_default_ok>
+	<vid_thumb_removed_msg>تمت ازالة رمز الفيديو</vid_thumb_removed_msg>
+	<vid_files_removed_msg>تمت ازالة ملفات الفيديو</vid_files_removed_msg>
+	<vid_log_delete_msg>تم حذف سِجّل الفيديو</vid_log_delete_msg>
+	<vdo_multi_del_erro>تم حذف ملفات الفيديو</vdo_multi_del_erro>
+	<add_fav_message>هذا  %s تمت اضافته الى مفضلتك</add_fav_message>
+	<obj_not_exists>%s لا وجود له</obj_not_exists>
+	<already_fav_message>هذا  %s بالفعل، تمت اضافته الى مفضلتك</already_fav_message>
+	<obj_report_msg>هذا %s تم الابلاغ عنه</obj_report_msg>
+	<obj_report_err>سبق أن أبلغت عن هذا %s</obj_report_err>
+	<user_no_exist_wid_username><![CDATA[&#8216;%s&#8217; does not exist]]></user_no_exist_wid_username>
+	<share_video_no_user_err>الرجاء ادخال اسم مستخدم، او بريد الكتروني لارسال %s</share_video_no_user_err>
+	<uploaded>تم الرفع</uploaded>
+	<today>اليوم</today>
+	<yesterday>أمس</yesterday>
+	<thisweek>هذا الاسبوع</thisweek>
+	<lastweek>الاسبوع الماضي</lastweek>
+	<thismonth>هذا الشهر</thismonth>
+	<lastmonth>الشهر الماضي</lastmonth>
+	<thisyear>هذا العام</thisyear>
+	<lastyear>العام الماضي</lastyear>
+	<favorites>المفضلة</favorites>
+	<alltime>جميع الأوقات</alltime>
+	<insufficient_privileges_loggin>لا يمكنك الوصول إلى هذه الصفحة اضغط هنا لتسجيل الدخول أو التسجيل</insufficient_privileges_loggin>
+	<profile_title>عنوان ملف التعريف</profile_title>
+	<show_dob>إظهار تاريخ الميلاد</show_dob>
+	<profile_tags>الكلمات الدليلية لملف التعريف</profile_tags>
+	<profile_desc>وصف ملف التعريف</profile_desc>
+	<online_status>حالة المستخدم</online_status>
+	<show_profile>مشاهدة ملف التعريف</show_profile>
+	<allow_ratings>السماح بتقييم ملف التعريف</allow_ratings>
+	<postal_code>الرمز البريدي</postal_code>
+	<temp_file_load_err><![CDATA[Unable to load tempalte file &#8216;%s&#8217; in directory &#8216;%s&#8217;]]></temp_file_load_err>
+	<no_date_provided>لم تحدد حتى الآن</no_date_provided>
+	<second>ثانية</second>
+	<minute>دقيقة</minute>
+	<bad_date>أبداً</bad_date>
+	<users_videos><![CDATA[%s&#8217;s Videos]]></users_videos>
+	<please_login_subscribe>الرجاء الدخول للتمكن من الاشتراك %s</please_login_subscribe>
+	<users_subscribers><![CDATA[%s&#8217;s Subscribers]]></users_subscribers>
+	<user_no_subscribers>%s لا يوجد لديك اشتراك</user_no_subscribers>
+	<user_subscriptions><![CDATA[%s&#8217;s Subscriptions]]></user_subscriptions>
+	<user_no_subscriptions>%s لا يوجد لديه اشتراكات</user_no_subscriptions>
+	<usr_avatar_bg_update>تم تحديث الخلفية، والصورة الشخصية، للمستخدم</usr_avatar_bg_update>
+	<user_email_confirm_email_err>تأكيد البريد الإلكتروني غير متطابقة</user_email_confirm_email_err>
+	<email_change_msg>تم تغيير البريد بنجاح</email_change_msg>
+	<no_edit_video>لا يمكنك تحرير هذا الفيديو</no_edit_video>
+	<confirm_del_video>هل أنت متأكد من أنك تريد حذف هذا الفيديو؟</confirm_del_video>
+	<remove_fav_video_confirm>المعذرة، هل أنت متأكد من انك تريد حذف هذا الفيديو من مفضلتك؟</remove_fav_video_confirm>
+	<fav_remove_msg>%s تمت ازالته من مفضلتك</fav_remove_msg>
+	<unknown_favorite>لم يتم التعرف على المفضلة %s</unknown_favorite>
+	<vdo_multi_del_fav_msg>تمت ازالة الفيديو من مفضلتك</vdo_multi_del_fav_msg>
+	<unknown_sender>مرسل مجهول</unknown_sender>
+	<please_enter_message>الرجاء إدخال شيء للرسالة</please_enter_message>
+	<unknown_reciever>استقبال غير معروف</unknown_reciever>
+	<no_pm_exist>لا توجد رسائل خاصة</no_pm_exist>
+	<pm_sent_success>تم ارسال الرسالة الخاصة بنجاح</pm_sent_success>
+	<msg_delete_inbox>تم حذف الرسالة، من البريد الوارد</msg_delete_inbox>
+	<msg_delete_outbox>تم حذف الرسالة من علبة الصادر</msg_delete_outbox>
+	<private_messags_deleted>تم حذف الرسائل الخاصة</private_messags_deleted>
+	<ban_users>حظر المستخدمين</ban_users>
+	<spe_users_by_comma>أسماء المستخدمين، مفصورة بفاصلة</spe_users_by_comma>
+	<user_ban_msg>تم حظر المستخدمين بنجاح</user_ban_msg>
+	<no_user_ban_msg>لا يوجد مستخدمين محظورين في حسابك</no_user_ban_msg>
+	<thnx_sharing_msg>شكراً لمشاركتك  %s</thnx_sharing_msg>
+	<no_own_commen_rate>لا يمكنك تقييم تعليقك</no_own_commen_rate>
+	<no_comment_exists>لا يوجد تعليق</no_comment_exists>
+	<thanks_rating_comment>شكراً لتقييمك هذا التعليق</thanks_rating_comment>
+	<please_login_create_playlist>الرجاء تسجيل الدخول، لانشاء قائمة التسجيل</please_login_create_playlist>
+	<play_list_with_this_name_arlready_exists><![CDATA[Playlist with name &#8216;%s&#8217; already exists]]></play_list_with_this_name_arlready_exists>
+	<please_enter_playlist_name>الرجاء ادخال اسم لقائمة التشغيل</please_enter_playlist_name>
+	<new_playlist_created>تم انشاء قائمة تشغيل جديدة</new_playlist_created>
+	<playlist_not_exist>لا توجد قائمة تشغيل</playlist_not_exist>
+	<playlist_item_not_exist>هذا العنصر غير موجود في قائمة التشغيل</playlist_item_not_exist>
+	<playlist_item_delete>تم حذف العنصر من قائمة التشغيل</playlist_item_delete>
+	<play_list_updated>تم تحديث قائمة التشغيل</play_list_updated>
+	<you_dont_hv_permission_del_playlist>ليس لديك الإذن لحذف قائمة التشغيل</you_dont_hv_permission_del_playlist>
+	<playlist_delete_msg>تم حذف قائمة التشغيل</playlist_delete_msg>
+	<playlist_name>اسم قائمة التشغيل</playlist_name>
+	<add_new_playlist>إضافة قائمة التشغيل</add_new_playlist>
+	<this_thing_added_playlist>هذا %s موجود مسبقاً في قائمة التشغيل</this_thing_added_playlist>
+	<edit_playlist>تعديل قائمة التشغيل</edit_playlist>
+	<remove_playlist_item_confirm>هل أنت متأكد أنك تريد إزالة هذا من لائحة التشغيل</remove_playlist_item_confirm>
+	<remove_playlist_confirm>هل أنت متأكد من أنك تريد حذف هذه القراءة؟</remove_playlist_confirm>
+	<avcode_incorrect>خطأ في رمز التفعيل</avcode_incorrect>
+	<group_join_login_err>قم بالدخول، لتتمكن من الانضمام الى هذه المجموعة</group_join_login_err>
+	<manage_playlist>ادارة قائمة التشغيل</manage_playlist>
+	<my_notifications>اخطاري</my_notifications>
+	<users_contacts><![CDATA[%s&#8217;s contacts]]></users_contacts>
+	<type_flags_removed>%s ازالة الاعلام</type_flags_removed>
+	<terms_of_serivce>شروط الخدمات</terms_of_serivce>
+	<users>الأعضاء</users>
+	<login_to_mark_as_spam>يرجى الدخول للابلاغ عن الدعاية</login_to_mark_as_spam>
+	<no_own_commen_spam>لا يمكنك وضع علامة التعليق الخاص بك كدعاية</no_own_commen_spam>
+	<already_spammed_comment>سبق أن قمت بتصنيف هذ التعليق كدعاية</already_spammed_comment>
+	<spam_comment_ok>تعليق يتصف كدعاية</spam_comment_ok>
+	<arslan_hassan>Arslan Hassan</arslan_hassan>
+	<you_not_allowed_add_grp_vids>أنت لست عضوا في هذه المجموعة! لذلك لا يمكنك إضافة ملفات فيديو</you_not_allowed_add_grp_vids>
+	<sel_vids_updated>تم تحديث مجموعة الفيديو المختارة</sel_vids_updated>
+	<unable_find_download_file>لم يتم العثور، على ملف التحميل</unable_find_download_file>
+	<you_cant_edit_group>لا يمكنك تحرير هذه المجموعة</you_cant_edit_group>
+	<you_cant_invite_mems>لا يمكنك دعوة أعضاء</you_cant_invite_mems>
+	<you_cant_moderate_group>لا يمكنك تعديل هذه المجموعة</you_cant_moderate_group>
+	<page_doesnt_exist>الصفحة غير موجودة</page_doesnt_exist>
+	<pelase_select_img_file_for_vdo>الرجاء تحديد ملف صورة للفيديو</pelase_select_img_file_for_vdo>
+	<new_mem_added>تمت اذافة عضو جديد</new_mem_added>
+	<this_vdo_not_working>هذا الفيديو قد لا يعمل بشكل صحيح</this_vdo_not_working>
+	<email_template_not_exist>قالب البريد الإلكتروني غير موجود</email_template_not_exist>
+	<email_subj_empty>موضوع رسالة البريد الالكتروني فارغ!</email_subj_empty>
+	<email_msg_empty>رسالة البريد فارغة!</email_msg_empty>
+	<email_tpl_has_updated>تم تحديث قالب البريد الالكتروني</email_tpl_has_updated>
+	<page_name_empty>اسم الصفحة فارغ!</page_name_empty>
+	<page_title_empty>عنوان الصفحة فارغ!</page_title_empty>
+	<page_content_empty>محتوى الصفحة فارغ!</page_content_empty>
+	<new_page_added_successfully>تمت اضافة الصفحة الجديدة بنجاح</new_page_added_successfully>
+	<page_updated>تم تحديث الصفحة</page_updated>
+	<page_deleted>تم حذف الصفحة بنجاح</page_deleted>
+	<page_activated>تم تنشيط الصفحة</page_activated>
+	<page_deactivated>تم تعطيل الصفحة</page_deactivated>
+	<you_cant_delete_this_page>لا يمكنك حذف هذه الصفحة</you_cant_delete_this_page>
+	<ad_placement_err4>هذا التحديد، لا وجود له!</ad_placement_err4>
+	<grp_details_updated>تم تحديث تفاصيل المجموعة</grp_details_updated>
+	<you_cant_del_topic>لا يمكنك حذف هذا الموضوع</you_cant_del_topic>
+	<you_cant_del_user_topics>لا يمكنك حذف مواضيع المستخدم</you_cant_del_user_topics>
+	<topics_deleted>تم حذف المواضيع</topics_deleted>
+	<you_cant_delete_grp_topics>لا يمكنك حذف مواضيع المجموعة</you_cant_delete_grp_topics>
+	<you_not_allowed_post_topics>غير مسموح لك بنشر المواضيع</you_not_allowed_post_topics>
+	<you_cant_add_this_vdo>لا يمكنك إضافة هذا الفيديو</you_cant_add_this_vdo>
+	<video_added>تمت إضافة الفيديو</video_added>
+	<you_cant_del_this_vdo>لا يمكنك إزالة هذا الفيديو</you_cant_del_this_vdo>
+	<video_removed>تمت إزالة الفيديو</video_removed>
+	<user_not_grp_mem>هذا المستخدم ليس عضواً في هذه المجموعة</user_not_grp_mem>
+	<user_already_group_mem>تم انضمام العضو، الى هذه المجموعة</user_already_group_mem>
+	<invitations_sent>تم ارسال الدعوات</invitations_sent>
+	<you_not_grp_mem>أنت لست عضوا في هذه المجموعة</you_not_grp_mem>
+	<you_cant_delete_this_grp>لا يمكنك حذف هذه المجموعة</you_cant_delete_this_grp>
+	<grp_deleted>تم حذف المجموعة</grp_deleted>
+	<you_cant_del_grp_mems>لا يمكنك حذف أعضاء المجموعة</you_cant_del_grp_mems>
+	<mems_deleted>تم حذف الأعضاء</mems_deleted>
+	<you_cant_del_grp_vdos>لا يمكنك حذف مجموعة الفيديو</you_cant_del_grp_vdos>
+	<thnx_for_voting>شكراً لتصويتك</thnx_for_voting>
+	<you_hv_already_rated_vdo>سبق أن قمت بتقييم هذا الفيديو</you_hv_already_rated_vdo>
+	<please_login_to_rate>يرجى تسجيل الدخول، لتتمكن من التقييم</please_login_to_rate>
+	<you_not_subscribed>أنت لست مشترك؟</you_not_subscribed>
+	<you_cant_delete_this_user><![CDATA[You cannot delete this user&#8221;]]></you_cant_delete_this_user>
+	<you_dont_hv_perms>ليس لديك أذونات كافية</you_dont_hv_perms>
+	<user_subs_hv_been_removed>تمت ازالة استخدام الاشتراكات</user_subs_hv_been_removed>
+	<user_subsers_hv_removed>تم ازالة المستخدم من دليل الأعضاء أو الاصدقاء</user_subsers_hv_removed>
+	<you_already_sent_frend_request>لقد قمت بارسال طلب الصداقة سابقاً</you_already_sent_frend_request>
+	<friend_added>تمت اضافة صديق</friend_added>
+	<friend_request_sent>تم ارسال طلب الصداقة</friend_request_sent>
+	<friend_confirm_error>اما أن المستخدم لم يقبل الصداقة، او انه في قائمة الاصدقاء لديك</friend_confirm_error>
+	<friend_confirmed>تم تأكيد التصداقة</friend_confirmed>
+	<friend_request_not_found>لم يتم العثور على طلب صداقة</friend_request_not_found>
+	<you_cant_confirm_this_request>لا يمكن تأكيد هذا المطلب</you_cant_confirm_this_request>
+	<friend_request_already_confirmed>تم تفعيل طلب الصداقة</friend_request_already_confirmed>
+	<user_no_in_contact_list>المستخدم غير موجود في قائمة الاتصال الخاصة بك</user_no_in_contact_list>
+	<user_removed_from_contact_list>تمت إزالة المستخدم من قائمة الاتصال الخاصة بك</user_removed_from_contact_list>
+	<cant_find_level>لا يمكن العثور على المستوى</cant_find_level>
+	<please_enter_level_name>الرجاء إدخال اسم المستوى</please_enter_level_name>
+	<level_updated>تم تحديث مستوى</level_updated>
+	<level_del_sucess>تم حذف مستوى المستخدم, وجميع مستخدمي هذا المستوى، تم نقلهم الى %s</level_del_sucess>
+	<level_not_deleteable>هذا المستوى ليس محذوف</level_not_deleteable>
+	<pass_mismatched>كلمة المرور، غير متطابقة</pass_mismatched>
+	<user_blocked>تم حظر المستخدم</user_blocked>
+	<user_already_blocked>تم منع المستخدم</user_already_blocked>
+	<you_cant_del_user>لا تستطيع منع هذا المستخدم</you_cant_del_user>
+	<user_vids_hv_deleted>تم حذف دليل الفيديو</user_vids_hv_deleted>
+	<user_contacts_hv_removed>تم حذف وسائل الاتصال</user_contacts_hv_removed>
+	<all_user_inbox_deleted>تم حذف جميع الرسائل في صندوق الوارد</all_user_inbox_deleted>
+	<all_user_sent_messages_deleted>تم حذف جميع الرسائل في صندوق الرسائل المرسلة</all_user_sent_messages_deleted>
+	<pelase_enter_something_for_comment>الرجاء ادخال شيء، مثل تعليق</pelase_enter_something_for_comment>
+	<please_enter_your_name>الرجاء قم بادخال اسم المستخدم</please_enter_your_name>
+	<please_enter_your_email>الرجاء قم بادخال بريدك</please_enter_your_email>
+	<template_activated>تم تنشيط القالب</template_activated>
+	<error_occured_changing_template>حدث خطأ أثناء تغيير القالب</error_occured_changing_template>
+	<phrase_code_empty>خانة الرمز فارغة!</phrase_code_empty>
+	<phrase_text_empty>خانة النص فارغة!</phrase_text_empty>
+	<language_does_not_exist>لغة غير موجودة؟</language_does_not_exist>
+	<name_has_been_added>%s تمت اضافة</name_has_been_added>
+	<name_already_exists><![CDATA[&#8216;%s&#8217; already exist]]></name_already_exists>
+	<lang_doesnt_exist>لغة غير موجودة!</lang_doesnt_exist>
+	<no_file_was_selected>لم تقم بتحديد ملف!</no_file_was_selected>
+	<err_reading_file_content>خطأ في قراءة محتوى الملف</err_reading_file_content>
+	<cant_find_lang_name>غير قادر على ايجاد اسم اللغة</cant_find_lang_name>
+	<cant_find_lang_code>غير قادر على ايجاد رمز اللغة</cant_find_lang_code>
+	<no_phrases_found>لم يتم العثور على العبارة، او الجملة!</no_phrases_found>
+	<language_already_exists>اللغة موجودة مسبقاً</language_already_exists>
+	<lang_added>تمت اضافة اللغة بنجاح</lang_added>
+	<error_while_upload_file>حدث خطأ أثناء تحميل ملف اللغة</error_while_upload_file>
+	<default_lang_del_error><![CDATA[This is the default language, please select another language as &#8220;default&#8221; and then delete this pack]]></default_lang_del_error>
+	<lang_deleted>تم حذف ملف اللغة</lang_deleted>
+	<lang_name_empty>اسم اللغة فارغ</lang_name_empty>
+	<lang_code_empty>رمز اللغة فارغ</lang_code_empty>
+	<lang_regex_empty>لغة التعبير العادية فارغة</lang_regex_empty>
+	<lang_code_already_exist>رمز اللغة موجود بالفعل</lang_code_already_exist>
+	<lang_updated>تم تحديث اللغة</lang_updated>
+	<player_activated>تم تنشيط الاضافة</player_activated>
+	<error_occured_while_activating_player>حدث خطأ أثناء التنشيط</error_occured_while_activating_player>
+	<plugin_has_been_s>الاضافات المساعدة %s</plugin_has_been_s>
+	<plugin_uninstalled>وقد تم تثبيت البرنامج المساعد</plugin_uninstalled>
+	<perm_code_empty>رمز إذن فارغ</perm_code_empty>
+	<perm_name_empty>إسم الاذن فارغ</perm_name_empty>
+	<perm_already_exist>إذن موجودة بالفعل</perm_already_exist>
+	<perm_type_not_valid>لا توجد اذن لهذا النوع</perm_type_not_valid>
+	<perm_added>إذن جديد تمت إضافته</perm_added>
+	<perm_deleted>تم حذفه</perm_deleted>
+	<perm_doesnt_exist>لا وجود له</perm_doesnt_exist>
+	<acitvation_html_message>الرجاء إدخال اسم المستخدم ورمز التفعيل من أجل تنشيط حسابك ، يرجى مراجعة البريد الوارد الخاص بك لرمز التنشيط ، إذا لم تحصل عليه ، يرجى طلب ذلك من خلال ملء استمارة القبول</acitvation_html_message>
+	<acitvation_html_message2>من فضلك أدخل عنوان البريد الالكتروني لطلب رمز التفعيل</acitvation_html_message2>
+	<admin_panel>لوحة التحكم</admin_panel>
+	<moderate_videos>مشاهدة الفيديو</moderate_videos>
+	<moderate_users>مشاهدة الأعضاء</moderate_users>
+	<revert_back_to_admin>العودة الى لوحة التحكم</revert_back_to_admin>
+	<more_options>المزيد من الخيارات</more_options>
+	<downloading_string>تم تحميل %s ...</downloading_string>
+	<download_redirect_msg><![CDATA[<a href="%s">click here if you don't redirect automatically</a> - <a href="%s"> Click Here to Go Back to Video Page</a>]]></download_redirect_msg>
+	<account_details>تفاصيل الحساب</account_details>
+	<profile_details>تفاصيل ملف التعريف</profile_details>
+	<update_profile>تحديث ملف تعريفي</update_profile>
+	<please_select_img_file>الرجاء تحديد مجلد الصورة</please_select_img_file>
+	<or>أو</or>
+	<pelase_enter_image_url>الرجاء ادخال رابط الصورة</pelase_enter_image_url>
+	<user_bg>خلفية القناة</user_bg>
+	<user_bg_img>صورة كـ خلفية للقناة</user_bg_img>
+	<please_enter_bg_color>من فضلك أدخل لون الخلفية</please_enter_bg_color>
+	<bg_repeat_type>نوع تكرار الخلفية (اذا كنت تستخدم صورة كخلفية)</bg_repeat_type>
+	<fix_bg>اصلاح الخلفية</fix_bg>
+	<delete_this_img>حذف هذه الصورة</delete_this_img>
+	<current_email>البريد الالكتروني</current_email>
+	<confirm_new_email>تأكيد البريد الإلكتروني</confirm_new_email>
+	<no_subs_found>لا يوجد أي اشتراك الجديد</no_subs_found>
+	<video_info_all_fields_req>الفيديو المعلومات -- جميع الحقول مطلوبة</video_info_all_fields_req>
+	<update_group>تحديث المجموعة</update_group>
+	<default>افتراضي</default>
+	<grp_info_all_fields_req>مجموعة المعلومات -- جميع الحقول مطلوبة</grp_info_all_fields_req>
+	<date_recorded_location><![CDATA[Date recorded &amp; Location]]></date_recorded_location>
+	<update_video>تحديث الفيديو</update_video>
+	<click_here_to_recover_user>انقر هنا لاسترداد اسم المستخدم</click_here_to_recover_user>
+	<click_here_reset_pass>انقر هنا لإعادة كتابة كلمة المرور</click_here_reset_pass>
+	<remember_me>تذكرني</remember_me>
+	<howdy_user>مرحبا  %s</howdy_user>
+	<notifications>التنبيهات</notifications>
+	<playlists>قائمة التشغيل</playlists>
+	<friend_requests>طلب صداقة</friend_requests>
+	<after_meny_guest_msg><![CDATA[Welcome Guest ! Please <a href="%s">Login</a> or <a href="%s">Register</a>]]></after_meny_guest_msg>
+	<being_watched>كائن مراقب</being_watched>
+	<change_style_of_listing>تغيير استايل الادراج</change_style_of_listing>
+	<website_members>%s عضو</website_members>
+	<guest_homeright_msg>مشاهدة، تحميل، مشاركة والمزيد..</guest_homeright_msg>
+	<reg_for_free>التسجيل مجانا</reg_for_free>
+	<rand_vids>فيديو عشوائي</rand_vids>
+	<t_10_users>أفضل 10 أعضاء</t_10_users>
+	<pending>معلق</pending>
+	<confirm>تأكيد</confirm>
+	<no_contacts>لا اتصالات</no_contacts>
+	<you_dont_hv_any_grp>ليس لديك أي مجموعة</you_dont_hv_any_grp>
+	<leave_groups>تصاريح المجموعات</leave_groups>
+	<manage_grp_mems>إدارة مجموعة الأعضاء</manage_grp_mems>
+	<pending_mems>أعضاء في الانتظار</pending_mems>
+	<active_mems>أعضاء بالموقع</active_mems>
+	<disapprove>يوافقون</disapprove>
+	<manage_grp_vids>ادارة مجموعة الفيديو</manage_grp_vids>
+	<pending_vids>فيديو بالانتظار</pending_vids>
+	<no_pending_vids>لا يوجد فيديو في الانتظار</no_pending_vids>
+	<no_active_videos>لا يوجد فيديو بالموقع</no_active_videos>
+	<active_videos>الفيديو بالموقع</active_videos>
+	<manage_playlists>إدارة قوائم التشغيل</manage_playlists>
+	<total_items>مجموع الشروط</total_items>
+	<play_now>تشغيل الآن..</play_now>
+	<no_video_in_playlist>هذا لا يوجد لديه قائمة الأغاني والفيديو</no_video_in_playlist>
+	<view>عرض</view>
+	<you_dont_hv_fav_vids>لا يوجد أي فيديو في المفضلة لديك!</you_dont_hv_fav_vids>
+	<private_messages>رسالة خاصة</private_messages>
+	<new_private_msg>رسالة خاصة جديدة</new_private_msg>
+	<search_for_s>ابحث %s</search_for_s>
+	<signup_success_usr_ok><![CDATA[<h2 style="margin: 5px 5px 8px; font-family: Arial,Verdana,sans-serif;">Just One More Step</h2>     	<p style="margin: 0px 5px; line-height: 18px; font-size: 11px;">Your are just one step behind from becoming an official memeber of our website.  Please check your email, we have sent you a confirmation email which contains a confirmation link from our website, Please click it to complete your registration.</p>]]></signup_success_usr_ok>
+	<signup_success_usr_emailverify><![CDATA[<h2 style="font-family:Arial,Verdana,sans-serif; margin:5px 5px 8px;">Welcome To our community</h2>
+    	<p style="margin:0px 5px; line-height:18px; font-size:11px;">Your email has been confirmed, Please <strong><a href="%s">click here to login</a></strong> and continue as our registered member.</p>]]></signup_success_usr_emailverify>
+	<if_you_already_hv_account>إذا كان لديك حساب ، يرجى الدخول من هنا </if_you_already_hv_account>
+	<signup_message_under_login><![CDATA[ <p>Our website is the home for video online:</p>
+          
+            <ul><li><strong>Watch</strong> millions  of videos</li><li><strong>Share favorites</strong> with friends and family</li>
+            <li><strong>Connect with other users</strong> who share your interests</li><li><strong>Upload your videos</strong> to a worldwide audience
+
+</li></ul>]]></signup_message_under_login>
+	<new_mems_signup_here>للتسجيل، تفضل من هنا</new_mems_signup_here>
+	<register_as_our_website_member>سجل كعضو ، انها مجانية وسهلة فقط </register_as_our_website_member>
+	<video_complete_msg><![CDATA[<h2>Video Upload Has Been Completed</h2>
+<span class="header1">Thank you! Your upload is complete.</span><br>
+<span class="tips">This video will be available in <a href="%s"><strong>My Videos</strong></a> after it has finished processing.</span>  
+<div class="upload_link_button" align="center">
+    <ul>
+        <li><a href="%s" >Upload Another Video</a></li>
+        <li><a href="%s" >Go to My Videos</a></li>
+    </ul>
+<div class='clearfix'></div>
+</div>
+]]></video_complete_msg>
+	<upload_right_guide><![CDATA[ <div>
+            <div>
+              <p>
+                <strong>
+                <strong>Important:</strong>
+                Do not upload any TV shows, music videos, music concerts, or  commercials without permission unless they consist entirely of content  you created yourself.</strong></p>
+                <p>The 
+                <a href="#">Copyright Tips page</a> and the 
+                <a href="#">Community Guidelines</a> can help you determine whether your video infringes someone else's copyright.</p>
+                <p>By clicking "Upload Video", you are representing that this video does not violate Our website's 
+                <a id="terms-of-use-link" href="#">Terms of Use</a> 
+                and that you own all copyrights in this video or have authorization to upload it.</p>
+            </div>
+        </div>]]></upload_right_guide>
+	<report_this_user>تقرير هذا المستخدم</report_this_user>
+	<add_to_favs>اضافة الى المفضلة</add_to_favs>
+	<report_this>هذا التقرير!</report_this>
+	<share_this>مشاركة هذا الملف</share_this>
+	<add_to_playlist>اضافة الى قائمة التشغيل</add_to_playlist>
+	<view_profile>عرض الملف الشخصي</view_profile>
+	<subscribe>اشتراك</subscribe>
+	<uploaded_by_s>تم الرفع بواسطة %s</uploaded_by_s>
+	<more>المزيد</more>
+	<link_this_video>رابط هذا الفيديو</link_this_video>
+	<click_to_download_video>اضغط هنا لتحميل هذا الفيديو</click_to_download_video>
+	<name>الاسم</name>
+	<email_wont_display>البريد الإلكتروني (لن يعرض)</email_wont_display>
+	<please_login_to_comment>الرجاء الدخول للتعليق</please_login_to_comment>
+	<marked_as_spam_comment_by_user><![CDATA[Marked as spam, commented by <em>%s</em>]]></marked_as_spam_comment_by_user>
+	<spam>مزعج</spam>
+	<user_commented_time><![CDATA[<a href="%s">%s</a> commented %s]]></user_commented_time>
+	<no_comments>لا يوجد تعليق</no_comments>
+	<view_video>عرض الفيديو</view_video>
+	<topic_icon>أيقونة الموضوع</topic_icon>
+	<group_options>خيارات المجموعة</group_options>
+	<info>معلومات</info>
+	<basic_info>معلومات أساسية</basic_info>
+	<group_owner>مجموعة المالك</group_owner>
+	<total_mems>عدد الأعضاء</total_mems>
+	<total_topics>عدد المواضيع</total_topics>
+	<grp_url>رابط المجموعة</grp_url>
+	<more_details><![CDATA[More Details<]]></more_details>
+	<view_all_mems>عرض كافة الأعضاء</view_all_mems>
+	<view_all_vids>عرض جميع الفيديو</view_all_vids>
+	<topic_title>عدد المواضيع</topic_title>
+	<last_reply>آخر رد</last_reply>
+	<topic_by_user><![CDATA[<a href="%s">%s</a></span> by <a href="%s">%s</a>]]></topic_by_user>
+	<no_topics>لا توجد مواضيع</no_topics>
+	<last_post_time_by_user><![CDATA[%s<br />
+by <a href="%s">%s]]></last_post_time_by_user>
+	<profile_views>عرض الملف الشخصي</profile_views>
+	<last_logged_in>آخر تسجيل في</last_logged_in>
+	<last_active>آخر نشاط</last_active>
+	<total_logins>مجموع التسجيلات</total_logins>
+	<total_videos_watched>مجموع مشاهدي الفيديو</total_videos_watched>
+	<view_group>عرض المجموعة</view_group>
+	<you_dont_hv_any_pm>لا توجد رسائل لعرضها</you_dont_hv_any_pm>
+	<date_sent>تاريخ ارسالها</date_sent>
+	<show_hide>إظهار - إخفاء</show_hide>
+	<quicklists>قوائم سريعة</quicklists>
+	<are_you_sure_rm_grp>هل أنت متأكد من أنك تريد إزالة هذه المجموعة؟</are_you_sure_rm_grp>
+	<are_you_sure_del_grp>هل أنت متأكد من أنك تريد حذف هذه المجموعة؟</are_you_sure_del_grp>
+	<change_avatar>تغيير الصورة الشخصية</change_avatar>
+	<change_bg>تغيير الخلفية</change_bg>
+	<uploaded_videos>تم رفع الفيديو</uploaded_videos>
+	<video_playlists>فيديو قائمة التشغيل</video_playlists>
+	<add_contact_list>اضافة الى قائمة الاتصال</add_contact_list>
+	<topic_post>عنوان الموضوع</topic_post>
+	<invite>دعوة</invite>
+	<time_ago>%s %s منذ</time_ago>
+	<from_now>%s %s من الآن</from_now>
+	<lang_has_been_activated>تم تنشيط اللغة</lang_has_been_activated>
+	<lang_has_been_deactivated>تم تعطيل اللغة</lang_has_been_deactivated>
+	<lang_default_no_actions>لا تستطيع تنفيذ الاجراء، لأنها اللغة الافتراضية</lang_default_no_actions>
+	<private_video_error>هذا الفيديو خاص، لا يستطيع مشاهدة سوى المضافين الى قائمة أصدقاء الرافع</private_video_error>
+	<email_send_confirm>تم ارسال رسالتك الى مدير الموقع، وسنقوم بالرد عليك قريباً</email_send_confirm>
+	<name_was_empty>حقل الاسم فارغ!</name_was_empty>
+	<invalid_email>البريد الالكتروني غير صالح</invalid_email>
+	<pelase_enter_reason>الرجاء إدخال سبب الاتصال</pelase_enter_reason>
+	<please_enter_something_for_message>الرجاء إدخال شيء في مربع رسالة</please_enter_something_for_message>
+	<comm_disabled_for_vid>تعطيل التعليقات على هذا الفيديو</comm_disabled_for_vid>
+	<coments_disabled_profile>تعطيل التعليقات على هذا الملف الشخصي</coments_disabled_profile>
+	<file_size_exceeds>تجاوز حجم الملف '%s كيلو بايت'</file_size_exceeds>
+	<vid_rate_disabled>تقييم الفيديو معطل</vid_rate_disabled>
+	<chane_lang>- تغيير اللغة -</chane_lang>
+	<recent>الأخيرة</recent>
+	<viewed>شوهد</viewed>
+	<top_rated>الأعلى تقييماً</top_rated>
+	<commented>اضافة تعليق</commented>
+	<searching_keyword_in_obj>النتائج '%s' عن %s</searching_keyword_in_obj>
+	<no_results_found>لا توجد نتائج</no_results_found>
+	<please_enter_val_bw_min_max>من فضلك أدخل '%s' بين القيمة '%s' و '%s'</please_enter_val_bw_min_max>
+	<no_new_subs_video>لا يوجد فيديو جديد في هذا الاشتراك</no_new_subs_video>
+	<inapp_content>محتوى غير لائق</inapp_content>
+	<copyright_infring>التعدي على حقوق المؤلف</copyright_infring>
+	<sexual_content>المحتوى جنسي</sexual_content>
+	<violence_replusive_content>العنف أو محتوى مثير للفتنة</violence_replusive_content>
+	<disturbing>مزعج</disturbing>
+	<other>أخرى</other>
+				</phrases>
+			</clipbucket_language>

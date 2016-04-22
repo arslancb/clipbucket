@@ -1,0 +1,640 @@
+.main-content, .breadcrumbs{
+    overflow: hidden;
+}
+.widgets-wrap .dragbox {
+    padding: 10px;
+    border: solid 1px #ccc;
+    margin-bottom: 10px;
+}
+
+.widgets-wrap .dragbox .item{
+    margin-bottom: 5px;
+    border: solid 1px #ddd;
+    padding: 5px;
+}
+
+.widgets-wrap .dragbox .stats_subitem{
+    font-weight: normal;
+    font-size: 1.3em;
+}
+
+ul.mainTabs{
+    height: 50px;
+    margin-bottom: 20px;
+    border: solid 1px #ddd;
+}
+.todotab{
+    width:100%
+}
+.main_page_div .form-group{
+    border: solid 1px #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.horizontalTabs > li{
+    margin: 0 0 10px 0;
+    width: 100%;
+    text-align: center;
+}
+
+
+.vdo_sets{
+
+}
+
+.vdo_sets strong{
+    padding: 5px;
+}
+
+.vdo_sets span{
+    padding: 5px;
+}
+
+.commentsMenu{
+    overflow: hidden;
+}
+
+.commentsMenu > ul{
+    margin-left: 0;
+}
+
+.formOptions{
+    margin: 10px 0;
+}
+
+.edit_comment{
+    padding-left: 10px;
+}
+
+.vid_opts{
+    padding-left: 10px;
+}
+
+/* Users Styles */
+
+.manageUsersTable{
+
+}
+
+.manageUsersTable .dropdown{
+    
+    padding-right: 0;
+}
+
+.manageUsersTable .dropdown > ul{
+    text-align: left;
+}
+
+.manageUsersTable .oneUserName{
+    font-size: 1.3em;
+}
+
+.manageUsersTable .oneUserImage{
+    margin: 0 5px 5px 0px;
+    float: left;
+    width: 70px;
+}
+
+.manageUsersTable .userInfo{
+    padding: 0px 5px 15px 5px;
+}
+
+.manageUsersTable .userInfo span{
+    float: right;
+}
+
+.manageUsersTable .userStatus{
+
+}
+.manageUsersTable .userStatus span{
+    padding: 3px;
+}
+
+.usersMenuButtons{
+    margin-bottom: 10px;
+}
+
+
+.flaggedUser{
+    overflow: hidden;
+}
+
+.flaggedUser .flaggedUserInfo{
+    width: 90%;
+}
+
+.flaggedUser .flaggedUserInfo > img{
+    float: left;
+    margin-right: 5px;
+}
+
+.flaggedUser .flaggedUserInfo{
+    float: left;
+    overflow: hidden;
+}
+
+.flaggedUser .flaggedUserInfo .userInfo{
+    margin-left: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+}
+.flaggedUser .flaggedUserInfo .userInfo span.label{
+    float: right;
+}
+
+.flaggedUser .flaggedUserInfo .userStatus{
+    padding: 0 0 0 5px;
+}
+
+.channelSettings label{
+    display: block;
+}
+
+.channelSettings input[type="radio"]{
+    margin-right: 10px;
+    position: relative;
+    top: 2px;
+}
+
+.oneUserImage{
+    width: 60px;
+    float: left;
+}
+
+.main-container {
+    width: 100%;
+}
+
+.scroll {
+    overflow:auto;
+    width:100%;
+    height:100px;
+    border: 1px;
+    background-color:#fff;
+    font-size:12px;
+    text-align:left
+}
+.addgroup {
+    width: 400px;
+}
+
+.note-editable {
+    height: 200px;
+}
+
+.ecollection {
+    width: 200px;
+    height: 40px;
+}
+.ecollection1 {
+    width: 450px;
+
+}
+
+
+
+/* sticky note */
+
+.stickies {
+    width: 350px;
+}
+
+
+.stickies li {
+
+    display: block;
+    list-style: none;
+    z-index: 1;
+    float: left;
+    margin: 30px;
+    padding: 15px 15px 50px 15px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid #bfbfbf;
+    background-color: LightGoldenRodYellow;  /* use #fafad2 if name doesn't work */
+    color: black;
+    text-decoration: none;
+    -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    -o-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+    overflow: hidden;
+}
+
+.stickies li span.sticky {
+    font-family: Verdana, Helvetica, sans-serif;
+    font-size: 100%;
+}
+
+/*
+ * rotation
+ */
+.stickies li:nth-child(even) {
+    -webkit-transform: rotate(2deg);
+    -moz-transform: rotate(2deg);
+    -o-transform: rotate(2deg);
+    -ms-transform: rotate(2deg);
+    transform: rotate(2deg);
+}
+
+.stickies li:nth-child(odd) {
+    -webkit-transform: rotate(-1deg);
+    -moz-transform: rotate(-1deg);
+    -o-transform: rotate(-1deg);
+    -ms-transform: rotate(-1deg);
+    transform: rotate(-1deg);
+}
+
+.stickies li:nth-child(3n) {
+    -webkit-transform: rotate(1deg);
+    -moz-transform: rotate(1deg);
+    -o-transform: rotate(1deg);
+    -ms-transform: rotate(1deg);
+    transform: rotate(1deg);
+}
+
+/*
+   Transform demo
+   Uses the transition (defined above) to ease in.
+*/
+
+.stickies li:hover {
+    -webkit-box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.4);
+    -o-box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.4);
+    -webkit-transform: rotate(0deg) scale(1.25);
+    -moz-transform: rotate(0deg) scale(1.25);
+    -o-transform: rotate(0deg) scale(1.25);
+    -ms-transform: rotate(0deg) scale(1.25);
+    transform: rotate(0deg) scale(1.25);
+    z-index: 10;
+}
+
+.navbar-container {
+    width: 100%;
+}
+
+.videotable {
+    padding-left: 20px;
+}
+
+.myVideo {
+    margin-left: 20px;
+}
+
+.ItemNotes{
+    color: #000000;
+}
+
+
+#category[] {
+    margin-top: 20px;
+}
+
+.uploadCategoryCheckBlock{
+    margin-top: -30px;
+    height: 56px;
+}
+
+/* 
+    Logo
+*/
+.logoContainer{
+    padding: 1px;
+}
+
+.logoContainer span{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.logoContainer small{
+    font-size: 0.7em;
+    position: relative;
+    top: -1px;
+}
+
+.navbar > .container .navbar-brand{
+    padding: 5px 5px 5px 5px;
+    margin-left: 0;
+}
+
+/* Todo List */
+
+#todolist .widget-body p.editable{
+    padding-bottom: 5px;
+    text-transform: capitalize;
+    padding-left: 5px;
+}
+
+/* utility classes */
+.marginBottomSmall{
+    margin-bottom: 5px;
+}
+
+.marginBottom{
+    margin-bottom: 10px;
+}
+
+.marginBottomLarge{
+    margin-bottom: 15px;
+}
+
+.marginTopSmall{
+    margin-top: 5px;
+}
+
+.marginTop{
+    margin-top: 10px;
+}
+
+.marginTopLarge{
+    margin-top: 15px;
+}
+
+.paddingTop{
+    padding-top: 10px;
+}
+
+.paddingLeftSmall{
+    padding-left: 5px;
+}
+
+.paddingLeftMedium{
+    padding-left: 10px;
+}
+
+.paddingLeftLarge{
+    padding-left: 15px;
+}
+
+.paddingRightSmall{
+    padding-right: 5px;
+}
+
+.paddingRightMedium{
+    padding-right: 10px;
+}
+
+.paddingRightLarge{
+    padding-right: 15px;
+}
+
+.paddingBottomSmall{
+    padding-bottom: 5px;
+}
+
+.widgetBox{
+    height: 200px;
+    overflow-y: scroll;
+}
+
+.alignRight{
+    text-align: right;
+}
+
+
+
+.oneNote{
+    background-color: #FBF4AC;
+    border-radius: 2px;
+    color: #666666;
+    font-size: 0.9em;
+    height: 50px;
+    padding: 2px 4px 2px 6px;
+}
+
+.oneNote .delete{
+    position: absolute;
+    top: 1px;
+    right: 15px;
+    padding: 0px 4px;
+    border-radius: 2px;
+    background-color: #aaa;
+    color: #eee;
+}
+
+.addTodoButton{
+    position: relative;
+    right: 20px;
+}
+
+
+.widgetBox{
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.alignLeft{
+    text-align: left;
+}
+.actionBox{
+    margin-left: 200px;
+    margin-top: -20px;
+    text-align: left;
+}
+.actionDropmenu{
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    font-size: 14px;
+    left: 212px;
+    list-style: none outside none;
+    margin-top: -30px;
+    min-width: 160px;
+    padding: 5px 0;
+    position: absolute;
+    top: 100%;
+    z-index: 1000;
+}
+.ralative{
+    position: relative;
+}
+
+.widgetBox ul{
+    list-style-type: none;
+}
+
+.oneTodo{
+    color: #666666;
+    font-size: 0.9em;
+    padding: 5px 4px 5px 6px;
+    border-bottom: dashed 1px #ccc;
+}
+
+
+#mvideos .widget-main{
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.myTable td{
+    padding: 0;
+}
+
+
+.myTable .first{
+    width: 30%;
+    padding: 0px;
+    margin-bottom: 2px;
+    border-bottom: solid 1px #fff;
+}
+
+.myTable .last{
+    padding: 0;
+}
+
+.myTable .last p{
+    margin-left: 10px;
+    border-bottom: dotted 1px #EDF3F4;
+    padding: 6px;
+    margin-bottom: 0;
+}
+
+.myTable .last span{
+    border-bottom: dashed 1px #ccc;
+    padding-left: 2px;
+    color: #703970;
+}
+
+.myTable .first label{
+    color: #576373;
+    background-color: #EDF3F4;
+    display: block;
+    padding: 6px;
+    text-align: right;
+    
+
+}
+
+.myTable .last {
+
+}
+
+.myWell{
+    padding: 5px;
+    border: solid 1px #ccc;
+    margin-bottom: 5px;
+}
+
+.boxBordered{
+    border: solid 1px #ccc;
+    overflow-y: scroll;
+    height: 80px;
+    padding: 5px;
+}
+.alignCenter{
+    text-align: center;
+}
+
+.alignLeft{
+    text-align: left;
+}
+
+.heading{
+    border-bottom: solid 1px #eee;
+    margin-bottom: 10px;
+}
+
+#content{
+    background: #fff;
+}
+.caret_margin { margin-top:0px !important;}
+
+
+/* usman css start */
+.login-logo, .login-profile{
+    background-image: url(../../images/cb-admin-sprite.png);
+    background-repeat: no-repeat;
+}
+
+.mrgnt10{
+    margin-top: 10px !important;
+}
+.mrgnt15{
+    margin-top: 15px !important;
+}
+.mrgnt20{
+    margin-top:20px !important;
+}
+
+
+/* login css start */
+.logo-admin{
+    width: 100%;
+    margin-top: 130px;
+}
+.login-logo{
+    width: 227px;
+    height: 35px;
+    margin: 0px auto;
+    display: block;
+    background-position: 0px 0px;
+}
+#login_box{
+    width:100%;
+    background-color: #f7f7f7;
+    border: #e3e3e3 1px solid;
+    -webkit-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.33);
+    -moz-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.33);
+    box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.33);
+    border-radius: 4px;
+    padding: 20px;
+}
+.login-profile {
+    border-radius: 50%;
+    display: block;
+    height: 96px;
+    margin: 0 auto 20px;
+    width: 96px;
+    background-position: 0px -44px;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 100dpi) {
+.login-logo, .login-profile{
+        background-image:url(../../images/cb-admin-sprite@2x.png) !important;
+        background-size: 227px 139px !important;
+    }
+}
+
+.message-container {
+    left: 50%;
+    margin: -8px auto 0 -350px;
+    max-width: 700px !important;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+.message-container .alert-danger, .message-container .alert-success, .message-container .alert-info, .message-container .alert-warning {
+    border-radius: 0 0 5px 5px !important;
+}
+.message-container .message-show {
+    animation: 2000ms ease-out 0s normal none 1 running bounce;
+    display: block;
+}
+.message-container .alert {
+    transition: all 500ms ease-in-out 0s;
+    width: 100%;
+}
+
+#hide_stats_contents {
+    background-color: rgba(255, 255, 255, 0.7);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    z-index: 10;
+}

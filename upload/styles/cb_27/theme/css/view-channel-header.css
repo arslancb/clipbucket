@@ -1,0 +1,27 @@
+/*chanel start */
+
+
+
+/* #coverConainer{ height:350px;} */
+.channel-cover-thumb-container{ position: relative; float: left; width:30%; height: 100%; background-color: rgba(0, 0, 0, 0.5);}
+.channel-cover-thumb{ width: 160px; height: 160px;  margin:0px auto; display: table; float: none; margin-top: 20%; }
+.channel-cover-thumb img{ width: 100%; height: 100%; border-radius:50%; border: #fff 2px solid;}
+.channel-cover-thumb-container h3{ width: 100%; text-align: center; color: #fff; font-size:24px; font-weight: 600; margin:20px 0px 0px 0px; }
+.channel-cover-likeunlike-sec{ position: absolute; bottom: 10px; left:0px; width: 100%;}
+.channel-cover-likeunlike-sec h6{color: #fff; text-align: center;}
+.channel-cover-likeunlike-btns{margin:0px auto;  display: table; }
+.channel-cover-rss-sec{ position: absolute; top: 10px; right: 10px;}
+.channel-cover-views-sec{ position: absolute; bottom: 10px; right: 10px;}
+.channel-user-cover-bottomcategs{ margin-top:15px; width: 100%;}
+.btns-below-cover{ width: 33.3% !important; float: left;}
+.btns-below-cover i{ margin-right:4px;}
+.btns-below-cover2{ width:23.9% !important; float: left;}
+.btns-below-cover3{ width:26% !important; float: left;}
+
+
+@media (min-width: 768px) and (max-width:3000px) {
+.channel-user-cover-bottomcategs{ 
+    display: block;
+}
+}
+/*chanel end */

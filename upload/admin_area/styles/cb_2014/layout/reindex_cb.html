@@ -1,0 +1,139 @@
+<div class="heading">
+    <h2>
+    Re-index Clipbucket
+    <img src="{$imageurl}/help.png" title="Re-index simples means to recount everything and update it." />
+</h2>
+</div>
+<p class="alert alert-info">
+    Here you can re-index your videos, users or groups statistics. From below select which thing you want to re-index.
+</p>
+
+<div class="form-group">
+    <label for="the_loop_size">
+        Loop Size<br>
+        <small>number of items to reindex at once</small>
+    </label>
+    <input class="form-control" type="text" name="textfield" value="{$loop_size}" id="the_loop_size" />  
+</div>
+
+
+<div class="tabbable">
+    <ul class="nav nav-tabs" id="myTab3">
+        <li class="active">
+            <a data-toggle="tab" href="#rvideos">
+                Reindex Videos
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#rusers">
+                Reindex Users
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#rgroups">
+                Reindex Groups
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#rcollections">
+                Reindex Collections
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#rphotos">
+                Reindex Photos
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="rvideos" class="tab-pane in active">
+            <div class="form-group">
+                <label for="index_vids">Reindex Videos<br>
+                    <small>this will reindex total playlists, total favorites and total comments made on video</small>
+                </label>
+                <form name="reindex_videos" method="get" action="">
+                    <input type="hidden" name="loop_size" value="" id="loop_start" />
+                    <input type="submit" name="index_vids" id="index_vids" value="Reindex" class="btn btn-primary btn-xs btn-danger" onclick="$('#loop_start').val($('#the_loop_size').val())"/>
+                </form>
+            </div>
+
+            {if $indexing}
+            <div class="widget-box">
+                <div class="widget-header widget-header-small header-color-dark"><div>Indexing {$from} - {$to} of {$total}</div></div>
+                {foreach from=$index_msgs item=themsg}
+                <ul class="list-unstyled spaced2">{$themsg}</ul>
+                {/foreach}
+            </div>
+            {if  $stop_loop!='yes'}
+            <script type="text/javascript">
+                var start_index = '{$next_index}';
+                var loop_size = '{$smarty.get.loop_size}';
+                var mode = '{$mode}';
+                {literal}$(document).oneTime(2000,function(){$(window.location).attr('href', '?loop_size='+loop_size+'&'+mode+'=yes&start_index='+start_index)});{/literal}
+            </script>
+            redirecting....do not close this window
+            {else}
+            <p>Indexing has been completed.</p>
+            {/if}
+            {/if}
+
+</div>
+        <div id="rusers" class="tab-pane">
+            <div class="form-group">
+                <label for="reindex_users">
+                    Reindex users<br>
+                    <small>
+                        This will reindex total videos, total comments, total comments made, total subscribers and subscriptions, total groups owned
+                    </small>
+                </label>
+                <form name="reindex_users" method="get" action="">
+                    <input type="hidden" name="loop_size" value="" id="loop_start_user" />
+                    <input type="submit" name="index_usrs" id="index_usrs" value="Reindex" class="btn btn-primary btn-xs btn-danger"
+                           onclick="$('#loop_start_user').val($('#the_loop_size').val())"/>
+                </form>
+            </div>
+        </div>
+        <div id="rgroups" class="tab-pane">
+            <div class="form-group">
+                <label for="index_gps">
+                    Reindex Groups<br>
+                    <small>
+                        This will reindex all groups , update total members, total videos , total topics
+                    </small>
+                </label>
+                <form name="reindex_groups" method="get" action="">
+                    <input type="hidden" name="loop_size" value="" id="loop_start_gp" />
+                    <input type="submit" name="index_gps" id="index_gps" value="Reindex" class="btn btn-primary btn-xs btn-danger"
+                           onclick="$('#loop_start_gp').val($('#the_loop_size').val())"/>
+                </form>
+            </div>
+        </div>
+        <div id="rcollections" class="tab-pane">
+            <div class="form-group">
+                <label for="loop_start_cl">
+                    Reindex Collections<br>
+                    <small>This will reindex all collections , update total objects, total comments</small>
+                </label>
+                <form name="reindex_collections" method="get" action="">
+                    <input type="hidden" name="loop_size" value="" id="loop_start_cl" />
+                    <input type="submit" name="index_collections" id="index_collections" value="Reindex" class="btn btn-primary btn-xs btn-danger" onclick="$('#loop_start_gp').val($('#the_loop_size').val())"/>
+                </form>
+            </div>
+        </div>
+        <div id="rphotos" class="tab-pane">
+            <div class="form-group">
+                <label for="loop_start_ph">
+                    Reindex Photos<br>
+                    <small>This will reindex all photos , update total favorites, total comments</small>
+                </label>
+                <form name="reindex_photos" method="get" action="">
+                    <input type="hidden" name="loop_size" value="" id="loop_start_ph" />
+                    <input type="submit" name="index_photos" id="index_photos" value="Reindex" class="btn btn-primary btn-xs btn-danger"
+                           onclick="$('#loop_start_gp').val($('#the_loop_size').val())"/>
+                </form>
+            </div>
+        </div>
+        </div>
+
+
+</div>

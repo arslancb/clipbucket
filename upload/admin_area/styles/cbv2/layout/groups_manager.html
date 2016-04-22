@@ -1,0 +1,153 @@
+<span class="page_title">Groups Manager</span>
+
+<img src="{$imageurl}/dot.gif" class="sarch_button" onclick="toggle_search('groupsearchdiv')" />
+<div class="search_box" id="groupsearchdiv" {if $smarty.cookies.show_groupsearchdiv_search!='show'} style="display:none"{/if}>  <form id="group_search" name="group_search" method="get" action="groups_manager.php" class="video_search">
+  <table width="400" border="0" cellpadding="2" cellspacing="2">
+    <tr>
+      <td width="106" align="right"><label for="title">Group title</label></td>
+      <td width="280"><input name="title" type="text" class="input" id="title" value="{'title'|get_form_val:true}" //></td>
+    </tr>
+    <tr>
+      <td align="right"><label for="groupid">Group id</label></td>
+      <td><input name="group_id" type="text" class="input" id="groupid" value="{'group_id'|get_form_val:true}" //></td>
+    </tr>
+    <tr>
+      <td align="right"><label for="tags">Group tags</label></td>
+      <td><input name="tags" type="text" class="input" id="tags" value="{'tags'|get_form_val:true}" /></td>
+    </tr>
+    <tr>
+      <td align="right">Featured</td>
+      <td><label for="featured"></label>
+        <select name="featured" id="featured" class="input">
+          <option value="" ></option>
+          <option value="yes" {if $smarty.get.featured=='yes'} selected="selected"{/if}>Yes</option>
+          <option value="no" {if $smarty.get.featured=='no'} selected="selected"{/if}>No</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td align="right">Active</td>
+      <td><select name="active" id="active" class="input">
+      <option value="" ></option>
+        <option value="yes" {if $smarty.get.active=='yes'} selected="selected"{/if}>Yes</option>
+        <option value="no" {if $smarty.get.active=='no'} selected="selected"{/if}>No</option>
+      </select></td>
+    </tr>
+  
+    <tr>
+      <td align="right">Userid</td>
+      <td><input name="userid" type="text" class="input" id="userid" value="{'userid'|get_form_val:true}" /></td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">Category</td>
+      <td>
+     {$formObj->createField($cat_array)} 
+</td>
+    </tr>
+  </table>
+  <br />
+  <input type="submit" name="search" id="search" value="Search Form" class="button"/>
+</form>
+</div>
+
+
+
+
+<form name="group_manage" method="post">
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+     		<input type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+            <input type="submit" name="delete_selected" value="Delete"  class="button"  onclick="return confirm_it('Are you sure you want to delete selected Groups(s)')"/>
+    
+    </td>
+    </tr>
+</table>
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="50" align="left" class="head">GP-ID</td>
+    <td class="head">Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+
+
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+{assign var = bgcolor value = ""}
+{section name=gp_list loop=$groups}
+<tr class="video_opt_td"  bgcolor="{$bgcolor}">
+    <td width="30" align="center" valign="top" class="video_opt_td"><input name="check_group[]" type="checkbox" id="check_group" value="{$groups[gp_list].group_id}" /></td>
+    <td width="50" align="left" valign="top" class="video_opt_td">{$groups[gp_list].group_id}</td>
+    <td valign="top"  class="video_opt_td" 
+    onmouseover="$('#vid_opt-{$groups[gp_list].group_id}').show()" 
+    onmouseout="$('#vid_opt-{$groups[gp_list].group_id}').hide()" >
+    <div style="float:left; width:45px; height:34px;" >
+    	<img src="{$cbgroup->get_group_thumb($groups[gp_list])}" border="1" class="mid_user_thumb" />
+    </div>
+    <a href="{$baseurl}/view_group.php?url={$groups[gp_list].group_url}" target="_blank" style="text-indent:10px">
+    {$groups[gp_list].group_name}
+    </a> &#8212;
+    <span class="vdo_sets">
+    Group Owner:<strong> <a href="view_user.php?uid={$groups[gp_list].userid}">{$groups[gp_list].userid|get_username}</a></strong> &#8226;
+    Group Type:<strong> {if $groups[gp_list].group_privacy =="0"}Public{elseif $groups[gp_list].group_privacy =="1"}Private{else}Invited{/if}</strong> &#8226;
+    Group Status:<strong>{if $groups[gp_list].active=="yes"} Active{else}Inactive{/if}</strong> &#8226;
+    Group Members:<strong>{$groups[gp_list].total_members|number_format}</strong>
+    </span>
+    
+    <br />
+    <div id="vid_opt-{$groups[gp_list].group_id}" style="display:none" class="vid_opts">
+   	 
+      <a href="{group_link details=$groups[gp_list]}" target="_blank">View</a> | 
+      <a href="edit_group.php?group_id={$groups[gp_list].group_id}">Edit</a>
+      {if $groups[gp_list].featured == yes}
+       | <a href="?unfeature={$groups[gp_list].group_id}">Make Unfeatured</a> {/if} 
+      {if $groups[gp_list].featured == no} | 
+      <a href="?feature={$groups[gp_list].group_id}">Make Featured</a> {/if}
+      
+      {if $groups[gp_list].active == yes}  | 
+      <a href="?deactivate={$groups[gp_list].group_id}">Deactivate</a> {else} | 
+      <a href="?activate={$groups[gp_list].group_id}">Activate</a> {/if}  | 
+      <a href="{$baseurl}/manage_groups.php?mode=manage_videos&gid={$groups[gp_list].group_id}">Manage</a> |  
+      <a href="?delete_group={$groups[gp_list].group_id}">Delete</a>
+    </div>
+    </td>
+    <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
+    </tr>
+    {if $bgcolor == ""}
+    {assign var = bgcolor value = "#EEEEEE"}
+    {else}
+    {assign var = bgcolor value = ""}
+    {/if}
+        
+{/section}
+</table>
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+     		<input type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+            <input type="submit" name="delete_selected" value="Delete"  class="button"  onclick="return confirm_it('Are you sure you want to delete selected Groups(s)')"/>
+    
+    </td>
+    </tr>
+</table>
+
+</form>
+
+{include file="$style_dir/blocks/pagination.html" }
