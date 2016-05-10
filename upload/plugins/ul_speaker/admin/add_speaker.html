@@ -1,0 +1,24 @@
+{assign var='required_fields' value=load_speaker_fields()}
+<div class="heading">
+    <h2>add Speaker</h2>
+    
+    
+	<form action="" method="post">
+		{$n=0}
+		{foreach from=$required_fields item=field}
+			{if $n==0}
+				<div class="row">
+			{/if}
+		   <div class="col-md-4">
+				{$field.class = 'form-control'}
+				<label for="{$field.id}">{$field.title}</label>
+				{if $field.hint_1}{$field.hint_1}<br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}{if $field.hint_2}{$field.hint_2}{/if}
+			</div>
+			{$n=$n+1}
+			{if $n==2}{$n=0}</div><br/>{/if}
+		{/foreach} 
+		{if $n>0}</div><br/>{/if}
+	
+	    <div align="left" style="padding:10px"><input type="submit" name="add_speaker" value="Add Speaker" class="button" id="add_speaker" ></div>
+	</form>    
+</div>
