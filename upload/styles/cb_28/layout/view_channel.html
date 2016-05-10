@@ -2,7 +2,10 @@
 {$leftMenuLinks = array_slice($myAccountLinks, 7)}
 {lang code='channel' assign='object_type'}
 {$uservideos=get_videos(["user"=>$user.userid, "order"=>"date_added DESC","limit" =>9])}
-{$first_video = $uservideos.0}
+{if $uservideos}
+{$first_video = $cbvid->get_video($uservideos.0.videokey)}
+{/if}
+ 
 {$total_videos = $user.total_videos}
 {$total_photos = $user.total_photos}
 <div id="main" class="container clearfix">
@@ -24,7 +27,7 @@
 			<div id="messageFav" class="alert alert-info marginTop" style="display:none"></div>
 			<div class="channel-tabs flat-tabs clearfix">
 				<ul class="clearfix nav nav-tabs">
-					<li>
+					<li {if $u_control.show_my_videos != 'yes' && $u_control.show_my_photos !='yes'}class="active"{/if}>
 						<a href="#user-info" data-toggle="tab">{lang code='info'}</a>
 					</li>
 					{if isSectionEnabled('videos') && $u_control.show_my_videos == 'yes'}
@@ -32,15 +35,18 @@
 						<a href="#user-videos" data-toggle="tab">{lang code='videos'}</a>
 					</li>
 					{/if}
-					<li>
+					{if isSectionEnabled('photos') && $u_control.show_my_photos == 'yes'}
+					<li {if $u_control.show_my_videos != 'yes' || !isSectionEnabled('videos')}class="active"{/if}>
 						<a href="#user-photos" data-toggle="tab">{lang code='photos'}</a>
 					</li>
+					<li>
+					{/if}
 					<li>
 						<a href="#user-playlist" data-toggle="tab">{lang code='playlists'}</a>
 					</li>
 				</ul>
 				<div class="tab-content clearfix">
-					<div class="tab-pane fade in clearfix" id="user-info">
+					<div class="tab-pane fade in clearfix {if $u_control.show_my_videos != 'yes' && $u_control.show_my_photos != 'yes'}active{/if}}" id="user-info">
 						<div class="clearfix watch-vid-details">
 							<h2>{lang code='user_activity'}</h2>
 							<ul class="clearfix desc-list">
@@ -106,7 +112,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="tab-pane videos fade in clearfix active" id="user-videos">
+					<div class="tab-pane videos fade in clearfix {if $u_control.show_my_videos == 'yes'}active{/if}" id="user-videos">
 						<div class="clearfix row user_vids">
 							{if $uservideos}
 								<div id="usr-vids" class="clearfix">
@@ -126,7 +132,7 @@
 							{/if}
 						</div>
 					</div>
-					<div class="tab-pane" id="user-photos">
+					<div class="tab-pane fade in clearfix {if $u_control.show_my_videos != 'yes'}active{/if}" id="user-photos">
 						<div id="usr-photos" class="clearfix row user_photos">
 						{$photos=get_photos(["user"=>$user.userid,"limit" =>9])}
 							{if $photos}
@@ -169,7 +175,7 @@
 		</section>
 		<aside id="sidebar">
 			{assign var=userFeeds value=$cbfeeds->getUserFeeds($u)}
-			{if $userFeeds}
+			{if $userFeeds && userid()}
 			<h2>{lang code="user_activity"}</h2>
 			<div id="userFeeds" class="user-activities clearfix sidebar-items">
 				{foreach from=$userFeeds item=userFeed}
@@ -182,10 +188,12 @@
 			<h2>{lang code="Popular Users"}</h2>
 			<div class="clearfix sidebar-channels">
 				{foreach $popular_users as $popular}
-				
+				{if $popular.username == $smarty.get.user} 
+					{continue}
+				{/if}
 				<div class="clearfix channel-item">
 					<a href="{$userquery->profile_link($popular)}" class="avatar">
-						<img src="{$userquery->getuserthumb($popular,'small')}" width="50" height="50" class="cb-rounded">
+						<img src="{$userquery->getuserthumb($popular,'small')}" width="50" height="50" class="img-circle">
 					</a>
 					<div class="channel-info">
 						<h3><a href="{$userquery->profile_link($popular)}">{$popular.username}</a></h3>
@@ -323,7 +331,6 @@ $('#cover_info').show();
 	$(document).ready(function (){
 		editpickVideos();
 		var id ='{$user.userid}';
-		
 		$('#subscribe_channel').on({
 		click: function(e){
 			e.preventDefault();
@@ -420,7 +427,7 @@ $('#cover_info').show();
 				"userid":user,
 			},
 			beforeSend: function() {
-				$(document).find('#more-channel-photos').text('Loading videos..')
+				$(document).find('#more-channel-photos').text('Loading photos..')
 			},
 
 			success: function(data) {

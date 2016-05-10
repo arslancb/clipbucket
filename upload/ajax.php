@@ -1719,42 +1719,23 @@ if(!empty($mode))
         }
         break;
 
-        case 'photo_ajax':
+        case 'photo_ajax':{
         	try{
-				if(isset($_POST['photo'])) {           // Exception Handling.
-					$photo = $_POST['photo']; 
-					$params['details'] = $photo; 
-					$params['size'] = '_l';			 // Size of an image.
-					if(is_null($photo)) {
-						throw new Exception("Value is not coming from the ajax call");
-					}
-					$img = get_photos($params['details']);   // Getting photos. 
-					$srcString = BASEURL.'/files/photos/'.$photo['file_directory'].'/'.$photo['filename'].$params['size'].'.'.$photo['ext'];
-					$photo_key = $photo['photo_key'];
-					$response['src_string'] = $srcString;  // Image Source.
-					$response['photo_key'] = $photo_key;   // Image key.
-					echo json_encode($response);           // Json Respons. 
-					}
 
-				if(isset($_POST['photo_pre']) || isset($_POST['photo_nxt'])) { 
-					if($_POST['photo_pre']) {
-						$items ="prev";
-						$photo = $_POST['photo_pre']; 
-					}
-					if($_POST['photo_nxt']) {
-						$items = "next";
-						$photo = $_POST['photo_nxt'];  
-					}
 
-					$ci_id = $photo['ci_id'];					// images order id.
+				if(isset($_POST['photo_pre']) ) { 
+					$photo = $_POST['photo_pre'];
+					$user = $_POST['user']; 
+					$items = $_POST['item'];
+					$ci_id = $photo['ci_id'];
 					$collection = $photo['collection_id']; 	// collection id.
 					$link = $cbcollection->get_next_prev_item($ci_id,$collection,$item=$items,$limit=1,$check_only=false);  // getting Previous item
-					$srcString = BASEURL.'/files/photos/'.$link[0]['file_directory'].'/'.$link[0]['filename'].$link[0]['size'].'.'.$link[0]['ext'];  // Image Source... 
-					$photo_key = $link[0]['photo_key'];  // Image Key.
+					$srcString =BASEURL.'/files/photos/'.$link[0]['file_directory'].'/'.$link[0]['filename'].'.'.$link[0]['ext'];  // Image Source... 
+					$photo_key = $link[0]['photo_key'];  // Image Key.	
 					$response['photo'] = $link;
 					$response['photo_key'] = $photo_key;
 					$response['src_string'] = $srcString;   // Image source.
-					sleep(1); 
+					$response['collection_id'] = $collection;
 					echo json_encode($response);    		 
 				}
 			}
@@ -1764,8 +1745,8 @@ if(!empty($mode))
 				$response["msg"] = 'Message: ' .$e->getMessage();  // Error message.. 
 				echo (json_encode($response));
 			}
-        	break;
-    
+        }
+    	break;
             
 		default:
 		header('location:'.BASEURL);

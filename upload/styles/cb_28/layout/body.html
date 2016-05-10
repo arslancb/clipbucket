@@ -1,15 +1,14 @@
-{include file="$style_dir/global_header.html"}
-    <body>
-		<div id="container">
+<!-- This Condition is for view photo ajax mode--> 
+{if ($smarty.get['moto'] != 'ajax')}
+	{include file="$style_dir/global_header.html"}
+{/if}    
+	<body>
+    	<div id="container">
 			{ANCHOR place='premium_button'}
-			{include file="$style_dir/header.html" }
-
-			{*if this_page('channels')*}
-			{*include file="$style_dir/sidebar.html" display_type='channels'*}
-
-			{*else*}
-			{*include file="$style_dir/sidebar.html" display_type='categories'*}
-			{*/if*}
+			<!-- This Condition is added for view photo ajx based request -->
+			{if ($smarty.get['moto'] != 'ajax')}
+           		 {include file="$style_dir/header.html"}
+        	{/if}
 			<!-- Message -->
 			{include file="$style_dir/message.html"}
 			
@@ -17,7 +16,10 @@
 			    {include_template_file file=$file}
 			{/foreach}
 
-			{include file="$style_dir/footer.html" }
+			<!-- This Condition is for view photo ajax mode--> 
+			{if ($smarty.get['moto'] != 'ajax')}
+				{include file="$style_dir/footer.html" }
+			{/if}
 		</div>
     </body>
 </html>

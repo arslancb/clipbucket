@@ -79,7 +79,8 @@ switch($mode)
 	case "watermark_settings":
 	{
 		if($_POST['update_watermark'])
-		{				
+		{	
+			#pex($_POST,true);
 			$rows = array(
 						  'watermark_photo',
 						  'watermark_max_width',

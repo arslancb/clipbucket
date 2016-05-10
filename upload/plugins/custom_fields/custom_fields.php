@@ -23,6 +23,7 @@ define("CUSTOM_FIELDS_HTML", PLUG_DIR.'/'.CUSTOM_FIELDS_BASE.'/templates');
 define("CUSTOM_FIELDS_HTML_URL", PLUG_URL.'/'.CUSTOM_FIELDS_BASE.'/templates');
 define("CUSTOM_FIELDS_ADMIN_HTML", CUSTOM_FIELDS_ADMIN_DIR.'/styles');
 define("CUSTOM_FIELDS_ADMIN_HTML_URL", CUSTOM_FIELDS_ADMIN_URL.'/styles');
+assign('custom_flag',CUSTOM_FIELDS_MOD);
 assign("custom_field_edit_page","admin_area/plugin.php?folder=custom_fields/admin&file=add_custom_field.php");
 require CUSTOM_FIELDS_DIR.'/custom_includes/functions.php';
 include 'customfield.php';

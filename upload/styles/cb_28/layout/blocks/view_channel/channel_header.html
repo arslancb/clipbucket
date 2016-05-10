@@ -14,12 +14,16 @@
 			</div>
 			{/if}
 			<ul class="counters">
+			{if isSectionEnabled('videos')}
 				<li>
 					<i class="icon-videos"></i>{prettyNum($user.total_videos)} &nbsp;<span>{lang code='videos'}</span>
 				</li>
+			{/if}
+			{if isSectionEnabled('photos')}
 				<li>
 					<i class="icon-photos"></i>{prettyNum($user.total_photos)} &nbsp;<span>{lang code='photos'}</span>
 				</li>
+			{/if}
 				<li>
 					<i class="icon-views"></i>{prettyNum($user.profile_hits)} &nbsp;<span>{lang code='views'}</span>
 				</li>

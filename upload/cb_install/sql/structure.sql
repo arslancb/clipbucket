@@ -1188,10 +1188,47 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}admin_todo` (
 ALTER TABLE `{tbl_prefix}action_log` DROP `action_link`; 
 ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 10 ) NOT NULL AFTER  `file_server_path`;
 
+
+-- Alterations for 2.8.1
+
+ALTER TABLE `{tbl_prefix}video` ADD  `thumbs_version` varchar(5)  NOT NULL DEFAULT  "2.6";
+
+/*Indexing of following tables*/
+/*Author: Sikander Ali  */
+
+/*Cb_collection*/
+ALTER TABLE `{tbl_prefix}cb_collections` ADD INDEX(`userid`);
+ALTER TABLE `{tbl_prefix}cb_collections` ADD INDEX(`featured`);
+/*Editor Pick*/
+ALTER TABLE `{tbl_prefix}editors_picks` ADD INDEX(`videoid`);
+/*Favourites*/
+ALTER TABLE `{tbl_prefix}favorites` ADD INDEX(`userid`);
+/*Cb_Photos*/
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`userid`);
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`collection_id`);
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`featured`);
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`last_viewed`);
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`rating`);
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`total_comments`);
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`last_viewed`);
+
+/*Cb_videos*/
+ALTER TABLE `{tbl_prefix}videos` ADD INDEX(`userid`);
+ALTER TABLE `{tbl_prefix}videos` ADD INDEX(`collection_id`);
+ALTER TABLE `{tbl_prefix}videos` ADD INDEX(`featured`);
+ALTER TABLE `{tbl_prefix}videos` ADD INDEX(`last_viewed`);
+ALTER TABLE `{tbl_prefix}videos` ADD INDEX(`rating`);
+ALTER TABLE `{tbl_prefix}videos` ADD INDEX(`total_comments`);
+ALTER TABLE `{tbl_prefix}videos` ADD INDEX(`last_viewed`);
+
+
+
+
+
 -- For Sql performance improvements
 -- @Author : <jozo@jozo.sk>
 
-ALTER TABLE  `{tbl_prefix}plugins` ADD INDEX (  `plugin_active` );
+/*ALTER TABLE  `{tbl_prefix}plugins` ADD INDEX (  `plugin_active` );
 ALTER TABLE  `{tbl_prefix}sessions` ADD INDEX (  `session` );
 ALTER TABLE  `{tbl_prefix}languages` ADD INDEX (  `language_default` );
 ALTER TABLE  `{tbl_prefix}conversion_queue` ADD INDEX (  `cqueue_conversion` );
@@ -1202,5 +1239,5 @@ ALTER TABLE  `{tbl_prefix}users` ADD INDEX (  `username`(255),`userid` );
 ALTER TABLE  `{tbl_prefix}pages` ADD INDEX (  `active`,`display` );
 ALTER TABLE  `{tbl_prefix}video` ADD INDEX (  `videoid`,`videokey`(255) );
 ALTER TABLE  `{tbl_prefix}languages` ADD INDEX (  `language_code`,`language_id` );
-ALTER TABLE  `{tbl_prefix}video_categories` ADD INDEX (  `parent_id` );
+ALTER TABLE  `{tbl_prefix}video_categories` ADD INDEX (  `parent_id` );*/
 

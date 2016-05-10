@@ -10,7 +10,7 @@
 			<div class="cb-box marginBottom">
 				<h2>Edit Video</h2>
 				<div class="account_form">
-					<form method="post" name="edit_video">
+					<form method="post" name="edit_video" enctype="multipart/form-data">
 						{* GETTING THUMBS INFO *}
 						<h3>Thumbs</h3>
 						<div class="row">
@@ -22,7 +22,20 @@
 									<input class="show" style="margin: 5px auto" type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $v.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />{lang code='default'}</label>
 								</div>
 							</div>
+
 							{/foreach}
+								<!--  <div align="left" style=" width:100%; margin:auto; margin-top:10px;"> -->
+								    
+								<fieldset class="fieldset">
+								    <h3>Upload New Thumb</h3>
+							    <div id="thumb_fileds" style="margin:10px">
+							    <input name="vid_thumb[]" type="file" accept="image/*"/>
+							    <label for="thumb_file"></label>
+							    <br />
+							    </div>
+							    </fieldset>
+							    <input type="submit" name="upload_thumbs" value="Upload Thumb(s)" class="button"/>
+							 <!--    </div> -->
 						</div>
 
 						{foreach from=$video_fields item=field_group}

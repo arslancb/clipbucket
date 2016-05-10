@@ -6,7 +6,7 @@
 		{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</time>
 	</div> <!--VIDEO_THUMB END-->
 	<div class="details_block">
-		<strong class="title"><a href="#">{$video.title|truncate:50}</a></strong>
+		<strong class="title"><a href="#">{$video.title|truncate:40}</a></strong>
 		<span class="author">{lang code='by'}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
 		<div class="views-date">
 			<span>{$video.views}&nbsp;{lang code='views'}</span>

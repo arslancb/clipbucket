@@ -460,8 +460,8 @@ if(!function_exists('user_thumb'))
         }
         else if($size=='m')
         {
-          $w = 160;
-          $h = 90;  
+          $w = 80;
+          $h = 80;  
         }
         else if($size=='t' || $size=='small' )
         {

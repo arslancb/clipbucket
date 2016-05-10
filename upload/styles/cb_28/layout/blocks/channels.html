@@ -55,7 +55,7 @@
 
 <div class="channel-holder">
 	<a href="{$userquery->profile_link($user)}" id="user-{$user.userid}" class="user-block">
-		<img class="avatar" src="{avatar details=$user}">
+		<img class="avatar" src="{avatar details=$user size='m'}">
 		<h2>{$user.username}</h2>
 	</a>
 	<div class="info clearfix">
@@ -64,20 +64,24 @@
 				{lang code="views"}
 				<span>{$user.profile_hits|number_format}</span>
 			</strong>
+			{if isSectionEnabled('videos')}
 			<strong>
 				{lang code="videos"}
 				<span>{$user.total_videos|number_format}</span>
 			</strong>
+			{/if}
 		</div>
 		<div class="col">
 			<strong>
 				{lang code="subscribers"}
 				<span>{$user.subscribers|number_format}</span>
 			</strong>
+			{if isSectionEnabled('photos')}
 			<strong>
 				{lang code="photos"}
 				<span>{$user.total_photos|number_format}</span>
 			</strong>
+			{/if}
 		</div>
 	</div>
 </div>

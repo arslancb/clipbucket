@@ -5,7 +5,7 @@
 	h2{
 		font-size: 23px;
 		line-height: 23px;
-		font-weight: 600;
+		font-family: $semibold-font;
 		margin: 0 0 20px;
 	}
 }
@@ -37,7 +37,7 @@
 	 		h3{
 	 			font-size: 15px;
 	 			line-height: 15px;
-	 			font-weight: 600;
+	 			font-family: $semibold-font;
 	 			margin: 0 0 10px;
 	 			color: $black;
 	 			a{
@@ -85,7 +85,7 @@
 		.title{
 			font-size: 15px;
 			line-height: 17px;
-			font-weight: 600;
+			font-family: $semibold-font;
 			margin: 0 0 6px;
 		}
 		.author{

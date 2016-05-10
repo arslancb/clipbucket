@@ -10,6 +10,13 @@
 				{lang code='collection' assign='object_type'}
 				{uploadButton details=$c output='link' target="_blank" class='btn btn-success pull-right'}
 			</h1>
+			{if $c.type == 'photos'}
+			{$type = 'p'}
+			{else}
+			{$type = 'v'}
+			{/if}
+
+			{if $type == 'p'} 
 			<div id="photos" class="clearfix row">
 				{section name=list loop=$objects}
 				<div class="item-photo col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -23,6 +30,21 @@
 				<div class="item-photo col-lg-4 col-md-4 col-sm-6 col-xs-6">
 				{/section}
 			</div>
+			{else}
+			<div class="videos clearfix">
+				<div class="clearfix row">
+				{if $objects}
+					{foreach $objects as $video}
+						<div class="item-video col-lg-3 col-md-4 col-sm-4 col-xs-12">
+						{include file="$style_dir/blocks/videos/video.html" display_type='homeVideos'}
+						</div>
+					{/foreach}
+				{else}
+					<div class="well well-info">No Videos Found !</div>
+				{/if}
+				</div>
+			</div>
+			{/if}
 			<div align="center" class="clearfix">
 				{include file="$style_dir/blocks/pagination.html"}
 			</div>
@@ -104,18 +126,7 @@
 						{foreach from=$collections item=collection}
 							{$first_col_thumb = $cbcollection->coll_first_thumb($collection,'l')}
 							<div class="clearfix collection-item col-lg-6 col-md-6 col-sm-12 col-xs-12"> 
-								<div class="collection-holder">
-									<div class="photo-block">
-										<a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
-											<img alt="{$collection.title}" title="{$collection.title}" class="img-responsive" id="photo_{$collection.ci_id}" src="{$first_col_thumb}">
-											<div class="collection-info">
-												<span>{$collection.total_objects}</span>{lang code='photos'}
-											</div>
-										</a>
-									</div>
-									<img src="{$theme}/images/photo-bg.png" alt="" class="photo-bg">
-								</div>
-								<span class="title">{$collection.collection_name}</span>
+								{include file="$style_dir/blocks/collection-item.html"}
 							</div>
 						{/foreach}
 					</div>

@@ -354,6 +354,15 @@
 
 		});
 	})(window);
+
+	window.onbeforeunload = function() {
+		var uploadState = $('.uploadingProgressContainer').is(":visible");
+		if (uploadState == true) {
+			return 'Uploading is in progress, are you sure you want to navigate away from this page?';
+		} else {
+			return null;
+		}
+	};
 </script>
 
 

@@ -163,7 +163,9 @@ switch($mode)
         2=>"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form",
         3=>"The uploaded file was only partially uploaded",
         4=>"No file was uploaded",
-        6=>"Missing a temporary folder"
+        6=>"Missing a temporary folder",
+        7=>"Failed to write file to disk",
+        8=>"A PHP extension stopped the file upload. PHP does not provide a way to ascertain which extension caused the file upload to stop; examining the list of loaded extensions with phpinfo() may help"
 		);
 		if (!isset($_FILES['Filedata'])) {
 			upload_error("No file was selected");

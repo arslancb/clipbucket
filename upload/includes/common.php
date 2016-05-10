@@ -466,6 +466,7 @@
 	assign('icons_url',ICONS_URL);
     define( 'PLAYLIST_COVERS_DIR', IMAGES_DIR.'/playlist_covers' );
     define( 'PLAYLIST_COVERS_URL', IMAGES_URL.'/playlist_covers' );
+    assign('development_mode', DEVELOPMENT_MODE);
 
     if (!file_exists( PLAYLIST_COVERS_DIR)) {
         mkdir(PLAYLIST_COVERS_DIR, 0777);

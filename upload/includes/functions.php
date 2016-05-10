@@ -5450,16 +5450,21 @@
 	/**
 	* Fetches max quality thumbnail of a youtube video
 	* @param : { string / array } { $video } { youtube video id or json decoded api content }
+	* @param : { array } { $thumbarray } { false by default, array of thumbs }
 	* 
 	* @return : { array } { $toreturn } { width, height and thumb url }
 	* @since : 14th April, 2016 ClipBucket 2.8.1
 	* @author : Saqib Razzaq
 	*/
 
-	function maxres_youtube($video) {
-		if (is_array($video)) {
+	function maxres_youtube($video, $thumbarray = false) {
+		if (is_array($video) || $thumbarray) {
 			$content = $video;
-			$thumbs_array = $content['items'][0]['snippet']['thumbnails'];
+			if (!is_array($thumbarray)) {
+				$thumbs_array = $content['items'][0]['snippet']['thumbnails'];
+			} else {
+				$thumbs_array = $thumbarray;
+			}
 			$maxres = $thumbs_array['maxres'];
 			$standard = $thumbs_array['standard'];
 			$high = $thumbs_array['high'];

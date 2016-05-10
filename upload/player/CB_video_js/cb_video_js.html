@@ -1,11 +1,40 @@
+<!-- Following is the code for cb ultimate invideo ads settings  -->
+{if $cb_ultimate_ads == 'installed'}
+{$ads_array = ["filter_ad"=>true,"status"=>"1","non_expiry"=>'true']}
+{$current_ad = $cbuads->get_ultimate_ads($ads_array)}
+{if !empty($current_ad)}
+	{$play_ad = true}
+{else}
+	{$play_ad = false}
+{/if}
+{/if}
+<!-- End  -->
+{if $development_mode}
 <link rel="stylesheet" href="{$cb_vjs_player_url}/css/video-js.css" />
-<link href="{$cb_vjs_player_url}/css/cb_vjs_res.css" rel="stylesheet" type="text/css" />
-<link href='//fonts.googleapis.com/css?family=PT+Sans:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
+{else}
+<link rel="stylesheet" href="{$cb_vjs_player_url}/css/video-js.min.css" />
+{/if}
+<link href="{$cb_vjs_player_url}/css/cb_vjs_plugin.css" rel="stylesheet">
+<link href="{$cb_vjs_player_url}/css/videojs.ads.css" rel="stylesheet">
+<link href="{$cb_vjs_player_url}/css/videojs.ima.css" rel="stylesheet">
+<link href="{$cb_vjs_player_url}/css/cb_vjs_resolution.css" rel="stylesheet">
 
-<script src="{$cb_vjs_player_url}/js/video.dev.js"></script>
-<script src="{$cb_vjs_player_url}/js/cb_vjs_res.js"></script>
+{if $development_mode}
+<script src="{$cb_vjs_player_url}/js/video-js.js"></script>
+{else}
+<script src="{$cb_vjs_player_url}/js/video-js.min.js"></script>
+{/if}
+<script src="{$cb_vjs_player_url}/js/cb_vjs_custom.js"></script>
+<script src="{$cb_vjs_player_url}/js/cb_vjs_plugin.js"></script>
+<script src="{$cb_vjs_player_url}/js/cb_vjs_resolution.js"></script>
+{if $play_ad == true}
+<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+{/if}
+<script src="{$cb_vjs_player_url}/js/videojs.ads.js"></script>
+<script src="{$cb_vjs_player_url}/js/videojs.ima.js"></script>
+<script src="{$cb_vjs_player_url}/js/cb_ultimate_ads.js"></script>
 
-<video id="cb_video_js" class="video-js vjs-default-skin" width="{$width}" height="{$height}" poster="{getThumb vdetails=$vdata size=768x432}" >
+<video id="cb_video_js" class="video-js vjs-default-skin" height="{$height}" width="{$width}" poster="{getThumb vdetails=$vdata size=768x432}" >
     {foreach $video_files as $file}
     {$quality = explode('-', $file)}
     {$quality = end($quality)}
@@ -15,7 +44,7 @@
     {if $flv_vid == true}
     	<source src='{$file}' type="video/x-flv" />
     {else}
-    	<source src='{$file}' type="video/mp4" data-res="{$quality}" />
+    	<source src='{$file}' type="video/mp4" label="{strtoupper($quality)}" res="{$quality}"  />
     {/if}
     {/foreach}
     {ANCHOR place="play_def_sub"}
@@ -29,29 +58,63 @@ var uploader = "{$vdata.username}";
 var branding_logo  = "{$cb_logo}";
 var product_link = "{$player_config.player_logo_url}";
 var show_logo = true;
+var autoplay = "{$player_config.autoplay}";
+if (autoplay == 'no'){
+	autoplay = false;
+}else{
+	autoplay = true;
+}
 
+
+//  Ad settings starts to pass on to player
+var play_ad = "{$play_ad}";
+if (play_ad){
+	var ad_code = "{$current_ad.ad_tag}";
+	var ad_id = "{$current_ad.ad_id}";
+}	
+
+	//player settings
 	var cb_player_setup = {
-		plugins : { resolutionSelector : {
-			// Pass any options here
-			default_res : '360'
-			// Define an on.ready function
-		} }, 
+		plugins : { }, 
 		"techOrder" : ['html5', 'flash'],
 		"controls": true,
-		"autoplay": false,
+		"autoplay": autoplay,
 		"preload": "auto",
-		"vid_id" : vid_id,
-		"videotitle" : videotitle,
-		"uploader" : uploader,
-		"branding_logo" : branding_logo,
-		"show_logo" : show_logo,
-		"product_link" : product_link,
 	};
 	
 	//Setting CallBack
 	var cb_vjs_callback = function(){
 			var cb_vjs = this;
-			console.log("CB Player Ready !");
+			//Calling Custom videoJs Elements Plugin
+			var el_options = {
+				logo : { 
+						branding_logo : branding_logo,
+					    product_link : product_link,
+					    show_logo : true 
+				},
+				header : { 
+						uploader : uploader,
+						videotitle : videotitle
+				}
+			}
+			cb_vjs.cb_vjs_elements(el_options);
+
+			//Calling Resolution switcher plugin
+			var res_options = {
+				default : 'high',
+				dynamicLabel : false
+			}
+			cb_vjs.videoJsResolutionSwitcher(res_options);
+
+			//Calling Resolution switcher plugin
+			if (play_ad){
+				var ad_options = {
+				  	ad_id: ad_id,
+				    ad_code: ad_code,
+				    autoplay: autoplay
+				};
+				cb_vjs.cb_ultimate_ads(ad_options);
+			}	
 	}
 	//Initializing
 	var cb_player = videojs('cb_video_js', cb_player_setup , cb_vjs_callback);
@@ -59,7 +122,7 @@ var show_logo = true;
 	$(document).ready(function(){	
 		
 		// Editing Video Js > to be Improved in near Future ! 
-		var cb_vjs_settings = function(){
+		/*var cb_vjs_settings = function(){
 			var cb_video_js = cb_player;
 			var is_this_player_muted = $.cookie("_this_player_muted");
 			if (is_this_player_muted == 'Muted' ){
@@ -67,8 +130,18 @@ var show_logo = true;
 			}
 		}
 		
-		cb_vjs_settings();
+		cb_vjs_settings();*/
 	});
 	
 </script>
-<script src="{$cb_vjs_player_url}/js/cb_vjs_custom.js"></script>
+
+
+<style type="text/css">
+	.video-js {
+		width: 100%;
+	}
+	.video-js .vjs-tech {
+		height: 100% !important;
+	}
+</style>
+

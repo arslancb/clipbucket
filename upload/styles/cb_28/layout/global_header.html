@@ -13,7 +13,6 @@
 		<meta name="copyright" content="ClipBucket - Integrated Units 2007 - {$smarty.now|date_format:"%Y"}">
 		<meta name="author" content="Arslan Hassan - http://clip-bucket.com/arslan-hassan">
 		<meta name="author" content="Fawaz Tahir - http://clip-bucket.com/fawaz-tahir">
-		<link rel="shortcut icon" href="{$baseurl}/favicon.ico">
 		<link rel="icon" type="image/ico" href="{$baseurl}/favicon.ico">
 
 		<!-- RSS FEEDS -->
@@ -25,10 +24,6 @@
 
 
 		<title>{cbtitle}</title>
-
-
-		<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
-
 
 		<link rel="stylesheet" href="{$theme}/css/bootstrap.min.css?cache={$cache_buster}">
 
@@ -88,4 +83,11 @@
 		<script type="text/javascript" src="{$theme}/js/fast_qlist.js"></script>
 		<script type="text/javascript" src="{$theme}/js/uslider_js/jquery.mousewheel.js"></script>
 		{include_header file='global_header'}
+		{if $Cbucket->header_files}
+		    <!-- Including Headers -->
+		    {foreach from=$Cbucket->header_files key=file item=type}
+		        {include_header type=$type file=$file}
+		    {/foreach}
+		    <!-- Ending Headers -->
+		{/if}
 	</head>

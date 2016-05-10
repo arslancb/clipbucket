@@ -120,9 +120,9 @@
 		&.copyright-poweredby{
 			text-align: right;
 			p{
-				font-weight: 700;
+				font-family:$bold-font;
 				span{
-					font-weight: 400;
+					font-family:$base-font;
 				}
 				~span{
 					font-size: 12px;

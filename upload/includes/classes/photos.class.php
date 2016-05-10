@@ -1245,16 +1245,28 @@ class CBPhotos
 		else
 			return false;		
 	}
+
+	/**
+	* Fetches watermark default position from database
+	* @return : { position of watermakr }
+	*/
+
+	function get_watermark_position() {
+		global $Cbucket;
+		return $Cbucket->configs['watermark_placement'];
+	}
 	
 	/**
 	 * Used to set watermark position
 	 */
 	function position_watermark($file,$watermark)
 	{
-		if(empty($this->position))
-			$info = array('left','top');
-		else
-			$info = explode(":",$this->position);
+		$watermark_pos = $this->get_watermark_position();
+		if(empty($watermark_pos)) {
+			$info = array('right','top'); 
+		} else {
+			$info = explode(":",$watermark_pos);
+		}
 		
 		$x = $info[0];
 		$y = $info[1];

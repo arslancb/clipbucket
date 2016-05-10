@@ -23,7 +23,7 @@ if(!defined('SUB_PAGE')){
 $id = mysql_clean($_GET['photo']);
 
 if(isset($_POST['photo_id'])) {
-	pr($_POST,true);
+	#pr($_POST,true);
 	$cbphoto->update_photo();		
 }
 

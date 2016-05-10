@@ -7,6 +7,9 @@
 	{$currentPage = 'collections'}
 {elseif $currentPage == 'watch_video' || $currentPage == 'videos'}
 	{$currentPage = 'videos'}
+
+{elseif $currentPage == 'list'}
+	{$currentPage = 'audios'}
 {/if}
 
 {$pageType = $smarty.get.type|lower}
@@ -45,6 +48,9 @@
 								{$head_menu=cb_menu()}
 								<ul>
 									{foreach $head_menu as $menu}
+									{if $menu.name|lower == 'groups'}
+										{continue}
+									{/if}
 									{if $menu@iteration < 6}
 									{if $menu.name|lower == 'home'}
 										{continue}
@@ -97,6 +103,7 @@
 												{/if}
 												{$counter = $counter + 1}
 												{/foreach}
+												{ANCHOR place="beat_search"}
 											</ul>
 										</div>
 										<input type="text" class="form-control" name="query" placeholder="search keyword here" value="{'query'|get_form_val:true}" id="query">
@@ -111,8 +118,12 @@
 								<li class="dropdown upload_link">
 									<a href="{link name='upload'}" class="dropdown-toggle btn-upload btn btn-default" data-toggle="dropdown"><i class="icon-upload"></i><span>{lang code="Uploads"}</span><b class="icon-down-arrow"></b></a>
 									<ul role="menu" class="dropdown-menu">
-										<li class="up_vid"><a href="{link name='upload'}">{lang code="Upload Video"}</a></li>
-										<li class="up_img"><a href="{link name='photo_upload'}">{lang code="Upload Photo"}</a></li>
+									{if isSectionEnabled('videos')}
+										<li class="up_vid"><a href="{link name='upload'}">{lang code="upload_video"}<i class="icon-video visible-xs"></i></a></li>
+									{/if}
+										{if isSectionEnabled('photos')}
+										<li class="up_img"><a href="{link name='photo_upload'}">{lang code="upload_photo"}<i class="icon-photo visible-xs"></i></a></li>
+										{/if}
 										{ANCHOR place="aud_upload_link"}
 									</ul>
 								</li>
@@ -173,19 +184,6 @@
 				prent_li.addClass('active');
 			}
 		});
-
-		// $(".btn-search-toggle").on({
-		// 	click:function(e){
-		// 		e.preventDefault();
-		// 		$("#header").toggleClass('drop-search');
-		// 	}
-		// });
-
-		
-		
-		// $('.show-small-form').click(function() {
-		// 	$('.form-small').toggleClass('show');   
-		// });
 
 		$('.s-types').on("click", function(){
 			var _this = $(this);

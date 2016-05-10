@@ -1442,6 +1442,11 @@
 
     function vids_assign( $array, $test_msg = false )
     {
+        if (!is_array($array)){
+            assign('video_files',array($array));
+            return false;
+        }
+
         $data = get_browser_details();
         $vids_array = array();
 

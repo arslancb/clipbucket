@@ -769,25 +769,7 @@ class FFMpeg{
 	{
 		$this->total_time = round(($this->end_time-$this->start_time),4);
 	}
-	function isLocked($num=1)
-	{
-
-		for($i=0;$i<$num;$i++)
-		{
-			$conv_file = TEMP_DIR.'/conv_lock'.$i.'.loc';
-			//logData($conv_file);
-			if(!file_exists($conv_file))
-			{
-				$this->lock_file = $conv_file;
-				$file = fopen($conv_file,"w+");
-				fwrite($file,"converting..");
-				fclose($file);
-				return false;
-			}
-		}
-		
-		return true;
-	}
+	
 	function getClosest($search, $arr) 
 	{
 		$closest = null;
@@ -842,6 +824,27 @@ class FFMpeg{
 		}
 
 	}
+
+	function isLocked($num=1)
+	{
+
+		for($i=0;$i<$num;$i++)
+		{
+			$conv_file = TEMP_DIR.'/conv_lock'.$i.'.loc';
+			//logData($conv_file);
+			if(!file_exists($conv_file))
+			{
+				$this->lock_file = $conv_file;
+				$file = fopen($conv_file,"w+");
+				fwrite($file,"converting..");
+				fclose($file);
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
 	function ClipBucket()
 	{
 		$conv_file = TEMP_DIR.'/conv_lock.loc';
@@ -853,7 +856,7 @@ class FFMpeg{
 		{
 			$use_crons = config('use_crons');
 			//logData($this->isLocked(PROCESSESS_AT_ONCE)."|| ".$use_crons."||".$this->set_conv_lock);
-			if(!$this->isLocked(PROCESSESS_AT_ONCE) || $use_crons=='yes' || !$this->set_conv_lock)
+			if(!$this->isLocked(PROCESSESS_AT_ONCE) || $use_crons=='yes')
 			{
 				
 				if($use_crons=='no')
@@ -1990,7 +1993,8 @@ class FFMpeg{
 			$size_tag = $size_tag.'-';
 		}
 
-		if (!empty($file_directory && !empty($filename))){
+		if (!empty($file_directory) && !empty($filename))
+		{
 			$thumbs_outputPath = $file_directory.'/';
 		}else{
 			$thumbs_outputPath = $this->options['outputPath'];

@@ -252,7 +252,7 @@ function homePageVideos(qlist_items) {
 				if (data.length < 10) {
 					$(main_object).remove();
 					if (loadHit == 1) {
-						if (loadMode = 'featured') {
+						if (loadMode == 'featured') {
 							$('#featured_load_more').hide();
 							$('#featured_pre').hide();
 							$("#featured_vid_sec").html('<div class="break2"></div><span class="well well-info btn-block">No featured videos found</span>');

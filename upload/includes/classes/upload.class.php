@@ -1096,32 +1096,6 @@ class Upload{
 					}
 				}
 				break;
-				case 'b':
-				case 'bg':
-				case 'background':
-				{
-					if($file['size']/1024 > config('max_bg_size'))
-						e(sprintf(lang('file_size_exceeds'),config('max_bg_size')));
-					elseif(file_exists($file['tmp_name']))
-					{
-						$ext = getext($file['name']);
-						$file_name = $uid.'.'.$ext;
-						$file_path = $bg_dir.$file_name;
-						if(move_uploaded_file($file['tmp_name'],$file_path))
-						{
-							if(!$imgObj->ValidateImage($file_path,$ext))
-							{
-								e(lang("Invalid file type"));
-								@unlink($file_path);
-							}else{
-								$imgObj->CreateThumb($file_path,$file_path,BG_SIZE,$ext);
-							}
-						}else{
-							e(lang("An error occured While Uploading File!"));
-						}
-					}
-				}
-				break;
 			}
 			return $file_name;
 		}else

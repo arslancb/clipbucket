@@ -122,7 +122,7 @@ iframe{
 h1{
 	font-size: 23px;
 	line-height: 23px;
-	font-weight: 600;
+	font-family:$semibold-font;
 	margin: 0 0 20px;
 	color: #000;
 }
@@ -184,7 +184,7 @@ h1{
 	background:$white;
 	font-size: 13px;
 	line-height: 15px;
-	font-weight: 300;
+	font-family:$light-font;
 	color: $grey-txt;
 	padding: 14px 0;
 	border-bottom: $default-border;
@@ -200,6 +200,14 @@ h1{
 		float: left;
 		width: 112px;
 		margin: 0 10px 0 0;
+		.img-responsive{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			z-index: 1; 
+		}
 		a{
 			display: block;
 			position: absolute;
@@ -208,25 +216,21 @@ h1{
 			top: 0;
 			left: 0;
 			z-index: 1;
-			img{
-				width:100%;
+			.img-responsive{
+				position: absolute;
+				width: 100%;
 				height: 100%;
+				top: 0;
+				left: 0;
+				z-index: 1; 
 			}
-		}
-		>img.img-responsive{
-			position: absolute;
-			width: 100%;
-			height: 100%;
-			top: 0;
-			left: 0;
-			z-index: 1; 
 		}
 	}
 	.duration{
 		position: absolute;
 		font-size: 12px;
 		line-height: 16px;
-		font-weight: 400;
+		font-family:$base-font;
 		color:$white;
 		text-align: center;
 		height: 16px;
@@ -247,9 +251,7 @@ h1{
 	}
 	.title{
 		color: $black;
-		font-size: 16px;
-		line-height: 18px;
-		font-weight: 400;
+		font:400 16px/18px $base-font;
 		margin:0 0 4px;
 		a{
 			color: $black;
@@ -312,16 +314,17 @@ h1{
 			color: $white;
 			font-size: 12px;
 			list-style: 14px;
-			img{
+			.img-responsive{
 				width: 100%;
 				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
 			}
 			.title{
 				position: absolute;
 				z-index: 2;
-				font-size: 18px;
-				line-height: 20px;
-				font-weight: 400;
+				font:400 18px/20px $base-font;
 				left: 0;
 				top: 0;
 				width: 100%;
@@ -335,7 +338,7 @@ h1{
 				bottom: 0;
 				left: 0;
 				width: 100%;
-				height: 40px;
+				height: 100px;
 				z-index: 2;
 				@include gradientbottom-bg();
 			}
@@ -350,7 +353,7 @@ h1{
 		.duration{
 			font-size: 14px;
 			line-height: 20px;
-			font-weight: 300;
+			font-family:$light-font;
 			text-align: center;
 			height: 20px;
 			min-width: 44px;
@@ -470,10 +473,6 @@ h1{
 			padding: 20px;
 		}
 	}
-	.cb_quickie{
-		bottom: 20px;
-		left: 20px;
-	}
 	.vid-type{
 		top:14px;
 		right:20px;
@@ -483,7 +482,7 @@ h1{
 	.video-info{
 		font-size: 14px;
 		line-height: 16px;
-		font-weight: 300;
+		font-family:$light-font;
 		color: $grey-txt;
 		padding: 8px;
 		background: $white;
@@ -495,7 +494,7 @@ h1{
 			color: $black;
 			font-size: 18px;
 			line-height: 20px;
-			font-weight: 400;
+			font-family:$base-font;
 			margin:0 0 5px;
 			a{
 				color: $black;
@@ -549,7 +548,7 @@ h1{
 	background: #eee;
 	font-size: 14px;
 	line-height: 22px;
-	font-weight: 600;
+	font-family:$semibold-font;
 	border: 2px solid $black;
 	border-radius: 4px;
 	padding: 4px 12px;
@@ -578,7 +577,7 @@ h1{
 .quicklist_box_head{
 	line-height:30px; 
 	color:#000;
-	font-weight: 500;
+	font-family: $semibold-font;
 	font-size:16px;
 	line-height: 30px;
 	padding:5px;
@@ -597,7 +596,7 @@ h1{
 .quicklist_box_head h1{
 	color:#333; 
 	font-size:14px; 
-	font-weight:bold; 
+	font-family: $bold-font;
 	margin: 10px 0px;
 	width: 100%;
 	float: left;
@@ -733,14 +732,14 @@ h1{
 			color: $white;
 			font-size: 12px;
 			line-height: 14px;
-			font-weight: 300;
+			font-family:$light-font;
 			text-align: center;
 			padding: 12px 4px;
 			span{
 				display: block;
 				font-size: 16px;
 				line-height: 16px;
-				font-weight: 600;
+				font-family:$semibold-font;
 				margin: 0 0 6px;
 			}
 		}
@@ -749,6 +748,8 @@ h1{
 		display: block;
 		background:$white;
 		padding: 10px 0 0;
+		overflow: hidden;
+		height: 26px;
 	}
 }
 
@@ -810,14 +811,14 @@ h1{
 			color: $white;
 			font-size: 12px;
 			line-height: 14px;
-			font-weight: 300;
+			font-family:$light-font;
 			text-align: center;
 			padding: 12px 4px;
 			span{
 				display: block;
 				font-size: 16px;
 				line-height: 16px;
-				font-weight: 600;
+				font-family:$semibold-font;
 				margin: 0 0 6px;
 			}
 		}
@@ -839,7 +840,7 @@ h1{
 		h3{
 			font-size: 16px;
 			line-height: 16px;
-			font-weight: 400;
+			font-family:$base-font;
 			margin: 0 0 10px;
 		}
 		.row{
@@ -865,7 +866,7 @@ h1{
 			display: block;
 			font-size: 14px;
 			line-height: 14px;
-			font-weight: 300;
+			font-family:$light-font;
 			color: $grey-txt;
 		}
 	}
@@ -880,7 +881,7 @@ h1{
 			margin: 0;
 			font-size: 20px;
 			line-height: 26px;
-			font-weight: 700;
+			font-family: $bold-font;
 			color: $block-color;
 			img{
 				@include vertical-top();
@@ -937,7 +938,7 @@ h1{
 %dropmenu-anchor{
 	display: block;
 	text-decoration: none;
-	font-weight: 400;
+	font-family:$base-font;
 	padding:6px 20px 6px 12px;
 	color: $white;
 }
@@ -946,7 +947,7 @@ h1{
 	font-size: 15px;
 	line-height: 20px;
 	text-transform: capitalize;
-	font-weight: 600;
+	font-family:$semibold-font;
 	.cat-col{
 		text-align: left;
 		padding: 0 10px 0 0;
@@ -957,7 +958,7 @@ h1{
 			background: $body-bg;
 			border: 2px solid $black;
 			padding: 5px 10px;
-			font-weight: 400;
+			font-family:$base-font;
 			font-size: 15px;
 			line-height: 21px;
 			color:$black;
@@ -1120,9 +1121,17 @@ h1{
 	position: relative;
 }
 #cb_player{
+	height: 100%;
 	#link_v{
 		display: inline-block;
 		vertical-align: top;
+	}
+	iframe{
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
 	}
 }
 .video_player{
@@ -1152,7 +1161,7 @@ h1{
 			font-size: 25px;
 			line-height: 25 px;
 			margin: 0 0 16px;
-			font-weight: 600;
+			font-family:$semibold-font;
 			color:$block-color;
 		}
 		.user-video-info{
@@ -1176,7 +1185,7 @@ h1{
 			.user-title{
 				font-size: 18px;
 				line-height: 20px;
-				font-weight: 400;
+				font-family:$base-font;
 				margin: 0;
 				padding: 0 0 0 16px;
 				a{
@@ -1282,7 +1291,7 @@ h1{
 			&.selected{
 				a{
 					border-color: $blue;
-					font-weight: 700;
+					font-family: $bold-font;
 				}
 			}
 		}
@@ -1292,7 +1301,7 @@ h1{
 	h2{
 		font-size: 20px;
 		line-height: 20px;
-		font-weight: 600;
+		font-family:$semibold-font;
 		margin: 0 0 10px;
 	}
 	.alert-info{
@@ -1325,7 +1334,7 @@ h1{
 			&.active > a:active{
 				border-color: $blue;
 				color: black;
-				font-weight: 700;
+				font-family: $bold-font;
 			}
 		}
 	}
@@ -1466,7 +1475,7 @@ h1{
 		label.block-label{
 			font-size: 18px;
 			line-height: 18px;
-			font-weight: 600;
+			font-family:$semibold-font;
 			margin: 0 0 16px;
 			display: block;
 			span{
@@ -1489,7 +1498,7 @@ h1{
 	.btn-submit{
 		font-size: 15px;
 		line-height: 15px;
-		font-weight: 600;
+		font-family:$semibold-font;
 	}
 }
 /* end of watch video */
@@ -1547,7 +1556,7 @@ h1{
 		padding: 10px;
 		font-size: 14px;
 		line-height: 14px;
-		font-weight: 300;
+		font-family:$light-font;
 		position: relative;
 		z-index: 1;
 		height: 82px;
@@ -1556,9 +1565,7 @@ h1{
 			display: block;
 		}
 		strong{
-			font-size: 18px;
-			line-height: 20px;
-			font-weight: 400;
+			font: 18px/20px $base-font;
 			margin: 0 0 8px;
 			a{
 				color: $black;
@@ -1610,7 +1617,7 @@ h1{
 		padding: 12px;
 		font-size: 24px;
 		line-height: 24px;
-		background: #f3f3f3;
+		background: $photo-btn-color;
 		border-radius:50%;
 		text-align: center;
 		float: left;
@@ -1620,13 +1627,96 @@ h1{
 		}
 		&:focus,
 		&:hover{
-			background: #f3f3f3;
+			background: $photo-btn-color;
 			box-shadow: none;
 			color: $blue;
 		}
 	}
 	.view-photo-nxt {
 		float: right;
+	}
+}
+/* The Overlay (background) */
+#gallery {
+	background: #fff none repeat scroll 0 0;
+	height: 474px;
+	margin: 0 0 16px;
+	position: relative;
+	#enlarge{
+		cursor: pointer;
+		padding: 5px;
+		position: absolute;
+		right: 20px;
+		top: 20px;
+		border:none;
+		width: 30px;
+		height: 30px;
+		font-size: 20px;
+		line-height: 20px;
+		background: $photo-btn-color;
+		border-radius:50%;
+		text-align: center;
+	}
+}
+.overlay {
+	/* Height & width depends on how you want to reveal the overlay (see JS below) */   
+	height: 100%;
+	width: 0;
+	position: fixed; /* Stay in place */
+	z-index: 6; /* Sit on top */
+	left: 0;
+	right: 100%;
+	top: 0;
+	background-color: rgb(0,0,0); /* Black fallback color */
+	background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
+	overflow-x: hidden; /* Disable horizontal scroll */
+	overflow-y: hidden;
+	transition: 0.3s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+	img{
+		position: relative;
+	}
+	.photo-view .btn-holder{
+		z-index: 7;
+	}
+	.img-close{
+		z-index: 7;
+		cursor: pointer;
+		padding: 5px;
+		position: absolute;
+		right: 20px;
+		top: 20px;
+		border:none;
+		width: 30px;
+		height: 30px;
+		font-size: 20px;
+		line-height: 20px;
+		background: $photo-btn-color;
+		border-radius:50%;
+		text-align: center;
+	}
+	a {
+		padding: 8px;
+		text-decoration: none;
+		font-size: 36px;
+		color: #818181;
+		display: block; /* Display block instead of inline */
+		transition: 0.3s; /* Transition effects on hover (color) */
+		&:hover,
+		&:focus {
+			color: #f1f1f1;
+		}
+	}
+	.closebtn {
+		position: absolute;
+		top: 20px;
+		right: 45px;
+		font-size: 60px !important; /* Override the font-size specified earlier (36px) for all navigation links */
+	}
+	.overlay-content {
+		position: relative;
+		height: 100%;
+		width: 100%; /* 100% width */
+		text-align: center; /* Centered text/links */
 	}
 }
 /**/
@@ -1676,7 +1766,7 @@ h1{
 }
 .breadcrumb{
 	text-transform: capitalize;
-	font-weight: 600;
+	font-family:$semibold-font;
 	font-size: 24px;
 	line-height: 26px;
 	padding: 5px 0 10px;
@@ -1740,7 +1830,7 @@ h1{
 	h2{
 		font-size: 25px;
 		line-height: 25px;
-		font-weight: 400;
+		font-family:$base-font;
 		margin: 0 0 11px;
 		padding: 0 0 16px;
 		border-bottom: $default-border;
@@ -1756,7 +1846,7 @@ h1{
 	.btn-submit{
 		font-size: 15px;
 		line-height: 15px;
-		font-weight: 600;
+		font-family:$semibold-font;
 	}
 }
 textarea#comment_box{
@@ -1811,9 +1901,7 @@ textarea#comment_box{
 				font-size: 15px;
 				.commenter{
 					display: block;
-					font-size: 16px;
-					line-height: 16px;
-					font-weight: 600;
+					font: 16px/16px $semibold-font;
 					margin: 0 0 10px;
 					span{
 						@include vertical-top();
@@ -1899,7 +1987,7 @@ textarea#comment_box{
 				color: lighten($black, 62%);
 				font-size: 15px;
 				list-style: 15px;
-				font-weight: 600;
+				font-family:$semibold-font;
 				overflow: hidden;
 				span{
 					@include vertical-middle();
@@ -1916,7 +2004,7 @@ textarea#comment_box{
 				padding: 5px 0 0 4px;
 				span {
 					padding:0 10px;
-					font-weight: 300;
+					font-family:$light-font;
 					color: #6d6d6d;
 					font-size: 13px;
 					&:first-child {
@@ -2000,7 +2088,7 @@ textarea#comment_box{
 	h2{
 		font-size: 18px;
 		line-height: 20px;
-		font-weight: 600;
+		font-family:$semibold-font;
 		margin: 0 0 12px;
 		height: 40px;
 		overflow: hidden;
@@ -2024,7 +2112,7 @@ textarea#comment_box{
 			border-top:$default-border;
 			font-size: 13px;
 			line-height: 13px;
-			font-weight: 300;
+			font-family:$light-font;
 			color: lighten($grey-txt,18%);
 			&:first-child{
 				border:none;
@@ -2033,9 +2121,7 @@ textarea#comment_box{
 			span{
 				display: block;
 				margin: 10px 0 0;
-				font-weight: 600;
-				font-size: 14px;
-				line-height: 14px;
+				font:14px/14px $semibold-font;
 				color:$black;
 			}
 		}
@@ -2047,7 +2133,7 @@ textarea#comment_box{
 		background: #f0f0f0;
 		border-color:#f0f0f0;
 		font-size: 15px;
-		font-weight: 400;
+		font-family:$base-font;
 		padding: 5px 10px;
 		margin: 0 0 10px;
 		&.unsub{
@@ -2145,7 +2231,7 @@ textarea#comment_box{
 		h2{
 			font-size: 18px;
 			line-height: 32px;
-			font-weight: 600;
+			font-family:$semibold-font;
 			margin: 0 5px 0 0;
 			float: left;
 		}
@@ -2157,7 +2243,7 @@ textarea#comment_box{
 			font-size: 14px;
 			line-height: 22px;
 			min-width: 110px;
-			font-weight: 600;
+			font-family:$semibold-font;
 			border: 2px solid $black;
 			color: $black;
 			border-radius: 4px;
@@ -2206,9 +2292,9 @@ textarea#comment_box{
 		span{
 			display: block;
 			margin: 0 0 10px;
-			font-weight: 300;
+			font-family:$light-font;
 			a{
-				font-weight: 600;
+				font-family:$semibold-font;
 				color: $blue;
 			}
 		}
@@ -2224,7 +2310,7 @@ textarea#comment_box{
 			font-size: 12px;
 			line-height: 12px;
 			margin: 0 0 5px;
-			font-weight: 500;
+			font-family: $semibold-font;
 			a{
 				color:$block-color;
 				&:hover{
@@ -2260,7 +2346,7 @@ textarea#comment_box{
 				z-index: 2;
 				span{
 					display: block;
-    				margin: 0 0 5px;
+					margin: 0 0 5px;
 				}
 			}
 			>img{
@@ -2270,7 +2356,7 @@ textarea#comment_box{
 		.playlist-info{
 			font-size: 14px;
 			line-height: 16px;
-			font-weight: 300;
+			font-family:$light-font;
 			color: $grey-txt;
 			padding: 8px;
 			background: darken($lt-grey, 1);
@@ -2281,7 +2367,7 @@ textarea#comment_box{
 				color: $black;
 				font-size: 18px;
 				line-height: 20px;
-				font-weight: 400;
+				font-family:$base-font;
 				margin:0 0 5px;
 				a{
 					color: $black;
@@ -2356,7 +2442,7 @@ textarea#comment_box{
 	h2{
 		font-size: 34px;
 		line-height: 34px;
-		font-weight: 300;
+		font-family:$light-font;
 		margin: 0 0 20px;
 		color: $black;
 	}
@@ -2390,7 +2476,7 @@ textarea#comment_box{
 		.btn-default{
 			font-size: 25px;
 			line-height: 28px;
-			font-weight: 400;
+			font-family:$base-font;
 			background:$blue;
 			border:2px solid $white;
 			color: $white;
@@ -2404,7 +2490,7 @@ textarea#comment_box{
 		height: 50px;
 		font-size: 18px;
 		line-height: 26px;
-		font-weight: 300;
+		font-family:$light-font;
 		padding: 13px 20px;
 		background: $white;
 		box-shadow: none;
@@ -2581,7 +2667,7 @@ textarea#comment_box{
 		
 		font-size: 24px;
 		line-height: 24px;
-		font-weight: 500;
+		font-family: $semibold-font;
 	}
 	h3{
 		font-size: 14px;
@@ -2603,7 +2689,7 @@ textarea#comment_box{
 				>a:focus{
 					background: #f7f7f7;
 					color: $block-color;
-					font-weight: 700;
+					font-family: $bold-font;
 				}
 			}
 		}
@@ -2682,7 +2768,7 @@ textarea#comment_box{
 .uploadingProgressContainer{
 	.alert{
 		p{
-			font-weight: 700;
+			font-family: $bold-font;
 			small{
 				color: #000 !important;
 			}
@@ -2734,20 +2820,55 @@ textarea#comment_box{
 	width: 100%;
 	margin-top: 100px;
 }
-.error-pix-403 {
+.page-error{
+	.alert-text{
+		font-size: 30px;
+		line-height: 40px;
+		text-align: center;
+		margin: 0 0 20px;
+		i{
+			@include vertical-top();
+		}
+	}
+	.error-img{
+		max-width: 200px;
+		margin: 0 auto 20px;
+		img{
+			width: 100%;
+			margin: 0 auto;
+		}
+	}
+	.search-form{
+		padding: 0 8px;
+		max-width: 600px;
+		margin: 0 auto 20px;
+		>div{
+			border:$default-border;
+		}
+		.form-control{
+			box-shadow: none;
+			border: none;
+			&:focus{
+				box-shadow: none;
+			}
+		}
+	}
+}
+
+.error-pix-403{
 	width: 312px;
 	height: 157px;
-	margin: 0px auto;
-	background-image: url(../../images/403.png);
-	background-repeat: no-repeat;
+	margin: 0 auto;
+	background: url(../../images/403.png) no-repeat;
+	background-size: 100%;
 	display: block;
 }
 .error-pix-404 {
 	width: 312px;
 	height: 157px;
-	margin: 0px auto;
-	background-image: url(../../images/404.png);
-	background-repeat: no-repeat;
+	margin: 0 auto;
+	background: url(../../images/404.png) no-repeat;
+	background-size: 100%;
 	display: block;
 }
 .error-text-sec {
@@ -2863,7 +2984,7 @@ textarea#comment_box{
 	h2{
 		font-size: 20px;
 		line-height: 20px;
-		font-weight: 300;
+		font-family:$light-font;
 		margin: 0 0 10px;
 	}
 	.avatar{
@@ -3023,6 +3144,13 @@ textarea#comment_box{
 		float: none;
 		padding: 0 10px;
 	}
+	.item-video{
+		.thumb-holder{
+			.cb_quickie{
+				display: none;
+			}
+		}
+	}
 	.featured-video{
 		.title{
 			font-size: 14px;
@@ -3079,7 +3207,7 @@ textarea#comment_box{
 		.form-group{
 			> div:first-child,
 			> div{
-			 	padding: 0;
+				padding: 0;
 			}
 			> div:first-child{
 				margin: 0 0 16px;

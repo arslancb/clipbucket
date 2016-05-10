@@ -152,7 +152,7 @@
 			$sort = $_GET['sort'];
 			$cond = array("category"=>mysql_clean($_GET['cat']),"date_span"=>$_GET['time'], "active"=>"yes");
 			$table_name = "photos";
-			$cond = $this->build_sort($sort, $cond);
+			$cond = $this->build_sort_photos($sort, $cond);
 			$page = mysql_clean($_GET['page']);
 			$get_limit = create_query_limit($page,MAINPLIST);
 			$clist = $cond;
@@ -247,7 +247,7 @@
 						$vid_cond['order'] = " date_added DESC ";
 					break;
 					case "most_viewed":
-						$vid_cond['order'] = " views DESC ";
+						$vid_cond['order'] =  "views DESC ";
 						$vid_cond['date_span_column'] = 'last_viewed';
 					break;
 					case "most_viewed":
@@ -266,6 +266,40 @@
 				return $vid_cond;
 			}
 		}
+
+
+		function build_sort_photos($sort, $vid_cond) {
+			if (!empty($sort)) {
+				switch($sort) {
+					case "most_recent":
+					default:
+						$vid_cond['order'] = " date_added DESC ";
+					break;
+					case "most_viewed":
+						$vid_cond['order'] =  " photos.views DESC ";
+						$vid_cond['date_span_column'] = 'last_viewed';
+					break;
+					case "most_viewed":
+						$vid_cond['order'] = " views DESC ";
+					break;
+					case "featured":
+						$vid_cond['featured'] = "yes";
+					break;
+					case "top_rated":
+						$vid_cond['order'] = " photos.rating DESC";
+					break;
+					case "most_commented":
+						$vid_cond['order'] = " comments_count DESC";
+					break;
+				}
+				return $vid_cond;
+			}
+		}
+
+
+
+
+
 	}
 
 ?>

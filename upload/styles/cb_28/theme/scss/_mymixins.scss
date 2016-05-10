@@ -1,3 +1,47 @@
+@font-face {
+	font-family: 'source_sans_probold';
+	src: url('../fonts/sourcesanspro-bold-webfont.eot');
+	src: url('../fonts/sourcesanspro-bold-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/sourcesanspro-bold-webfont.woff2') format('woff2'),
+		 url('../fonts/sourcesanspro-bold-webfont.woff') format('woff'),
+		 url('../fonts/sourcesanspro-bold-webfont.ttf') format('truetype'),
+		 url('../fonts/sourcesanspro-bold-webfont.svg#source_sans_probold') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'source_sans_prolight';
+	src: url('../fonts/sourcesanspro-light-webfont.eot');
+	src: url('../fonts/sourcesanspro-light-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/sourcesanspro-light-webfont.woff2') format('woff2'),
+		 url('../fonts/sourcesanspro-light-webfont.woff') format('woff'),
+		 url('../fonts/sourcesanspro-light-webfont.ttf') format('truetype'),
+		 url('../fonts/sourcesanspro-light-webfont.svg#source_sans_prolight') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'source_sans_proregular';
+	src: url('../fonts/sourcesanspro-regular-webfont.eot');
+	src: url('../fonts/sourcesanspro-regular-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/sourcesanspro-regular-webfont.woff2') format('woff2'),
+		 url('../fonts/sourcesanspro-regular-webfont.woff') format('woff'),
+		 url('../fonts/sourcesanspro-regular-webfont.ttf') format('truetype'),
+		 url('../fonts/sourcesanspro-regular-webfont.svg#source_sans_proregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'source_sans_prosemibold';
+	src: url('../fonts/sourcesanspro-semibold-webfont.eot');
+	src: url('../fonts/sourcesanspro-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/sourcesanspro-semibold-webfont.woff2') format('woff2'),
+		 url('../fonts/sourcesanspro-semibold-webfont.woff') format('woff'),
+		 url('../fonts/sourcesanspro-semibold-webfont.ttf') format('truetype'),
+		 url('../fonts/sourcesanspro-semibold-webfont.svg#source_sans_prosemibold') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
 /* variables */
 $sprite : url(../images/sprite.png) no-repeat;
 $black:#000;
@@ -6,6 +50,7 @@ $search-txt:#a8a8a8;
 $bg-theme:#17181a;
 $grey-txt:#757575;
 $lt-grey:#f9f9f9;
+$photo-btn-color:#f3f3f3;
 $green: #4caf50;
 $sidebar-color:#1a1e21;
 $orange:#ffa000;
@@ -18,7 +63,10 @@ $body-bg:#eee;
 $block-color:#333;
 $heading-color:#666;
 $search-toggle:#999;
-$base-font:'Source Sans Pro', sans-serif;
+$base-font:'source_sans_proregular', sans-serif;
+$bold-font:'source_sans_probold', sans-serif;
+$semibold-font:'source_sans_prosemibold', sans-serif;
+$light-font:'source_sans_prolight', sans-serif;
 $base-color:$black;
 $font-icon: 'icomoon';
 $bordercolor:#d9d9d9;
@@ -66,11 +114,11 @@ $error-color:#f44336;
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#99000000', endColorstr='#03000000',GradientType=0 ); /* IE6-9 */
 }
 @mixin gradientbottom-bg(){
-	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.01+0,0.02+8,0.09+18,0.23+28,0.43+41,0.57+58,0.69+78,0.76+100 */
-	background: -moz-linear-gradient(top,  rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.02) 8%, rgba(0,0,0,0.09) 18%, rgba(0,0,0,0.23) 28%, rgba(0,0,0,0.43) 41%, rgba(0,0,0,0.57) 58%, rgba(0,0,0,0.69) 78%, rgba(0,0,0,0.76) 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(top,  rgba(0,0,0,0.01) 0%,rgba(0,0,0,0.02) 8%,rgba(0,0,0,0.09) 18%,rgba(0,0,0,0.23) 28%,rgba(0,0,0,0.43) 41%,rgba(0,0,0,0.57) 58%,rgba(0,0,0,0.69) 78%,rgba(0,0,0,0.76) 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(to bottom,  rgba(0,0,0,0.01) 0%,rgba(0,0,0,0.02) 8%,rgba(0,0,0,0.09) 18%,rgba(0,0,0,0.23) 28%,rgba(0,0,0,0.43) 41%,rgba(0,0,0,0.57) 58%,rgba(0,0,0,0.69) 78%,rgba(0,0,0,0.76) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#03000000', endColorstr='#c2000000',GradientType=0 ); /* IE6-9 */
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,0.01+9,0.07+21,0.24+36,0.53+55,0.78+76,0.8+81,0.8+100 */
+	background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.01) 9%, rgba(0,0,0,0.07) 21%, rgba(0,0,0,0.24) 36%, rgba(0,0,0,0.53) 55%, rgba(0,0,0,0.78) 76%, rgba(0,0,0,0.8) 81%, rgba(0,0,0,0.8) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 9%,rgba(0,0,0,0.07) 21%,rgba(0,0,0,0.24) 36%,rgba(0,0,0,0.53) 55%,rgba(0,0,0,0.78) 76%,rgba(0,0,0,0.8) 81%,rgba(0,0,0,0.8) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 9%,rgba(0,0,0,0.07) 21%,rgba(0,0,0,0.24) 36%,rgba(0,0,0,0.53) 55%,rgba(0,0,0,0.78) 76%,rgba(0,0,0,0.8) 81%,rgba(0,0,0,0.8) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#cc000000',GradientType=0 ); /* IE6-9 */
 }
 @mixin after(){
 	display: block;
@@ -88,6 +136,13 @@ $error-color:#f44336;
 	-ms-transition-property: $transitionProperty;
 	-o-transition-property: $transitionProperty;
 	transition-property: $transitionProperty;
+}
+@mixin alltransition($ease-property, $ease-time, $ease){
+	-webkit-transition: $ease-property $ease-time $ease;
+	-moz-transition: $ease-property $ease-time $ease;
+	-ms-transition: $ease-property $ease-time $ease;
+	-o-transition: $ease-property $ease-time $ease;
+	transition: $ease-property $ease-time $ease;
 }
 @mixin transition($transition) {
 	-webkit-transition: $transition;  
@@ -230,7 +285,7 @@ $error-color:#f44336;
 .btn-default{
 	background:darken($lt-grey,5%);
 	border-color: darken($lt-grey,5%);
-	font-weight: 400;
+	font-family:$base-font;
 	color: $black;
 	&:hover,
 	&:active{
@@ -242,7 +297,7 @@ $error-color:#f44336;
 	background: $white;
 	border: 2px solid $black;
 	padding: 5px 10px;
-	font-weight: 400;
+	font-family:$base-font;
 	font-size: 15px;
 	line-height: 21px;
 	color:$black;
@@ -260,7 +315,7 @@ $error-color:#f44336;
 .btn-primary{
 	background:$blue;
 	border-color:$blue;
-	font-weight: 400;
+	font-family:$base-font;
 	color:$white;
 	&:hover,
 	&:active{
@@ -272,7 +327,7 @@ $error-color:#f44336;
 .btn-success{
 	background:$green;
 	border-color:$green;
-	font-weight: 400;
+	font-family:$base-font;
 	color:$white;
 	&:hover,
 	&:active{
@@ -284,7 +339,7 @@ $error-color:#f44336;
 .btn-black{
 	background: lighten($black,13%);
 	border-color:lighten($black,13%);
-	font-weight: 400;
+	font-family:$base-font;
 	font-size: 15px;
 	color:$white;
 	&:hover,

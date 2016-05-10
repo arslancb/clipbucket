@@ -96,18 +96,7 @@
 						{foreach from=$collections item=collection}
 							{$first_col_thumb = $cbcollection->coll_first_thumb($collection,'l')}
 							<div class="clearfix collection-item col-lg-6 col-md-6 col-sm-12 col-xs-12"> 
-								<div class="collection-holder">
-									<div class="photo-block">
-										<a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
-											<img alt="{$collection.title}" title="{$collection.title}" class="img-responsive" id="photo_{$collection.ci_id}" src="{$first_col_thumb}">
-											<div class="collection-info">
-												<span>{$collection.total_objects}</span>{lang code="photos"}
-											</div>
-										</a>
-									</div>
-									<img src="{$theme}/images/photo-bg.png" alt="" class="photo-bg">
-								</div>
-								<span class="title">{$collection.collection_name}</span>
+								{include file="$style_dir/blocks/collection-item.html"}
 							</div>
 						{/foreach}
 					</div>

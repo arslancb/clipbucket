@@ -1954,23 +1954,44 @@ class Collections extends CBCategory
         }
 
         function coll_first_thumb($col_data, $size = false) {
-        	global $cbphoto;
+        	global $cbphoto,$cbvid;
         	if (is_array($col_data)) {
-        		$first_col = $cbphoto->collection->get_collection_items_with_details($col_data['collection_id'],0,1,false);
-        		$param['details'] = $first_col[0];
-        		if (!$size) {
-        			$param['size'] = 's';
-        		} else {
-        			$param['size'] = $size;
+        		switch ($col_data['type']){
+        			case 'photos':
+        			default : {
+        				$first_col = $cbphoto->collection->get_collection_items_with_details($col_data['collection_id'],0,1,false);
+        				$param['details'] = $first_col[0];
+		        		if (!$size) {
+		        			$param['size'] = 's';
+		        		} else {
+		        			$param['size'] = $size;
+		        		}
+		        		$param['class'] = 'img-responsive';
+		        		$first_col = get_photo($param);
+        			}
+        			break;
+        			
+        			case 'videos': {
+        				$first_col = $cbvid->collection->get_collection_items_with_details($col_data['collection_id'],0,1,false);
+        				$vdata = $first_col[0];
+        				if (!$size || $size == 's') {
+		        			$size = '168x105';
+		        		} else if($size == 'l'){
+		        			$size= '632x395';
+		        		}else {
+		        			$size = '416x260';
+		        		}
+		        		$first_col = get_thumb($vdata,'default',false,false,true,false,$size);
+        			}
+        			break;
         		}
-        		$param['class'] = 'img-responsive';
-        		$first_col = get_photo($param);
+        		
         		return $first_col;
         	} else {
         		return false;
         	}
         }
-	
+
 }
 
 ?>

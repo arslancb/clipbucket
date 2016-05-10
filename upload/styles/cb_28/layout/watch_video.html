@@ -18,13 +18,13 @@
 					<h1>{$video.title}</h1>
 					<div class="user-video-info clearfix">
 						<a href="{$userquery->profile_link($video)}" class="avatar">
-							<img src="{$userquery->avatar($video,'small',userid())}" class="img-responsive">
+							<img src="{$userquery->avatar($video,'m',userid())}" class="img-responsive">
 						</a>
 						<h2 class="user-title">
 							<a href="{$userquery->profile_link($video)}"> {$video.username}</a>
 						</h2>
 						<div class="views-counter">
-							<span>{prettyNum($vdo.views)} {lang code='views'}</span>
+							<span>{prettyNum($vdo.views)} {if $vdo.views > 1}{lang code='views'}{else}view{/if}</span>
 						</div>
 					</div>
 					<div class="user-likes-sub clearfix">
@@ -121,7 +121,7 @@
 								<a  class="btn btn-block btn-primary" href="javascript:void(0)" onclick="_cb.add_to_favNew('video','{$vdo.videoid}');">{lang code='add_to_my_favorites'}</a>
 							</div>
 							<div class="clearfix">
-								{show_playlist_form id=$vdo.videoid type=video}
+								{show_playlist_form id=$vdo.videoid type=video user=userid() }
 								{if userid()}
 								<div class="clearfix">
 									<div class="clearfix btn-holder text-right">
@@ -223,6 +223,9 @@
 				"loadHit":loadHit,
 				"loadLimit":loadLimit,
 				"playlist": playlist
+			},
+			beforeSend: function() {
+				$(this).text("loading");
 			},
 
 			success: function(data) {

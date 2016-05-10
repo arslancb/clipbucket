@@ -475,13 +475,15 @@ $(document).ready(function() {
 	onReload_item();
 </script>
 {/if}
-
+	<meta property="fb:app_id" content="541598765890838" />
 {if $smarty.const.THIS_PAGE=='watch_video' || $object.videoid}
     {if $object.videoid}{assign var=vdo value=$object} {/if}
     <meta property="og:title" content="{$vdo.title}" />
     <meta property="og:description" content="{$vdo.description|description|strip_tags}" />
-    <meta property="og:image" content="{getThumb vdetails=$vdo}" />
-    
+    <meta property="og:image" content="{getThumb vdetails=$vdo size=768x432}" />
+    <meta property="og:image:width" content="768" />
+	<meta property="og:image:height" content="432" />
+	<meta property="og:image:type" content="image/jpeg" />
     {if $Cbucket->configs.facebook_embed=='yes'}
         <meta property="og:type" content="video">
         <meta property="og:video" content='{fb_embed_video video=$vdo}'>
@@ -495,20 +497,21 @@ $(document).ready(function() {
 {/if}
 
 {if $object.photo_id}
-<meta property="og:title" content="{$object.photo_title}" />
-<meta property="og:description" content="{$object.photo_description|description}" />
-<meta property="og:image" content="{get_photo details=$object size='m' output='non_html' alt=$object.photo_title}" />
-<meta name="medium" content="image" />
+	<meta property="og:title" content="{$object.photo_title}" />
+	<meta property="og:description" content="{$object.photo_description|description}" />
+	<meta property="og:image" content="{get_photo details=$object size='m' output='non_html' alt=$object.photo_title}" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta name="medium" content="image" />
 {/if}
 
 {if $smarty.const.THIS_PAGE=='view_channel'}
-<meta property="og:title" content="{$user.username}" />
+	<meta property="og:title" content="{$user.username}" />
 
 {/if}
 
 
 {if $smarty.const.THIS_PAGE=='videos'}
-<meta property="og:description" content="this is a videos page of ClipBucket"/>
+	<meta property="og:description" content="this is a videos page of ClipBucket"/>
 
 {/if}
 

@@ -220,6 +220,8 @@
 							}
 							wrapperDiv.id = "tab"+i;
 							oneUploadForm.className = "";
+							$(oneUploadForm).find("input[name='photo_title']").val(files[i].name.slice(0, -4));
+                       		$(oneUploadForm).find("textarea#photo_description").val(files[i].name.slice(0, -4));
 							$(oneUploadForm).find("input[name='photo_title']").val(files[i].name);
 							$(oneUploadForm).find("textarea#photo_description").val(files[i].name);
 							$(oneUploadForm).find("input[name='category[]']:first").attr('checked', 'checked');
@@ -304,7 +306,7 @@
 						  collectionId = $("#SelectionDIV select").val();
 						}
 						var fileId = false;
-					   
+					   fileDetails.name = fileDetails.name.slice(0, -4);
 					   var stored_cid = collectionId;
 					   $.ajax({
 						   url : baseurl + "/actions/photo_uploader.php",

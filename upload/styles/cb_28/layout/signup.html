@@ -178,7 +178,7 @@
 		var currentDate = new Date("1988,04,07");
 		$("#dob").datepicker("setDate", currentDate);
 	 });
-
+	
 	var errors = {
 		"empty_name" : "{lang code='usr_uname_err'}", 
 		"name_length" : "{lang code='user_name_invalid_len'}", 
@@ -263,6 +263,8 @@
 	     	addErrClass(emailSec, errors["empty_email"], true, false);
 	     } else if (!isValidEmail(email)) {
 	     	addErrClass(emailSec, errors["invalid_email"], true, false);
+	     } else if (isValidEmail(email)) {
+	     	removeErrClass(emailSec);	
 	     } else {
 	     	$.ajax({
 				url: baseurl + "/ajax/commonAjax.php",
@@ -313,7 +315,7 @@
 	     }
 	});
 
-	$('input#login_username_sp').on('keyup', function() {
+	/*$('input#login_username_sp').on('keyup change', function() {
 	     var userName = $('#login_username_sp'),
 	     user = userName.val(),
 	     userLen = user.length;
@@ -328,7 +330,7 @@
 	     	$('#login_btn').removeAttr('disabled');
 
 	     }
-	});
+	});*/
 
 	$('#login_btn').on("click",function(e){
 		e.preventDefault();

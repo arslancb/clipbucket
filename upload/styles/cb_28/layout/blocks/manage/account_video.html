@@ -3,12 +3,13 @@
 
 {/if}
 
+
 {if $control =='full'}
 <tr>
 	<td>
 		<div class="col-md-3">
-			<a class="manageVid_thumb" href="{$baseurl}/edit_video.php?vid={$video.videoid}">
-				<img src="{getThumb vdetails=$video}" class="img-responsive" width="130" height="80" id="thumbs_{$video.videoid}" class="vthumb" title="">
+			<a class="manageVid_thumb" href="edit_video.php?video={$video.videoid}">
+				<img src="{getThumb vdetails=$video}" class="img-responsive" width="130" height="80" id="thumbs_{$video.videoid}" class="vthumb" title=""/>
 				<span class="duration">({if
 				$video.duration>1}{$video.duration|SetTime}{else}00:00{/if})</span>
 			</a>
@@ -30,27 +31,33 @@
 		</div>
 	</td>
 	
-	<td>
+	{*<td>
 		<div class="clearfix">
 			{if $video.broadcast=='public'}
-			<div class="col-md-1"><i class="fa fa-globe"></i></div>
+			<div class="col-md-1"><i class="icon-globe"></i></div>
 			{elseif $video.broadcast!='public'}
-			<div class="col-md-1"><i class="fa fa-lock"></i></div>
+			<div class="col-md-1"><i class="icon-lock"></i></div>
 			{/if}
 		</div>
-	</td>
+		<a href="view_user.php?uid={$video.userid}">{$video.username}</a>
+	</td>*}
 		
 	<td>
 		<div class="dropdown text-center">
 			<button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
 				Actions <i class="caret"></i></button>
 			<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
+			{if $cbvid->is_video_owner($video.videoid,$user.userid) || has_access('admin_access')}
 				<li><a role="menuitem" tabindex="-1" href="{$baseurl}/edit_video.php?vid={$video.videoid}" class="">Edit</a></li>
+
+				<li><a role="menuitem" tabindex="-1" href="javascript:_cb.Confirm_Delete('?vid_delete={$video.videoid}')">Delete</a>
+				</li>
+			{/if}
 				<li><a role="menuitem" tabindex="-1" href="{$baseurl}/watch_video.php?v={$video.videokey}"target="_blank">Watch</a>
 					
 				</li>
-				<li><a role="menuitem" tabindex="-1" href="javascript:_cb.Confirm_Delete('?vid_delete={$video.videoid}')">Delete</a>
-				</li>
+
+			
 
 				{foreach from=$cbvid->video_manager_links item=links}
 				{$cbvid->video_manager_link($links,$video)}
@@ -68,7 +75,7 @@
 	</td>
 	<td>
 		<div>
-			<img class="edit-img-thumbnail" src="{getThumb vdetails=$video}" />
+			<img class="edit-img-thumbnail" src="{getThumb vdetails=$video}">
 			<p class="marginTop">{$video.title|truncate:100}</p>
 			<div class="btn-group show">
 				<a class="btn btn-primary btn-sm" href="{videoLink vdetails=$video}">view</a>
