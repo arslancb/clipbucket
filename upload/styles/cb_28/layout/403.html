@@ -1,0 +1,19 @@
+<div id="main" class="container page-error clearfix">
+	<div class="clearfix error-img">
+		<img src="{$imageurl}/403.png" alt="" class="img-responive">
+	</div>	
+	
+	<div class="alert-text clearfix">
+		<p><i class="icon-info"></i>&nbsp;Forbidden Error </p>
+	</div>
+	
+	<div class="clearfix videos">
+	{if $videos} 
+	{foreach $videos as $video}
+		<div class="item-video col-lg-3 col-md-3 col-sm-4 col-xs-12">
+			{include file="$style_dir/blocks/videos/video.html" display_type='homeVideos'}
+		</div>
+	{/foreach}
+	{/if}
+	</div>
+</div>

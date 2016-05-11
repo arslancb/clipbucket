@@ -97,7 +97,11 @@ function get_playlist_cover ( $playlist, $return_default = false ) {
     return ( $return_default == true ) ? get_playlist_default_thumb() : false;
 }
 
-function get_playlist_thumb ( $playlist ) {
+function get_playlist_thumb ( $playlist, $size = false ) {
+
+    if (!$size) {
+        $size = 'big';
+    }
 
     $first_item = $playlist[ 'first_item' ];
 
@@ -107,7 +111,7 @@ function get_playlist_thumb ( $playlist ) {
             $first_item = json_decode( $first_item, true );
         }
 
-        $thumb = get_thumb( $first_item, 'big' );
+        $thumb = get_thumb( $first_item, $size );
 
         if ( strpos( $thumb, 'processing' ) === false ) {
             return $thumb;

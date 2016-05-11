@@ -6,16 +6,15 @@
 
 require_once('../includes/common.php');
 
-
-
 function install_custom_fields()
 {
 	global $db;
 	$db->Execute(
-"CREATE TABLE `clipbucket_svn`.`".tbl('custom_fields')."` (
+'CREATE TABLE IF NOT EXISTS '.tbl("custom_fields")." (
 `custom_field_list_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `custom_field_title` TEXT NOT NULL ,
 `custom_field_type` TEXT NOT NULL ,
+`custom_field_ptype` TEXT NOT NULL ,
 `custom_field_name` TEXT NOT NULL ,
 `custom_field_id` TEXT NOT NULL ,
 `custom_field_value` TEXT NOT NULL ,
@@ -31,16 +30,6 @@ function install_custom_fields()
 `date_added` DATETIME NOT NULL
 ) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;");
 	
-	$db->Execute(
-"INSERT INTO `".tbl('phrases')."` (
-`id` ,
-`lang_iso` ,
-`varname` ,
-`text`
-)
-VALUES (
-NULL , 'en', 'cust_field_err', 'Invalid \'%s\' field value'
-)");
 	
 }
 install_custom_fields();

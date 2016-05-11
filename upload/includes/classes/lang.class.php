@@ -25,6 +25,7 @@ class language
 	
 	var $lang = 'en';
 	var $lang_iso = 'en';
+	var $lang_name = 'English';
 	
 	/** 
 	 * __Constructor
@@ -64,7 +65,9 @@ class language
 	
 		if($default['language_code'])
 		{
+
 			$this->lang = $this->lang_iso = $default['language_code'];
+			$this->lang_name = $this->lang_iso = $default['language_name'];
 		}
 	}
 	 
@@ -120,9 +123,10 @@ class language
 	function update_phrase($id,$text,$lang_code='en')
 	{
 		global $db;
+
 		//First checking if phrase already exists or not
 		if($this->get_phrase($id,$lang_code))
-			$db->update(tbl("phrases"),array('text'),array(mysql_real_escape_string($text))," id = '".mysql_real_escape_string($id)."' ");
+			$db->update(tbl("phrases"),array('text'),array(mysql_escape_string($text))," id = '".mysql_escape_string($id)."' ");
 	}
 	
 	/**
@@ -322,13 +326,14 @@ class language
 					{
 						if(!empty($sql))
 							$sql .=",\n";
-						$sql .= "('".$data['iso_code']."','$code','".mysql_real_escape_string($phrase)."')";
+						$sql .= "('".$data['iso_code']."','$code','".htmlspecialchars($phrase,ENT_QUOTES, "UTF-8")."')";
 					}
 					$sql .= ";";
 					$query = "INSERT INTO ".tbl("phrases")." (lang_iso,varname,text) VALUES \n";
 					$query .= $sql;
 					$db->execute($query);
 					e(lang("lang_added"),"m");
+					e(lang("lange_upload_after"),"m");;
 				}
 			}
 			

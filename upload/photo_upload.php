@@ -47,6 +47,10 @@ assign('collections',$collections);
 	
 subtitle(lang('photos_upload'));
 //Displaying The Template
+if (!isSectionEnabled('photos')) {
+	e("Photo are disabled the moment");
+	$Cbucket->show_page = false;
+}
 template_files('photo_upload.html');
 display_it();
 ?>

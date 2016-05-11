@@ -51,8 +51,7 @@ function addStickiesToPage(value){
 function init(){
 
     var button = document.getElementById("add_note");
-
-    button.onclick = makenote; //we have to define this function
+    //button.click = makenote; //we have to define this function
 
     //continue the init function here as shown above by adding
 

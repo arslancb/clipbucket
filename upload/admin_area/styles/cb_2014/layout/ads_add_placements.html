@@ -5,81 +5,128 @@
 </div>
 <!-- Adding Placement Form -->
 <form name="AddPlacement" id="AddPlacement" method="post" action="">
-  <div class="row">
-  <div class="col-md-6">
-    <label for="placement_name">Placement Name</label>
-    <input class="form-control" name="placement_name" id="placement_name" value="" />
-  </div>
-
-  <div class="col-md-6">
-    <label for="placement_code">Placement Code</label>
-    <input class="form-control" name="placement_code" value="" id="placement_code"/>
-  </div>
-</div>
-    <br>
-  <div class="row">
-      <div class="col-md-6">
-          <p class="alert alert-warning">Note: if you delete any placement, all ads under it will be deleted</p>
-      </div>
-            <div class="col-md-6">
-                <input class="btn btn-primary pull-right" type="submit" name="AddPlacement" value="Submit" id="button"/>
-                </div>
-            </div>
-</form>
-        <div class="row">
-            <div class="col-md-5 pull-right">
-<div class="dropdown pull-right">
-    <button id="hideshow" class="btn btn-default pull-right dropdown-toggle" data-toggle="dropdown">
-       Placement Manager <i class="caret"></i></button>
-    </div>
-                <br>
-</div>
-        <div id="content" style="display: none">
-            <table class="table table-bordered table-striped">
-                <tr>
-                    <td>ID</td>
-                    <td>PlacementName</td>
-                    <td>PlacementCode</td>
-                    <td>TotalAds</td>
-                    <td>Action</td>
-                </tr>
-                {section name=a_list loop=$ads_placements}
-                {if $ads_placements[a_list].placement_name !=''}
-                <tr>
-                    <td>{$ads_placements[a_list].placement_id}</td>
-                    <td>{$ads_placements[a_list].placement_name}</td>
-                    <td>
-                        <strong>
-                            {literal}{AD place={/literal}{$ads_placements[a_list].placement}{literal}}{/literal}
-                        </strong>
-                    </td>
-                    <td>{$ads_placements[a_list].total_ads}</td>
-                    <td>
-                        {if $ads_placements[a_list].disable == no}
-                        <a href="?remove={$ads_placements[a_list].placement}">Remove</a>
-                        {else}
-                        Default Placement
-                        {/if}
-                    </td>
-                </tr>
-                {/if}
-                {/section}
-            </table>
-            <!-- Listing Placements End -->
-            {/if}
+    <div class="row">
+        <div class="col-md-6">
+            <label for="placement_name">Placement Name</label>
+        <input class="form-control" name="placement_name" id="placement_name" value="" />
         </div>
+        <div class="col-md-6">
+            <label for="placement_code">Placement Code</label>
+            <input class="form-control" name="placement_code" value="" id="placement_code"/>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <p class="alert alert-warning">Note: if you delete any placement, all ads under it will be deleted</p>
+        </div>
+        <div class="col-md-6">
+                <input class="btn btn-primary pull-right" type="submit" name="AddPlacement" value="Submit" id="button"/>
+        </div>
+    </div>
+</form>
+    <div class="col-md-5 ">
+        <div class="dropdown ">
+            <button id="hideshow" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Placement Manager 
+                <i class="caret"></i>
+            </button>
+            <button class="btn btn-info btn-info info-place" data-toggle="modal" data-placement="right"
+             data-target="#placement-info" title="Placement Information">
+                <i class="glyphicon glyphicon-info-sign"></i>
+            </button>
+        </div>
+        <br>
+    </div>
+    <div id="content">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>ID</td>
+                <td>PlacementName</td>
+                <td>PlacementCode</td>
+                <td>TotalAds</td>
+                <td>Action</td>
+            </tr>
+            {section name=a_list loop=$ads_placements}
+            {if $ads_placements[a_list].placement_name !=''}
+            <tr>
+                <td>{$ads_placements[a_list].placement_id}</td>
+                <td>{$ads_placements[a_list].placement_name}</td>
+                <td>
+                    <strong>
+                        {literal}{AD place={/literal}{$ads_placements[a_list].placement}{literal}}{/literal}
+                    </strong>
+                </td>
+                <td>{$ads_placements[a_list].total_ads}</td>
+                <td>
+                    {if $ads_placements[a_list].disable == no}
+                    <a href="?remove={$ads_placements[a_list].placement}">Remove</a>
+                    {else}
+                    Default Placement
+                    {/if}
+                </td>
+            </tr>
+            {/if}
+            {/section}
+        </table>
+        <!-- Listing Placements End -->
+        {/if}
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div id="placement-info" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #4693E0;color:#fff;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Advertisement Placement Information </h3>
             </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <strong>Note</strong> : This information is related to current activated Template and make sure you have added your placement properly to view desired Ad placement on website.
+                </div>    
+                 
+                {if !empty($placement_info)}
+                {$ads_placements_info = $placement_info.ad}
+                    <div class="content">
+                        {foreach $ads_placements_info as $placements}    
+                        <div>
+                            <h4>{$placements.name}</h4>
+                            {if $placements.place}
+                            <ul style="list-style-type: circle;">
+                                {foreach $placements.place as $place}
+                                    <li>{$place}</li>
+                                {/foreach}
+                            </ul>
+                            {else}
+                                <div class="alert alert-warning">{lang code="no_place_added_temp"}</div> 
+                            {/if}
+                        </div>
+                        {/foreach}
+                    </div>
+                {else}
+                    <span class="alert alert-warning">{lang code="no_ads_xml_found"}</span>
+                {/if}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <script>
-                var button = document.getElementById('hideshow'); // Assumes element with id='button'
+<script>
+    $(document).ready(function(){
+        $(document).on("click","#hideshow",function(){
+            $("#content").toggle();
+        });
 
-                button.onclick = function() {
-                    var div = document.getElementById('content');
-                    if (div.style.display !== 'none') {
-                        div.style.display = 'none';
-                    }
-                    else {
-                        div.style.display = 'block';
-                    }
-                };
-            </script>
+        $('.info-place').tooltip();
+       
+    });
+</script>
+

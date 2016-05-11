@@ -31,7 +31,8 @@ if($myquery->VideoExists($video)){
 	$data = get_video_details($video);
 	#pr($data,true);
 	$vid_file = VIDEOS_DIR.'/'.$data['file_directory'].'/'.get_video_file($data,false,false);
-	# Uploading Thumbs
+	
+	# Uploading Thumbss
 	if(isset($_POST['upload_thumbs'])){
 	
 		if($data['files_thumbs_path']!=''){
@@ -74,18 +75,13 @@ if($myquery->VideoExists($video)){
 					e(lang($response),'e');
 			}
 			else{
-				$Upload->upload_thumbs($data['file_name'],$_FILES['vid_thumb'],$data['file_directory']);
+				$Upload->upload_thumbs($data['file_name'],$_FILES['vid_thumb'],$data['file_directory'],$data['thumbs_version']);
 			}
 	}
 	
-//	# Uploading Big Thumb
-//	if(isset($_POST['upload_big_thumb'])) {
-//		$Upload->upload_big_thumb($data['file_name'],$_FILES['big_thumb']);
-//	}
-	
+
 	# Delete Thumb
 	if(isset($_GET['delete'])){
-		$data = get_video_details($video);
 		if($data['files_thumbs_path']!=''){
 				#pr($data,true);
 				$files_thumbs_path= $data['files_thumbs_path'];
@@ -120,36 +116,53 @@ if($myquery->VideoExists($video)){
 
 		}else
 		{
-		   delete_video_thumb($data['file_directory'],$_GET['delete']);
+		   $file_name_num = explode('-', $_GET['delete']);
+		   $num = get_thumb_num($_GET['delete']);
+
+		   $file_name = $file_name_num[0];
+		  
+		   delete_video_thumb($data['file_directory'],$file_name,$num);
 		}
 	}
-	
+		//echo $data['file_directory'].$data['file_name'];
 	# Generating more thumbs
 	if(isset($_GET['gen_more']))
 	{
-		$num = config('num_thumbs');
-		$dim = '503x283';
-		$big_dim = config('big_thumb_width').'x'.config('big_thumb_height');
+		$thumbs_settings_28 = thumbs_res_settings_28();
+		$vid_file = get_high_res_file($data,true);
+		$thumbs_num = config('num_thumbs');
+
+		$thumbs_input['vid_file'] = $vid_file;
+		$thumbs_input['num'] = $thumbs_num;
+		$thumbs_input['duration'] = $data['duration'];
 		
+
+		$thumbs_input['file_directory'] = $data['file_directory'];
+		$thumbs_input['file_name'] = $data['file_name'];
+
+
 		require_once(BASEDIR.'/includes/classes/sLog.php');
 		$log = new SLog();
         $configs = array();
 
         require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
         $ffmpeg = new FFMpeg($configs, $log);
-        $ffmpeg->regenerateThumbs($vid_file,$data['file_directory'],$data['duration'],$dim,$num,$rand=NULL,$is_big=false,$data['file_name']);
-        e(lang('Video thumbs has been regenrated successfully'),'m');
-        
-		
+        //pr($thumbs_settings_28,true);
+        foreach ($thumbs_settings_28 as $key => $thumbs_size) {
+			$height_setting = $thumbs_size[1];
+			$width_setting = $thumbs_size[0];
+			$thumbs_input['dim'] = $width_setting.'x'.$height_setting;
+			if($key == 'original'){
+				$thumbs_input['dim'] = $key;
+				$thumbs_input['size_tag'] = $key;	
+			}else{
+				$thumbs_input['size_tag'] = $width_setting.'x'.$height_setting;	
+			}
+			$ffmpeg->generateThumbs($thumbs_input);
+		}
 
-		/*
-		  require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
-	      $ffmpeg = new FFMpeg();
-		  //Generating Thumbs
-		  $ffmpeg->generate_Thumbs($vid_file,$data['duration'],$dim,$num,$rand=NULL,$is_big=false);
-          //Generating Big Thumb
-		  $ffmpeg->generate_thumbs($vid_file,$data['duration'],$big_dim,$num,true,true);
-	    */
+        e(lang('Video thumbs has been regenrated successfully'),'m');
+        $db->update(tbl('video'), array("thumbs_version"), array("2.8"), " file_name = '".$data['file_name']."' ");
 	}
 	
 	Assign('data',$data);

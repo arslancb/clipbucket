@@ -16,7 +16,7 @@ $userquery->logincheck();
 subtitle(lang("my_account"));
 assign('user',$userquery->get_user_details(userid()));
 global $db,$cbvid;
-$videos = $cbvid->get_videos(array("userid"=>userid(),"order"=>"date_added DESC","limit"=>15));
+$videos = $cbvid->get_videos(array("user"=>userid(),"order"=>"date_added DESC","limit"=>15));
 assign('videos',$videos);
 
 $result_array['limit'] = $get_limit;

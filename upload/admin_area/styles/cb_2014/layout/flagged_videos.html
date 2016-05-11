@@ -131,7 +131,7 @@
         {section name=list loop=$flags}
         <tr bgcolor="{$bgcolor}">
             <td>{$smarty.section.list.iteration}</td>
-            <td>Reported as "{$flags[list].flag_type|flag_type}" by<strong>{$flags[list].userid|get_username}</strong> {$flags[list].date_added|niceTime}</td>
+            <td>Reported as "<strong>{$flags[list].flag_type|flag_type}</strong>" by <strong>{$flags[list].userid|get_username}</strong> {$flags[list].date_added|niceTime}</td>
         </tr>
         {if $bgcolor == ""}
         {assign var = bgcolor value = "#EEEEEE"}

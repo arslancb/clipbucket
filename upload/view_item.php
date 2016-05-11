@@ -128,6 +128,10 @@ $get_limit = create_query_limit($page,MAINPLIST);
 $clist = $cond;
 $clist['limit'] = $get_limit;
 $clist ['order']  = " last_viewed DESC";
+if(isset($photo['photo_id']))
+{
+	$clist['exclude'] = $photo['photo_id']; 	
+}
 $photos = get_photos($clist);
 
 Assign('photos', $photos);

@@ -252,6 +252,7 @@
         <div class="row">
         <!-- anchor used with CB Video Key Replacer Plugin -->
         {ANCHOR place="key_rep"}
+        {ANCHOR place="seo_edit_video"}
             <table class="table">
                 <tr>
                     <td class="alert-info">
@@ -261,7 +262,7 @@
             </table>
             <div class="row">
             <div class="col-md-9">
-                {assign var=vidthumbs value=get_thumb($data,1,TRUE,FALSE,TRUE,FALSE)}
+                {assign var=vidthumbs value=get_thumb($data,1,TRUE,FALSE,TRUE,FALSE,'original')}
                 <ul class="ace-thumbnails">
                 {foreach from=$vidthumbs item=vid_thumb}
                     <li style="display: inline">
@@ -326,6 +327,7 @@
                         <input class="form-control" name="rated_by" type="text" id="rated_by" value="{$data.rated_by|number_format}" size="45"/>
                     </div>
                 </div>
+                {ANCHOR place="doc_edit_video_form"}
                 <br><br>
                 <legend>Custom Upload Fields</legend>
                 {foreach from=$custom_upload_fields item=field}
@@ -341,6 +343,8 @@
                     {$field.hint_2}
                 </div>
                 {/foreach}
+                {ANCHOR place="upload_subtitle"}
+                {ANCHOR place="edit_video_form"}
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary btn-sm" value="Update video details" style="margin:5px 0px 15px 0px" name="update">
                 </div>
@@ -355,7 +359,7 @@
 <div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
 
 
-    <div class="col-md-12"  style="height:250px;margin-left:2.5px;" >
+    <div class="col-md-12"  >
         {FlashPlayer vdetails=$data width='100%' height='100%' }
     </div>
 

@@ -1594,6 +1594,46 @@ if(!empty($mode))
 
 		}
 		break;
+
+		case "getCommentsNew":
+		{
+			$params = array();
+			 
+			$limit = config('comment_per_page') ? config('comment_per_page') : 10;
+			$page = $_POST['page'];
+			$params['type'] = mysql_clean($_POST['type']);
+			$params['type_id'] = mysql_clean($_POST['type_id']);
+			$params['last_update'] = mysql_clean($_POST['last_update']);
+			$params['limit'] = create_query_limit($page,$limit);
+            $params['cache'] = 'no';
+			
+			$admin = "";
+			if($_POST['admin']=='yes' && has_access('admin_access',true))
+			{
+				$params['cache'] ='no';
+				$admin = "yes";
+			}
+			$comments = $myquery->getComments($params);
+			//Adding Pagination
+			$total_pages = count_pages($_POST['total_comments'],$limit);
+			assign('object_type',mysql_clean($_POST['object_type']));       
+
+			assign('comments',$comments);
+			assign('type',$params['type']);
+			assign('type_id',$params['type_id']);
+			assign('last_update',$params['last_update']);
+			assign('total',$_POST['total_comments']);
+			assign('total_pages',$total_pages);
+			assign('comments_voting',$_POST['comments_voting']);
+			assign('commentPagination','yes');
+			if ($comments) {
+				Template('blocks/comments/comments.html');
+			} else {
+				echo "none";
+			}
+
+		}
+		break;
 		
 		
 		
@@ -1638,47 +1678,75 @@ if(!empty($mode))
 		}
 		break;
                 
-                
-                case "become_contributor" :
-                {
-                    $uid = userid();
-                    $cid = $_POST['cid'];
-                    
-                    $array = array();
-                    
-                    if($cbcollection->add_contributor($cid,$uid))
-                    {
-                        $array['msg'] = 'Successfully added as contributor';
-                    }  else
-                    {
-                        $array['err'] = error('single');
-                    }
-                    
-                    
-                    echo json_encode($array);
-                }
-                break;
+        
+        case "become_contributor" :
+        {
+            $uid = userid();
+            $cid = $_POST['cid'];
             
-                case "remove_contributor" :
-                {
-                    $uid = userid();
-                    $cid = $_POST['cid'];
-                    
-                    $array = array();
-                    
-                    if($cbcollection->remove_contributor($cid,$uid))
-                    {
-                        $array['msg'] = 'Successfully removed from contributors';
-                    }  else
-                    {
-                        $array['err'] = error('single');
-                    }
-                    
-                    
-                    echo json_encode($array);
-                }
-                break;
+            $array = array();
             
+            if($cbcollection->add_contributor($cid,$uid))
+            {
+                $array['msg'] = 'Successfully added as contributor';
+            }  else
+            {
+                $array['err'] = error('single');
+            }
+            
+            
+            echo json_encode($array);
+        }
+        break;
+    
+        case "remove_contributor" :
+        {
+            $uid = userid();
+            $cid = $_POST['cid'];
+            
+            $array = array();
+            
+            if($cbcollection->remove_contributor($cid,$uid))
+            {
+                $array['msg'] = 'Successfully removed from contributors';
+            }  else
+            {
+                $array['err'] = error('single');
+            }
+            
+            
+            echo json_encode($array);
+        }
+        break;
+
+        case 'photo_ajax':{
+        	try{
+
+
+				if(isset($_POST['photo_pre']) ) { 
+					$photo = $_POST['photo_pre'];
+					$user = $_POST['user']; 
+					$items = $_POST['item'];
+					$ci_id = $photo['ci_id'];
+					$collection = $photo['collection_id']; 	// collection id.
+					$link = $cbcollection->get_next_prev_item($ci_id,$collection,$item=$items,$limit=1,$check_only=false);  // getting Previous item
+					$srcString =BASEURL.'/files/photos/'.$link[0]['file_directory'].'/'.$link[0]['filename'].'.'.$link[0]['ext'];  // Image Source... 
+					$photo_key = $link[0]['photo_key'];  // Image Key.	
+					$response['photo'] = $link;
+					$response['photo_key'] = $photo_key;
+					$response['src_string'] = $srcString;   // Image source.
+					$response['collection_id'] = $collection;
+					echo json_encode($response);    		 
+				}
+			}
+
+			catch(Exception $e) {
+				$response["error_ex"] = true;
+				$response["msg"] = 'Message: ' .$e->getMessage();  // Error message.. 
+				echo (json_encode($response));
+			}
+        }
+    	break;
             
 		default:
 		header('location:'.BASEURL);

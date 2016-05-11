@@ -4,7 +4,7 @@
  * @Author : Arslan Hassan
  */
 include('../includes/config.inc.php');
-
+require_once(dirname(dirname(__FILE__))."/includes/classes/sLog.php");
 //var_dump($_FILES);die();
 
 if($_FILES['Filedata'])
@@ -126,7 +126,19 @@ switch($mode)
 		$file_directory = date('Y/m/d');
 		$targetFileName = $file_name.'.'.getExt( $_FILES['Filedata']['name']);
 		$targetFile = TEMP_DIR."/".$targetFileName;
-		$logFile = $file_name . ".log";
+		createDataFolders(LOGS_DIR);
+		$logFile = LOGS_DIR.'/'.$file_directory.'/'.$file_name.".log";
+		
+		$log = new SLog($logFile);
+		$log->newSection("Pre-Check Configurations");
+		$log->writeLine("File to be converted", 'Initializing File <strong>'.$file_name.'.mp4</strong> and pre checking configurations...', true);
+		$hardware = shell_exec('lshw -short');
+		if ($hardware){
+			$log->writeLine("System hardware Information", $hardware, true);	
+		}else{
+			$log->writeLine('System hardware Information', 'Unable log System hardware information, plaese install "lshw" ', true);	
+		}
+
 
 		logData('Checking Server configurations to start for filename : '.$file_name.'','checkpoints');
 		
@@ -151,7 +163,9 @@ switch($mode)
         2=>"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form",
         3=>"The uploaded file was only partially uploaded",
         4=>"No file was uploaded",
-        6=>"Missing a temporary folder"
+        6=>"Missing a temporary folder",
+        7=>"Failed to write file to disk",
+        8=>"A PHP extension stopped the file upload. PHP does not provide a way to ascertain which extension caused the file upload to stop; examining the list of loaded extensions with phpinfo() may help"
 		);
 		if (!isset($_FILES['Filedata'])) {
 			upload_error("No file was selected");
@@ -185,13 +199,20 @@ switch($mode)
 			exit(0);
 		}
 		
-		logData('moving physical file to TEMP_DIR','checkpoints');
-		move_uploaded_file($tempFile,$targetFile);
+		$moved = move_uploaded_file($tempFile,$targetFile);
+		
+		if ($moved){
+			$log->writeLine('Temporary Uploading', 'File Uploaded to Temp directory successfully and video conversion file is being executed !', true);	
+		}else{
+			$log->writeLine('Temporary Uploading', 'Went something wrong in moving the file in Temp directory!', true);	
+		}
 
 		
+
 		$Upload->add_conversion_queue($targetFileName);
 		$quick_conv = config('quick_conv');
 		$use_crons = config('use_crons');
+	
 		if($quick_conv=='yes' || $use_crons=='no')
 		{
 			//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
@@ -204,9 +225,11 @@ switch($mode)
 				
 			} else {
 				// for ubuntu or linux
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName $file_name $file_directory > /dev/null &");
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName $file_name $file_directory $logFile > /dev/null &");
 			}
 		}
+		$TempLogData = 'Video Converson File executed successfully with Target File > !'.$targetFileName; 
+		$log->writeLine('Video Conversion File Execution', $TempLogData, true);	
 		
 		echo json_encode(array("success"=>"yes","file_name"=>$file_name, 'phpos' => PHP_OS));
 		
@@ -217,6 +240,8 @@ switch($mode)
 	{
 		$Upload->validate_video_upload_form();
 		$_POST['videoid'] = trim($_POST['videoid']);
+		$_POST['title'] = addslashes($_POST['title']);
+		$_POST['description'] = addslashes($_POST['description']);
 		if(empty($eh->error_list))
 		{
 			$cbvid->update_video();

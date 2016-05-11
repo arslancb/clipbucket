@@ -575,44 +575,42 @@ abstract class CBCategory
 	 * Function used to edit category
 	 * submit values and it will update category
 	 */
-	function update_category($array)
-	{
+	function update_category($array) {
 		global $db;
 		$name = ($array['name']);
 		$desc = ($array['desc']);
-		$default = mysql_clean($array['default']);
+		$default = mysql_clean($array['default_categ']);
 		$pcat = mysql_clean($array['parent_cat']);
-		
-		$flds = array("category_name","category_desc");
-		$values = array($name,$desc);
-		
+
+		#exit($pcat);
+		$flds = array("category_name","category_desc","isdefault","parent_id");
+		$values = array($name,$desc, $default, $pcat);
 		$cur_name = mysql_clean($array['cur_name']);
 		$cid = mysql_clean($array['cid']);
-		
-		if(!empty($this->use_sub_cats))
-		{
+		if(!empty($this->use_sub_cats)) {
 			$flds[] = "parent_id";
 			$values[] = $pcat;	
 		}
 		
-		if($this->get_cat_by_name($name) && $cur_name !=$name )
-		{
+		if($this->get_cat_by_name($name) && $cur_name !=$name) {
 			e(lang("add_cat_erro"));
 			
-		}elseif(empty($name)){
+		} elseif (empty($name)) {
 			e(lang("add_cat_no_name_err"));
-		} elseif($pcat == $cid){
+		} elseif ($pcat == $cid){
 			e(lang("You can not make category parent of itself"));
-		}else{
+		} else {
+			$db->update(tbl($this->cat_tbl),array("isdefault"),"no"," category_id!='$cid' ");
 			$db->update(tbl($this->cat_tbl),$flds,$values," category_id='$cid' ");
 			
-			if($default=='yes' || !$this->get_default_category())
+			if($default=='yes')
 				$this->make_default_category($cid);
 			e(lang("cat_update_msg"),'m');
 			
 			//Uploading thumb
-			if(!empty($_FILES['cat_thumb']['tmp_name']))
+			if(!empty($_FILES['cat_thumb']['tmp_name'])) {
 				$this->add_category_thumb($cid,$_FILES['cat_thumb']);
+			}
 		}
 	}
 	

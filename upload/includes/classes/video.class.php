@@ -346,10 +346,14 @@ class CBvideo extends CBCategory
 			$upload_fields = array_merge($required_fields,$location_fields,$option_fields);
 			
 			//Adding Custom Upload Fields
-			if(count($Upload->custom_upload_fields)>0)
-			$upload_fields = array_merge($upload_fields,$Upload->custom_upload_fields);
+			if (function_exists('custom_fields_list')) {
+				$custom_flds = $Upload->load_custom_form_fields($array,true);
+				#pr($custom_flds,true);
+				$upload_fields = array_merge($upload_fields,$custom_flds);
+			}
 			
-			//Adding Custom Form Fields
+			
+			/*//Adding Custom Form Fields
 			if(count($Upload->custom_form_fields)>0)
 				$upload_fields = array_merge($upload_fields,$Upload->custom_form_fields);
 			
@@ -364,7 +368,7 @@ class CBvideo extends CBCategory
 				}						
 				
 				$upload_fields = array_merge($upload_fields,$custom_fields_from_group_fields);
-			}
+			}*/
 			
 			
 			if(!$array)
@@ -476,7 +480,7 @@ class CBvideo extends CBCategory
 				e(lang("no_edit_video"));
 			}else{
 				//pr($upload_fields);	
-	
+				#pr($query_field,true);
 				$db->update(tbl('video'),$query_field,$query_val," videoid='$vid'");
 
                 cb_do_action( 'update_video', array(
@@ -572,36 +576,15 @@ class CBvideo extends CBCategory
 				{
 					if (strstr($thumb,'timthumb'))
 						$thumb = $this->convert_tim_thumb_url_to_file($thumb,$file_name=false);
-					else
-						$thumb = substr($thumb, 0, -6);
 
-					$file = THUMBS_DIR.'/'.$thumb;
-					if(file_exists($file) && is_file($file))
+					if (!empty($vdetails['file_directory'])){
+						$file = THUMBS_DIR.'/'.$vdetails['file_directory'].'/'.$thumb;
+					}else{
+						$file = THUMBS_DIR.'/'.$thumb;
+					}
+					
+					if(file_exists($file) && is_file($file)){
 						unlink($file);
-				}
-				
-				foreach($thumbs as $thumb)
-				{
-					
-					if (strstr($thumb,'timthumb'))
-						$fn = $this->convert_tim_thumb_url_to_file($thumb,$file_name=true);
-					else
-						$fn = substr($thumb, 0, -6);
-					
-					$result = db_select("SELECT * FROM ".tbl("video")." WHERE file_name = '$fn'");
-					if($result)
-					{
-						
-						foreach($result as $result1)
-						{
-							$str = '/'.$result1['file_directory'].'/';
-							$file1 = THUMBS_DIR.$str.$thumb;
-							if(file_exists($file1) && is_file($file1))
-							{
-								unlink($file1);
-							}
-						}
-
 					}
 				}
 			}
@@ -738,7 +721,6 @@ class CBvideo extends CBCategory
 	 */
 	function get_videos($params)
 	{
-
 		global $db, $cb_columns;
 
 		$limit = $params['limit'];
@@ -906,7 +888,6 @@ class CBvideo extends CBCategory
 		//FEATURED
 		if($params['featured'])
 		{
-			//exit($params['featured']);
 			if($cond!='')
 				$cond .= ' AND ';
 			$cond .= " ".("video.featured")." = '".$params['featured']."' ";
@@ -1086,6 +1067,7 @@ class CBvideo extends CBCategory
             $query .= $order ? " ORDER BY ".$order : false;
             $query .= $limit ? " LIMIT ".$limit : false;
             #pr( $query, true );
+
             $result = select( $query );
 
 			#if(!empty($cond))
@@ -1165,8 +1147,15 @@ class CBvideo extends CBCategory
 		}
 		
 		if($params['pr']) pr($result,true);
-		if($params['count_only'])
+		if($params['count_only']){
+			if (!empty($superCond)){
+				if (!empty($cond)){
+					$cond .= " AND ";
+				}
+				$cond .= $superCond;
+			}
 			return $result = $db->count( cb_sql_table('video') , 'videoid' ,$cond );
+		}
 		if($params['assign'])
 			assign($params['assign'], apply_filters( $result, 'get_video' ) );
 		else
@@ -1791,7 +1780,7 @@ class CBvideo extends CBCategory
 	/**
 	 * Function used to get playlist items
 	 */
-	function get_playlist_items( $playlist_id, $order = null, $limit = -1 )
+	function get_playlist_items( $playlist_id, $order = null, $limit = 10 )
 	{
         global $db, $cb_columns;
 

@@ -74,7 +74,7 @@ class Upload{
 
 		// $_POST['embed_code'] = htmlspecialchars($_POST['embed_code']);
 		$this->validate_video_upload_form($array,TRUE);
-		
+
 		if(empty($eh->error_list))
 		{
 
@@ -181,7 +181,10 @@ class Upload{
             $query_field[] = "video_version";
             $query_val[] = '2.7';
 
-			
+			//thumbs_version
+            $query_field[] = "thumbs_version";
+            $query_val[] = '2.8';
+
 			//Upload Ip
 			$query_field[] = "uploader_ip";
 			$query_val[] = $_SERVER['REMOTE_ADDR'];
@@ -235,12 +238,12 @@ class Upload{
 			{
 				e(lang("you_not_logged_in"));
 				//exit();
-			}else{
+			} else {
 								
 				$insert_id = file_name_exists($file_name);
 				if(!$insert_id)
 				{
-					
+					#echo "$query";
 					$db->Execute($query);
 					$insert_id = $db->insert_id();
 					
@@ -271,46 +274,42 @@ class Upload{
 	 */
 	function get_available_file_num($file_name,$big=false)
 	{
-         // echo dir;
-		
-		//Starting from 1
+
 		$code = 1;
         if($big)
 			$big = "big-";
 
-       if(dir!=NULL)
-		    { 
-                 while(1)
-		        {
-		  
-                  $path = THUMBS_DIR.'/'.dir.'/'.$file_name.'-'.$big.$code.'.';
-			      if(!file_exists($path.'jpg') && !file_exists($path.'png') && !file_exists($path.'gif'))
-			          	break;
-			       else
-				  $code = $code + 1;
-				}
-		    }
+       	if(defined('dir')){ 
+          
+            while(1){
+		  		//setting variable for CB 2.8 gretaer versions
+              	$path = THUMBS_DIR.'/'.dir.'/'.$file_name.'-original-'.$code.'.';
+              	if(!file_exists($path.'jpg') && !file_exists($path.'png') && !file_exists($path.'gif')){
+              		//setting variable for CB 2.8 lower versions
+              		$path = THUMBS_DIR.'/'.dir.'/'.$file_name.'-'.$big.$code.'.';
+              	}
 
-		    else{
-                 
-                 while(1)
-		        {
-		         $path = THUMBS_DIR.'/'.$file_name.'-'.$big.$code.'.';
-			     if(!file_exists($path.'jpg') && !file_exists($path.'png') && !file_exists($path.'gif'))
+		      	if(!file_exists($path.'jpg') && !file_exists($path.'png') && !file_exists($path.'gif'))
+		          	break;
+		       	else
+			  	$code = $code + 1;
+			}
+		}else{
+            
+            while(1){
+		        $path = THUMBS_DIR.'/'.$file_name.'-'.$big.$code.'.';
+			    if(!file_exists($path.'jpg') && !file_exists($path.'png') && !file_exists($path.'gif'))
 			      	break;
-			       else
-				 $code = $code + 1;
-		
-		         }
-	            }
-			
-			
-		    return $code;
+			    else
+				$code = $code + 1;
+			}
+	    }
+		return $code;
 	}
 	
 	
 	
-	function upload_thumb($file_name,$file_array,$key=0,$files_dir=NULL)
+	function upload_thumb($file_name,$file_array,$key=0,$files_dir=NULL,$thumbs_ver=false)
 	{
 
 		global $imgObj,$LANG;
@@ -318,29 +317,55 @@ class Upload{
 		if(!empty($file['name'][$key]))
 		{   
 			define('dir',$files_dir);
-			define('t_width','501');
-			define('t_height','283');
-
+			
 			$file_num = $this->get_available_file_num($file_name);
 			$ext = getExt($file['name'][$key]);
 			if($imgObj->ValidateImage($file['tmp_name'][$key],$ext))
 			{
-				if($files_dir!=NULL){
+				//One more IF statement considering CB 2.8.1 thumbs strucure 
+				//Author : Fahad Abbas 
+				if (!empty($thumbs_ver) && $thumbs_ver == '2.8'){
 
-				$file_path = THUMBS_DIR.'/'.$files_dir.'/'.$file_name.'-'.$file_num.'.'.$ext;
-				$big_file_path = THUMBS_DIR.'/'.$files_dir.'/'.$file_name.'-big-'.$file_num.'.'.$ext;	
+					$thumbs_settings_28 = thumbs_res_settings_28();
+					$temp_file_path = THUMBS_DIR.'/'.$files_dir.'/'.$file_name.'-'.$file_num.'.'.$ext;
+					
+					$imageDetails = getimagesize($file['tmp_name'][$key]);
+					
+					move_uploaded_file($file['tmp_name'][$key],$temp_file_path);
+
+					foreach ($thumbs_settings_28 as $key => $thumbs_size) {
+						$height_setting = $thumbs_size[1];
+						$width_setting = $thumbs_size[0];
+						if ( $key != 'original' ){
+							$dimensions = implode('x',$thumbs_size);
+						}else{
+							$dimensions = 'original';
+							$width_setting  = $imageDetails[0];
+							$height_setting = $imageDetails[1];
+						}
+						$outputFilePath = THUMBS_DIR.'/'.$files_dir.'/'.$file_name.'-'.$dimensions.'-'.$file_num.'.'.$ext;	
+						$imgObj->CreateThumb($temp_file_path,$outputFilePath,$width_setting,$ext,$height_setting,false);
+					}
+
+					unlink($temp_file_path);
+
+				}else{
+					if($files_dir!=NULL){
+						$file_path = THUMBS_DIR.'/'.$files_dir.'/'.$file_name.'-'.$file_num.'.'.$ext;
+						$big_file_path = THUMBS_DIR.'/'.$files_dir.'/'.$file_name.'-big-'.$file_num.'.'.$ext;	
+					}
+					else{
+						$file_path = THUMBS_DIR.'/'.$file_name.'-'.$file_num.'.'.$ext;
+						$big_file_path = THUMBS_DIR.'/'.$file_name.'-big-'.$file_num.'.'.$ext;
+					}
+					move_uploaded_file($file['tmp_name'][$key],$file_path);
+					$imgObj->CreateThumb($file_path,$big_file_path,config('big_thumb_width'),$ext,config('big_thumb_height'),false);
+					$imgObj->CreateThumb($file_path,$file_path,config('thumb_width'),$ext,config('thumb_height'),false);
+				}
 				
-				}
-				else{
-				$file_path = THUMBS_DIR.'/'.$file_name.'-'.$file_num.'.'.$ext;
-				$big_file_path = THUMBS_DIR.'/'.$file_name.'-big-'.$file_num.'.'.$ext;
-				}
 			
-				move_uploaded_file($file['tmp_name'][$key],$file_path);
 				
-				$imgObj->CreateThumb($file_path,$big_file_path,config('big_thumb_width'),$ext,config('big_thumb_height'),false);
-				$imgObj->CreateThumb($file_path,$file_path,t_width,$ext,t_height,false);
-				e(lang('upload_vid_thumb_msg'.THUMB_WIDTH),'m');
+				e(lang('upload_vid_thumb_msg'),'m');
 			}	
 		}
 	}
@@ -372,19 +397,19 @@ class Upload{
 	 * @param $_FILES array name
 	 */
 	
-	function upload_thumbs($file_name,$file_array,$files_dir=NULL)
+	function upload_thumbs($file_name,$file_array,$files_dir=NULL,$thumbs_ver=false)
 	{
 		global $LANG;
 		if(count($file_array[name])>1)
 		{
 			for($i=0;$i<count($file_array['name']);$i++)
 			{
-				$this->upload_thumb($file_name,$file_array,$i,$files_dir);
+				$this->upload_thumb($file_name,$file_array,$i,$files_dir,$thumbs_ver);
 			}
 			e(lang('upload_vid_thumbs_msg'),'m');
 		}else{
 			$file = $file_array;
-			$this->upload_thumb($file_name,$file,$key=0,$files_dir);
+			$this->upload_thumb($file_name,$file,$key=0,$files_dir,$thumbs_ver);
 		}
 	}
 	
@@ -509,6 +534,7 @@ class Upload{
 							 'required'=>'yes',
 							 'validate_function'=>'genTags'	
 							 ),
+
 		 );
 		//Setting Anchors
 		$uploadFormRequiredFieldsArray['desc']['anchor_before'] = 'before_desc_compose_box';
@@ -516,6 +542,47 @@ class Upload{
 		//Setting Sizes
 		return $uploadFormRequiredFieldsArray;
 	}
+
+	function mycustom_field_load($default=NULL)
+	{
+		global $LANG;		
+		if($default == NULL)
+			$default = $_POST;
+		
+		$mycustom_fields_array = array
+		(
+		 'MR WHite'	=> array('title'=> lang('vdo_title'),
+							 'type'=> 'textfield',
+							 'name'=> 'title',
+							 'id'=> 'title',
+							 'value'=>  "AMNY",
+							 'size'=>'45',
+							 'db_field'=>'title',
+							 'required'=>'yes',
+							 'min_length' => config("video_min_title"),
+							 'max_length'=>config("video_max_title")
+
+							 ),
+		 'and the test'		=> array('title'=> lang('vdo_desc'),
+							 'type'=> 'textarea',
+							 'name'=> 'description',
+							 'id'=> 'desc',
+							 'value'=> "TEST",
+							 'size'=>'35',
+							 'extra_params'=>' rows="4"',
+							 'db_field'=>'description',
+							 'required'=>'yes',
+							 'anchor_after'=>'after_desc_compose_box',
+							 
+							 ),
+		 );
+		//Setting Anchors
+		$mycustom_fields_array['desc']['anchor_before'] = 'before_desc_compose_box';
+		
+		//Setting Sizes
+		return $mycustom_fields_array;
+	}
+	
 	
 	/**
 	* FUNCTION USED TO LOAD FORM OPTION FIELDS
@@ -932,28 +999,51 @@ class Upload{
 	
 	
 	/**
-	 * Function used to load custom form fields
-	 */
-	function load_custom_form_fields($data,$group_based=false)
-	{
-		if(!$group_based)
-		{
-			$array = $this->custom_form_fields;
-			foreach($array as $key => $fields)
-			{
-					if($data[$fields['db_field']])
+	* Function used to load custom form fields
+	* @return : { array } { $new_array } { an array with all custom fields }
+	*/
+
+	function load_custom_form_fields($data, $insertion = false,$group_based=false, $user = false) {
+		if(!$group_based) {
+			if (function_exists('pull_custom_fields')) {
+				if ($user) {
+					$array = pull_custom_fields('signup');
+				} else {
+					$array = pull_custom_fields('video');
+				}
+			}
+			$cleaned = array();
+			#pr($array,true);
+			if (!$insertion) {
+				foreach ($array as $key => $field) {
+					$cleaned[$key]['title'] = $field['custom_field_title'];
+					$cleaned[$key]['type'] = $field['custom_field_type'];
+					$cleaned[$key]['name'] = 'cfld_'.$field['custom_field_name'];
+					$cleaned[$key]['value'] = $field['custom_field_value'];
+					$cleaned[$key]['db_field'] = 'cfld_'.$field['custom_field_name'];
+				}
+			} else {
+				foreach ($array as $key => $field) {
+					$cleaned[$field['custom_field_name']]['title'] = $field['custom_field_title'];
+					$cleaned[$field['custom_field_name']]['type'] = $field['custom_field_type'];
+					$cleaned[$field['custom_field_name']]['name'] = 'cfld_'.$field['custom_field_name'];
+					$cleaned[$field['custom_field_name']]['value'] = $field['custom_field_value'];
+					$cleaned[$field['custom_field_name']]['db_field'] = 'cfld_'.$field['custom_field_name'];
+				}
+			}
+			foreach($cleaned as $key => $fields) {
+					if($data[$fields['db_field']]) {
 						$value = $data[$fields['db_field']];
-					elseif($data[$fields['name']])
+					} elseif($data[$fields['name']]) {
 						$value = $data[$fields['name']];
-						
-						
-					if($fields['type']=='radiobutton' || 
+					}
+					if($fields['type']=='radiobutton' ||  
 					   $fields['type']=='checkbox' ||
-					   $fields['type']=='dropdown')
-					$fields['checked'] = $value;
-					else
-					$fields['value'] = $value;
-					
+					   $fields['type']=='dropdown') {
+						$fields['checked'] = $value;
+					} else {
+						$fields['value'] = $fields['value'];
+					}
 						
 					$new_array[$key] = $fields;
 			}
@@ -1002,32 +1092,6 @@ class Upload{
 							}
 						}else{
 							e(lang("class_error_occured"));
-						}
-					}
-				}
-				break;
-				case 'b':
-				case 'bg':
-				case 'background':
-				{
-					if($file['size']/1024 > config('max_bg_size'))
-						e(sprintf(lang('file_size_exceeds'),config('max_bg_size')));
-					elseif(file_exists($file['tmp_name']))
-					{
-						$ext = getext($file['name']);
-						$file_name = $uid.'.'.$ext;
-						$file_path = $bg_dir.$file_name;
-						if(move_uploaded_file($file['tmp_name'],$file_path))
-						{
-							if(!$imgObj->ValidateImage($file_path,$ext))
-							{
-								e(lang("Invalid file type"));
-								@unlink($file_path);
-							}else{
-								$imgObj->CreateThumb($file_path,$file_path,BG_SIZE,$ext);
-							}
-						}else{
-							e(lang("An error occured While Uploading File!"));
 						}
 					}
 				}

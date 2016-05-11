@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		{if in_dev()}
+			{$cache_buster=microtime(true)}
+		{else}
+			{$cache_buster=$Cbucket->version}
+		{/if}
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+		<!-- ClipBucket v{$Cbucket->version} -->
+		<meta name="copyright" content="ClipBucket - Integrated Units 2007 - {$smarty.now|date_format:"%Y"}">
+		<meta name="author" content="Arslan Hassan - http://clip-bucket.com/arslan-hassan">
+		<meta name="author" content="Fawaz Tahir - http://clip-bucket.com/fawaz-tahir">
+		<link rel="icon" type="image/ico" href="{$baseurl}/favicon.ico">
+
+		<!-- RSS FEEDS -->
+		{rss_feeds link_tag=true}
+
+		<meta name="keywords" content="{$Cbucket->configs.keywords}">
+		<meta name="description" content="{$Cbucket->configs.description}">
+		<meta name="distribution" content="global">
+
+
+		<title>{cbtitle}</title>
+
+		<link rel="stylesheet" href="{$theme}/css/bootstrap.min.css?cache={$cache_buster}">
+
+		<link rel="stylesheet" href="{$theme}/css/font-awesome.min.css?cache={$cache_buster}">
+
+		<link rel="stylesheet" href="{$theme}/css/icon-font.css?cache={$cache_buster}">
+
+		<link rel="stylesheet" href="{$theme}/css/custom-elements.css?cache={$cache_buster}">
+
+		{*if !in_dev()*}
+		<link rel="stylesheet" href="{$theme}/css/all.css?cache={$cache_buster}">
+		{*/if*}
+
+		<script src="{$theme}/js/jquery-1.11.3.min.js"></script>
+		<link rel="stylesheet" href="{$baseurl}/styles/global/jquery_ui.css">
+
+		<script>
+			var loading = '<i class="glyphicon glyphicon-refresh animate-spin"></i> {lang code="loading"}...';
+			var baseurl = "{$baseurl}";
+			var imageurl = "{$imageurl}";
+			var userid = "{userid()}";
+		</script>
+		<script src="{$theme}/js/custom.js"></script>
+
+		<script src="{$theme}/js/bootstrap.min.js"></script>
+		
+		<script src="{$theme}/js/ui_plugins.js"></script>
+		
+		<script src="{$baseurl}/js/clipbucket.js"></script>
+		<script src="{$theme}/js/uslider_js/jquery.mousewheel.js"></script>
+		<script src='https://www.google.com/recaptcha/api.js'></script>
+		
+
+		<!-- Script For Home Page Videos Slider //-->
+
+		<!-- Getting quicklist videos and assigning -->
+		{assign var=qlist_videos value=get_fast_qlist()}
+		{assign var=litems_count value=$qlist_videos|@count}
+		{if $litems_count >= 1} 
+			{assign var=got_qlitems value="yes"}
+		{/if}
+
+		<script>
+			var fastQitems = "{$got_qlitems}";
+			$(document).ready(function(){
+				var quicklist_videos = '{$quicklist}';
+				if (quicklist_videos)
+				quicklist_videos_check(quicklist_videos);
+
+				loading = '<i class="glyphicon glyphicon-refresh animate-spin"></i> {lang code="loading"}...';
+				$( 'ul#photos li:visible' ).each( function( i ){
+					$( this )[ (1&i) ? 'addClass' : 'removeClass' ]( 'photo-land-no' );
+				})
+			})
+		</script>
+		{include file="$style_dir/blocks/quicklist/qlist_main.html"}
+		<script type="text/javascript" src="{$theme}/js/fast_qlist.js"></script>
+		<script type="text/javascript" src="{$theme}/js/uslider_js/jquery.mousewheel.js"></script>
+		{include_header file='global_header'}
+		{if $Cbucket->header_files}
+		    <!-- Including Headers -->
+		    {foreach from=$Cbucket->header_files key=file item=type}
+		        {include_header type=$type file=$file}
+		    {/foreach}
+		    <!-- Ending Headers -->
+		{/if}
+	</head>

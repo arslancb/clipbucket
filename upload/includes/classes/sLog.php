@@ -22,7 +22,7 @@ class SLog{
 		$this->logData .= "\n\r==========================================\n\r";
 	}
 
-	public function writeLine($title = false, $description = false, $writeNow = true){
+	public function writeLine($title = false, $description = false, $writeNow = true, $append=false){
 		if($title && $description){
 			if(is_array($description)) $description = json_encode($description);
 			$underline = "";
@@ -32,20 +32,29 @@ class SLog{
 			}
 			$underline .= "\n";
 			$this->logData .= "\n{$title}\n{$underline}\t\t{$description}\n";
-			if($writeNow) $this->appendLog();
+			if (!$append){
+				if($writeNow) $this->writeLog();	
+			}else{
+				if($writeNow) $this->appendLog();
+			}
+			
 		}
 	}
 
 	public function writeLog(){
 		if(!$this->logFile) return;
-		$this->fileHandle = fopen($this->logFile, "w+");
+		$this->fileHandle = fopen($this->logFile, "w+") or die("Unable to open file!");
 		fwrite($this->fileHandle, $this->logData);
 		fclose($this->fileHandle);
 		return $this;
 	}
 
 	public function appendLog(){
-		$this->writeLog();
+		if(!$this->logFile) return;
+		$TempData = file_get_contents($this->logFile);
+		$this->logData = "\n{$TempData}\n{$this->logData}";
+		file_put_contents($this->logFile, $this->logData);
+		return $this;
 	}
 
 	public function setLogFile($logFile = false){

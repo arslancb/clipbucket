@@ -1,0 +1,111 @@
+@import "variables";
+@import "private-variables";
+@import "utilities";
+
+@import "fonts/scss/videojs-icons";
+
+@import "components/layout";
+@import "components/big-play";
+@import "components/button";
+@import "components/close-button";
+
+@import "components/menu/menu";
+@import "components/menu/menu-popup";
+@import "components/menu/menu-inline";
+
+@import "components/control-bar";
+@import "components/control";
+@import "components/control-spacer";
+
+@import "components/progress";
+@import "components/slider";
+
+@import "components/volume";
+
+@import "components/poster";
+@import "components/live";
+@import "components/time";
+@import "components/play-pause";
+@import "components/text-track";
+@import "components/fullscreen";
+@import "components/playback-rate";
+@import "components/error";
+@import "components/loading";
+@import "components/captions";
+@import "components/chapters";
+@import "components/descriptions";
+@import "components/subtitles";
+@import "components/adaptive";
+@import "components/captions-settings";
+@import "components/modal-dialog";
+.player-holder {
+	overflow: hidden;
+}
+.vjs-cb-header-caption {
+	position: absolute;
+	display: none;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	width: 100%;
+	background-color: rgba(0,0,0,.5);
+	color: rgba(255,255,255,1);
+	padding:8px 10px;
+	.captionBlock {
+		display: table;
+		width: 100%;
+		table-layout: fixed;
+		.col {
+			display: table-cell;
+			vertical-align: middle;
+		}
+		.vidTitle {
+			width: 70%;
+		}
+		p {
+			font-size: 16px;
+			margin: 0;
+			line-height: normal;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		.uploaderName {
+			float: right;
+			font-size: 14px;
+			font-weight: 400;
+			text-align: right;
+		}
+	}
+}
+.vjs-cblogo-brand {
+	padding: 7px 0 0 !important;
+	img {
+		width: 32px;
+	}
+}
+.vjs-resolution-button-staticlabel {
+	width: 3em;
+	height: 100%;
+	&:before {
+		font-family: $icon-font-family;
+		content: '\e613' !important;
+		line-height: 40px !important;
+	}
+}
+.vjs-default-skin.vjs-paused .vjs-big-play-button {
+	display: block;
+}
+@media only screen and (max-width: 767px) {
+	.video-js .vjs-big-play-button {
+		&:before {
+			font-size: 60px;
+			line-height: 50px;
+			height: 60px;
+			width: 60px; // Firefox bug: For some reason without width the icon wouldn't show up. Switched to using width and removed padding.
+			display: block;
+			margin-top: -30px;
+			margin-left: -30px;
+		}
+	}
+}

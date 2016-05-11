@@ -40,10 +40,7 @@
         </div>
     </div>
 </li>
-
-
 {else}
-
 <li id="comment_{$comment.comment_id}" class="clearfix"  {$comment_attr}>
     <div class="comments-box clearfix">
         {$user_id=$comment.userid}
@@ -52,8 +49,12 @@
             <img src="{avatar details=$user}" alt="" class="comnt_pic">
         </div>
         <div class="comment-info">
+            {if $comment.anonym_name != ''}
+                {$comment.anonym_name} (Annonymous)
+            {else}
             <a href="{$userquery->profile_link($user)}" >
                 {name($user)}
+            {/if}
             </a>
              <!-- <i class="text-muted">- {$comment.date_added|niceTime}</i> -->
             <p>{$comment.comment|comment}</p>

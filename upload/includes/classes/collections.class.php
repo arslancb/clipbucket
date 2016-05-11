@@ -553,7 +553,7 @@ class Collections extends CBCategory
 		
 		if(!$count_only)
 		{
-			$result = $db->select($tables,"$itemsTbl.ci_id,$itemsTbl.collection_id,$objTbl.*,".tbl('users').".username"," $itemsTbl.collection_id = '$id' AND $itemsTbl.object_id = $objTbl.".$this->objFieldID." AND $objTbl.userid = ".tbl('users').".userid",$limit,$order);
+			$result = $db->select($tables,"$itemsTbl.ci_id,$itemsTbl.collection_id,$objTbl.*,".tbl('users').".username"," $itemsTbl.collection_id = '$id' AND active = 'yes' AND $itemsTbl.object_id = $objTbl.".$this->objFieldID." AND $objTbl.userid = ".tbl('users').".userid",$limit,$order);
 			//echo $db->db_query;
 		} else {
 			$result = $db->count($itemsTbl,"ci_id"," collection_id = $id");	
@@ -989,33 +989,37 @@ class Collections extends CBCategory
 	}
 	
 	/**
-	 * Function used to get collection field vlaue
-	 */
-	function get_collection_field($cid,$field=NULL)
-	{
+	* Extract collection's name using Collection's id
+	* function is mostly used via Smarty template engine
+	* 
+	* @param : { integer } { $cid } { collection id to get name for }
+	* @param : { string } { $field } { collection name by default, field you need to fetch for id }
+	*/
+
+	function get_collection_field($cid,$field=NULL) {
 		global $db;
-		if($field==NULL)
+		if($field==NULL) {
 			$field = "*";
-		else
+		} else {
 			$field = $field;
-			
-		if(is_array($cid))
+		}		
+		if(is_array($cid)) {
 			$id = $cid['collection_id'];
-		else
+		} else {
 			$id = $cid;
-		
+		}	
 		$cid = mysql_clean($cid);
-		$field = mysql_clean($field);
-		
+		$field = mysql_clean($field);	
 		$result = $db->select(tbl($this->section_tbl),$field," collection_id = $id");
-		if($result)
-		{
-			if(count($result[0]) > 2)
+		if($result) {
+			if(count($result[0]) > 2) {
 				return $result[0];
-			else
+			} else {
 				return $result[0][$field];	
-		} else
+			}
+		} else {
 			return false;
+		}
 	}
 	
 	/**
@@ -1689,17 +1693,14 @@ class Collections extends CBCategory
 		
 		/* THIS MEANS OBJECT IS ORPHAN MOST PROBABLY AND HOPEFULLY - PHOTO 
 		   NOW WE WILL ADD $OBJ TO $NEW */
+
 		if($old == 0 || $old == NULL)
 		{
 			$this->add_collection_item($obj,$new);
 		} else {
 			$update = $db->update(tbl($this->items),array('collection_id'),array($new)," collection_id = $old AND type = '".$this->objType."' AND object_id = $obj");
-			
-			if(!empty($update))
-			{
-				$this->update_collection_counts($new,1,'+');
-				$this->update_collection_counts($old,1,'-');
-			}
+			$this->update_collection_counts($new,1,'+');
+			$this->update_collection_counts($old,1,'-');
 		}
 	}
 	
@@ -1951,7 +1952,46 @@ class Collections extends CBCategory
             if($results)
                 return $results;
         }
-	
+
+        function coll_first_thumb($col_data, $size = false) {
+        	global $cbphoto,$cbvid;
+        	if (is_array($col_data)) {
+        		switch ($col_data['type']){
+        			case 'photos':
+        			default : {
+        				$first_col = $cbphoto->collection->get_collection_items_with_details($col_data['collection_id'],0,1,false);
+        				$param['details'] = $first_col[0];
+		        		if (!$size) {
+		        			$param['size'] = 's';
+		        		} else {
+		        			$param['size'] = $size;
+		        		}
+		        		$param['class'] = 'img-responsive';
+		        		$first_col = get_photo($param);
+        			}
+        			break;
+        			
+        			case 'videos': {
+        				$first_col = $cbvid->collection->get_collection_items_with_details($col_data['collection_id'],0,1,false);
+        				$vdata = $first_col[0];
+        				if (!$size || $size == 's') {
+		        			$size = '168x105';
+		        		} else if($size == 'l'){
+		        			$size= '632x395';
+		        		}else {
+		        			$size = '416x260';
+		        		}
+		        		$first_col = get_thumb($vdata,'default',false,false,true,false,$size);
+        			}
+        			break;
+        		}
+        		
+        		return $first_col;
+        	} else {
+        		return false;
+        	}
+        }
+
 }
 
 ?>

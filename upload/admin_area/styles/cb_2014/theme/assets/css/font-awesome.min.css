@@ -275,7 +275,7 @@ a .icon-rotate-90:before,a .icon-rotate-180:before,a .icon-rotate-270:before,a .
 .icon-angle-left:before{content:"\f104";}
 .icon-angle-right:before{content:"\f105";}
 .icon-angle-up:before{content:"\f106";}
-.icon-angle-down:before{content:"\f107";}
+.icon-angle-down:before{content:"\f107" !important; font-family:'FontAwesome' !important; }
 .icon-desktop:before{content:"\f108";}
 .icon-laptop:before{content:"\f109";}
 .icon-tablet:before{content:"\f10a";}

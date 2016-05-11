@@ -23,14 +23,14 @@
             {if $useSubs == 1}
             <div class="col-md-4">
                 <label>Parent Category</label>
-                {cbCategories output="dropdown" class="form-control" name="parent_cat" id="parent_cat" blank_option=TRUE echo=TRUE type="video"}
+                {cbCategories output="dropdown" class="form-control" name="parent_cat" id="parent_cat" blank_option=TRUE echo=TRUE type="user"}
 
             </div>
             <div class="col-md-4">
                 <label>Make Default Category</label>
-                <select class="form-control">
-                    <option class="form-control" name="default" id="default_0">Yes</option>
-                    <option class="form-control" name="default" id="default_1">No</option>
+                <select class="form-control" name="default_categ">
+                    <option class="form-control" name="default" id="default_0" value="yes">Yes</option>
+                    <option class="form-control" name="default" id="default_1" value="no">No</option>
                 </select>
             </div>
         </div>
@@ -71,11 +71,11 @@
             </div>
             <div class="col-md-4">
                 <label>Parent Category</label>
-                {cbCategories output="dropdown" class='form-control' selected=$cat_details.parent_id name="parent_cat" id="parent_cat" blank_option=TRUE type="video" echo=TRUE}
+                {cbCategories output="dropdown" class='form-control' selected=$cat_details.parent_id name="parent_cat" id="parent_cat" blank_option=TRUE type="user" echo=TRUE}
             </div>
             <div class="col-md-4">
                 <label>Make Default Category</label>
-                <select class="form-control">
+                <select class="form-control" name="default_categ">
                     <option class="form-control" name="default" id="default_0" {if $cat_details.isdefault=='yes'} checked="checked"{/if} >Yes</option>
                     <option class="form-control" name="default" id="default_1" {if $cat_details.isdefault=='no'} checked="checked"{/if}>No</option>
                 </select>

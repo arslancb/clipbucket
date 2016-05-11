@@ -219,7 +219,7 @@ $videos = get_videos($result_array);
 
 Assign('videos', $videos);
 
-
+$comment_cond['limit'] = 10;
 $comments = getComments($comment_cond);
 assign("comments",$comments);
 
@@ -248,6 +248,7 @@ function format_number($number) {
 }
 
 Assign(BASEURL,'baseurl');
+assign("VERSION", VERSION);
 
 //subtitle(lang('video_manager'));
 template_files('index.html');

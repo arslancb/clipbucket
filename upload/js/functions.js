@@ -102,7 +102,7 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 		         	attrb.css('display','none');
 		        }
 		        
-		         
+		         $('#'+inner_mode).html('Laod More...');
 		    },
 		/*    complete:function (argument) {
 		    	$('#'+inner_mode).button().button('reset');
@@ -181,7 +181,7 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 				  var vid = data.vid;
 				  
 				   $.post(baseurl+'/actions/file_uploader.php',
-				  {"getForm":"get_form","title":$("#remote_file_url").val(),"objId":remoteObjID},
+				  {"getForm":"get_form","title":$("#remote_file_url").val(),"objId":remoteObjID,"vid":vid},
 				  function(data)
 				  {
 					    $('#remoteUploadBttnStop').hide();
@@ -208,9 +208,9 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 	function youtube_upload()
 	{
 
-		$('#remoteUploadBttn').button('loading');
+		$('#remoteUploadBttn').attr('disabled','disabled');
 		//$('#ytUploadBttn').attr("disabled","disabled");
-		$('#ytUploadBttn').button('loading');
+		$('#ytUploadBttn').attr('disabled','disabled');
 		var file = $("#remote_file_url").val();
 		force_stop = false;		
 		if(!file || file=='undefined')
@@ -549,7 +549,7 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 				$("#"+result_cont).css("display","none");
 				$("#"+result_cont).html(data);
 
-				$("#result_cont").append(data);
+				$("#result_cont").html(data);
 				$("#result_cont").show(0).delay(3000).fadeOut('slow');
 			}
 		},'text');
@@ -1735,7 +1735,7 @@ function decode64(input) {
 	function add_comment_js(form_id,type)
 	{   
 		$("#add_comment_result").css("display","block");
-		$("#add_comment_button").val('Uploading...');
+		$("#add_comment_button").val('Adding...');
 		$("#add_comment_button").attr("disabled",true);
 		$(".add-reply").attr("disabled",true);
 
@@ -1858,5 +1858,13 @@ function decode64(input) {
 		$("#add_comment_button").val('Add Comment');
 		$("#add_comment_button").attr("disabled",false);
 		$(".add-reply").attr("disabled",false);
+	}
+
+	function isValidEmail(email) {
+		if (email.match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)) {
+			return email;
+		} else {
+			return false;
+		}
 	}
 	

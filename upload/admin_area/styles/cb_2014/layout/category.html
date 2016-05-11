@@ -29,7 +29,7 @@
     <tr>
         <div class="col-md-4">
             <label>Make Default Category</label>
-            <select class="form-control">
+            <select class="form-control" name="default_categ">
             <option class="form-control" name="default" id="default_0">Yes</option>
             <option class="form-control" name="default" id="default_1" selected="selected">No</option>
                 </select>
@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-4">
                 <label>Make Default Category</label>
-                <select class="form-control">
+                <select class="form-control" name="default_categ">
                     <option class="form-control" name="default" id="default_0" {if $cat_details.isdefault=='yes'} checked="checked"{/if} >Yes</option>
                     <option class="form-control" name="default" id="default_1" {if $cat_details.isdefault=='no'} checked="checked"{/if}>No</option>
                 </select>

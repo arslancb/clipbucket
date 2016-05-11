@@ -108,6 +108,7 @@
                             </ul>  
                             {/foreach}
 						</div>
+						{if isSectionEnabled('photos')}
 						<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
 							<h2><i class="fa fa-camera"></i>&nbsp;Photos</h2>
 							{$sorting_links=sorting_links()}     
@@ -119,6 +120,7 @@
                             </ul>  
                             {/foreach}
 						</div>
+						{/if}
 						<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
 							<h2><i class="fa fa-desktop"></i>&nbsp;Channels</h2>
 							{$sorting_links=sorting_links()}     
@@ -152,6 +154,7 @@
                             </ul>  
                             {/foreach}
 						</div>
+                            {ANCHOR place="audio_menu_links"}
 					</li>
 				</ul>				
 			</li>
@@ -178,6 +181,7 @@
 					<li><a href="{link name='my_account' }{userid}"><i class="fa fa-user"></i></i>&nbsp;&nbsp;{lang code="my_account"}</a></li>
 					{ANCHOR place='premium_button_link'}
 					<li><a href="{link name='my_videos'}"><i class="fa fa-video-camera"></i>&nbsp;&nbsp;{lang code="Manage Videos"}</a></li>
+					{ANCHOR place="head_audio_dropdown"}
 					<li><a href="{link name='channels'}"><i class="fa fa-eye"></i>&nbsp;&nbsp;{lang code="View Channels"}</a></li>
 					<li><a href="{$baseurl}/view_channel.php?user={$userquery->username}"><i class="fa fa-desktop"></i>&nbsp;&nbsp;{lang code="My Channel"}</a></li>
 				</ul>
@@ -187,7 +191,10 @@
 				<a href="{link name='upload'}" class="dropdown-toggle" data-toggle="dropdown">{lang code="Uploads"} <b class="caret"></b></a>
 				<ul role="menu" class="dropdown-menu">
 					<li><a href="{link name='upload'}">{lang code="Upload Video"}</a></li>
+					{if isSectionEnabled('photos')}
 					<li><a href="{link name='photo_upload'}">{lang code="Upload Photo"}</a></li>
+					{/if}
+					{ANCHOR place="aud_upload_link"}
 				</ul>
 			</li>
 			<li class="navbar-sm-login-links"><a href="{link name='logout'}">{lang code='logout'}</a></li>
@@ -269,6 +276,7 @@
 					<li><a href="{link name='my_account' }{userid}"><i class="fa fa-user"></i></i>&nbsp;&nbsp;{lang code="my_account"}</a></li>
 					{ANCHOR place='premium_button_link'}
 					<li><a href="{link name='my_videos'}"><i class="fa fa-video-camera"></i>&nbsp;&nbsp;{lang code="Manage Videos"}</a></li>
+					{ANCHOR place="head_audio_dropdown"}
 					<li><a href="{link name='channels'}"><i class="fa fa-eye"></i>&nbsp;&nbsp;{lang code="View Channels"}</a></li>
 					<li><a href="{$baseurl}/view_channel.php?user={$userquery->username}"><i class="fa fa-desktop"></i>&nbsp;&nbsp;{lang code="My Channel"}</a></li>
 					<li class="divider"></li>
@@ -299,7 +307,10 @@
 				</button>
 				<ul role="menu" class="dropdown-menu upload-dropdown">
 					<li><a href="{link name='upload'}">{lang code="Upload Video"}</a></li>
+					{if isSectionEnabled('photos')}
 					<li><a href="{link name='photo_upload'}">{lang code="Upload Photo"}</a></li>
+					{/if}
+					{ANCHOR place="aud_upload_link"}
 				</ul>
 			</div>
 		</div>

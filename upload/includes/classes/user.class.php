@@ -100,12 +100,12 @@ class userquery extends CBCategory{
 		$this->add_access_type('mod_access','Moderator Access');*/
 		
 		//Fetching List Of User Levels
-		$levels = $this->get_levels();
+		/*$levels = $this->get_levels();
 		foreach($levels as $level)
 		{
 			$this->usr_levels[$level['user_level_id']]=$level["user_level_name"];
 		}
-		
+		*/
 		$udetails = "";
 		
 		if($this->userid)
@@ -938,7 +938,7 @@ class userquery extends CBCategory{
 			$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
 			
 			//Now Finally Sending Email
-			cbmail(array('to'=>$friend['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));		
+			#cbmail(array('to'=>$friend['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));		
 		}
 		
 	}
@@ -3085,15 +3085,63 @@ class userquery extends CBCategory{
 		else
 			return false;
 	}
-	
+
+	/*
+	* Get number of all unread messages of a user using his userid
+	*/
+
+	function get_unread_msgs( $userid, $label = false )
+	{
+		global $db;
+		$userid = '#'.$userid.'#';
+		$results = $db->select(tbl("messages"),"*", "message_to='$userid' AND message_status='unread'");
+		$count = count($results);
+
+		if ( $label )
+		{
+			echo '<span class="label label-default">'.$count.'</span></h3>';
+		}
+
+		return $count;
+	}
+
+	/*
+	* Get number of all read messages of a user using his userid
+	*/
+
+	function get_read_msgs( $userid, $label = false )
+	{
+		global $db;
+		$results = $db->select(tbl("messages"),"*", "message_to='$userid' AND message_status='read'");
+		$count = count($results);
+
+		if ( $label )
+		{
+			echo '<span class="label label-danger">'.$count.'</span></h3>';
+		}
+
+		return $count;
+	}
+
+	function show_unread_alrt( $userid, $class ) {
+		$forbid = array('index','watch_video','view_item','videos','photos','channels','collections','view_page','search_result');
+		$page = THIS_PAGE;
+		if (!in_array($page, $forbid)) {
+			$unread_msgs = $this->get_unread_msgs( $userid );
+			if ($unread_msgs > 0) {
+				echo "<div class='".$class." alert alert-warning'>You have <a href=".BASEURL."/private_message.php?mode=inbox><span style='color: black'><strong>".$unread_msgs."<strong> unread messages </a> in your inbox</div>";
+			} else {
+				return false;
+			}
+		}
+	}
 	
 	/**
 	 * My Account links Edited on 12 march 2014 for user account links
 	 */
     function my_account_links()
     {
-
-
+   
         $array[lang('account')]	=
             array
             (
@@ -3111,7 +3159,6 @@ class userquery extends CBCategory{
             lang('account_settings') =>'edit_account.php?mode=account',
             lang('user_profile_settings') =>'edit_account.php?mode=profile',
             lang('change_avatar') 	=> 'edit_account.php?mode=avatar_bg',
-            lang('change_bg') => 'edit_account.php?mode=channel_bg',
         );
 
         if(isSectionEnabled('videos'))
@@ -3136,7 +3183,7 @@ class userquery extends CBCategory{
             );
         $array[lang('messages')] = array
         (
-            lang('inbox')	=> 'private_message.php?mode=inbox',
+            lang('inbox ('.$this->get_unread_msgs($this->userid).')')	=> 'private_message.php?mode=inbox',
             lang('notifications') => 'private_message.php?mode=notification',
             lang('sent')	=> 'private_message.php?mode=sent',
             lang('title_crt_new_msg')=> cblink(array('name'=>'compose_new')),
@@ -3340,20 +3387,35 @@ class userquery extends CBCategory{
 			$email = (isset($default['email'])) ? $default['email'] : "";
 			if(isset($default['country'])){
 				$dcountry = (isset($default['country'])) ? $default['country'] : $Cbucket->configs['default_country_iso2'];
-			}else{
+			} else {
 				$dcountry = "";
 			}
 			$dob = (isset($default['dob'])) ? $default['dob'] : "";
 			//var_dump($_POST);
 			//die();
 			 $dob =  $dob ? date(config("date_format"),strtotime($dob)) : date(config("date_format"),strtotime('14-10-1989'));
-				
-					 
+			
+			$countries = $Cbucket->get_countries(iso2);
+			$user_ip = $_SERVER['REMOTE_ADDR']; // getting user's ip
+			$user_country = ip_info($user_ip, 'country'); // get country using IP
+			foreach ($countries as $code => $name) {
+				$name = strtolower($name);
+				$user_country = strtolower($user_country);
+				if ($name == $user_country) {
+					$selected_cont = $code;
+				}
+			}
+
+			if (strlen($selected_cont) != 2) {
+				$selected_cont = "PK";
+			}
+
 			 $user_signup_fields = array
 			 (
 			  'username' => array(
 								  'title'=> lang('username'),
 								  'type'=> "textfield",
+								  'placehoder'=>"Username",
 								  'name'=> "username",
 								  'id'=> "username",
 								  'value'=> $username,
@@ -3368,10 +3430,12 @@ class userquery extends CBCategory{
 								  'db_value_err'=>lang('usr_uname_err2'),
 								  'min_length'	=> config('min_username'),
 								  'max_length' => config('max_username'),
+								  'placeholder'=>"Username",
 								  ),
 			  'email' => array(
 								  'title'=> lang('email'),
 								  'type'=> "textfield",
+								  'placehoder'=>"Email",
 								  'name'=> "email",
 								  'id'=> "email",
 								  'value'=> $email,
@@ -3379,12 +3443,14 @@ class userquery extends CBCategory{
 								  'required'=>'yes',
 								  'syntax_type'=> 'email',
 								  'db_value_check_func'=> 'email_exists',
+								  'validate_function'=> 'is_valid_email',
 								  'db_value_exists'=>false,
 								  'db_value_err'=>lang('usr_email_err3')
 								  ),
 			  'password' => array(
 								  'title'=> lang('password'),
 								  'type'=> "password",
+								  'placehoder'=>"Password",
 								  'name'=> "password",
 								  'id'=> "password",
 								  'db_field'=>'password',
@@ -3399,18 +3465,33 @@ class userquery extends CBCategory{
 			  'cpassword' => array(
 								  'title'=> lang('user_confirm_pass'),
 								  'type'=> "password",
+								  'placehoder'=>"Re-enter password",
 								  'name'=> "cpassword",
 								  'id'=> "cpassword",
 								  'required'=>'no',
 								  'invalid_err'=>lang('usr_cpass_err'),
 								  ),
+			  'dob'	=> array(
+							 'title' => lang('user_date_of_birth'),
+							 'type' => 'textfield',
+							 'name' => 'dob',
+							 'readonly' => 'true',
+							 'id' => 'dob',
+							 'anchor_after' => 'date_picker',
+							 'value'=> $dob,
+	                         'validate_function' => 'verify_age',
+							 'db_field'=>'dob',
+							 'required'=>'yes',
+	                         'invalid_err'=>lang('You must be atleast '.config('min_age_reg').' to register'),
+							 ),
+
 			  'country'	=> array(
 								 'title'=> lang('country'),
 								 'type' => 'dropdown',
-								 'value' => $Cbucket->get_countries(iso2),
+								 'value' => $countries,
 								 'id'	=> 'country',
 								 'name'	=> 'country',
-								 'checked'=> $dcountry,
+								 'checked'=> $selected_cont,
 								 'db_field'=>'country',
 								 'required'=>'yes',
 								 ),
@@ -3426,27 +3507,14 @@ class userquery extends CBCategory{
 								'db_field'=>'sex',
 								'required'=>'yes',
 								),
-			  'dob'	=> array(
-							 'title' => lang('user_date_of_birth'),
-							 'type' => 'textfield',
-							 'name' => 'dob',
-							 'readonly' => 'true',
-							 'id' => 'dob',
-							 'anchor_after' => 'date_picker',
-							 'value'=> $dob,
-	                         'validate_function' => 'verify_age',
-							 'db_field'=>'dob',
-							 'required'=>'yes',
-	                         'invalid_err'=>lang('You must be atleast '.config('min_age_reg').' to register'),
-							 ),
 							 						 					 
 			  'cat'		=> array('title'=> lang('Category'),
 								 'type'=> 'dropdown',
 								 'name'=> 'category',
 								 'id'=> 'category',
-								 'value'=> array('category', isset($default['category'])),
+								 'value'=> array('category', $default['category']),
 								 'db_field'=>'category',
-								 'checked'=> isset($default['category']),
+								 'checked'=> $default['category'],
 								 'required'=>'yes',
 								 'invalid_err'=>lang("Please select your category"),
 								 'display_function' => 'convert_to_categories',
@@ -3469,6 +3537,8 @@ class userquery extends CBCategory{
 	             $new_array[$id] = $the_array;
 
 	         }
+
+	         $new_array[] = $this->load_custom_profile_fields($default,false);
 	         //die();
 			 return $new_array;
 		 
@@ -3516,7 +3586,6 @@ class userquery extends CBCategory{
 		if(is_array($_FILES))
 			$array = array_merge($array,$_FILES);
 		$this->validate_form_fields($array);
-
 		//checking terms and policy agreement
 		if($array['agree']!='yes' && !has_access('admin_access',true))
 			e(lang('usr_ament_err'));
@@ -3595,6 +3664,14 @@ class userquery extends CBCategory{
 				$query_field[] = "level";
 				$query_val[] = $array['level'];
 			}
+			global $Upload;
+			$custom_fields_array = $Upload->load_custom_form_fields(false,false,false,true);
+			foreach ($custom_fields_array as $key => $cfield) {
+				$db_field = $cfield['db_field'];
+				$query_field[] = $db_field;
+				$query_val[] = $array[$db_field];
+			}
+			#pr($array,true);
 
 			$query_field[] = "usr_status";
 			$query_val[] = $usr_status;
@@ -3637,12 +3714,14 @@ class userquery extends CBCategory{
 
 			$query_field[] = "user_session_code";
 			$query_val[] = $sess_code;
+			#pr($query_field,true);
 
 			$query = "INSERT INTO ".tbl("users")." (";
 			$total_fields = count($query_field);
 
 			//Adding Fields to query
 			$i = 0;
+			
 			foreach($query_field as $qfield)
 			{
 				$i++;
@@ -3654,6 +3733,7 @@ class userquery extends CBCategory{
 			$query .= ") VALUES (";
 
 			$i = 0;
+			#pr($query_val,true);
 			//Adding Fields Values to query
 			foreach($query_val as $qval)
 			{
@@ -3665,7 +3745,7 @@ class userquery extends CBCategory{
 
 			//Finalzing Query
 			$query .= ")";
-
+			#exit($query);
 			$db->Execute($query);
 			$insert_id = $db->insert_id();
 			$db->insert(tbl($userquery->dbtbl['user_profile']),array("userid"),array($insert_id));
@@ -3959,6 +4039,8 @@ class userquery extends CBCategory{
                 'profile' => array( 'rating', 'rated_by', 'voters', 'first_name', 'last_name' ),
             );
             $fields['users'][] = 'last_active';
+            $fields['users'][] = 'total_collections';
+            $fields['users'][] = 'total_groups';
             $query = " SELECT ".tbl_fields( $fields )." FROM ".tbl( 'users'  )." AS users ";
             $query .= " LEFT JOIN ".table( 'user_profile', 'profile ' )." ON users.userid = profile.userid ";
 
@@ -5579,5 +5661,86 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			}
 		}
 	}
+
+	/**
+	* Fetches all friend requests sent by given user
+	* @param : { integer } { $user } { id of user to fetch requests against }
+	*
+	* @return : { array } { $data } { array with all sent requests details }
+	* @since : 15th April, 2016, ClipBucket 2.8.1
+	* @author : Saqib Razzaq
+	*/
+
+	function sent_contact_requests($user) {
+		global $db;
+		$data = $db->select(tbl('contacts'),"*","userid = $user AND confirmed = 'no'");
+		return $data;
+	}
+
+
+	/**
+	* Fetches all friend requests recieved by given user
+	* @param : { integer } { $user } { id of user to fetch requests against }
+	*
+	* @return : { array } { $data } { array with all recieved requests details }
+	* @since : 15th April, 2016, ClipBucket 2.8.1
+	* @author : Saqib Razzaq
+	*/
+
+	function recieved_contact_requests($user) {
+		global $db;
+		$data = $db->select(tbl('contacts'),"*","contact_userid = $user AND confirmed = 'no'");
+		return $data;
+	}
+
+	/**
+	* Fetches all friends of given user
+	* @param : { integer } { $user } { id of user to fetch friends against }
+	*
+	* @return : { array } { $data } { array with all friends details }
+	* @since : 15th April, 2016, ClipBucket 2.8.1
+	* @author : Saqib Razzaq
+	*/
+
+	function added_contacts($user) {
+		global $db;
+		$data = $db->select(tbl('contacts'),"*","(contact_userid = $user OR userid = $user) AND confirmed = 'yes'");
+		return $data;
+	}
+
+	/**
+	* Fetches friendship status of two users
+	* @param : { integer } { $logged_in_user } { id of logged in user }
+	* @param : { integer } { $channel_user } { id of channel being viewed }
+	*
+	* @return : { string } { s = sent, r = recieved, f = friends }
+	* @since : 15th April, 2016, ClipBucket 2.8.1
+	* @author : Saqib Razzaq
+	*/
+
+	function friendship_status($logged_in_user, $channel_user) {
+		$sent = $this->sent_contact_requests($logged_in_user);
+		$pending = $this->recieved_contact_requests($logged_in_user);
+		$friends = $this->added_contacts($logged_in_user);
+		
+		foreach ($sent as $key => $data) {
+			if ($data['contact_userid'] == $channel_user) {
+				return 's'; // sent
+			}
+		}
+
+		foreach ($pending as $key => $data) {
+			if ($data['userid'] == $channel_user) {
+				return 'r'; // received
+			}
+		}
+
+		foreach ($friends as $key => $data) {
+			if ($data['contact_userid'] == $channel_user) {
+				return 'f'; // friends
+			}
+		}
+	}
+
 }
 ?>

@@ -1,0 +1,12 @@
+{$list_id=$playlist.playlist_id}
+{$first=get_playlist_items($list_id,1)}
+{$count_items = $cbvid->action->count_playlist_items($list_id)}
+<div class="clearfix item_playlist">
+	<h3>{$playlist.playlist_name}<span><i class="fa fa-play"></i>{$count_items}</span></h3>
+	<div class="playlist-thumb">
+		<a href="{videoLink vdetails=$first[0]}">
+			<img class="img-responsive" src="{get_playlist_thumb($playlist)}">
+			<i class="fa fa fa-play"></i>
+		</a>
+	</div>
+</div>

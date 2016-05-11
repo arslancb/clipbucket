@@ -368,6 +368,7 @@ class ClipBucket
         if ($per['tool_box'] == "yes")
             $NewMenu['Tool Box'] = array('PHP Info' => 'phpinfo.php',
                 'View online users' => 'online_users.php',
+                'Action Logs' => 'action_logs.php?type=login',
                 'Server Modules Info' => 'cb_mod_check.php',
                 'Server Configuration Info' => 'cb_server_conf_info.php',
                 'Conversion Queue Manager' => 'cb_conversion_queue.php',
@@ -650,8 +651,8 @@ class ClipBucket
         $this->foot_menu[] = array('name' => lang("contact_us"), 'link' => cblink(array('name' => 'contact_us')), "this" => "home");
 
 
-        if (userid())
-            //$this->foot_menu[] = array('name' => lang("my_account"), 'link' => cblink(array('name' => 'my_account')), "this" => "home");
+        
+        //$this->foot_menu[] = array('name' => lang("my_account"), 'link' => cblink(array('name' => 'my_account')), "this" => "home");
 
         $pages = $cbpage->get_pages(array('active' => 'yes', 'display_only' => 'yes', 'order' => 'page_order ASC'));
 

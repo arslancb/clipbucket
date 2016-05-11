@@ -55,13 +55,14 @@
                                   </button>
                               </div>
                           </div>
-                          </form>
+                          
                   </div>
                   <div id="asettings" class="tab-pane {if $mode=='account_settings'}active{/if}">
-                      <form method="post" class="accountForm">
+                    
                       <div  class="accountSettings col-md-6">
                           <!--- CHANGING USER ACCOUNT AND PROFILE -->
                           {$signup_fields = $userquery->load_signup_fields($user)}
+
                           {$cust_signup_fields = $userquery->load_custom_signup_fields($user,false,true)}
                           <legend>{lang code='account_details'}</legend>
                           <div class="form-group">
@@ -85,14 +86,14 @@
                               </label>
                           </div>
                           <div class="form-group">
-                              <label for="category">{lang code='account_details'}</label>
+                              <label for="category">{lang code='Category'}</label>
                               {ANCHOR place=$signup_fields.cat.anchor_before}
                               {$signup_fields.cat.class='form-control'}
                               {$formObj->createField($signup_fields.cat)}
                               {ANCHOR place=$signup_fields.cat.anchor_after}
 
 
-                                                  </div>
+                          </div>
                           <div class="form-group">
                               <label for="dob">{lang code='user_date_of_birth'}</label>
                               {ANCHOR place=$signup_fields.dob.anchor_before}

@@ -55,3 +55,22 @@ ALTER TABLE `{tbl_prefix}photos` ADD `photo_details` VARCHAR( 255 ) CHARACTER SE
 
 ALTER TABLE `{tbl_prefix}action_log` DROP `action_link`; 
 ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 10 ) NOT NULL AFTER  `file_server_path`
+
+
+
+ALTER TABLE `{tbl_prefix}video` ADD `video_files` text(33) NOT NULL;
+
+ALTER TABLE `{tbl_prefix}video` ADD `server_ip` varchar(20) NOT NULL;
+ALTER TABLE `{tbl_prefix}video` ADD `file_server_path` text NOT NULL;
+ALTER TABLE `{tbl_prefix}video` ADD `files_thumbs_path` text NOT NULL;
+
+ALTER TABLE `{tbl_prefix}video` ADD `file_thumbs_count` varchar(30) NOT NULL;
+ALTER TABLE `{tbl_prefix}video` ADD `has_hq` enum('yes','no') NOT NULL DEFAULT 'no';
+ALTER TABLE `{tbl_prefix}video` ADD `has_mobile` enum('yes','no') NOT NULL DEFAULT 'no';
+ALTER TABLE `{tbl_prefix}video` ADD `has_mobile` enum('yes','no') NOT NULL DEFAULT 'no';
+ALTER TABLE `{tbl_prefix}video` ADD `filegrp_size` varchar(30) NOT NULL;
+ALTER TABLE `{tbl_prefix}video` ADD `process_status` bigint(30) NOT NULL DEFAULT '0';
+ALTER TABLE `{tbl_prefix}video` ADD `has_hd` enum('yes','no') NOT NULL DEFAULT 'no';
+
+  
+ 

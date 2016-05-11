@@ -75,3 +75,11 @@
 {/if}
 
 {include file="$style_dir/blocks/pagination.html" }
+
+<script type="text/javascript">
+    var total_cats = "{$total_cats}";
+    for (i = 1; i <= total_cats; i++) { 
+        $('input:checkbox[name="category'+i+'[]"]:first').attr('checked', 'checked');
+    }
+    
+</script>

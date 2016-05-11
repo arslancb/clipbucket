@@ -369,7 +369,7 @@
 
           <div class="col-md-4">
               <label for="facebook_embed">Enable facebook embed</label>
-              <select name="videosSection" id="facebook embed" class="form-control">
+              <select name="facebook_embed" id="facebook_embed" class="form-control">
                   <option value="yes" {if $row.facebook_embed!='no'} selected="selected"{/if}>Yes</option>
                   <option value="no" {if $row.facebook_embed=='no'} selected="selected"{/if}>No</option>
               </select>
@@ -526,6 +526,11 @@
                   <option value="yes" {if $row.feedsSection!='no'} selected="selected"{/if}>Yes</option>
                   <option value="no" {if $row.feedsSection=='no'} selected="selected"{/if}>No</option>
               </select>
+          </div>
+
+          <div class="col-md-6">
+              <label for="adminPassword">Admin Password</label>
+              <input type="text" name="adminPassword" value="{$row.adminPassword}"></input>
           </div>
 
           <div class="col-md-6">
@@ -874,7 +879,12 @@
 
       <div id="conversionsetttings" class="tab-pane">
           <h2>Conversion Settings</h2>
-            <div class="row">
+          <br>
+          <span class="alert alert-info">
+              This Option has been diabled temporarily, you will be using upgraded 
+              settings panel in upcoming releases.
+          </span>
+       <!--    <div class="row">
           <div class="col-md-4">
               <label for="normal_resolution">Normal video resolution</label>
               <select class="form-control" name="normal_resolution" id="normal_resolution">
@@ -917,7 +927,7 @@
           <div class="form-group1">
               <label for="big_thumb_height">Big thumb height</label>
               <input class="form-control" name="big_thumb_height" type="text" id="big_thumb_height" value="{$row.big_thumb_height}" size="45" />
-          </div>
+          </div> -->
       </div>
 
 
@@ -1042,25 +1052,23 @@
     <div class="tab-content">
     <div id="videolistings" class="tab-pane active">
         <h2>Video Listings</h2>
-            <div class="row">
+     <div class="row">
+        <div class="col-md-4">
+            <label for="index_featured">Index Page Featured</label>
+            <input class="form-control" name="index_featured" type="text" id="index_featured" value="{$row.index_featured}" size="6" maxlength="3" />
+            'videos' page
+        </div>
+        <div class="col-md-4">
+            <label for="index_recent">Index Page Recent</label>
+            <input class="form-control" name="index_recent" type="text" id="index_recent" value="{$row.index_recent}" size="6" maxlength="3" />
+            'videos' page
+        </div>
         <div class="col-md-4">
             <label for="videos_list_per_page">Videos Page</label>
             <input class="form-control" name="videos_list_per_page" type="text" id="videos_list_per_page" value="{$row.videos_list_per_page}" size="6" maxlength="3" />
             'videos' page
-        </div>
-
-        <div class="col-md-4">
-            <label for="videos_item_channel_page">Channel page</label>
-            <input class="form-control" name="videos_item_channel_page" type="text" id="videos_item_channel_page" value="{$row.videos_item_channel_page}"size="6" maxlength="3" />
-            'view channel' page
-        </div>
-
-        <div class="col-md-4">
-            <label for="videos_items_uvid_page">User Videos</label>
-            <input class="form-control" name="videos_items_uvid_page" type="text" id="videos_items_uvid_page" value="{$row.videos_items_uvid_page}" size="6" maxlength="3" />
-            - 'user videos' page
-        </div>
-                </div>
+        </div>        
+    </div>
         <div class="row">
         <div class="col-md-4">
             <label for="videos_items_ufav_page">User Favorite</label>
@@ -1091,6 +1099,18 @@
             <label for="videos_items_columns">Video Columns</label>
             <input class="form-control" name="videos_items_columns" type="text" id="videos_items_columns" value="{$row.videos_items_columns}" size="6" maxlength="3" />
             videos display in right columns ie (Random, Related etc)
+        </div>
+        <div class="col-md-4">
+            <label for="videos_item_channel_page">Channel page</label>
+            <input class="form-control" name="videos_item_channel_page" type="text" id="videos_item_channel_page" value="{$row.videos_item_channel_page}"size="6" maxlength="3" />
+            'view channel' page
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-md-4">
+            <label for="videos_items_uvid_page">User Videos</label>
+            <input class="form-control" name="videos_items_uvid_page" type="text" id="videos_items_uvid_page" value="{$row.videos_items_uvid_page}" size="6" maxlength="3" />
+            - 'user videos' page
         </div>
         </div>
     </div>

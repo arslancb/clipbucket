@@ -19,7 +19,10 @@ if(!defined('SUB_PAGE')){
 	define('SUB_PAGE', 'Mass Upload Videos');
 }
 
-
+global $cbvid;
+$cats = $cbvid->get_categories();
+$total_cats = count($cats);
+assign("total_cats",$total_cats);
 if(isset($_POST['mass_upload_video']))
 {
 	$files = $cbmass->get_video_files();

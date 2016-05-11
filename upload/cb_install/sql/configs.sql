@@ -5,7 +5,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (2, 'site_slogan', 'A way to broadcast yourself'),
 (3, 'baseurl', ''),
 (4, 'basedir', ''),
-(5, 'template_dir', 'cbv2.7'),
+(5, 'template_dir', 'cb_28'),
 (6, 'player_file', 'cb_video_js.php'),
 (7, 'closed', '0'),
 (8, 'closed_msg', 'We Are Updating Our Website, Please Visit us after few hours.'),
@@ -52,7 +52,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (49, 'user_rate_opt1', ''),
 (50, 'captcha_type', '0'),
 (51, 'allow_upload', ''),
-(52, 'allowed_types', 'wmv,avi,divx,3gp,mov,mpeg,mpg,xvid,flv,asf,rm,dat,mp4'),
+(52, 'allowed_types', 'wmv,avi,divx,3gp,mov,mpeg,mpg,xvid,flv,asf,rm,dat,mp4,png,jpg'),
 (53, 'version', '2.0.1'),
 (54, 'version_type', 'Alpha'),
 (55, 'allow_template_change', '1'),
@@ -270,6 +270,12 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'ge
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'gen_720', 'no');
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'gen_1080', 'no');
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'photo_activation', '1');
+
+-- Addition for 2.8.1
+INSERT INTO `{tbl_prefix}config`(`name`, `value`) VALUES ('index_recent','6');
+INSERT INTO `{tbl_prefix}config`(`name`, `value`) VALUES ('index_featured','2');
+UPDATE `{tbl_prefix}config` SET value = 'cb_28' WHERE name = 'template_dir';
+
 
 
 

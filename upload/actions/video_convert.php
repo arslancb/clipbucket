@@ -12,21 +12,25 @@
 		getting the aguments
 		$argv[1] => first argument, in our case its the path of the file
 	*/
-	$log = new SLog();
+	
 
 	//error_reporting(E_ALL);
 	logData(json_encode($argv),"argvs");
 	$fileName = (isset($argv[1])) ? $argv[1] : false;
 	$_filename = (isset($argv[2])) ? $argv[2] : false;
-	$file_directory = (isset($argv[3])) ? $argv[3] : false;
-	$file_directory = $file_directory.'/';
+	$file_directory_ = (isset($argv[3])) ? $argv[3] : false;
+	$file_directory = $file_directory_.'/';
+	$logFile = (isset($argv[4])) ? $argv[4] : false;
+	logData($logFile,'argvs');
 
-
-	logData("1.Initializing Conversion of Video Filename : ".$_filename,'checkpoints');
-	//$fileName = "/home/sajjad/Desktop/abc.mp4";
+	$log = new SLog($logFile);
+	
 	$log->newSection("Starting Conversion Log");
-	$log->writeLine("File to be converted", $fileName, false);
-	$status = "Successful";
+	$TempLogData = "Filename : {$fileName}\n";
+	$TempLogData .= "File directory : {$file_directory_}\n";
+	$TempLogData .= "Log file : {$logFile}\n";
+	$log->writeLine("Getting Arguments",$TempLogData, true, true);
+
 	/*
 		Getting the videos which are currently in our queue
 		waiting for conversion
@@ -37,8 +41,7 @@
 	else
 		$queue_details = get_queued_video(TRUE,$fileName);
 
-
-	
+	$log->writeLine("Conversion queue","Getting the file information from the queue for conversion", true);
 
 	$fileDir 	= $queue_details["date_added"];
 	$dateAdded 	= explode(" ", $fileDir);
@@ -63,11 +66,18 @@
 		Delete the uploaded file from temp directory 
 		and move it into the conversion queue directory for conversion
 	*/
+	
 
 	if(isset($_GET['test']))
-		copy($temp_file,$orig_file);
+		$renamed = copy($temp_file,$orig_file);
 	else
-		rename($temp_file,$orig_file);
+		$renamed = rename($temp_file,$orig_file);
+
+	if ($renamed){
+		$log->writeLine("Conversion queue","File has been moved from Temporary dir to Conversion Queue", true);
+	}else{
+		$log->writeLine("Conversion queue","Some Thing Went wrong in moving the file to Conversion Queue", true);
+	}
 
 	/*
 		Preparing the configurations for video conversion from database
@@ -75,6 +85,12 @@
 	logData('Preparing configuration to parse in ffmpeg class','checkpoints');
 
 	$configs = array(
+		'use_video_rate' => true,
+		'use_video_bit_rate' => true,
+		'use_audio_rate' => true,
+		'use_audio_bit_rate' => true,
+		'use_audio_codec' => true,
+		'use_video_codec' => true,
 		'format' => 'mp4',
 		'video_codec'=> config('video_codec'),
 		'audio_codec'=> config('audio_codec'),
@@ -87,29 +103,43 @@
 		'high_res' => config('high_resolution'),
 		'max_video_duration' => config('max_video_duration'),
 		'resize'=>'max',
-		'outputPath' => $fileDir
+		'outputPath' => $fileDir,
+		'cb_combo_res' => config('cb_combo_res'),
+		'gen_240' => config('gen_240'),
+		'gen_360' => config('gen_360'),
+		'gen_480' => config('gen_480'),
+		'gen_720' => config('gen_720'),
+		'gen_1080' => config('gen_1080')
 	);
+
+
+	foreach ($configs as $key => $value){
+		$configLog .= "<strong>{$key}</strong> : {$value}\n";
+	}
+
+	$log->writeLine("Parsing FFmpeg Configurations",$configLog, true);
 
 	logData('Inlcuding FFmpeg Class','checkpoints');
 	require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
 	
 	$ffmpeg = new FFMpeg($configs, $log);
 	$ffmpeg->ffmpeg($orig_file);
-	$ffmpeg->cb_combo_res = config('cb_combo_res');
-	$ffmpeg->res_configurations = array('gen_240'  => config('gen_240'),
-										'gen_360'  => config('gen_360'),
-										'gen_480'  => config('gen_480'),
-										'gen_720'  => config('gen_720'),
-										'gen_1080' => config('gen_1080')
-										);
-	logData($ffmpeg->res_configurations,'checkpoints');
+	$ffmpeg->configs = $configs;
 	$ffmpeg->file_name = $tmp_file;
 	$ffmpeg->filetune_directory = $file_directory;
-	$ffmpeg->raw_path = VIDEOS_DIR.'/'.$file_directory.$_filename;
+	$ffmpeg->raw_path = VIDEOS_DIR.'/'.$file_directory.$fileName;
 	//$ffmpeg->logs = $log;
-	logData('Going to call ClipBucket Function','checkpoints');
-	$ffmpeg->ClipBucket();
+
 	
+	$ffmpeg->ClipBucket();
+	logData($ffmpeg->video_files,'video_files');
+
+	
+
+	$video_files = json_encode($ffmpeg->video_files);
+	$db->update(tbl('video'), array("video_files"), array($video_files), " file_name = '{$outputFileName}'");
+	
+
 
 	if (stristr(PHP_OS, 'WIN'))
 	{

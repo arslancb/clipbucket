@@ -10,19 +10,7 @@
 
 define("THIS_PAGE","upload");
 define("PARENT_PAGE","upload");
-
-
-/*if(isset($_POST['embed_code'])){
-	$_POST['embed_code'] = base64_encode($_POST['embed_code']);
-}*/
-
-//var_dump($_POST);die();
-
 require 'includes/config.inc.php';
-
-//var_dump($_POST);die();
-//$userquery->logincheck();
-
 $pages->page_redir();
 subtitle('upload');
 
@@ -34,20 +22,11 @@ else
 
 if(has_access('allow_video_upload',false,$verify_logged_user))
 {
-	
+	pre_upload();
 	$file_name = time().RandomString(5);
 	assign('file_name',$file_name);
 			
 	$step = 1;
-	/*if(!empty($_POST)){
-			
-			foreach ($_POST as $key => $value) {
-				echo "{$key} : ";
-				dump(($value));
-			}
-			
-		}*/
-
 	if(isset($_POST['submit_data']))
 	{
 		$Upload->validate_video_upload_form();
@@ -72,7 +51,7 @@ if(has_access('allow_video_upload',false,$verify_logged_user))
             /**
             * Function used to get direct URL of YT video on Embed Upload
             */
-            if ( defined(YT_CLIP_INSTALLED) )
+            if ( defined('YT_CLIP_INSTALLED') )
             {
 				get_direct_url_embed_upload($vid);
             }

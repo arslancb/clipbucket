@@ -10,13 +10,15 @@
 	</script>
 	<div class="row cb-box marginBottom">
 
-		{$row = $myquery->Get_Website_Details()}
+		<!-- {$row = $myquery->Get_Website_Details()} -->
 
 	    <!--<div class="alert alert-info margin-bottom-10 ">-->
 	    {ANCHOR place='global'} 
 	    <!--	</div> -->
 	    <div class="clearfix"></div>
-	       
+	    <button id="home_load_more" class="btn btn-primary" loadtype="video" loadmode="recent" loadlimit="8" loadhit="1">Load More</button>
+
+	    <button id="add_toQuicklist">Add to QuickList</button>
 		{if is_installed('editorspick')}
 		{if $editor_picks}
 		<div class="row">
@@ -88,7 +90,8 @@
 										<span class="play-icon fa fa-play"></span>
 										<img class="cb_img_thum" src="{getThumb vdetails=$video_01 num='4' size='500x283'}" width="500" height="285" border="0" {ANCHOR place="video_thumb" data=$video_01} />
 									</a>
-									<div class="cbHomeVidTitle cbHomeVidTitle_Big mouse_hover_on">{$video_01.title|truncate:30}</div>
+										<img src="{$imageurl}/dot.gif" data-quick="quick-{$video_01.videoid}" class="add_icon cb_quickie cb-btn-quick-{$video_01.videoid}" onclick="add_quicklist(this,'{$video_01.videoid}')" title="Add {$video_01.title} to Quicklist" alt="Quicklist" />
+									
 								</div>
 					            <div class="cbHomeVidDuration mouse_hover_on">
 					            {if $video_01.duration>1}{$video_01.duration|SetTime}{else}00:00ewwew{/if}
@@ -104,11 +107,12 @@
 									<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
 										<span class="play-icon fa fa-play"></span>
 										<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='501x283' }" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
-										<div class="cbHomeVidTitle mouse_hover_on1">{$video_02.title|truncate:10}</div>
+										
 										<div class="cbHomeVidDuration mouse_hover_on1">
 						            		{if $video_02.duration>1}{$video_02.duration|SetTime}{else}00:00{/if}
 						            	</div>
 									</a>
+										<img src="{$imageurl}/dot.gif" data-quick="quick-{$video_02.videoid}" class="add_icon cb_quickie cb-btn-quick-{$video_02.videoid}" onclick="add_quicklist(this,'{$video_02.videoid}')" title="Add {$video_02.title} to Quicklist" alt="Quicklist" />
 								</div>
 								{/if}
 
@@ -121,13 +125,13 @@
 									<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
 										<span class="play-icon fa fa-play"></span>
 										<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='501x283'}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
-									
 										<div class="cbHomeVidTitle mouse_hover_on">{$video_02.title|truncate:10}</div>
 
 										<div class="cbHomeVidDuration mouse_hover_on">
 							            {if $video_02.duration>1}{$video_02.duration|SetTime}{else}00:00{/if}
 							            </div>
 									</a>
+										<img src="{$imageurl}/dot.gif" data-quick="quick-{$video_02.videoid}" class="add_icon cb_quickie cb-btn-quick-{$video_02.videoid}" onclick="add_quicklist(this,'{$video_02.videoid}')" title="Add {$video_02.title} to Quicklist" alt="Quicklist" />
 								</div>
 							{/if}
 							{/foreach}
@@ -313,7 +317,7 @@
 
 							<div class=" nopadding col-md-6 min-height-20">
 								<div class="pull-left small"><span class="bg-eye"></span>&nbsp;<span>{$user.profile_hits|number_format} {lang code='views'}</span></div>
-								<div class="pull-right small"><span class="bg-videocam"></span>&nbsp;<span>{$user.total_videos|number_format} {lang code='Videos'}</span></div>
+								<div class="pull-right small" style="margin-right: -50px;"><span class="bg-videocam"></span>&nbsp;<span>{$user.total_videos|number_format} {lang code='Videos'}</span></div>
 							</div>
 		                    <br>
 		                    <div class="row pull-left" style="margin-left: 0px; width: 99%;">
@@ -323,11 +327,6 @@
 			                        </div>
 			                    </div>
 		                    </div>
-							<!--<div class="col-md-12 nopadding progress no-border-radius">
-			      				<div style="width: 40%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-success">
-			        			<span class="sr-only">40% Complete (success)</span>
-			  					</div>
-			    			</div>-->
 						</div>
 						<div class="user_icon">
 							<a href="{$userquery->profile_link($user)}">
@@ -344,6 +343,7 @@
 				<!-- <div id="custom_ads_box">
 		        	<div class="fb-page" data-href="https://www.facebook.com/clipbucket" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-show-posts="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/clipbucket"><a href="https://www.facebook.com/clipbucket">ClipBucket</a></blockquote></div></div>
 		        </div> -->
+		        {AD place=ad_300x250}
 		        {if $row.collectionsSection == 'yes'}
 				{$collections = $cbcollection->get_collections(['limit'=>5, 'active'=>'yes'])}
 				<div class="col-md-4 comment_home side_user_home" >
@@ -486,6 +486,109 @@
 	        autoslide: 2000,
 			easing: 'easeOutBounce'
 	    });
+	});
+
+	/*$('.cb_item_thumb').on("click",function(e){
+		e.preventDefault();
+		var url2Fetch = $(this).closest('a').attr('src');
+		$.get( url2Fetch, function( data ) {
+			console.log(data);
+		  $( "#container" ).html( "<h1>YES" );
+		  alert( "Load was performed." );
+		});
+	});*/
+
+	$('#add_toQuicklist').on("click",function(){
+		$.cookie("btn-q-1035", "yes", { expires : 10 });
+		console.log("yes");
+	});
+
+	function cleanup_videos(json_data) {
+		console.log(json_data);
+		var total_elements = json_data.array_meta.length;
+		var read_elements = json_data.array_meta;
+		for (var i = 0; i < total_elements; i++) {
+			console.log("VIDEO ID  = "+read_elements[i].videoid)
+		}
+	}
+
+	function cleanup_photos(json_data) {
+		console.log(json_data);
+		var total_elements = json_data.array_meta.length;
+		var read_elements = json_data.array_meta;
+		for (var i = 0; i < total_elements; i++) {
+			console.log("PHOTO ID  = "+read_elements[i].photo_id)
+		}
+	}
+
+	function cleanup_users(json_data) {
+		console.log(json_data);
+		var total_elements = json_data.array_meta.length;
+		var read_elements = json_data.array_meta;
+		for (var i = 0; i < total_elements; i++) {
+			console.log("USER ID  = "+read_elements[i].userid)
+		}
+	}
+
+	function cleanup_collections(json_data) {
+		console.log(json_data);
+		var total_elements = json_data.array_meta.length;
+		var read_elements = json_data.array_meta;
+		for (var i = 0; i < total_elements; i++) {
+			console.log("COLLECTION ID  = "+read_elements[i].collection_id)
+		}
+	}
+
+
+
+	$('#home_load_more').on("click",function(){
+		var loadLink = baseurl + '/ajax/home.php',
+		main_object = $(this),
+		sendType = 'post',
+		dataType = 'html',
+		loadType = $(main_object).attr('loadtype'),
+		loadMode = $(main_object).attr('loadmode'),
+		loadLimit = $(main_object).attr('loadlimit'),
+		loadHit = $(main_object).attr('loadhit')
+		;
+
+		$.ajax({
+			url: loadLink,
+			type: sendType,
+			dataType: dataType,
+			data: {
+				"load_type":loadType,
+				"load_mode":loadMode,
+				"load_limit":loadLimit,
+				"load_hit":loadHit
+			},
+
+			beforeSend: function() {
+		        // setting a timeout
+		        $(main_object).text("Loading..");
+		    },
+
+			success: function(data) {
+				var json_data = $.parseJSON(data);
+				var load_hit = json_data.loadhit;
+				$(main_object).attr('loadhit',load_hit);
+				$(main_object).text("Load More");
+				if (loadType == 'video') {
+					cleanup_videos(json_data);
+				} else if (loadType == 'users') {
+					cleanup_users(json_data);
+				} else if (loadType == 'photos') {
+					cleanup_photos(json_data);
+				} else if (loadType == 'collections') {
+					cleanup_collections(json_data);
+				}
+			}
+		});
+	});
+
+	$('.cb_quickie').on("click",function(){
+		title = $(this).attr('title');
+		console.log(title);
 	});
 </script>
 

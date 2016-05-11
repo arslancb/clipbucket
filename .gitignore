@@ -21,3 +21,4 @@
 #/upload/images/collection_thumbs/*.*
 #/upload/images/groups_thumbs/*.*
 dbconnect.php
+development.dev

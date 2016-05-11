@@ -6,9 +6,10 @@
 
         <!-- Message -->
         {include file="$style_dir/message.html"}
-
+        {$userquery->show_unread_alrt(userid(),'container')}
         {foreach from=$template_files item=file}
             {include_template_file file=$file}
+
         {/foreach}
     </div>
 
