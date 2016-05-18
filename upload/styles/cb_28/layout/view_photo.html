@@ -68,7 +68,7 @@
 						<div class="clearfix subscribe-col col-lg-6 col-md-6 col-sm-6 col-xs-12">
 							{if $photo.userid != userid()}
 								<a id="subscribeUser" class="btn btn-subscribe btn-primary" href="javascript:void(0)" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">
-									<span>{lang('Subscribe')}</span>
+									<span>{lang('subscribe')}</span>
 								</a>
 							{/if}
 						</div>
@@ -78,16 +78,16 @@
 				<div class="view-tabs clearfix">
 					<ul class="clearfix nav nav-tabs">
 						<li class="active">
-							<a href="#cb-item-info" data-toggle="tab"><span class="icon-info"></span>{lang('Info')}</a>
+							<a href="#cb-item-info" data-toggle="tab"><span class="icon-info"></span>{lang('info')}</a>
 						</li>
 						<li>
 							<a href="#cb-item-share" data-toggle="tab"><span class="icon-share"></span>Share/Embed</a>
 						</li>
 						<li>
-							<a href="#cb-item-addto" data-toggle="tab"><span class="icon-plusrounded"></span>{lang('Add to')}</a>
+							<a href="#cb-item-addto" data-toggle="tab"><span class="icon-plusrounded"></span>{lang('add_to')}</a>
 						</li>
 						<li>
-							<a href="#cb-item-report" data-toggle="tab"><span class="icon-flag"></span>{lang('Report')}
+							<a href="#cb-item-report" data-toggle="tab"><span class="icon-flag"></span>{lang('report')}
 							</a>
 						</li>
 					</ul>
@@ -95,18 +95,18 @@
 						<div class="tab-pane fade in clearfix active" id="cb-item-info">
 							<div class="clearfix watch-vid-details">
 								<ul class="clearfix desc-list">
-									<li><strong>{lang('Photo description: ')}</strong> <span id="description"></span>:&nbsp;{$photo.photo_description|truncate:90}</li>
+									<li><strong>{lang('photo_description')}</strong> <span id="description"></span>:&nbsp;{$photo.photo_description|truncate:90}</li>
 									
 									 {assign var=category value=$userquery->get_category($user.category)} 
 
 									<li id="category"></li>
 		
-									<li><strong>{lang('Category')}</strong>:&nbsp;{$category.category_name}
+									<li><strong>{lang('category')}</strong>:&nbsp;{$category.category_name}
 									<span id="category"></span>
 									</li>
-									<li><strong>{lang('Tags')}</strong>:&nbsp;<span id="tags"></span></strong>{$photo.photo_tags|tags:photos}</li>
+									<li><strong>{lang('tags')}</strong>:&nbsp;<span id="tags"></span></strong>{$photo.photo_tags|tags:photos}</li>
 
-									<li><strong>{lang('Views')}</strong>:&nbsp; <span id="views">{$photo.views}</span></li>
+									<li><strong>{lang('views')}</strong>:&nbsp; <span id="views">{$photo.views}</span></li>
 								</ul>
 							</div>
 						</div>
@@ -172,7 +172,7 @@
  						{if $myquery->is_commentable($photo,'p')}
 							{include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
 							{else}
-							<div class="alert alert-warning">{lang code='Comments disabled for this photo'}</div>
+							<div class="alert alert-warning">{lang code='comments_disabled_for_this_photo'}</div>
 						{/if}
 						</div>
 						<div id="comments"></div>
@@ -185,7 +185,7 @@
 		
 		<aside id="sidebar">
 			<div class="box-ad ad">{AD place='ad_300x250'}</div>
-			<h2>{lang code='Related Photos'}</h2>
+			<h2>{lang code='related_photos'}</h2>
 			<div class="clearfix sidebar-items">
 		
 			{$related_photos=get_photos(['title'=>$photo.photo_title,'tags'=>$photo.photo_tags,
