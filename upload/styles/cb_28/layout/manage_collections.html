@@ -46,7 +46,7 @@
 
 					{if $mode == "edit_collection"}
 						<div class="page-hidding" ><h3>{lang code='update_collection'}</h3>
-								<div class="pull-right" style="margin-top: -43px;"><a class="btn btn-primary " href="{$baseurl}/view_collection.php?cid={$smarty.get.cid}&type={$smarty.get.type}">{lang code="Back to Collection"}</a></div>
+								<div class="pull-right" style="margin-top: -43px;"><a class="btn btn-primary " href="{$baseurl}/view_collection.php?cid={$smarty.get.cid}&type={$smarty.get.type}">{lang code="back_to_collection"}</a></div>
 						</div>
 
 						<input type="hidden" value="{$c.collection_id}" name="collection_id" id="collection_id">
@@ -83,7 +83,7 @@
 
 					{if $mode == "add_new"}
 						<div class="page-hidding"><h3>{lang code='add_new_collection'}</h3>
-						<div class="pull-right" style="margin-top: -43px;"><a class="btn btn-primary " href="{$baseurl}/collections.php">{lang code="Back to Collections"}</a></div>
+						<div class="pull-right" style="margin-top: -43px;"><a class="btn btn-primary " href="{$baseurl}/collections.php">{lang code="back_to_collection"}</a></div>
 						</div>
 						<div class="upload_info">
 							<div class="account_form">
