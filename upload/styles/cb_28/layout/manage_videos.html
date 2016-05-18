@@ -12,7 +12,7 @@
 					<ul class="nav nav-tabs manageTabs" id="myTab2">
 						<li class="active">
 							<a data-toggle="tab" href="#myvideos">
-								{lang code='Uploaded Videos'}
+								{lang code='uploaded_videos'}
 							</a>
 						</li>
 					</ul>
@@ -47,7 +47,7 @@
 								{section name=uvid loop=$uservids}
 								{include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] control='full' bg=$bg}
 								{sectionelse}
-								<div><strong><em>{lang code="You don't have videos"}</em></strong></div>
+								<div><strong><em>{lang code="you_dont_have_videos"}</em></strong></div>
 								{/section}
 							</table>
 							{include file="$style_dir/blocks/pagination.html"}
@@ -100,7 +100,7 @@
 						<li class="active">
 
 							<a data-toggle="tab" href="#fvideos">
-								<h5>{lang code='Favorite Videos'}</h5>
+								<h5>{lang code='favorite_videos'}</h5>
 							</a>
 						</li>
 					</ul>
