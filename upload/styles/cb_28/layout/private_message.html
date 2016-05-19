@@ -6,37 +6,28 @@
         {include file="$style_dir/blocks/manage/userMenuLeft.html"}
       </div>
       <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-
           <div class="tabbable">
               <ul class="nav nav-tabs" id="myTab">
-                
-                  
                   <li class="{if $mode =='inbox'}active {/if}">
-
                       <a  href="{$baseurl}/private_message.php?mode=inbox">
-                          <h5>{lang code='Inbox'}</h5>
+                          <h5>{lang code='inbox'}</h5>
                       </a>
                   </li>
-                
-                  
                   <li class="{if $mode =='notification'}active{/if}">
                       <a href="{$baseurl}/private_message.php?mode=notification">
-                          <h5>{lang code='Notifications'}</h5>
+                          <h5>{lang code='notifications'}</h5>
                       </a>
                   </li>
-
                   <li class="{if $mode =='sent'}active{/if}">
                       <a  href="{$baseurl}/private_message.php?mode=sent">
-                          <h5>{lang code='Sent'}</h5>
+                          <h5>{lang code='sent'}</h5>
                       </a>
                   </li>
-
                  <li class=" {if $mode =='new_msg'}active{/if}">
                       <a  href="{$baseurl}/private_message.php?mode=new_msg">
-                          <h5>{lang code='Write Message'}</h5>
+                          <h5>{lang code='write_message'}</h5>
                       </a>
                   </li>
-                 
               </ul>
               <div class="tab-content">
                  {if $mode =='new_msg'}
@@ -45,7 +36,6 @@
                       {assign var='form_fields' value=$cbpm->load_compose_form()}
                       <div class="account_form">
                           <form id="pm_msg" name="pm_msg" method="post" action="">
-
                               <h3>{lang code='new_private_msg'}</h3>
                               {foreach from=$form_fields item=field}
                               <div class="form-group">
@@ -60,7 +50,6 @@
                           </form>
                       </div>
                   </div>{/if}
-
 
                   {if $mode =='inbox'}
                   <div id="inbox" class="tab-pane active">
