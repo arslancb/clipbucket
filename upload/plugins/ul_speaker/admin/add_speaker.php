@@ -2,7 +2,8 @@
 
 //require '../includes/admin_config.php';
 $userquery->admin_login_check();
-$userquery->login_check('member_moderation');
+// Controle de permission probablement non fonctionnel sur les plugins
+//$userquery->login_check('member_moderation');
 $pages->page_redir();
 
 /* Assigning page and subpage */
