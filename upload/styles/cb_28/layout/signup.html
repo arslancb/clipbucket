@@ -17,31 +17,31 @@
 			<div class="clearfix signin-block">
 				<div class="account-holder">
 					<form name="login_form" method="post" action="" id="login_form" class="user-form">
-						<h2>{lang('Login')}</h2>
+						<h2>{lang('login')}</h2>
 						<div class="form-group">
-							{*<label for="login_username_sp">{lang code="Username"}</label>*}
-							<input type="text" id="login_username_sp" placeholder="{lang code='Type Username'}"
+							{*<label for="login_username_sp">{lang code="username"}</label>*}
+							<input type="text" id="login_username_sp" placeholder="{lang code='type_username'}"
 							class="form-control" name="username">
 						</div>
 
 						<div class="form-group">
-							{*<label for="login_password_sp">{lang code="Password"}</label>*}
-							<input type="password" id="login_password_sp" placeholder="{lang code='Type Password'}"
+							{*<label for="login_password_sp">{lang code="password"}</label>*}
+							<input type="password" id="login_password_sp" placeholder="{lang code='type_password'}"
 							class="form-control" name="password">
 						</div>
 
 						<div class="checkbox custom-elements form-group">
 							<label>
 								<input type="checkbox" name="remember_me" value="yes">
-								{lang code="Remember me"}
+								{lang code="remember_me"}
 							</label>
 						</div>
 
-						<input id="login_btn" type="submit" name="login" value="{lang('Login')}" class="btn btn-primary btn-lg btn-block">
+						<input id="login_btn" type="submit" name="login" value="{lang('login')}" class="btn btn-primary btn-lg btn-block">
 
 						<div class="clearfix links">
-							<a href="{$baseurl}/forgot.php">{lang code='Forgot Password?'}</a>
-							<a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='Forgot Username?'}</a>
+							<a href="{$baseurl}/forgot.php">{lang code='forgot_password'}</a>
+							<a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='forgot_username'}</a>
 						</div>
 						<input type="hidden" name="login" value="login"></input>
 						{if function_exists('show_all_btns')} 
@@ -54,11 +54,11 @@
 						{/if}
 					</form>
 					<div class="side-box">
-						<h2>{lang code='Create Account'}</h2>
+						<h2>{lang code='create_account'}</h2>
 						<div class="text-box">
 							<p>Join to start sharing videos and photos. It only takes a couple of minutes to create your free account</p>
 						</div>
-						<a class="btn btn-default btn-lg" href="{link name='signup'}">{lang code='Create Account'}</a>
+						<a class="btn btn-default btn-lg" href="{link name='signup'}">{lang code='create_account'}</a>
 					</div>
 				</div>
 			</div>
@@ -112,7 +112,6 @@
 								{$field.label_class="checkbox-inline"}
 								{$field.sep=" "}
 								{/if}
-
 
 								{if $field.hint_before}
 								<span class="help-block">{$field.hint_before}</span>
@@ -168,7 +167,7 @@
 	</div>
 {/if}
 
-<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script>
 
 	$(document).ready(function(){
