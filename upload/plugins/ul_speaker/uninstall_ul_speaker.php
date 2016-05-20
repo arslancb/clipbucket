@@ -1,5 +1,5 @@
 <?php
-require_once('../includes/common.php');
+//require_once('../includes/common.php');
 
 //Function used to uninstall Plugin
 	function uninstall_ul_speaker()
@@ -26,7 +26,7 @@ require_once('../includes/common.php');
 		);
 	}
 	
-	uninstall_ul_speaker();
-	uninstall_ul_speakerfunction();
 	uninstall_ul_video_speaker();
-?>
+	uninstall_ul_speakerfunction();
+	uninstall_ul_speaker();
+	?>

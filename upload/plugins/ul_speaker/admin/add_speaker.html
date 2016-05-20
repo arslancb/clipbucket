@@ -1,6 +1,7 @@
 {assign var='required_fields' value=load_speaker_fields()}
+{assign var='optional_fields' value=load_speaker_fields2()}
 <div class="heading">
-    <h2>add Speaker</h2>
+	<h2>add Speaker</h2>
     
     
 	<form action="" method="post">
@@ -9,7 +10,7 @@
 			{if $n==0}
 				<div class="row">
 			{/if}
-		   <div class="col-md-4">
+			<div class="col-md-4">
 				{$field.class = 'form-control'}
 				<label for="{$field.id}">{$field.title}</label>
 				{if $field.hint_1}{$field.hint_1}<br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}{if $field.hint_2}{$field.hint_2}{/if}
@@ -17,8 +18,44 @@
 			{$n=$n+1}
 			{if $n==2}{$n=0}</div><br/>{/if}
 		{/foreach} 
-		{if $n>0}</div><br/>{/if}
-	
-	    <div align="left" style="padding:10px"><input type="submit" name="add_speaker" value="Add Speaker" class="button" id="add_speaker" ></div>
+		{if $n>0}</div>{/if}
+		<div>
+			<label for="cptentries"></label>
+	    	<input name="cptentries" value="0" id="cptentries" type="hidden">
+		</div>
+		<div id="add-before-container"></div>
+		<div id="duplicate" class="btn btn-info btn-xs">Add a role</div>
+		<div align="left" style="padding:10px"><input type="submit" name="add_speaker" value="Add Speaker" class="button" id="add_speaker" ></div>
+	    
 	</form>    
 </div>
+
+
+<script>
+	$(document).ready(function() {
+		var $i = $( "#cptentries" ).val();	// number of visible roles
+		// Add a new role
+		$("#duplicate").on('click', function(){
+			$s='<div class="row"><div id="extra_'+$i+'">';
+			{foreach from=$optional_fields item=field}
+				$s=$s+'<div class="col-md-4">';
+				{$field.class = 'form-control'}
+				$s=$s+'<label for="{$field.id}_'+"$i"+'">{$field.title}</label><br>';
+				$s=$s+'{if $field.hint_1}{$field.hint_1}<br>{/if}';
+				$s=$s+'{$formObj->createField($field,TRUE)}';
+				$s=$s+'{if $field.hint_2}<br>{$field.hint_2}<br>{/if}';
+				$s=$s+'</div>';
+			{/foreach}
+			$s=$s+'<div title="supprimer" class="btn btn-link btn-sm" onclick="deleteMe(\'extra_'+$i+'\')" class="delete-date"><br><span class="glyphicon glyphicon-remove color-red"></span><span class="sr-only">supprimer</span></div>';
+			$s=$s+'</div></div>';
+			$('#add-before-container').before($s);
+			$i++;
+			document.getElementById("cptentries").value = $i;
+		});
+	});
+
+
+	function deleteMe(param) {
+		$("#"+param).remove();
+	}
+</script>

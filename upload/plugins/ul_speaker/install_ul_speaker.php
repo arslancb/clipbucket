@@ -7,8 +7,9 @@ function install_ul_speaker() {
 	$db->Execute(
 		'CREATE TABLE IF NOT EXISTS '.tbl("speaker").' (
 	  		`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	  		`name` varchar(100) NOT NULL UNIQUE KEY ,
-	  		`slug` varchar(100) NOT NULL UNIQUE KEY ,
+	  		`firstname` varchar(100) NOT NULL UNIQUE KEY ,
+	  		`lastname` varchar(100) NOT NULL UNIQUE KEY ,
+			`slug` varchar(100) NOT NULL UNIQUE KEY ,
 	  		`photo` varchar(200) DEFAULT NULL
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;;'
 	);
@@ -21,9 +22,6 @@ function install_ul_speakerfunction() {
 	$db->Execute(
 		'CREATE TABLE IF NOT EXISTS '.tbl("speakerfunction").' (
 			`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-			`title` varchar(100) NOT NULL,
-			`start_date` date NOT NULL,
-			`end_date` date DEFAULT NULL,
 			`description` longtext,
 			`speaker_id` int(11) NOT NULL
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;;'
