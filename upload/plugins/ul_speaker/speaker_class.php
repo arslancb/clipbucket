@@ -18,7 +18,7 @@ class speakerquery extends CBCategory{
 	
 	function speakerquery()	{
 		global $cb_columns;
-		$basic_fields = array('id', 'name', 'slug', 'photo');
+		$basic_fields = array('id', 'firstname','lastname', 'slug', 'photo');
 		$cb_columns->object( 'speakers' )->register_columns( $basic_fields );
 	}
 	
@@ -140,6 +140,7 @@ class speakerquery extends CBCategory{
 				$db->execute("DELETE FROM ".tbl("user_profile")." WHERE userid='$uid'");
 	
 				e(lang("usr_del_msg"),"m");*/
+				$db->execute("DELETE FROM ".tbl("speakerfunction")." WHERE speaker_id='$id'");
 				$db->execute("DELETE FROM ".tbl("speaker")." WHERE id='$id'");
 				e(lang("usr_del_msg"),"m");
 		}else{

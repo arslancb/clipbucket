@@ -21,13 +21,13 @@ if (isset($_GET['del_speaker'])) {
 	$delspeaker = mysql_clean($_GET['del_speaker']);
 	$speakerquery->delete_speaker($delspeaker);
 	
-	$dfield = $_GET['del_speaker'];
+	/*$dfield = $_GET['del_speaker'];
 	if (is_numeric($dfield)) {
 		delete_custom_field($dfield);
 		e("Successfuly deleted custom field with ID [".$dfield."]","m");
 	} else {
 		e("Unable to delete custom field with ID [".$dfield."]");
-	}
+	}*/
 }
 
 //Deleting Multiple speakers
