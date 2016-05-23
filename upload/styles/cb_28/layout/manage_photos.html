@@ -5,10 +5,9 @@
             {include file="$style_dir/blocks/manage/userMenuLeft.html"}
         </div>
         <div class="mainContent col-md-9 col-sm-9 col-xs-12">
-           
-       
+
         {if $mode == 'uploaded'}
-            <h2>{lang code="Manage Photos"}</h2>
+            <h2>{lang code="manage_photos"}</h2>
             <form clasws="form-inline" id="form1" name="form1" method="get" action="">
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
@@ -48,7 +47,7 @@
                         {sectionelse}
                         <tr>
                         <td colspan="5">
-                    	<div align="center" style="padding:5px"><strong><em>{lang code='You dont have any photos'}</em></strong></div>
+                    	<div align="center" style="padding:5px"><strong><em>{lang code='you_dont_have_any_photos'}</em></strong></div>
                         </td>
                         </tr>
                     {/section}
@@ -66,10 +65,8 @@
                 <div class="col-md-11">
                     <div class="form-group">
                         <input name="query" type="text" class="form-control" id="query" value="{$smarty.get.query|form_val}" />
-                        
                     </div>
                 </div>
-
                 <div class="col-md-1">
                     <div class="form-group text-right">
                         <input name="input" type="submit" class="btn btn-primary" value="{lang code='search'}"/> 
@@ -79,8 +76,6 @@
                   </form>
             </div>
             </div>    
-
-           
 
             <form name="photos_manager" method="post">
                 <div>
@@ -99,14 +94,13 @@
                         <td width="100">{lang code='comments'}</td>
                         <td width="100" class="last_td">{lang code='favorites'}</td>
                     </tr>
-                
-                
+
                 {section name=p_list loop=$photos}
                 	{include file="$style_dir/blocks/manage/account_photo.html" photo=$photos[p_list] control='partail'}
                 {sectionelse}
                 	<tr>
                         <td colspan="5">
-                        <div align="center" style="padding:5px"><strong><em>{lang code='You dont have any favorite photos'}</em></strong></div>
+                        <div align="center" style="padding:5px"><strong><em>{lang code='you_dont_have_any_favorite_photos'}</em></strong></div>
                         </td>
                         </tr>
                 {/section}  
@@ -125,7 +119,6 @@
                 <label>
                     <input type="radio" name="my_album_privacy" value="private" {if $user.album_privacy =='private'} checked="checked" {/if} onclick="window.location = '{$albumPrivacyUrl}album_privacy=private'"/> Private
                 </label>
-
                 <label>
                     <input type="radio" name="my_album_privacy" value="friends" {if $user.album_privacy =='friends'} checked="checked" {/if} onclick="window.location = '{$albumPrivacyUrl}album_privacy=friends'"/>For friends
                 </label>
@@ -138,7 +131,6 @@
                 <div class="col-md-11">
                     <div class="form-group">
                        <input name="query" type="text" class="form-control" id="query" value="{$smarty.get.query|form_val}" />
-                        
                     </div>
                 </div>
 
@@ -151,7 +143,6 @@
                   </form>
             </div>
             </div>    
-
 
             <form name="photos_manager" method="post">
                 <div>
@@ -170,9 +161,7 @@
                         <td width="100">{lang code='comments'}</td>
                         <td width="100" class="last_td">{lang code='favorites'}</td>
                     </tr>
-                   
-                
-                
+
                 {section name=p_list loop=$photos}
                     {include file="$style_dir/blocks/manage/account_photo.html" photo=$photos[p_list] control='orphan'}
                 {sectionelse}
@@ -186,9 +175,6 @@
                 {include file="$style_dir/blocks/pagination.html"}    
             </form>
         {/if}
-      
        </div>
     </div>  
-
- 
 </div>
