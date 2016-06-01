@@ -7,9 +7,9 @@ function install_ul_speaker() {
 	$db->Execute(
 		'CREATE TABLE IF NOT EXISTS '.tbl("speaker").' (
 	  		`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	  		`firstname` varchar(100) NOT NULL UNIQUE KEY ,
-	  		`lastname` varchar(100) NOT NULL UNIQUE KEY ,
-			`slug` varchar(100) NOT NULL UNIQUE KEY ,
+	  		`firstname` varchar(100) NOT NULL ,
+	  		`lastname` varchar(100) NOT NULL ,
+			`slug` varchar(100) NOT NULL ,
 	  		`photo` varchar(200) DEFAULT NULL
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;;'
 	);

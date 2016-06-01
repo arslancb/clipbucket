@@ -17,8 +17,8 @@ if(!defined('SUB_PAGE')){
 
 
 //Deleting selected speaker
-if (isset($_GET['del_speaker'])) {
-	$delspeaker = mysql_clean($_GET['del_speaker']);
+if (isset($_GET['delete_speaker'])) {
+	$delspeaker = mysql_clean($_GET['delete_speaker']);
 	$speakerquery->delete_speaker($delspeaker);
 	
 	/*$dfield = $_GET['del_speaker'];
@@ -56,7 +56,7 @@ $array=[];
 }*/
 
 $result_array = $array;
-//Getting Video List
+//Getting speaker List
 $result_array['limit'] = $get_limit;
 //pr($result_array,true);
 $speakers = get_speakers($result_array);

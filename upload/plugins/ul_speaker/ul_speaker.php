@@ -14,8 +14,10 @@ define('UL_SPEAKER_DIR',PLUG_DIR.'/'.UL_SPEAKER_BASE);
 define('UL_SPEAKER_URL',PLUG_URL.'/'.UL_SPEAKER_BASE);
 define('UL_SPEAKER_ADMIN_DIR',UL_SPEAKER_DIR.'/admin');
 define('UL_SPEAKER_ADMIN_URL',UL_SPEAKER_URL.'/admin');
-define("UL_SPEAKER_EDITPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".UL_SPEAKER_BASE."/admin&file=manage_speakers.php");
+define("UL_SPEAKER_EDITPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".UL_SPEAKER_BASE."/admin&file=edit_speaker.php");
 assign("ul_speaker_editpage",UL_SPEAKER_EDITPAGE_URL);
+define("UL_SPEAKER_MANAGEPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".UL_SPEAKER_BASE."/admin&file=manage_speakers.php");
+assign("ul_speaker_managepage",UL_SPEAKER_MANAGEPAGE_URL);
 
 
 if(!function_exists('video_speaker_plugin')){

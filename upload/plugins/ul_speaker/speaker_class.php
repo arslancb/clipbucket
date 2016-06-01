@@ -14,6 +14,29 @@ function get_speaker_fields($array=NULL) {
 	return $cb_columns->object('speakers')->get_columns();
 }
 
+/**
+ * Function used to get speaker details using speaker's id
+ */
+function get_speaker_details($id=NULL) {
+	global $db;
+	$is_email = ( strpos( $id , '@' ) !== false ) ? true : false;
+	$select_field = ( !$is_email and !is_numeric( $id ) ) ? 'username' : ( !is_numeric( $id ) ? 'email' : 'userid' );
+
+	$fields = tbl_fields(array('speaker' => array('*')));
+
+	$query = "SELECT $fields FROM ".cb_sql_table('speaker');
+	$query .= " WHERE users.$select_field = '$id'";
+
+	$result = select( $query );
+
+	if ( $result ) {
+		$details = $result[ 0 ];
+		return $details;
+	}
+	return false;
+
+}
+
 function speaker_role_check($val) {
 	$i=1;
 	foreach ($val as $v) {
@@ -42,9 +65,10 @@ class speakerquery extends CBCategory{
 			$array = $_POST;
 		$this->validate_form_fields($array);
 		if(!error()) {
-			$firstname=$array['firstname'];
-			$lastname=$array['lastname'];
-			$req=" firstname = '".$firstname."' AND lastname='".$lastname."'";
+			$firstname=mysql_clean($array['firstname']);
+			$lastname=mysql_clean($array['lastname']);
+			$slug=mysql_clean($array['slug']);
+			$req=" firstname = '$firstname' AND lastname='$lastname'";
 			$res=$db->select(tbl('speaker'),'id',$req,false,false,false);
 			// test speaker's unicity
 			if (count($res)>0){
@@ -53,14 +77,60 @@ class speakerquery extends CBCategory{
 			}
 			else {
 				// insert speaker
-				$db->insert(tbl('speaker'), array('firstname','lastname','slug','photo'), array($firstname,$lastname,$array['slug'],''));
+				$db->insert(tbl('speaker'), array('firstname','lastname','slug','photo'), array($firstname,$lastname,$slug,''));
 				$res=$db->select(tbl('speaker'),'id',$req,false,false,false);
 				$id=$res[0]['id'];
 				$desc=$array['description'];
 				// insert speaker roles
 				for ($i=0; $i<count($desc); $i++)
-					$db->insert(tbl('speakerfunction'), array('description','speaker_id'), array($desc[$i],$id));
+					$db->insert(tbl('speakerfunction'), array('description','speaker_id'), array(mysql_clean($desc[$i]),$id));
 				return $id;		
+			}
+		}
+	}
+	
+	/**
+	 * Function used to update a speakers
+	 */
+	function update_speaker($array=NULL){
+		global $db;
+		if($array==NULL)
+			$array = $_POST;
+		$this->validate_form_fields($array);
+		if(!error()) {
+			$firstname=mysql_clean($array['firstname']);
+			$lastname=mysql_clean($array['lastname']);
+			$slug=mysql_clean($array['slug']);
+			$speakerid=mysql_clean($array['speakerid']);
+			$req=" firstname = '$firstname' AND lastname='$lastname' AND id<>$speakerid";
+			$res=$db->select(tbl('speaker'),'id',$req,false,false,false);
+			// test speaker's unicity
+			if (count($res)>0){
+				e(lang("speaker_still_exists"));
+				return false;
+			}
+			else {
+				// update speaker
+				$db->update(tbl('speaker'), array('firstname','lastname','slug','photo'), array($firstname,$lastname,$slug,''),"id='$speakerid'");
+				$req=" speaker_id=$speakerid";
+				$res=$db->select(tbl('speakerfunction'),'*',$req,false,false,false);
+				$roleids=$array['roleids'];
+				$nbdeleted=0;
+				for ($i=0; $i<count($res); $i++){
+					$id=$res[$i]['id'];
+					$desc=$array['description'];
+					if (in_array($id, $roleids, true)){
+						$db->update(tbl('speakerfunction'), array('description'), array($desc[$i-$nbdeleted]),"id='$id'");
+					}
+					else{
+						$db->execute("DELETE FROM ".tbl("speakerfunction")." WHERE id='$id'");
+						$nbdeleted++;
+					}
+				}
+				for ($i=count($res); $i<count($desc)+$nbdeleted; $i++){
+					$db->insert(tbl('speakerfunction'), array('description','speaker_id'), array(mysql_clean($desc[$i-$nbdeleted]),$speakerid));
+				}
+				return $speakerid;		
 			}
 		}
 	}
@@ -158,15 +228,37 @@ class speakerquery extends CBCategory{
 	 */
 	function get_speaker_details($id=NULL)	{
 		global $db;
-		$select_field = (!is_numeric($id) ) ? 'name' : 'id';
 		$fields = tbl_fields(array('speaker' => array('*')));
 		$query = "SELECT $fields FROM ".cb_sql_table('speaker');
-		$query .= " WHERE speaker.$select_field = '$id'";
+		$query .= " WHERE speaker.id = '$id'";
 		$result = select($query);
-	
-		if ( $result ) {
+		Assign('speaker', $result);
+		
+		if ($result) {
 			$details = $result[0];
-			return apply_filters( $details, 'get_speakers' );
+			$fields = tbl_fields(array('speakerfunction' => array('id','description')));
+			$query = "SELECT $fields FROM ".cb_sql_table('speakerfunction');
+			$query .= " WHERE speakerfunction.speaker_id = '$id'";
+			$result = select($query);
+			for ($i=0; $i<count($result); $i++){
+				$arr=$result[$i];
+				$keys=array_keys($arr);
+				for ($j=0; $j<count($keys); $j++){
+					if ($keys[$j]=='id') $keys[$j]='role_id';
+					$details[$keys[$j]]=[];
+				}
+			}
+			for ($i=0; $i<count($result); $i++){
+				$arr=$result[$i];
+				$keys=array_keys($arr);
+				$values=array_values($arr);
+				for ($j=0; $j<count($keys); $j++){
+					if ($keys[$j]=='id') $keys[$j]='role_id';
+					$details[$keys[$j]][]=$values[$j];
+				}
+			}
+				
+			return $details;
 		}
 		return false;
 	}
@@ -309,25 +401,25 @@ class speakerquery extends CBCategory{
 	}
 
 
-		/**
-		 * this function will create array for speaker role fields
-		 * this will tell
-		 * array(
-		 *       title [text that will represents the field]
-		 *       type [One of the following values : textfield, password,texarea, checkbox,radiobutton, dropbox]
-		 *       name [name of the fields, input NAME attribute]
-		 *       id [id of the fields, input ID attribute]
-		 *       value [value of the fields, input VALUE attribute]
-		 *       size
-		 *       class [CSS class of the field]
-		 *       label
-		 *       extra_tags [Extra tags added as is to the field]
-		 *       hint_1 [hint before field]
-		 *       hint_2 [hint after field]
-		 *       anchor_before [anchor before field]
-		 *       anchor_after [anchor after field]
-		 *      )
-		 */
+	/**
+	 * this function will create array for speaker role fields
+	 * this will tell
+	 * array(
+	 *       title [text that will represents the field]
+	 *       type [One of the following values : textfield, password,texarea, checkbox,radiobutton, dropbox]
+	 *       name [name of the fields, input NAME attribute]
+	 *       id [id of the fields, input ID attribute]
+	 *       value [value of the fields, input VALUE attribute]
+	 *       size
+	 *       class [CSS class of the field]
+	 *       label
+	 *       extra_tags [Extra tags added as is to the field]
+	 *       hint_1 [hint before field]
+	 *       hint_2 [hint after field]
+	 *       anchor_before [anchor before field]
+	 *       anchor_after [anchor after field]
+	 *      )
+	 */
 	function load_speaker_role_fields($input=NULL) {
 		global $LANG,$Cbucket;
 		$default = array();
@@ -362,6 +454,19 @@ class speakerquery extends CBCategory{
 		return $my_fields;
 	}
 	
+	function load_speaker_role_ids($input=NULL) {
+		global $db;
+		global $LANG,$Cbucket;
+		$default = array();
+		if(isset($input))
+			$default = $input;
+		if(empty($default))
+			$default = $_POST;
+		$speakerid=mysql_clean($default['id']);
+		$req=" speaker_id=$speakerid";
+		$res=$db->select(tbl('speakerfunction'),'*',$req,false,false,false);
+		return $res;
+	}
 	
 	/**
 	 * Function used to validate Add or Edit Speaker fields
