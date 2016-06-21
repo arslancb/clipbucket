@@ -1,19 +1,32 @@
 {if $speakers}
+<h2>{lang("speaker_manager")}</h2>
+<div><span class="btn btn-primary" onclick="toggle_search('searchdiv')" >Filter</span></div>
+<br/>
+<div class="search_box" id="searchdiv" {if $showfilter!=true} style="display:none"{/if}>  
+<form id="speaker_search" name="speaker_search" method="post" action="" class="speaker_search">
+	<div><label for="firstname">First Name</label><input name="firstname" type="text" class="input" id="firstname" value="{$speakfirstname}" />
+	<label for="lastname">Last Name</label><input name="lastname" type="text" class="input" id="lastname" value="{$speaklastname}" /></div>
+  <br/>
+  <input type="submit" name="filter" id="filter" value="Speaker Filter" class="button"/>
+</form>
+  <br/>
+</div>
+
 <!-- Displaying Members -->
-<form name="user_manage" method="post">
+<form name="manage_speaker" method="post">
   <div class="btn-group marginBottomSmall">
     <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete" onclick="return confirm_it('Are you sure you want to delete selected speakers(s)')"/>
   </div>
   
   
 <table class="table table-bordered table-striped manageUsersTable">
-<tr>
-    <td width="40" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
-    <td width="50" class="head">id</td>
-    <td class="head">Speaker Details</td>
-    <td>&nbsp;</td>
-  </tr>
+<thead>
+    <th width="40" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></th>
+    <th width="50" class="head">id</th>
+    <th class="head">Speaker Details</th>
+    <th>&nbsp;</th>
+  </thead>
 {foreach from=$speakers item=u}
 <tr>
     <td>
@@ -27,7 +40,7 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-9">
-                        <a href="{$userquery->profile_link($u)}" target="_blank" class="oneUserName">{$u.firstname} {$u.lastname} </a>
+                        <a href="{$ul_speaker_editpage}&id={$u.id}" target="_blank" class="oneUserName">{$u.firstname} {$u.lastname} </a>
                         <span>[{$u.slug}]</span>
                     </div>
                 </div>

@@ -1,5 +1,7 @@
 {assign var='required_fields' value=$speakerquery->load_speaker_fields()}
 {assign var='optional_fields' value=$speakerquery->load_speaker_role_fields()}
+
+{*-- get number of speaker's roles for this specific speaker --*}
 {if $optional_fields}
 	{assign var='number' value=$optional_fields['description']['values']|@count}
 {else}
@@ -29,7 +31,7 @@
 	    	<input name="cptentries" value="{$number}" id="cptentries" type="hidden">
 		</div>
     {if $optional_fields}
-		{assign var='number' value=$optional_fields['description']['values']|@count}
+		{*assign var='number' value=$optional_fields['description']['values']|@count*}
 	    {for $i=0 to $number-1}
    	 <div class="row"><div id="extra_{$i}">
 

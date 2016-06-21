@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: Video Spreaker
- Description: This plugin is used to attach a list of video speaker to a video
+ Description: This plugin will add a list of video speakers to a video.
  Author: Franck Rouze
  Author Website: http://semm.univ-lille1.fr/
  ClipBucket Version: 2
@@ -18,6 +18,8 @@ define("UL_SPEAKER_EDITPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".UL_SPEA
 assign("ul_speaker_editpage",UL_SPEAKER_EDITPAGE_URL);
 define("UL_SPEAKER_MANAGEPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".UL_SPEAKER_BASE."/admin&file=manage_speakers.php");
 assign("ul_speaker_managepage",UL_SPEAKER_MANAGEPAGE_URL);
+define("UL_SPEAKER_LINKPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".UL_SPEAKER_BASE."/admin&file=link_speaker.php");
+assign("ul_speaker_linkpage",UL_SPEAKER_LINKPAGE_URL);
 
 
 if(!function_exists('video_speaker_plugin')){
@@ -37,9 +39,14 @@ if(!function_exists('video_speaker_plugin')){
 	if(test())
 		register_custom_form_field(test());
 	
+	function addLinkSpeakerMenuEntry($vid){
+		$idtmp=$vid['videoid'];
+     return '<li><a role="menuitem" href="'.UL_SPEAKER_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("speaker_link").'</a></li>';
+	}
 	
 	add_admin_menu('Speakers','Add new speaker','add_speaker.php',UL_SPEAKER_BASE.'/admin');
 	add_admin_menu('Speakers','Manage speakers','manage_speakers.php',UL_SPEAKER_BASE.'/admin');
+	$cbvid->video_manager_link[]='addLinkSpeakerMenuEntry';
 }
 	
 ?>

@@ -1,7 +1,5 @@
 <?php
 require UL_SPEAKER_DIR.'/speaker_class.php';
-
-//require '../includes/admin_config.php';
 $userquery->admin_login_check();
 // Controle de permission probablement non fonctionnel sur les plugins
 //$userquery->login_check('member_moderation');

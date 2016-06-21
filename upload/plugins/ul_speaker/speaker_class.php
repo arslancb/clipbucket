@@ -3,12 +3,6 @@
 $speakerquery = new speakerquery();
 $Smarty->assign_by_ref('speakerquery', $speakerquery);
 
-function get_speakers($param) {
-	global $speakerquery;
-	return $speakerquery->get_speakers($param);
-}
-
-
 function get_speaker_fields($array=NULL) {
 	global $cb_columns;
 	return $cb_columns->object('speakers')->get_columns();
@@ -54,6 +48,10 @@ class speakerquery extends CBCategory{
 		global $cb_columns;
 		$basic_fields = array('id', 'firstname','lastname', 'slug', 'photo');
 		$cb_columns->object( 'speakers' )->register_columns( $basic_fields );
+		$basic_fields = array('id', 'description','speaker_id');
+		$cb_columns->object( 'speakerfunction' )->register_columns( $basic_fields );
+		$basic_fields = array('id', 'video_id','speakerfunction_id');
+		$cb_columns->object( 'video_speaker' )->register_columns( $basic_fields );
 	}
 
 	/**
@@ -116,9 +114,9 @@ class speakerquery extends CBCategory{
 				$res=$db->select(tbl('speakerfunction'),'*',$req,false,false,false);
 				$roleids=$array['roleids'];
 				$nbdeleted=0;
+				$desc=$array['description'];
 				for ($i=0; $i<count($res); $i++){
 					$id=$res[$i]['id'];
-					$desc=$array['description'];
 					if (in_array($id, $roleids, true)){
 						$db->update(tbl('speakerfunction'), array('description'), array($desc[$i-$nbdeleted]),"id='$id'");
 					}
@@ -209,6 +207,72 @@ class speakerquery extends CBCategory{
 			return $result;
 	}
 
+	function get_speaker_and_roles($params=NULL){
+		global $db;
+		global $cb_columns;
+		$limit = $params['limit'];
+		$order = $params['order'];
+		$cond = "";
+	
+		//name
+		if($params['name']) {
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " speaker.name = '".$params['name']."' ";
+		}
+		if($params['selected']=='yes' && $params['videoid']) {// return only speaker functions that are linked to the specified video
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " video_id = '".$params['videoid']."' ";
+		}
+		if($params['selected']=='no' && $params['videoid']) {// return only speakears functions that are not linked to the specified video
+			if($cond!='')
+				$cond .= ' AND ';
+			else 
+				$cond .= "  speakerfunction.id NOT IN (SELECT speakerfunction2.id as id2 FROM ".tbl('speaker')." AS speaker2 LEFT JOIN " 
+					.tbl('speakerfunction')." AS speakerfunction2 ON speaker2.id=speakerfunction2.speaker_id LEFT JOIN "
+					 .tbl('video_speaker')." AS video_speaker2 ON speakerfunction2.id=video_speaker2.speakerfunction_id WHERE video_id=".$params['videoid'].')'; 
+				//$cond .= "  NOT EXISTS SELECT * FROM tbl('video_speaker') speakerfunction_id <> speakerfunction.id ";
+		}
+		if($params['cond']) {
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " ".$params['cond']." ";
+		}
+	
+	
+		if(!$params['count_only']) {
+			$fields = array(
+					'speaker' => $cb_columns->object('speakers')->get_columns(),
+					'speakerfunction' => $cb_columns->object('speakerfunction')->get_columns(),
+					'video_speaker' => $cb_columns->object('video_speaker')->get_columns(),
+			);
+			$query = " SELECT ".tbl_fields($fields)." FROM ".tbl('speaker')." AS speaker LEFT JOIN " 
+					.tbl('speakerfunction')." AS speakerfunction ON speaker.id=speakerfunction.speaker_id LEFT JOIN "
+					 .tbl('video_speaker')." AS video_speaker ON speakerfunction.id=video_speaker.speakerfunction_id";
+			// add alias on speaker.id to avoid any conflict between speaker.id and speakerfunction.id
+			$query = str_replace(' speaker.id,',' speaker.id as sid,',$query);
+			$query = str_replace(' video_speaker.id',' video_speaker.id as vid',$query);
+				
+			if ($cond) 
+				$query .= " WHERE ".$cond;
+			if ($order)
+				$query .= " ORDER BY ".$order;
+			if ($limit)
+				$query .= " LIMIT  ".$limit;
+			//$result = $db->select(tbl('users'),'*',$cond,$limit,$order);
+			$result = select( $query );
+		}
+		if($params['count_only']){
+			$result = $db->count(tbl('speaker')." AS speaker LEFT JOIN ".tbl('speakerfunction')." AS speakerfunction ON speaker.id=speakerfunction.speaker_id",'*',$cond);
+		}
+		if($params['assign'])
+			assign($params['assign'],$result);
+		return $result;
+		
+	}
+	
+	
 	//Check Speaker Exists or Not
 	function Check_Speaker_Exists($id){
 		global $db;
@@ -303,12 +367,31 @@ class speakerquery extends CBCategory{
 				$db->execute("DELETE FROM ".tbl("user_profile")." WHERE userid='$uid'");
 	
 				e(lang("usr_del_msg"),"m");*/
-				$db->execute("DELETE FROM ".tbl("speakerfunction")." WHERE speaker_id='$id'");
-				$db->execute("DELETE FROM ".tbl("speaker")." WHERE id='$id'");
-				e(lang("usr_del_msg"),"m");
+				$test=$db->execute("DELETE FROM ".tbl("speakerfunction")." WHERE speaker_id='$id'");
+				$test2=$db->execute("DELETE FROM ".tbl("speaker")." WHERE id='$id'");
+				if (!$test || $test2)
+					e(lang("Cant_del_linked_speaker_msg")." id=".$id,"e");
+				else
+					e(lang("speaker_del_msg")." id=".$id,"m");
 		}else{
-			e(lang("user_doesnt_exist"));
+			e(lang("speaker_doesnt_exist"));
 		}
+	}
+	
+	/**
+	 * Function used to link speaker'r function to video
+	 */
+	function link_speaker($id,$videoid) {
+		global $db;
+		$db->insert(tbl('video_speaker'), array('video_id','speakerfunction_id'), array(mysql_clean($videoid),mysql_clean($id)));
+	}
+
+	/**
+	 * Function used to unlink speaker'r function from video
+	 */
+	function unlink_speaker($id,$videoid) {
+		global $db;
+		$db->execute("DELETE FROM ".tbl("video_speaker")." WHERE video_id='$videoid' AND speakerfunction_id='$id'");
 	}
 	
 	/**
