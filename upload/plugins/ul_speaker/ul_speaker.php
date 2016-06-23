@@ -41,6 +41,7 @@ if(!function_exists('video_speaker_plugin')){
 	/*if(test())
 		register_custom_form_field(test());*/
 	
+	// NewEntry for video administration menu
 	function addLinkSpeakerMenuEntry($vid){
 		$idtmp=$vid['videoid'];
      return '<li><a role="menuitem" href="'.UL_SPEAKER_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("speaker_link").'</a></li>';

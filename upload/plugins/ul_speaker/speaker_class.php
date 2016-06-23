@@ -8,7 +8,40 @@
 $speakerquery = new speakerquery();
 $Smarty->assign_by_ref('speakerquery', $speakerquery);
 
+/**_____________________________________
+ * slugify
+ * _____________________________________
+ *Transform text to a slug (remove non alphabetic or numeric chars, transform in lowercase string)
+ *
+ *input $text : string to be normalized
+ *output : a string corresponding to the slug
+ *
+ *WARNING: "php5-intl" package is required
+ */
+function slugify($text) {
+	// replace non letter or digits by -
+	$text = preg_replace('~[^\pL\d]+~u', '-', $text);
+	$text=preg_replace('/\pM*/u','',normalizer_normalize( $text, Normalizer::FORM_D));
+	// transliterate
+	$text = iconv('utf-8', 'ASCII//TRANSLIT', $text);
+	// remove unwanted characters
+	$text = preg_replace('~[^-\w]+~', '', $text);
+	// trim
+	$text = trim($text, '-');
+	// remove duplicate -
+	$text = preg_replace('~-+~', '-', $text);
+	// lowercase
+	$text = strtolower($text);
+	if (empty($text)) {
+		return 'n-a';
+	}
+	return $text;
+}
 
+function prepareSlug($firstname, $lastname) {
+	return $firstname.'-'.$lastname;
+	//return substr($firstname,0,4).'-'.$lastname;
+}
 
 /**_____________________________________
  * speaker_role_check
@@ -65,7 +98,8 @@ class speakerquery extends CBCategory{
 		if(!error()) {
 			$firstname=mysql_clean($array['firstname']);
 			$lastname=mysql_clean($array['lastname']);
-			$slug=mysql_clean($array['slug']);
+			//$slug=mysql_clean($array['slug']);
+			$slug=slugify(prepareSlug($firstname,$lastname));
 			$req=" firstname = '$firstname' AND lastname='$lastname'";
 			$res=$db->select(tbl('speaker'),'id',$req,false,false,false);
 			// test speaker's unicity
@@ -103,8 +137,9 @@ class speakerquery extends CBCategory{
 		if(!error()) {
 			$firstname=mysql_clean($array['firstname']);
 			$lastname=mysql_clean($array['lastname']);
-			$slug=mysql_clean($array['slug']);
+			//$slug=mysql_clean($array['slug']);
 			$speakerid=mysql_clean($array['speakerid']);
+			$slug=slugify(prepareSlug($firstname,$lastname));
 			$req=" firstname = '$firstname' AND lastname='$lastname' AND id<>$speakerid";
 			$res=$db->select(tbl('speaker'),'id',$req,false,false,false);
 			// test speaker's unicity
@@ -474,7 +509,7 @@ class speakerquery extends CBCategory{
 						//'min_length'	=> config('min_username'),
 						//'max_length' => config('max_username'),
 				),
-				'slug' => array(
+				/*'slug' => array(
 						'title'=> lang('Slug'),
 						'type'=> "textfield",
 						'name'=> "slug",
@@ -488,7 +523,7 @@ class speakerquery extends CBCategory{
 						//'db_value_check_func'=> 'email_exists',
 						//'db_value_exists'=>false,
 						//'db_value_err'=>lang('usr_email_err3')
-				),
+				),*/
 		);
 		return $my_fields;
 	}

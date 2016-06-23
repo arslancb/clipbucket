@@ -27,5 +27,6 @@
 		<validate>Validate</validate>
 		<list_of_selected_roles>list of selected speakers</list_of_selected_roles>
 		<list_of_unselected_roles>list of unselected speakers</list_of_unselected_roles>
+		<speaker_link>Link speakers</speaker_link>
 	</phrases>
 </clipbucket_language>
