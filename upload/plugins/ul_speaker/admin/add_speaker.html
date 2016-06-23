@@ -8,7 +8,7 @@
 	{assign var='number' value=0}
 {/if}
 <div class="heading">
-	<h2>add Speaker</h2>
+	<h2>{lang('add_new_speaker')}</h2>
     
     
 	<form action="" method="post">
@@ -50,10 +50,10 @@
     	{/for}
     {/if}
 		<div id="add-before-container"></div>
-		<div id="duplicate" class="btn btn-info btn-xs">Add a role</div>
+		<div id="duplicate" class="btn btn-info btn-xs">{lang('add_a_role')}</div>
 		<div align="left" style="padding:10px">
-		<input type="submit" name="add_speaker" value="Add Speaker" class="button" id="add_speaker" >
-		<input type="submit" name="search_speaker" value="Search Speaker" class="button" id="search_speaker" ></div>
+		<input type="submit" name="add_speaker" value="{lang('add_speaker')}" class="button" id="add_speaker" >
+		<input type="submit" name="search_speaker" value="{lang('search_speaker')}" class="button" id="search_speaker" ></div>
 	    
 	</form>    
 </div>

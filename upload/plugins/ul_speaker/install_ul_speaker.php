@@ -1,7 +1,11 @@
 <?php
 require_once('../includes/common.php');
 
-//Creating Table for video speakers if not exists
+/**____________________________________
+ * install_ul_speaker
+ * ____________________________________
+ *Creating Table for video speakers if not exists 
+ */
 function install_ul_speaker() {
 	global $db;
 	$db->Execute(
@@ -16,7 +20,11 @@ function install_ul_speaker() {
 }
 
 
-//Creating Table for video speaker Role if not exists
+/**____________________________________
+ * install_ul_speakerfunction
+ * ____________________________________
+ *Creating Table for video speaker Role if not exists 
+ */
 function install_ul_speakerfunction() {
 	global $db;
 	$db->Execute(
@@ -33,7 +41,12 @@ function install_ul_speakerfunction() {
 	);
 }
 
-//Creating Table for video speaker Role if not exists
+
+/**____________________________________
+ * install_ul_video_speaker
+ * ____________________________________
+ *Creating Table for video speaker Role if not exists 
+ */
 function install_ul_video_speaker() {
 	global $db;
 	$db->Execute(
@@ -53,20 +66,56 @@ function install_ul_video_speaker() {
 			ADD CONSTRAINT `speakerfunction_id_fk_speakerfunction_id` FOREIGN KEY (`speakerfunction_id`) REFERENCES '.tbl("speakerfunction").' (`id`);
 			'
 	);
-	/* Foreign Key not available on "video" table because the table is store in MyISAM and not in INNODB
-	$db->Execute(
-		'ALTER TABLE '.tbl("video_speaker").'
-			ADD CONSTRAINT `speakerfunction_id_fk_speakerfunction_id` FOREIGN KEY (`speakerfunction_id`) REFERENCES '.tbl("speakerfunction").' (`id`),
-			ADD CONSTRAINT `video_speaker_video_id_fk_videoid` FOREIGN KEY (`video_id`) REFERENCES '.tbl("video").' (`videoid`);
-			'
-	);
-	*/
 }
 
+/**____________________________________
+ * import_ul_speaker_langage_pack
+ * ____________________________________
+ *Import language data from an xml file called  "speaker_lang_XX.xml" where "XX" is 
+ *the language iso code. The file must be placed in then "lang" subfolder of the plugin.
+ *
+ *input $lang : iso code of the pack to import (ie: 'en')
+ */
+function import_ul_speaker_langage_pack($lang){
+	global $db,$lang_obj;
+	$folder= PLUG_DIR.'/'.basename(dirname(__FILE__))."/lang";
+	$file_name = $folder.'/speaker_lang_'.$lang.'.xml';
+	//Reading Content
+	$content = file_get_contents($file_name);
+	if(!$content) {
+		e(lang("err_reading_file_content")." : ".$file_name);
+	}
+	else {
+		//Converting data from xml to array
+		$data = xml2array($content,1,'tag',false);
+		$data = $data['clipbucket_language'];
+		$phrases = $data['phrases'];
+		if(count($phrases)<1) {
+			e(lang("no_phrases_found"));
+		}
+		else if(!$lang_obj->lang_exists($data['iso_code'])) {
+			e(lang("language_does_not_exist")." : ".$lang);
+		}
+		else
+		{
+			$sql = '';
+			foreach($phrases as $code => $phrase) {
+				if(!empty($sql))
+					$sql .=",\n";
+				$sql .= "('".$data['iso_code']."','$code','".htmlspecialchars($phrase,ENT_QUOTES, "UTF-8")."')";
+			}
+			$sql .= ";";
+			$query = "INSERT INTO ".tbl("phrases")." (lang_iso,varname,text) VALUES \n";
+			$query .= $sql;
+			$db->execute($query);
+			e(lang("lang_added")." : ".$lang,"m");
+		}
+	}
+}
 
-//This will first check if plugin is installed or not, if not this function will install the plugin details
 install_ul_speaker();
 install_ul_speakerfunction();
 install_ul_video_speaker();
-
+import_ul_speaker_langage_pack('fr');
+import_ul_speaker_langage_pack('en');
 ?>

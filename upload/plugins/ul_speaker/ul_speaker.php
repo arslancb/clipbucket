@@ -6,8 +6,10 @@
  Author Website: http://semm.univ-lille1.fr/
  ClipBucket Version: 2
  Version: 1.0
- Website: http://clip-bucket.com/plugin-page
+ Website:
  */
+ 
+// Define Plugin's uri constants
 define("SITE_MODE",'/admin_area');
 define('UL_SPEAKER_BASE',basename(dirname(__FILE__)));
 define('UL_SPEAKER_DIR',PLUG_DIR.'/'.UL_SPEAKER_BASE);
@@ -29,23 +31,24 @@ if(!function_exists('video_speaker_plugin')){
 		echo "My Test Announcement Goes here...";
 		echo '</div>';	
 	}
-	function test(){
+	/*function test(){
 		$tab= array("toto" => array("name"=>"toto","truc"=>"contenu de truc"));
 		return $tab;
-	}
+	}*/
 	
 
 	register_anchor_function('video_speaker_plugin','global');
-	if(test())
-		register_custom_form_field(test());
+	/*if(test())
+		register_custom_form_field(test());*/
 	
 	function addLinkSpeakerMenuEntry($vid){
 		$idtmp=$vid['videoid'];
      return '<li><a role="menuitem" href="'.UL_SPEAKER_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("speaker_link").'</a></li>';
 	}
 	
-	add_admin_menu('Speakers','Add new speaker','add_speaker.php',UL_SPEAKER_BASE.'/admin');
-	add_admin_menu('Speakers','Manage speakers','manage_speakers.php',UL_SPEAKER_BASE.'/admin');
+	// Add entries for the plugin in the administration pages
+	add_admin_menu(lang('Speakers'),lang('add_new_speaker'),'add_speaker.php',UL_SPEAKER_BASE.'/admin');
+	add_admin_menu(lang('Speakers'),lang('manage_speakers'),'manage_speakers.php',UL_SPEAKER_BASE.'/admin');
 	$cbvid->video_manager_link[]='addLinkSpeakerMenuEntry';
 }
 	

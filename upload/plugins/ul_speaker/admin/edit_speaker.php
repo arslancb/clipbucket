@@ -1,7 +1,8 @@
 <?php
 require UL_SPEAKER_DIR.'/speaker_class.php';
+// Check if user has admin acces
 $userquery->admin_login_check();
-// Controle de permission probablement non fonctionnel sur les plugins
+// Check that doesn't work on plugis
 //$userquery->login_check('member_moderation');
 $pages->page_redir();
 
@@ -14,6 +15,7 @@ if(!defined('SUB_PAGE')){
 }
 
 
+// Run after a post action called 'update_speaker'
 if(isset($_POST['update_speaker'])){
 	if ($speakerquery->update_speaker($_POST)) {	
 		e(lang("speaker_updated"),"m");

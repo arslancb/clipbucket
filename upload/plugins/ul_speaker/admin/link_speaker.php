@@ -1,7 +1,8 @@
 <?php
 require UL_SPEAKER_DIR.'/speaker_class.php';
+// Check if user has admin acces
 $userquery->admin_login_check();
-// Controle de permission probablement non fonctionnel sur les plugins
+// Check that doesn't work on plugis
 //$userquery->login_check('member_moderation');
 $pages->page_redir();
 
@@ -17,7 +18,7 @@ if(!defined('SUB_PAGE')){
 $video = $cbvid->getVideo($_GET['video']);
 Assign('video',$video);
 
-//Link Multiple speaker functions
+// Run after a post action called 'link_selected' (link and unlink multiple speaker to the selectedvideo)
 if(isset($_POST['link_selected'])){
 	//remove unselected link from the first list
 	$eh->flush();
@@ -25,18 +26,16 @@ if(isset($_POST['link_selected'])){
 	if ($cnt>0){
 		for($id=0;$id<$cnt;$id++)
 			$speakerquery->unlink_speaker($_POST['checked_speaker'][$id],$video['videoid']);
-		//e("Selected speakers have been deleted","m");
 	}
 	//add selected link from the second list
 	$cnt=count($_POST['check_speaker']);
 	if ($cnt>0){
 		for($id=0;$id<$cnt;$id++)
 			$speakerquery->link_speaker($_POST['check_speaker'][$id],$video['videoid']);
-		//e("Selected speakers have been deleted","m");
 	}
 }
 
-//Filter speaker list
+// Run after a post action called 'filter' (used to filter list of speakers)
 if(isset($_POST['filter'])){
 	$filtercond=" firstname like '%".$_POST['firstname']."%' AND lastname like '%".$_POST['lastname']."%' ";
 	assign('speakfirstname',$_POST['firstname']);
@@ -49,11 +48,6 @@ if(isset($_POST['filter'])){
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,RESULTS);
 $array=[];
-/*if(isset($_GET['search'])){
- $array = array	(
- 'name' 	=> $_GET['name'],
- );
-}*/
 
 $result_array = $array;
 //Getting speaker List
@@ -78,7 +72,5 @@ $total_pages = count_pages($total_rows,RESULTS);
 $pages->paginate($total_pages,$page);
 
 
-//error_reporting(E_ERROR & E_WARNING & E_STRING);
-//ini_set('display_errors', True);
 template_files('link_speaker.html',UL_SPEAKER_ADMIN_DIR);
 ?>

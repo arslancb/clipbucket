@@ -1,7 +1,8 @@
 <?php
 require UL_SPEAKER_DIR.'/speaker_class.php';
+// Check if user has admin acces
 $userquery->admin_login_check();
-// Controle de permission probablement non fonctionnel sur les plugins
+// Check that doesn't work on plugis
 //$userquery->login_check('member_moderation');
 $pages->page_redir();
 
@@ -14,26 +15,24 @@ if(!defined('SUB_PAGE')){
 }
 
 
-//Deleting selected speaker
+// Run after a post action called 'delete_speaker'
 if (isset($_GET['delete_speaker'])) {
 	$delspeaker = mysql_clean($_GET['delete_speaker']);
 	$speakerquery->delete_speaker($delspeaker);
 }
 
-//Deleting Multiple speakers
+// Run after a post action called 'delete_selected' (Deleting Multiple speakers)
 if(isset($_POST['delete_selected'])){
 	$cnt=count($_POST['check_speaker']);
 	if ($cnt>0){
 		for($id=0;$id<$cnt;$id++)
 			$speakerquery->delete_speaker($_POST['check_speaker'][$id]);
-		//$eh->flush();
-		//e("Selected speakers have been deleted","m");
 	}
 	else
-		e("No speakers have been selected","w");
+		e(lang("no_speaker_selected"),"w");
 }
 
-//Filter speaker list
+// Run after a post action called 'filter' (used to filter list of speakers)
 if(isset($_POST['filter'])){
 	$filtercond=" firstname like '%".$_POST['firstname']."%' AND lastname like '%".$_POST['lastname']."%' ";
 	assign('speakfirstname',$_POST['firstname']);
@@ -46,11 +45,6 @@ if(isset($_POST['filter'])){
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,RESULTS);
 $array=[];
-/*if(isset($_GET['search'])){
-	$array = array	(
-		 'name' 	=> $_GET['name'],
-	);
-}*/
 
 $result_array = $array;
 //Getting speaker List
@@ -58,7 +52,6 @@ $result_array['limit'] = $get_limit;
 if ($filtercond) $result_array['cond']=$filtercond;
 //pr($result_array,true);
 $speakers = $speakerquery->get_speakers($result_array);
-//pr("ee".$z."zz",true);
 Assign('speakers', $speakers);
 
 //Collecting Data for Pagination
@@ -70,8 +63,5 @@ $total_pages = count_pages($total_rows,RESULTS);
 $pages->paginate($total_pages,$page);
 
 
-
-//error_reporting(E_ERROR & E_WARNING & E_STRING);
-//ini_set('display_errors', True);
 template_files('manage_speakers.html',UL_SPEAKER_ADMIN_DIR);
 ?>

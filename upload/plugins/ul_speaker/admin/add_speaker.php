@@ -1,7 +1,8 @@
 <?php
 require UL_SPEAKER_DIR.'/speaker_class.php';
+// Check if user has admin acces
 $userquery->admin_login_check();
-// Controle de permission probablement non fonctionnel sur les plugins
+// Check that doesn't work on plugis
 //$userquery->login_check('member_moderation');
 $pages->page_redir();
 
@@ -13,7 +14,7 @@ if(!defined('SUB_PAGE')){
 	define('SUB_PAGE', 'Add Speaker');
 }
 
-
+// Run after a post action called 'add_speaker'
 if(isset($_POST['add_speaker'])){
 	if($speakerquery->add_speaker($_POST))	{
 		e(lang("new_speaker_added"),"m");
@@ -21,11 +22,10 @@ if(isset($_POST['add_speaker'])){
 	}
 }
 
+// Run after a post action called 'search_speaker'
 if(isset($_POST['search_speaker'])){
 	$speakerquery->search_speaker($_POST);	
 }
 
-//error_reporting(E_ERROR & E_WARNING & E_STRING);
-//ini_set('display_errors', True);
 template_files('add_speaker.html',UL_SPEAKER_ADMIN_DIR);
 ?>

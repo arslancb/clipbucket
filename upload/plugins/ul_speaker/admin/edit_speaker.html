@@ -7,7 +7,7 @@
 	{assign var='number' value=0}
 {/if}
 <div class="heading">
-	<h2>Edit Speaker n°{$speak.id}</h2>
+	<h2>{lang('edit_speaker_nb')}{$speak.id}</h2>
     
     
 	<form action="" method="post">
@@ -45,14 +45,14 @@
 				{if $field.hint_2}<br>{$field.hint_2}<br>{/if}
 				</div>
 			{/foreach}
-			<div title="supprimer" class="btn btn-link btn-sm" onclick="deleteMe('extra_{$i}')" class="delte-date"><br><span class="glyphicon glyphicon-remove color-red"></span><span class="sr-only">supprimer</span></div>
+			<div title="{lang('delete')}" class="btn btn-link btn-sm" onclick="deleteMe('extra_{$i}')" class="delte-date"><br><span class="glyphicon glyphicon-remove color-red"></span><span class="sr-only">{lang('delete')}</span></div>
     		</div></div>
     	{/for}
     {/if}
 		<div id="add-before-container"></div>
-		<div id="duplicate" class="btn btn-info btn-xs">Add a role</div>
+		<div id="duplicate" class="btn btn-info btn-xs">{lang('add_a_role')}</div>
 		<div align="left" style="padding:10px">
-		<input type="submit" name="update_speaker" value="Update Speaker" class="button" id="update_speaker" >
+		<input type="submit" name="update_speaker" value="{lang('update_speaker')}" class="button" id="update_speaker" >
 	    
 	</form>    
 </div>
@@ -73,7 +73,7 @@
 				$s=$s+'{if $field.hint_2}<br>{$field.hint_2}<br>{/if}';
 				$s=$s+'</div>';
 			{/foreach}
-			$s=$s+'<div title="supprimer" class="btn btn-link btn-sm" onclick="deleteMe(\'extra_'+$i+'\')"><br><span class="glyphicon glyphicon-remove color-red"></span><span class="sr-only">supprimer</span></div>';
+			$s=$s+'<div title="{lang('delete')}" class="btn btn-link btn-sm" onclick="deleteMe(\'extra_'+$i+'\')"><br><span class="glyphicon glyphicon-remove color-red"></span><span class="sr-only">{lang('delete')}</span></div>';
 			$s=$s+'</div></div>';
 			$('#add-before-container').before($s);
 			$i++;

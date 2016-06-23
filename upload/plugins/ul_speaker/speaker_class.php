@@ -1,38 +1,23 @@
 <?php
+/*
+ * This file contains speakerquery class and some usefull functions used in this plugin
+ */ 
 
+
+// Global Object $speakerquery is used in the plugin
 $speakerquery = new speakerquery();
 $Smarty->assign_by_ref('speakerquery', $speakerquery);
 
-function get_speaker_fields($array=NULL) {
-	global $cb_columns;
-	return $cb_columns->object('speakers')->get_columns();
-}
 
-/**
- * Function used to get speaker details using speaker's id
+
+/**_____________________________________
+ * speaker_role_check
+ * _____________________________________
+ *Validate speaker's roles if there's no empty role added
+ *
+ *input $val : is an array containing all speaker's roles
  */
-function get_speaker_details($id=NULL) {
-	global $db;
-	$is_email = ( strpos( $id , '@' ) !== false ) ? true : false;
-	$select_field = ( !$is_email and !is_numeric( $id ) ) ? 'username' : ( !is_numeric( $id ) ? 'email' : 'userid' );
-
-	$fields = tbl_fields(array('speaker' => array('*')));
-
-	$query = "SELECT $fields FROM ".cb_sql_table('speaker');
-	$query .= " WHERE users.$select_field = '$id'";
-
-	$result = select( $query );
-
-	if ( $result ) {
-		$details = $result[ 0 ];
-		return $details;
-	}
-	return false;
-
-}
-
 function speaker_role_check($val) {
-	$i=1;
 	foreach ($val as $v) {
 		if ($v=="")
 			return false;
@@ -40,10 +25,20 @@ function speaker_role_check($val) {
 	return true;
 }
 
+/**_____________________________________________________
+ * Class speakerquery
+ * _____________________________________________________
+ *Contains all actions that can affect the speaker's plugin 
+ */
 class speakerquery extends CBCategory{
 	private $basic_fields = array();
 	private $extra_fields = array();
 	
+	/**_____________________________________
+	 * speakerquery
+	 * _____________________________________
+	 *Constructor for speakerquery's instances
+	 */
 	function speakerquery()	{
 		global $cb_columns;
 		$basic_fields = array('id', 'firstname','lastname', 'slug', 'photo');
@@ -54,8 +49,13 @@ class speakerquery extends CBCategory{
 		$cb_columns->object( 'video_speaker' )->register_columns( $basic_fields );
 	}
 
-	/**
-	 * Function used to add a new speakers
+	/**_____________________________________
+	 * add_speaker
+	 * ____________________________________
+	 *Function used to add a new speakers 
+	 *
+	 *input $array : a dictionnary that contains all fields for a speaker. $_POST is used if empty
+	 * output : return speaker's id if exists , otherwise false
 	 */
 	function add_speaker($array=NULL){
 		global $db;
@@ -70,7 +70,7 @@ class speakerquery extends CBCategory{
 			$res=$db->select(tbl('speaker'),'id',$req,false,false,false);
 			// test speaker's unicity
 			if (count($res)>0){
-				e(lang("speaker_still_exists"));
+				e(lang("speaker_already_exists"));
 				return false;
 			}
 			else {
@@ -87,8 +87,13 @@ class speakerquery extends CBCategory{
 		}
 	}
 	
-	/**
-	 * Function used to update a speakers
+	/**_____________________________________
+	 * update_speaker
+	 * ____________________________________
+	 *Function used to update a speakers 
+	 *
+	 *input $array : a dictionnary that contains all fields for a speaker. $_POST is used if empty
+	 * output : return speaker's id if exists , otherwise false
 	 */
 	function update_speaker($array=NULL){
 		global $db;
@@ -104,7 +109,7 @@ class speakerquery extends CBCategory{
 			$res=$db->select(tbl('speaker'),'id',$req,false,false,false);
 			// test speaker's unicity
 			if (count($res)>0){
-				e(lang("speaker_still_exists"));
+				e(lang("speaker_already_exists"));
 				return false;
 			}
 			else {
@@ -133,8 +138,13 @@ class speakerquery extends CBCategory{
 		}
 	}
 	
-	/**
-	 * Function used to test if a speakers still exists
+	/**_____________________________________
+	 * import_ul_speaker_langage_pack
+	 * ____________________________________
+	 *Function used to test if a speakers exists testing the existance of  firstname & lastname fields
+	 * 
+	 *input $array : a dictionnary that contains fields for a speaker. $_POST is used if empty
+	 * output : return true if speaker exists , otherwise false
 	 */
 	function search_speaker($array=NULL){
 		global $db;
@@ -151,44 +161,43 @@ class speakerquery extends CBCategory{
 				$s="";
 				for ($i=0; $i<count($res); $i++)
 					$s=$s.$res[$i]['firstname'].' '.$res[$i]['lastname'].', ';
-				e(lang("speaker_still_exists")." : ".$s,"w");
+				e(lang("speaker_already_exists")." : ".$s,"w");
 				return true;
 			}
 			else {
-				e(lang("speaker_doesnt_exist"),"m");
+				e(lang("speaker_does_not_exist"),"m");
 				return false;
 			}
 		}
 	}
 	
-	/**
-	 * Function used to get speakers
+	/**_____________________________________
+	 * get_speakers
+	 * ____________________________________
+	 *Function used to get speakers 
+	 *
+	 *input $params : is a dictionary containing information about the requested speakers
+	 *				$params['limit'] is for pagination (ie '0.100')
+	 *				$params['order'] is for ordering
+	 *				$params['cond'] is the "where" condition of the sql request
+	 * 			$params['count_only'] used only if we want to retrive number of speakers
+	 * 			$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template
+	 * output : return specified speakers
 	 */
 	function get_speakers($params=NULL)	{
 		global $db;
+		global $cb_columns;
 		$limit = $params['limit'];
 		$order = $params['order'];
 		$cond = "";
-	
-		//name
-		if($params['name']) {
-			if($cond!='')
-				$cond .= ' AND ';
-			$cond .= " speaker.name = '".$params['name']."' ";
-		}
 		if($params['cond']) {
 			if($cond!='')
 				$cond .= ' AND ';
 			$cond .= " ".$params['cond']." ";
 		}
-	
-	
 		if(!$params['count_only']) {
-			$fields = array(
-					'speaker' => get_speaker_fields(),
-			);
+			$fields = array('speaker' => $cb_columns->object('speakers')->get_columns(),);
 			$query = " SELECT ".tbl_fields($fields)." FROM ".tbl('speaker')." AS speaker ";
-
 			if ($cond) 
 				$query .= " WHERE ".$cond;
 			if ($order)
@@ -203,23 +212,31 @@ class speakerquery extends CBCategory{
 		}
 		if($params['assign'])
 			assign($params['assign'],$result);
-		else
-			return $result;
+		return $result;
 	}
 
+	/**_____________________________________
+	 * get_speaker_and_roles
+	 * ____________________________________
+	 *Function used to get speakers and speaker's roles for a specific video
+	 *
+	 *input $params : is a dictionary containing information about the requested speakers
+	 *				$params['limit'] is for pagination (ie '0.100')
+	 *				$params['order'] is for ordering
+	 *				($params['selected'] if =="yes" returns speakers linked to the video
+	 *										 if =="no" returns speakers not linked to the video
+	 *				$params['videoid'] is the video's id
+	 *				$params['cond'] is the "where" condition of the sql request
+	 * 			$params['count_only'] used only if we want to retrive number of speakers
+	 * 			$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template
+	 * output : return specified speakers and roles
+	 */
 	function get_speaker_and_roles($params=NULL){
 		global $db;
 		global $cb_columns;
 		$limit = $params['limit'];
 		$order = $params['order'];
 		$cond = "";
-	
-		//name
-		if($params['name']) {
-			if($cond!='')
-				$cond .= ' AND ';
-			$cond .= " speaker.name = '".$params['name']."' ";
-		}
 		if($params['selected']=='yes' && $params['videoid']) {// return only speaker functions that are linked to the specified video
 			if($cond!='')
 				$cond .= ' AND ';
@@ -273,22 +290,28 @@ class speakerquery extends CBCategory{
 	}
 	
 	
-	//Check Speaker Exists or Not
-	function Check_Speaker_Exists($id){
+	/**_____________________________________
+	 * speaker_exists
+	 * ____________________________________
+	 *Test if speaker's id exists or not 
+	 *
+	 *input $id : is teh speaker's id
+	 *output : true if speaker exists otherwise false
+	 */
+	function speaker_exists($id){
 		global $db;
-		if(is_numeric($id))
-				$result = $db->count(tbl('speaker'),"id"," id='".$id."'");
-			else
-				$result = $db->count(tbl('speaker'),"id"," name='".$id."'");
+		$result = $db->count(tbl('speaker'),"id"," id='".$id."'");
 		return ($result>0);
 	}
 	
-	function speaker_exists($username){
-	return $this->Check_Speaker_Exists($username);
-	}
 	
-	/**
-	 * Function used to get speaker details using id
+	/**_____________________________________
+	 * get_speaker_details
+	 * ____________________________________
+	 *Function used to get speaker details using it's id 
+	 *
+	 *input $id : speaker's id
+	 *output : a dictionary containig each fields for a speaker, false if no speaker found
 	 */
 	function get_speaker_details($id=NULL)	{
 		global $db;
@@ -327,75 +350,58 @@ class speakerquery extends CBCategory{
 		return false;
 	}
 	
-	/**
-	 * Function used to delete speaker
+	/**_____________________________________
+	 * delete_speaker
+	 * ____________________________________
+	 *Remove speaker and speaker's role from the database. 
+	 *TODO : if the speaker is linked to a video, then nothing is done, just an error message appears.
+	 *input $id : the id of ths speaker to be deleted 
 	 */
 	function delete_speaker($id) {
 		global $db;
 		if($this->speaker_exists($id)) {
 			$udetails = $this->get_speaker_details($id);
-				//list of functions to perform while deleting a video
-				/*$del_user_funcs = $this->delete_user_functions;
-				if(is_array($del_user_funcs))
-				{
-					foreach($del_user_funcs as $func)
-					{
-						if(function_exists($func))
-						{
-							$func($udetails);
-						}
-					}
-				}*/
-	
-/*				//Removing Subsriptions and subscribers
-				$this->remove_user_subscriptions($uid);
-				$this->remove_user_subscribers($uid);
-	
-				//Changing User Videos To Anonymous
-				$db->execute("UPDATE ".tbl("video")." SET userid='".$this->get_anonymous_user()."' WHERE userid='".$uid."'");
-				//Changing User Group To Anonymous
-				$db->execute("UPDATE ".tbl("groups")." SET userid='".$this->get_anonymous_user()."' WHERE userid='".$uid."'");
-				//Deleting User Contacts
-				$this->remove_contacts($uid);
-	
-				//Deleting User PMS
-				$this->remove_user_pms($uid);
-				//Changing From Messages to Anonymous
-				$db->execute("UPDATE ".tbl("messages")." SET message_from='".$this->get_anonymous_user()."' WHERE message_from='".$uid."'");
-				//Finally Removing Database entry of user
-				$db->execute("DELETE FROM ".tbl("users")." WHERE userid='$uid'");
-				$db->execute("DELETE FROM ".tbl("user_profile")." WHERE userid='$uid'");
-	
-				e(lang("usr_del_msg"),"m");*/
 				$test=$db->execute("DELETE FROM ".tbl("speakerfunction")." WHERE speaker_id='$id'");
 				$test2=$db->execute("DELETE FROM ".tbl("speaker")." WHERE id='$id'");
-				if (!$test || $test2)
+				if (!$test2)
 					e(lang("Cant_del_linked_speaker_msg")." id=".$id,"e");
 				else
 					e(lang("speaker_del_msg")." id=".$id,"m");
 		}else{
-			e(lang("speaker_doesnt_exist"));
+			e(lang("speaker_does_not_exist"));
 		}
 	}
 	
-	/**
-	 * Function used to link speaker'r function to video
+	/**_____________________________________
+	 * link_speaker
+	 * ____________________________________
+	 *Associate a speaker's role to video 
+	 *
+	 *input $id : speaker role's id
+	 *			$videoid : the video's id
 	 */
 	function link_speaker($id,$videoid) {
 		global $db;
 		$db->insert(tbl('video_speaker'), array('video_id','speakerfunction_id'), array(mysql_clean($videoid),mysql_clean($id)));
 	}
 
-	/**
-	 * Function used to unlink speaker'r function from video
+	/**_____________________________________
+ 	 * unlink_speaker
+ 	 * ____________________________________
+	 *Remove associate between a speaker's role and a video 
+	 *
+	 *input $id : speaker role's id
+	 *			$videoid : the video's id
 	 */
 	function unlink_speaker($id,$videoid) {
 		global $db;
 		$db->execute("DELETE FROM ".tbl("video_speaker")." WHERE video_id='$videoid' AND speakerfunction_id='$id'");
 	}
 	
-	/**
-	 * this function will create initial array for speaker fields
+	/**_____________________________________
+ 	 * load_speaker_fields
+ 	 * ____________________________________
+ 	 *Create initial array for speaker fields 
 	 * this will tell
 	 * array(
 	 *       title [text that will represents the field]
@@ -412,7 +418,11 @@ class speakerquery extends CBCategory{
 	 *       anchor_before [anchor before field]
 	 *       anchor_after [anchor after field]
 	 *      )
-	 */
+	 *
+ 	 *input $input : a dictionary with speaker's informations (if null $_POST is used)
+	 *		$strict : if trus then field is requiered in the data form
+ 	 *output : Fields for the administration page of the plugin
+ 	 */
 	function load_speaker_fields($input=NULL,$strict=true) {
 		global $LANG,$Cbucket;
 		$default = array();
@@ -484,8 +494,10 @@ class speakerquery extends CBCategory{
 	}
 
 
-	/**
-	 * this function will create array for speaker role fields
+	/**_____________________________________
+	 * load_speaker_role_fields
+	 * ____________________________________
+	 *Create initial array for speaker roles fields 
 	 * this will tell
 	 * array(
 	 *       title [text that will represents the field]
@@ -502,6 +514,9 @@ class speakerquery extends CBCategory{
 	 *       anchor_before [anchor before field]
 	 *       anchor_after [anchor after field]
 	 *      )
+	 *
+	 *input $input : a dictionary with speaker's informations (if null $_POST is used)
+	 *output : Fields for the administration page of the plugin
 	 */
 	function load_speaker_role_fields($input=NULL) {
 		global $LANG,$Cbucket;
@@ -537,6 +552,14 @@ class speakerquery extends CBCategory{
 		return $my_fields;
 	}
 	
+	/**_____________________________________
+	 * load_speaker_role_ids
+	 * ____________________________________
+	 *return ids for speakers roles
+	 *
+	 *input $input : a dictionary containing speaker'id (if NULL $_POST is used)
+	 *output : list of roles ids
+	 */
 	function load_speaker_role_ids($input=NULL) {
 		global $db;
 		global $LANG,$Cbucket;
@@ -551,8 +574,14 @@ class speakerquery extends CBCategory{
 		return $res;
 	}
 	
-	/**
-	 * Function used to validate Add or Edit Speaker fields
+	/**_____________________________________
+	 * validate_form_fields
+	 * ____________________________________
+	 *Validate speaker's administrion form fields (Add and Edit forms) 
+	 *
+ 	 *input $input : a dictionary with speaker's informations (if null $_POST is used)
+	 *		$strict : if trus then field is requiered in the data form
+	 *output : true if the form is valid, otherwise false
 	 */
 	function validate_form_fields($array=NULL,$strict=true) {
 		$fields= $this->load_speaker_fields($array,$strict);
@@ -571,7 +600,6 @@ class speakerquery extends CBCategory{
 	
 		validate_cb_form($fields,$array);
 	}
-	
 	
 
 }
