@@ -1,0 +1,115 @@
+	{if $__devmsgs} 
+		<div class="container">
+		<div id="alldata">
+			<div id="allqus">
+				<div class="devData select_qus" style="display: none">
+					{$emptyMessage = 'Sorry Ninja, nothing to show here'}
+					<h2>Select Queries ({$__devmsgs.select})</h2>
+					{if $__devmsgs.select >= 1}
+						{pr($__devmsgs.select_queries,true)}
+					{else}
+						{pr($emptyMessage,true)}
+					{/if}
+				</div>
+
+				<div class="devData update_qus" style="display: none">
+					<h2>Update Queries ({$__devmsgs.update})</h2>
+					{if $__devmsgs.update >= 1}
+						{pr($__devmsgs.update_queries,true)}
+					{else}
+						{pr($emptyMessage,true)}
+					{/if}
+				</div>
+
+				<div class="devData delete_qus" style="display: none">
+					<h2>Delete Queries({$__devmsgs.delete})</h2>
+					{if $__devmsgs.delete >= 1}
+						{pr($__devmsgs.delete_queries,true)}
+					{else}
+						{pr($emptyMessage,true)}
+					{/if}
+				</div>
+
+				<div class="devData insert_qus" style="display: none">
+					<h2>Insert Queries({$__devmsgs.insert})</h2>
+					{if $__devmsgs.insert >= 1}
+						{pr($__devmsgs.insert_queries,true)}
+					{else}
+						{pr($emptyMessage,true)}
+					{/if}
+				</div>
+
+				<div class="devData execute_qus" style="display: none">
+					<h2>Execute Queries({$__devmsgs.execute})</h2>
+					{if $__devmsgs.execute >= 1}
+						{pr($__devmsgs.execute_queries,true)}
+					{else}
+						{pr($emptyMessage,true)}
+					{/if}
+				</div>
+
+				<div class="devData expensive_qus" style="display: none">
+					<h2>Expensive Query({$__devmsgs.expensive_query.memUsed})</h2>
+					{pr($__devmsgs.expensive_query,true)}
+				</div>
+
+				<div class="devData cheap_qus" style="display: none">
+					<h2>Cheapest Query({$__devmsgs.cheapest_query.memUsed})</h2>
+					{pr($__devmsgs.cheapest_query,true)}
+				</div>
+
+				<div class="devData memUsage" style="display: none">
+					<h2>Memory Usage</h2>
+					<p>Execution of whole page costed : {$__devmsgs.total_memory_used} MB</p>
+				</div>
+
+				<div class="devData allStats">
+					<h2>Overall Stats</h2>
+					<ul>
+						<li>Queries ({$__devmsgs.total_queries})</li>
+						<ul>
+							<li>Insert : {$__devmsgs.insert}</li>
+							<li>Select : {$__devmsgs.select}</li>
+							<li>Update : {$__devmsgs.update}</li>
+							<li>Delete : {$__devmsgs.delete}</li>
+							<li>Count : {$__devmsgs.count}</li>
+							<li>Execute : {$__devmsgs.execute}</li>
+						</ul>
+						<li>Total Queries : {$__devmsgs.total_queries}</li>
+						<li>Total Execution Time : {$__devmsgs.total_query_exec_time}</li>
+						<li>Total Memory Used : {$__devmsgs.total_memory_used}</li>
+						<li>Basedirctory : {$thebase}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+			<select id="devmode_opts" name="devmode_opts" class="form-control" style="max-width: 50%">
+				<option value="everything">Everything</option>
+				<option value="all">All Queries</option>
+				<option value="select_qus">Select Queries</option>
+				<option value="update_qus">Update Queries</option>
+				<option value="delete_qus">Delete Queries</option>
+				<option value="insert_qus">Insert Queries</option>
+				<option value="execute_qus">Execute Queries</option>
+				<option value="expensive_qus">Expensive Query</option>
+				<option value="cheap_qus">Cheapest Query</option>
+				<option value="memUsage">Memory Usage</option>
+				<option value="allStats">Overall Stats</option>
+			</select>
+			<button class="btn btn-primary" id="devButton">Display</button>
+		</div>
+
+		<script type="text/javascript">
+			$('#devButton').on("click",function(){
+				var theval = $('#devmode_opts').val();
+				$('.devData').hide();
+				if (theval != 'all' && theval != 'everything') {
+					$('.'+theval).fadeIn('slow');
+				} else if (theval == 'all') {
+					$('.select_qus,.update_qus,.delete_qus,.insert_qus,.execute_qus').fadeIn('slow');
+				} else if (theval == 'everything') {
+					$('.select_qus,.update_qus,.delete_qus,.insert_qus,.execute_qus,.expensive_qus,.cheap_qus,.memUsage,.allStats').fadeIn('slow');
+				}
+			});
+		</script>
+	{/if}

@@ -8,7 +8,6 @@
 */
 require 'includes/config.inc.php';
 header("Content-Type: text/xml charset=utf-8");
-echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 
 $limit = 100;
 $videos = get_videos(array('limit'=>$limit,'active'=>'yes','order'=>'date_added DESC'));

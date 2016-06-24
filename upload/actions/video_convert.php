@@ -17,6 +17,7 @@
 	//error_reporting(E_ALL);
 	logData(json_encode($argv),"argvs");
 	$fileName = (isset($argv[1])) ? $argv[1] : false;
+	//This is exact file name of a video e.g 132456789
 	$_filename = (isset($argv[2])) ? $argv[2] : false;
 	$file_directory_ = (isset($argv[3])) ? $argv[3] : false;
 	$file_directory = $file_directory_.'/';
@@ -42,11 +43,15 @@
 		$queue_details = get_queued_video(TRUE,$fileName);
 
 	$log->writeLine("Conversion queue","Getting the file information from the queue for conversion", true);
-
-	$fileDir 	= $queue_details["date_added"];
+	if(!$file_directory_){
+		$fileDir 	= $queue_details["date_added"];
+	}
+	else{
+		$fileDir = $file_directory;
+	}
 	$dateAdded 	= explode(" ", $fileDir);
 	$dateAdded 	= array_shift($dateAdded);
-	$fileDir 	= implode("/", explode("-", $dateAdded));
+	$file_directory = implode("/", explode("-", $dateAdded));
 	//logData($fileDir);
 
 	/*
@@ -127,11 +132,14 @@
 	$ffmpeg->configs = $configs;
 	$ffmpeg->file_name = $tmp_file;
 	$ffmpeg->filetune_directory = $file_directory;
-	$ffmpeg->raw_path = VIDEOS_DIR.'/'.$file_directory.$fileName;
+	$ffmpeg->raw_path = VIDEOS_DIR.'/'.$file_directory.$_filename;
 	//$ffmpeg->logs = $log;
 
 	
 	$ffmpeg->ClipBucket();
+	if ($ffmpeg->lock_file && file_exists($ffmpeg->lock_file)){
+		unlink($ffmpeg->lock_file);
+	}
 	logData($ffmpeg->video_files,'video_files');
 
 	

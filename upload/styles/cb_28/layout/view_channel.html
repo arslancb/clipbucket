@@ -1,16 +1,20 @@
 {$myAccountLinks = $userquery->my_account_links()}
 {$leftMenuLinks = array_slice($myAccountLinks, 7)}
 {lang code='channel' assign='object_type'}
+{$loadMoreLang ={lang code="load_more"}}
 {$uservideos=get_videos(["user"=>$user.userid, "order"=>"date_added DESC","limit" =>9])}
 {if $uservideos}
 {$first_video = $cbvid->get_video($uservideos.0.videokey)}
 {/if}
- 
+
 {$total_videos = $user.total_videos}
 {$total_photos = $user.total_photos}
 <div id="main" class="container clearfix">
 	<div class="clearfix">
 		{include file="$style_dir/blocks/view_channel/channel_header.html"}
+	</div>
+	<div class="clearfix report-block" id="report-user-form" style="display:none">
+		{show_flag_form id=$user.userid type=user}	
 	</div>
 	<div class="clearfix">
 		<section id="content" class="clearfix">
@@ -27,16 +31,16 @@
 			<div id="messageFav" class="alert alert-info marginTop" style="display:none"></div>
 			<div class="channel-tabs flat-tabs clearfix">
 				<ul class="clearfix nav nav-tabs">
-					<li {if $u_control.show_my_videos != 'yes' && $u_control.show_my_photos !='yes'}class="active"{/if}>
+					<li>
 						<a href="#user-info" data-toggle="tab">{lang code='info'}</a>
 					</li>
-					{if isSectionEnabled('videos') && $u_control.show_my_videos == 'yes'}
+					{if isSectionEnabled('videos') && $u_control.show_my_videos != 'no'}
 					<li class="active">
 						<a href="#user-videos" data-toggle="tab">{lang code='videos'}</a>
 					</li>
 					{/if}
-					{if isSectionEnabled('photos') && $u_control.show_my_photos == 'yes'}
-					<li {if $u_control.show_my_videos != 'yes' || !isSectionEnabled('videos')}class="active"{/if}>
+					{if isSectionEnabled('photos') && $u_control.show_my_photos != 'no'}
+					<li {if $u_control.show_my_videos == 'no' || !isSectionEnabled('videos')}class="active"{/if}>
 						<a href="#user-photos" data-toggle="tab">{lang code='photos'}</a>
 					</li>
 					<li>
@@ -46,7 +50,7 @@
 					</li>
 				</ul>
 				<div class="tab-content clearfix">
-					<div class="tab-pane fade in clearfix {if $u_control.show_my_videos != 'yes' && $u_control.show_my_photos != 'yes'}active{/if}}" id="user-info">
+					<div class="tab-pane fade in clearfix {if $u_control.show_my_videos == 'no' && $u_control.show_my_photos == 'no'}active{/if}}" id="user-info">
 						<div class="clearfix watch-vid-details">
 							<h2>{lang code='user_activity'}</h2>
 							<ul class="clearfix desc-list">
@@ -112,7 +116,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="tab-pane videos fade in clearfix {if $u_control.show_my_videos == 'yes'}active{/if}" id="user-videos">
+					<div class="tab-pane videos fade in clearfix {if $u_control.show_my_videos != 'no'}active{/if}" id="user-videos">
 						<div class="clearfix row user_vids">
 							{if $uservideos}
 								<div id="usr-vids" class="clearfix">
@@ -132,7 +136,7 @@
 							{/if}
 						</div>
 					</div>
-					<div class="tab-pane fade in clearfix {if $u_control.show_my_videos != 'yes'}active{/if}" id="user-photos">
+					<div class="tab-pane fade in clearfix {if $u_control.show_my_videos == 'no'}active{/if}" id="user-photos">
 						<div id="usr-photos" class="clearfix row user_photos">
 						{$photos=get_photos(["user"=>$user.userid,"limit" =>9])}
 							{if $photos}
@@ -219,16 +223,11 @@ $('#cover_info').show();
 });*/
 
 
-
-
 (function(window){
   $(document).ready(function(){
-	$("#reportVideo").on({
-			click : function(e){
-				e.preventDefault();
-				$("#flag_item").show();
-			}
-		});
+	$("#report-user").on("click",function(){
+		$("#report-user-form").toggle();
+	});
 	var extensions = "{$extensions}";
 	var baseurl = '{$baseurl}';
 	var channelId = "{$user['userid']}";
@@ -357,6 +356,7 @@ $('#cover_info').show();
 	  load_more(limit,mode,inner_mode,append_id,attrb,cat_id,total);
 	 });
 
+	var loadMoreLang = "{$loadMoreLang}";
 	$('#container').on("click","#more-view-channel",function(){
 		loadHit = $(this).attr('dataHit');
 		loadLimit = $(this).attr('dataLimit');
@@ -390,9 +390,14 @@ $('#cover_info').show();
 				if (data.length > 1) {
 					$(data).appendTo('#usr-vids').fadeIn('slow');
 					if (loadMore == true) {
-						$('<div class="clearfix text-center"><button id="more-view-channel" class="btn btn-loadmore" dataLimit="'+loadLimit+'" dataHit="'+nextHit+'">Load More</button></div>').appendTo('.user_vids').fadeIn('slow');
+						$('<div class="clearfix text-center"><button id="more-view-channel" class="btn btn-loadmore" dataLimit="'+loadLimit+'" dataHit="'+nextHit+'">'+loadMoreLang+'</button></div>').appendTo('.user_vids').fadeIn('slow');
 					}
-					
+					var moveTo = $( ".recentAppending" ).last().offset().top,
+					currWidth = $(window).width();
+					moveTo = moveTo - 630;
+					if (currWidth > 767) {
+						thakkiLoading(moveTo);
+					}
 				} else {
 					$('<div class="clearfix text-center"><button id="more-view-channel" class="btn btn-loadmore" disabled="disabled">Unable to fetch more</button></div>').appendTo('.user_vids').fadeIn('slow');
 				}
@@ -437,7 +442,13 @@ $('#cover_info').show();
 					if (loadMore == true) {
 						$('<div class="clearfix text-center"><button id="more-channel-photos" class="btn btn-loadmore" dataLimit="'+loadLimit+'" dataHit="'+nextHit+'">Load More</button></div>').appendTo('.user_photos').fadeIn('slow');
 					}
-					
+
+					var moveTo = $( ".photoAppending" ).last().offset().top,
+					currWidth = $(window).width();
+					moveTo = moveTo + 240;
+					if (currWidth > 767) {
+						thakkiLoading(moveTo);
+					}
 				} else {
 					$('<div class="clearfix text-center"><button id="more-view-channel" class="btn btn-loadmore" disabled="disabled">Unable to fetch more</button></div>').appendTo('.user_vids').fadeIn('slow');
 				}

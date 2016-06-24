@@ -55,7 +55,16 @@ class Clipbucket_db
     */
 
     function _select($query) {
-        $result = $this->mysqli->query($query);
+        global $__devmsgs;
+        if (is_array($__devmsgs)) {
+            $start = microtime();
+            $result = $this->mysqli->query($query);
+            $end = microtime();
+            $timetook = $end - $start;
+            devWitch($query, 'select', $timetook);
+        } else {
+            $result = $this->mysqli->query($query);
+        }
         $this->num_rows = $result->num_rows ;
         $data = array();
 
@@ -84,6 +93,8 @@ class Clipbucket_db
 
     function select($tbl,$fields='*',$cond=false,$limit=false,$order=false,$ep=false) {
         //return dbselect($tbl,$fields,$cond,$limit,$order);
+        global $__devmsgs;
+        
         $query_params = '';
         //Making Condition possible
         if($cond)
@@ -102,7 +113,16 @@ class Clipbucket_db
             $query_params .= " LIMIT $limit ";
 
         $query = " SELECT $fields FROM $tbl $query_params $ep ";
-        return $this->_select($query);
+        if (is_array($__devmsgs)) {
+            $start = microtime();
+            $data = $this->_select($query);
+            $end = microtime();
+            $timetook = $end - $start;
+            devWitch($query, 'select', $timetook);
+            return $data;
+        } else {
+            return $this->_select($query);
+        }
     }
 
     /**
@@ -115,11 +135,19 @@ class Clipbucket_db
     */
 
     function count($tbl,$fields='*',$cond=false) {
-        global $db;
+        global $db,$__devmsgs;
         if ($cond)
             $condition = " Where $cond ";
         $query = "Select Count($fields) From $tbl $condition";
-        $result = $this->_select($query);
+        if (is_array($__devmsgs)) {
+            $start = microtime();
+            $result = $this->_select($query);
+            $end = microtime();
+            $timetook = $end - $start;
+            devWitch($query, 'count', $timetook);
+        } else {
+            $result = $this->_select($query);
+        }
         $fields = $result[0];
 
         if ($fields)
@@ -150,8 +178,18 @@ class Clipbucket_db
 
     function Execute($query)
     {
+        global $__devmsgs;
         try {
-            return $this->mysqli->query($query);
+            if (is_array($__devmsgs)) {
+                $start = microtime();
+                $data = $this->mysqli->query($query);
+                $end = microtime();
+                $timetook = $end - $start;
+                devWitch($query, 'execute', $timetook);
+                return $data;
+            } else {
+                return $this->mysqli->query($query);
+            }
         } catch(DB_Exception $e) {
             $e->getError();
         }
@@ -169,6 +207,7 @@ class Clipbucket_db
      */
 
     function update($tbl,$flds,$vls,$cond,$ep=NULL) {
+        global $__devmsgs;
         # handling ( ' ) in title problem (ex: you can't)
         if (strpos($vls[0], "'")) {
             $vls[0] = str_replace("'", "&#39;", $vls[0]);
@@ -204,7 +243,15 @@ class Clipbucket_db
         $this->total_queries_sql[] = $query;
 
         try {
-            $this->mysqli->query($query);
+            if (is_array($__devmsgs)) {
+                $start = microtime();
+                $this->mysqli->query($query);
+                $end = microtime();
+                $timetook = $end - $start;
+                devWitch($query, 'update', $timetook);
+            } else {
+                $this->mysqli->query($query);
+            }
         } catch(DB_Exception $e) {
             $e->getError();
         }
@@ -256,7 +303,7 @@ class Clipbucket_db
     */
 
     function delete($tbl,$flds,$vls,$ep=NULL) {
-        global $db ;
+        global $db, $__devmsgs;
         $total_fields = count($flds);
         $fields_query = "";
         $count = 0;
@@ -279,7 +326,15 @@ class Clipbucket_db
         if(isset($this->total_queries)) $this->total_queries++;
         $this->total_queries_sql[] = $query;
         try {
-            $this->mysqli->query($query);
+            if (is_array($__devmsgs)) {
+                $start = microtime();
+                $this->mysqli->query($query);
+                $end = microtime();
+                $timetook = $end - $start;
+                devWitch($query, 'delete', $timetook);
+            } else {
+                $this->mysqli->query($query);
+            }
         } catch(DB_Exception $e) {
             $e->getError();
         }

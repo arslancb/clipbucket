@@ -71,8 +71,13 @@ function display_it()
 {
     try
     {
-        global $ClipBucket, $db;
+        global $ClipBucket, $db,$__devmsgs;
         $dir = LAYOUT;
+        if (is_array($__devmsgs)) {
+            #pr($__devmsgs,true);
+            assign("thebase", BASEDIR);
+            assign("__devmsgs",$__devmsgs);
+        }
         foreach($ClipBucket->template_files as $file)
         {
             if(file_exists(LAYOUT.'/'.$file['file']) || is_array($file))

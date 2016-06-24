@@ -9,15 +9,17 @@
 </div>
 <table class="table table-bordered table-striped">
   <tr>
-    <td width="30" align="center" valign="middle" class="left_head">
+    <td width="auto" align="center" valign="middle" class="left_head">
     <input type="checkbox" name="checkall" onclick="_cb.checkUncheckAll(this);"/></td>
-    <td width="75" align="center" valign="middle" class="head">Photo ID</td>
+    <td width="auto" align="center" valign="middle" class="head">Photo ID</td>
     <td class="head">Details</td>
-    <td width="50" class="right_head">Options</td>
+    <td width="auto" class="right_head">Options</td>
+    <td width="auto" class="right_head">Actions</td>
   </tr>
 {if $photos}
 {section name=list loop=$photos}
     <tr>
+        <td><input name="check_photo[]" type="checkbox" id="check_photo" value="{$photos[list].photo_id}" /></td>
         <td>{$photos[list].photo_id}</td>
         <td>
             <div class="row">
@@ -65,6 +67,6 @@
     <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-sm" onclick="return _cb.confirm_it('Are you sure you want to delete selected photos(s)')"/>
 </div>
 {else}
-	<div align="center"><strong><em>No Photo Found</em></strong></div>
+  <div align="center"><strong><em>No Photo Found</em></strong></div>
 {/if}
 </form>

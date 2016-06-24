@@ -224,4 +224,27 @@ function increment_playlist_played( $args = array() ) {
 
 }
 
+/**
+* Get playlists that have atleast 1 item
+* @param : { array } { $playlists } { array of all playlists fetched from database }
+* @since : May 11th, 2016 ClipBucket 2.8.1
+* @author : Saqib Razzaq
+*
+* @return : { array } { $playlists } { playlists with items only }
+*/
+
+function activePlaylists($playlists) {
+    if (is_array($playlists)) {
+        foreach ($playlists as $key => $coll) {
+            $totalObjs = $coll['total_items'];
+            if ($totalObjs >= 1) {
+                continue;
+            } else {
+                unset($playlists[$key]);
+            }
+        }
+    return $playlists;
+    }
+}
+
 # BASEURL/show/SHOW-NAME/

@@ -886,9 +886,6 @@ class FFMpeg{
 					
 					$this->log->writeLine("Max Duration configs",$this->TemplogData , true);
 					//$this->create_log_file();
-				
-					if($this->lock_file && file_exists($this->lock_file))
-					unlink($this->lock_file);
 					
 					$this->failed_reason = 'max_duration';
 	
@@ -1016,9 +1013,6 @@ class FFMpeg{
 				$this->log->writeLine("Conversion Completed", $this->log->TemplogData , true );
 				//$this->create_log_file();
 				
-				if($this->lock_file && file_exists($this->lock_file))
-				unlink($this->lock_file);
-
 				break;
 			}else
 			{

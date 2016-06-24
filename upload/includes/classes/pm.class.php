@@ -64,7 +64,7 @@ define('CB_PM_MAX_INBOX',500); // 0 - OFF , U - Unlimited
 		global $cbvid;
 		$vid_array = array('user'=>userid(),'order'=>'date_added DESC','limit'=>15);
 		$videos = $cbvid->get_videos($vid_array);
-		$vids_array = array('' => lang("No Video"));
+		$vids_array = array('' => lang("no_video"));
 		if($videos)
 		foreach($videos as $video)
 		{
@@ -72,7 +72,7 @@ define('CB_PM_MAX_INBOX',500); // 0 - OFF , U - Unlimited
 		}
 		$field = array(
 					   'video_form' => array
-					   ('title'=> 'Attach video',
+					   ('title'=> lang('usr_attach_video'),
 						'type'=>'dropdown',
 						'name'=> 'attach_video',
 						'id'=> 'attach_video',
@@ -490,7 +490,7 @@ class cb_pm
 		$array = array
 		(
 		 'to'	=>array(
-						'title'=> 'to',
+						'title'=> lang('to'),
 						'type'=>'textfield',
 						'name'=> 'to',
 						'id'=> 'to',
@@ -499,7 +499,7 @@ class cb_pm
 						'required'=>'yes'
 					),
 		 'subj'	=>array(
-						'title'=> 'Subject',
+						'title'=> lang('subject'),
 						'type'=>'textfield',
 						'name'=> 'subj',
 						'id'=> 'subj',
@@ -507,7 +507,7 @@ class cb_pm
 						'required'=>'yes'
 					),
 		 'content'	=>array(
-						'title'=> 'content',
+						'title'=> lang('content'),
 						'type'=>'textarea',
 						'name'=> 'content',
 						'id'=> 'pm_content',

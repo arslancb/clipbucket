@@ -230,6 +230,7 @@ class ClipBucket
                 'Add New Phrases' => 'add_phrase.php',
                 'Manage Pages' => 'manage_pages.php',
                 'Manage Comments' => 'comments.php',
+                'Update Logo'=>'upload_logo.php',
             ),
             //Video
             'Videos' =>
@@ -254,14 +255,14 @@ class ClipBucket
                 'Mass Email' => 'mass_email.php'
             ),
             //Groups
-            'Groups' =>
+           /* 'Groups' =>
             array(
                 'Add Group' => 'add_group.php',
                 'Manage Groups' => 'groups_manager.php',
                 'Manage Categories' => 'group_category.php?view=show_category',
                 'View Inactive Groups' => 'groups_manager.php?active=no&search=yes',
                 'View Reported Groups' => 'flagged_groups.php',
-            ),
+            ),*/
             //Advertisments
             'Advertisement' =>
             array(
@@ -312,7 +313,8 @@ class ClipBucket
                 'Language Settings' => 'language_settings.php',
                 'Add New Phrases' => 'add_phrase.php',
                 'Manage Pages' => 'manage_pages.php',
-                'Manage Comments' => 'comments.php'
+                'Manage Comments' => 'comments.php',
+                'Update Logo'=>'upload_logo.php'
             );
         if ($per['video_moderation'] == "yes")
             $NewMenu['Videos'] = array(
@@ -343,12 +345,12 @@ class ClipBucket
         }
         
         
-        if ($per['group_moderation'] == "yes")
+        /*if ($per['group_moderation'] == "yes")
             $NewMenu['Groups'] = array('Add Group' => 'add_group.php',
                 'Manage Groups' => 'groups_manager.php',
                 'Manage Categories' => 'group_category.php?view=show_category',
                 'View Inactive Groups' => 'groups_manager.php?active=no&search=yes',
-                'View Reported Groups' => 'flagged_groups.php');
+                'View Reported Groups' => 'flagged_groups.php');*/
 
         if ($per['ad_manager_access'] == "yes")
             $NewMenu['Advertisement'] = array(
@@ -367,6 +369,7 @@ class ClipBucket
 
         if ($per['tool_box'] == "yes")
             $NewMenu['Tool Box'] = array('PHP Info' => 'phpinfo.php',
+                'Development Mode' => 'dev_mode.php',
                 'View online users' => 'online_users.php',
                 'Action Logs' => 'action_logs.php?type=login',
                 'Server Modules Info' => 'cb_mod_check.php',
@@ -378,6 +381,9 @@ class ClipBucket
 
         if ($per['web_config_access'] == "yes")
             $NewMenu['Tool Box']['Maintenance'] = 'maintenance.php';
+
+        //$NewMenu['Logo'] = array('Upload Logo'=>'upload_logo.php');
+
         return (isset($NewMenu)) ? $NewMenu : false;
     }
 
@@ -435,9 +441,12 @@ class ClipBucket
     /**
      * Function used to set template (Frontend)
      */
-    function set_the_template()
+    function set_the_template($ctemplate = false)
     {
         global $cbtpl, $myquery;
+        if ($ctemplate) {
+            $_GET['template'] = $ctemplate;
+        }
         $template = $this->template;
 
         if (isset($_SESSION['the_template']) && $cbtpl->is_template($_SESSION['the_template']))
@@ -647,8 +656,9 @@ class ClipBucket
     function foot_menu($params = NULL)
     {
         global $cbpage;
-        $this->foot_menu[] = array('name' => lang("menu_home"), 'link' => BASEURL, "this" => "home");
-        $this->foot_menu[] = array('name' => lang("contact_us"), 'link' => cblink(array('name' => 'contact_us')), "this" => "home");
+        //$this->foot_menu[] = array('name' => lang("menu_home"), 'link' => BASEURL, "this" => "home");
+        //$this->foot_menu[] = array('name' => lang("contact_us"), 'link' => cblink(array('name' => 'contact_us')), "this" => "home");
+        //$this->foot_menu[] = array('name' => lang("about_us"), 'link' => cblink(array('name' => 'about_us')), "this" => "home");
 
 
         
@@ -658,7 +668,7 @@ class ClipBucket
 
         if ($pages)
             foreach ($pages as $p)
-                $this->foot_menu[] = array('name' => $p['page_name'], 'link' => $cbpage->page_link($p), "this" => "home");
+               $this->foot_menu[] = array('name' => lang($p['page_name']), 'link' => $cbpage->page_link($p), "this" => "home");
 
 //		if($cbpage->is_active(2))
 //			$this->foot_menu[] = array('name'=>lang("privacy_policy"),'link'=>$cbpage->get_page_link(2),"this"=>"home");

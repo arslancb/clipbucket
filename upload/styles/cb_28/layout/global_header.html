@@ -11,19 +11,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 		<!-- ClipBucket v{$Cbucket->version} -->
 		<meta name="copyright" content="ClipBucket - Integrated Units 2007 - {$smarty.now|date_format:"%Y"}">
-		<meta name="author" content="Arslan Hassan - http://clip-bucket.com/arslan-hassan">
-		<meta name="author" content="Fawaz Tahir - http://clip-bucket.com/fawaz-tahir">
 		<link rel="icon" type="image/ico" href="{$baseurl}/favicon.ico">
 
 		<!-- RSS FEEDS -->
 		{rss_feeds link_tag=true}
+		{if $ninja_fighting}
+            {ANCHOR place='seo_ninja'}
+        {else}
+        	<meta name="keywords" content="{$Cbucket->configs.keywords}">
+			<meta name="description" content="{$Cbucket->configs.description}">
+			<meta name="distribution" content="global">
 
-		<meta name="keywords" content="{$Cbucket->configs.keywords}">
-		<meta name="description" content="{$Cbucket->configs.description}">
-		<meta name="distribution" content="global">
 
-
-		<title>{cbtitle}</title>
+			<title>{cbtitle}</title>
+        {/if}
 
 		<link rel="stylesheet" href="{$theme}/css/bootstrap.min.css?cache={$cache_buster}">
 
@@ -38,7 +39,11 @@
 		{*/if*}
 
 		<script src="{$theme}/js/jquery-1.11.3.min.js"></script>
-		<link rel="stylesheet" href="{$baseurl}/styles/global/jquery_ui.css">
+		{if $__devmsgs}
+			<link rel="stylesheet" href="{$baseurl}/styles/global/jquery_ui.css">
+		{else}
+			<link rel="stylesheet" href="{$baseurl}/styles/global/jquery_ui.min.css">
+		{/if}
 
 		<script>
 			var loading = '<i class="glyphicon glyphicon-refresh animate-spin"></i> {lang code="loading"}...';
@@ -46,15 +51,24 @@
 			var imageurl = "{$imageurl}";
 			var userid = "{userid()}";
 		</script>
-		<script src="{$theme}/js/custom.js"></script>
+		{if $__devmsgs}
+			<script src="{$theme}/js/custom.js"></script>
+		{else}
+			<script src="{$theme}/js/custom.min.js"></script>
+		{/if}
 
 		<script src="{$theme}/js/bootstrap.min.js"></script>
 		
 		<script src="{$theme}/js/ui_plugins.js"></script>
-		
-		<script src="{$baseurl}/js/clipbucket.js"></script>
+		{if $__devmsgs}
+			<script src="{$baseurl}/js/clipbucket.js"></script>
+		{else}
+			<script src="{$baseurl}/js/clipbucket.min.js"></script>
+		{/if}
 		<script src="{$theme}/js/uslider_js/jquery.mousewheel.js"></script>
-		<script src='https://www.google.com/recaptcha/api.js'></script>
+		{if $smarty.const.THIS_PAGE == 'signup'}
+			<script src='https://www.google.com/recaptcha/api.js'></script>
+		{/if}
 		
 
 		<!-- Script For Home Page Videos Slider //-->
@@ -78,9 +92,14 @@
 					$( this )[ (1&i) ? 'addClass' : 'removeClass' ]( 'photo-land-no' );
 				})
 			})
+			var pageNow = "{$smarty.const.THIS_PAGE}";
 		</script>
 		{include file="$style_dir/blocks/quicklist/qlist_main.html"}
-		<script type="text/javascript" src="{$theme}/js/fast_qlist.js"></script>
+		{if $__devmsgs}
+			<script type="text/javascript" src="{$theme}/js/fast_qlist.js"></script>
+		{else}
+			<script type="text/javascript" src="{$theme}/js/fast_qlist.min.js"></script>
+		{/if}
 		<script type="text/javascript" src="{$theme}/js/uslider_js/jquery.mousewheel.js"></script>
 		{include_header file='global_header'}
 		{if $Cbucket->header_files}
@@ -91,3 +110,5 @@
 		    <!-- Ending Headers -->
 		{/if}
 	</head>
+	
+	

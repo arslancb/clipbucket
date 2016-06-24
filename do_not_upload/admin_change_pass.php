@@ -8,6 +8,7 @@
  * you will see a confirmation message that your account password has been changed.
  *
  * for help and support pelase visti forums.clip-bucket.com or report issues on code.google.com/p/clipbucket/issues
+ * Notice: File is not used anymore
  */
 
 include("includes/config.inc.php");

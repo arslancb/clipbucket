@@ -1154,18 +1154,20 @@
 
         if(!$user)
             $user = username();
+
         if(is_array($vdo))
             $video_users = $vdo['video_users'];
         else
             $video_users = $vdo;
 
-
         $users_array = explode(',',$video_users);
-
-        if(in_array($user,$users_array))
+        $users_array = array_filter(array_map('trim', $users_array));
+        if(in_array($user,$users_array)){
             return true;
-        else
+        }
+        else{
             return false;
+        }
     }
 
     /**
@@ -1766,7 +1768,9 @@
                 } else {
                     $mode = 'GB';
                 }
-                e("Current Memory Size (RAM) of server is <strong>".round($ramsize, 2)." ".$mode."</strong> but recomended RAM is atleast 5 GB");
+                if (has_access('admin_access')) {
+                    e("Current Memory Size (RAM) of server is <strong>".round($ramsize, 2)." ".$mode."</strong> but recomended RAM is atleast 5 GB");
+                }
             }
         }
         $directories = array('files','cache','includes');
@@ -1820,7 +1824,7 @@
         if (!empty($errs)) {
             if (has_access("admin_access")) {
                 foreach ($errs as $name => $issue) {
-                    e(strtoupper("[Admin only message] <strong>".$name."</strong>")." couldn't be found or isn't installed properly hence video might not work, check <a href=".BASEURL."admin_area/cb_mod_check.php>Server Modules</a> page to know more");
+                    e(strtoupper("[Admin only message] <strong>".$name."</strong>")." couldn't be found or isn't installed properly hence video might not work, check <a href=".BASEURL."/admin_area/cb_mod_check.php>Server Modules</a> page to know more");
                 }
             } else {
                 e("Video upload might not work properly, kindly contact website admin");

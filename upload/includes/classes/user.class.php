@@ -718,17 +718,19 @@ class userquery extends CBCategory{
 	/**
 	 * Function used to get user details using userid
 	 */
-	function get_user_details( $id=NULL, $checksess=false )
+	function get_user_details( $id=NULL, $checksess=false, $email=false )
 	{
 		global $db,$sess;
 		/*if(!$id)
 			$id = userid();*/
 
-
         $is_email = ( strpos( $id , '@' ) !== false ) ? true : false;
         $select_field = ( !$is_email and !is_numeric( $id ) ) ? 'username' : ( !is_numeric( $id ) ? 'email' : 'userid' );
-
-        $fields = tbl_fields( array( 'users' => array( '*' ) ) );
+        if($email == false){
+        	$fields = tbl_fields( array( 'users' => array( '*' ) ) );
+        }else{
+        	$fields = tbl_fields( array( 'users' => array( 'email' ) ) );
+        }
 
         $query = "SELECT $fields FROM ".cb_sql_table( 'users' );
         $query .= " WHERE users.$select_field = '$id'";
@@ -1541,6 +1543,15 @@ class userquery extends CBCategory{
 	{
 		global $Cbucket;
 		$remote = false;
+		if (function_exists('check_adv_social_con_license')) {
+			global $db;
+			$user = $udetails['userid'];
+			$template = $Cbucket->configs['template_dir'];
+			$url = $db->select(tbl('users'),'*',"userid = $user");
+			if ($url[0]['soclid'] != '' && $template == 'cb_28') {
+				return $url[0]['avatar_url'];
+			}
+		}
 		if(empty($udetails['userid']) && $uid)
 			$udetails = $this->get_user_details($uid);
 		//$thumbnail = $udetails['avatar'] ? $udetails['avatar'] : NO_AVATAR;
@@ -2123,20 +2134,28 @@ class userquery extends CBCategory{
 	 * @param INT userid
 	 * @param Conditions
 	 */
-	function get_user_vids($uid,$cond=NULL,$count_only=false)
+	function get_user_vids($uid,$cond=NULL,$count_only=false, $myacc = false)
 	{
 		global $db;
 		if($cond!=NULL)
 			$cond = " AND $cond ";
-			
+		
+		if ($myacc) {
+			$cond .= " LIMIT 0,15 ";
+		}
+
 		$results = $db->select(tbl("video"),"*"," userid = '$uid' $cond");
-		if($db->num_rows > 0)
-		{
-			if($count_only)
+		if($db->num_rows > 0) {
+			if ($myacc) {
+				return $results;
+			}
+
+			if($count_only) {
 				return $db->num_rows;
-			else
+			} else {
 				return $results[0];
-		}else{
+			}
+		} else {
 			return false;
 		}
 	}
@@ -3150,7 +3169,7 @@ class userquery extends CBCategory{
                 lang('user_change_pass')	=>'edit_account.php?mode=change_password',
                 lang('user_change_email') 	=>'edit_account.php?mode=change_email',
                 lang('com_manage_subs')	=> 'edit_account.php?mode=subscriptions',
-                lang('Contacts Manager')	=> 'manage_contacts.php'
+                lang('contacts_manager')	=> 'manage_contacts.php'
             );
 
 
@@ -3168,13 +3187,13 @@ class userquery extends CBCategory{
                 lang('user_fav_videos')=>'manage_videos.php?mode=favorites',
             );
 
-        if(isSectionEnabled('groups'))
-            $array[lang('groups')] =  array
-            (
-                lang('grp_groups_title') =>'manage_groups.php',
-                lang('user_create_group') =>cblink(array('name'=>'create_group')),
-                lang('grp_joined_groups')=>'manage_groups.php?mode=joined',
-            );
+        // if(isSectionEnabled('groups'))
+        //     $array[lang('groups')] =  array
+        //     (
+        //         lang('grp_groups_title') =>'manage_groups.php',
+        //         lang('user_create_group') =>cblink(array('name'=>'create_group')),
+        //         lang('grp_joined_groups')=>'manage_groups.php?mode=joined',
+        //     );
 
         if(isSectionEnabled('playlists'))
             $array[lang('playlists')]=array
@@ -3183,7 +3202,7 @@ class userquery extends CBCategory{
             );
         $array[lang('messages')] = array
         (
-            lang('inbox ('.$this->get_unread_msgs($this->userid).')')	=> 'private_message.php?mode=inbox',
+            lang('inbox').'('.$this->get_unread_msgs($this->userid).')'=> 'private_message.php?mode=inbox',
             lang('notifications') => 'private_message.php?mode=notification',
             lang('sent')	=> 'private_message.php?mode=sent',
             lang('title_crt_new_msg')=> cblink(array('name'=>'compose_new')),
@@ -3196,8 +3215,6 @@ class userquery extends CBCategory{
                 lang('add_contact_list') => 'manage_contacts.php?mode=new_group',
             );
 
-
-
         if(count($this->user_account)>0)
         {
             foreach($this->user_account as $key => $acc)
@@ -3209,6 +3226,7 @@ class userquery extends CBCategory{
                 }else
                     $array[$key] = $acc;
             }
+           // pex($array,true);
             //$array = array_merge($array,$this->user_account);
         }
 
@@ -4491,7 +4509,7 @@ class userquery extends CBCategory{
 			{
 				$pass =  RandomString(10);
 				
-				if($_SERVER['HTTP_HOST']!='localhost')
+				if($_SERVER['HTTP_HOST']!='localhost' && $_SERVER['HTTP_HOST']!='127.0.0.1')
 					$email = 'anonymous'.RandomString(5).'@'.$_SERVER['HTTP_HOST'];
 				else
 					$email = 'anonymous'.RandomString(5).'@'.$_SERVER['HTTP_HOST'].'.tld';

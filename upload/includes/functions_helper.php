@@ -158,10 +158,13 @@
     * @author : Saqib Razzaq
     */
 
-    function pullCategories() {
+    function pullCategories($page = false) {
         global $cbvid, $userquery, $cbphoto;
         $params = array();
-        switch (THIS_PAGE) {
+        if (!$page) {
+            $page = THIS_PAGE;
+        }
+        switch ($page) {
             case 'videos':
                 $all_cats = $cbvid->cbCategories($params);
                 break;
@@ -217,4 +220,126 @@
         } else {
             return false;
         }
+    }
+
+    /**
+    * Returns static URL for provided scheme
+    * @param : { string } { $sort } { type of sorting }
+    * @param : { string } { $type } { type of sorting e.g photos, videos }
+    *
+    * $type paramter options are:
+    *
+    * videos
+    * photos
+    * channels
+    * collections
+    * 
+    * @param : { string } { $time } { this_month by default}
+    *
+    * $time paramter options are:
+    *
+    * today
+    * yesterday
+    * this_week
+    * last_week
+    * last_month
+    * top_rated
+    * last_year
+    *
+    * @since : 24th May, 2016 ClipBucket 2.8.1
+    * @author : Saqib Razzaq
+    */
+
+    function prettySort($sort, $type, $time = 'this_month') {
+        global $Cbucket;
+        $seoMode = $Cbucket->configs['seo'];
+        switch ($sort) {
+            case 'recent':
+                if ($seoMode == 'yes') {
+                    return BASEURL.'/'.$type.'/all/All/most_recent/all_time/1&sorting=sort';
+                } else {
+                    return BASEURL.'/'.$type.'.php?cat=all&sort=most_recent&time=all_time&page=1&seo_cat_name=All&sorting=sort';
+                }
+                break;
+            case 'trending':
+                if ($seoMode == 'yes') {
+                    return BASEURL.'/'.$type.'/all/All/most_viewed/all_time/1&sorting=sort';
+                } else {
+                    return BASEURL.'/'.$type.'.php?cat=all&sort=most_viewed&time=all_time&page=1&seo_cat_name=All&sorting=sort';
+                }
+                break;
+            case 'popular':
+                if ($seoMode == 'yes') {
+                    return BASEURL.'/'.$type.'/all/All/top_rated/'.$time.'/1&timing=time';
+                } else {
+                    return BASEURL.'/'.$type.'.php?cat=all&sort=top_rated&time='.$time.'&page=1&seo_cat_name=All&timing=time';
+                }
+                break;
+            default:
+                return BASEURL.'/'.$type.'/all/All/most_recent/all_time/1&sorting=sort';
+                break;
+        }
+    }
+
+    /**
+    * Handles everything going in ClipBucket development mode
+    * @param : { string } { $query } { MySQL query for which to run process }
+    * @param : { string } { $query_type } { type of query, select, delete etc }
+    * @param : { integer } { $time } { time took to execute query }
+    * 
+    * @return : { array } { $__devmsgs } { array with all debugging data }
+    * @since : 27th May, 2016
+    * @author : Saqib Razzaq
+    */
+
+    function devWitch($query, $query_type, $time) {
+        global $__devmsgs;
+        $memoryBefore = $__devmsgs['total_memory_used'];
+        $memoryNow = memory_get_usage()/1048576;
+        $memoryDif = $memoryNow - $memoryBefore;
+        $__devmsgs[$query_type.'_queries'][$__devmsgs[$query_type]]['q'] = $query;
+        $__devmsgs[$query_type.'_queries'][$__devmsgs[$query_type]]['timetook'] = $time;
+        $__devmsgs['total_query_exec_time'] = $__devmsgs['total_query_exec_time'] + $time;
+        $__devmsgs[$query_type.'_queries'][$__devmsgs[$query_type]]['memBefore'] = $memoryBefore;
+        $__devmsgs[$query_type.'_queries'][$__devmsgs[$query_type]]['memAfter'] = $memoryNow;
+        $__devmsgs[$query_type.'_queries'][$__devmsgs[$query_type]]['memUsed'] = $memoryDif;
+        $queryDetails = $__devmsgs[$query_type.'_queries'][$__devmsgs[$query_type]];
+
+        $expesiveQuery = $__devmsgs['expensive_query'];
+        $cheapestQuery = $__devmsgs['cheapest_query'];
+        
+        $insert_qs = $__devmsgs['insert_queries'];
+        $select_qs = $__devmsgs['select_queries'];
+        $update_qs = $__devmsgs['update_queries'];
+        $count_qs = $__devmsgs['delete_queries'];
+        $execute_qs = $__devmsgs['execute_queries'];
+
+        $count = 0;
+        
+        if (empty($expesiveQuery) || empty($cheapestQuery)) {
+            $expesiveQuery = $queryDetails;
+            $cheapestQuery = $queryDetails;
+        } else {
+            $memUsed = $queryDetails['memUsed'];
+            if ($memUsed > $expesiveQuery['memUsed']) {
+                $expesiveQuery = $queryDetails;
+            }
+
+            if ($memUsed < $cheapestQuery['memUsed']) {
+                $cheapestQuery = $queryDetails;
+            }
+        }
+
+        $__devmsgs['expensive_query'] = $expesiveQuery;
+        $__devmsgs['cheapest_query'] = $cheapestQuery;
+        $__devmsgs['total_memory_used'] = $memoryNow;
+        $__devmsgs[$query_type] = $__devmsgs[$query_type] + 1;
+        $__devmsgs['total_queries'] = $__devmsgs['total_queries'] + 1;
+
+        return $__devmsgs;
+    }
+
+    function showDevWitch() {
+        $file = BASEDIR.'/styles/global/devmode.html';
+        Template($file, false);
     }

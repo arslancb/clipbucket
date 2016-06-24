@@ -17,46 +17,48 @@
 			<div class="clearfix signin-block">
 				<div class="account-holder">
 					<form name="login_form" method="post" action="" id="login_form" class="user-form">
-						<h2>{lang('Login')}</h2>
+						<h2>{lang code="login"}</h2>
 						<div class="form-group">
 							{*<label for="login_username_sp">{lang code="Username"}</label>*}
-							<input type="text" id="login_username_sp" placeholder="{lang code='Type Username'}"
+							<input type="text" id="login_username_sp" placeholder="{lang code='type_username_here'}"
 							class="form-control" name="username">
 						</div>
 
 						<div class="form-group">
 							{*<label for="login_password_sp">{lang code="Password"}</label>*}
-							<input type="password" id="login_password_sp" placeholder="{lang code='Type Password'}"
+							<input type="password" id="login_password_sp" placeholder="{lang code='type_password_here'}"
 							class="form-control" name="password">
 						</div>
 
 						<div class="checkbox custom-elements form-group">
 							<label>
 								<input type="checkbox" name="remember_me" value="yes">
-								{lang code="Remember me"}
+								{lang code="remember_me"}
 							</label>
 						</div>
 
 						<input id="login_btn" type="submit" name="login" value="{lang('Login')}" class="btn btn-primary btn-lg btn-block">
 
 						<div class="clearfix links">
-							<a href="{$baseurl}/forgot.php">{lang code='Forgot Password?'}</a>
-							<a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='Forgot Username?'}</a>
+							<a href="{$baseurl}/forgot.php">{lang code='user_forgot_message'}?</a>
+							<a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='com_forgot_username'}?</a>
 						</div>
 						<input type="hidden" name="login" value="login"></input>
 						{if function_exists('show_all_btns')} 
-						  <div class="clearfix social-links">
+						<div class="clearfix social-links">
 							<span>or login with</span>
-							{ANCHOR place="show_all_btns"}
+							<div id="social_buttons">
+								{ANCHOR place="show_all_btns"}
+							</div>
 						</div>
 						{/if}
 					</form>
 					<div class="side-box">
-						<h2>{lang code='Create Account'}</h2>
+						<h2>{lang code='get_your_account'}</h2>
 						<div class="text-box">
-							<p>Join to start sharing videos and photos. It only takes a couple of minutes to create your free account</p>
+							<p>{lang code='create_account_msg'}</p>
 						</div>
-						<a class="btn btn-default btn-lg" href="{link name='signup'}">{lang code='Create Account'}</a>
+						<a class="btn btn-default btn-lg" href="{link name='signup'}">{lang code='get_your_account'}</a>
 					</div>
 				</div>
 			</div>
@@ -136,8 +138,6 @@
 							</div>
 						
 						{/if}
-					
-				   <!--{$captcha|@print_r}-->
 
 						<div class="form-group checkbox">
 							<label>
@@ -148,8 +148,18 @@
 						</div>
 						{ANCHOR place="the_form"}
 						<input type="hidden" name="signup" value="signup"></input>
-						<button type="submit" name="signup" value="signup" class="btn btn-success btn-lg btn-block" id="signup_submit">{lang code='Signup'}</button>
+						<div class="form-group checkbox">
+							<button type="submit" name="signup" value="signup" class="btn btn-success btn-lg btn-block" id="signup_submit">{lang code='signup'}</button>
+						</div>
 						{ANCHOR place='signup_form'}
+						{if function_exists('show_all_btns')} 
+						<div class="clearfix social-links">
+							<span>or login with</span>
+							<div id="social_buttons">
+								{ANCHOR place="show_all_btns"}
+							</div>
+						</div>
+						{/if}
 					</form>
 					{/if}
 				</div>
@@ -174,7 +184,7 @@
 			changeYear: true,
 			yearRange: "-56:+0"
 		});
-		$('.simple_container').addClass('alert-success alert');
+		$('.simple_container').addClass('alert-success alert container');
 		var currentDate = new Date("1988,04,07");
 		$("#dob").datepicker("setDate", currentDate);
 	 });

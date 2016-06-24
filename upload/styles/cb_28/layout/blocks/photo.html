@@ -16,17 +16,19 @@
 {/if}
 
 {if $display_type == "default_photo"}
-	<a class="photo-holder" href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">
-		{get_photo details=$photo size='l' class='img-responsive photo-land' output='html'}
-		<i class="icon-zoom"></i>
-	</a>
-	<div class="photo-info">
-		{if $photo.photo_title=='no-tag'}
-			<strong><a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">no-title</a></strong>
-		{else}
-			<strong><a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">{$photo.photo_title|truncate:50}</a></strong>
-		{/if}
-		<span>{lang code="by"}&nbsp;<a href="{$userquery->profile_link($photo.userid)}">{$photo.username}</a></span>
+	<div class="photoAppending">
+		<a class="photo-holder" href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">
+			{get_photo details=$photo size='l' class='img-responsive photo-land' output='html'}
+			<i class="icon-zoom"></i>
+		</a>
+		<div class="photo-info">
+			{if $photo.photo_title=='no-tag'}
+				<strong><a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">no-title</a></strong>
+			{else}
+				<strong><a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">{$photo.photo_title|truncate:50}</a></strong>
+			{/if}
+			<span>{lang code="by"}&nbsp;<a href="{$userquery->profile_link($photo.userid)}">{$photo.username}</a></span>
+		</div>
 	</div>
 {/if}
 

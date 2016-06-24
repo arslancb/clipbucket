@@ -180,7 +180,7 @@
 				}
 				&.open{
 					.icon-down-arrow{
-						@include rotate ($deg:-90deg);
+						@include rotate ($deg:-180deg);
 					}
 				}
 			}
@@ -268,12 +268,12 @@
 }
 .logo a{
 	display: block;
-	height: 100%;
-	height: 100%;
 	position: relative;
 	color:$white;
 	font-size:0;
 	line-height:0;
+	width: 100%;
+	height: 100%;
 	&:hover{
 		text-decoration: none;
 	}
@@ -284,6 +284,7 @@
 	}
 	img{
 		width: 100%;
+		height:100%;
 	}
 }
 /**/
@@ -446,6 +447,12 @@
 		.btn-success:hover{
 			background:$green;
 		}
+	}
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	/* IE10+ CSS styles go here */
+	#header{
+		padding: 0 25px 0 10px;
 	}
 }
 /**/
@@ -619,6 +626,13 @@
 	.show-search .user_menu{
 		left: 0;
 		top: 100%;
+		z-index: 3;
+	}
+	.alert{
+		position: fixed;
+		width: 100%;
+		z-index:5;
+		padding: 10px 40px 10px 10px;
 	}
 	.navbar-header .search{
 		width: 100%;

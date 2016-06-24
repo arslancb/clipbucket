@@ -70,6 +70,7 @@ if($myquery->VideoExists($video)){
 					e(lang(' remote upload successfully'),'m');
 					$query = "UPDATE " . tbl("video") . " SET file_thumbs_count = ".(int)($response)."  WHERE videoid = ".$data['videoid'];
 					$db->Execute($query);
+					$data['file_thumbs_count'] = (int)($response);
 				}
 				else
 					e(lang($response),'e');
@@ -83,12 +84,14 @@ if($myquery->VideoExists($video)){
 	# Delete Thumb
 	if(isset($_GET['delete'])){
 		if($data['files_thumbs_path']!=''){
-				#pr($data,true);
+			 	$file_name_num = explode('-', $_GET['delete']);
+	  		 	$num = get_thumb_num($_GET['delete']);
 				$files_thumbs_path= $data['files_thumbs_path'];
 				$serverApi = str_replace('/files/thumbs', '', $files_thumbs_path);
 				$serverApi = $serverApi.'/actions/custom_thumb_upload.php';
-				
+				$postvars['total_count'] = $data['file_thumbs_count'];
 				$postvars['mode'] = 'delete';
+				$postvars['thum_num'] = $num;
 		        $postvars['files_thumbs_path'] = $files_thumbs_path;
 		        $postvars['file_directory'] = $data['file_directory'];
 		        $postvars['delete_file_name'] = $_GET['delete'];
@@ -105,14 +108,22 @@ if($myquery->VideoExists($video)){
 			    /* Check HTTP Code */
 			    $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 			    curl_close($ch);
-
-			    if((int)($response)){
-					e(lang($response),'w');
-					$query = "UPDATE " . tbl("video") . " SET file_thumbs_count = ".(int)($response)."  WHERE videoid = ".$data['videoid'];
+			    $response = json_decode($response,true);
+			    // pr($response,true);
+			    if(isset($response['success'])&&isset($response['rem'])){
+					e($response['success'],'w');
+					$query = "UPDATE " . tbl("video") . " SET file_thumbs_count = ".(int)($response['rem'])."  WHERE videoid = ".$data['videoid'];
+					// pr($query,true);
+					$data['file_thumbs_count'] = (int)($response['rem']);
 					$db->Execute($query);
 				}
 				else
-					e(lang($response),'e');
+				{
+					e($response['message'],'e');
+					pr($response,true);
+				}	
+					
+
 
 		}else
 		{
@@ -128,41 +139,110 @@ if($myquery->VideoExists($video)){
 	# Generating more thumbs
 	if(isset($_GET['gen_more']))
 	{
-		$thumbs_settings_28 = thumbs_res_settings_28();
-		$vid_file = get_high_res_file($data,true);
-		$thumbs_num = config('num_thumbs');
+		if($data['file_server_path'])
+		{
+			$api_path = $data['file_server_path'];
+			$api_path = explode('/', $api_path);
+	        $c = count($api_path);
+	        unset($api_path[($c-1)]);
+	        $api_path = implode('/',$api_path);
 
-		$thumbs_input['vid_file'] = $vid_file;
-		$thumbs_input['num'] = $thumbs_num;
-		$thumbs_input['duration'] = $data['duration'];
-		
+	        $api_path.= '/actions/custom_thumb_upload.php';
+	        if(isset($data['duration']))
+	        {
+	            $duration = $data['duration'];
+	        }
+	        else
+	        {
+	            $duration = 20;
+	        }
+	        
+	        
+	        $num = 3;
+	        $file_name = $data['file_name'];
+	       
+	        $request = curl_init($api_path);
+	        $video_post = array(
+	              'file_directory' =>$data['file_directory'],
+	              'file_name' =>$file_name,
+	              'duration' => $duration,
+	              'dim' => $dimension,
+	              'numbers'=>$num,
+	              'mode'=>'gen_thumbs'
+	            );
+	        // send a file
+	        curl_setopt($request, CURLOPT_POST, true);
 
-		$thumbs_input['file_directory'] = $data['file_directory'];
-		$thumbs_input['file_name'] = $data['file_name'];
+	        curl_setopt(
+	            $request,
+	            CURLOPT_POSTFIELDS,$video_post);
+	        // output the response
+	        curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+	        curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
+	        curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
 
+	        $returnCode = (int)curl_getinfo($request, CURLINFO_HTTP_CODE);
+	        $results =  curl_exec($request);
+	      
+	        $decoded_results = json_decode($results,true);
+	        // pr($decoded_results,true);
 
-		require_once(BASEDIR.'/includes/classes/sLog.php');
-		$log = new SLog();
-        $configs = array();
-
-        require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
-        $ffmpeg = new FFMpeg($configs, $log);
-        //pr($thumbs_settings_28,true);
-        foreach ($thumbs_settings_28 as $key => $thumbs_size) {
-			$height_setting = $thumbs_size[1];
-			$width_setting = $thumbs_size[0];
-			$thumbs_input['dim'] = $width_setting.'x'.$height_setting;
-			if($key == 'original'){
-				$thumbs_input['dim'] = $key;
-				$thumbs_input['size_tag'] = $key;	
-			}else{
-				$thumbs_input['size_tag'] = $width_setting.'x'.$height_setting;	
-			}
-			$ffmpeg->generateThumbs($thumbs_input);
+	        if(isset($decoded_results['total']))
+	        {
+	        	$thumb_count = (int)$decoded_results['total'];
+	        	$update_thumb_query = "UPDATE ".tbl("video")." SET file_thumbs_count={$thumb_count}, aspect_ratio='seaweed' WHERE file_name='".$file_name."'";
+	        	$db->execute($update_thumb_query); 
+	        	$data['file_thumbs_count'] = $num;
+	        }
+	        elseif ($decoded_results['error']) 
+	        {
+	        	e($decoded_results['error']);
+	        }
+	        else
+	        {
+	        	e("Something went wrong. Note : {$results} ");
+	        }
+	        curl_close($request);
 		}
+		else
+		{
 
-        e(lang('Video thumbs has been regenrated successfully'),'m');
-        $db->update(tbl('video'), array("thumbs_version"), array("2.8"), " file_name = '".$data['file_name']."' ");
+			$thumbs_settings_28 = thumbs_res_settings_28();
+			$vid_file = get_high_res_file($data,true);
+			$thumbs_num = config('num_thumbs');
+
+			$thumbs_input['vid_file'] = $vid_file;
+			$thumbs_input['num'] = $thumbs_num;
+			$thumbs_input['duration'] = $data['duration'];
+			
+
+			$thumbs_input['file_directory'] = $data['file_directory'];
+			$thumbs_input['file_name'] = $data['file_name'];
+
+
+			require_once(BASEDIR.'/includes/classes/sLog.php');
+			$log = new SLog();
+	        $configs = array();
+
+	        require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
+	        $ffmpeg = new FFMpeg($configs, $log);
+	        //pr($thumbs_settings_28,true);
+	        foreach ($thumbs_settings_28 as $key => $thumbs_size) {
+				$height_setting = $thumbs_size[1];
+				$width_setting = $thumbs_size[0];
+				$thumbs_input['dim'] = $width_setting.'x'.$height_setting;
+				if($key == 'original'){
+					$thumbs_input['dim'] = $key;
+					$thumbs_input['size_tag'] = $key;	
+				}else{
+					$thumbs_input['size_tag'] = $width_setting.'x'.$height_setting;	
+				}
+				$ffmpeg->generateThumbs($thumbs_input);
+			}
+
+	        e(lang('Video thumbs has been regenrated successfully'),'m');
+	        $db->update(tbl('video'), array("thumbs_version"), array("2.8"), " file_name = '".$data['file_name']."' ");
+		}
 	}
 	
 	Assign('data',$data);

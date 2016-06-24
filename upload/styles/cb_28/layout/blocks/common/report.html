@@ -1,7 +1,6 @@
 <!-- Flag This {$type} -->
-<div id="flag_item" class="action_box" style="">
+<div id="flag_item" class="action_box" {if $type == 'photos'}style="display:none"{/if}>
 	<div class="form_container">
-		<div class="form_result" id="flag_form_result" style="display:none"></div>
 		<form id="flag_form" name="flag_form"  method="post" action="#">
 			<div class="alert alert-info">
 				{sprintf(lang("report_text"),$params.type)}

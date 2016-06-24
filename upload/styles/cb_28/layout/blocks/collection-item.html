@@ -1,3 +1,11 @@
+
+{if $Cbucket->configs.seo == 'no'}
+{$main_url = "{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}"}
+{else}
+{$main_url = "{$baseurl}/collection/{$collection.collection_id}/{$collection.type}/{$collection.collection_name}"}
+
+{/if}
+
 {if $collection.type == 'photos'}
 {$type = 'p'}
 {else}
@@ -7,7 +15,7 @@
 {if $type == 'p'} 
 <div class="collection-holder">
 	<div class="photo-block">
-		<a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
+		<a href="{$main_url}" title="{$collection.collection_name}}">
 			<img alt="{$collection.title}" title="{$collection.title}" class="img-responsive" id="photo_{$collection.ci_id}" src="{$first_col_thumb}">
 			<div class="collection-info">
 				<span>{$collection.total_objects}</span>{if $type == 'v'}{lang code="videos"}{else}{lang code="photos"}{/if}
@@ -20,7 +28,7 @@
 {else}
 <div class="collection-holder">
 	<div class="photo-block">
-		<a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
+		<a href="{$main_url}" title="{$collection.collection_name}">
 			<img alt="{$collection.title}" title="{$collection.title}" class="img-responsive" id="photo_{$collection.ci_id}" src="{$first_col_thumb}">
 			<div class="collection-info">
 				<span>{$collection.total_objects}</span>{lang code="videos"}

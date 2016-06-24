@@ -7,8 +7,8 @@
         <div class="btn-group marginBottomLarge">
      		<input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
             <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
-            <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
-            <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+           <!--  <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/> -->
             <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected collection(s)')"/>
     </div>
     <table class="table table-bordered table-striped manageUsersTable">
@@ -31,11 +31,12 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-3">
-                    <img src="{$cbcollection->get_thumb($c[list],'small',TRUE)}"/>
+                    <img src="{$cbcollection->coll_first_thumb($c[list],'l')}" width="100" height="80" />
                         </div>
                 <div class="col-md-9">
                     <a href="{$baseurl}/admin_area/edit_collection.php?collection={$c[list].collection_id}">{$c[list].collection_name}</a> ({$c[list].total_objects} {$c[list].type})
                     </a>
+
                     <div class="labels">
                         {if $c[list].featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
                         <span class="label {if $c[list].active=='yes'}label-success{else}label-warning{/if}">{if $c[list].active=='yes'}Active{else}NotActive{/if} </span>
@@ -55,11 +56,11 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$c[list].collection_id}" class="">Edit</a> </li>
 
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{$baseurl}/view_collection.php?cid={$c[list].collection_id}">View</a> </li>
-                    {if $c[list].featured == yes}
+                    <li role="presentation"><a target="_blank" role="menuitem" tabindex="-1" href="{$baseurl}/view_collection.php?cid={$c[list].collection_id}&type={$c[list].type}">View</a> </li>
+                    <!-- {if $c[list].featured == yes}
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="?make_unfeature={$c[list].collection_id}">Make Unfeatured</a></li> {/if}
                     {if $c[list].featured == no}
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?make_feature={$c[list].collection_id}">Make Featured</a></li> {/if}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?make_feature={$c[list].collection_id}">Make Featured</a></li> {/if} -->
                     {if $c[list].active == yes}
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="?deactivate={$c[list].collection_id}">Deactivate</a>
                     </li>
@@ -80,16 +81,16 @@
         <div align="center"><strong><em>No Photo Found</em></strong></div>
         {/if}
     </table>
-</form>
+
 
 
         <div class="btn-group">
      		<input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
             <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
-            <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
-            <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+           <!--  <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/> -->
             <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected collection(s)')"/>
 	    </div>
-
+</form>
 
 {include file="$style_dir/blocks/pagination.html" }

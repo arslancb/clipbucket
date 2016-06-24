@@ -1,25 +1,94 @@
-function headerFooter(){
+function headerFooter()
+{
 	var headerheight = "";
 	var footerheight = "";
-	var search_hight = "";
-	var cont_height = $("#container").height();
-
+	var cont_height = "";
+	var cont_height_new = "";
+	cont_height = $("#container").height();
 	headerheight = $("#header").outerHeight();
 	footerheight = $("#footer").outerHeight();
-	
-	cont_height = cont_height - headerheight - footerheight;
-	
+	console.log('headerheight=>'+headerheight+',footerheight=>'+footerheight);
+	console.log("cont_height"+cont_height)
+	cont_height_new = cont_height - (headerheight + footerheight);
+	console.log("cont_height_new"+cont_height_new)
 	$("#container").css('padding-top',headerheight+'px');
 	$("#container").css('padding-bottom',footerheight+'px');
 
-	$(".account-container").css('height',cont_height+'px');
-	//console.log($(window).height());
-	//console.log(cont_height);
+	$(".account-container, .page-error").css('height',cont_height_new+'px');
+	
 }
+
+function shortKeys() {
+	$(document).keypress(function (e) {
+		var key = e.which;
+		if  ($('#query,textarea,#name,#email').is(":focus")) {
+			// typing in field so shutup
+		} else {
+			if (pageNow == 'index') {
+				if(e.which == 70 && e.shiftKey)  // shift + f = featured load more
+				{
+				   $('#featured_load_more').trigger("click");
+				}
+
+				if(e.which == 82 && e.shiftKey)  // shift + r = recent load more
+				{
+				   $('#recent_load_more').trigger("click");
+				}
+			} else if (pageNow == 'watch_video') {
+				if(e.which == 70 && e.shiftKey)  // shift + f = featured load more
+				{
+				   $('.icon-plusrounded').trigger("click");
+				   $('#addfav').trigger("click");
+				}
+				if(e.which == 82 && e.shiftKey)  // shift + r = recent load more
+				{
+				   $('.icon-flag').trigger("click");
+				}
+
+				if(e.which == 84 && e.shiftKey)  // shift + r = recent load more
+				{
+					$('#comment_box').focus().select();
+				}
+
+				if(e.which == 69 && e.shiftKey)  // shift + r = recent load more
+				{
+					$('.icon-share').trigger("click");
+				}
+			}
+
+			if(e.which == 83 && e.shiftKey)  // shift + s = search something
+			{
+			   $('#query').focus().select();
+			}
+
+			if(e.which == 86 && e.shiftKey)  // shift + v = videos page
+			{
+			   window.location.href = baseurl+"/videos";
+			}
+
+			if(e.which == 80 && e.shiftKey)  // shift + p = photos page
+			{
+			   window.location.href = baseurl+"/photos";
+			}
+
+			if(e.which == 67 && e.shiftKey)  // shift + c = collections page
+			{
+			   window.location.href = baseurl+"/collections";
+			}
+
+			if(e.which == 85 && e.shiftKey)  // shift + u = channel page
+			{
+			   window.location.href = baseurl+"/channels";
+			}
+		}
+
+	});  
+}
+
 var flag = 0;
 function responsiveFixes(){
 	var WinWidth = $(window).width();
-	console.log(WinWidth);
+	//console.log(WinWidth);
 	var SearchHtml = $("#header .menu-holder .user_menu").html();
 	var navseach = $('#header .navbar-header');
 	var menuLinks = $("#header .menu-holder");
@@ -84,6 +153,12 @@ function responsiveFixes(){
 		}
 	}
 }
+
+// automatically scrolls to new loaded videos
+function thakkiLoading(yawnTo) {
+	$("html, body").animate({ scrollTop: yawnTo}, 1900, "swing");
+}
+
 function preLoadingBlock(){
 	//two videos in a row
 	var ftthumbWidth = $('.featured-videos .thumb-video').width();
@@ -131,6 +206,7 @@ $(document).ready(function(){
 
 
 function homePageVideos(qlist_items) {
+	console.log("Hey there Pumpkin! Looks like you really like what we do, hence trying to look under the hood. Happy sneaking buddy! Drop us an email for any questions : info@clipbucket.com")
 	$('#container').on("click","#recent_load_more, #featured_load_more",function(){
 		var loadLink = baseurl + '/ajax/home.php',
 		main_object = $(this),
@@ -160,10 +236,7 @@ function homePageVideos(qlist_items) {
 
 			gotMoreFeatured = parseInt(totalFeaturedVids) - parseInt(featuredShown);
 			gotMoreRecent = parseInt(totalRecentVids) - parseInt(recentShown);
-			/*console.log("LOAD HIT " + loadHit);
-			console.log("SHOWN " + shownVideos);
-			console.log("To fetch" + vidsToFetch);*/
-			console.log(gotMoreFeatured);
+
 			if (gotMoreFeatured > 2) {
 				featuredFound = 2;
 			} else {
@@ -172,50 +245,12 @@ function homePageVideos(qlist_items) {
 			}
 
 			if (gotMoreRecent > 6) {
-				recentFound = 6;
+				recentFound = 3;
 			} else {
 				moreRecent = false;
 				recentFound = gotMoreRecent;
 			}
 		}
-
-		/*$.ajax({
-			url: loadLink,
-			type: sendType,
-			dataType: dataType,
-			data: {
-				"load_type":'count',
-				"load_mode":loadMode,
-				"load_limit":loadLimit,
-				"load_hit": parseInt(loadHit) + 1
-			},
-
-			success: function(data) {
-				var jsonData = $.parseJSON(data);
-				num = jsonData.more_vids;
-				if (loadMode == 'recent') {
-					if (num > 6) {
-						recentFound = 6;
-					} else {
-						recentFound = 53;
-					}
-				} else {
-					if (num > 2) {
-						featuredFound = 2;
-					} else {
-						featuredFound = 45;
-					}
-				}
-
-				if (num == 'none') {
-					if (loadMode == 'recent') {
-						moreRecent = false;
-					} else {
-						moreFeatured = false;
-					}
-				}
-			}
-		});*/
 
 		$.ajax({
 			url: loadLink,
@@ -237,30 +272,42 @@ function homePageVideos(qlist_items) {
 						for (var i = 0; i < featuredFound; i++) {
 							$(document).find('#featured_pre').append('<div class="item-video col-lg-6 col-md-6 col-sm-6 col-xs-12"><div style="height:200px" class="thumb-video background-masker clearfix"></div></div>');
 						}
+						var currWidth = $(window).width();
+						if (loadHit >= 2 && currWidth > 767) {
+							var moveTo = $( ".featAppending" ).last().offset().top;
+							moveTo = moveTo;
+							thakkiLoading(moveTo);
+						}
 					} else {
 						for (var i = 0; i < recentFound; i++) {
 							$(document).find('#recent_pre').append('<div class="item-video col-lg-4 col-md-4 col-sm-4 col-xs-6"><div class="thumb-video background-masker clearfix"></div><div class="loadingInfo video-info relative clearfix"><div class="background-masker heading clearfix"></div><div class="background-masker paragraph clearfix"></div><div class="background-masker clearfix views-date"></div></div></div>');
 						}
 						preLoadingBlock();
+						var currWidth = $(window).width();
+						if (loadHit >= 2 && currWidth > 767) {
+							var moveTo = $( "#recent_pre" ).last().offset().top;
+							moveTo = moveTo;
+							thakkiLoading(moveTo);
+						}
 					}
 				}
 			},
 
 			success: function(data) {
 				$(main_object).removeAttr('disabled');
-				$(main_object).text("Load More");
+				$(main_object).text(loadMoreLang);
 				if (data.length < 10) {
 					$(main_object).remove();
 					if (loadHit == 1) {
 						if (loadMode == 'featured') {
 							$('#featured_load_more').hide();
 							$('#featured_pre').hide();
-							$("#featured_vid_sec").html('<div class="break2"></div><span class="well well-info btn-block">No featured videos found</span>');
+							$("#featured_vid_sec").html('<div class="break2"></div><span class="well well-info btn-block">'+langCo+'</span>');
 							return false;
 						} else if (loadMode == 'recent') {
 							$('#recent_load_more').remove();
 							$('#recent_pre').remove();
-							$("#recent_vids_sec").html('<div class="break2"></div><span class="well well-info btn-block">No recent videos found</span>');
+							$("#recent_vids_sec").html('<div class="break2"></div><span class="well well-info btn-block">'+noRecent+'</span>');
 							return false;
 						}
 					}
@@ -276,8 +323,9 @@ function homePageVideos(qlist_items) {
 							moreRecent = false;
 						}
 						if (moreRecent == true) {
-							$(document).find('#recent-loadmore').append('<div class="clearfix text-center"><button id="recent_load_more" class="btn btn-loadmore" loadtype="video" loadmode="recent" loadlimit="'+loadLimit+'" loadhit="'+newloadHit+'">Load More</button></div>');
+							$(document).find('#recent-loadmore').append('<div class="clearfix text-center"><button id="recent_load_more" class="btn btn-loadmore" loadtype="video" loadmode="recent" loadlimit="'+loadLimit+'" loadhit="'+newloadHit+'">'+loadMoreLang+'</button></div>');
 						}
+						
 					} else {
 						$('#featured_load_more').remove();
 						$('#featured_pre').html('');
@@ -288,7 +336,7 @@ function homePageVideos(qlist_items) {
 						}
 
 						if (moreFeatured == true) {
-							$(document).find('#featured-loadmore').append('<div class="clearfix text-center"><button id="featured_load_more" class="btn btn-loadmore" loadtype="video" loadmode="featured" loadlimit="'+loadLimit+'" loadhit="'+newloadHit+'">Load More</button></div>');
+							$(document).find('#featured-loadmore').append('<div class="clearfix text-center"><button id="featured_load_more" class="btn btn-loadmore" loadtype="video" loadmode="featured" loadlimit="'+loadLimit+'" loadhit="'+newloadHit+'">'+loadMoreLang+'</button></div>');
 						}
 					}
 				} 
@@ -297,23 +345,15 @@ function homePageVideos(qlist_items) {
 			}
 		});
 	});
-
 	// trigger clicks on doc load to get
 	// initial videos
-
 	$(document).ready(function(){
-
 		$('#featured_load_more').trigger("click");
 		$('#featured_load_more').hide();
 		$('#recent_load_more').trigger("click");
 		$('#recent_load_more').hide();
-
-		// var windowWith = $(window).width();
-		// alert(windowWith);
-
 	});
 }
-
 //on resize functions
 $(window).resize(function(){
  	headerFooter();
@@ -321,3 +361,4 @@ $(window).resize(function(){
  	responsiveFixes();
  	loginHeight();
 });
+//shortKeys();

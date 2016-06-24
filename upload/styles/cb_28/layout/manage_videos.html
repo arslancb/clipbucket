@@ -12,7 +12,7 @@
 					<ul class="nav nav-tabs manageTabs" id="myTab2">
 						<li class="active">
 							<a data-toggle="tab" href="#myvideos">
-								{lang code='Uploaded Videos'}
+								{lang code='upload_video'}
 							</a>
 						</li>
 					</ul>
@@ -47,7 +47,7 @@
 								{section name=uvid loop=$uservids}
 								{include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] control='full' bg=$bg}
 								{sectionelse}
-								<div><strong><em>{lang code="You don't have videos"}</em></strong></div>
+								<div><strong><em>{lang code="you_dont_have_videos"}</em></strong></div>
 								{/section}
 							</table>
 							{include file="$style_dir/blocks/pagination.html"}
@@ -79,8 +79,8 @@
 							<form name="videos_manager" method="post">
 								<table class="table table-bordered table-striped manageUsersTable">
 									<tr>
-										<td><i class="icon-facetime-video"></i> Videos Details</td>
-										<td>Option</td>
+										<td><i class="icon-facetime-video"></i> {lang code="vdo_video_details"}</td>
+										<td>{lang code="option"}</td>
 									</tr>
 									{section name=uvid loop=$uservids}
 									{include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] control='full' bg=$bg}
@@ -131,8 +131,8 @@
 							<form name="videos_manager" method="post">
 								<table class="table table-bordered table-striped manageUsersTable">
 									<tr>
-										<td><i class="icon-facetime-video"></i> Videos Details</td>
-										<td>Option</td>
+										<td><i class="icon-facetime-video"></i> {lang code="vdo_video_details"}</td>
+										<td>{lang code="option"}</td>
 									</tr>
 									{section name=uvid loop=$uservids}
 									{include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] control='full' bg=$bg}

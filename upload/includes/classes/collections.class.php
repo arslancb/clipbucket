@@ -44,7 +44,15 @@ class Collections extends CBCategory
 
 		$this->cat_tbl = "collection_categories";
 		$this->section_tbl = "collections";
-		$this->types = array('videos' => lang("Videos"),'photos' => lang("Photos"));
+		$this->types = array();
+		if (isSectionEnabled('videos')) {
+			$this->types['videos'] = lang("Videos");
+		}
+
+		if (isSectionEnabled('photos')) {
+			$this->types['photos'] = lang("Photos");
+		}
+
 		ksort($this->types);
 		$this->setting_up_collections();
 		$this->init_actions();
@@ -80,7 +88,7 @@ class Collections extends CBCategory
 		$per = $userquery->get_user_level(userid());
 		// Adding My Account Links	
 		if(isSectionEnabled('collections'))
-		$userquery->user_account[lang('Collections')] = array(
+		$userquery->user_account[lang('collections')] = array(
 											lang('add_new_collection') => cblink(array('name'=>'manage_collections','extra_params'=>'mode=add_new')),
 											lang('manage_collections') => cblink(array('name'=>'manage_collections')),
 											lang('manage_favorite_collections') => cblink(array('name'=>'manage_collections','extra_params'=>'mode=favorite'))
@@ -241,6 +249,7 @@ class Collections extends CBCategory
 		"".tbl($this->section_tbl).".*,".tbl('users').".userid,".tbl('users').".username",
 		" ".tbl($this->section_tbl).".collection_id = $id AND ".tbl($this->section_tbl).".userid = ".tbl('users').".userid $cond");
 		//echo $db->db_query;
+		//pex($result,true);
 		if($result)
 			return $result[0];
 		else
@@ -275,10 +284,10 @@ class Collections extends CBCategory
 	/**
 	 * Function used to get collections
 	 */
-	function get_collections($p=NULL)
+	function get_collections($p=NULL,$brace = false)
 	{
 		global $db;
-		
+		//pex($p,true);
 		$limit = $p['limit'];
 		$order = $p['order'];	
 		$cond = "";
@@ -338,21 +347,25 @@ class Collections extends CBCategory
 				$cond .= ' AND ';
 			$cond .= " ".cbsearch::date_margin("date_added",$p['date_span']);	
 		}
-		
-		if($p['user'])
-		{
-			if($cond != '')
-				$cond .= " AND ";
-			$cond .= " ".tbl('collections.userid')." = '".$p['user']."'";		
-		}
-		
-		if($p['type'])
+			if($p['type'])
 		{
 			if($cond != '')
 				$cond .= " AND ";
 			$cond .= " ".tbl('collections.type')." = '".$p['type']."'";		
 		}
 			
+
+		if($p['user'])
+		{
+			if($cond != '')
+				$cond .= " AND ";
+			if($brace)
+				$cond.='(';
+			$cond .= " ".tbl('collections.userid')." = '".$p['user']."'";
+			//$cond .=')';		
+		}
+		
+	
 		if($p['featured'])
 		{
 			if($cond != '')	
@@ -360,11 +373,16 @@ class Collections extends CBCategory
 			$cond .= " ".tbl('collections.featured')." = '".$p['featured']."'";	
 		}
 		
+		//$user_public_upload =  
 		if($p['public_upload'])
 		{
 			if($cond != '')
-				$cond .= " AND ";
+				$cond .= " OR ";
+
 			$cond .= " ".tbl('collections.public_upload')." = '".$p['public_upload']."'";	
+			if($brace)
+				$cond.=")";
+
 		}
 		
 		if($p['exclude'])
@@ -429,6 +447,7 @@ class Collections extends CBCategory
 			$cond .= " ($title_tag) ";		
 		}
 		
+
 		if(!$p['count_only'])
 		{
 			if($cond != "")
@@ -441,6 +460,7 @@ class Collections extends CBCategory
 						
 		}
 		
+
 		if($p['count_only'])
 		{
 			return $result = $db->count(tbl("collections"),"collection_id",$cond);
@@ -1956,6 +1976,9 @@ class Collections extends CBCategory
         function coll_first_thumb($col_data, $size = false) {
         	global $cbphoto,$cbvid;
         	if (is_array($col_data)) {
+        		if (isset($_GET['h']) && isset($_GET['w'])) {
+        			$size = $_GET['h']."x".$_GET['w'];
+        		}
         		switch ($col_data['type']){
         			case 'photos':
         			default : {
@@ -1989,6 +2012,33 @@ class Collections extends CBCategory
         		return $first_col;
         	} else {
         		return false;
+        	}
+        }
+
+        /**
+		* Get collections that have atleast 1 item, skips photos collection if photos are disabled from admin area
+		* @param : { array } { $collections } { array of all collections fetched from database }
+		* @since : May 11th, 2016 ClipBucket 2.8.1
+		* @author : Saqib Razzaq
+		*
+		* @return : { array } { $collections } { collections with items only }
+        */
+
+        function activeCollections($collections) {
+        	global $Cbucket;
+        	$photosEnabled = $Cbucket->configs['photosSection'];
+        	
+        	if (is_array($collections)) {
+        		foreach ($collections as $key => $coll) {
+        			$totalObjs = $coll['total_objects'];
+        			$skipPhoto = ($coll['type'] == 'photos' && $photosEnabled != 'yes' ? true : false);
+        			if ($totalObjs >= 1 && !$skipPhoto) {
+        				continue;
+        			} else {
+        				unset($collections[$key]);
+        			}
+        		}
+        	return $collections;
         	}
         }
 

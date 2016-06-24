@@ -978,8 +978,9 @@ h1{
 			left: auto;
 			right: 0;
 			>li {
+				position: relative;
 				a{
-					position: relative;
+					
 					i{
 						position: absolute;
 						z-index: 1;
@@ -1034,7 +1035,6 @@ h1{
 		margin: 0;
 		border-radius: 0 0 4px 4px;
 		border:none;
-		z-index: 10;
 		> li{
 			position:relative;
 			-webkit-user-select: none; /* Chrome/Safari */        
@@ -1635,6 +1635,77 @@ h1{
 	.view-photo-nxt {
 		float: right;
 	}
+	.overlay {
+		/* Height & width depends on how you want to reveal the overlay (see JS below) */   
+		height: 100%;
+		width: 0;
+		position: fixed; /* Stay in place */
+		z-index: 6; /* Sit on top */
+		left: 0;
+		right: 100%;
+		top: 0;
+		background:rgba(0,0,0,0.98); /* Black w/opacity */
+		overflow-y: hidden;
+		transition: 0.3s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+		display: table;
+		img{
+			position: relative;
+		}
+		.photo-view .btn-holder{
+			z-index: 7;
+		}
+		.img-close{
+			z-index: 7;
+			cursor: pointer;
+			padding: 5px;
+			position: absolute;
+			right: 20px;
+			top: 20px;
+			border:none;
+			width: 30px;
+			height: 30px;
+			font-size: 20px;
+			line-height: 20px;
+			background: $photo-btn-color;
+			border-radius:50%;
+			text-align: center;
+		}
+		a {
+			padding: 8px;
+			text-decoration: none;
+			font-size: 36px;
+			color: #818181;
+			display: block; /* Display block instead of inline */
+			transition: 0.3s; /* Transition effects on hover (color) */
+			&:hover,
+			&:focus {
+				color: #f1f1f1;
+			}
+		}
+		.closebtn {
+			position: absolute;
+			top: 20px;
+			right: 45px;
+			font-size: 60px !important; /* Override the font-size specified earlier (36px) for all navigation links */
+		}
+		.overlay-content {
+			position: relative;
+			height:auto;
+			max-height:100%;
+			width: 100%; /* 100% width */
+			text-align: center; /* Centered text/links */
+			display: table-cell;
+			vertical-align: middle;
+			img{
+				width: auto;
+				height: auto;
+			}
+			.btn-holder{
+				position: fixed;
+				right: -112px;
+			}
+		}
+	}
 }
 /* The Overlay (background) */
 #gallery {
@@ -1658,65 +1729,11 @@ h1{
 		text-align: center;
 	}
 }
-.overlay {
-	/* Height & width depends on how you want to reveal the overlay (see JS below) */   
-	height: 100%;
-	width: 0;
-	position: fixed; /* Stay in place */
-	z-index: 6; /* Sit on top */
-	left: 0;
-	right: 100%;
-	top: 0;
-	background-color: rgb(0,0,0); /* Black fallback color */
-	background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
-	overflow-x: hidden; /* Disable horizontal scroll */
-	overflow-y: hidden;
-	transition: 0.3s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
-	img{
-		position: relative;
-	}
-	.photo-view .btn-holder{
-		z-index: 7;
-	}
-	.img-close{
-		z-index: 7;
-		cursor: pointer;
-		padding: 5px;
-		position: absolute;
+
+.image-zoom{
+	overflow: hidden;
+	.photo-view .overlay .overlay-content .btn-holder{
 		right: 20px;
-		top: 20px;
-		border:none;
-		width: 30px;
-		height: 30px;
-		font-size: 20px;
-		line-height: 20px;
-		background: $photo-btn-color;
-		border-radius:50%;
-		text-align: center;
-	}
-	a {
-		padding: 8px;
-		text-decoration: none;
-		font-size: 36px;
-		color: #818181;
-		display: block; /* Display block instead of inline */
-		transition: 0.3s; /* Transition effects on hover (color) */
-		&:hover,
-		&:focus {
-			color: #f1f1f1;
-		}
-	}
-	.closebtn {
-		position: absolute;
-		top: 20px;
-		right: 45px;
-		font-size: 60px !important; /* Override the font-size specified earlier (36px) for all navigation links */
-	}
-	.overlay-content {
-		position: relative;
-		height: 100%;
-		width: 100%; /* 100% width */
-		text-align: center; /* Centered text/links */
 	}
 }
 /**/
@@ -2258,6 +2275,11 @@ textarea#comment_box{
 		}
 	}
 }
+.report-block{
+	padding:16px;
+	background: $white;
+	margin: 0 0 16px;
+}
 .channel-tabs{
 	background: $white;
 	padding: 10px 16px;
@@ -2522,7 +2544,7 @@ textarea#comment_box{
 		}
 		#social_buttons{
 			@include vertical-middle();
-			width: 240px;
+			width: 250px;
 			overflow: hidden;
 			a{
 				width: 48px;
@@ -2543,28 +2565,28 @@ textarea#comment_box{
 					background: $gplus-color;
 					color: $gplus-color;
 					&:after{
-						content: "\e904";
+						content: "\e90f";
 					}
 				}
 				&.facebook-btn{
 					background: $fb-color;
 					color: $fb-color;
 					&:after{
-						content: "\e902";
+						 content: "\e90d";
 					}
 				}
 				&.twitter-btn{
 					background: $tw-color;
 					color: $tw-color;
 					&:after{
-						content: "\e911";
+						content: "\e920";
 					}
 				}
 				&.linkedin-btn{
 					background: $linkedin-color;
 					color: $linkedin-color;
 					&:after{
-						content: "\e915";
+						content: "\e912";
 					}
 				}
 			}
@@ -2580,7 +2602,7 @@ textarea#comment_box{
 		&:after{
 			color: $error-color;
 			position: absolute;
-			content: "\e914";
+			content: "\e90b";
 			z-index: 4;
 			width: 22px;
 			height: 22px;
@@ -2600,7 +2622,7 @@ textarea#comment_box{
 		&:after{
 			color: $green;
 			position: absolute;
-			content: "\e910";
+			 content: "\e91f";
 			z-index: 4;
 			width: 22px;
 			height: 22px;
@@ -2695,7 +2717,6 @@ textarea#comment_box{
 		}
 	}
 	.account_form{
-
 		label.label-heading{
 			display: block;
 		}
@@ -2732,6 +2753,20 @@ textarea#comment_box{
 			overflow-y:auto;
 			height: 200px;
 		}
+	}
+}
+.sectionContent{
+	.radio,
+	.radio-inline,
+	.checkbox,
+	.checkbox-inline{
+		padding: 0 0 0 20px;
+		 input[type="radio"],
+		 input[type="checkbox"]{
+		 	margin: -6px 0 0;
+		 	left: 0;
+		 	top: 50%;
+		 }
 	}
 }
 /* allProgress */
@@ -2821,18 +2856,72 @@ textarea#comment_box{
 	margin-top: 100px;
 }
 .page-error{
+	background:#f7f9fb;
+	position: relative;
+	z-index: 1;
+	overflow: hidden;
+	.base-bg{
+		position: absolute;
+		z-index: 1;
+		width: 100%;
+		left: 0;
+		bottom: 0;
+		height: auto;
+	}
+	.monster{
+		position: absolute;
+		bottom: 10%;
+		left: 10%;
+		width: 20%;
+		max-width: 373px;
+		z-index: 4;
+	}
+	.fog{
+		position: absolute;
+		width: 31%;
+		max-width: 592px;
+		top: 10%;
+		right: 11%;
+		z-index: 3;
+	}
+	.error-holder{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+	}
+	.content-txt{
+		position: absolute;
+		z-index: 2;
+		width: 100%;
+		max-width: 420px;
+		padding: 0 10px;
+		right: 13%;
+		top:10%;
+	}
 	.alert-text{
-		font-size: 30px;
-		line-height: 40px;
-		text-align: center;
+		font:20px/30px $light-font;
 		margin: 0 0 20px;
-		i{
-			@include vertical-top();
+		color:lighten($black, 42%);
+		p{
+			margin: 0 0 60px;
+		}
+		strong{
+			font:40px/42px $base-font;
+			display: block;
+			color: $black;
+			margin: 0 0 16px;
+		}
+		a{
+			font:20px/22px $semibold-font;
+			color: $blue;
 		}
 	}
 	.error-img{
-		max-width: 200px;
-		margin: 0 auto 20px;
+		max-width: 390px;
+		margin: 0 auto 70px;
 		img{
 			width: 100%;
 			margin: 0 auto;
@@ -2894,7 +2983,32 @@ textarea#comment_box{
 	background-image: url(../../images/eror_colin.png);
 	background-repeat: no-repeat;
 }
-/* animate-spin */
+/**/
+.fog{
+	@include myanimation ($name: lefttoright, $duration: 6s, $ease: infinite linear);
+}
+@mixin animateleftright(){
+	0%{
+		@include translate ($x:-200%, $y:0);
+	}
+	100%{
+		@include translate ($x:150%, $y:0);
+	}
+}
+@-webkit-keyframes lefttoright {
+	@include animateleftright();
+}
+
+@-moz-keyframes lefttoright {
+	@include animateleftright();
+}
+@-o-keyframes lefttoright {
+	@include animateleftright();
+}
+@keyframes lefttoright {
+	@include animateleftright();
+}
+/**/
 .form_result{
 	padding: 5px 0;
 	line-height: 22px;
@@ -3030,6 +3144,23 @@ textarea#comment_box{
 			}
 		}
 	}
+	.page-error{
+		.content-txt{
+			max-width: 300px;
+			right: 40px;
+		}
+		.error-img{
+			margin: 0 0 20px;
+		}
+		.alert-text{
+			p{
+				margin: 0 0 20px;
+			}
+			strong{
+				font:30px/40px $base-font;
+			}
+		}
+	}
 }
 @media only screen and (max-width: 991px) {
 	#ep_video_container > div{
@@ -3137,6 +3268,41 @@ textarea#comment_box{
 	.photo-view{
 		height: 300px;
 	}
+	.filter-dropdowns{
+		.sorting-col{
+			.dropdown-menu{
+				display: block;
+				right: -9999px;
+			}
+			.open > .dropdown-menu{
+				right: 0;
+			}
+		}
+	}
+	#gallery{
+		height: 300px;
+	}
+	.signup-block,
+	.forgot-block,
+	.signin-block{
+		.social-links{
+			span{
+				display: block;
+				margin: 0 0 10px;
+			}
+			#social_buttons{
+				display: block;
+				margin: 0 auto;
+				text-align: center;
+				width: 260px;
+				a{
+					float: none;
+					@include vertical-top();
+					margin: 0 5px;
+				}
+			}
+		}
+	}
 }
 @media only screen and (max-width: 767px) {
 	#content{
@@ -3179,11 +3345,83 @@ textarea#comment_box{
 		}
 	}
 	.filter-dropdowns{
-		.cat-col{
-			display: none;
+		.dropdown{
+			display: block;
+			margin: 0 0 2px;
+			background: none;
+			border-radius: 0;
+			border-bottom:$default-border;
+			line-height: 36px;
+			height: 48px;
+			>a{
+				color:lighten($black,13%);
+				span{
+					float: right;
+					line-height: 36px;
+				}
+			}
 		}
 		.sorting-col{
+			.dropdown-menu{
+				> li{
+					a{
+						&.selected,
+						&:hover{
+							background: none;
+						}
+					}
+				}
+			}
+		}
+		.dropdown-menu{
+			width:100%;
+			background:$white;
+			font-size: 15px;
+			line-height: 36px;
+			.sub-menu{
+				position: static;
+				left: 0;
+				border-radius: 0;
+				background:lighten($black,95%);
+				.sub-menu{
+					background:lighten($black,80%);
+					.sub-menu{
+						background:lighten($black,70%);
+					}
+				}
+			}
+			> li{
+				overflow: hidden;
+				> div > a,
+				> a{
+					color:lighten($black,13%);
+				}
+				> div{
+					padding: 0 40px 0 0;
+					border-color: $bordercolor;
+					i{
+						@include rotate ($deg:90deg);
+						color:$black;
+						background: none;
+						margin: 0;
+						top: 0;
+						width: 48px;
+						right: 0;
+						height: 48px;
+						padding: 12px 16px 14px 20px;
+						//background: lighten($black,80%);
+						border-radius: 0;
+					}
+					&:hover{
+						background:none;
+					}
+				}
+			}
+		}
+		.cat-col,
+		.sorting-col{
 			padding: 0;
+			text-align: left;
 		}
 	}
 	.item-photo{
@@ -3262,8 +3500,16 @@ textarea#comment_box{
 				text-align: center;
 			}
 			.btn-default{
-				margin: 0 5px;
+				display: block;
+				margin: 0 auto 5px;
+				width: 200px;
 			}
+		}
+	}
+	.report-block{
+		margin: 0 10px 16px;
+		.alert{
+			position: static;
 		}
 	}
 	.signin-block{
@@ -3323,6 +3569,55 @@ textarea#comment_box{
 				overflow: hidden;
 				height: 20px;
 			}
+		}
+	}
+	#gallery{
+		height: 200px;
+	}
+	.page-error{
+		overflow-y:auto;
+		.content-txt{
+			max-width: 280px;
+			right: 50%;
+			margin: 0 -140px 0 0;
+			top:5px;
+		}
+		.error-img{
+			width: 90px;
+			margin: 0 auto 10px;
+		}
+		.alert-text{
+			text-align: center;
+			p{
+				margin: 0 0 5px;
+			}
+			strong{
+				font:24px/24px $base-font;
+				margin: 0;
+			}
+		}
+		.monster{
+			bottom:auto;
+			top: 100%;
+			left: 20px;
+		}
+		.base-bg{
+			bottom: auto;
+			top: 100%;
+		}
+	}
+}
+@media only screen and (max-width: 400px) {
+	.page-error{
+		overflow: hidden;
+		.monster{
+			bottom:10px;
+			top: auto;
+			left: 20px;
+		}
+		.base-bg{
+			bottom: 10px;
+			top:auto;
 		}
 	}
 }

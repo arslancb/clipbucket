@@ -32,6 +32,25 @@
 
 	if(file_exists(dirname(__FILE__).'/development.dev')) {
 		define("DEVELOPMENT_MODE",true);
+		$__devmsgs = array(
+			'insert_queries'=>array(),
+			'select_queries'=>array(),
+			'update_queries'=>array(),
+			'delete_queries'=>array(),
+			'count_queries'=>array(),
+			'execute_queries'=>array(),
+			'insert'=>"0",
+			'select'=>"0",
+			'update'=>"0",
+			'delete'=>"0",
+			'count'=>"0",
+			'execute'=>"0",
+			'total_queries'=>"0",
+			'total_query_exec_time'=>"0",
+			'total_memory_used'=>"0",
+			'expensive_query'=>'',
+			'cheapest_query'=>''
+			);
 	} else {
 		define("DEVELOPMENT_MODE",false);
 	}
@@ -68,6 +87,7 @@
 	require_once('classes/lang.class.php');
 	require_once('classes/pages.class.php');
 	require_once('classes/helper.class.php');
+
 
     $cb_columns = new cb_columns();
 	$myquery = new myquery();
@@ -167,6 +187,11 @@
 	require_once('classes/menuhandler.class.php');
 	require_once('classes/cbfeeds.class.php');
    	require_once('classes/resizer.class.php');
+   	require_once('classes/translation.class.php');
+	
+	//$Clientid = 'F4Aq2ZCowTnSw7NrV6JABtBSHUoz8sLbLuqXAMrU8r8';
+	//$secretId = 'IRPc3vj9pEir3PwLj9OJMsa4+OK0fls6AyQJ9ZLpgOY=';
+
 
 	//Adding Gravatar
 	require_once('classes/gravatar.class.php');
@@ -199,6 +224,9 @@
 	$cbphoto    = new CBPhotos();
 	
 	$cbfeeds 	= new cbfeeds();
+	//$MrsTranslator = new MrsTranslator($Clientid, $secretId);
+	$MrsTranslator = new MrsTranslator();
+
 	# $cbmenu		= new MenuHandler();
 	check_install('after');
 	@include("clipbucket.php");

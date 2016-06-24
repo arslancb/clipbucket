@@ -1,0 +1,19 @@
+<div class="heading paddingBottomSmall">
+    <div class="form-group">
+        <h2>Update Logo</h2>
+    </div>
+</div>
+<div class="col-md-6">
+    <div id="content">
+        <form action="upload_logo.php" method="post" enctype="multipart/form-data" name="upload_logo" id="upload_logo">
+            <h4> Select image to upload: </h4>   
+            <input type="file"  multiple accept='image/*' name="fileToUpload" id="fileToUpload">
+            </br>
+            <input class="btn btn-primary" type="submit" value="Upload Image" name="submit">
+        </form>
+    </div>
+    <h6>Recommended dimensions: 400 * 80px</h6>
+</div>
+<div class="col-md-6">
+    <img src="{$source}" class="img-thumbnail" alt="Logo" width="304" height="236">
+</div>

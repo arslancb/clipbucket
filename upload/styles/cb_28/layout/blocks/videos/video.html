@@ -19,7 +19,7 @@
 {/if}
 
 {if $display_type=='homeVideos'}
-	<div class="clearfix thumb-holder">
+	<div class="clearfix thumb-holder userAppending">
 		<a class="video-link" href="{videoLink($video)}" title="{$video.title|title}">
 			<img class="img-responsive" src="{getThumb vdetails=$video size=416x260 }">
 		</a>
@@ -27,7 +27,7 @@
 
 		{ANCHOR place='in_video_thumb' data=$video}
 		<button data-quick="quick-{$video.videoid}"
- class="icon-plus cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
+ class="icon-plus2 cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
 		</button>
 		<span class="duration">{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
 		
@@ -46,7 +46,7 @@
 {if $total_vids}
 	<div style="display: none" id="total_videos_recent">{$total_vids}</div>
 {/if}
-<div style="display: none" class="item-video col-lg-4 col-md-4 col-sm-4 col-xs-12">
+<div style="display: none" class="item-video col-lg-4 col-md-4 col-sm-4 col-xs-12 recentAppending">
 	<div class="clearfix thumb-holder">
 		<a class="video-link" href="{videoLink($video)}" title="{$video.title|title}">
 			<img class="lazy img-responsive" src="{getThumb vdetails=$video size=416x260 }">
@@ -55,7 +55,7 @@
 		
 		{ANCHOR place='in_video_thumb' data=$video}
 		<button data-quick="quick-{$video.videoid}"
- class="icon-plus add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
+ class="icon-plus2 add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
  		</button>
 		<span class="duration">{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
 
@@ -96,7 +96,7 @@
 {if $total_vids}
 	<div style="display: none" id="total_videos_featured">{$total_vids}</div>
 {/if}
-<div style="display: none" class="item-video col-lg-6 col-md-6 col-sm-6 col-xs-12">
+<div style="display: none" class="item-video col-lg-6 col-md-6 col-sm-6 col-xs-12 featAppending">
 	<div class="clearfix thumb-holder">
 		<a class="video-link" href="{videoLink($video)}" title="{$video.title|title}">
 			<img class="img-responsive" src="{getThumb vdetails=$video size=632x395 }">
@@ -106,7 +106,7 @@
 		
 			{ANCHOR place='in_video_thumb' data=$video}
 			<button data-quick="quick-{$video.videoid}"
-		 class="icon-plus add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
+		 class="icon-plus2 add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
 		 	</button>
 			<span class="duration">{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
 	</div>
@@ -123,7 +123,7 @@
 		
 		{ANCHOR place='in_video_thumb' data=$video}
 		<button data-quick="quick-{$video.videoid}"
- class="icon-plus cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
+ class="icon-plus2 cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
 		</button>
 		<span class="duration">{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
 		
@@ -170,7 +170,7 @@
 		</a>
 		{ANCHOR place='in_video_thumb' data=$video}
 		<i data-quick="quick-{$video.videoid}"
-	 class="icon-plus add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" title="Add {$video.title} to Quicklist"></i>
+	 class="icon-plus2 add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" title="Add {$video.title} to Quicklist"></i>
 	</div>
 {/if}
 
@@ -187,7 +187,7 @@
 			</a>
 			{ANCHOR place='in_video_thumb' data=$video}
 			<button data-quick="quick-{$video.videoid}"
-				 class="icon-plus add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
+				 class="icon-plus2 add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
 	 		</button>
 		</div>
 	</div>
@@ -217,7 +217,7 @@
 				</a>
 				{ANCHOR place='in_video_thumb' data=$video}
 			<button data-quick="quick-{$video.videoid}"
-				 class="icon-plus add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
+				 class="icon-plus2 add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
 	 		</button>
 			</div>
 		</div>
@@ -242,7 +242,7 @@
 			</a>
 			{ANCHOR place='in_video_thumb' data=$video}
 			 <img src="{$imageurl}/dot.gif" data-quick="quick-{$video.videoid}"
-		 class="icon-plus add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" title="Add {$video.title} to Quicklist" alt="">
+		 class="icon-plus2 add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" title="Add {$video.title} to Quicklist" alt="">
 		</div>
 	</div>
 	<div class="clearfix">

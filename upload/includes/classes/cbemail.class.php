@@ -132,8 +132,10 @@ class CBEmail
 	 */
 	function add_mass_email($array=NULL)
 	{
+
 		if(!$array)
 			$array = $_POST;
+		//pex($array,true);
 		
 		global $userquery,$db;
 		
@@ -145,7 +147,7 @@ class CBEmail
 		$method = $array['method']; 	unset($array['method']);
 		
 		$settings = $array;
-		
+		//pex($users,true);
 		unset($array);
 		
 		if(!isValidEmail($from))
@@ -229,6 +231,9 @@ class CBEmail
 			return false;
 		}
 	}
+
+
+
 	function email_exists($id){ return $this->get_email($id); }
 	
 	
@@ -376,6 +381,24 @@ class CBEmail
 			return $send_msg;
 			
 		}
+	}
+
+
+	function friend_request_email($email,$username){
+		global $db;
+		$condition = "email = '$email'";
+		$receiver_name = $db->select(tbl('users'),'username',$condition);
+		$var = array
+				('{sender}'	=> username(),
+				 '{website_title}'=> TITLE,
+				 '{reciever}'	=> $receiver_name[0]['username'],
+				 '{sender_link}'=>  BASEURL.'/user/'.$username,
+				 '{request_link}'=> BASEURL.'/manage_contacts.php?mode=manage',
+				);
+		$templates = $this->get_templates();
+		$subj = $this->replace($templates[10]['email_template_subject'],$var);
+		$msg = nl2br($this->replace($templates[10]['email_template'],$var));
+		cbmail(array('from_name'=>TITLE, 'to'=>$email,'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
 	}
 }
 

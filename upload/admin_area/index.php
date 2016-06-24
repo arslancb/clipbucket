@@ -249,6 +249,7 @@ function format_number($number) {
 
 Assign(BASEURL,'baseurl');
 assign("VERSION", VERSION);
+assign("STATE", $Cbucket->cbinfo['state']);
 
 //subtitle(lang('video_manager'));
 template_files('index.html');

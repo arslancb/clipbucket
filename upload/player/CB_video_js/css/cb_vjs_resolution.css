@@ -30,6 +30,7 @@
   left: 0;
 }*/
 
+.vjs-captions-button .vjs-menu li,
 .vjs-resolution-button .vjs-menu li {
 	text-transform: none;
 	font-size: 1.4em;

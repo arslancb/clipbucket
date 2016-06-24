@@ -178,7 +178,6 @@
 	*/
 
 	function cbmail($array) {
-		return true;
 		$func_array = get_functions('email_functions');
 		if(is_array($func_array)) {
 			foreach($func_array as $func) {
@@ -2284,11 +2283,12 @@
 
 	function show_collection_form($params) {
 		global $db,$cbcollection;
+		$brace = 1;
 		if(!userid()) {
 			$loggedIn = "not";
 		} else {		
-			$collectArray = array("order"=>" collection_name ASC","type"=>"videos","user"=>userid());
-			$collections = $cbcollection->get_collections($collectArray);           
+			$collectArray = array("order"=>" collection_name ASC","type"=>"videos","user"=>userid(),"public_upload"=>'yes');
+			$collections = $cbcollection->get_collections($collectArray,$brace);           
             $contributions = $cbcollection->get_contributor_collections(userid());
             if($contributions) {
                 if(!$collections) {
@@ -2761,6 +2761,7 @@
 				if(!isset($_GET['seo_cat_name']))
 					$_GET['seo_cat_name'] = 'All';
 				
+				$_GET['page'] = 1;
 				if($mode == 'sort') {
 					$sorting = $sort;
 				} else {
@@ -5121,8 +5122,7 @@
 	    define('UPLOAD_MAX_FILESIZE', ini_get('upload_max_filesize'));
 	    define('MAX_EXECUTION_TIME', ini_get('max_execution_time'));
 
-		if ( POST_MAX_SIZE == 50 && MEMORY_LIMIT >= 128 && UPLOAD_MAX_FILESIZE >= 50 && MAX_EXECUTION_TIME >= 7200 ) {
-			exit("ASd");
+		if ( POST_MAX_SIZE >= 50 && MEMORY_LIMIT >= 128 && UPLOAD_MAX_FILESIZE >= 50 && MAX_EXECUTION_TIME >= 7200 ) {
 			define("SERVER_CONFS", true);
 		} elseif ( POST_MAX_SIZE < 50 || MEMORY_LIMIT < 128 || UPLOAD_MAX_FILESIZE < 50 && MAX_EXECUTION_TIME < 7200 ) {
 			e('You must update <strong>"Server Configurations"</strong>. Click here <a href='.BASEURL.'/admin_area/cb_server_conf_info.php>for details</a>',w);
@@ -5539,7 +5539,110 @@
 		}
 		unlink($filepath);
 	}
+
+	function array_val_assign($vals) {
+		if (is_array($vals)) {
+			$total_vars = count($vals);
+			foreach ($vals as $name => $value) {
+				assign($name, $value);
+			}
+		}
+	}
+
+	function build_sort($sort, $vid_cond) {
+		if (!empty($sort)) {
+			switch($sort) {
+				case "most_recent":
+				default:
+					$vid_cond['order'] = " date_added DESC ";
+				break;
+				case "most_viewed":
+					$vid_cond['order'] =  "views DESC ";
+					$vid_cond['date_span_column'] = 'last_viewed';
+				break;
+				case "most_viewed":
+					$vid_cond['order'] = " views DESC ";
+				break;
+				case "featured":
+					$vid_cond['featured'] = "yes";
+				break;
+				case "top_rated":
+					$vid_cond['order'] = " rating DESC, rated_by DESC";
+				break;
+				case "most_commented":
+					$vid_cond['order'] = " comments_count DESC";
+				break;
+			}
+			return $vid_cond;
+		}
+	}
+
+
+		function build_sort_photos($sort, $vid_cond) {
+			if (!empty($sort)) {
+				switch($sort) {
+					case "most_recent":
+					default:
+						$vid_cond['order'] = " date_added DESC ";
+					break;
+					case "most_viewed":
+						$vid_cond['order'] =  " photos.views DESC ";
+						$vid_cond['date_span_column'] = 'last_viewed';
+					break;
+					case "most_viewed":
+						$vid_cond['order'] = " views DESC ";
+					break;
+					case "featured":
+						$vid_cond['featured'] = "yes";
+					break;
+					case "top_rated":
+						$vid_cond['order'] = " photos.rating DESC";
+					break;
+					case "most_commented":
+						$vid_cond['order'] = " comments_count DESC";
+					break;
+				}
+				return $vid_cond;
+			}
+		}
 	
+	function upload_logo() {
+
+	$target_dir = STYLES_DIR."/cb_28/theme/images/";	
+	$filename = $_FILES["fileToUpload"]["name"]; 
+	$file_basename = basename($filename,".png"); 
+	$file_ext = pathinfo($filename, PATHINFO_EXTENSION);
+	$filesize = $_FILES["fileToUpload"]["size"];
+	$allowed_file_types = array('png');	
+	
+		if (in_array($file_ext,$allowed_file_types) && ($filesize < 4000000)) {	
+		// Rename file
+			$newfilename = 'logo.' . $file_ext;
+			unlink($target_dir."logo.png");
+			if (file_exists($target_dir . $newfilename)) {
+				// file already exists error
+					e(lang("You have already uploaded this file."),"e");
+			}
+			else {		
+				move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_dir . $newfilename);	
+				e(lang("File uploaded successfully."),"m");
+			}
+		}
+		elseif (empty($file_basename)) {	
+			// file selection error
+			e(lang("Please select a file to upload."),"m");
+		} 
+		elseif ($filesize > 4000000) {	
+			// file size error
+			e(lang("The file you are trying to upload is too large."),"e");
+		}
+		else {
+			e(lang("Only these file typs are allowed for upload: ".implode(', ',$allowed_file_types)),"e");
+			unlink($_FILES["fileToUpload"]["tmp_name"]);
+		}
+	}
+
+
     include( 'functions_db.php' );
     include( 'functions_filter.php' );
     include( 'functions_player.php' );

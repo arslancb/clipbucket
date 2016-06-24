@@ -4,7 +4,7 @@
 	@include flex(none);
 	@extend .vjs-icon-volume-high;
 	&:before {
-		font-size: 2em;
+		//font-size: 2em;
 	}
 }
 
@@ -16,14 +16,14 @@
 .video-js .vjs-volume-menu-button.vjs-vol-1 {
 	@extend .vjs-icon-volume-low;
 	&:before {
-		font-size: 2em;
+		//font-size: 2em;
 	}
 }
 .video-js .vjs-mute-control.vjs-vol-2,
 .video-js .vjs-volume-menu-button.vjs-vol-2 {
 	@extend .vjs-icon-volume-mid;
 	&:before {
-		font-size: 2em;
+		//font-size: 2em;
 	}
 }
 

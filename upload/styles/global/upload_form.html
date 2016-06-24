@@ -8,11 +8,11 @@
         <div class="fileUploaderForm">
             <div class="dragDropContainer" id="dragDrop">
                 <span class="upload-logo"></span>
-                <strong class="block-title">Drag &amp; Drop Files Here</strong>
-                <p>Video can be 1000 MB in size, 120 Min in Duration and of any common format You can also upload HD videos</p>
+                <strong class="block-title">{lang code="drag_drop"}</strong>
+                <p>{lang code="upload_text"} {$Cbucket->configs['max_upload_size']} {lang code="upload_txt"} , {$Cbucket->configs['max_video_duration']} {lang code="upload_txt2"}</p>
             </div>
             <div class="selectButtonContainer">
-                <a id="selectFiles" href="javascript:;" class="btn btn-primary btn-lg selectFiles">Select Videos</a>
+                <a id="selectFiles" href="javascript:;" class="btn btn-primary btn-lg selectFiles">{lang code="select_video"}</a>
                 <!-- <p>Video can be 1000 MB in size, 120 Min in Duration and Any common format<br>You can also upload HD videos</p> -->
             </div>
             <!-- <a id="uploadFiles" class="btn btn-success" href="javascript:;">Upload</a> -->
@@ -23,11 +23,11 @@
 <div id="uploadDataContainer" class="uploadDataContainer hidden">
     <div class="uploadingProgressContainer">
         <div class="alert alert-block alert-info">
-            <p><b>Selected Files</b> Uploading in progress <small style="color:white;"><span id="progressNumber">0%</span> Complete of Video <span id="videoNumber"></span></small></p>
+            <p><b>{lang code="selected_files"} </b>{lang code="upload_in_progress"} <small style="color:white;"><span id="progressNumber">0%</span> {lang code="complete_of_video"} <span id="videoNumber"></span></small></p>
         </div>
     </div>
     <div class="align-right hidden" id="uploadMore">
-        <a href="#" class="btn btn-primary uploadMoreVideos" id="uploadMoreVideos">Upload More Videos</a>
+        <a href="#" class="btn btn-primary uploadMoreVideos" id="uploadMoreVideos">{lang code="upload_more_videos"}</a>
     </div>
     <div id="files"></div>
     <div id="allUploadForms" class="tab-content allUploadForms"></div>
@@ -131,7 +131,7 @@
                 </div>
 
                 <div class="pad-bottom-sm text-right">
-                    <button class="btn btn-primary btn-lg"   id="saveVideoDetails">Submit Now</button>
+                    <button class="btn btn-primary btn-lg"   id="saveVideoDetails">{lang code="submit_now"}</button>
                 </div>  
             </div>
         </div>

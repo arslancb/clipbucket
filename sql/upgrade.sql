@@ -1,6 +1,6 @@
 -- Please Put all the DB changes here
 -- Also add those changes that have been made and not been added
-
+-- All files moved to cb_install
 ALTER TABLE `video` ADD `userid` INT NOT NULL AFTER `username` 
 
 ALTER TABLE `video_comments` ADD `userid` INT NOT NULL AFTER `username` 

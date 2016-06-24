@@ -237,6 +237,7 @@ if(isset($_POST['update'])){
 					'vbrate',
 					'video_require_login',
 					'feedsSection',
+					'youtube_api_key',
 					'website_email',
 					'welcome_email',
 					'vbrate_hd',
