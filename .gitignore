@@ -22,3 +22,5 @@
 #/upload/images/groups_thumbs/*.*
 dbconnect.php
 development.dev
+.directory
+/upload/plugins/cb_server_thumb/cache/*
