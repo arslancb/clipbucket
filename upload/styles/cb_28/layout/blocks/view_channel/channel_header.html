@@ -28,7 +28,7 @@
 					<i class="icon-views"></i>{prettyNum($user.profile_hits)} &nbsp;<span>{lang code='views'}</span>
 				</li>
 				<li>
-					<i class="icon-subscribers"></i>{prettyNum($user.subscribers)} &nbsp;<span>{lang code='contacts'}</span>
+					<i class="icon-subscribers"></i>{prettyNum($user.subscribers)} &nbsp;<span>{if $user.subscribers <= 1}{lang code='contact'}{else}{lang code='contacts'}{/if}</span>
 				</li>
 			</ul>
 		</div>
@@ -65,6 +65,7 @@
 		<h2>{$user.username}</h2>
 		<div class="btn-holder">
 			{if $user.userid != userid()}
+				<button id="report-user" class="btn btn-default">{lang code="Report"}</button>
 				<a href="{$baseurl}/private_message.php?mode=new_msg&to={$user.username}" class="btn btn-default">
 					{lang code="user_send_message"}
 				</a>

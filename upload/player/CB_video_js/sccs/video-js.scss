@@ -38,6 +38,8 @@
 @import "components/adaptive";
 @import "components/captions-settings";
 @import "components/modal-dialog";
+@import "player-comments.scss";
+.cb_player,
 .player-holder {
 	overflow: hidden;
 }
@@ -95,6 +97,22 @@
 }
 .vjs-default-skin.vjs-paused .vjs-big-play-button {
 	display: block;
+}
+.vjs-captions-button.vjs-control {
+	width: 4em;
+	padding: 3px 0 0 0;
+	&:before {
+		content: '\e900' !important;
+		font-size: 1.4em;
+	}
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	//IE10+ CSS styles go here
+	.vjs-captions-button.vjs-control {
+		&:before {
+			font-size: 0.60em !important;
+		}
+	}
 }
 @media only screen and (max-width: 767px) {
 	.video-js .vjs-big-play-button {

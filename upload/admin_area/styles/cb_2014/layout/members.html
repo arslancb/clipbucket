@@ -51,13 +51,13 @@
                             {if $u.featured=='Yes'}<span class="label label-primary">Featured{else}{/if}</span>
                             <span class="label {if $u.usr_status == Ok}label-success{else}label-warning{/if}"><span>{if $u.usr_status=='Ok'}Active
                                     {else}InActive{/if}</span></span>
-                            <span class="label label-info"><span>{$u.level|get_user_level}</span></span>
+                            <span class="label label-info"><span>Userlevel: {$u.level}</span></span>
                             <span class="label"><span>Active</span> : <span>{$u.last_active|nicetime}</span></span>
-                            {if $smarty.get.private=='private'}
+                            {*if $smarty.get.private=='private'}
                             Private Channels
                             {else}
                             Member Manager
-                            {/if}
+                            {/if*}
 
                             {if function_exists('channels_control')}
                                 {if $u.private == private}

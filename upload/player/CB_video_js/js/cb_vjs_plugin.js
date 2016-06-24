@@ -56,6 +56,39 @@ cbvjsheader.prototype.init = function(){
 	cbvjsheader.player.el_.insertBefore(CbVjsHeader, BigPlayButton);
 }
 
+//Starting Captions Menu Holder Class
+var cbvjsvolume = function(player){
+	var cbvjsvolume = this;
+	cbvjsvolume.player = player;
+	cbvjsvolume.init();
+}
+
+cbvjsvolume.prototype.init = function(){
+	var cbvjsvolume = this;
+	cbvjsvolume.Currvol = "";
+	cbvjsvolume.Muted = "";
+	cbvjsvolume.vol_cookie = $.cookie("cb_volume");
+	if (cbvjsvolume.vol_cookie){
+		if (cbvjsvolume.vol_cookie == "muted"){
+			cbvjsvolume.player.muted(true);
+		}else{
+			cbvjsvolume.player.volume(cbvjsvolume.vol_cookie);
+		}
+	}else{
+		console.log("Dont Mess Around Here! ");
+	}
+	cbvjsvolume.player.on('volumechange',function(){
+		cbvjsvolume.Currvol = cbvjsvolume.player.volume();
+		cbvjsvolume.Muted = cbvjsvolume.player.muted();
+		
+		if (cbvjsvolume.Muted == true || cbvjsvolume.Currvol == 0 ){
+			$.cookie("cb_volume","muted", { expires : 10 });
+		}else{
+			$.cookie("cb_volume", cbvjsvolume.Currvol , { expires : 10 });
+		}
+
+	});
+}
 
 function cb_vjs_elements(settings){
 
@@ -64,6 +97,7 @@ function cb_vjs_elements(settings){
 
 	CbVjsLogo = new cbvjslogo(this,logo_settings);
 	CbVjsHeader = new cbvjsheader(this,header_settings);
+	CbVjsVolume = new cbvjsvolume(this);
 }
 
 videojs.plugin('cb_vjs_elements', cb_vjs_elements);

@@ -51,7 +51,7 @@
 						  <ul class="dropdown-menu">
 							{foreach from=$time_links item=name key=sort name=times}
 								<li>
-									<a href="{link name=time sort=$sort type=videos}&timing=time" {if $smarty.get.time==$sort} class="selected"{/if}>{if $smarty.get.time==$sort}<i class="icon-tick"></i>{/if}{$name}</a>
+									<a href="{link name=time sort=$sort type=videos}" {if $smarty.get.time==$sort} class="selected"{/if}>{if $smarty.get.time==$sort}<i class="icon-tick"></i>{/if}{$name}</a>
 								</li>
 							{/foreach}
 						  </ul>
@@ -67,7 +67,7 @@
 					</div>
 				{/foreach}
 			{else}
-				<div class="well well-info">No Videos Found !</div>
+				<div class="well well-info">{lang code="no_videos_found"}</div>
 			{/if}
 			</div>
 			<!-- Pagination -->
@@ -77,7 +77,7 @@
 		<!-- videos ended -->
 		<aside id="sidebar">
 			<div class="box-ad ad">{AD place='ad_300x250'}</div>
-			<h2>Featured Videos</h2>
+			<h2>{lang code="featured_videos"}</h2>
 			<div class="clearfix sidebar-items">
 			{$featured=$cbvid->get_videos(["featured"=>"yes","limit"=>6])}
 			{if $featured}
@@ -85,7 +85,7 @@
 					{include file="$style_dir/blocks/videos/video.html" display_type='featuredVideos_sidebar'}
 				{/foreach}
 			{else}
-				<div class="well well-info">No Videos Found !</div>
+				<div class="well well-info">{lang code="no_videos_found"}</div>
 			{/if}
 			</div>
 

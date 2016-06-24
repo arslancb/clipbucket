@@ -11,9 +11,9 @@
 			<form action="" method="post" name="actvation" id="actvation" class="user-form">
 				<h2>{lang code='user_forgot_message'}</h2>
 				<div class="clearfix text-box">
-					<p>Please enter you username and verification code in the box, password reset instructions will be sent to your mail box.</p>
+					<p>Please enter your username and verification code in the box, password reset instructions will be sent to your mailbox.</p>
 				</div>
-				{*<label for="login_username_sp">{lang code="Username"}</label>*}
+				{*<label for="login_username_sp">{lang code="username"}</label>*}
 				<div class="form-group">
 					<input type="text" name="forgot_username" class="form-control" placeholder="User Name" required autofocus>
 				</div>
@@ -28,9 +28,9 @@
 	{if $mode=='recover_username'}
 	<div class="clearfix forgot-block">
 		<div class="account-holder">
-			<form action="" method="post" name="actvation" id="actvation" class="user-form">
-				<h2>{lang code='user_reocover_user'}</h2>
-				{*<label for="forgot_email" >{lang code='Email'}</label>*}
+			<form action="" method="post" name="activation" id="activation" class="user-form">
+				<h2>{lang code='user_recover_user'}</h2>
+				{*<label for="forgot_email" >{lang code='email'}</label>*}
 				<div class="form-group">
 					<input type="text" name="forgot_email" id="forgot_email" class="form-control" placeholder="name@youremail.com" required autofocus>
 				</div>

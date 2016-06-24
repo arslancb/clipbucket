@@ -40,11 +40,13 @@ function switchEmbedCode(type)
 
 
 <!-- Including JS Files-->
-{foreach from=$Cbucket->JSArray item=type}
- {foreach from=$type item=scope key=file}
-  {include_js type=$scope file=$file}
- {/foreach}
-{/foreach}
+{if $__devmsgs}
+	<script type="text/javascript" src="{$baseurl}/js/jquery_plugs/cookie.js"></script>
+	<script type="text/javascript" src="{$baseurl}/js/functions.js"></script>
+{else}
+	<script type="text/javascript" src="{$baseurl}/js/jquery_plugs/cookie.min.js"></script>
+	<script type="text/javascript" src="{$baseurl}/js/functions.min.js"></script>
+{/if}
 <!-- Including JS Files-->
 <script type="text/javascript">
 	callURLParser();

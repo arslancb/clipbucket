@@ -40,7 +40,7 @@ $custom-elements-sprite-bg: url('../images/custom-elements-sprite.png') no-repea
 			background:$blue;
 			color:$white;
 			&:after{
-				content: "\e910";
+				content: "\e91f";
 			}
 		}
 	}
@@ -115,7 +115,7 @@ $custom-elements-sprite-bg: url('../images/custom-elements-sprite.png') no-repea
 	background:$input-bg;
 	color: darken($input-bg,22%);
 	&:after{
-		content: "\e909";
+		content: "\e917";
 	}
 	//background: $custom-elements-sprite-bg -283px -15px;
 }
@@ -125,7 +125,7 @@ $custom-elements-sprite-bg: url('../images/custom-elements-sprite.png') no-repea
 	background:$input-bg;
 	color:$blue;
 	&:after{
-		content: "\e90a";
+		content: "\e918";
 	}
 }
 .rad-focus {
@@ -180,7 +180,7 @@ $custom-elements-sprite-bg: url('../images/custom-elements-sprite.png') no-repea
 	text-decoration: none;
 	cursor: pointer;
 	&:after{
-		content: "\e901";
+		content: "\e90c";
 	}
 }
 .select-options {

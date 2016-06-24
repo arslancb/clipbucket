@@ -67,9 +67,9 @@ switch($mode)
 			$details["ext"] = getExt($_POST["title"]);
 			$cbphoto->generate_photos($details);
 			//var_dump($details);
-			$params = array("details"=>$details,"size"=>"m");
+			$params = array("details"=>$details,"size"=>"m",'static'=>true);
 			//var_dump($params);
-			$response['photoPreview'] = get_photo($params);
+			$response['photoPreview'] = get_image_file($params);
 		}
 		//var_dump($response);
 		

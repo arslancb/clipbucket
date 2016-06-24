@@ -24,7 +24,7 @@ if(!defined('SUB_PAGE')){
 
 $id = mysql_clean($_GET['collection']);
 $type = mysql_clean($_GET['type']);
-$data = $cbcollection->get_collection($id);
+$data = $cbcollection->get_collection_items($id);
 
 switch($type)
 {
@@ -68,7 +68,7 @@ switch($type)
 		if(isset($_POST['remove_selected']))
 		{
 			$total = count($_POST['check_obj']);
-			for($i=0;$i<$total;$i)
+			for($i=0;$i<$total;$i++)
 			{
 				$cbvideo->collection->remove_item($_POST['check_obj'][$i],$id);
 			}

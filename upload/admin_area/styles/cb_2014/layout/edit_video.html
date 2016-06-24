@@ -510,37 +510,50 @@
      {ANCHOR place="after_video_edit" data=$data.videoid}
   </br>
     </div>
+    
     <div class="widget-body">
         <div class="widget-main">
             <div class="slimScrollDiv">
                 {foreach from=$comments item=comment}
+                <form action="" method="post" name="delete_Comment" id="edit_video">
+                {if $comment != ''}
                 <div class="itemdiv dialogdiv">
                     {foreach from=$users item=u}
                     <div class="user">
                         <img alt="Avatar" src="{$userquery->getUserThumb($u,'small')}">
                     </div>
                     {/foreach}
-                    <div class="body">
-                        <div class="time">
+                    <div class="body clearfix">
+                    <div class="col-md-3" style="float:right">
+                            <!-- <a href="#" class="btn btn-minier btn-info">
+                                <i class="icon-only icon-share-alt"></i>
+                            </a> -->
+                            <input type="hidden" name="cmt_id" value="{$comment.comment_id}" />
+                            <input class="btn btn-primary" type="submit" name="del_cmt" value="Delete" />
+                        </div>
+                        <div class="time col-md-3">
                             <i class="icon-time"></i>
                             <span class="green">{$comment.date_added|date_format}</span>
                         </div>
-                        <div class="name">
+                        <div class="name col-md-3">
                             <a href="#">{$comment.anonym_name}</a>
                         </div>
-                        <div class="text">{$comment.comment}</div>
-                        <div class="tools">
-                            <a href="#" class="btn btn-minier btn-info">
-                                <i class="icon-only icon-share-alt"></i>
-                            </a>
-                        </div>
+                        <div class="text col-md-3">
+                            {$comment.comment}
+                        </div>  
                     </div>
                 </div>
+                {else}
+                <div class="body">
+                    <p>No comments found !</p>
+                </div>
+                {/if}
+                </form>
                 {/foreach}
             </div>
 
         </div><!-- /widget-main -->
-
+    
         
 
 

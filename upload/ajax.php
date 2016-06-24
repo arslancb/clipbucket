@@ -566,9 +566,16 @@ if(!empty($mode))
 		
 		case 'add_friend':
 		{
+			global $cbemail;
 			$friend = mysql_clean($_POST['uid']);
 			$userid = userid();
-			
+			$username = username();
+			$mailId = $userquery->get_user_details($friend,false,true);
+
+			//$mailId = $cbemail->get_email_by_userid($friend);
+
+			$cbemail->friend_request_email($mailId['email'],$username);
+
 			if($userid) {
 				$userquery->add_contact($userid,$friend);
 						
@@ -690,7 +697,13 @@ if(!empty($mode))
 					if($comment=='undefined')
 						$comment = '';
 					$reply_to = $_POST['reply_to'];
-					
+					$email = $_POST['email'];
+					if (!is_valid_email($email)) {
+						$err = array();
+						$err['err'] = "Invalid email provided";
+						echo json_encode($err);
+						return false;
+					}
 					$cid = $cbvid->add_comment($comment,$id,$reply_to);
 				}
 				break;
@@ -1629,7 +1642,7 @@ if(!empty($mode))
 			if ($comments) {
 				Template('blocks/comments/comments.html');
 			} else {
-				echo "none";
+				echo "";
 			}
 
 		}

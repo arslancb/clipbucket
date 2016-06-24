@@ -19,9 +19,16 @@ $(window).load(function(){
 });
 
 $(document).ready(function() {
-	new_player_height();	
+	new_player_height();
+	$(".video-js").on("contextmenu",function() {
+       return false;
+    }); 	
 });
 
 $(window).resize(function(event) {
 	new_player_height();
+});
+
+$(document).ready(function(){
+    
 });

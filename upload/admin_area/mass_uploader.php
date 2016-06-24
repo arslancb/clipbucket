@@ -8,6 +8,7 @@
 */
 
 require_once '../includes/admin_config.php';
+require_once(dirname(dirname(__FILE__))."/includes/classes/sLog.php");
 $userquery->admin_login_check();
 $pages->page_redir();
 
@@ -66,7 +67,13 @@ if(isset($_POST['mass_upload_video']))
 		{
 			$dosleep=0;
 			//Moving file to temp dir and Inserting in conversion queue..
+			
 			$file_name = $cbmass->move_to_temp($file_arr,$file_key);
+			$file_directory = createDataFolders();
+			createDataFolders(LOGS_DIR);
+			$logFile = LOGS_DIR.'/'.$file_directory.'/'.$file_key.'.log';
+			//pex($logFile,true);
+			$log = new SLog($logFile);
 			$results=$Upload->add_conversion_queue($file_name);
 			$str = "/".date("Y")."/".date("m")."/".date("d")."/";
 			$str1 = date("Y")."/".date("m")."/".date("d");
@@ -76,7 +83,7 @@ if(isset($_POST['mass_upload_video']))
 			$fname=explode('.', $file_name);
 			$cond='file_name='.'\''.$fname[0].'\'';
 			$result=db_update($tbl, $fields, $cond);
-			$result=exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $file_name $dosleep &> /dev/null &");
+			$result=exec(php_path()." -q ".BASEDIR."/actions/video_convert.php {$file_name} {$file_key} {$file_directory} {$logFile} > /dev/null &");
 			if(file_exists(CON_DIR.'/'.$file_name))
 			{
 				unlink(CON_DIR.'/'.$file_name);

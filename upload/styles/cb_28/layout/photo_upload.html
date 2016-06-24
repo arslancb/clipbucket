@@ -1,3 +1,4 @@
+
 {if $step == 1 || $step == ""}
 	<div id="uploadMessage" class=""></div>
 	<div class="container">
@@ -26,7 +27,7 @@
 		<div class="cb-box container" id="mainUploadContainer">
 			<div class="pad-bottom video-info-container flat-tabs">
 				<ul class="nav nav-tabs uploaderTabs">
-					<li class="active"><a href="#file-upload" data-toggle="tab">Photo Upload</a></li>
+					<li class="active"><a href="#file-upload" data-toggle="tab">{lang code="photo_upload_tab"}</a></li>
 				</ul>
 				<div class="tab-content uploadFormDiv">
 					<div class="tab-pane fade in active clearfix" id="file-upload">
@@ -39,11 +40,11 @@
 							Photo will be uploaded into <strong><i>{$c.collection_name}</i></strong> Collection
 							</div>
 							{else}
-							<h4 class="h4">Select Collection</h4>
+							<h4 class="h4">{lang code="select_collection_upload"}</h4>
 							<div class="row">
 								<div id="SelectionDIV" class="col-md-9">
 				   					{if $collections}
-									<div class="form-group clearfix custom-elements">
+									<div class="form-group clearfix">
 										<select class="form-control" id="collectionSelection" name="collectionSelection">
 											{foreach from=$collections item=item}
 											<option value="{$item.collection_id}">{$item.collection_name}</option>
@@ -51,17 +52,17 @@
 										</select>
 									</div>
 									{else}
-									<p class="alert alert-danger">No Collection Found! You must create a collection before uploading any photo</p>
+									<p class="alert alert-danger">{lang code="no_collection_found_alert"}</p>
 									<div class="form-group">
-										<label>Select Collection</label>
+										<label>{lang code="select_collection_upload"}</label>
 										<select class="form-control" id="collectionSelection" name="collectionSelection">
-											<option value="0">no collection found</option>
+											<option value="0">	{lang code="no_collection_upload"}</option>
 										</select>
 									</div>
 									{/if}
 								</div>
 								<div class="col-md-3 text-center">
-									<a href="#" class="btn btn-ghost btn-lg" id="createNewCollection">Create New Collection</a>
+									<a href="#" class="btn btn-ghost btn-lg" id="createNewCollection">{lang code="create_new_collection_btn"}</a>
 								</div>
 							</div>
 							{/if}
@@ -101,11 +102,11 @@
 								<div class="fileUploaderForm">
 									<div class="dragDropContainer clearfix" id="dragDrop">
 										<span class="upload-logo"></span>
-										<strong class="block-title">Drag &amp; Drop Files Here</strong>
-										<p>Photo can be 2 MB in size and any common valid image format</p>
+										<strong class="block-title">{lang code="drag_drop"}</strong>
+										<p>{lang code="photo_can_be"} {$Cbucket->configs[176].value} {lang code="photo_upload_txt"}</p>
 									</div>
 									<div class="selectButtonContainer">
-										<a id="selectFiles" href="javascript:;" class="btn btn-primary btn-lg selectFiles">Select Photos</a>
+										<a id="selectFiles" href="javascript:;" class="btn btn-primary btn-lg selectFiles">{lang code = "select_photos"}</a>
 									</div>
 								</div>
 							</div>
@@ -114,11 +115,11 @@
 						<div id="uploadDataContainer" class="uploadDataContainer clearfix marginTop">
 							<div class="uploadingProgressContainer clearfix hidden">
 								<div class="alert alert-block alert-info">
-									<p><b>Selected Files</b> Uploading in progress <small><span id="progressNumber" style="color:#fff;">0%</span> <span style="color:#fff;">Complete of Photo </span><span id="videoNumber" style="color:#fff;"></span></small></p>
+									<p><b>{lang code="selected_files"}</b>{lang code="uploading_in_progress"} <small><span id="progressNumber" style="color:#fff;">0%</span> <span style="color:#fff;">{lang code="complete_of_photo"} </span><span id="videoNumber" style="color:#fff;"></span></small></p>
 								</div>
 							</div>
 							<div class="align-right hidden" id="uploadMore">
-								<a href="#" class="btn btn-primary uploadMoreVideos" id="uploadMoreVideos">Upload More Photos</a>
+								<a href="#" class="btn btn-primary uploadMoreVideos" id="uploadMoreVideos">{lang code="upload_more_photos"}</a>
 							</div>
 							<div class="marginTop">
 								<div id="files" class=""></div>
@@ -321,6 +322,10 @@
 							dataType: "JSON",
 					   }).success(function(msg){
 						  //creating the hidden form fields
+						  var slicedTitle = $('#photo_title').val().slice(0, -4);
+						  var slicedDesc = $('#photo_description').val().slice(0, -4);
+						  $('#photo_title').val(slicedTitle);
+						  $('#photo_description').val(slicedDesc);
 						  $(uploadForm).find("img").attr("src", msg.photoPreview);
 						  $(".submitPhoto").removeAttr("disabled");
 						  

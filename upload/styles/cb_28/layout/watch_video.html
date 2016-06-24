@@ -24,7 +24,7 @@
 							<a href="{$userquery->profile_link($video)}"> {$video.username}</a>
 						</h2>
 						<div class="views-counter">
-							<span>{prettyNum($vdo.views)} {if $vdo.views > 1}{lang code='views'}{else}view{/if}</span>
+							<span>{prettyNum($vdo.views)} {if $vdo.views > 1}{lang code='views'}{else}{lang code="view"}{/if}</span>
 						</div>
 					</div>
 					<div class="user-likes-sub clearfix">
@@ -118,7 +118,7 @@
 						<div class="tab-pane fade in clearfix custom-elements" id="cb-item-addto">
 							<div class="clearfix btn-fav">
 								<div id="video_action_result_cont"></div>
-								<a  class="btn btn-block btn-primary" href="javascript:void(0)" onclick="_cb.add_to_favNew('video','{$vdo.videoid}');">{lang code='add_to_my_favorites'}</a>
+								<a id="addfav" class="btn btn-block btn-primary" href="javascript:void(0)" onclick="_cb.add_to_favNew('video','{$vdo.videoid}');">{lang code='add_to_my_favorites'}</a>
 							</div>
 							<div class="clearfix">
 								{show_playlist_form id=$vdo.videoid type=video user=userid() }
@@ -174,7 +174,8 @@
 		</section>
 		<aside id="sidebar">
 			<div class="box-ad ad">{AD place='ad_300x250'}</div>
-			<h2>{if $smarty.get.play_list}Playlist Videos{else}Popular Videos{/if}</h2>
+
+			<h2>{if $smarty.get.play_list}Playlist Videos{elseif $relMode != 'ono'}Related Videos{else}Popular Videos{/if}</h2>
 			<div class="clearfix sidebar-items">
 			{if $smarty.get.play_list}
 				<div id="playlist_items">

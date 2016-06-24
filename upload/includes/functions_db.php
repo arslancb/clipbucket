@@ -12,7 +12,7 @@ function db_select($query)
 
 function db_update($tbl, $fields, $cond)
 {
-    global $db;
+    global $db, $__devmsgs;
 
     $count = 0;
     foreach ($fields as $field => $val) {
@@ -44,7 +44,15 @@ function db_update($tbl, $fields, $cond)
 
     try
     {
-        $db->mysqli->query($query);
+        if (is_array($__devmsgs)) {
+            $start = microtime();
+            $db->mysqli->query($query);
+            $end = microtime();
+            $timetook = $end - $start;
+            devWitch($query, 'update', $timetook);
+        } else {
+            $db->mysqli->query($query);
+        }
     }
     catch(DB_Exception $e)
     {
@@ -95,7 +103,15 @@ function db_insert($tbl, $fields)
     $db->total_queries_sql[] = $query;
     try
     {
-        $db->mysqli->query($query);
+        if (is_array($__devmsgs)) {
+            $start = microtime();
+            $db->mysqli->query($query);
+            $end = microtime();
+            $timetook = $end - $start;
+            devWitch($query, 'insert', $timetook);
+        } else {
+            $db->mysqli->query($query);
+        }
     }
     catch(DB_Exception $e)
     {

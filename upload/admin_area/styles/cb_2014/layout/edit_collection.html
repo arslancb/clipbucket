@@ -1,6 +1,10 @@
 {assign var=requiredFields value=$cbcollection->load_required_fields($data)}
 {assign var=otherFields value=$cbcollection->load_other_fields($data)}
 
+{if strlen($data.category) < 1}
+    {$data.category = '#1#'}
+{/if}
+
 <div class="heading clearfix marginBottomLarge paddingBottomSmall">
     <h2 class="pull-left">Editing <small>&gt; {$data.collection_name}</small></h2>
     <div class="pull-right">
@@ -103,64 +107,6 @@
               </table>
 
               </fieldset>
-
-
-<!--
-                        <table class="myTable">
-                            <tr>
-                                <td class="first"><label for="">Collection Id</label></td></td>
-                            <td class="last"><p><span>{$data.collection_id}</span></p></td> 
-                              <td class="last"><p>bollywood</p></td>
-                            </tr>
-                        
-                              {foreach from=$requiredFields item=field}
-                              {if $field.title=='Collection name'}
-                            <tr>
-                                <td class="first"><label for="">{$field.title}</label></td>
-                                <td class="last"><p><span>{$data[$field.db_field]}</span></p></td>
-                            </tr>
-                            {/if}
-                            {/foreach}
-                            {foreach from=$requiredFields item=field}
-                            {if $field.title=='Collection description'}
-                            {$field.class='form-control'}
-                            <tr>
-                                <td class="first"><label for="">{$field.title}</label></td>
-                                <td class="last"><p><span>{$data[$field.db_field]}</span></p></td>
-                            </tr>
-                            {/if}
-                            {/foreach}
-                            {foreach from=$requiredFields item=field}
-                            {if $field.title=='Collection tags'}
-                            {$field.class='form-control'}
-                            <tr>
-                                <td class="first"><label for="">{$field.title}</label></td>
-                                <td class="last"><p><span>{$data[$field.db_field]}</span></p></td>
-                            </tr>
-                            {/if}
-                            {/foreach}
-                            {foreach from=$requiredFields item=field}
-                            {if $field.title=='Collection type'}
-                            {$field.class='form-control'}
-                            <tr>
-                                <td class="first"><label for="">{$field.title}</label></td>
-                                <td class="last">
-                                    <p><span>{$data[$field.db_field]}</span></p>
-                                </td>
-                            </tr>
-                            {/if}
-                            {/foreach}
-                        </table>
-                        {foreach from=$requiredFields item=field}
-                        {if $field.title=='Collection category'}
-
-                       label>{$field.title}</label>
-                        <div class="tab-content scroll">
-                            {$formObj->createField($field)}
-                        </div> 
-                        {/if}
-                        {/foreach}-->
-
                     </div>
                     <div id="uinformation" class="tab-pane">
                         <div class="form-group">
@@ -251,14 +197,13 @@
                     <div id="clpreview" class="tab-pane">
             	<legend>Collection Preview</legend>
                 <div class="form-group">
-                        <label class="label label-danger">Collection Preview :</label>
-                        <img style="padding:2px; border:1px solid #ccc;" src="{$cbcollection->get_thumb($data,NULL,TRUE)}?{$randon_number}" />
-                        <input class="forum-control" type="checkbox" value="{$data.collection_id}" name="delete_preview" id="del_{$data.collection_id}_preview" /><label for="del_{$data.collection_id}_preview">Delete Preview</label>
+                        <img style="padding:2px; border:1px solid #ccc;" src="{$cbcollection->coll_first_thumb($data,'l')}" />
+                      <!--  <input class="forum-control" type="checkbox" value="{$data.collection_id}" name="delete_preview" id="del_{$data.collection_id}_preview" /> <label for="del_{$data.collection_id}_preview">Delete Preview</label> -->
           </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                     <label for="collection_thumb">Upload New :</label>
                     <input type="file" name="collection_thumb" id="collection_thumb" >
-          </div>
+          </div> -->
           </div>
                     <div id="citems" class="tab-pane">
 

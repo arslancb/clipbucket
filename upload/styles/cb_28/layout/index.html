@@ -1,7 +1,13 @@
+{lang code='no_featured_videos_found' assign='no_found_fe'}
+{$vae = {lang code="no_featured_videos_found"}}
+{$no_recent = {lang code="no_recent_videos_found"}}
+{$loadMoreLang ={lang code="load_more"}}
+{ANCHOR place="display_head_sec"}
 <div id="main" class="clearfix container">
 	<div id="messageFav" class="alert alert-info marginTop" style="display:none; height:66px;"></div>
 	<div class="clearfix">
 		<div id="content">
+		 {ANCHOR place='global'} 
 			<div class="clearfix leaderboard-ad">
 				<div class="ad">{AD place='ad_728x90'}</div>
 			</div>
@@ -44,9 +50,9 @@
 			<section class="clearfix featured-videos">
 				<h1>{lang code="featured_videos"}</h1>
 				<div id="featured_vid_sec" class="clearfix row">
-
+				
 				</div>
-				<div id="featured_pre"></div>
+				<div id="featured_pre" class="clearfix"></div>
 				<div id="featured-loadmore" class="clearfix text-center">
 					<button id="featured_load_more" class="btn btn-loadmore" loadtype="video" loadmode="featured" loadlimit="{$row.index_featured}" loadhit="1">{lang code="load_more"}</button>
 				</div>
@@ -56,7 +62,7 @@
 				<h1>{lang code="recent_videos"}</h1>
 				<div id="recent_vids_sec" class="clearfix row">
 				</div>
-				<div id="recent_pre"></div>
+				<div id="recent_pre" class="clearfix"></div>
 				<div id="recent-loadmore" class="clearfix text-center">
 					<button id="recent_load_more" class="btn btn-loadmore" loadtype="video" loadmode="recent" loadlimit="{$row.index_recent}" loadhit="1">{lang code="load_more"}</button>
 				</div>
@@ -94,6 +100,7 @@
 			
 			{if $row.collectionsSection == 'yes'}
 			{$collections = $cbcollection->get_collections(['limit'=>4, 'active'=>'yes', 'order'=>'total_objects DESC'])}
+			{$collections = $cbcollection->activeCollections($collections)}
 			<h2>{lang code="top_collections"}</h2>
 			<div class="clearfix sidebar-items collections-grid">
 				<div class="clearfix row">
@@ -107,13 +114,14 @@
 				{/foreach}
 				</div>
 				{else}
-				<div class="clearfix">{lang code='no_collection_found'}</div>
+				<div class="clearfix well">{lang code='no_collection_found'}</div>
 				{/if}
 			</div>
 			{/if}
 
 			<!-- playlists -->
 			{$playlists = get_playlists(['limit'=>4, 'order'=>'total_items DESC'])}
+			{$playlists = activePlaylists($playlists)}
 			{if $playlists}
 			<div class="clearfix sidebar-playlists">
 				<h2>{lang code="top_playlists"}</h2>
@@ -131,7 +139,7 @@
 							<div class="video col-lg-3 col-md-4 col-sm-6 col-xs-6">
 								{$videos = get_videos(['videoid'=>$videoid,'limit'=>'2'])}
 								{foreach $videos as $video}
-									<a href="{videoLink($video)}&play_list={$playlist.playlist_id}" class="playlist-video">
+									<a href="{videoLink($video)}{if $Cbucket->configs.seo == 'no'}&{else}?{/if}play_list={$playlist.playlist_id}" class="playlist-video">
 										<img src="{getThumb vdetails=$video size=168x105}" class="img-responsive">
 										<img src="{$theme}/images/thumb-ratio.png" alt="" class="thumb-ratio">
 									</a>
@@ -158,6 +166,11 @@
 <script type="text/javascript">
 	// handles initial and load more
 	// for home page videos
+	var langCo = "{$vae}";
+	var noRecent = "{$no_recent}";
+	var loadMoreLang = "{$loadMoreLang}";
+
+	//console.log(langCo);
 	homePageVideos("{$got_qlitems}");
 	//
 	/* player height and editerpick videos height */
@@ -166,10 +179,10 @@
 		WinWidHome = $(window).width();
 		if(WinWidHome > 991)
 		{
-			console.log("height "+WinWidHome);
+			//console.log("height "+WinWidHome);
 			var bannerHeight = $(".editorpick-holder").height();
 			bannerHeight = bannerHeight - 12;
-			console.log("height "+bannerHeight);
+			//console.log("height "+bannerHeight);
 			$(".editorpick-videos .scrollable-area").css({
 				"height" : bannerHeight+"px",
 			});

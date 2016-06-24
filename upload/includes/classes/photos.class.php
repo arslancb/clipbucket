@@ -49,7 +49,7 @@ class CBPhotos
 
         $basic_fields = array(
             'photo_id', 'photo_key', 'userid', 'photo_title', 'photo_description', 'photo_tags', 'collection_id',
-            'photo_details', 'date_added', 'filename', 'ext', 'active', 'broadcast', 'file_directory'
+            'photo_details', 'date_added', 'filename', 'ext', 'active', 'broadcast', 'file_directory','views'
         );
 
         $cb_columns->object( 'photos' )->register_columns( $basic_fields );
@@ -207,6 +207,7 @@ class CBPhotos
 		if($per['photos_moderation'] == "yes")
 		$am['Photos'] = array(
 							  'Photo Manager' => 'photo_manager.php',
+							  'Inactive Photos' => 'photo_manager.php?search=search&active=no',
 							  'Flagged Photos' => 'flagged_photos.php',
 							  'Orphan Photos' => 'orphan_photos.php',					
 							  'Photo Settings' => 'photo_settings.php',
@@ -232,10 +233,9 @@ class CBPhotos
 		$accountLinks = array(
 							lang('manage_photos') => "manage_photos.php",
 							lang('manage_favorite_photos') => "manage_photos.php?mode=favorite",
-							lang('manage_my_album') => "manage_photos.php?mode=my_album",
 							);
 		if(isSectionEnabled('photos'))
-		$userquery->user_account[lang('Photos')] = $accountLinks;
+		$userquery->user_account[lang('photos')] = $accountLinks;
 											
 		//Setting Cbucket links
 

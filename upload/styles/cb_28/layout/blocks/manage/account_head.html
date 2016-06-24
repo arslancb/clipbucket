@@ -10,8 +10,8 @@
 					<div class="row">
 						<div class="col-md-6 procolor">
 							<h4 class="media-heading headcolor">{$user.username}</h4>
-							<b>{lang code='Since:'}</b> ({$user.doj|date_format})
-							<b>{lang code='last Login:'}</b> ({$user.last_logged|nicetime})
+							<b>{lang code='since:'}</b> ({$user.doj|date_format})
+							<b>{lang code='last_Login:'}</b> ({$user.last_logged|nicetime})
 						</div>
 					</div>
 				</div>
@@ -22,12 +22,12 @@
 <hr class="newhr1">
 <div class="mvideo accountprofile">
 	<span class="lead">
-		{lang code='Latest Videos'}
+		{lang code='Latest_Videos'}
 	</span>
 	<table class="table table-bordered table-striped manageUsersTable">
 		<tr>
-			<td><i class="icon-facetime-video"></i> Videos Details</td>
-			<td>Option</td>
+			<td><i class="icon-facetime-video"></i> {lang code="Videos_Details"}</td>
+			<td>{lang code="option"}</td>
 		</tr>
 		{if $videos}
 		
@@ -99,77 +99,79 @@
 		{/foreach}
 	</table>
 	{else}
-	<div align="center"><strong><em>No Video Found</em></strong></div>
+	<div align="center"><strong><em>{lang code="no_videos_found"}</em></strong></div>
 	{/if}
 </div>
 <div class="flaggedtable accountprofile1">
 	<table class="table table-bordered table-striped">
-		<div id="fobjects" class="tab-pane" >
-			<div class="widget-box">
-				<td>
-					<div class="widget-header">
-						<h5><i class="glyphicon glyphicon-flag"></i>Flagged Objects</h5>
-					</div>
+		{if has_access("admin_access")}
+			<div id="fobjects" class="tab-pane" >
+				<div class="widget-box">
+					<td>
+						<div class="widget-header">
+							<h5><i class="glyphicon glyphicon-flag"></i>{lang code="flagged_obj"}</h5>
+						</div>
 
-					<div class="widget-body">
+						<div class="widget-body">
 
-						<div class="tabbable tabs-left">
-							<ul class="nav nav-tabs" id="myTab">
-								<li class="active">
-									<a data-toggle="tab" href="#fvideos">Videos</a>
-								</li>
+							<div class="tabbable tabs-left">
+								<ul class="nav nav-tabs" id="myTab">
+									<li class="active">
+										<a data-toggle="tab" href="#fvideos">{lang code="videos"}</a>
+									</li>
 
-								<li class="photos">
-									<a data-toggle="tab" href="#fphotos">Photos</a>
-								</li>
-							</ul>
-							<br>
-							<div class="tab-content">
-								<div id="fvideos" class="tab-pane active">
-									{section name=list loop=$flagedVideos}
-									<div class="row">
-										<div class="col-md-3">
-											<img src="{getThumb vdetails=$flagedVideos[list]}" width="85" height="70" id="thumbs_{$flagedVideos[list].videoid}" title=""/>
+									<li class="photos">
+										<a data-toggle="tab" href="#fphotos">{lang code="photos"}</a>
+									</li>
+								</ul>
+								<br>
+								<div class="tab-content">
+									<div id="fvideos" class="tab-pane active">
+										{section name=list loop=$flagedVideos}
+										<div class="row">
+											<div class="col-md-3">
+												<img src="{getThumb vdetails=$flagedVideos[list]}" width="85" height="70" id="thumbs_{$flagedVideos[list].videoid}" title=""/>
+											</div>
+											<div class="col-md-6 fvideos">
+												{$flagedVideos[list].title|truncate:50}
+											</div>
+
+											<div class="col-md-7 fvideos">
+												<label class="label label-danger">Uploaded  {$flagedVideos[list].date_added|niceTime}</label>
+												<label class="label label-default"> {lang code='views'} : {$flagedVideos.views|number_format}</label>
+												<label class="label label-primary"> Flags:{$flagedVideos[list].total_flags}</label>
+											</div>
 										</div>
-										<div class="col-md-6 fvideos">
-											{$flagedVideos[list].title|truncate:50}
-										</div>
-
-										<div class="col-md-7 fvideos">
-											<label class="label label-danger">Uploaded  {$flagedVideos[list].date_added|niceTime}</label>
-											<label class="label label-default"> {lang code='views'} : {$flagedVideos.views|number_format}</label>
-											<label class="label label-primary"> Flags:{$flagedVideos[list].total_flags}</label>
-										</div>
+										<hr class="newhr">
+										{/section}
 									</div>
-									<hr class="newhr">
-									{/section}
-								</div>
-								<div id="fphotos" class="tab-pane">
-									{section name=list loop=$flagedPhotos}
-									<div class="row">
-										<div class="col-md-3">
-											<img src="{getThumb vdetails=$flagedPhotos[list]}" width="85" height="70" id="thumbs_{$flagedPhotos[list].photoid}" title=""/>
-										</div>
-										<div class="col-md-6 fusers">
-											{$flagedphotos[list].title|truncate:50}
-										</div>
-										<div class="col-md-2">
-											<strong class="btn btn-primary btn-xs pull-right"> Flags:{$flagedPhotos[list].total_flags}</strong>
-										</div>
-										<div class="col-md-7 fusers">
-											<label class="label label-danger">Uploaded  {$flagedPhotos[list].date_added|niceTime}</label>
-											<label class="label label-default"> {lang code='views'} : {$flagedPhotos.views|number_format}</label>
+									<div id="fphotos" class="tab-pane">
+										{section name=list loop=$flagedPhotos}
+										<div class="row">
+											<div class="col-md-3">
+												<img src="{getThumb vdetails=$flagedPhotos[list]}" width="85" height="70" id="thumbs_{$flagedPhotos[list].photoid}" title=""/>
+											</div>
+											<div class="col-md-6 fusers">
+												{$flagedphotos[list].title|truncate:50}
+											</div>
+											<div class="col-md-2">
+												<strong class="btn btn-primary btn-xs pull-right"> Flags:{$flagedPhotos[list].total_flags}</strong>
+											</div>
+											<div class="col-md-7 fusers">
+												<label class="label label-danger">Uploaded  {$flagedPhotos[list].date_added|niceTime}</label>
+												<label class="label label-default"> {lang code='views'} : {$flagedPhotos.views|number_format}</label>
 
+											</div>
 										</div>
+										{/section}
 									</div>
-									{/section}
 								</div>
 							</div>
-						</div>
-						<!-- /widget-main -->
-					</div><!-- /widget-body -->
+							<!-- /widget-main -->
+						</div><!-- /widget-body -->
+				</div>
 			</div>
-		</div>
+		{/if}
 	</table>
 </div>
 
@@ -187,7 +189,7 @@
 			<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
 													<span class="line-height-1 bigger-170 blue">{$user.total_photos}</span>
 													<br>
-													<span class="line-height-1 smaller-90 new1"> Photos </span>
+													<span class="line-height-1 smaller-90 new1"> {lang code="photos"} </span>
 												</span>
 	<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
 													<span class="line-height-1 bigger-170 blue">{$user.num_visits|number_format}</span>
@@ -202,22 +204,22 @@
 	<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
 													<span class="line-height-1 bigger-170 blue">{$user.total_comments|number_format}</span>
 													<br>
-													<span class="line-height-1 smaller-90 new1"> {lang code='Comments'} </span>
+													<span class="line-height-1 smaller-90 new1"> {lang code='comments'} </span>
 												</span>
 	<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
 													<span class="line-height-1 bigger-170 blue">{$user.total_collections|number_format}</span>
 													<br>
-													<span class="line-height-1 smaller-90 new1"> {lang code='Collections'} </span>
+													<span class="line-height-1 smaller-90 new1"> {lang code='collections'} </span>
 												</span>
 			<span class="btn btn-primary new1" style="background-color: #000000; color: #ffffff">
 													<span class="line-height-1 bigger-170 blue">{$user.profile_hits}</span>
 													<br>
-													<span class="line-height-1 smaller-90 new1"> {lang code='Views'} </span>
+													<span class="line-height-1 smaller-90 new1"> {lang code='views'} </span>
 												</span>
 			<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
 													<span class="line-height-1 bigger-170 blue">{$user.subscribers}</span>
 													<br>
-													<span class="line-height-1 smaller-90 new1"> {lang code='Subscribers'} </span>
+													<span class="line-height-1 smaller-90 new1"> {lang code='subscribers'} </span>
 												</span>
 		{/if}
 	</div>

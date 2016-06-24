@@ -1,19 +1,20 @@
-<div id="main" class="container page-error clearfix">
-	<div class="clearfix error-img">
-		<img src="{$imageurl}/404.png" alt="" class="img-responive">
-	</div>
-	
-	<div class="alert-text clearfix">
-		<p><i class="icon-info"></i>&nbsp; Oops! The page you requested was not found!</p>
-	</div>
-
-	<div class="clearfix videos">
-		{if $videos} 
-		{foreach $videos as $video}
-			<div class="item-video col-lg-3 col-md-4 col-sm-4 col-xs-12">
-				{include file="$style_dir/blocks/videos/video.html" display_type='homeVideos'}
+<div class="page-error clearfix" style="background:#f7f9fb  url({$theme}/images/clouds.jpg) no-repeat; background-size:100%;">
+	<div class="error-holder">
+		<div class="fog">
+			<img src="{$theme}/images/fog-cloud.png" alt="" class="img-responsive">
+		</div>
+		<div class="monster">
+			<img src="{$theme}/images/monster.png" alt="" class="img-responsive">
+		</div>
+		<div class="content-txt">
+			<div class="clearfix error-img">
+				<img src="{$imageurl}/404.png" alt="" class="img-responsive">
 			</div>
-		{/foreach}
-		{/if}
+			<div class="alert-text clearfix">
+				<p><strong>Looks like you're lost</strong><span>The Page you are looking for is not available!</span></p>
+				<a href="{$baseurl}"> &larr; &nbsp;Go back to the homepage</a>
+			</div>
+		</div>
 	</div>
+	<img src="{$theme}/images/base.png" alt="" class="base-bg">
 </div>

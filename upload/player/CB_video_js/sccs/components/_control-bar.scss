@@ -5,6 +5,7 @@
 	bottom: 0;
 	left: 0;
 	right: 0;
+	z-index: 2;
 	height: 42px;
 	background-color: rgba(0,0,0,.9);
 	//@include background-color-with-alpha($primary-background-color, $primary-background-transparency);

@@ -20,23 +20,22 @@
 
 				<!-- overlay div when clicked on extend icon -->
 						<div id="myNav" class="overlay">
-							<button type="button" class="img-close" id="btn-close" data-dismiss="modal" data-check="">&times;</button>
-							<!-- Next and Previous Button inside overlay -->
-							<div class="btn-holder clearfix">
-								<button class="btn view-photo-nxt icon-right-arrow next en-large" data-check="next" ><i>next</i></button>
+							<div class="overlay-content">
+								<img id="gallery-exd" class="img-responsive center-block">
+								<button type="button" class="img-close" id="btn-close" data-dismiss="modal" data-check="">&times;</button>
+								<!-- Next and Previous Button inside overlay -->
+								<div class="btn-holder clearfix">
+									<button class="btn view-photo-nxt icon-right-arrow next en-large" data-check="next" ><i>next</i></button>
 
-								<button class="btn view-photo-pre icon-left-arrow prev en-large" data-check="prev"><i>prev</i></button>
+									<button class="btn view-photo-pre icon-left-arrow prev en-large" data-check="prev"><i>prev</i></button>
+								</div>
 							</div>
-
-							    <div class="overlay-content">
-							     <img id="gallery-exd" class="img-responsive center-block" />
-							   </div>
 						 </div>
 						 <!-- Next and Previous button  -->
 					<div class="btn-holder clearfix">
-						<button class="btn view-photo-nxt icon-right-arrow next view-photo" data-check="next" ><i>next</i></button>
+						<button id="mainNextBtn" class="btn view-photo-nxt icon-right-arrow next view-photo" data-check="next" ><i>next</i></button>
 
-						<button class="btn view-photo-pre icon-left-arrow prev view-photo" data-check="prev"><i>prev</i></button>
+						<button id="mainPrevBtn" class="btn view-photo-pre icon-left-arrow prev view-photo" data-check="prev"><i>prev</i></button>
 					</div>
 			</div>
 			
@@ -53,7 +52,7 @@
 							<a href="{$userquery->profile_link($user)}">{$user.username}</a>
 						</h2>
 						<div class="views-counter">
-							<span>{prettyNum($photo.views)}</span>
+							<span>{lang code="views"} {prettyNum($photo.views)}</span>
 					
 						</div>
 					</div>
@@ -68,7 +67,7 @@
 						</div>
 						<div class="clearfix subscribe-col col-lg-6 col-md-6 col-sm-6 col-xs-12">
 							{if $photo.userid != userid()}
-								<a id="subscribeUser" class="btn btn-subscribe btn-primary" href="javascript:void(0)" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">
+								<a id="subscribeUser" class="btn btn-subscribe btn-primary" href="javascript:void(0)" onclick="_cb.subscribeToChannelNew('{$user.userid}','subscribe_user')">
 									<span>{lang('Subscribe')}</span>
 								</a>
 							{/if}
@@ -79,16 +78,16 @@
 				<div class="view-tabs clearfix">
 					<ul class="clearfix nav nav-tabs">
 						<li class="active">
-							<a href="#cb-item-info" data-toggle="tab"><span class="icon-info"></span>{lang('Info')}</a>
+							<a href="#cb-item-info" data-toggle="tab"><span class="icon-info"></span>{lang code='info'}</a>
 						</li>
 						<li>
-							<a href="#cb-item-share" data-toggle="tab"><span class="icon-share"></span>Share/Embed</a>
+							<a href="#cb-item-share" data-toggle="tab"><span class="icon-share"></span>{lang code='Share'}</a>
 						</li>
 						<li>
-							<a href="#cb-item-addto" data-toggle="tab"><span class="icon-plusrounded"></span>{lang('Add to')}</a>
+							<a href="#cb-item-addto" data-toggle="tab"><span class="icon-plusrounded"></span>{lang('add_to')}</a>
 						</li>
 						<li>
-							<a href="#cb-item-report" data-toggle="tab"><span class="icon-flag"></span>{lang('Report')}
+							<a href="#cb-item-report" data-toggle="tab"><span class="icon-flag"></span>{lang('report_this')}
 							</a>
 						</li>
 					</ul>
@@ -96,18 +95,18 @@
 						<div class="tab-pane fade in clearfix active" id="cb-item-info">
 							<div class="clearfix watch-vid-details">
 								<ul class="clearfix desc-list">
-									<li><strong>{lang('Photo description: ')}</strong> <span id="description"></span>:&nbsp;{$photo.photo_description|truncate:90}</li>
+									<li><strong>{lang('photo_description')}</strong> <span id="description"></span>:&nbsp;{$photo.photo_description|truncate:90}</li>
 									
 									 {assign var=category value=$userquery->get_category($user.category)} 
 
 									<li id="category"></li>
 		
-									<li><strong>{lang('Category')}</strong>:&nbsp;{$category.category_name}
+									<li><strong>{lang('category')}</strong>:&nbsp;{$category.category_name}
 									<span id="category"></span>
 									</li>
-									<li><strong>{lang('Tags')}</strong>:&nbsp;<span id="tags"></span></strong>{$photo.photo_tags|tags:photos}</li>
+									<li><strong>{lang('tags')}</strong>:&nbsp;<span id="tags"></span></strong>{$photo.photo_tags|tags:photos}</li>
 
-									<li><strong>{lang('Views')}</strong>:&nbsp; <span id="views">{$photo.views}</span></li>
+									<li><strong>{lang('views')}</strong>:&nbsp; <span id="views">{$photo.views}</span></li>
 								</ul>
 							</div>
 						</div>
@@ -115,7 +114,7 @@
 						<div class="tab-pane fade in clearfix" id="cb-item-share">
 							<ul class="social-share">
 								<li>
-								 <a class="btn-fb icon-facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
+								 <a class="btn-fb icon-facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($photo)|urlencode}&p[images][0]={get_thumb vdetails=$photo}&p[title]={$photo.photo_title|title|urlencode}&p[summary]={$photo.photo_description|description|urlencode}" target="_blank">
 										<span>Facebook</span>
 									</a>
 								</li>
@@ -171,7 +170,7 @@
 							</div>
 
  						{if $myquery->is_commentable($photo,'p')}
-							{include file="$style_dir/blocks/comments/add_image_comment.html" id=$photo.photo_id type=p}
+							{include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
 							{else}
 							<div class="alert alert-warning">{lang code='Comments disabled for this photo'}</div>
 						{/if}
@@ -186,7 +185,7 @@
 		
 		<aside id="sidebar">
 			<div class="box-ad ad">{AD place='ad_300x250'}</div>
-			<h2>{lang code='Related Photos'}</h2>
+			<h2>{lang code='related_photos'}</h2>
 			<div class="clearfix sidebar-items">
 		
 			{$related_photos=get_photos(['title'=>$photo.photo_title,'tags'=>$photo.photo_tags,
@@ -201,14 +200,15 @@
 					{/foreach}
 				</div>
 			{else}
-				<div class="well well-info">No Photos Found !</div>
+				<div class="well well-info">{lang code="no_photos_found"}</div>
 			{/if}
 			</div>
 		
 			{$row = $myquery->Get_Website_Details()}
 			{if $row.collectionsSection == 'yes'}
 			{$collections = $cbcollection->get_collections(['limit'=>5, 'active'=>'yes'])}
-			<h2>{lang code="Top Collections"}</h2>
+			{$collections = $cbcollection->activeCollections($collections)}
+			<h2>{lang code="top_collections"}</h2>
 			<div class="clearfix sidebar-items collections-grid">
 				<div class="clearfix row">
 				{$limit=10}
@@ -233,6 +233,8 @@
 
 
 <script type="text/javascript">
+var seoUrls = "{$Cbucket->configs.seo}";
+var srcFirst = "{$srcfirst}";
 var key_globel; // image source key0
 var first_source; 
 var collection_id;
@@ -264,7 +266,7 @@ comments_voting = 'no';
 {rdelim}
 );
 
-$(document).ready(function(){
+/*$(document).ready(function(){
 	var form_selector = 'comment_form';
 	var type = $(this).data('type');
 	var dataId = $(this).data('id');
@@ -280,123 +282,5 @@ $(document).ready(function(){
 		});
 	});
 	
-// image is loading via an Ajax call .. 
-
-// event which brings previous image from the collection 	
-$(document).on("click", ".view-photo", function () {
-//	var curr_photo = d;
-	var user_admin = user;
-	var check = $(this).data('check');
-	if(check == "prev") {
-		var pre_next = "prev";
-	}
-	if(check == "next"){
-		var pre_next = "next";
-	}
-	data = {
-		'mode': mode,
-		'photo_pre' : curr_photo,
-		'user': user_admin,
-		'item': pre_next,
-	}
-
-	$.ajax({
-		url: baseurl+'/ajax.php'+'?moto=ajax', 
-		type: "post",
-		data: data,
-		dataType: 'json',
-		beforeSend: function() {
-			$('.photo-view').append(r);
-			$('#gallery').fadeTo( "slow", 0.33 );
-			$('.overlay-content').append(b);
-			$('#gallery-exd').fadeTo( "slow", 0.33 );
-			$('.view-photo').prop("disabled",true);
-		},
-		success:function(xhr) {	
-
-			
-			
-  			$("#main").load("view_item.php?item="+xhr.photo_key+"&type=photos&collection="+xhr.collection_id+"&moto=ajax",function(){
-  					$('.view-photo').prop("disabled",false);
-					$("#gallery").fadeTo("normal",0.99);
-					$('#gallery-exd').fadeTo( "normal", 0.99 );
-					//d = xhr.photo[0];
-					$('#gallery-exd').attr("src",key_globel);	
-					$("#gallery").attr("src",key_globel);
-
-
-  				 	window.history.pushState("", "", baseurl+"/view_item.php?item="+xhr.photo_key+"&type=photos&collection="+xhr.collection_id);
-  				 	$('.dropdown-toggle').dropdown();
-					$('.pic-glyp').remove();
-  			});
-  			
-			
-		}
-
-	})
-
-});
-
-
-// Event which enlarge the image size in model. 
-
-$(document).on("click", ".en-large", function () {
-	var curr_photo = d;
-	var check = $(this).data('check');
-	if(check == "prev") {
-		var pre_next = "prev";	
-	}
-	if(check == "next"){
-		var pre_next = "next";
-	}	
-		data = {
-		'mode': mode,
-		'photo_pre' : curr_photo,
-		'item': pre_next,
-	}
-
-	$.ajax({
-		url: baseurl+'/ajax.php',
-		type: "post",
-		data: data,
-		dataType: 'json',
-		beforeSend: function() {
-			$('.overlay-content').append(b);
-			$('.en-large').prop("disabled",true);
-		},
-		success:function(xhr) {	
-			$('.en-large').prop("disabled",false);
-			$("#gallery").fadeTo("normal",0.99);
-			d = xhr.photo[0];
-			key_globel = xhr.src_string;
-			console.log(key_globel);
-			collection_id = xhr.collection_id;
-			$('#gallery-exd').attr("src",key_globel);
-			$("#btn-close").attr("data-check",key);
-			$('.pic-glyp').remove();
-		}
-	});
-
-});
-
-$(document).on("click", "#enlarge", function () {
-
-	document.getElementById("myNav").style.width = "100%";
-	document.getElementById("myNav").style.left = "0";
-	$('#gallery-exd').attr("src","{$srcfirst}");
-	d=curr_photo;
-});
-
-// On closing modal update image source..
-$(document).on("click", "#btn-close", function () {
-
-	 document.getElementById("myNav").style.left = "-100%";
-
-});
-
-$( document ).on( 'keydown', function ( e ) {
-    if ( e.keyCode === 27 ) { // ESC
-       document.getElementById("myNav").style.left = "-100%";
-    }
-});
+*/
 </script>

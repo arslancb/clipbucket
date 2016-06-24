@@ -47,7 +47,7 @@ a .icon-rotate-90:before,a .icon-rotate-180:before,a .icon-rotate-270:before,a .
 .icon-heart:before{content:"\f004";}
 .icon-star:before{content:"\f005";}
 .icon-star-empty:before{content:"\f006";}
-.icon-user:before{content:"\f007";}
+.icon-user:before{content:"\f007" !important; font-family:'FontAwesome' !important;}
 .icon-film:before{content:"\f008";}
 .icon-th-large:before{content:"\f009";}
 .icon-th:before{content:"\f00a";}
@@ -56,11 +56,11 @@ a .icon-rotate-90:before,a .icon-rotate-180:before,a .icon-rotate-270:before,a .
 .icon-remove:before{content:"\f00d";}
 .icon-zoom-in:before{content:"\f00e";}
 .icon-zoom-out:before{content:"\f010";}
-.icon-power-off:before,.icon-off:before{content:"\f011";}
+.icon-power-off:before,.icon-off:before{content:"\f011" !important; font-family:'FontAwesome' !important;}
 .icon-signal:before{content:"\f012";}
-.icon-gear:before,.icon-cog:before{content:"\f013";}
+.icon-gear:before,.icon-cog:before{content:"\f013" !important; font-family:'FontAwesome' !important;}
 .icon-trash:before{content:"\f014";}
-.icon-home:before{content:"\f015";}
+.icon-home:before{content:"\f015"!important; font-family:'FontAwesome' !important;}
 .icon-file-alt:before{content:"\f016";}
 .icon-time:before{content:"\f017";}
 .icon-road:before{content:"\f018";}
@@ -230,7 +230,7 @@ a .icon-rotate-90:before,a .icon-rotate-180:before,a .icon-rotate-270:before,a .
 .icon-google-plus-sign:before{content:"\f0d4";}
 .icon-google-plus:before{content:"\f0d5";}
 .icon-money:before{content:"\f0d6";}
-.icon-caret-down:before{content:"\f0d7";}
+.icon-caret-down:before{content:"\f0d7" !important; font-family:'FontAwesome' !important;}
 .icon-caret-up:before{content:"\f0d8";}
 .icon-caret-left:before{content:"\f0d9";}
 .icon-caret-right:before{content:"\f0da";}
@@ -242,7 +242,7 @@ a .icon-rotate-90:before,a .icon-rotate-180:before,a .icon-rotate-270:before,a .
 .icon-linkedin:before{content:"\f0e1";}
 .icon-rotate-left:before,.icon-undo:before{content:"\f0e2";}
 .icon-legal:before{content:"\f0e3";}
-.icon-dashboard:before{content:"\f0e4";}
+.icon-dashboard:before{content:"\f0e4" !important; font-family:'FontAwesome' !important;}
 .icon-comment-alt:before{content:"\f0e5";}
 .icon-comments-alt:before{content:"\f0e6";}
 .icon-bolt:before{content:"\f0e7";}
@@ -256,7 +256,7 @@ a .icon-rotate-90:before,a .icon-rotate-180:before,a .icon-rotate-270:before,a .
 .icon-user-md:before{content:"\f0f0";}
 .icon-stethoscope:before{content:"\f0f1";}
 .icon-suitcase:before{content:"\f0f2";}
-.icon-bell-alt:before{content:"\f0f3";}
+.icon-bell-alt:before{content:"\f0f3" !important; font-family:'FontAwesome' !important;}
 .icon-coffee:before{content:"\f0f4";}
 .icon-food:before{content:"\f0f5";}
 .icon-file-text-alt:before{content:"\f0f6";}
@@ -268,8 +268,8 @@ a .icon-rotate-90:before,a .icon-rotate-180:before,a .icon-rotate-270:before,a .
 .icon-beer:before{content:"\f0fc";}
 .icon-h-sign:before{content:"\f0fd";}
 .icon-plus-sign-alt:before{content:"\f0fe";}
-.icon-double-angle-left:before{content:"\f100";}
-.icon-double-angle-right:before{content:"\f101";}
+.icon-double-angle-left:before{content:"\f100" !important; font-family:'FontAwesome' !important;}
+.icon-double-angle-right:before{content:"\f101" !important; font-family:'FontAwesome' !important; }
 .icon-double-angle-up:before{content:"\f102";}
 .icon-double-angle-down:before{content:"\f103";}
 .icon-angle-left:before{content:"\f104";}

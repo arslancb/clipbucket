@@ -9,11 +9,8 @@
 {/if}
 {/if}
 <!-- End  -->
-{if $development_mode}
-<link rel="stylesheet" href="{$cb_vjs_player_url}/css/video-js.css" />
-{else}
-<link rel="stylesheet" href="{$cb_vjs_player_url}/css/video-js.min.css" />
-{/if}
+
+<link rel="stylesheet" href="{$cb_vjs_player_url}/css/video-js.min.css">
 <link href="{$cb_vjs_player_url}/css/cb_vjs_plugin.css" rel="stylesheet">
 <link href="{$cb_vjs_player_url}/css/videojs.ads.css" rel="stylesheet">
 <link href="{$cb_vjs_player_url}/css/videojs.ima.css" rel="stylesheet">
@@ -27,19 +24,17 @@
 <script src="{$cb_vjs_player_url}/js/cb_vjs_custom.js"></script>
 <script src="{$cb_vjs_player_url}/js/cb_vjs_plugin.js"></script>
 <script src="{$cb_vjs_player_url}/js/cb_vjs_resolution.js"></script>
+<script src="{$cb_vjs_player_url}/js/timecomments.js"></script>
 {if $play_ad == true}
 <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 {/if}
 <script src="{$cb_vjs_player_url}/js/videojs.ads.js"></script>
 <script src="{$cb_vjs_player_url}/js/videojs.ima.js"></script>
 <script src="{$cb_vjs_player_url}/js/cb_ultimate_ads.js"></script>
-
+{$default_quality = get_cbvjs_quality_type($video_files)}
 <video id="cb_video_js" class="video-js vjs-default-skin" height="{$height}" width="{$width}" poster="{getThumb vdetails=$vdata size=768x432}" >
     {foreach $video_files as $file}
-    {$quality = explode('-', $file)}
-    {$quality = end($quality)}
-    {$quality = explode('.',$quality)}
-    {$quality = $quality.0}
+    {$quality = get_cbvjs_quality($file)}
 
     {if $flv_vid == true}
     	<source src='{$file}' type="video/x-flv" />
@@ -52,27 +47,26 @@
 </video>
 
 <script type="text/javascript">
-var vid_id = "{$vdata.videoid}";
-var videotitle = "{$vdata.title|escape_quotes}";
-var uploader = "{$vdata.username}";
-var branding_logo  = "{$cb_logo}";
-var product_link = "{$player_config.player_logo_url}";
-var show_logo = true;
-var autoplay = "{$player_config.autoplay}";
-if (autoplay == 'no'){
-	autoplay = false;
-}else{
-	autoplay = true;
-}
+	var vid_id = "{$vdata.videoid}";
+	var videotitle = "{$vdata.title|escape_quotes}";
+	var uploader = "{$vdata.username}";
+	var branding_logo  = "{$cb_logo}";
+	var product_link = "{$player_config.player_logo_url}";
+	var show_logo = true;
+	var autoplay = "{$player_config.autoplay}";
+	var default_res = "{$default_quality}";
+	var timecomments = "{$cb_timecomments_plugin}";
+	var play_ad = "{$play_ad}"; //  Ad settings starts to pass on to player
+	if (play_ad){
+		var ad_code = "{$current_ad.ad_tag}";
+		var ad_id = "{$current_ad.ad_id}";
+	}
 
-
-//  Ad settings starts to pass on to player
-var play_ad = "{$play_ad}";
-if (play_ad){
-	var ad_code = "{$current_ad.ad_tag}";
-	var ad_id = "{$current_ad.ad_id}";
-}	
-
+	if (autoplay == 'no'){
+		autoplay = false;
+	}else{
+		autoplay = true;
+	}
 	//player settings
 	var cb_player_setup = {
 		plugins : { }, 
@@ -81,58 +75,72 @@ if (play_ad){
 		"autoplay": autoplay,
 		"preload": "auto",
 	};
-	
+
 	//Setting CallBack
 	var cb_vjs_callback = function(){
-			var cb_vjs = this;
-			//Calling Custom videoJs Elements Plugin
-			var el_options = {
-				logo : { 
-						branding_logo : branding_logo,
-					    product_link : product_link,
-					    show_logo : true 
-				},
-				header : { 
-						uploader : uploader,
-						videotitle : videotitle
-				}
+		var cb_vjs = this;
+		//Calling Custom videoJs Elements Plugin
+		var el_options = {
+			logo : { 
+					branding_logo : branding_logo,
+				    product_link : product_link,
+				    show_logo : true 
+			},
+			header : { 
+					uploader : uploader,
+					videotitle : videotitle
 			}
-			cb_vjs.cb_vjs_elements(el_options);
+		}
+		cb_vjs.cb_vjs_elements(el_options);
 
-			//Calling Resolution switcher plugin
-			var res_options = {
-				default : 'high',
-				dynamicLabel : false
+		//Calling Resolution switcher plugin
+		var res_options = {
+			default : default_res,
+			dynamicLabel : false
+		}
+		cb_vjs.videoJsResolutionSwitcher(res_options);
+
+		//Calling Resolution switcher plugin
+		if (play_ad){
+			var ad_options = {
+			  	ad_id: ad_id,
+			    ad_code: ad_code,
+			    autoplay: autoplay
+			};
+			cb_vjs.cb_ultimate_ads(ad_options);
+		}
+		
+		var  stateCheck = setInterval(function(){
+		  	if (document.readyState === 'complete') {
+		    	clearInterval(stateCheck);
+		  		var cbVjsMenuBtn = document.querySelector('.vjs-resolution-button');
+		  		if (cbVjsMenuBtn){
+		  			var cbVjsMenu = cbVjsMenuBtn.children[0];
+					var cbVjsMenuContent = cbVjsMenu.children[0];
+					var cbVjsMenuContentRes = cbVjsMenuContent.children;
+					
+					for (var i = 0; i < cbVjsMenuContentRes.length; i++ ){
+						cbVjsMenuContent.insertBefore(cbVjsMenuContentRes[i],cbVjsMenuContent.firstChild);
+					}
+		  		}
+		  	}
+		},100);  
+
+		if ( timecomments == 'installed' && timecomments != '' && typeof timecomments != 'undefined'){
+			var comments_settings = {
+				show : true
 			}
-			cb_vjs.videoJsResolutionSwitcher(res_options);
+			cb_vjs.timecomments(comments_settings);
+		}
 
-			//Calling Resolution switcher plugin
-			if (play_ad){
-				var ad_options = {
-				  	ad_id: ad_id,
-				    ad_code: ad_code,
-				    autoplay: autoplay
-				};
-				cb_vjs.cb_ultimate_ads(ad_options);
-			}	
+
 	}
 	//Initializing
 	var cb_player = videojs('cb_video_js', cb_player_setup , cb_vjs_callback);
-	
-	$(document).ready(function(){	
-		
-		// Editing Video Js > to be Improved in near Future ! 
-		/*var cb_vjs_settings = function(){
-			var cb_video_js = cb_player;
-			var is_this_player_muted = $.cookie("_this_player_muted");
-			if (is_this_player_muted == 'Muted' ){
-				$( ".vjs-mute-control" ).trigger( "click" );
-			}
-		}
-		
-		cb_vjs_settings();*/
-	});
-	
+    
+
+    
+
 </script>
 
 

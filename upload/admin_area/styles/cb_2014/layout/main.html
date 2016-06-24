@@ -216,9 +216,10 @@
 
           <select class="form-control" name="default_time_zone" id="default_time_zone">
             {$timezone_abbreviations = DateTimeZone::listAbbreviations()}
-           {foreach $timezone_abbreviations.est as $tz }
- 						<option value="{$tz['timezone_id']}" {if $row.default_time_zone==$tz['timezone_id']} selected="selected"{/if}>(GMT {$tz['offset']/3600}) {$tz['timezone_id']}</option>
-  				 
+           {foreach $timezone_abbreviations as $timeZone }
+                {foreach $timeZone as $tz}
+ 						<option value="{$tz['timezone_id']}" {if $row.default_time_zone==$tz['timezone_id']} selected="selected"{/if}>(GMT {round($tz['offset']/3600)}) {$tz['timezone_id']}</option>
+  				{/foreach}
 					{/foreach}
           </select>
         </div>
@@ -529,8 +530,8 @@
           </div>
 
           <div class="col-md-6">
-              <label for="adminPassword">Admin Password</label>
-              <input type="text" name="adminPassword" value="{$row.adminPassword}"></input>
+              <label for="youtube_api_key">YouTube API Key</label>
+              <input class="form-control" type="text" name="youtube_api_key" id="youtube_api_key" value="{$row.youtube_api_key}" placeholder="YouTube Data API 3 Key">
           </div>
 
           <div class="col-md-6">
@@ -880,10 +881,18 @@
       <div id="conversionsetttings" class="tab-pane">
           <h2>Conversion Settings</h2>
           <br>
+          <div class="row">
+            <div class="col-md-4">
+                <label for="num_thumbs">Number of thumbs</label>
+                <input class="form-control" name="num_thumbs" type="text" id="num_thumbs" value="{$row.num_thumbs}" size="45" />
+            </div>
+          </div>
+           <br>
           <span class="alert alert-info">
-              This Option has been diabled temporarily, you will be using upgraded 
+              Other fields has been diabled temporarily, you will be using upgraded 
               settings panel in upcoming releases.
           </span>
+
        <!--    <div class="row">
           <div class="col-md-4">
               <label for="normal_resolution">Normal video resolution</label>

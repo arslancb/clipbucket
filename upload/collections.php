@@ -71,6 +71,13 @@ $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,COLLPP);
 $clist = $cond;
 $clist['limit'] = $get_limit;
+if (!isSectionEnabled('photos') && isSectionEnabled('videos')) {
+	$clist['type'] = 'videos';
+} elseif (isSectionEnabled('photos') && !isSectionEnabled('videos')) {
+	$clist['type'] = 'photos';
+} elseif (!isSectionEnabled('photos') && !isSectionEnabled('videos')) {
+	$clist['type'] = 'none';
+}
 $collections = $cbcollection->get_collections($clist);
 
 Assign('collections', $collections);	
