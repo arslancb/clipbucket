@@ -399,7 +399,7 @@ class speakerquery extends CBCategory{
 				$test=$db->execute("DELETE FROM ".tbl("speakerfunction")." WHERE speaker_id='$id'");
 				$test2=$db->execute("DELETE FROM ".tbl("speaker")." WHERE id='$id'");
 				if (!$test2)
-					e(lang("Cant_del_linked_speaker_msg")." id=".$id,"e");
+					e(lang("cant_del_linked_speaker_msg")." id=".$id,"e");
 				else
 					e(lang("speaker_del_msg")." id=".$id,"m");
 		}else{

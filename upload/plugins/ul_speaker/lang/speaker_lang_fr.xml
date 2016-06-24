@@ -6,12 +6,12 @@
 		<speaker_manager>Gestion des intervenants</speaker_manager>
 		<speaker_already_exists>L'intervenant existe déjà</speaker_already_exists>
 		<speaker_does_not_exist>L'intervenant n'existe pas</speaker_does_not_exist>
-		<Cant_del_linked_speaker_msg>L'intervenant est associé avec au moins une vidéo et n'a pas été supprimé.</Cant_del_linked_speaker_msg>
+		<cant_del_linked_speaker_msg>L'intervenant est associé avec au moins une vidéo et n'a pas été supprimé.</cant_del_linked_speaker_msg>
 		<speaker_del_msg>Intervenant(s) supprimé(s) avec succès</speaker_del_msg>
 		<new_speaker_added>Intervenant ajouté</new_speaker_added>
 		<speaker_updated>Intervenant mis à jour avec succès</speaker_updated>
 		<no_speaker_selected>Aucun intervenant n'a été sélectionné</no_speaker_selected>
-		<Speakers>Intervenants</Speakers>
+		<speakers>Intervenants</speakers>
 		<add_new_speaker>Ajouter un intervenant</add_new_speaker>
 		<manage_speakers>Gérer les intervenants</manage_speakers>
 		<add_a_role>Ajouter un profil</add_a_role>

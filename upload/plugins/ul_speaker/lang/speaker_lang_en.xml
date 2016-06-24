@@ -6,12 +6,12 @@
 		<speaker_manager>Speaker Manager</speaker_manager>
 		<speaker_already_exists>Speaker already exists</speaker_already_exists>
 		<speaker_does_not_exist>Speaker does not exist</speaker_does_not_exist>
-		<Cant_del_linked_speaker_msg>Speaker is likned to almost one video and has not been deleted</Cant_del_linked_speaker_msg>
+		<cant_del_linked_speaker_msg>Speaker is likned to almost one video and has not been deleted</cant_del_linked_speaker_msg>
 		<speaker_del_msg>Speaker(s) succesfully deleted</speaker_del_msg>
 		<new_speaker_added>Speaker has been added</new_speaker_added>
 		<speaker_updated>Speaker succesfully updated</speaker_updated>
 		<no_speaker_selected>No speaker has been selected</no_speaker_selected>
-		<Speakers>Speakers</Speakers>
+		<speakers>Speakers</speakers>
 		<add_new_speaker>Add new speaker</add_new_speaker>
 		<manage_speakers>Manage speakers</manage_speakers>
 		<add_a_role>Add a role</add_a_role>
