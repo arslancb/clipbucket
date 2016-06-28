@@ -10,6 +10,16 @@
 {/if}
 <!-- End  -->
 
+<!-- Following is the code for cb timecomments plugin  -->
+{if $cb_timecomments_plugin == 'installed'}
+	{$timecomments = get_timeComments($vdata.videoid)}
+	{if (!empty($timecomments))}
+		{$timecomments = json_encode($timecomments)}
+		{*pr($timecomments,true)*}
+	{/if}
+{/if}
+<!-- End  -->
+
 <link rel="stylesheet" href="{$cb_vjs_player_url}/css/video-js.min.css">
 <link href="{$cb_vjs_player_url}/css/cb_vjs_plugin.css" rel="stylesheet">
 <link href="{$cb_vjs_player_url}/css/videojs.ads.css" rel="stylesheet">
@@ -24,7 +34,9 @@
 <script src="{$cb_vjs_player_url}/js/cb_vjs_custom.js"></script>
 <script src="{$cb_vjs_player_url}/js/cb_vjs_plugin.js"></script>
 <script src="{$cb_vjs_player_url}/js/cb_vjs_resolution.js"></script>
+{if $cb_timecomments_plugin == 'installed'}
 <script src="{$cb_vjs_player_url}/js/timecomments.js"></script>
+{/if}
 {if $play_ad == true}
 <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 {/if}
@@ -55,7 +67,14 @@
 	var show_logo = true;
 	var autoplay = "{$player_config.autoplay}";
 	var default_res = "{$default_quality}";
-	var timecomments = "{$cb_timecomments_plugin}";
+	
+	var cb_timecomments_plugin = "{$cb_timecomments_plugin}"; // timecomments settings
+	if (cb_timecomments_plugin){
+		var user_id = "{userid()}";
+		var username = "{username()}";
+		var user_profile  = "{$userquery->avatar('','m',userid())}";
+	}
+
 	var play_ad = "{$play_ad}"; //  Ad settings starts to pass on to player
 	if (play_ad){
 		var ad_code = "{$current_ad.ad_tag}";
@@ -110,6 +129,26 @@
 			cb_vjs.cb_ultimate_ads(ad_options);
 		}
 		
+		if ( cb_timecomments_plugin == 'installed'  && typeof cb_timecomments_plugin != 'undefined'){
+			
+			var timecomments = '{$timecomments}';
+			var comments_options = {
+				comments : timecomments,
+				dummy : false,
+				videoid : vid_id,
+				userid : user_id,
+				userprofile : user_profile,
+				username : username
+			}
+			cb_vjs.timecomments(comments_options);
+			if (typeof timecomments != 'undefined' && timecomments != ''){
+				console.log("Initialized Time Comments");
+			}else{
+				console.log("Time Comments are empty.. /");
+			}
+			
+		}
+
 		var  stateCheck = setInterval(function(){
 		  	if (document.readyState === 'complete') {
 		    	clearInterval(stateCheck);
@@ -125,13 +164,6 @@
 		  		}
 		  	}
 		},100);  
-
-		if ( timecomments == 'installed' && timecomments != '' && typeof timecomments != 'undefined'){
-			var comments_settings = {
-				show : true
-			}
-			cb_vjs.timecomments(comments_settings);
-		}
 
 
 	}
