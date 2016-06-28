@@ -360,7 +360,7 @@ $('#cover_info').show();
 	$('#container').on("click","#more-view-channel",function(){
 		loadHit = $(this).attr('dataHit');
 		loadLimit = $(this).attr('dataLimit');
-		user = "{$smarty.get.user}";
+		user = "{$user['userid']}";
 		totalVids = "{$total_videos}";
 		totalShown = loadHit * 9 - 9;
 		if (totalVids - totalShown <= 9) {

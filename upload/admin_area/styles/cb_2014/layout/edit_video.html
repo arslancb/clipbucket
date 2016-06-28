@@ -18,7 +18,7 @@
                 {else}
                 <li><a href="edit_video.php?video={$data.videoid}&amp;mode=deactivate">Deactivate</a></li>
                 {/if}
-                {if $data.featured!='yes'}
+                {if $modedata!='featured'}
                 <li><a href="edit_video.php?video={$data.videoid}&amp;mode=featured">Make Featured</a></li>
                 {else}
                 <li><a href="edit_video.php?video={$data.videoid}&amp;mode=unfeature">Make Unfeatured</a></li>
@@ -41,6 +41,7 @@
                 <br>
                 <span class="line-height-1 smaller-90"> Comments </span>
                 </span>-->
+
                 <span class="btn btn-app btn-sm btn-pink no-hover">
                 <span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
                 {else}<span class="glyphicon glyphicon-remove">{/if}</span>
@@ -48,12 +49,18 @@
                 <span class="line-height-1 smaller-90"> Active</span>
                 </span>
                 </span>
-          
+            
+                {*pr($data,true)*}
+               <!--  <span class="btn btn-app btn-sm btn-grey no-hover">
+                <span class="line-height-1"> {*if $data.featured!='yes'*}<span class="glyphicon glyphicon-remove"></span>
+                {*else*}<span class=" glyphicon glyphicon-ok smaller-90">{*/if*}</span> -->
 
-                <span class="btn btn-app btn-sm btn-grey no-hover">
-                <span class="line-height-1"> {if $data.featured!='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
-                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
                 <br>
+                 <span class="btn btn-app btn-sm btn-grey no-hover">
+                <span class="line-height-1"> {if $modedata!='featured'}<span class="glyphicon glyphicon-remove"></span>
+                {else}<span class=" glyphicon glyphicon-ok smaller-90">{/if}</span>
+                <br>
+
                 <span class="line-height-1 smaller-90">Featured</span>
                 </span>
                 </span>
