@@ -79,10 +79,14 @@ TimeComments.prototype.AddComment = function(){
 		var commentWrapper  = document.createElement('div');
 		commentWrapper.className = "comment-wrapper";
 
+		var innerWrapper  = document.createElement('div');
+		innerWrapper.className = "inner-wrapper";
+
 		Player_.insertBefore(commentBoxForm,controlBar_);
 		commentBoxForm.appendChild(commentWrapper);
-		commentWrapper.appendChild(commentData);
-		commentWrapper.appendChild(btnHolder);
+		commentWrapper.appendChild(innerWrapper);
+		innerWrapper.appendChild(commentData);
+		innerWrapper.appendChild(btnHolder);
 	}
 
 	var showCommentBox = function (){
@@ -186,6 +190,7 @@ TimeComments.prototype.GetTimeComments = function(dummy){
 					 	{"id":"6", "comment" : "This is Sixth comment","time" : "90.25635","avatar":"http://127.0.0.1/clipbucket-git/images/avatars/1.jpg"},
 					]
 	}else{
+		
 		comments = JSON.parse(timecomments.settings.comments);
 	}
 
