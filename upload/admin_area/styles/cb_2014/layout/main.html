@@ -152,7 +152,14 @@
           <textarea class="form-control" name="description" id="description" cols="45" rows="5">{$row.description}</textarea>
         </div>
           <div class="col-md-4">
-              <label for="">SEO Urls</label>
+              <label for="">Delete Mass upload</label>
+              <label class="pull-right inline">
+                  {$row.delete_mass_upload}
+                  <input value="yes"  name="delete_mass_upload" id="select2" {if $row.delete_mass_upload == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+                <span class="lbl"></span>
+              </label>
+              <hr>
+                 <label for="">SEO Urls</label>
               <label class="pull-right inline">
                   {$row.seo}
                   <input value="yes"  name="seo" id="select2" {if $row.seo == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
@@ -211,6 +218,7 @@
           <label for="date_format">Date Format</label>
           <input class="form-control" name="date_format" type="text" id="date_format" value="{$row.date_format}" size="45" />
         </div>
+
         <div class="col-md-4">
           <label for="default_time_zone">Default time zone</label>
 
