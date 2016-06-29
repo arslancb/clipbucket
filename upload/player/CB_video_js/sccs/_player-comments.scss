@@ -261,7 +261,7 @@
 			width: 16px;
 			height: 16px;
 			top: 2px;
-			left: 2px;
+			right: 2px;
 			border-radius: 50%;
 			background: #8f8f8f;
 			@include alltransition($ease-property: all, $ease-time: 0.4s, $ease: ease-in-out);
@@ -269,7 +269,7 @@
 		&.comment-off{
 			span{
 				background: #0080b4;
-				left: 20px;
+				right: 20px;
 			}
 		}
 	}
