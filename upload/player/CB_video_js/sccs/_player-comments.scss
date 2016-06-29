@@ -263,12 +263,12 @@
 			top: 2px;
 			right: 2px;
 			border-radius: 50%;
-			background: #8f8f8f;
+			background: #0080b4;
 			@include alltransition($ease-property: all, $ease-time: 0.4s, $ease: ease-in-out);
 		}
 		&.comment-off{
 			span{
-				background: #0080b4;
+				background: #8f8f8f;
 				right: 20px;
 			}
 		}
