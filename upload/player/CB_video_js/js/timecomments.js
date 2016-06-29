@@ -139,8 +139,18 @@ TimeComments.prototype.AddComment = function(){
 
 TimeComments.prototype.AddControlBArMenu = function(){
 	var timecomments = this;
-	var ControlBar = timecomments.player.controlBar;
-	console.log(ControlBar);
+	var controlBar = timecomments.player.controlBar.el_;
+	var controlBarChilds = controlBar.childNodes;
+	for (var i = 0; i < controlBarChilds.length; i++) {
+		if (controlBarChilds[i].id == 'vjs-cb-logo'){
+			cbVjsLogo = controlBarChilds[i];
+		}
+	}
+	var toggleCommentsView = document.createElement('div');
+	toggleCommentsView.id = "cb-vjs-togglecomments-view";
+	toggleCommentsView.className = "cb-vjs-togglecomments-view";
+	toggleCommentsView.innerHTML = "<span></span>";
+	controlBar.insertBefore(toggleCommentsView,cbVjsLogo);
 }
 
 TimeComments.prototype.setNewCommentTemp_ = function(comment,time){
