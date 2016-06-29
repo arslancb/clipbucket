@@ -56,7 +56,7 @@ TimeComments.prototype.AddComment = function(){
 
     	dataSetTime = mouseDisplay.dataset.currentTime;
     	mouseDisplay.style.display = "none";
-    	cTimeDisplay.innerHTML = dataSetTime+" | Add Comment ";
+    	cTimeDisplay.innerHTML = "<span class='cb-vjs-addcomment-clicker'>"+dataSetTime+" | Add Comment "+"</span>";
     
 		cTimeDisplay.style.left = mouseDisplay.style.left;
 	}
@@ -139,7 +139,8 @@ TimeComments.prototype.AddComment = function(){
 
 TimeComments.prototype.AddControlBArMenu = function(){
 	var timecomments = this;
-	timecomments.player.controlBar;
+	var ControlBar = timecomments.player.controlBar;
+	console.log(ControlBar);
 }
 
 TimeComments.prototype.setNewCommentTemp_ = function(comment,time){
