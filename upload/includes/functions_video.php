@@ -1853,7 +1853,7 @@
         $File_dir  = $input['file_dir'];
         $data      = $input['data'];
 
-        $PlogFilePath = BASEDIR. "/files/logs/".$File_dir."/".$File_name.".plog";
+        $PlogFilePath = FILES_DIR."/logs/".$File_dir."/".$File_name.".plog";
 
 
         if(file_exists($PlogFilePath)) {

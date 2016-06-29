@@ -2097,7 +2097,7 @@ class FFMpeg{
 
 	public function isConversionSuccessful(){
 		$str = "/".date("Y")."/".date("m")."/".date("d")."/";
-		$orig_file1 = BASEDIR.'/files/videos'.$str.$tmp_file.'-sd.'.$ext;
+		$orig_file1 = FILES_DIR.'/videos'.$str.$tmp_file.'-sd.'.$ext;
 		if ($size12 = "0") {
 			
 			return true;

@@ -10,15 +10,6 @@
 {/if}
 <!-- End  -->
 
-<!-- Following is the code for cb timecomments plugin  -->
-{if $cb_timecomments_plugin == 'installed'}
-	{$timecomments = get_timeComments($vdata.videoid)}
-	{if (!empty($timecomments))}
-		{$timecomments = json_encode($timecomments)}
-		{*pr($timecomments,true)*}
-	{/if}
-{/if}
-<!-- End  -->
 
 <link rel="stylesheet" href="{$cb_vjs_player_url}/css/video-js.min.css">
 <link href="{$cb_vjs_player_url}/css/cb_vjs_plugin.css" rel="stylesheet">

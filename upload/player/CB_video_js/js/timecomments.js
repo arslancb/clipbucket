@@ -18,6 +18,7 @@ TimeComments.prototype.init = function(){
 	}
 	
 	timecomments.AddComment();
+	timecomments.AddControlBArMenu();
 	timecomments.Structure();
 	timecomments.playPause();
 	timecomments.BindComments();
@@ -30,16 +31,16 @@ TimeComments.prototype.AddComment = function(){
 	var mouseDisplay     = progressControl_.children_[0].mouseTimeDisplay.el_;
 
 	var mouseDisplay_time    = "";
-	var mouseDisplay_left    = "";
+	var dataSetTime    = "";
 	var cTimeDisplay = "";
 	var commentBoxForm = "";
 
 	var commentTimeDisplay = function(){
 		cTimeDisplay = document.createElement('div');
 		cTimeDisplay.className = "cb-vjs-comments-display";
-		cTimeDisplay.innerHTML = "Add";
+	
 		cTimeDisplay.style.position =  'absolute';
-		cTimeDisplay.style.width =  '5px';
+		cTimeDisplay.style.width =  '2px';
 		cTimeDisplay.style.height =  '100%';
 		progressControl.firstChild.insertBefore(cTimeDisplay, mouseDisplay);
 	}
@@ -50,8 +51,16 @@ TimeComments.prototype.AddComment = function(){
     	var val = mouseTimeDisplay.calculateDistance(event) * duration;
     	var newTime = val.toFixed(2);
     	mouseDisplay_time = newTime;
-		mouseDisplay_left = mouseDisplay.style.left;
-		cTimeDisplay.style.left = mouseDisplay_left;
+
+    	if (mouseDisplay_time > timecomments.player.duration() || mouseDisplay_time == 0){
+    		hideAddComment();
+    	}
+
+    	dataSetTime = mouseDisplay.dataset.currentTime;
+    	mouseDisplay.style.display = "none";
+    	cTimeDisplay.innerHTML = "<span class='cb-vjs-addcomment-clicker'>"+dataSetTime+" | Add Comment "+"</span>";
+    
+		cTimeDisplay.style.left = mouseDisplay.style.left;
 	}
 
 	var showAddComment = function(){
@@ -79,10 +88,14 @@ TimeComments.prototype.AddComment = function(){
 		var commentWrapper  = document.createElement('div');
 		commentWrapper.className = "comment-wrapper";
 
+		var innerWrapper  = document.createElement('div');
+		innerWrapper.className = "inner-wrapper";
+
 		Player_.insertBefore(commentBoxForm,controlBar_);
 		commentBoxForm.appendChild(commentWrapper);
-		commentWrapper.appendChild(commentData);
-		commentWrapper.appendChild(btnHolder);
+		commentWrapper.appendChild(innerWrapper);
+		innerWrapper.appendChild(commentData);
+		innerWrapper.appendChild(btnHolder);
 	}
 
 	var showCommentBox = function (){
@@ -119,11 +132,28 @@ TimeComments.prototype.AddComment = function(){
 	setCommentBox();
 	commentTimeDisplay();
 	cTimeDisplay.addEventListener('click',showCommentBox);
-	progressControl.addEventListener("mouseenter", showAddComment);
-	progressControl.addEventListener("mouseleave", hideAddComment);
+	progressControl.addEventListener("mouseover", showAddComment);
+	progressControl.addEventListener("mouseout", hideAddComment);
+	/*cTimeDisplay.addEventListener('mouseleave',hideAddComment);*/
 	progressControl.addEventListener("mousemove", setCommentTime);
 	document.getElementById('timecomment-box-dismiss').addEventListener('click',dismissCommentBox);
 	document.getElementById('add-timecomment').addEventListener('click',sendComment);
+}
+
+TimeComments.prototype.AddControlBArMenu = function(){
+	var timecomments = this;
+	var controlBar = timecomments.player.controlBar.el_;
+	var controlBarChilds = controlBar.childNodes;
+	for (var i = 0; i < controlBarChilds.length; i++) {
+		if (controlBarChilds[i].id == 'vjs-cb-logo'){
+			cbVjsLogo = controlBarChilds[i];
+		}
+	}
+	var toggleCommentsView = document.createElement('div');
+	toggleCommentsView.id = "cb-vjs-togglecomments-view";
+	toggleCommentsView.className = "cb-vjs-togglecomments-view";
+	toggleCommentsView.innerHTML = "<span></span>";
+	controlBar.insertBefore(toggleCommentsView,cbVjsLogo);
 }
 
 TimeComments.prototype.setNewCommentTemp_ = function(comment,time){
@@ -186,6 +216,7 @@ TimeComments.prototype.GetTimeComments = function(dummy){
 					 	{"id":"6", "comment" : "This is Sixth comment","time" : "90.25635","avatar":"http://127.0.0.1/clipbucket-git/images/avatars/1.jpg"},
 					]
 	}else{
+		
 		comments = JSON.parse(timecomments.settings.comments);
 	}
 

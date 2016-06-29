@@ -75,7 +75,12 @@
     check_install('before');
 
     # file with details to connect to database
-    require_once('dbconnect.php');
+    if (isset($_GET['cdemo'])) {
+    	$file = "dbconnect_".$_GET['cdemo'].".php";
+    	require $file;
+    } else {
+    	require_once('dbconnect.php');
+    }
 
     # class for storing common ClipBucket functions
 	require_once('classes/ClipBucket.class.php');
@@ -653,6 +658,5 @@
 	# Other settings
 	define("SEND_COMMENT_NOTIFICATION",config("send_comment_notification"));
 	define("SEND_VID_APPROVE_EMAIL",config("approve_video_notification"));
-		
-	$hlp = new clip_helper();
+
 ?>
