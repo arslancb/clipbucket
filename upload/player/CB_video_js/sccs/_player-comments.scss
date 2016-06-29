@@ -202,5 +202,44 @@
 			}
 		}
 	}
-	
+}
+.video-js{
+	.cb-vjs-comments-display{
+		background: #fff;
+		z-index: 2;
+		.cb-vjs-addcomment-clicker{
+			position: absolute;
+			width: 132px;
+			height: 26px;
+			padding: 5px;
+			background: #fff;
+			bottom: 17px;
+			left: -65px;
+			z-index: 2;
+			font-size: 12px;
+			line-height: 16px;
+			color: #000;
+			&:after {
+				top: 100%;
+				left: 50%;
+				border: solid transparent;
+				content: "";
+				height: 0;
+				width: 0;
+				position: absolute;
+				z-index: 2;
+				pointer-events: none;
+				border-color: rgba(255, 255, 255, 0);
+				border-top-color: #fff;
+				border-width: 6px;
+				margin-left: -6px;
+			}
+		}
+	}
+	.vjs-progress-control:hover .vjs-progress-holder{
+		.cb-vjs-addcomment-clicker{
+			font-size: 12px;
+			line-height: 16px;
+		}
+	}
 }
