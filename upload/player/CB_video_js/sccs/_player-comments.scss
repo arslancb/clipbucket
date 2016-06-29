@@ -103,3 +103,79 @@
 @keyframes lefttoright {
 	@include lefttoright();
 }
+
+.cb-vjs-timecomment-form {
+	top: 0;
+	left: 0;
+	position: absolute;
+	display: table;
+	height: 100%;
+	width: 100%;
+	z-index: 20;
+	&.open-comment {
+		
+	}
+	.comment-wrapper {
+		display: table-cell;
+		vertical-align: middle;
+		width: 100%;
+		text-align: center;
+		padding: 0 10px;
+		.inner-wrapper {
+			max-width: 550px;
+			width: 100%;
+			display: inline-block;
+			padding: 20px;
+			background-color: rgba(255,255,255, .9);
+			overflow: hidden;
+			.cb-vjs-comment-data {
+				overflow: hidden;
+				position: relative;
+				padding: 0 0 12px 84px;
+				img {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 64px;
+					height: 64px;
+					border-radius: 32px;
+				}
+				textarea {
+					width: 100%;
+					border: 1px solid #d9d9d9;
+					color: #bdbdbd; 
+					height: 140px;
+					padding: 20px;
+					resize:none;
+					&:focus,
+					&:active {
+						border: 1px solid #d9d9d9;
+					}
+				}
+			}
+			.cb-vjs-comments-btn-holder {
+				text-align: right;
+				overflow: hidden;
+				span {
+					background-color: rgba(255,255,255, 1);
+					border: 1px solid #d9d9d9;
+					width: 130px;
+					font-size: 16px;
+					line-height: 16px;
+					padding: 8px 0;
+					margin: 0 0 0 8px;
+					display: inline-block;
+					color: #000;
+					text-align: center;
+					cursor: pointer;
+					&.add-timecomment {
+						background-color: #0080b4; 
+						color: #fff;
+						border: 1px solid #0080b4;
+					}
+				}
+			}
+		}
+	}
+	
+}
