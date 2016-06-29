@@ -12,6 +12,25 @@
 	-o-animation: $name $duration $ease;
 	animation: $name $duration $ease;
 }
+@mixin scale ($factor) {
+	-webkit-transform: scale($factor);
+	-moz-transform: 	 scale($factor);
+	-ms-transform: 		 scale($factor);
+	-o-transform: 		 scale($factor);
+}
+@mixin rotate ($deg) {
+	-webkit-transform: rotate($deg);
+	-moz-transform: 	 rotate($deg);
+	-ms-transform: 		 rotate($deg);
+	-o-transform: 		 rotate($deg);
+}
+@mixin translate ($x, $y:0) {
+	-webkit-transform:       translate($x, $y);
+	-moz-transform: 	 translate($x, $y);
+	-ms-transform: 		 translate($x, $y);
+	-o-transform: 		 translate($x, $y);
+}
+
 .video-js{
 	#cb-vjs-comments{
 		overflow: hidden;
@@ -111,9 +130,13 @@
 	display: table;
 	height: 100%;
 	width: 100%;
-	z-index: 20;
+	z-index: 4;
+	opacity: 0;
+	@include scale ($factor:0);
+	@include alltransition($ease-property: all, $ease-time: 0.6s, $ease: ease-in-out);
 	&.open-comment {
-		
+		opacity: 1;
+		@include scale ($factor:1);
 	}
 	.comment-wrapper {
 		display: table-cell;
@@ -149,7 +172,7 @@
 					resize:none;
 					&:focus,
 					&:active {
-						border: 1px solid #d9d9d9;
+						outline: none;
 					}
 				}
 			}
@@ -157,14 +180,16 @@
 				text-align: right;
 				overflow: hidden;
 				span {
-					background-color: rgba(255,255,255, 1);
-					border: 1px solid #d9d9d9;
+					background:#fff;
+					border: 1px solid #e4e3e3;
 					width: 130px;
 					font-size: 16px;
 					line-height: 16px;
 					padding: 8px 0;
 					margin: 0 0 0 8px;
 					display: inline-block;
+					vertical-align: middle;
+					border-radius: 4px;
 					color: #000;
 					text-align: center;
 					cursor: pointer;
