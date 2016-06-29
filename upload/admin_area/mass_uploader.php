@@ -11,7 +11,8 @@ require_once '../includes/admin_config.php';
 require_once(dirname(dirname(__FILE__))."/includes/classes/sLog.php");
 $userquery->admin_login_check();
 $pages->page_redir();
-
+global $Cbucket;
+$mass_upload_config = config('delete_mass_upload');
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
 	define('MAIN_PAGE', 'Videos');
@@ -23,7 +24,17 @@ if(!defined('SUB_PAGE')){
 global $cbvid;
 $cats = $cbvid->get_categories();
 $total_cats = count($cats);
+$category_names = array();
+for ($i=0; $i < $total_cats ; $i++) { 
+	$category_values = $cats[$i]['category_id'];
+	$category_names[$category_values] = $cats[$i]['category_name'];
+}
+//pr($category_names,true);
+assign("cats",$cats);
+assign("cat_values",$category_values);
 assign("total_cats",$total_cats);
+
+
 if(isset($_POST['mass_upload_video']))
 {
 	$files = $cbmass->get_video_files();
@@ -33,7 +44,9 @@ if(isset($_POST['mass_upload_video']))
 	{	
 		$file_key = time().RandomString(5);
 		$file_arr = $files[$i];
-		
+		$file_path = $files[$i]['path'];
+		$file_orgname = $files[$i]['file'];
+	
 		if($cbmass->is_mass_file($file_arr))
 		{
 			$code = $i+1;
@@ -94,7 +107,17 @@ if(isset($_POST['mass_upload_video']))
 				}
 				
 			}
-
+			if($mass_upload_config == 'no') {
+				if(!file_exists($file_path.'processed')){
+					$oldmask = umask(0);
+					mkdir($file_path.'processed', 0777);
+					umask($oldmask);
+				}
+				rename($file_path.$file_orgname, $file_path.'processed/'.$file_orgname);
+			}
+			else{
+				unlink($file_path.$file_orgname);
+			}
 		}
 	}
 }
