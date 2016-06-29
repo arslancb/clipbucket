@@ -36,13 +36,11 @@ TimeComments.prototype.AddComment = function(){
 	var commentBoxForm = "";
 
 	var commentTimeDisplay = function(){
-		/*console.log(mouseDisplay);
-		console.log(mouseDisplay.dataset.currentTime);*/
 		cTimeDisplay = document.createElement('div');
 		cTimeDisplay.className = "cb-vjs-comments-display";
-		cTimeDisplay.innerHTML = "Add";
+	
 		cTimeDisplay.style.position =  'absolute';
-		cTimeDisplay.style.width =  '100px';
+		cTimeDisplay.style.width =  '2px';
 		cTimeDisplay.style.height =  '100%';
 		progressControl.firstChild.insertBefore(cTimeDisplay, mouseDisplay);
 	}
@@ -53,6 +51,10 @@ TimeComments.prototype.AddComment = function(){
     	var val = mouseTimeDisplay.calculateDistance(event) * duration;
     	var newTime = val.toFixed(2);
     	mouseDisplay_time = newTime;
+
+    	if (mouseDisplay_time > timecomments.player.duration() || mouseDisplay_time == 0){
+    		hideAddComment();
+    	}
 
     	dataSetTime = mouseDisplay.dataset.currentTime;
     	mouseDisplay.style.display = "none";
@@ -130,8 +132,9 @@ TimeComments.prototype.AddComment = function(){
 	setCommentBox();
 	commentTimeDisplay();
 	cTimeDisplay.addEventListener('click',showCommentBox);
-	progressControl.addEventListener("mouseenter", showAddComment);
-	progressControl.addEventListener("mouseleave", hideAddComment);
+	progressControl.addEventListener("mouseover", showAddComment);
+	progressControl.addEventListener("mouseout", hideAddComment);
+	/*cTimeDisplay.addEventListener('mouseleave',hideAddComment);*/
 	progressControl.addEventListener("mousemove", setCommentTime);
 	document.getElementById('timecomment-box-dismiss').addEventListener('click',dismissCommentBox);
 	document.getElementById('add-timecomment').addEventListener('click',sendComment);
