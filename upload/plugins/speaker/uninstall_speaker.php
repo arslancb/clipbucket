@@ -2,11 +2,11 @@
 require_once('../includes/common.php');
 
 /**____________________________________
- * uninstall_ul_speaker
+ * uninstall_speaker
  * ____________________________________
  *Remove speaker table from the database 
  */
-function uninstall_ul_speaker()	{
+function uninstall_speaker()	{
 		global $db;
 		$db->Execute(
 		'DROP TABLE  IF EXISTS '.tbl("speaker").''
@@ -14,11 +14,11 @@ function uninstall_ul_speaker()	{
 	}
 	
 /**____________________________________
- * uninstall_ul_speakerfunction
+ * uninstall_speakerfunction
  * ____________________________________
  *Remove speakerfunction table from the database 
  */
-	function uninstall_ul_speakerfunction() {
+	function uninstall_speakerfunction() {
 	global $db;
 	$db->Execute(
 	'DROP TABLE  IF EXISTS '.tbl("speakerfunction").''
@@ -26,11 +26,11 @@ function uninstall_ul_speaker()	{
 }
 
 /**____________________________________
- * uninstall_ul_video_speaker
+ * uninstall_video_speaker
  * ____________________________________
  *Remove video_speaker table from the database 
  */
-function uninstall_ul_video_speaker()
+function uninstall_video_speaker()
 {
 	global $db;
 	$db->Execute(
@@ -39,14 +39,14 @@ function uninstall_ul_video_speaker()
 }
 
 /**____________________________________
- * remove_ul_speaker_langage_pack
+ * remove_speaker_langage_pack
  * ____________________________________
  *Remove the plugin language data from the "phrases" database table. Read 
  *inserted keys in the corresponding xml language pack 
  *e
  *input $lang : iso code of the pack to import (ie: 'en')
  */
-function remove_ul_speaker_langage_pack($lang){
+function remove_speaker_langage_pack($lang){
 	global $db,$lang_obj;
 	$folder= PLUG_DIR.'/'.basename(dirname(__FILE__))."/lang";
 	$file_name = $folder.'/speaker_lang_'.$lang.'.xml';
@@ -79,9 +79,9 @@ function remove_ul_speaker_langage_pack($lang){
 	}
 }
 
-uninstall_ul_video_speaker();
-uninstall_ul_speakerfunction();
-uninstall_ul_speaker();
-remove_ul_speaker_langage_pack('fr');
-remove_ul_speaker_langage_pack('en');
+uninstall_video_speaker();
+uninstall_speakerfunction();
+uninstall_speaker();
+remove_speaker_langage_pack('fr');
+remove_speaker_langage_pack('en');
 ?>

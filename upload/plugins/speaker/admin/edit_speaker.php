@@ -1,5 +1,5 @@
 <?php
-require_once UL_SPEAKER_DIR.'/speaker_class.php';
+require_once SPEAKER_DIR.'/speaker_class.php';
 // Check if user has admin acces
 $userquery->admin_login_check();
 // Check that doesn't work on plugis
@@ -37,5 +37,5 @@ if ($details){
 
 //error_reporting(E_ERROR & E_WARNING & E_STRING);
 //ini_set('display_errors', True);
-template_files('edit_speaker.html',UL_SPEAKER_ADMIN_DIR);
+template_files('edit_speaker.html',SPEAKER_ADMIN_DIR);
 ?>

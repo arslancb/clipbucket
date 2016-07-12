@@ -40,7 +40,7 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-9">
-                        <a href="{$ul_speaker_editpage}&id={$u.id}" class="oneUserName">{$u.firstname} {$u.lastname} </a>
+                        <a href="{$speaker_editpage}&id={$u.id}" class="oneUserName">{$u.firstname} {$u.lastname} </a>
                         <span>[{$u.slug}]</span>
                     </div>
                 </div>
@@ -52,9 +52,9 @@
         {lang('actions')}<i class="icon-angle-down icon-on-right"></i>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
-         <li><a role="menuitem" tabindex="-1" href="{$ul_speaker_editpage}&id={$u.id}">{lang('edit')}</a></li>
+         <li><a role="menuitem" tabindex="-1" href="{$speaker_editpage}&id={$u.id}">{lang('edit')}</a></li>
         <li class="divider"></li>
-        <li><a role="menuitem" tabindex="-1" href="{$ul_speaker_managepage}&delete_speaker={$u.id}">{lang('delete')}</a></li>
+        <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&delete_speaker={$u.id}">{lang('delete')}</a></li>
       </ul>
     </div>
     </td>

@@ -1,5 +1,5 @@
 <?php
-require_once UL_SPEAKER_DIR.'/speaker_class.php';
+require_once SPEAKER_DIR.'/speaker_class.php';
 // Check if user has admin acces
 $userquery->admin_login_check();
 // Check that doesn't work on plugis
@@ -27,5 +27,5 @@ if(isset($_POST['search_speaker'])){
 	$speakerquery->search_speaker($_POST);	
 }
 
-template_files('add_speaker.html',UL_SPEAKER_ADMIN_DIR);
+template_files('add_speaker.html',SPEAKER_ADMIN_DIR);
 ?>

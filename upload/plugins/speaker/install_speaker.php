@@ -2,11 +2,11 @@
 require_once('../includes/common.php');
 
 /**____________________________________
- * install_ul_speaker
+ * install_speaker
  * ____________________________________
  *Creating Table for video speakers if not exists 
  */
-function install_ul_speaker() {
+function install_speaker() {
 	global $db;
 	$db->Execute(
 		'CREATE TABLE IF NOT EXISTS '.tbl("speaker").' (
@@ -21,11 +21,11 @@ function install_ul_speaker() {
 
 
 /**____________________________________
- * install_ul_speakerfunction
+ * install_speakerfunction
  * ____________________________________
  *Creating Table for video speaker Role if not exists 
  */
-function install_ul_speakerfunction() {
+function install_speakerfunction() {
 	global $db;
 	$db->Execute(
 		'CREATE TABLE IF NOT EXISTS '.tbl("speakerfunction").' (
@@ -43,11 +43,11 @@ function install_ul_speakerfunction() {
 
 
 /**____________________________________
- * install_ul_video_speaker
+ * install_video_speaker
  * ____________________________________
  *Creating Table for video speaker Role if not exists 
  */
-function install_ul_video_speaker() {
+function install_video_speaker() {
 	global $db;
 	$db->Execute(
 		'CREATE TABLE IF NOT EXISTS '.tbl("video_speaker").' (
@@ -69,14 +69,14 @@ function install_ul_video_speaker() {
 }
 
 /**____________________________________
- * import_ul_speaker_langage_pack
+ * import_speaker_langage_pack
  * ____________________________________
  *Import language data from an xml file called  "speaker_lang_XX.xml" where "XX" is 
  *the language iso code. The file must be placed in then "lang" subfolder of the plugin.
  *
  *input $lang : iso code of the pack to import (ie: 'en')
  */
-function import_ul_speaker_langage_pack($lang){
+function import_speaker_langage_pack($lang){
 	global $db,$lang_obj;
 	$folder= PLUG_DIR.'/'.basename(dirname(__FILE__))."/lang";
 	$file_name = $folder.'/speaker_lang_'.$lang.'.xml';
@@ -113,9 +113,9 @@ function import_ul_speaker_langage_pack($lang){
 	}
 }
 
-install_ul_speaker();
-install_ul_speakerfunction();
-install_ul_video_speaker();
-import_ul_speaker_langage_pack('fr');
-import_ul_speaker_langage_pack('en');
+install_speaker();
+install_speakerfunction();
+install_video_speaker();
+import_speaker_langage_pack('fr');
+import_speaker_langage_pack('en');
 ?>

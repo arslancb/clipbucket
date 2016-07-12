@@ -58,15 +58,6 @@ class extend_video extends CBvideo {
 	 *This method initilize th instance of extend_video
 	 */	
 	function init_search(){
-		
-		//temporary add of speakers tables in this plugin
-		$this->reqTbls[]='speaker';
-		$this->reqTbls[]='speakerfunction';
-		$this->reqTbls[]='video_speaker';
-		$this->reqTblsJoin[]=array('table1'=>'speaker', 'field1'=>'id','table2'=>'speakerfunction','field2'=>'speaker_id');
-		$this->reqTblsJoin[]=array('table1'=>'speakerfunction', 'field1'=>'id','table2'=>'video_speaker','field2'=>'speakerfunction_id');
-		$this->reqTblsJoin[]=array('table1'=>'video_speaker', 'field1'=>'video_id','table2'=>'video','field2'=>'videoid');
-		
 		parent::init_search();
 		$search=new extend_search();
 		$this->cloneValues($this->search,$search);
@@ -75,10 +66,9 @@ class extend_video extends CBvideo {
 		$this->search->reqTblsJoin=$this->reqTblsJoin;
 		//var_dump(get_object_vars($this->search));
 		$this->search->columns[]=array('field'=>'description','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
-		
-		//temporary add of speakers tables in this plugin
-		$this->search->columns[]=array('table'=>'speaker', 'field'=>'firstname','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
-		$this->search->columns[]=array('table'=>'speaker', 'field'=>'lastname','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
+		foreach ($this->columns as $column) {
+			$this->search->columns[]=$column;
+		}
 	}
 	
 }

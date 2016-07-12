@@ -174,7 +174,7 @@ class speakerquery extends CBCategory{
 	}
 	
 	/**_____________________________________
-	 * import_ul_speaker_langage_pack
+	 * search_speaker
 	 * ____________________________________
 	 *Function used to test if a speakers exists testing the existance of  firstname & lastname fields
 	 * 

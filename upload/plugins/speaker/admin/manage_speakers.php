@@ -1,5 +1,5 @@
 <?php
-require_once UL_SPEAKER_DIR.'/speaker_class.php';
+require_once SPEAKER_DIR.'/speaker_class.php';
 // Check if user has admin acces
 $userquery->admin_login_check();
 // Check that doesn't work on plugis
@@ -63,5 +63,5 @@ $total_pages = count_pages($total_rows,RESULTS);
 $pages->paginate($total_pages,$page);
 
 
-template_files('manage_speakers.html',UL_SPEAKER_ADMIN_DIR);
+template_files('manage_speakers.html',SPEAKER_ADMIN_DIR);
 ?>

@@ -11,22 +11,23 @@
  
 // Define Plugin's uri constants
 define("SITE_MODE",'/admin_area');
-define('UL_SPEAKER_BASE',basename(dirname(__FILE__)));
-define('UL_SPEAKER_DIR',PLUG_DIR.'/'.UL_SPEAKER_BASE);
-define('UL_SPEAKER_URL',PLUG_URL.'/'.UL_SPEAKER_BASE);
-define('UL_SPEAKER_ADMIN_DIR',UL_SPEAKER_DIR.'/admin');
-define('UL_SPEAKER_ADMIN_URL',UL_SPEAKER_URL.'/admin');
-define("UL_SPEAKER_EDITPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".UL_SPEAKER_BASE."/admin&file=edit_speaker.php");
-assign("ul_speaker_editpage",UL_SPEAKER_EDITPAGE_URL);
-define("UL_SPEAKER_MANAGEPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".UL_SPEAKER_BASE."/admin&file=manage_speakers.php");
-assign("ul_speaker_managepage",UL_SPEAKER_MANAGEPAGE_URL);
-define("UL_SPEAKER_LINKPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".UL_SPEAKER_BASE."/admin&file=link_speaker.php");
-assign("ul_speaker_linkpage",UL_SPEAKER_LINKPAGE_URL);
-require UL_SPEAKER_DIR.'/speaker_class.php';
+define('SPEAKER_BASE',basename(dirname(__FILE__)));
+define('SPEAKER_DIR',PLUG_DIR.'/'.SPEAKER_BASE);
+define('SPEAKER_URL',PLUG_URL.'/'.SPEAKER_BASE);
+define('SPEAKER_ADMIN_DIR',SPEAKER_DIR.'/admin');
+define('SPEAKER_ADMIN_URL',SPEAKER_URL.'/admin');
+define("SPEAKER_EDITPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".SPEAKER_BASE."/admin&file=edit_speaker.php");
+assign("speaker_editpage",SPEAKER_EDITPAGE_URL);
+define("SPEAKER_MANAGEPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".SPEAKER_BASE."/admin&file=manage_speakers.php");
+assign("speaker_managepage",SPEAKER_MANAGEPAGE_URL);
+define("SPEAKER_LINKPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".SPEAKER_BASE."/admin&file=link_speaker.php");
+assign("speaker_linkpage",SPEAKER_LINKPAGE_URL);
+require SPEAKER_DIR.'/speaker_class.php';
 
-// Anchor used to display speakers into a video description
+/**
+ * Défine the Anchor to display speakers into description of a video main page 
+ */
 if(!function_exists('speaker_list')){
-	
 	function speaker_list($data){
 		global $speakerquery;
 		$data["selected"]="yes";
@@ -40,19 +41,41 @@ if(!function_exists('speaker_list')){
 	}
 	// use {ANCHOR place="speaker_list" data=$video} to display the formatted list above
 	register_anchor_function('speaker_list','speaker_list');
-	/*if(test())
-		register_custom_form_field(test());*/
 }	
 
-// NewEntry for video administration menu
+/**
+ * Connect Speaker Plugin to extend_search plugin if extend_search is installed
+ */
+global $cbplugin;
+if ($cbplugin->is_installed('extend_search.php')){
+	require_once PLUG_DIR.'/extend_search/extend_search.php';
+	global $cbvidext;
+	//add tables for this plugin in extended search plugin
+	$cbvidext->reqTbls[]='speaker';
+	$cbvidext->reqTbls[]='speakerfunction';
+	$cbvidext->reqTbls[]='video_speaker';
+	//add tables associations for this plugin in extended search plugin
+	$cbvidext->reqTblsJoin[]=array('table1'=>'speaker', 'field1'=>'id','table2'=>'speakerfunction','field2'=>'speaker_id');
+	$cbvidext->reqTblsJoin[]=array('table1'=>'speakerfunction', 'field1'=>'id','table2'=>'video_speaker','field2'=>'speakerfunction_id');
+	$cbvidext->reqTblsJoin[]=array('table1'=>'video_speaker', 'field1'=>'video_id','table2'=>'video','field2'=>'videoid');
+	//add search fields for this plugin in extended search plugin
+	$cbvidext->columns[]=array('table'=>'speaker', 'field'=>'firstname','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
+	$cbvidext->columns[]=array('table'=>'speaker', 'field'=>'lastname','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
+}
+
+/**
+ * Add a new entry into the video manager menu
+ */
 function addLinkSpeakerMenuEntry($vid){
 	$idtmp=$vid['videoid'];
-	return '<li><a role="menuitem" href="'.UL_SPEAKER_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("speaker_link").'</a></li>';
+	return '<li><a role="menuitem" href="'.SPEAKER_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("speaker_link").'</a></li>';
 }
 	
-// Add entries for the plugin in the administration pages
-add_admin_menu(lang('speakers'),lang('add_new_speaker'),'add_speaker.php',UL_SPEAKER_BASE.'/admin');
-add_admin_menu(lang('speakers'),lang('manage_speakers'),'manage_speakers.php',UL_SPEAKER_BASE.'/admin');
+/**
+ * Add entries for the plugin in the administration pages
+ */
+add_admin_menu(lang('speakers'),lang('add_new_speaker'),'add_speaker.php',SPEAKER_BASE.'/admin');
+add_admin_menu(lang('speakers'),lang('manage_speakers'),'manage_speakers.php',SPEAKER_BASE.'/admin');
 $cbvid->video_manager_link[]='addLinkSpeakerMenuEntry';
 	
 ?>

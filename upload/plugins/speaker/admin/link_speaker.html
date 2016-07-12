@@ -1,7 +1,7 @@
 {if $unlinkedspeakers}
 <!-- Displaying Members -->
 <div class="heading">
-	<h2>{lang('link_speakers_to_video nb')}{$video.videoid}</h2>
+	<h2>{lang('link_speakers_to_video')}{$video.videoid}</h2>
 </div>
 <div><span class="btn btn-primary" onclick="toggle_search('searchdiv')" >{lang('filter')}</span></div>
 <br/>
@@ -42,7 +42,7 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-9">
-                        <a href="{$ul_speaker_editpage}&id={$u.sid}" target="_blank" class="oneUserName">{$u.firstname} {$u.lastname} </a>
+                        <a href="{$speaker_editpage}&id={$u.sid}" target="_blank" class="oneUserName">{$u.firstname} {$u.lastname} </a>
                         <span>[{$u.description}]</span>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-9">
-                        <a href="{$ul_speaker_editpage}&id={$u.sid}" target="_blank" class="oneUserName">{$u.firstname} {$u.lastname} </a>
+                        <a href="{$speaker_editpage}&id={$u.sid}" target="_blank" class="oneUserName">{$u.firstname} {$u.lastname} </a>
                         <span>[{$u.description}]</span>
                     </div>
                 </div>
