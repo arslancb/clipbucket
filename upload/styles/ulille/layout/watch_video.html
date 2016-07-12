@@ -76,13 +76,15 @@
 						</ul>
 					</section>
 					<aside id="video-metas" class="col-sm-4 col-xs-12">
+						{if function_exists('speaker_list')}
 						<div class="entry speakers">
 							<h4>Intervenants</h4>
 							<ul class="list">
-							{ANCHOR place="speaker_list" data=$video}
+								{ANCHOR place="speaker_list" data=$video}
 								<!--li><a href="#">???</a><span>?</span></li-->
 							</ul>
 						</div>
+						{/if}
 						<div class="entry tags">
 							<h4>Tags</h4>
 							{$vdo.tags|tags:videos} </div>
