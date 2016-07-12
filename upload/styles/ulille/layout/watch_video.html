@@ -1,0 +1,221 @@
+{$video=$vdo}
+{$type='video'}
+<div id="player-container" class="clearfix" role="main">
+	<div class="row">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 html5_player_enlarge">
+			<div id="cb_player" class="no-pad cb_player video-player card wide"> {FlashPlayer vdetails=$video width='100%' height='100%'} </div>
+			<!-- cb_player end --> 
+			{if has_access('admin_access')}
+			<div class="card edit-tools">
+				<div class="row">
+					<div class="col-xs-12"> <a class="btn btn-primary btn-xs" target="_blank" href="{$admin_baseurl}/edit_video.php?video={$video.videoid}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;{lang code='edit-meta'}</a> </div>
+				</div>
+			</div>
+			{/if} 
+			<!-- YB type / titre / share / meta -->
+			<article id="video-card" class="card">
+				<header>
+					<div class="video-type clearfix"> {$video.category|categories:video}
+						<!--YB signaler la video show_flag_form id=$vdo.videoid type=video-->
+						<button type="button" class="btn btn-success btn-xs share-btn pull-right" data-toggle="modal" data-target="#shareModal"><span class="fa fa-share-alt"></span>&nbsp;{lang code='share'}</button>
+					</div>
+					<h2 class="reset">{$video.title}</h2>
+					<!-- ajouter |niceTime derrière une date pour afficher "il y a X années" au lieu de Y-m-d-->
+					<div class="entry date-duration"><b>{$video.datecreated|date_format:"%d %B %Y %R"|upper}</b> | Durée <b>{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</b> | Vues <b>{$vdo.views|number_format}</b></div>
+				</header>
+				<div class="more">
+					<button id="extend-button" class="btn btn-link btn-sm" type="button" data-toggle="collapse" data-target="#collapseMetas" aria-expanded="true" aria-controls="collapseMetas"><span class="glyphicon glyphicon-triangle-bottom"></span> infos</button>
+				</div>
+				<div class="collapse row" id="collapseMetas" aria-expanded="false">
+					<section class="col-sm-8 col-xs-12">
+						<p>{description($video.description)|description}</p>
+						<ul class="documents nolist well">
+							<li>
+								<h5><span class="glyphicon glyphicon glyphicon-download-alt"></span> Téléchargements</h5>
+								<ul class="reset nolist">
+									<!-- <li>
+					YB if downloadable
+					{if $Cbucket->configs.video_download==1 && $cbvid->downloadable($vdo)}
+                                <div class="dropdown col-lg-12 pull-right no-padding text-right">
+                                  <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" style="margin-top: 10px;">
+                                    Download
+                                        <span class="caret"></span>
+                                  </button>
+                                  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                  {$files = get_video_files($vdo,true,true)}
+                                  {foreach $files as $file}
+                                  {$quality = explode('-',$file)}
+                                  {$quality = explode('.',$quality.1)}
+                                  {$file_quality = $quality.0}
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="{$file}"  download>
+                                        <span class="glyphicon glyphicon-download-alt"></span>{$file_quality}</a>
+                                        
+                                    </li>
+                                  {/foreach}
+                                  </ul>
+                                </div>
+                                {/if}
+					</li> -->
+									<li><a href="#"><span class="glyphicon glyphicon glyphicon-phone"></span> MP4</a></li>
+									<li><a href="#"><span class="glyphicon glyphicon glyphicon-headphones"></span> MP3</a></li>
+								</ul>
+							</li>
+							<li>
+								<h5><span class="glyphicon glyphicon glyphicon-file"></span> Documents</h5>
+								<ul class="reset nolist">
+									<li><span class="no-link">#</span></li>
+								</ul>
+							</li>
+							<li>
+								<h5><span class="glyphicon glyphicon glyphicon-link"></span> Liens</h5>
+								<ul class="reset nolist">
+									<li><a href="#">#</a></li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<aside id="video-metas" class="col-sm-4 col-xs-12">
+						<div class="entry speakers">
+							<h4>Intervenants</h4>
+							<ul class="list">
+							{ANCHOR place="speaker_list" data=$video}
+								<li><a href="#">???</a><span>?</span></li>
+							</ul>
+						</div>
+						<div class="entry tags">
+							<h4>Tags</h4>
+							{$vdo.tags|tags:videos} </div>
+						<div class="entry collections">
+							<h4>Collections</h4>
+							<p><a href="#"><span class="glyphicon glyphicon-bookmark"></span> ???</a></p>
+						</div>
+						<div class="entry themes">
+							<h4>Thématique</h4>
+							<p><a href="#"><span class="glyphicon glyphicon-education"></span> ???</a></p>
+						</div>
+					</aside>
+				</div>
+			</article>
+			<!-- YB vidéos connexes -->
+			<footer class="card">
+				<h3 class="reset">Vidéos connexes</h3>
+				<div class="related">
+					{assign var="current_title" value=$video.title|lower|escape:htmlall:'UTF-8'|regex_replace:'/&(.)(acute|grave|circ|uml|cedil|ring|tilde|slash);/':'\1'}
+					{assign var="current_tags" value=$video.tags}
+					{assign var="current_id" value=$video.videoid}
+					{$related=get_videos(['limit' => 4, 'show_related' => 'yes', 'title' => $current_title, 'tags' => $current_tags, 'exclude' => $current_id, 'order' => 'RAND()' ])}
+					{if $related}
+					{section name=ft_list loop=$related}
+						{include file="$style_dir/blocks/common/thumb.html" video=$related[ft_list]}
+					{/section}
+					{else}
+					<div class="well well-sm"><i>{lang code='no_results_found'}</i></div>
+					{/if}
+				</div>
+			</footer>
+		</div>
+	</div>
+</div>
+<!-- MODAL PARTAGER -->
+<div class="modal modal-vcenter fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="Partager" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="ShareLabel">Partager</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12 social"> <a class="btn btn-link cb-item-social-icon facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank"> <i class="fa fa-facebook-official fa-2x"></i> </a> <a class="btn btn-link cb-item-social-icon twitter" href="https://twitter.com/share" target="_blank"> <i class="fa fa-twitter fa-2x"></i> </a> <a class="btn btn-link cb-item-social-icon googlep" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank"> <i class="fa fa-google-plus fa-2x"></i> </a> </div>
+				</div>
+				<hr>
+				<div id="cb-item-share">{show_share_form id=$vdo.videoid type=video}</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END MODAL SHARE --> 
+<!-- MODAL ADD CHAPTER -->
+<div class="modal modal-vcenter fade" id="new-chapter-modal" tabindex="-1" role="dialog" aria-labelledby="Ajouter un chapitre" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="AddChapLabel">Ajouter un nouveau chapitre</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label for="start-timecode" class="col-sm-2 control-label">Timecode</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="start-timecode" placeholder="0:00">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="chapter-content" class="col-sm-2 control-label">Titre</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" rows="3" id="chapter-content"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link" data-dismiss="modal">Annuler</button>
+				<button type="button" class="btn btn-primary">Sauvegarder</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END MODAL ADD CHAPTER --> 
+
+<script>
+    //var aspect_ratio = 1.77778
+    var aspect_ratio = 2.2
+    var $cb_player = $("#cb_player");
+
+    $(document).ready(function(){
+        $cb_player.height( $cb_player.width() / aspect_ratio );
+
+        var videoInfo = $("#videoDescription").text();
+        var newInfo = videoInfo.replace(/(((https?:\/\/)|([\s\t]))(www.)?([a-z0-9]+)\.[a-z]+)/g, '<a href="$1">$1</a>');
+        $("#videoDescription").html(newInfo);
+
+        comments_voting = '{$vdo.comment_voting}';
+        _cb.getAllComments(
+            '{$type}',
+            '{$vdo.videoid}',
+            '{$vdo.last_commented}',1,
+            '{$vdo.comments_count}',
+            '{$object_type}'
+        );
+
+
+        // $('.cb-item-description').readmore({
+        //     speed: 75,
+        //     maxHeight: 120,
+        //     moreLink : '<a href="#" class="btn btn-min btn-block btn-primary"><i class="glyphicon glyphicon-arrow-down"></i> {lang("Read more")}</a>',
+        //     lessLink : '<a href="#" class="btn btn-min btn-block btn-default">{lang("Close")}</a>'
+        // });
+        $("#reportVideo").on({
+            click : function(e){
+                e.preventDefault();
+                $("#flag_item").show();
+            }
+        });
+
+        $("#subscribeUser").on({
+            click: function(e){
+                e.preventDefault();
+                _cb.subscribeToChannel('{$video.userid}','subscribe_user','video_detail_result_cont');
+            }
+        });
+    });
+
+    var resizePlayer =  _cb.debounce(function() {
+        $cb_player.height( $cb_player.width() / aspect_ratio );
+    }, 500, false);
+
+    $(window).resize(resizePlayer);
+
+</script>

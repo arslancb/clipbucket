@@ -1,0 +1,43 @@
+{if $cb_playlist==''}
+    {assign var=cb_playlist value=$cbvid->action->get_playlist($smarty.get.play_list)}
+{/if}
+
+{if $cb_playlist}
+<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#my_playlist").slideToggle("fast")'>Playlist : {$cb_playlist.playlist_name}</span>
+<div class="watch_vids_cont" id="my_playlist">
+<div align="right"><span class="auto_play"><a href="javascript:void(0)" onclick="swap_auto_play()">Auto Play is <span id="ap_status">{if $smarty.cookies.auto_play_playlist!="true"}off{else}on{/if}</span></a></span></div>
+<!-- Getting Playlist Items-->
+{if $cb_playlist_items==''}
+{assign var=cb_playlist_items value=$cbvid->get_playlist_items($cb_playlist.playlist_id)}
+{/if}
+{assign var='bg' value='fff'}
+{section name=item loop=$cb_playlist_items}
+	{include file="$style_dir/blocks/quicklist/video_block.html" video=$cb_playlist_items[item] selected=$selected bg=$bg}
+    
+    {if $bg=='fff'}
+    	{assign var='bg' value='EFF5F8'}
+    {else}
+    	{assign var='bg' value='fff'}
+    {/if}
+    
+    {if $selected==$cb_playlist_items[item].videoid}
+    	{assign var='pre_lock' value='yes'}
+    {else}
+		{if !$pre_lock}
+			{videoLink vdetails=$cb_playlist_items[item] assign='pre_vid'}
+		{else}
+			{if !$next_lock}
+				 {videoLink vdetails=$cb_playlist_items[item] assign='next_vid'}
+				{assign var='next_lock' value='yes'}
+			{/if}
+		{/if}
+    {/if}
+{/section}
+<div class="clearfix"></div>
+</div>
+{/if}
+
+<script type="text/javascript">
+pre_item='{$pre_vid}';
+next_item='{$next_vid}';
+</script>

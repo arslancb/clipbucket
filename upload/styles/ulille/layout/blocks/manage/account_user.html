@@ -1,0 +1,20 @@
+
+  <tr>
+    <td width="15"><input type="checkbox" name="users[]" id="check_userd-{$user.userid}" value="{$user.userid}" /></td>
+    <td width="50" height="50" align="center" valign="middle"><a href="{$userquery->profile_link($user)}"><img src="{$userquery->getUserThumb($user)}" alt="{$user.username}" width="40" height="40" border="0"></a></td>
+    <td><a href="{$userquery->profile_link($user)}">{$user.username}</a> 
+    {assign var=uid value=$user.userid}
+    {if ($makeAdmin=='yes' || $rmAdmins.$uid=='yes') && $makeAdmins.$uid!='yes'}
+    	<span class="cb_fb_style_button" style="margin-left:10px"><a href="{$queryString}make_admin={$user.userid}">Make admin</a></span>
+    {/if}
+    {if ($removeAdmin=='yes' || $makeAdmins.$uid=='yes') && $rmAdmins.$uid!='yes'}
+    	<span class="cb_fb_style_button" style="margin-left:10px"><a href="{$queryString}remove_admin={$user.userid}">Remove admin</a></span>
+    {/if}
+    </td>
+    <td width="100">{$user.profile_hits|number_format}</td>
+    <td width="100">{$status}
+    </td>
+    <td width="50" align="center" valign="middle">{if $del_link}<a href="{$del_link}"><img src="{$imageurl}/cancel.png" width="16" height="16" border="0" /></a>{/if}
+    
+    </td>
+  </tr>

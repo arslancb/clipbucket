@@ -1,0 +1,133 @@
+
+    {if $control =='full'}
+    <tr>
+        <td width="30" >
+            <input name="check_group[]"  type="checkbox"  id="check_group"   value="{$group.group_id}"/>
+        </td>
+        <td width="50" >{$group.group_id}</td>
+        <td>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="{$cbgroup->get_group_thumb($group)}"  width="50" height="50"/>
+                        </div>
+                        <div class="col-md-9">
+                            <a href="{$baseurl}/view_group.php?url={$group.group_url}" target="_blank"> {$group.group_name}
+                            </a>
+                            <div class="labels">
+                                {if $group.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
+                                <span class="label label-danger"><span>Members:</span>{$group.total_members|number_format}</span>
+                                <span class="label {if $group.active=='yes'}label-success{else}label-warning{/if}"><span></span>{if
+                                    $group.active=="yes"} Active{else}Inactive{/if}</span>
+                                <span class="label label-info"> {if $group.group_privacy =="0"}Public{elseif $group.group_privacy =="1"}Private{else}Invited{/if}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </td>
+        <td>
+            <div id="vid_opt-{$group.group_id}" class="dropdown">
+                <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle pull-right"
+                        data-toggle="dropdown">Actions <i class="caret"></i></button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{group_link details=$group}"target="_blank">View</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_group.php?group_id={$group.group_id}">Edit</a>
+                    </li>
+                    {if $group.featured == yes}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?unfeature={$group.group_id}">Make
+                        Unfeatured</a> {/if}
+                    </li>
+                    {if $group.featured == no}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?feature={$group.group_id}">Make
+                        Featured</a> {/if}
+                    </li>
+
+                    {if $group.active == yes}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?deactivate={$group.group_id}">Deactivate</a>
+                        {else}
+                    </li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?activate={$group.group_id}">Activate</a>
+                        {/if}
+                    </li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{$baseurl}/manage_groups.php?mode=manage_videos&gid={$group.group_id}">Manage</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?gid_delete={$group.group_id}">Delete</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+
+
+
+{/if}
+
+
+
+{if $control =='basic'}
+    <tr>
+        <td width="30" >
+            <input name="check_group[]"  type="checkbox"  id="check_group1"   value="{$group.group_id}"/>
+        </td>
+        <td width="50" >{$group.group_id}</td>
+        <td>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="{$cbgroup->get_group_thumb($groups)}"  width="50" height="50"/>
+                        </div>
+                        <div class="col-md-9">
+                            <a href="{$baseurl}/view_group.php?url={$group.group_url}" target="_blank"> {$group.group_name}
+                            </a>
+                            <div class="labels">
+                                {if $group.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
+                                <span class="label label-danger">Members:{$group.total_members|number_format}</span>
+                                <span class="label {if $group.active=='yes'}label-success{else}label-warning{/if}"><span></span>{if
+                                    $group.active=="yes"} Active{else}Inactive{/if}</span>
+                                <span class="label label-info"> {if $group.group_privacy =="0"}Public{elseif $group.group_privacy =="1"}Private{else}Invited{/if}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    Owner: <a href="view_user.php?uid={$group.userid}">{$group.owner_id|get_username}</a></strong>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div id="vid_opt-{$group.group_id}1" class="dropdown">
+            <button id="dropdownMenu" class="btn btn-primary btn-xs dropdown-toggle pull-right" data-toggle="dropdown">Actions <i class="caret"></i></button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{group_link details=$group}"target="_blank">View</a></li>
+                    <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_group.php?group_id={$group.group_id}">Edit</a>
+                    </li>
+                    {if $group.featured == yes}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?unfeature={$group.group_id}">Make
+                        Unfeatured</a> {/if}
+                    </li>
+                    {if $group.featured == no}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?feature={$group.group_id}">Make
+                        Featured</a> {/if}
+                    </li>
+                    {if $group.active == yes}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?deactivate={$group.group_id}">Deactivate</a>
+                        {else}
+                    </li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?activate={$group.group_id}">Activate</a>
+                        {/if}
+                    </li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{$baseurl}/manage_groups.php?mode=manage_videos&gid={$group.group_id}">Manage</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_group={$group.group_id}">Delete</a>
+                    </li> -->
+                </ul>
+            </div>
+        </td>
+    </tr>
+{/if}

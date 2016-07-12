@@ -1,0 +1,82 @@
+{assign var=friends value=$userquery->get_contacts($user.userid,0)}
+{if $friends}
+   {foreach from=$friends item=friend}
+   {assign var=user_detail value=$friend}
+    <tr>
+        <td>
+            <a href="edit_video.php?video={$video.videoid}">
+                <img src="{$userquery->getUserThumb($user_detail)}" width="100" height="60" id="thumbs_{$video.videoid}" class="vthumb" title=""/>
+            </a>  
+        </td>
+        <td>
+            <a href="{$userquery->profile_link($user_detail)}">{$user_detail.username} </a><br>
+            <div class="labels">
+                <span class="label {if $friend.confirmed=='yes'}label-success{else}label-warning{/if} mlabel">
+                {if $friend.confirmed!='yes'}Request Sent{elseif $friend.confirmed =='yes'}Friends{/if}</span>
+                <span class="label label-success">{if $user_detail.total_videos|number_format > 1}Videos: {$user_detail.total_videos|number_format}{else}Video: {$user_detail.total_videos|number_format}{/if}</span>
+            </div>
+        </td>
+        <td>
+            <div class="dropdown ">
+                <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                Actions <i class="caret"></i></button>
+                <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
+                    <li><a role="menuitem" href="{$userquery->profile_link($user_detail)}" class="">View Profile</a></li>
+                    <li><a role="menuitem" href="{$baseurl}/user_videos.php?user={$user_detail.username}" class="">View Videos</a></li>
+                    <li><a role="menuitem" href="{$baseurl}/private_message.php?mode=new_msg&to={$user_detail.username}" class="">Send Message</a></li>
+                    {if $friend.confirmed =='yes'}
+                    <li><a role="menuitem" href="?mode=delete&userid={$user_detail.userid}">UnFriend</a></li>
+                    {else}
+                    <li><a role="menuitem" href="?mode=delete&userid={$user_detail.userid}">Cancel Request</a></li>
+                    {/if}
+                </ul>
+            </div> 
+
+        </td>
+   {/foreach}
+   {else}
+   <div class="alert alert-info" role="alert">You have no friends in your list</div>
+{/if}
+
+{assign var=friends value=$userquery->get_pending_contacts($user.userid,0)}
+{if $friends}
+    {foreach from=$friends item=friend}
+    {assign var=user_detail value=$friend}
+    <tr>
+        <td>
+            <a href="edit_video.php?video={$video.videoid}">
+                <img src="{$userquery->getUserThumb($user_detail)}" width="100" height="60" id="thumbs_{$video.videoid}" class="vthumb" title=""/>
+            </a>
+        </td>
+        <td>
+            <a href="{$userquery->profile_link($user_detail)}">{$user_detail.username} </a><br>
+            <div class="labels">
+                {if $video.featured=='yes'}
+                <span class="label label-primary">Featured{else}{/if}</span>
+                <span class="label {if $friend.confirmed=='yes'}label-success{elseif $friend.confirmed!='yes'}label-danger{else}label-warning{/if} mlabel">
+                {if $friend.confirmed!='yes'}Pending{elseif $friend.confirmed =='yes'}Friends{/if}</span>
+                <span class="label label-success">Videos: {$user_detail.total_videos|number_format}</span>
+            </div>
+        </td>
+        <td>
+            <div class="dropdown ">
+                <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                Actions <i class="caret"></i></button>
+                <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
+                    <li><a role="menuitem" href="{$userquery->profile_link($user_detail)}" class="">View Profile</a></li>
+                    <li><a role="menuitem" href="?mode=requests&confirm={$friend.userid}" class="">Accept Request</a></li>
+                    <li><a role="menuitem" href="{$baseurl}/user_videos.php?user={$user_detail.username}" class="">View Videos</a></li>
+                    <li><a role="menuitem" href="{$baseurl}/private_message.php?mode=new_msg&to={$user_detail.username}" class="">Send Message</a></li>
+                    <li><a role="menuitem" href="?mode=delete&userid={$user_detail.userid}">Reject Request</a>
+
+                </ul>
+            </div>   
+        </td>
+    </tr>
+   {/foreach}
+     {else}
+   <div class="alert alert-info" role="alert">No Pending Friend Requests</div>
+{/if}
+
+
+

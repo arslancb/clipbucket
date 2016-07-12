@@ -1,0 +1,138 @@
+#coverConainer{
+	margin-bottom:10px;
+	height: 250px;
+}
+.changeCover{
+    position: absolute;
+    top:0px;
+    left:0px;
+}
+
+#cb_player{
+
+}
+.feads img{
+	border: solid; border-color: #D7DFEE;
+}
+.feeds1 hr{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.view-channel-thumb {
+  position:absolute;
+  bottom: -35px;
+  left: 10px;
+  background-color: #000000;
+  width: 140px;
+  border: 5px solid;
+  border-color: #ffffff;
+}
+.hr-channal {
+	margin-left: -2px; width: 98%;
+}
+.bottom-hieght{
+	height: 20px;
+}
+.right-top-btns{
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.right-top-btns a, .right-top-btns  button {
+	display: inline; background-color: #000000
+}
+.btn-bootums{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+.btn-bootums span {
+	background-color:rgba(0, 0, 0, 0.5);
+	color: white;
+	padding:5px ;
+	display: inline-block;
+	text-align: center;
+	border-radius:3px ;
+}
+
+.btn-bootums span p{
+	color: white;
+	margin: 0;
+	font-size: 14px;
+}
+
+
+.view-channel-like-sec{
+	position: absolute;
+	bottom: -29px;
+	left: 160px;
+	width: 160px;
+
+}
+.view-channel-name{
+	position: absolute;
+	bottom: 64px;
+	left:160px;
+	background-color:rgba(0,0,0,0.5); 
+	padding:2px 4px; 
+	border-radius:3px;
+	color: #fff;
+}
+
+/* view channel playlist start */
+.view-channel-playlist-holder{
+	border-bottom: 1px solid #E3E3E3;
+	width: 100%;
+	display: inline-block;
+	padding:10px;
+}
+.view-channel-playlist-holder img{
+	float: left;
+	width: 50px;
+	height: 50px;
+	margin-right: 10px;
+}
+.view-channel-playlist-holder span{
+	float: left;
+	color: #333;
+	font-weight: bold;
+	margin-right: 10px;
+}
+.view-channel-playlist-holder a{
+	float: left;
+	color: #333;
+	font-weight: bold;
+}
+.view-channel-playlist-holder p{
+	float: right;
+}
+
+/* view channel playlist end */
+
+@media (min-width: 768px) and (max-width:1200px) {
+	.right-top-btns {
+    margin-right:0px;
+    padding-left:0px;
+    padding-top: 5px;
+}
+.btn-bootums {
+    margin-right:0px;
+}
+}
+
+@media (min-width: 320px) and (max-width: 600px) {
+.btn-bootums{
+	bottom: 162px;
+}
+.view-channel-like-sec{
+	position: absolute;
+	bottom: -29px;
+	left: 160px;
+	width: 140px;
+
+}
+.view-channel-like-sec .like-dislike-block li span, .view-channel-like-sec .like-dislike-block li a{
+	font-size: 12px;
+
+}
+}

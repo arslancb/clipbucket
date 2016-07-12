@@ -1,0 +1,62 @@
+{$myAccountLinks = $userquery->my_account_links()}
+<div class="container marginBottom">
+	{include file="$style_dir/blocks/manage/account_menu.html"}
+    <div class="row cb-box">
+        <div class="col-md-3 leftSidebar">
+            {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+        </div>
+        <div class="col-md-9">
+            <div class="marginBottom">
+                {*include file="$style_dir/blocks/manage/account_head.html" user=$user*}    
+                <h2>Edit Photo</h2>
+                <div>
+                    <a href="{$cbphoto->photo_links($p,'view_item')}" target="_blank" class="btn btn-primary">View Photo</a>
+                    <button class="btn btn-primary" type="button" onClick="viewRatings(this,'{$p.photo_id}');">View Ratings</button>
+                </div>
+                {assign var='requiredFields' value=$cbphoto->load_required_forms($p)}
+                {assign var='optionFields' value=$cbphoto->load_other_forms($p)}
+                <div class="account_form">
+                    <form name="edit_photo" id="edit_photo" method="post">
+                        <input type="hidden" value="{$p.photo_id}" id="photo_id" name="photo_id" />
+                        <div class="row marginTop">
+                            <div class="col-md-6">
+                                {foreach from=$requiredFields item=field}
+                                    <div class="form-group">
+                                        <label for="{$field.id}">{$field.title}</label>
+                                        {$field.class = 'form-control'}
+                                        {$field.hint_1}
+                                        {$formObj->createField($field)}
+                                        {$field.hint_2}
+                                    </div>        
+                                {/foreach}  
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Preview</label>
+                                    <div class="account_field_block clearfix">
+                                        {get_photo details=$p output='html' size='m' class='photoThumbBox moveL'}
+                                    </div>
+                                </div>
+                                {foreach from=$optionFields item=field}
+                                    <div class="form-group">
+                                        <label class="show" for="{$field.id}">{$field.title}</label>
+                                        {$field.notShowSeprator = true}
+                                        {$field.label_class = 'radio-inline'}
+                                        {$field.hint_1}
+                                        {$formObj->createField($field)}
+                                        {$field.hint_2}
+                                    </div>        
+                                {/foreach}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button name="update_photo" id="button" value="submit" class="btn btn-primary">
+                                {lang code='Update Photo'}
+                            </button>
+                        </div>
+                    </form>            
+                </div>
+            </div>  
+        </div>
+    </div>
+</div>

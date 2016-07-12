@@ -1,0 +1,90 @@
+{$myAccountLinks = $userquery->my_account_links()}
+<div class="container marginBottom">
+  {include file="$style_dir/blocks/manage/account_menu.html"}
+  <div class="account_box">
+    <div class="row cb-box">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
+        {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+      </div>
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+
+          <div class="tabbable">
+              <ul class="nav nav-tabs" id="myTab">
+                
+                  
+                  <li class="{if $mode =='inbox'}active {/if}">
+
+                      <a  href="{$baseurl}/private_message.php?mode=inbox">
+                          <h5>{lang code='Inbox'}</h5>
+                      </a>
+                  </li>
+                
+                  
+                  <li class="{if $mode =='notification'}active{/if}">
+                      <a href="{$baseurl}/private_message.php?mode=notification">
+                          <h5>{lang code='Notifications'}</h5>
+                      </a>
+                  </li>
+
+                  <li class="{if $mode =='sent'}active{/if}">
+                      <a  href="{$baseurl}/private_message.php?mode=sent">
+                          <h5>{lang code='Sent'}</h5>
+                      </a>
+                  </li>
+
+                 <li class=" {if $mode =='new_msg'}active{/if}">
+                      <a  href="{$baseurl}/private_message.php?mode=new_msg">
+                          <h5>{lang code='Write Message'}</h5>
+                      </a>
+                  </li>
+                 
+              </ul>
+              <div class="tab-content">
+                 {if $mode =='new_msg'}
+                 <div id="wmessage" class="tab-pane active">
+                      <h2>{lang code='private_messages'} &raquo; {lang code='title_crt_new_msg'}</h2>
+                      {assign var='form_fields' value=$cbpm->load_compose_form()}
+                      <div class="account_form">
+                          <form id="pm_msg" name="pm_msg" method="post" action="">
+
+                              <h3>{lang code='new_private_msg'}</h3>
+                              {foreach from=$form_fields item=field}
+                              <div class="form-group">
+                                  <label for="{$field.id}">{$field.title}</label>
+                                  {$field.hint_1}
+                                  {$field.class='form-control'}
+                                  {$formObj->createField($field)}
+                                  {$field.hint_2}
+                              </div>
+                              {/foreach}
+                              <button name="send_message" id="send_message" value="submit" class="btn btn-primary">{lang code='com_send_message'}</button>
+                          </form>
+                      </div>
+                  </div>{/if}
+
+
+                  {if $mode =='inbox'}
+                  <div id="inbox" class="tab-pane active">
+                      <h2>{lang code='private_messages'} &raquo; {lang code='inbox'}</h2>
+                      {include file="$style_dir/blocks/pm/messages.html" show_from='true'}
+                      </div>{/if}
+
+                 {if $mode =='notification'}
+                  <div id="notifications" class="tab-pane active">
+                      <h2>{lang code='private_messages'} &raquo; {lang code='notifications'}</h2>
+                      {include file="$style_dir/blocks/pm/messages.html" show_from='true'}
+                  </div>{/if}
+
+                  {if $mode =='sent'}
+                  <div id="msend" class="tab-pane active">
+                      <h2>{lang code='private_messages'} &raquo; {lang code='sent'}</h2>
+                      {include file="$style_dir/blocks/pm/messages.html" show_to='true'}
+                  </div>{/if}
+                 
+                  </div>
+              </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+{if $display_type=='normal' || $display_type==''}
+<div class="item_video">
+	<div class="cb_item_container clearfix">
+		<div class="cb_item_thumb video_thumb relative" >
+			<a href="{videoLink($video)}" title="{$video.title|title}">
+				{if $video.broadcast=='private'}
+		 		<span class="private_video">PRIVATE</span>
+				{/if}
+				<span class="fa fa-play play-icon"></span>
+				<span class="duration">
+				{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}
+				{*$video.duration|date_format:$config.time*}
+				</span>
+				<span class="thumb_title">
+				{$video.title|truncate:20}
+				</span>
+				<img class="img" src="{getThumb vdetails=$video size=501x283 } " border="21" />
+			</a>
+			{ANCHOR place='in_video_thumb' data=$video}
+		</div>
+	</div>
+</div>
+{/if}

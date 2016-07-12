@@ -1,0 +1,39 @@
+<!-- blocks/category_list.html -->
+<div class="dropdown"><button class="btn btn-link" id="catSwitch" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {lang code='categories'}
+    <span class="caret"></span>
+  </button>
+      <ul class="dropdown-menu" aria-labelledby="catSwitch">
+        {cbCategories type=$type echo="TRUE" list_style="collapsed"  output="list" with_all="TRUE"}
+      </ul>
+</div>
+<script>
+$(document).ready(function (){
+$('.CategoryToggler').css({
+   'padding-left' : '1px',
+     'padding-right' : '1px',
+         'cursor' : 'pointer'
+});
+
+$('.CategoryToggler').addClass('CategoryToggler2');
+$('.CategoryToggler').on("click", function (){
+
+$(this).toggleClass('CategoryToggler2');
+if(!$(this).hasClass('CategoryToggler2')) 
+{
+
+$('.sub_categories').slideDown();
+
+}
+else
+
+{
+
+  $('.sub_categories').slideUp();
+}
+
+});
+
+});
+</script>
+<!-- end blocks/category_list.html -->
