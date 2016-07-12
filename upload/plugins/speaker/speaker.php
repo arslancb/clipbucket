@@ -32,11 +32,10 @@ if(!function_exists('speaker_list')){
 		global $speakerquery;
 		$data["selected"]="yes";
 		$spk=$speakerquery->get_speaker_and_roles($data);
-		$str='<strong>'.lang('speakers').'</strong>: ';
+		$str='';
 		foreach ($spk as $sp) {
-			$str.= $sp['firstname'] .' '. $sp['lastname'] . ' ['. $sp['description'].'], ';
+			$str.='<li><a href="#">'.$sp['firstname'] .' '. $sp['lastname'].'</a><span>,'.$sp['description'].'</span></li>'; 
 		}
-		$str=substr($str,0,-2);
 		echo $str;	
 	}
 	// use {ANCHOR place="speaker_list" data=$video} to display the formatted list above

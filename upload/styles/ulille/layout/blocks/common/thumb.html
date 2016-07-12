@@ -19,17 +19,13 @@
 	<div class="details card">
 		<div class="published">
 			{if function_exists('video_datecreated')}
-			aaa
 				{assign var=created value=video_datecreated($video.videoid)}
 				{if $created != "1970-01-01"}
-				ZZZ
 					{$created|date_format:"%d %B %Y"}
 				{else}
-				YYY
 					{$video.date_added|date_format:"%d %B %Y"}
 				{/if}
 			{else}
-			bbb
 				{$video.date_added|date_format:"%d %B %Y"}
 			{/if}
 		</div>
