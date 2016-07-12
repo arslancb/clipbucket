@@ -112,16 +112,19 @@ class cbsearch
 		global $db;
 		
 		$ma_query = "";
+		
 		#Checking for columns
 		if(!$this->use_match_method)
 			foreach($this->columns as $column)
 			{
 				$this->query_cond($column);
+
 			}
 		else
 		{
 			if($this->key)
 			{
+
 				$this->set_the_key();
 				$ma_query = $this->match_against_query();
 				$this->add_cond($ma_query);
@@ -173,13 +176,18 @@ class cbsearch
 				$query_cond .= " AND ";
 			else
 				$query_cond = $condition;
-			$results = $db->select(tbl($this->db_tbl.",users"),
+			if(!has_access('admin_access',TRUE)){
+				$results = $db->select(tbl($this->db_tbl.",users"),
+								tbl($this->db_tbl.'.*,users.userid,users.username').$add_select_field,
+							$query_cond." ".tbl($this->db_tbl).".userid=".tbl("users.userid")." AND ".tbl($this->db_tbl).".active='yes'"."AND".tbl($this->db_tbl).".broadcast='public'",$this->limit,$sorting);
+			}
+			else{
+				$results = $db->select(tbl($this->db_tbl.",users"),
 								tbl($this->db_tbl.'.*,users.userid,users.username').$add_select_field,
 							$query_cond." ".tbl($this->db_tbl).".userid=".tbl("users.userid")." AND ".tbl($this->db_tbl).".active='yes'",$this->limit,$sorting);
-							
-		
+			}
 
-			$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
+		$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
 			
 		}else
 		{
@@ -215,15 +223,16 @@ class cbsearch
 	{
 		//Checking Condition Type
 		$type = strtolower($array['type']);
-		
-		
 		if($type !='=' && $type!='<' && $type!='>' && $type!='<=' && $type!='>=' && $type!='like' && $type!='match'
 			 && $type!='!='  && $type!='<>')
 		{
 			$type = '=';
 		}
-		
-		
+	
+		if($array['field'] == 'broadcast' && $array['var'] == 'unlisted' ){
+			return true;
+		}
+
 		$var = $array['var'];
 		if(empty($var))
 		{
@@ -245,8 +254,9 @@ class cbsearch
 		}
 		
 		
-		if(!empty($this->key) && $type != 'match')	
+		if(!empty($this->key) && $type != 'match')
 			$this->query_conds[] = $op." ".tbl($this->db_tbl).".".$array['field']." ".$type." '".preg_replace("/{KEY}/",$this->key,$var)."'";
+			
 		if(!empty($this->key) && $type == 'match')
 			$this->query_conds[] = $op." MATCH(".tbl($this->db_tbl).".".$array['field'].") AGAINST('".preg_replace("/{KEY}/",$this->key,$var)."'
 										IN BOOLEAN MODE)";

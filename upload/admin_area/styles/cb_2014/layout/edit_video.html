@@ -391,7 +391,7 @@
                     {foreach from=$field_group.fields item=field}
                     <div class="table">
                         {$field.class='form-control'}
-                        <label style="margin-top: -46px"><strong>{$field.title|truncate:80}</strong></label><br>
+                        <label><strong>{$field.title|truncate:80}</strong></label><br>
                         {if $field.type=='radio'}
                         {$field.class='form-control'}
                         {else}
@@ -495,7 +495,7 @@
 {/if}
 
 <div class="widget-box" style="margin-top: 30px">
-    <div class="widget-header header-color-blue2">
+    <div class="widget-header header-color-blue2 fontawesome-icons">
 
         <h5>{$data.title|truncate:80}- <b>Comments</b></h5>
 
@@ -520,7 +520,7 @@
     
     <div class="widget-body">
         <div class="widget-main">
-            <div class="slimScrollDiv">
+            <div class="slimScrollDiv fontawesome-icons">
                 {foreach from=$comments item=comment}
                 <form action="" method="post" name="delete_Comment" id="edit_video">
                 {if $comment != ''}

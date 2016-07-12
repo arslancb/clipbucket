@@ -12,9 +12,12 @@
 		getting the aguments
 		$argv[1] => first argument, in our case its the path of the file
 	*/
-	
+	if (config('use_crons') == 'yes') {
+		$argv = convertWithCron();
+	}
 
 	//error_reporting(E_ALL);
+	#file_put_contents('__argv__', $argv[1]."\n".$argv[2]."\n".$argv[3]."\n".$argv[4]."\n");
 	logData(json_encode($argv),"argvs");
 	$fileName = (isset($argv[1])) ? $argv[1] : false;
 	//This is exact file name of a video e.g 132456789
