@@ -11,6 +11,7 @@
 <!-- End  -->
 
 
+
 <link rel="stylesheet" href="{$cb_vjs_player_url}/css/video-js.min.css">
 <link href="{$cb_vjs_player_url}/css/cb_vjs_plugin.css" rel="stylesheet">
 <link href="{$cb_vjs_player_url}/css/videojs.ads.css" rel="stylesheet">
@@ -129,7 +130,8 @@
 				videoid : vid_id,
 				userid : user_id,
 				userprofile : user_profile,
-				username : username
+				username : username,
+				forceShow : true
 			}
 			cb_vjs.timecomments(comments_options);
 			if (typeof timecomments != 'undefined' && timecomments != ''){

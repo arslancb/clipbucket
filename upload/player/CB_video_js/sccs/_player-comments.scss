@@ -36,17 +36,17 @@
 		overflow: hidden;
 		position: absolute;
 		left:0;
-		bottom: 0;
-		padding: 0 20px;
+		bottom: 23px;
 		width: 100%;
 		height: 282px;
 		z-index: 1;
 		ul{
 			list-style: none;
-			padding: 0;
+			padding: 0 20px;
 			margin: 0;
 			position: absolute;
 			bottom: 0;
+			left: 0;
 		}
 		.cb-vjs-comments-list{
 			overflow: hidden;
@@ -59,6 +59,9 @@
 					position: absolute;
 					left:-1000px;
 				}
+			}
+			&.fade-comment{
+				opacity: 0.4;
 			}
 		}
 		.cb-vjs-comments-avatar{
@@ -209,34 +212,6 @@
 	.cb-vjs-comments-display{
 		background: #fff;
 		z-index: 2;
-		.cb-vjs-addcomment-clicker{
-			position: absolute;
-			width: 132px;
-			height: 26px;
-			padding: 5px;
-			background: #fff;
-			bottom: 17px;
-			left: -65px;
-			z-index: 2;
-			font-size: 12px;
-			line-height: 16px;
-			color: #000;
-			&:after {
-				top: 100%;
-				left: 50%;
-				border: solid transparent;
-				content: "";
-				height: 0;
-				width: 0;
-				position: absolute;
-				z-index: 2;
-				pointer-events: none;
-				border-color: rgba(255, 255, 255, 0);
-				border-top-color: #fff;
-				border-width: 6px;
-				margin-left: -6px;
-			}
-		}
 	}
 	.vjs-progress-control:hover .vjs-progress-holder{
 		.cb-vjs-addcomment-clicker{
@@ -271,6 +246,53 @@
 				background: #8f8f8f;
 				right: 20px;
 			}
+		}
+	}
+	.add-comment-holder{
+		outline: 0 none;
+		padding: 0 0.4em;
+		position: absolute;
+		width: 100%;
+		height: 14px;
+		left: 0;
+		top: 0;
+		.add-comment-child-holder{
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+		.cb-vjs-addcomment-clicker{
+			position: absolute;
+			min-width: 132px;
+			height: 26px;
+			padding: 5px;
+			background: #fff;
+			bottom: 8px;
+			left: -65px;
+			z-index: 2;
+			font-size: 12px;
+			line-height: 16px;
+			color: #000;
+			&:after {
+				top: 100%;
+				left: 50%;
+				border: solid transparent;
+				content: "";
+				height: 0;
+				width: 0;
+				position: absolute;
+				z-index: 2;
+				pointer-events: none;
+				border-color: rgba(255, 255, 255, 0);
+				border-top-color: #fff;
+				border-width: 6px;
+				margin-left: -6px;
+			}
+		}
+	}
+	.vjs-progress-control{
+		&:hover .add-comment-holder{
+			padding: 0 0.7em;
 		}
 	}
 }

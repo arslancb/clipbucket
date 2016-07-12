@@ -1,9 +1,11 @@
 <!-- Defining object type-->
 {lang code='photo' assign='object_type'}
+	
 {assign var=json value=$photo.photo_details|json_decode}
 {$curr_photo = $photo|@json_encode}
 {$user_admin = $user|@json_encode}
 {$srcfirst = {get_photo(['details'=>$photo,'size'=>'l'])}}
+
 
 	<div class="clearfix">
 		<section id="content" class="clearfix">
@@ -96,14 +98,18 @@
 							<div class="clearfix watch-vid-details">
 								<ul class="clearfix desc-list">
 									<li><strong>{lang('photo_description')}</strong> <span id="description"></span>:&nbsp;{$photo.photo_description|truncate:90}</li>
-									
-									 {assign var=category value=$userquery->get_category($user.category)} 
-
+	
 									<li id="category"></li>
-		
-									<li><strong>{lang('category')}</strong>:&nbsp;{$category.category_name}
-									<span id="category"></span>
+									
+									<li><strong>{lang('collection_name')}</strong>:&nbsp;
+
+									{if $Cbucket->configs.seo == 'yes'}
+									<span id="category"><a href="{$baseurl}/collection/{$co.collection_id}/{$co.type}/{$co.collection_name}">{$co.collection_name}</a></span>
 									</li>
+									{else}
+										<span id="category"><a href="{$baseurl}/view_collection.php?cid={$co.collection_id}&type={$co.type}">{$co.collection_name}</a></span>
+									</li>
+									{/if}
 									<li><strong>{lang('tags')}</strong>:&nbsp;<span id="tags"></span></strong>{$photo.photo_tags|tags:photos}</li>
 
 									<li><strong>{lang('views')}</strong>:&nbsp; <span id="views">{$photo.views}</span></li>

@@ -69,7 +69,11 @@
                 var start_index = '{$next_index}';
                 var loop_size = '{$smarty.get.loop_size}';
                 var mode = '{$mode}';
-                {literal}$(document).oneTime(2000,function(){$(window.location).attr('href', '?loop_size='+loop_size+'&'+mode+'=yes&start_index='+start_index)});{/literal}
+                var myVar = setInterval(myTimer, 1000);
+                function myTimer() {
+                  $(window.location).attr('href', '?loop_size='+loop_size+'&'+mode+'=yes&start_index='+start_index);
+                
+                } 
             </script>
             redirecting....do not close this window
             {else}
@@ -137,3 +141,5 @@
 
 
 </div>
+
+  
