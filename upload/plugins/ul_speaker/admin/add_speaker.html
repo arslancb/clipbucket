@@ -1,0 +1,89 @@
+{assign var='required_fields' value=$speakerquery->load_speaker_fields()}
+{assign var='optional_fields' value=$speakerquery->load_speaker_role_fields()}
+
+{*-- get number of speaker's roles for this specific speaker --*}
+{if $optional_fields}
+	{assign var='number' value=$optional_fields['description']['values']|@count}
+{else}
+	{assign var='number' value=0}
+{/if}
+<div class="heading">
+	<h2>{lang('add_new_speaker')}</h2>
+    
+    
+	<form action="" method="post">
+		{$n=0}
+		{foreach from=$required_fields item=field}
+			{if $n==0}
+				<div class="row">
+			{/if}
+			<div class="col-md-4">
+				{$field.class = 'form-control'}
+				<label for="{$field.id}">{$field.title}</label>
+				{if $field.hint_1}{$field.hint_1}<br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}{if $field.hint_2}{$field.hint_2}{/if}
+			</div>
+			{$n=$n+1}
+			{if $n==2}{$n=0}</div><br/>{/if}
+		{/foreach} 
+		{if $n>0}</div>{/if}
+		<div>
+			<label for="cptentries"></label>
+	    	<input name="cptentries" value="{$number}" id="cptentries" type="hidden">
+		</div>
+    {if $optional_fields}
+		{*assign var='number' value=$optional_fields['description']['values']|@count*}
+	    {for $i=0 to $number-1}
+   	 <div class="row"><div id="extra_{$i}">
+
+			{foreach from=$optional_fields item=field}
+				{$field.class = 'form-control'}
+				{$field.value = $field.values[$i]}
+				<div class="col-md-4">
+				<label for="{$field.id}_$i">{$field.title}</label><br>
+				{if $field.hint_1}{$field.hint_1}<br>{/if}
+				{$formObj->createField($field,TRUE)}
+				{if $field.hint_2}<br>{$field.hint_2}<br>{/if}
+				</div>
+			{/foreach}
+			<div title="supprimer" class="btn btn-link btn-sm" onclick="deleteMe('extra_{$i}')"><br><span class="glyphicon glyphicon-remove color-red"></span><span class="sr-only">supprimer</span></div>
+    		</div></div>
+    	{/for}
+    {/if}
+		<div id="add-before-container"></div>
+		<div id="duplicate" class="btn btn-info btn-xs">{lang('add_a_role')}</div>
+		<div align="left" style="padding:10px">
+		<input type="submit" name="add_speaker" value="{lang('add_speaker')}" class="button" id="add_speaker" >
+		<input type="submit" name="search_speaker" value="{lang('search_speaker')}" class="button" id="search_speaker" ></div>
+	    
+	</form>    
+</div>
+
+
+<script>
+	$(document).ready(function() {
+		var $i = $("#cptentries").val();	// number of visible roles
+		// Add a new role
+		$("#duplicate").on('click', function(){
+			$s='<div class="row"><div id="extra_'+$i+'">';
+			{foreach from=$optional_fields item=field}
+				$s=$s+'<div class="col-md-4">';
+				{$field.class = 'form-control'}
+				$s=$s+'<label for="{$field.id}_'+"$i"+'">{$field.title}</label><br>';
+				$s=$s+'{if $field.hint_1}{$field.hint_1}<br>{/if}';
+				$s=$s+'{$formObj->createField($field,TRUE)}';
+				$s=$s+'{if $field.hint_2}<br>{$field.hint_2}<br>{/if}';
+				$s=$s+'</div>';
+			{/foreach}
+			$s=$s+'<div title="supprimer" class="btn btn-link btn-sm" onclick="deleteMe(\'extra_'+$i+'\')"><br><span class="glyphicon glyphicon-remove color-red"></span><span class="sr-only">supprimer</span></div>';
+			$s=$s+'</div></div>';
+			$('#add-before-container').before($s);
+			$i++;
+			document.getElementById("cptentries").value = $i;
+		});
+	});
+
+
+	function deleteMe(param) {
+		$("#"+param).remove();
+	}
+</script>
