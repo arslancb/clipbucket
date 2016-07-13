@@ -636,7 +636,7 @@ class speakerquery extends CBCategory{
 		validate_cb_form($fields,$array);
 	}
 	
-
+	
 }
 
 ?>

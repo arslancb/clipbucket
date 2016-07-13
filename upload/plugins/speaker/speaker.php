@@ -24,6 +24,7 @@ define("SPEAKER_LINKPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".SPEAKER_BA
 assign("speaker_linkpage",SPEAKER_LINKPAGE_URL);
 require SPEAKER_DIR.'/speaker_class.php';
 
+
 /**
  * Défine the Anchor to display speakers into description of a video main page 
  */
@@ -34,7 +35,8 @@ if(!function_exists('speaker_list')){
 		$spk=$speakerquery->get_speaker_and_roles($data);
 		$str='';
 		foreach ($spk as $sp) {
-			$str.='<li><a href="#">'.$sp['firstname'] .' '. $sp['lastname'].'</a><span>,'.$sp['description'].'</span></li>'; 
+			$url=BASEURL.'/'.'search_result.php?type=videos&query='.$sp['slug'];
+			$str.='<li><a href="'.$url.'">'.$sp['firstname'] .' '. $sp['lastname'].'</a><span>,'.$sp['description'].'</span></li>'; 
 		}
 		echo $str;	
 	}
@@ -60,6 +62,7 @@ if ($cbplugin->is_installed('extend_search.php')){
 	//add search fields for this plugin in extended search plugin
 	$cbvidext->columns[]=array('table'=>'speaker', 'field'=>'firstname','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
 	$cbvidext->columns[]=array('table'=>'speaker', 'field'=>'lastname','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
+	$cbvidext->columns[]=array('table'=>'speaker', 'field'=>'slug','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
 }
 
 /**
