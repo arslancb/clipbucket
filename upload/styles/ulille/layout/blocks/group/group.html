@@ -1,0 +1,23 @@
+<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mbm grid_view list_view ">
+    <div id="group-" class="user_block marginBottom groups-view">
+        <div class="pull-left col-md-5 paddingleft0">
+                           <a href="{group_link details=$group}">
+                                <img src="{$cbgroup->get_group_thumb($group)}" class="group_thumb" style="" />
+                            </a>
+        </div>
+        <div class="col-md-7 prof_title small paddingleft0">
+            <div class="pull-left">
+                <h4 class="nomargin"><a href="{group_link details=$group}">{$group.group_name}</a></h4>
+                <div class="small min-height-45">{$group.group_description}</div>
+                <div class="list-unstyled padding-top-5 small">
+                    <span class="glyphicon glyphicon-user"></span>{$group.total_members|number_format}
+                        {lang code='members'} 
+                </div>
+                <div class="padding-top-5">
+                    {$join_link=$cbgroup->group_opt_link($group,'join'," class='btn btn-primary btn-sm line-height-1' ")}
+                    {if $join_link}{$join_link}{/if}
+                </div>
+            </div>  
+        </div>
+    </div>
+</div>

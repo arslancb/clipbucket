@@ -1,0 +1,26 @@
+<!-- Add To Collection This {$type} -->
+<div id="collection_form" class="action_box"  >
+	
+    <div class="form_container" align="center">
+    
+     <div class="form_result" id="collection_form_result" style="display:none"></div>
+     
+    <form id="add_collection_form" name="collection_form" method="post" action="" class="">
+    Please select collection name from following<br>
+	<select name="collection" id="collection" class="form-control">
+    {section name=clist loop=$collections}
+    	<option value="{$collections[clist].collection_id}">{$collections[clist].collection_name} ({$collections[clist].total_objects})</option>
+    {sectionelse}
+    	<option>No Collection Found</option>    
+    {/section}
+    </select>
+    
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <input type="button" name="add_to_playlist" value="Add to collection" class="btn btn-primary mtm btn-block" onclick="collection_actions('add_collection_form','add_new_item','{$id}','#collection_form_result','video');"/>
+        </div>
+    </div>
+    </form>
+    </div>
+</div>
+<!-- Add To Collection This {$type} -->

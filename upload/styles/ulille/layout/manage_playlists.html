@@ -1,0 +1,126 @@
+{$myAccountLinks = $userquery->my_account_links()}
+<div class="container">
+  {include file="$style_dir/blocks/manage/account_menu.html"}
+  <div class="row cb-box">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
+      {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+      <div class="account_box">
+        {if $mode =='manage_playlist'}
+          <h2>{lang code='manage_playlists'}</h2>
+
+          <!-- ADD NEW PLAYLIST -->
+          <div class="account_form">
+            <form method="post" name="edit_profile">
+              <h3>{lang code='add_new_playlist'}</h3>
+              <div class="form-group">
+                <label for="old_pass">{lang code='playlist_name'}</label>
+                <input class="form-control" name="name" type="text" id="name">
+              </div>
+              <button name="add_playlist" id="button" value="submit" class="btn btn-primary">{lang code='add_new_playlist'}</button>
+            </form>
+          </div>
+          <!-- Add new playlist -->
+
+<hr>
+          <!-- Getting List of Playlist -->
+          <form class="marginTop" name="manage_playlists" method="post">
+            <div>
+            <input type="submit" class="btn btn-primary btn-sm" value="{lang code='delete_selected'}" name="delete_playlists"/>
+            </div><br>
+            <div class="account_table">
+              <table class="table table-bordered table-striped marginTop">
+                <tr>
+                  <td width="25">
+                    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+                  </td>
+                  <td><strong>{lang code='title'}</strong></td>
+                  <td width="130"><strong>{lang code='date_added'}</strong></td>
+                  <td width="130" class="last_td"><strong>{lang code='total_items'}</strong></td>
+                </tr>
+                {section name=plist loop=$playlists}
+                  <tr>
+                    <td>
+                      <input type="checkbox" name="check_playlist[]" id="check_playlist-{$playlists[plist].playlist_id}" value="{$playlists[plist].playlist_id}" />
+                    </td>
+                    <td valign="middle">
+                      {$playlists[plist].playlist_name|truncate:100}
+                      <span class="video_control">
+                        <a href="?mode=edit_playlist&amp;pid={$playlists[plist].playlist_id}">{lang code='view'}</a> - <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$playlists[plist].playlist_id}','{lang code="remove_playlist_confirm"}','?mode=manage_playlist&amp;delete_pl={$playlists[plist].playlist_id}')" id="delete_icon_a-{$playlists[plist].playlist_id}">{lang code='delete'}</a>
+                      </span>
+                    </td>
+                    <td>{$playlists[plist].date_added|date_format}</td>
+                    <td>{$cbvid->action->count_playlist_items($playlists[plist].playlist_id)|number_format}</td>
+                  </tr>
+                {/section}
+              </table>
+            </div>
+          </form>
+          <!-- Getting List of Playlist -->
+        {/if}
+
+        {if $mode =='edit_playlist'}
+          <h2>{lang code='manage_playlists'}</h2>
+          <div class="account_form account_form-edit">
+            <form method="post" name="edit_profile">
+              
+              <h3>{lang code='edit_playlist'}</h3>
+              {assign var='playlist_fields' value=$cbvid->action->load_playlist_fields($playlist)}
+
+              {foreach from=$playlist_fields item=group}
+                {foreach from=$group.fields item=field}
+                  <div class="form-group">
+                    <label for="{$field.id}" class='label-heading'>{$field.title}</label>
+                    {$field.class='form-control'}
+                    {$formObj->createField($field)}
+                  </div>
+                {/foreach}
+              {/foreach}
+              <div>
+              <button name="edit_playlist" id="button1" value="submit" class="btn btn-primary">{lang code='edit_playlist'}</button></div><br>
+            </form>
+          </div>
+
+          {if $items}
+            <a href="{videoLink vdetails=$items[0]}" >{lang code='play_now'}</a>
+          {/if}
+          <form name="edit_playlist" method="post">
+            <input type="submit" class="btn btn-primary" value="{lang code='delete_selected'}" name="delete_playlist_item"/>
+            <div class="account_table">
+              <table class="table table-striped table-bordered">
+              <tr>
+                <td width="25">
+                  <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+                </td>
+                <td>{lang code='title'}</td>
+                <td width="100">{lang code='date_added'}</td>
+                <td width="100">{lang code='views'}</td>
+                <td width="100">{lang code='comments'}</td>
+              </tr>
+              {section name=plist loop=$items}
+                  {include file="$style_dir/blocks/manage/account_video.html" video=$items[plist] bg=$bg control="playlist" pid=$playlist.playlist_id}
+                {sectionelse}
+                <div align="center" style="padding:5px"><strong><em>{lang code='no_video_in_playlist'}</em></strong></div>
+              {/section}
+              </table>
+            </div>
+          </form>
+        {/if}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  
+  .account_form-edit label.label-heading{
+    display: block;
+  }
+
+  .account_form-edit label input{
+    
+    margin-right: 10px;
+  }
+
+</style>

@@ -8,9 +8,11 @@
 */
 
 require_once '../includes/admin_config.php';
+require_once(dirname(dirname(__FILE__))."/includes/classes/sLog.php");
 $userquery->admin_login_check();
 $pages->page_redir();
-
+global $Cbucket;
+$mass_upload_config = config('delete_mass_upload');
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
 	define('MAIN_PAGE', 'Videos');
@@ -22,7 +24,17 @@ if(!defined('SUB_PAGE')){
 global $cbvid;
 $cats = $cbvid->get_categories();
 $total_cats = count($cats);
+$category_names = array();
+for ($i=0; $i < $total_cats ; $i++) { 
+	$category_values = $cats[$i]['category_id'];
+	$category_names[$category_values] = $cats[$i]['category_name'];
+}
+//pr($category_names,true);
+assign("cats",$cats);
+assign("cat_values",$category_values);
 assign("total_cats",$total_cats);
+
+
 if(isset($_POST['mass_upload_video']))
 {
 	$files = $cbmass->get_video_files();
@@ -32,7 +44,9 @@ if(isset($_POST['mass_upload_video']))
 	{	
 		$file_key = time().RandomString(5);
 		$file_arr = $files[$i];
-		
+		$file_path = $files[$i]['path'];
+		$file_orgname = $files[$i]['file'];
+	
 		if($cbmass->is_mass_file($file_arr))
 		{
 			$code = $i+1;
@@ -66,28 +80,44 @@ if(isset($_POST['mass_upload_video']))
 		{
 			$dosleep=0;
 			//Moving file to temp dir and Inserting in conversion queue..
+			
 			$file_name = $cbmass->move_to_temp($file_arr,$file_key);
+			$file_directory = createDataFolders();
+			createDataFolders(LOGS_DIR);
+			$logFile = LOGS_DIR.'/'.$file_directory.'/'.$file_key.'.log';
+			//pex($logFile,true);
+			$log = new SLog($logFile);
 			$results=$Upload->add_conversion_queue($file_name);
 			$str = "/".date("Y")."/".date("m")."/".date("d")."/";
 			$str1 = date("Y")."/".date("m")."/".date("d");
-			mkdir(BASEDIR.'/files/videos'.$str);
+			mkdir(FILES_DIR.'/videos'.$str);
 			$tbl=tbl("video");
 			$fields['file_directory']=$str1;
 			$fname=explode('.', $file_name);
 			$cond='file_name='.'\''.$fname[0].'\'';
 			$result=db_update($tbl, $fields, $cond);
-			$result=exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $file_name $dosleep &> /dev/null &");
+			$result=exec(php_path()." -q ".BASEDIR."/actions/video_convert.php {$file_name} {$file_key} {$file_directory} {$logFile} > /dev/null &");
 			if(file_exists(CON_DIR.'/'.$file_name))
 			{
 				unlink(CON_DIR.'/'.$file_name);
 				foreach ($vtitle as &$title) 
 				{
-					$resul1=glob(BASEDIR.'/files/videos/'.$title.".*");
+					$resul1=glob(FILES_DIR.'/videos/'.$title.".*");
 					unlink($resul1[0]);
 				}
 				
 			}
-
+			if($mass_upload_config == 'no') {
+				if(!file_exists($file_path.'processed')){
+					$oldmask = umask(0);
+					mkdir($file_path.'processed', 0777);
+					umask($oldmask);
+				}
+				rename($file_path.$file_orgname, $file_path.'processed/'.$file_orgname);
+			}
+			else{
+				unlink($file_path.$file_orgname);
+			}
 		}
 	}
 }

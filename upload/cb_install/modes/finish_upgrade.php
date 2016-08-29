@@ -9,8 +9,8 @@ $db->update(tbl("config"),array("value"),array(now())," name='date_updated' ");
 
 ?>
 <?php
-if(file_exists(BASEDIR.'/files/temp/install.me'))
-	unlink(BASEDIR.'/files/temp/install.me');
+if(file_exists(FILES_DIR.'/temp/install.me'))
+	unlink(FILES_DIR.'/temp/install.me');
 ?>
 
 

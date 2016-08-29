@@ -1,0 +1,24 @@
+<!-- Flag This {$type} -->
+<div id="flag_item" class="action_box" >
+    <div class="form_container">
+        <div class="form_result" id="flag_form_result" ></div>
+
+        <form id="flag_form" name="flag_form"  method="post" action="#">
+            <div class="alert alert-info">
+                {sprintf(lang("Please select the category that most closely reflects your concern about the %s, so that we can review it and determine whether it violates our Community Guidelines or isn't appropriate for all viewers. Abusing this feature is also a violation of the Community Guidelines, so don't do it."),$params.type)}
+            </div>
+            {$flag_options=get_flag_options($type)}
+
+            <div class="form-group mtm mbm">
+                <label for="flag_type">{lang("Choose a category")}</label>
+                <select class="form-control" name="flag_type" id="flag_type">
+                    {foreach from=$flag_options key=key item=item}
+                    <option value="{$key}">{$item}</option>
+                    {/foreach}
+                </select>
+            </div>
+            <input type="button" name="send_content" value="{sprintf(lang("Flag this %s"),$params.type)}" class="btn btn-primary" onclick="flag_object('flag_form','{$params.id}','{$params.type}')"/>
+        </form>
+    </div>
+</div>
+<!-- Flag This {$type} -->

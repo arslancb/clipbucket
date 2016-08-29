@@ -1,0 +1,21 @@
+
+<div onclick="get_ep_video('{$video.videoid}')" class="featured_vid_con clearfix">
+	<div class="video_thumb mouse_hover">
+		<span class="glyphicon glyphicon-play-circle white paly_on"></span>
+	<img src="{getThumb vdetails=$video}" width="135" height="76" border="0" {ANCHOR place="video_thumb" data=$video} />
+	</div> <!--VIDEO_THUMB END-->
+
+<div class="details_block">
+	<div class="title">
+	<a href="#">{$video.title|truncate:20}</a>
+    </div>
+	<!-- <div class="title">
+	{$video.description|description|truncate:30}
+	</div> -->
+	<time datetime="2014-12-04" class="time-duration">
+	<span class="bg-time"></span>&nbsp; {$video.date_added|niceTime}
+	</time>
+</div>
+
+</div> <!--DETAILS_BLOCK END-->
+ 	

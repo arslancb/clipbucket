@@ -69,7 +69,7 @@
 	subtitle(lang('upload'));
 	//Displaying The Template
 	if ( !userid() ) {
-		echo '<div id="notlogged_err" class="container alert alert-danger">You must login to be able to upload content. Login if you have account or register</div>';
+		echo '<div id="notlogged_err" class="container alert alert-danger" style="margin-top:70px">You must login to be able to upload content. Login if you have account or register</div>';
 	} else {
 		template_files('upload.html');
 	}

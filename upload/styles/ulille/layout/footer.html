@@ -1,0 +1,39 @@
+
+<footer id="page-footer">
+        <div class="row col-md-12 clearfix footer-pad">
+            {$Cbucket->footer()}
+			<div class="col-md-2 col-sm-6 col-xs-12 footer-logo">
+				<img nopin="nopin" src="{$theme}/images/logo-semm.svg" alt="logo SEMM" class="img-responsive">
+			</div>
+            <div class="col-md-8 col-sm-6 col-xs-12">
+                <ul class="nav list-unstyled pull-left">
+                    {$foot_menu=foot_menu()}
+                    {foreach from=$foot_menu item=fm}
+                    {if $fm.name!=''}
+                        <li><a href="{$fm.link}" {if $fm.target} target="{$fm.target}"{/if} {if $fm.onclick} onclick="{$fm.onclick}" {/if}>{$fm.name}</a></li>
+                    {/if}
+                    {/foreach}
+                </ul> 
+            </div>
+            <div class="col-md-2 col-sm-6 col-xs-12 forged-by">
+                   <ul class="nav list-unstyled pull-right">
+                    <li>#ClipBucket#</li>
+                </ul>
+            </div>
+        </div><!--//row-->
+</footer>
+<a href="#top" class="btn btn-primary btn-lg back-top"><span class="glyphicon glyphicon-chevron-up"></span><span class="sr-only"> haut de page</span> </a>
+<script>
+    $(".lang_ul li a").on({
+            click: function(e){
+            e.preventDefault();
+            var prent_li = $(this).parents();
+            $('.lang').html($(this).html()+" <span class='caret'></span>");
+            $('.lang_ul li').removeClass('active');
+            prent_li.addClass('active');
+        }
+    });
+</script>
+<script src="{$theme}/js/tv.js"></script>
+{$Cbucket->footer()}
+

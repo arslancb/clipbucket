@@ -433,7 +433,7 @@
         if(SEO == 'yes'){
 
             if($vdetails['playlist_id'])
-                $plist = '?&play_list='.$vdetails['playlist_id'];
+                $plist = '?play_list='.$vdetails['playlist_id'];
 
             $vdetails['title'] = strtolower($vdetails['title']);
 
@@ -1853,7 +1853,7 @@
         $File_dir  = $input['file_dir'];
         $data      = $input['data'];
 
-        $PlogFilePath = BASEDIR. "/files/logs/".$File_dir."/".$File_name.".plog";
+        $PlogFilePath = FILES_DIR."/logs/".$File_dir."/".$File_name.".plog";
 
 
         if(file_exists($PlogFilePath)) {
@@ -1923,4 +1923,28 @@
         }
 
         return array_filter($vid_dets);
+    }
+
+    /**
+    * Fetches the oldest video from still-waiting-to-convert list of videos when user by cron is active
+    * @param : { none }
+    * @author : { Saqib Razzaq }
+    * @return : { array } { $returnData } { an array with required parameters for video convert }
+    */
+
+    function convertWithCron() {
+        global $db;
+        $toConvert = $db->select(tbl("conversion_queue"),"*","cqueue_conversion ='no' ORDER BY cqueue_id ASC LIMIT 0,1");
+        $filedata = $toConvert[0];
+        if (empty($filedata)) {
+            return false;
+        }
+        $dateDir = str_replace('-', '/', $filedata['date_added']);
+        $dateDir = substr($dateDir, 0, strpos($dateDir, ' '));
+        $returnData = array();
+        $returnData[1] = $filedata['cqueue_name'].'.'.$filedata['cqueue_ext'];
+        $returnData[2] = $filedata['cqueue_name'];
+        $returnData[3] = $dateDir;
+        $returnData[4] = FILES_DIR.'/logs/'.$dateDir.'/'.$filedata['cqueue_name'].'.log';
+        return $returnData;
     }

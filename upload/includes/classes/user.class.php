@@ -320,7 +320,15 @@ class userquery extends CBCategory{
 			//$sess->set('user_session_key',$udetails['user_session_key']);
 			//$sess->set('user_session_code',$udetails['user_session_code']);
 			
-			
+			//local client ip access
+			$ip = $cblog->get_local_ipv4();
+
+			if($ip['eth0']){
+				$ipv = $ip['eth0'];
+			}
+			if($ip['wlan0']){
+				$ipv = $ip['wlan0'];
+			}
 			//Setting Vars
 			$this->userid = $udetails['userid'];
 			$this->username = $udetails['username'];
@@ -332,7 +340,7 @@ class userquery extends CBCategory{
 							  'num_visits','last_logged','ip'
 							  ),
 						array(
-							  '|f|num_visits+1',NOW(),$_SERVER['REMOTE_ADDR']
+							  '|f|num_visits+1',NOW(),$ipv
 							  ),
 						"userid='".$userid."'"
 						);

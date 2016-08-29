@@ -1,0 +1,42 @@
+<!-- thumb -->
+<div class="thumb">
+	<div class="image-holder">
+		<div class="image"><img nopin="nopin" src="{getThumb vdetails=$video}" alt="alt" class="img-responsive"></div>
+		<div class="image-overlay fade1s"></div>
+		<div class="duration-anchor fade1s">{$video.category|categories:video} | {if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</div>
+		{if has_access('admin_access')}
+		<div class="dropdown fade1s"> <a id="video{$video.videoid}" href="#" class="options glyphicon glyphicon-option-vertical text-card" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">menu</span></a>
+			<ul class="dropdown-menu" aria-labelledby="video{$video.videoid}">
+				<li><a href="{$admin_baseurl}/edit_video.php?video={$video.videoid}"><span class="glyphicon glyphicon-pencil"></span> éditer les informations</a></li>
+			</ul>
+		</div>
+		{/if}
+		<a href="{videoLink($video)}" class="play-anchor fade1s"><span href="#" class="glyphicon glyphicon-play-circle text-card"></span></a>
+		{if $video.featured == 'yes'}
+			<div class="favorite-anchor"><span class="glyphicon glyphicon-heart"></span>&nbsp;{lang code="picked"}</div>
+		{/if}
+	</div>
+	<div class="details card">
+		<div class="published">
+			{if function_exists('get_video_field')}
+				{assign var=created value=get_video_field($video.videoid,"datecreated")}
+				{if $created != "1970-01-01"}
+					{$created|date_format:"%d %B %Y"}
+				{else}
+					{$video.date_added|date_format:"%d %B %Y"}
+				{/if}
+			{else}
+				{$video.date_added|date_format:"%d %B %Y"}
+			{/if}
+		</div>
+		<h4 class="reset"><a href="{videoLink($video)}">{$video.title|truncate:65}</a></h4>
+		<div class="description"></div>
+		<div class="attributes text-right">
+			<div class="topic">
+				{if function_exists('discipline_thumb_output')}
+					{ANCHOR place="discipline" data=$video.videoid}
+				{/if}
+			</div>
+		</div>
+	</div>
+</div>

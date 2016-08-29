@@ -1199,7 +1199,7 @@ INSERT INTO `{tbl_prefix}config` (`name`, `value`) VALUES ('secretId', 'your_cli
 UPDATE `{tbl_prefix}config` SET value = 'cb_28' WHERE name = 'template_dir';
 
 ALTER TABLE `{tbl_prefix}collection_categories` ADD `parent_id` int DEFAULT 1;
-
+INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'youtube_api_key', 'key_here');
 /*Indexing of following tables*/
 /*Author: Sikander Ali  */
 /*Cb_collection*/

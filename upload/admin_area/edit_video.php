@@ -49,7 +49,8 @@ if(@$_GET['msg']){
 
 	//Performing Video Acttions
 	if($_GET['mode']!=''){
-		$cbvid->action($_GET['mode'],$video);
+		$modedata = $cbvid->action($_GET['mode'],$video);
+		assign("modedata",$modedata);
 	}
 	
 	//Check Video Exists or Not
@@ -61,7 +62,7 @@ if(@$_GET['msg']){
 			$myquery->delete_comment($cid);
 		}
 		
-		
+		//pr($video,true);
 		$data = get_video_details($video);
 		Assign('udata',$userquery->get_user_details($data['userid']));
 		Assign('data',$data);

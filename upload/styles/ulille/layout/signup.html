@@ -1,0 +1,180 @@
+{$required_fields=$userquery->load_signup_fields()}
+{$cutom_fields=$userquery->custom_signup_fields}
+
+{ANCHOR place="all_conn_btns"}
+
+{if $mode == 'signup_success'}
+<div class="simple_container">
+        {if $udetails.usr_status !='Ok'}
+            {lang code='signup_success_usr_ok'}
+        {else}
+            {lang code='signup_success_usr_emailverify' assign='signupsuccessusremailverify'}
+            {link name='login' assign='login_link'}
+            {$signupsuccessusremailverify|sprintf:$login_link}
+{/if} </div>
+{else}    
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="cb-box signup-box">
+                <h3>Login</h3>
+
+                <form name="login_form" id="login_form" method="post" action="" >
+                    <div class="form-group">
+                        <label for="login_username_sp">{lang code="Username"}</label>
+                        <input type="text" id="login_username_sp" placeholder="{lang code='Enter your username..'}"
+                               class="form-control" name="username" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login_password_sp">{lang code="Password"}</label>
+                        <input type="password" id="login_password_sp" placeholder="{lang code='Enter your account password'}"
+                               class="form-control" name="password"/>
+                    </div>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="remember_me" value="yes" />
+                            {lang code="Remember me"}
+                        </label>
+                    </div>
+
+                    <input type="submit" name="login" value="{lang('Login')}" class="btn btn-primary btn-block" />
+
+                    <div align="center"><a href="{$baseurl}/forgot.php">{lang code='user_forgot_password'}</a> | <a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='user_forgot_username'}</a></div>
+
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="cb-box signup-box">
+                {if $allow_registeration}
+                    {$allow_registeration}
+                {else}
+                <h3>Signup!</h3>
+                <form name="signup_form" id="signup_form" method="post" action="" >
+                    {foreach from=$required_fields item=field}
+                        {if $field.type!='checkbox' && $field.type!='radiobutton'}
+                            {$field.class='form-control'}
+                        {/if}
+                        <div class="form-group">
+                            <label for="{$field.id}">{$field.title}</label>
+                            {if $field.type=='radiobutton'}
+                                {$field.label_class="radio-inline"}
+                                {$field.sep=" "}
+                                <div></div>
+                            {/if}
+
+                            {if $field.type=='checkbox'}
+                                {$field.label_class="checkbox-inline"}
+                                {$field.sep=" "}
+                                <div></div>
+                            {/if}
+
+                            {if $field.hint_before}
+                            <span class="help-block">{$field.hint_before}</span>
+                            {/if}
+                            {ANCHOR place=$field.anchor_before}
+
+                            {$formObj->createField($field)}
+                            {ANCHOR place=$field.anchor_after}
+                            {if $field.hint_after}
+                            <span class="help-block">{$field.hint_after}</span>
+                            {/if}
+                        </div>
+                    {/foreach}
+                    <!-- Loading Custom Fields -->
+                    {foreach from=$custom_field item=field}
+                        <div class="form-group">
+                            <label for="{$field.id}">{$field.title}</label>
+                            {if $field.type=='radiobutton'}
+                            {$field.label_class="radio-inline"}
+                            {$field.sep=" "}
+                            <div></div>
+                            {/if}
+
+                            {if $field.type=='checkbox'}
+                            {$field.label_class="checkbox-inline"}
+                            {$field.sep=" "}
+                            <div></div>
+                            {/if}
+
+
+                            {if $field.hint_before}
+                            <span class="help-block">{$field.hint_before}</span>
+                            {/if}
+                            {ANCHOR place=$field.anchor_before}
+
+                            {$formObj->createField($field)}
+                            {ANCHOR place=$field.anchor_after}
+                            {if $field.hint_after}
+                            <span class="help-block">{$field.hint_after}</span>
+                            {/if}
+                        </div>
+                    {/foreach}
+
+                     {$captcha = get_captcha()}
+                     {if $captcha} 
+                     {if $captcha.show_field}
+
+                     <label class="label" for="verification_code">Verification Code</label>
+                        {load_captcha captcha=$captcha load=field field_params = ' id="verification_code" '}
+                     <div class="clearfix"></div>
+                     {/if}
+
+                     <div align="center">{load_captcha captcha=$captcha load=function}</div>
+
+                     {/if}
+               <!--{$captcha|@print_r}-->
+
+                    <div class="checkbox">
+                        <label>
+                            <input name="agree" type="checkbox" id="agree" value="yes" checked="checked" />
+                            {sprintf(lang(user_i_agree_to_the),$cbpage->get_page_link(3),$cbpage->get_page_link(2))}
+
+                        </label>
+                    </div>
+                    {ANCHOR place="the_form"}
+                    <input type="submit" name="signup" class="btn btn-success btn-block" value="{lang code='signup'}"  />
+                    {ANCHOR place='signup_form'}
+                </form>
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<script>
+    $(document).ready(function(){
+        jQuery('#dob').datepicker({
+          
+            showOtherMonths: true,
+            selectOtherMonths: false,
+            changeMonth: true,
+            dateFormat:"yy-mm-dd",
+            changeYear: true
+       
+        });
+
+       $('.simple_container').addClass('alert-success alert');
+      
+     });
+
+
+
+</script>
+
+                     {literal}
+                    <style>
+                   .ui-datepicker {
+                    background: #fff;
+                    border: 1px solid #357EBD;
+                    width: 140px;
+                    vertical-align: center;
+                    }
+
+                    
+                    </style>
+                    {/literal}

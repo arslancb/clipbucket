@@ -193,12 +193,12 @@
                     </a>
                 </li>
                 <li class="">
-                    <a data-toggle="tab" href="#rating">
+                    <a data-toggle="tab" href="#rating2">
                         Rating
                     </a>
                 </li>
             </ul>
-
+         
             <div class="tab-content">
                 <div id="comments" class="tab-pane active">
                     {foreach from=$otherFields item=field}
@@ -209,6 +209,7 @@
                     {/foreach}
                 </div>
                 <div id="embedding" class="tab-pane">
+                {pr("asasas",true)}
                     {foreach from=$otherFields item=field}
                     {if $field.title=='Embedding'}
                     <label><strong>{$field.title}</strong></label><br>
@@ -216,7 +217,7 @@
                     {/if}
                     {/foreach}
                 </div>
-                <div id="rating" class="tab-pane">
+                <div id="rating2" class="tab-pane">
                     {foreach from=$otherFields item=field}
                     {if $field.title=='Rating'}
                     <label><strong>{$field.title}</strong></label><br>
@@ -224,11 +225,11 @@
                     {/if}
                     {/foreach}
                 </div>
-                </div>
-                </div>
-    </div>
             </div>
         </div>
+    </div>
+</div>
+</div>
         <div class="row">
             <div class="col-md-6">
                 <input id="edit_photo_submit" type="submit" class="btn btn-primary" value="Update Photo Details" name="update" style="margin-top: 10px">
@@ -255,4 +256,6 @@
         e.preventDefault();
         $('#edit_photo').submit();
     })
+
+       
 </script>

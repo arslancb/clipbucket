@@ -6,6 +6,7 @@ INSERT INTO `{tbl_prefix}config` (`name`, `value`) VALUES ('clientid', 'your_cli
 
 INSERT INTO `{tbl_prefix}config` (`name`, `value`) VALUES ('secretId', 'your_client_secret_here');
 ALTER TABLE `{tbl_prefix}collection_categories` ADD `parent_id` int DEFAULT 1;
+INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'youtube_api_key', 'key_here');
 /*Indexing of following tables*/
 /*Author: Sikander Ali 	*/
 

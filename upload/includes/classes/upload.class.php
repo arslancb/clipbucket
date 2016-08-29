@@ -423,7 +423,7 @@ class Upload{
 		if(!empty($file) && $ext =='jpg'){
 			$image = new ResizeImage();
 			if($image->ValidateImage($file,$ext)){
-				$thumb = BASEDIR.'/files/thumbs/'.GetThumb($flv,$thumbid);
+				$thumb = FILES_DIR.'/thumbs/'.GetThumb($flv,$thumbid);
 				move_uploaded_file($file,$thumb);
 				$image->CreateThumb($thumb,$thumb,THUMB_WIDTH,$ext,THUMB_HEIGHT,false);
 				return true;

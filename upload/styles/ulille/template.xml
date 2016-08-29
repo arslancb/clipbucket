@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>webTV - uLille</name>
+	<author>Yannick Bonnaz</author>
+	<smarty_version>3</smarty_version>
+	<version>1 alpha</version>
+	<released>1 JUNE 2016 12:00:00 +0000</released>
+	<description>ClipBucket v2.7 Theme By "SEMM Université de Lille"</description>
+	<website title="SEMM">http://semm.univ-lille1.fr</website>
+	<license>CC</license>
+</template>

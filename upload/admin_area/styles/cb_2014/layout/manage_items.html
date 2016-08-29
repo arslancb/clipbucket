@@ -49,7 +49,7 @@
                                 <img src="{get_photo details=$obj[list]}" id="photo" style="padding:2px; border:1px solid #ccc" />
                             </div>
                             <div class="col-md-9">
-                                <a class="block" href="{$baseurl}/admin_area/edit_photo.php?photo={$photos[list].photo_id}">{$obj[list].photo_title}</a>
+                                <a class="block" href="{$baseurl}/admin_area/edit_photo.php?photo={$obj[list].photo_id}">{$obj[list].photo_title}</a>
                                 <span class="labels1"> <strong>{$obj[list].date_added|niceTime}</strong>
                                 {lang code='views'} : <strong>{$obj[list].views|number_format}</strong></span>
                                 <div class="labels">
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <a href="view_user.php?uid={$photos[list].userid}">{$obj[list].username}</a>
+                        <a href="view_user.php?uid={$obj[list].userid}">{$obj[list].username}</a>
                     </div>
                 </div>
         </tr>
@@ -107,7 +107,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <a href="view_user.php?uid={$photos[list].userid}">{$obj[list].username}</a>
+                        <a href="view_user.php?uid={$obj[list].userid}">{$obj[list].username}</a>
                     </div>
                 </div>
         </tr>

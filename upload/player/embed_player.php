@@ -44,9 +44,9 @@ if(!$vdetails)
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?=$vdetails['title']?></title>
+<script type="text/javascript" src="<?php echo BASEURL; ?>/styles/cb_28/theme/js/jquery-1.11.3.min.js"></script>
 <?php
 Template(STYLES_DIR.'/global/head.html',false);
-Template(STYLES_DIR.'/global/html5_player_header.html',false);
 ?>
 </head>
 

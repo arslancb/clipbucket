@@ -1,0 +1,14 @@
+{assign var='video_fields' value=$Upload->load_video_fields($input)}
+
+
+
+{foreach from=$video_fields item=field}
+<pre>
+    {foreach from=$field key=key item=oneField}
+    <pre class="alert alert-info">
+        {$key}
+        {var_dump($oneField)}
+    </pre>
+    {/foreach}
+</pre>    
+{/foreach}

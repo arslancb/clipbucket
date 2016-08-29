@@ -237,10 +237,12 @@ if(isset($_POST['update'])){
 					'vbrate',
 					'video_require_login',
 					'feedsSection',
+					'youtube_api_key',
 					'website_email',
 					'welcome_email',
 					'vbrate_hd',
 					'store_guest_session',
+					'delete_mass_upload',
 					
 					);
 	
@@ -307,7 +309,9 @@ if(isset($_POST['update'])){
 
     if (isset($_POST['seo']) != "yes") {
         $_POST['seo']= "no";
-
+    }
+    if(isset($_POST['delete_mass_upload']) != "yes"){
+    	$_POST['delete_mass_upload'] = "no";
     }
     if (isset($_POST['send_comment_notification']) != "yes") {
         $_POST['send_comment_notification']= "no";

@@ -1,0 +1,163 @@
+ {if $userquery->udetails['soclid'] != ''}
+		{assign var="usr_head_thumb" value="{$userquery->getUserThumb('','',userid())}"}
+		{else}
+		{assign var="usr_head_thumb" value="{$userquery->getUserThumb('','small',userid())}"}
+	{/if}
+		<div id="quick_container">
+	<div id="quicklist_box"> </div>
+</div>
+{$logged_in_user = $userquery->get_user_details(userid())}
+{$searchPage = $smarty.get.query}
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#webtv-main-navbar"> <span class="sr-only">Navigation</span> <span class="glyphicon glyphicon-menu-hamburger"></span> menu</button>
+			<a class="navbar-brand" href="{$baseurl}"><img nopin="nopin" src="{$theme}/images/logo.svg" alt="logo" class="img-responsive-vert"></a> </div>
+		<!-- YB {ANCHOR place='mature_content'}
+		
+		{$head_menu=cb_menu()}--> 
+		<div class="collapse navbar-collapse" id="webtv-main-navbar">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="search" role="search">
+					<form class="form-inline" action="{link name='search_result'}">
+						<label class="sr-only" for="query">Termes de recherche</label>
+						<input type="text" class="reset" name="query" placeholder="rechercher..."  value="{'query'|get_form_val:true}" id="query">
+						<input type="hidden" name="type" class="type" value="videos" id="type">
+						<button role="search" tabindex="-1" type="submit" name="cbsearch" id="cbsearch" title="{lang code='Go'}" value="{lang code='Go'}" class="submit btn btn-default"><span class="glyphicon glyphicon-search"></span><span class="sr-only">Valider</span></button>
+					</form>
+				</li>
+			</ul>
+			<!-- Shown to Large displays only Start -->
+			<ul class="nav navbar-nav">
+				<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{lang code="categories"} <span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+						{$cbvid->cbCategories(["type"=>$type,"echo"=>"TRUE","output"=>"list","with_all"=>"TRUE"]) }
+					</ul>
+				</li>
+				{if function_exists('disciplines_menu_output')}
+					<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{lang code="disciplines"} <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							{ANCHOR place="disciplines_list"}
+						</ul>
+					</li>
+				{/if}
+				<li><a href="#">Live !</a></li>
+			</ul>
+			{if userid()} 
+			<!-- if logged -->
+			<ul class="nav navbar-nav navbar-right">
+				<li class="user"><a href="{link name='logout'}" title="{lang code="Logout"}"><span class="glyphicon glyphicon-remove-circle"></span>&nbsp;{lang code="logout"}</a></li>
+				{if has_access('admin_access')}
+				<li class="admin"><a href="{$admin_baseurl}" title="{lang code="Admin area"}"><span class="glyphicon glyphicon-cog"></span>&nbsp;{lang code="Admin area"}</a></li>
+				{/if}
+			</ul>
+			{else}
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#" data-toggle="modal" data-target="#login-modal"><span class="glyphicon glyphicon-user"></span>&nbsp;{lang code='login'}</a></li>
+			</ul>
+			{/if} </div>
+		<!-- Ends --> 
+		
+	</div>
+</nav>
+<a id="top"></a>
+<div class="modal modal-vcenter fade" id="login-modal" role="dialog" aria-hidden="true">
+	<div class="modal-dialog"> 
+		<!--<form name="login-form" role="form" action="{link name='signup'}" method="post">-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">{lang code="Login"}</h4>
+			</div>
+			<div class="modal-body">
+				<div class="panel-group" id="accountSelect" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-default">
+						<div class="panel-heading" role="tab" id="headingCas">
+							<h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accountSelect" href="#accountCas" aria-expanded="true" aria-controls="accountCas">Université de Lille <span class="caret"></span></a></h4>
+						</div>
+						<div id="accountCas" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingCas">
+							<div class="panel-body"> <a href="#" class="btn btn-primary btn-block">Connexion CAS <img src="{$theme}/images/U-lille-16x16.svg" alt="blason Université de Lille"></a> </div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading" role="tab" id="headingExt">
+							<h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accountSelect" href="#accountExt" aria-expanded="false" aria-controls="accountExt">Utilisateur externe <span class="caret"></span></a></h4>
+						</div>
+						<div id="accountExt" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingExt">
+							<div class="panel-body">
+								<form name="login-form" role="form" action="{link name='signup'}" method="post">
+									<div class="form-group">
+										<label for="login_username">{lang code="Username"}</label>
+										<input type="text" class="form-control" id="login_username"  name="username">
+									</div>
+									<div class="form-group">
+										<label for="login_password">{lang code="Password"}</label>
+										<input type="password" class="form-control" id="login_password" name="password">
+									</div>
+									<input type="submit" class="btn btn-primary pull-right" value="{lang code='Login'}" name="login">
+									<button type="button" class="btn btn-link pull-right" data-dismiss="modal">{lang code="Cancel"}</button>
+									<a href="{$baseurl}/forgot.php"  class="btn btn-link btn-sm pull-left">{lang code='user_forgot_password'}</a> <a  class="btn btn-link btn-sm pull-left" href="{$baseurl}/forgot.php?mode=recover_username">{lang code='user_forgot_username'}</a>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+		</form>
+	</div>
+	<!-- /.modal-dialog --> 
+</div>
+<!-- /.modal --> 
+
+<script>
+function rm_hvr() {
+	if ( $(window).width() > 767 )
+	{
+		$(".dropdown.hvr").on("mouseenter",function(){
+			$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
+		});
+		$(".dropdown.hvr").on("mouseleave",function(){
+			$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
+		});
+	}
+	else
+	{
+		
+	}
+}
+//header menu-width function
+function headerMenuWidth(){
+	var headerWidth = $(window).width();
+	$(".mega-dropdown-menu .col:nth-child(2)").css("width",headerWidth-350+"px");
+}
+$(window).resize(function(){
+	rm_hvr();
+	headerMenuWidth();
+});
+	$(document).ready(function(){
+		rm_hvr();
+		headerMenuWidth();
+		$(".cbsearchtype a").on({
+			click: function(e){
+				e.preventDefault();
+				var prent_li = $(this).parents();
+				$('.type').val($(this).html());
+				$('.cbsearchtype li').removeClass('active');
+				prent_li.addClass('active');
+			}
+			});
+		
+		$('.show-small-form').click(function() {
+			$('.form-small').toggleClass('show');   
+		});
+
+		$('.s-types').on("click", function(){
+			var _this = $(this);
+			var text = _this.html();
+			$('.search-type').html(text);
+		});
+	});
+</script>

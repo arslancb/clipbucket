@@ -79,9 +79,10 @@ if(isset($_POST['youtube']))
 	*
 	* Tip: Replace part between 'key' to '&' to use your own key
 	*/ 
-
+	$apiKey = $Cbucket->configs['youtube_api_key'];
 	// grabs video details (snippet, contentDetails)
-	$youtube_content = file_get_contents('https://www.googleapis.com/youtube/v3/videos?id='.$YouTubeId.'&key=AIzaSyDOkg-u9jnhP-WnzX5WPJyV1sc5QQrtuyc&part=snippet,contentDetails');
+	$request = 'https://www.googleapis.com/youtube/v3/videos?id='.$YouTubeId.'&key='.$apiKey.'&part=snippet,contentDetails';
+	$youtube_content = file_get_contents($request);
 	$content = json_decode($youtube_content,true);
 	$thumb_contents = maxres_youtube($content);
 	$max_quality_thumb = $thumb_contents['thumb'];
