@@ -1,0 +1,144 @@
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
+<div id="main" class="clearfix container">
+	<div class="clearfix">
+		<section id="content" class="clearfix videos">
+			<div class="clearfix leaderboard-ad ad">
+				{AD place='ad_728x90'}
+			</div>
+			{$categories = pullCategories()}
+			
+			{assign var=sorting_links value=sorting_links()}
+			<div class="filter-dropdowns clearfix">
+				<div class="cat-col col-lg-6 col-md-6 col-sm-6 col-xs-12 clearfix">
+					{include file="$style_dir/blocks/category_list.html" type='video'}
+				</div>
+				<div class="sorting-col col-lg-6 col-md-6 col-sm-6 col-xs-12 clearfix">
+					<!--Sorting By View-->
+					<div class="dropdown">
+						{if $smarty.get.sort}
+						{foreach from=$sorting_links item=name key=sort name=sorts}
+							{if $smarty.get.sort==$sort && isset($smarty.get.sort)} 
+							<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">{$name} <span class="icon-down-arrow"></span></a>
+							{/if}
+						{/foreach}
+						{else}
+							<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">Recent <span class="icon-down-arrow"></span></a>
+						{/if}    
+					
+						<ul class="dropdown-menu">
+							{foreach from=$sorting_links item=name key=sort}
+							<li>
+								<a href="{link name=sort sort=$sort type=videos}&sorting=sort" {if $smarty.get.sort==$sort} class="selected" {/if}>{if $smarty.get.sort==$sort}<i class="icon-tick"></i>{/if}{$name}</a>
+							</li>
+							{/foreach}
+						</ul>
+					</div>
+					
+					<!--Sorting By time-->
+					{assign var=time_links value=time_links()}
+					<div class="dropdown">
+						{if $smarty.get.time} 
+					
+						{foreach from=$time_links item=name key=sort name=times}
+							{if $smarty.get.time==$sort && isset($smarty.get.time)} 
+							<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">{$name} <span class="icon-down-arrow"></span></a>
+							{/if}
+						{/foreach}
+						{else}
+							<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">all time <span class="icon-down-arrow"></span></a>
+						{/if}  
+						  <ul class="dropdown-menu">
+							{foreach from=$time_links item=name key=sort name=times}
+								<li>
+									<a href="{link name=time sort=$sort type=videos}" {if $smarty.get.time==$sort} class="selected"{/if}>{if $smarty.get.time==$sort}<i class="icon-tick"></i>{/if}{$name}</a>
+								</li>
+							{/foreach}
+						  </ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="clearfix row">
+			{if $videos}
+				{foreach $videos as $video}
+					<div class="item-video col-lg-3 col-md-4 col-sm-4 col-xs-12">
+					{include file="$style_dir/blocks/videos/video.html" display_type='homeVideos'}
+					</div>
+				{/foreach}
+			{else}
+				<div class="well well-info">{lang code="no_videos_found"}</div>
+			{/if}
+			</div>
+			<!-- Pagination -->
+			{include file="$style_dir/blocks/pagination.html"}
+			<!-- end of Pagination -->
+		</section>
+		<!-- videos ended -->
+		<aside id="sidebar">
+			<div class="box-ad ad">{AD place='ad_300x250'}</div>
+			<h2>{lang code="featured_videos"}</h2>
+			<div class="clearfix sidebar-items">
+			{$featured=$cbvid->get_videos(["featured"=>"yes","limit"=>6])}
+			{if $featured}
+				{foreach $featured as $video}
+					{include file="$style_dir/blocks/videos/video.html" display_type='featuredVideos_sidebar'}
+				{/foreach}
+			{else}
+				<div class="well well-info">{lang code="no_videos_found"}</div>
+			{/if}
+			</div>
+
+		</aside>
+	</div>
+</div>
+<script>
+	var last_clicked;
+	$(document).ready(function(){
+		$(".dropdown-menu > li > div > i.trigger").on("click",function(e){
+			var current=$(this).parent().next();
+			var grandparent=$(this).parent().parent().parent();
+			var list_siblings=$(this).parent().parent().siblings();
+			var parent_li = $(this).parent().parent();
+			var sibling_triggers=list_siblings.children('div').children('i.trigger');
+			var level = $(this).data("level");
+			var last_level = "";
+			
+			if($(this).hasClass('icon-right-arrow')){
+				$(sibling_triggers).addClass('icon-right-arrow');
+				$(sibling_triggers).removeClass('icon-left-arrow');
+			}
+
+			if($(this).hasClass('icon-left-arrow')||$(this).hasClass('icon-right-arrow'))
+				$(this).toggleClass('icon-right-arrow icon-left-arrow');
+
+			grandparent.find('.icon-left-arrow').not(this).children().toggleClass('icon-right-arrow icon-left-arrow');
+			grandparent.find(".sub-menu:visible").not(current).hide();
+			current.toggle();
+
+			last_clicked = $(".lastclicked").data("lastClicked");
+			last_level = $(".lastlevel").data("lastLevel");
+
+			if (last_clicked  && last_level > level){
+				var last_clicked_triggers_next = last_clicked.find('i.trigger');
+				last_clicked_triggers_next.addClass('icon-right-arrow');
+				last_clicked_triggers_next.removeClass('icon-left-arrow');
+
+				var last_clicked_triggers_prev = last_clicked.parents(".sub-menu").find('div i.trigger');
+				console.log(last_clicked.prev().find('i.trigger').length);
+				last_clicked_triggers_prev.addClass('icon-right-arrow');
+				last_clicked_triggers_prev.removeClass('icon-left-arrow');
+			}
+		
+			$(".lastclicked").data("lastClicked", parent_li);
+			$(".lastlevel").data("lastLevel", level);
+
+			e.stopPropagation();
+		});
+		$(".dropdown-menu > li > div > i:not(.trigger)").on("click",function(){
+			var root=$(this).closest('.dropdown');
+			root.find('.icon-left-arrow').toggleClass('icon-right-arrow icon-left-arrow');
+			root.find('.sub-menu:visible').hide();
+		});
+	});
+</script>

@@ -1,0 +1,785 @@
+{$currentPage = $smarty.const.THIS_PAGE|lower}
+
+{if $currentPage == 'view_channel' || $currentPage == 'channels'}
+	{$currentPage = 'channels'}
+	{$toSearch = 'channels'}
+{elseif $currentPage == 'view_item' || $currentPage == 'photos'}
+	{$currentPage = 'photos'}
+	{$toSearch = 'photos'}
+{elseif $currentPage == 'collections' || $currentPage == 'view_collection'}
+	{$currentPage = 'collections'}
+	{$toSearch = 'collections'}
+{elseif $currentPage == 'watch_video' || $currentPage == 'videos'}
+	{$currentPage = 'videos'}
+	{$toSearch = 'videos'}
+{elseif $currentPage == 'list'}
+	{$currentPage = 'audios'}
+{/if}
+
+{$vidMode = {lang code="videos"}}
+{$photoMode = {lang code="photos"}}
+{$channelsMode = {lang code="channels"}}
+{$pageType = $smarty.get.type|lower}
+
+<div id="quick_container">
+	<div id="quicklist_box">
+	</div>
+</div> 
+
+{$searchPage = $smarty.get.query}
+	
+<header id="header">
+
+
+	<div id="profils_preferences">
+		<div>
+			{if config("allow_language_change")}
+				{$langs = $lang_obj->get_langs('yes')}
+				{$total_langs = count($langs)}
+				
+				{if $total_langs >= 2}
+					<ul id="menu_langues">
+						{foreach $langs as $lang}
+							<li data-lang="{$lang.language_code}" hreflang="{$lang.language_code}" lang="{$lang.language_code}" class="pick-lang">
+								<a href="javascript:void(0);">
+								{$lang.language_code|upper}
+								</a>
+							</li>
+						{/foreach}
+					</ul>
+				{/if}
+			{/if}
+
+			<!-- <a href="https://www.u-picardie.fr/" class="icon-home"><span>Accueil</span></a> -->
+
+			<form id="recherche_simple" action="{link name='search_result'}">
+				<div data-unfold-target="recherche_simple">
+					<input tabindex="2" name="query" id="query" placeholder="{lang code='search_keyword_feed'}" value="{'query'|get_form_val:true}" title="Rechercher par mots-clés" type="text">
+					<button class="glyphicon glyphicon-search" title="Valider"><span>Valider</span></button>
+				</div>
+			</form>
+			
+
+			<div id="meta_menu">
+			<!-- 
+				ui-widget ui-widget-content ui-corner-all ui-tabs-collapsible ui-corner-all ui-widget-header ui-helper-reset 
+class="ui-state-default" 
+			-->
+				<div class="ui-tabs" id="meta_menu_tabs">
+					<ul class="ui-tabs-nav ui-helper-clearfix" id="meta_menu_button">
+						<li class="ui-state-default" id="liFormation">
+							<a id="ui-id-1">
+								<span>Formation <span class="glyphicon glyphicon-menu-down"></span></span>
+							</a>
+						</li>
+						<li class="ui-state-default" id="liRecherche">
+							<a id="ui-id-2" class="collapsed">
+								<span>Recherche <span class="glyphicon glyphicon-menu-down"></span></span>
+							</a>
+						</li>
+						<li class="ui-state-default" id="liDirections">
+							<a id="ui-id-3" class="collapsed">
+								<span>Directions, services... <span class="glyphicon glyphicon-menu-down"></span></span>
+							</a>
+						</li>
+					</ul>
+					
+					<!-- Formation -->
+					<div id="collapseFormation" class="meta_menu_contenu" role="tabpanel" aria-labelledby="ui-id-1">
+						<div>
+							<strong>Arts, Lettres, Langues</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/formation/arts-lettres-langues/ufr-des-arts/">UFR des Arts</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/arts-lettres-langues/ufr-de-langues-et-cultures-etrangeres/">UFR de Langues et Cultures Étrangères</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/arts-lettres-langues/ufr-des-lettres/">UFR des Lettres</a></li>
+							</ul>
+							<br>
+						</div>
+
+						<div>
+							<strong>Droit, Économie, Gestion</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/formation/droit-economie-gestion/ufr-de-droit-et-de-science-politique/">UFR de Droit et de Science Politique</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/droit-economie-gestion/ufr-d-economie-et-de-gestion/">UFR d'Économie et de Gestion</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/droit-economie-gestion/institut-d-administration-des-entreprises-iae-/">Institut d'Administration des Entreprises (IAE)</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/droit-economie-gestion/institut-de-preparation-a-l-administration-generale-ipag-/">Institut de Préparation à l'Administration Générale (IPAG)</a></li>
+							</ul>
+							<br>
+						</div>
+
+						<div>
+							<strong>ESPE, Antenne et IUT</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/formation/espe-antenne-et-iut/antenne-universitaire-de-beauvais-aub-/">Antenne Universitaire de Beauvais (AUB)</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/espe-antenne-et-iut/ecole-superieure-du-professorat-et-de-l-education-espe-/">École Supérieure du Professorat et de l'Éducation (ESPE)</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/espe-antenne-et-iut/institut-universitaire-de-technologie-d-amiens/">Institut Universitaire de Technologie d'Amiens</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/espe-antenne-et-iut/institut-universitaire-de-technologie-de-l-aisne/">Institut Universitaire de Technologie de l'Aisne</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/espe-antenne-et-iut/institut-universitaire-de-technologie-de-l-oise/">Institut Universitaire de Technologie de l'Oise</a></li>
+							</ul>
+							<br>
+						</div>
+						
+						<div>
+							<strong>Sciences Humaines et Sociales</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/formation/sciences-humaines-et-sociales/ufr-d-histoire-et-de-geographie/">UFR d'Histoire et de Géographie</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/sciences-humaines-et-sociales/ufr-sciences-humaines-sociales-et-philosophie/">UFR Sciences Humaines, Sociales et Philosophie</a></li>
+							</ul>
+							<br>
+						</div>
+
+						<div>
+							<strong>Sciences, Technologie, Santé</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/formation/sciences-technologie-sante/ufr-de-medecine/">UFR de Médecine</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/sciences-technologie-sante/ufr-de-pharmacie/">UFR de Pharmacie</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/sciences-technologie-sante/ufr-des-sciences/">UFR des Sciences</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/sciences-technologie-sante/ufr-des-sciences-et-techniques-des-activites-physiques-et-sportives-staps/">UFR des Sciences et Techniques des Activités Physiques et Sportives - STAPS</a></li>
+								<li><a href="https://www.u-picardie.fr/formation/sciences-technologie-sante/institut-superieur-des-sciences-et-techniques-insset/">Institut Supérieur des Sciences et Techniques - INSSET</a></li>
+							</ul>
+							<br>
+						</div>
+
+						<div>
+							<strong>Formation Tout au Long de la Vie</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/formation/formation-tout-au-long-de-la-vie/service-universitaire-de-formation-tout-au-long-de-la-vie-suftlv-/">Service Universitaire de Formation Tout au Long de la Vie (SUFTLV)</a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- #meta_menu_1 .meta_menu_contenu -->
+
+					<!-- Recherche -->
+					<div id="collapseRecherche" class="meta_menu_contenu" role="tabpanel" aria-labelledby="ui-id-2">
+						<div>
+							<strong>Sciences</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences/biopi-biologie-des-plantes-et-innovation-/">BIOPI, Biologie des plantes et innovation </a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences/edysan-ecologie-et-dynamique-des-systemes-anthropises-cnrs/">EDYSAN, Ecologie et dynamique des systèmes anthropisés - CNRS</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences/eproad-eco-procedes-optimisation-et-aide-a-la-decision/">EPROAD, Eco-procédés, optimisation et aide à la décision</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences/gec-genie-enzymatique-et-cellulaire-cnrs/">GEC, Génie enzymatique et cellulaire - CNRS</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences/lamfa-laboratoire-amienois-de-mathematique-fondamentale-et-appliquee-cnrs-/">LAMFA, Laboratoire amiénois de mathématique fondamentale et appliquée - CNRS </a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences/lg2a-laboratoire-de-glycochimie-des-antimicrobiens-et-des-agro-ressources-cnrs/">LG2A, Laboratoire de Glycochimie des Antimicrobiens et des Agro-ressources - CNRS</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences/lpmc-laboratoire-de-physique-de-la-matiere-condensee/">LPMC, Laboratoire de physique de la matière condensée</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences/lrcs-laboratoire-de-reactivite-et-chimie-des-solides-cnrs/">LRCS, Laboratoire de réactivité et chimie des solides - CNRS</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences/lti-laboratoire-des-technologies-innovantes/">LTI, Laboratoire des technologies innovantes</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences/mis-modelisation-information-et-systemes/">MIS, Modélisation, information et systèmes</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences/psc-physique-des-systemes-complexes/">PSC, Physique des Systèmes Complexes</a></li>
+							</ul>
+							<br>
+						</div>
+
+						<div>
+							<strong>Santé</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/recherche/sante/apere-adaptation-physiologiques-a-l-exercice-et-readaptation-a-l-effort/">APERE, Adaptation physiologiques à l'exercice et réadaptation à l'effort</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sante/bioflow-image/">BIOFLOW IMAGE</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sante/gramfc-groupe-de-recherches-sur-l-analyse-multimodale-de-la-fonction-cerebrale-inserm-/">GRAMFC, Groupe de recherches sur l'analyse multimodale de la fonction cérébrale - INSERM </a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sante/grap-groupe-de-recherche-sur-l-alcool-et-les-pharmacodependances-inserm-/">GRAP, Groupe de recherche sur l'alcool et les pharmacodépendances - INSERM </a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sante/hervi-hemostase-et-remodelage-vasculaire-post-ischemique/">HERVI, Hémostase et remodelage vasculaire post-ischémique</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sante/lnfp-laboratoire-de-neurosciences-fonctionnelles-et-pathologies/">LNFP, Laboratoire de neurosciences fonctionnelles et pathologies</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sante/lnpc-lymphocyte-normal-et-pathologique-et-cancers-/">LNPC, Lymphocyte normal et pathologique et cancers </a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sante/lpcm-laboratoire-de-physiologie-cellulaire-et-moleculaire/">LPCM, Laboratoire de physiologie cellulaire et moléculaire</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sante/mp3cv-mecanismes-physiopathologiques-et-consequences-des-calcifications-cardiovasculaires-inserm-/">MP3CV, Mécanismes physiopathologiques et conséquences des calcifications cardiovasculaires - INSERM </a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sante/peritox-perinatalite-et-risques-toxiques-ineris/">PériTox, Périnatalité et risques toxiques - INERIS</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sante/uvcf-unite-de-virologie-clinique-et-fondamentale/">UVCF, Unité de virologie clinique et fondamentale</a></li>
+							</ul>
+							<br>
+						</div>
+
+						<div>
+							<strong>Sciences Humaines et Sociales</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences-humaines-et-sociales/caref-centre-amienois-de-recherche-en-education-et-formation/">CAREF, Centre amiénois de recherche en éducation et formation</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences-humaines-et-sociales/ceprisca-centre-de-droit-prive-et-de-sciences-criminelles-d-amiens/">CEPRISCA, Centre de droit privé et de sciences criminelles d'Amiens</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences-humaines-et-sociales/cercll-centre-d-etudes-des-relations-et-des-contacts-linguistiques-et-litteraires-/">CERCLL, Centre d'études des relations et des contacts linguistiques et littéraires </a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences-humaines-et-sociales/chssc-centre-d-histoire-des-societes-des-sciences-et-des-conflits-/">CHSSC, Centre d'histoire des sociétés, des sciences et des conflits </a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences-humaines-et-sociales/corpus-conflits-representations-et-dialogues-dans-l-univers-anglosaxon/">CORPUS, Conflits, représentations et dialogues dans l'univers anglosaxon</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences-humaines-et-sociales/crae-centre-de-recherches-en-arts-et-esthetique-/">CRAE, Centre de recherches en arts et esthétique </a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences-humaines-et-sociales/criisea-centre-de-recherche-sur-les-institutions-l-industrie-et-les-systemes-economiques-d-amiens-/">CRIISEA, Centre de recherche sur les institutions, l'industrie et les systèmes économiques d'Amiens </a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences-humaines-et-sociales/crp-cpo-centre-de-recherche-en-psychologie-cognition-psychisme-et-organisations/">CRP-CPO, Centre de recherche en psychologie : cognition, psychisme et organisations</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences-humaines-et-sociales/curapp-ess-centre-universitaire-de-recherches-sur-l-action-publique-et-le-politique-cnrs/">CURAPP-ESS, Centre universitaire de recherches sur l'action publique et le politique - CNRS</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences-humaines-et-sociales/hm-habiter-le-monde-/">HM, Habiter le monde </a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/sciences-humaines-et-sociales/trame-textes-representations-archeologie-autorite-et-memoires-de-l-antiquite-a-la-renaissance-/">TRAME, Textes, représentations, archéologie, autorité et mémoires de l'Antiquité à la Renaissance </a></li>
+							</ul>
+							<br>
+						</div>
+
+						<div>
+							<strong>Plateformes</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/recherche/plateformes/centre-de-ressources-regionales-en-biologie-moleculaire-crrbm-/">Centre de Ressources Régionales en Biologie Moléculaire (CRRBM)</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/plateformes/plateforme-analytique-pfa-/">Plateforme Analytique (PFA)</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/plateformes/plateforme-animalerie-/">Plateforme Animalerie </a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/plateformes/plateforme-de-cartographie/">Plateforme de cartographie</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/plateformes/plateforme-d-ingenierie-cellulaire-et-analyses-des-proteines-icap-/">Plateforme d'Ingénierie Cellulaire et Analyses des Protéines (ICAP)</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/plateformes/plateforme-de-microscopie-electronique-pme-/">Plateforme de Microscopie Électronique (PME) </a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/plateformes/plateforme-de-modelisation-et-calcul-scientifique-mecs-/">Plateforme de Modélisation et Calcul Scientifique (MECS)</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/plateformes/plateforme-improve/">Plateforme IMPROVE</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/plateformes/plateforme-innovaltech/">Plateforme INNOVALTECH</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/plateformes/plateforme-serres/">Plateforme Serres</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/plateformes/plateforme-univarcheo/">Plateforme UnivArchéo</a></li>
+							</ul>
+							<br>
+						</div>
+						
+						<div>
+							<strong>Écoles Doctorales</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/recherche/ecoles-doctorales/ecole-doctorale-sciences-humaines-et-sociales-edshs-/">École Doctorale Sciences Humaines et Sociales (EDSHS)</a></li>
+								<li><a href="https://www.u-picardie.fr/recherche/ecoles-doctorales/ecole-doctorale-sciences-technologie-et-sante-edsts-/">École Doctorale Sciences Technologie et Santé (EDSTS)</a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- #meta_menu_2 .meta_menu_contenu -->
+					
+					<!-- Directions, services... -->
+					<div id="collapseDirections" class="meta_menu_contenu" role="tabpanel" aria-labelledby="ui-id-3">
+					
+						<div>
+							<strong>Directions</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/directions-services-/directions/direction-generale-des-services-dgs-/">Direction Générale des Services (DGS)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/directions/direction-de-la-logistique-et-du-patrimoine-immobilier-dlpi-/">Direction de la Logistique et du Patrimoine Immobilier (DLPI)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/directions/direction-de-la-recherche-dr-/">Direction de la Recherche (DR)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/directions/direction-de-la-scolarite-et-de-la-vie-de-l-etudiant-dsve-/">Direction de la Scolarité et de la Vie de l'Etudiant (DSVE)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/directions/direction-des-affaires-internationales-dai-/">Direction des Affaires Internationales (DAI)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/directions/direction-des-finances-difi-/">Direction des Finances (DIFI)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/directions/direction-des-infrastructures-et-des-systemes-d-information-disi-/">Direction des Infrastructures et des Systèmes d'Information (DISI)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/directions/direction-des-ressources-humaines-drh-/">Direction des Ressources Humaines (DRH)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/directions/direction-du-controle-interne-et-aide-au-pilotage-dciap-/">Direction du Contrôle Interne et Aide au Pilotage (DCIAP) </a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/directions/directrice-de-la-communication-dircom-/">Directrice de la Communication (DIRCOM)</a></li>
+							</ul>
+							<br>
+						</div>
+
+						<div>
+							<strong>Services communs</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/directions-services-/services-communs/bureau-d-information-d-orientation-et-d-insertion-professionnelle-bioip-/">Bureau d'Information, d'Orientation et d'Insertion Professionnelle (BIOIP)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/services-communs/institut-universitaire-tous-ages-iuta-/">Institut Universitaire tous Ages (IUTA)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/services-communs/maison-des-langues-mdl-/">Maison Des Langues (MDL)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/services-communs/service-universitaire-de-formation-tout-au-long-de-la-vie-suftlv-/">Service Universitaire de Formation Tout au Long de la Vie (SUFTLV)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/services-communs/service-commun-d-action-sociale-scas-/">Service Commun d'Action Sociale (SCAS)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/services-communs/service-commun-de-la-documentation-bibliotheque-universitaire-scd-/">Service Commun de la Documentation : Bibliothèque Universitaire (SCD)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/services-communs/service-sante-hygiene-securite-et-environnement-sshse-/">Service Santé Hygiène, Sécurité et Environnement (SSHSE)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/services-communs/service-universitaire-de-medecine-preventive-et-de-promotion-de-la-sante-sumpps-/">Service Universitaire de Médecine Préventive et de Promotion de la Santé (SUMPPS)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/services-communs/service-universitaire-de-pedagogie-sup-/">Service Universitaire de Pédagogie (SUP)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/services-communs/service-universitaire-des-activites-physiques-et-sportives-suaps-/">Service Universitaire des Activités Physiques et Sportives (SUAPS)</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/services-communs/service-des-affaires-culturelles-sac-/">Service des Affaires Culturelles (SAC)</a></li>
+							</ul>
+							<br>
+						</div>
+						
+						<div>
+							<strong>Coordinations</strong>
+							<ul>
+								<li><a href="https://www.u-picardie.fr/directions-services-/coordinations/pole-saint-leu/">Pôle Saint-Leu</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/coordinations/pole-campus/">Pôle Campus</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/coordinations/pole-cathedrale/">Pôle Cathédrale</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/coordinations/pole-sante/">Pôle Santé</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/coordinations/pole-sport/">Pôle Sport</a></li>
+								<li><a href="https://www.u-picardie.fr/directions-services-/coordinations/pole-arts/">Pôle Arts</a></li>
+							</ul>
+						</div>
+					</div><!-- #meta_menu_3 .meta_menu_contenu -->
+				</div><!-- #meta_menu_tabs -->
+			</div><!-- #meta_menu -->
+		</div><!-- -->
+	</div> <!-- #profils_preferences -->
+
+	
+		<div id="bandeau">
+			<a href="{$baseurl}" title="Université de Picardie Jules Verne" id="logo">UPJV</a>
+			<span>Université de <span>Picardie</span> Jules Verne</span>
+
+			<ul id="reseaux_sociaux">
+				<li>
+					<a href="http://www.facebook.com/UPJV.80">
+						<img src="{$theme}/theme_fichiers/img/facebook.png" alt="Facebook" title="Facebook">
+					</a>
+				</li>
+				<li>
+					<a href="http://twitter.com/upjv">
+						<img src="{$theme}/theme_fichiers/img/twitter.png" alt="Twitter" title="Twitter">
+					</a>
+				</li>
+				<li>
+					<a href="https://www.u-picardie.fr/adminsite/webservices/export_rss.jsp?objet=actualite&amp;TYPE_EVENEMENT=ACTU-UN1#NOMBRE=10">
+						<img src="{$theme}/theme_fichiers/img/rss.png" alt="RSS" title="RSS">
+					</a>
+				</li>
+			</ul>
+		</div>	<!-- #bandeau -->
+
+
+		<ul class="navbar-nav navbar-right right-menu" id="portails_ent">
+			{if userid()}
+				<li class="dropdown myaccount-dd">
+					Bienvenue
+					<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+						{$user_det = $userquery->get_user_details(userid())}
+						 <!-- <img src="{$userquery->getUserThumb($user_det)}" width="35" height="35"> -->
+						<span>{$userquery->username|truncate:15}</span>
+					</a>
+					
+					<ul class="dropdown-menu dropdown-menu-right">
+						{if isSectionEnabled('videos')}
+							<li class="hidden-xs"><a href="{link name='upload'}"><i class="fa fa-upload" aria-hidden="true"></i> {lang code="upload_video"}</a></li>
+						{/if}
+					
+						{if isSectionEnabled('photos')}
+							<li class="hidden-xs"><a href="{link name='photo_upload'}">{lang code="upload_photo"}</a></li>
+						{/if}
+
+						{if isSectionEnabled('photos') || isSectionEnabled('videos')}
+						<li class="divider"></li>
+						{/if}
+
+						<li class="hidden-xs"><a href="{link name='my_account' }{userid}"><i class="fa fa-user" aria-hidden="true"></i> {lang code="my_account"}</a></li>
+						<li class="hidden-xs"><a href="{link name='my_videos'}"><i class="fa fa-video-camera" aria-hidden="true"></i> {lang code="manage_videos"}</a></li>
+						
+						{ANCHOR place="head_audio_dropdown"}
+						
+						<li><a href="{link name='channels'}"><i class="fa fa-eye" aria-hidden="true"></i> {lang code="view_channels"}</a></li>
+						<li><a href="{$baseurl}/view_channel.php?user={$userquery->username}">{lang code="my_channel"}</a></li>
+						
+						{ANCHOR place='premium_button_link'}
+						
+						{if has_access('admin_access')}
+							<li class="divider"></li>
+							<li class="hidden-xs"><a href="{$admin_baseurl}">{lang code="admin_area"}</a></li>
+						{/if}
+						<li class="divider"></li>
+						<li><a href="{link name='logout'}"><i class="fa fa-power-off" aria-hidden="true"></i> {lang code="logout"}</a></li>
+					</ul>
+				</li>
+				
+				&nbsp;
+				
+<!-- 
+				{ANCHOR place="aud_upload_link"}
+-->
+
+			{else}
+				<li>
+				<!-- <a class="btn btn-default btn-newacc" href="{link name='signup'}">{lang code='create_new_account'}</a>  -->
+					<a href="{link name='signup'}">{lang code='create_new_account'}</a>&nbsp;|&nbsp;
+				</li>
+				<li>
+				<!-- <a class="btn btn-default btn-login" href="{link name='signup'}?mode=login">{lang code='login'}</a> -->
+						<a href="{link name='signup'}?mode=login">{lang code='login'}</a>
+				</li>
+			{/if}
+		</ul>
+
+	
+	
+	
+	
+	
+		<div id="menu">
+{*debug*}
+			<div id="menu_principal_deco">
+			
+<!--
+ 				<button class="icon-menu-2" data-unfold-trigger="menu_principal">
+					<span>Menu</span>
+				</button>
+ -->				
+				<ul id="menu_principal" data-unfold-target="menu_principal">
+					<li>
+						<a href="{$baseurl}">Accueil</a>
+						<!--
+						
+						
+						<ul>
+							<li><a href="#">DERNIÈRES VIDÉOS</a></li>
+							<li><a href="#">COLLOQUES</a></li>
+							<li><a href="#">CONFÉRENCES</a></li>
+							<li><a href="#">CONGRÈS</a></li>
+							<li><a href="#">SÉMINAIRES</a></li>
+							<li><a href="#">JOURNÉES THÉMATIQUES</a></li>
+							<li><a href="#">PRIX DE THÈSE</a></li>
+							<li><a href="#">CÉRÉMONIES</a></li>
+							<li><a href="#">MT180</a></li>
+							<li><a href="#">FAITES DE LA SCIENCE</a></li>
+							<li><a href="#">REPORTAGES</a></li>
+							<li><a href="#">INSTITUTIONNEL</a></li>
+						</ul>
+						
+
+						<ul>
+							<li>
+								<a href="https://www.u-picardie.fr/l-universite/l-upjv/">L'UPJV</a>
+							</li>
+							<li>
+								<a href="https://www.u-picardie.fr/l-universite/egalite-des-chances/">Égalité des chances</a>
+							</li>
+							<li>
+								<a href="https://www.u-picardie.fr/l-universite/handicap/">Handicap</a>
+							</li>
+							<li>
+								<a href="https://www.u-picardie.fr/l-universite/egalite-f-h/">Égalité F/H</a>
+							</li>
+							<li>
+								<a href="https://www.u-picardie.fr/l-universite/developpement-durable/">Développement durable</a>
+							</li>
+						</ul>
+						-->
+					</li>
+				
+					<li>
+						<a href="https://www.u-picardie.fr/formation/notre-offre/">Université</a>
+						<ul>
+							<li><a href="#">Dernières vidéos</a></li>
+							<li><a href="#">Vidéos les plus vues</a></li>
+						</ul>
+					</li>
+					
+					<li>
+						<a href="https://www.u-picardie.fr/recherche/presentation/">Recherche</a>
+						<ul>
+							<li><a href="#">Dernières vidéos</a></li>
+							<li><a href="#">Vidéos les plus vues</a></li>
+						</ul>
+					</li>
+				
+					<li>
+						<a href="https://www.u-picardie.fr/orientation-et-insertion/presentation/">Vie étudiante</a>
+						<ul>
+							<li><a href="#">Dernières vidéos</a></li>
+							<li><a href="#">Vidéos les plus vues</a></li>
+						</ul>
+					</li>
+				
+					<li>
+						<a href="https://www.u-picardie.fr/international/bienvenue/">Culture</a>
+						<ul>
+							<li><a href="#">Dernières vidéos</a></li>
+							<li><a href="#">Vidéos les plus vues</a></li>
+						</ul>
+					</li>
+				</ul>
+			<!-- #menu_principal -->
+			</div>
+			<!-- #menu_principal_deco -->
+
+		</div>
+		<!-- #menu -->	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 
+	<ul id="portails_ent">
+		<li>
+			<a href="https://www.u-picardie.fr/handicap/">HANDICAP</a>
+		</li>
+		<li>
+			<a href="http://www.bu.u-picardie.fr/">BU</a>
+		</li>
+		<li>
+			<a href="https://etudiants.u-picardie.fr/">ÉTUDIANTS</a>
+		</li>
+		<li>
+			<a href="https://personnels.u-picardie.fr/">PERSONNELS</a>
+		</li>
+		<li>
+			<a href="https://www.u-picardie.fr/ent">ENT</a>
+		</li>
+	</ul> -->
+
+
+</header>
+
+
+			<!-- Message -->
+			
+			
+			
+	<!-- <nav class="navbar navbar-default"> -->
+		<!-- <div class="container-fluid"> -->
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<!-- <div class="header-holder"> -->
+				<!--
+				<div class="navbar-header clearfix">
+					
+					<h1 class="logo">
+						<a href="{$baseurl}">
+							<img src="{$theme}/images/logo.png" alt="cbtune" class="img-responsive">
+							<span>clipbucket</span>
+						</a>
+					</h1>
+					
+					<button class="navbar-toggle" data-toggle="collapse" data-target="#bs-collapse">Menu<span class="glyphicon glyphicon-menu-down"></span></button>
+					
+					<a href="javascript:void(0)" class="btn-search-toggle btn visible-xs">
+						<i class="glyphicon glyphicon-search"></i>
+					</a>
+				</div>
+				-->
+				<!-- Collect the nav links, forms, and other content for toggling -->
+<!-- 
+				<div class="collapse navbar-collapse" id="bs-collapse">
+					<div class="menu-holder">
+						<div class="col">
+							<nav class="main-links">
+								{$head_menu=cb_menu()}
+								<ul>
+									{foreach $head_menu as $menu}
+									{if $menu.name|lower == 'groups'}
+										{continue}
+									{/if}
+									{if $menu@iteration < 6}
+									{if $menu.name|lower == 'home'}
+										{continue}
+									{/if}
+									{if $menu.name == "home"}
+										{continue}
+									{/if}
+									<li {if $menu.name|lower == $smarty.const.THIS_PAGE|lower || $menu.name|lower == $currentPage}class="active"{/if}>
+										<a href="{$menu.link}">{$menu.name}</a>
+									</li>
+									{/if}
+									{/foreach}
+									
+									{ANCHOR place="cb_28_head"}
+								</ul>
+							</nav>
+						</div>
+
+						<div class="col btn-holder user_menu text-right">
+							<div class="search">
+								<form class="search-form" action="{link name='search_result'}">
+									<div class="cbsearchtype">
+										<div class="search-drop">
+											<button id="searchTypes" tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
+												
+												<span class="search-type">
+													{if $pageType}
+														{$pageType|ucfirst}
+													{elseif $currentPage == 'videos' || $currentPage == 'channels' || $currentPage == 'photos'}
+														{$currentPage|ucfirst}
+													{else}
+														{lang code="videos"}
+													{/if}
+												</span>
+												
+												<span class="glyphicon glyphicon-menu-down"></span>
+											</button>
+											
+											<ul class="dropdown-menu">
+												{$counter = 1}
+												
+												{foreach from=$Cbucket->search_types item=t key=stypes}
+													{if $stypes|lower == 'groups'}
+														{continue}
+													{/if}
+												
+													{if $counter == 3}
+														<li value="{$stypes}" {if $pageType == $stypes || $currentPage == $stypes} class="active" {/if}>
+															<a class="s-types" href="#" valNow="{$stypes}">{lang code ="{$stypes}"}</a>
+														</li>
+													{else}
+														<li value="{$stypes}" {if $pageType == $stypes || $currentPage == $stypes} class="active" {/if}>
+															<a class="s-types" href="#" valNow="{$stypes}">{lang code ="{$stypes}"}</a>
+														</li>
+													{/if}
+													
+													{$counter = $counter + 1}
+												{/foreach}
+												
+												{ANCHOR place="beat_search"}
+											</ul>
+										</div>
+										<input type="text" class="form-control" name="query" placeholder="{lang code="search_keyword_feed"}" value="{'query'|get_form_val:true}" id="query">
+										
+										<input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{elseif $toSearch}{$toSearch}{else}videos{/if}" id="type">
+										
+										<button tabindex="-1" type="submit" name="cbsearch" id="cbsearch" class="btn btn-default btn-search glyphicon glyphicon-search"></button>
+									</div>
+								</form>
+							</div>
+							-->
+
+							<!--
+							<ul class="nav navbar-nav navbar-right right-menu">
+								{if userid()}
+									<li class="dropdown upload_link">
+										<a href="{link name='upload'}" class="dropdown-toggle btn-upload btn btn-default" data-toggle="dropdown">
+											<i class="fa fa-upload"></i>&nbsp;
+											<span>{lang code="upload"}</span>&nbsp;
+											<b class="glyphicon glyphicon-menu-down"></b>
+										</a>
+										
+										<ul role="menu" class="dropdown-menu">
+											{if isSectionEnabled('videos')}
+												<li class="up_vid">
+													<a href="{link name='upload'}">{lang code="upload_video"}<i class="icon-video visible-xs"></i></a>
+												</li>
+											{/if}
+										
+											{if isSectionEnabled('photos')}
+												<li class="up_img">
+													<a href="{link name='photo_upload'}">{lang code="upload_photo"}<i class="icon-photo visible-xs"></i></a>
+												</li>
+											{/if}
+
+											{ANCHOR place="aud_upload_link"}
+										</ul>
+									</li>
+
+									<li class="dropdown myaccount-dd">
+										<a href="javascript:void(0)" class="user-area dropdown-toggle" data-toggle="dropdown">
+											{$user_det = $userquery->get_user_details(userid())}
+											<img src="{$userquery->getUserThumb($user_det)}" width="35" height="35">
+											<span>{$userquery->username|truncate:15}</span>
+										</a>
+										
+										<ul class="dropdown-menu">
+											{if has_access('admin_access')}
+												<li class="hidden-xs"><a href="{$admin_baseurl}">{lang code="admin_area"}</a></li>
+											{/if}
+											
+											<li class="hidden-xs"><a href="{link name='my_account' }{userid}">{lang code="my_account"}</a></li>
+											<li class="hidden-xs"><a href="{link name='my_videos'}">{lang code="manage_videos"}</a></li>
+											
+											{ANCHOR place="head_audio_dropdown"}
+											
+											<li><a href="{link name='channels'}">{lang code="view_channels"}</a></li>
+											<li><a href="{$baseurl}/view_channel.php?user={$userquery->username}">{lang code="my_channel"}</a></li>
+											
+											{ANCHOR place='premium_button_link'}
+											
+											<li class="divider"></li>
+											<li><a href="{link name='logout'}">{lang code="logout"}</a></li>
+										</ul>
+									</li>
+
+								{else}
+						
+									<li class="navbar-sm-login-links">
+										<a class="btn btn-default btn-newacc" href="{link name='signup'}">{lang code='create_new_account'}</a>
+									</li>
+									<li class="navbar-sm-login-links">
+										<a class="btn btn-default btn-login" href="{link name='signup'}?mode=login">{lang code='login'}</a>
+									</li>
+									
+								{/if}
+							</ul>
+						</div>
+					</div>
+					
+					
+					
+				</div>
+-->
+				<!--navbar-collapse-->
+			<!-- </div> -->
+			
+		<!-- </div> --><!--container-fluid-->
+	<!-- </nav> -->
+<!-- </header> -->
+
+
+<script>
+
+	/* ***
+	*	FONCTION DE CHANGEMENT DE LANGUE
+	*/
+	$(document).on('click','.pick-lang',function(){
+		var _this = $(this);
+		var lang_code = _this.data('lang');
+		var $currentLocation = window.location.href,
+		matchedElement = $currentLocation.match(/\?/);
+			  
+		if(matchedElement == null)
+		{
+			window.location = "?set_site_lang="+lang_code;    
+		} else {
+			window.location = window.location+"&set_site_lang="+lang_code;    
+		}
+	});
+
+	/* ***
+	*	FONCTION DE CLICK POUR OUVERTURE/FERMETURE DU MENU
+	*/
+	$("#meta_menu_button li a").click(function() {
+		var el = $("div[aria-labelledby='"+this.id+"']");
+		if (el.hasClass( "visible" )) {
+			el.removeClass( "visible" );
+		}
+		else {
+			$(".meta_menu_contenu").removeClass( "visible" );
+			el.addClass( "visible" );
+		}
+		
+	});
+
+	$(document).ready(function(){
+		var vidMode = "{$vidMode}",
+		photoMode = "{$photoMode}",
+		channelsMode = "{$channelsMode}",
+		currentDisplay = $('span.search-type').text();
+		if (currentDisplay == 'Videos') {
+			$('span.search-type').text(vidMode);
+		}
+		else if (currentDisplay == 'Channels') {
+			$('span.search-type').text(channelsMode);
+		}
+		else if (currentDisplay == 'Photos') {
+			$('span.search-type').text(photoMode);
+		}
+
+		$(".cbsearchtype a").on({
+			click: function(e){
+				e.preventDefault();
+				var prent_li = $(this).parents();
+				var theNewVal = $(this).attr('valNow');
+				$('.type').val(theNewVal);
+				$('.cbsearchtype li').removeClass('active');
+				prent_li.addClass('active');
+			}
+		});
+
+		$('.s-types').on("click", function(){
+			var _this = $(this);
+			var text = _this.html();
+			$('.search-type').html(text);
+		});
+	});
+</script>
+
+
+	<script type="text/javascript">
+/*
+		window.addEventListener('load', function(){
+			helium.init();
+		}, false);
+*/
+	</script>	

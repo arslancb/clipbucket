@@ -1,0 +1,17 @@
+<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 group-item">
+	<a href="{group_link details=$group}" class="avatar">
+		<img src="{$cbgroup->get_group_thumb($group)}" class="img-responsive group_thumb" style="">
+	</a>
+	<div class="text">
+		<h2><a href="{group_link details=$group}">{$group.group_name}</a></h2>
+		<p>{$group.group_description}</p>
+		<div class="clearfix">
+			<span class="icon-friends"></span>&nbsp; {$group.total_members|number_format}
+				{lang code='members'} 
+		</div>
+		<div class="clearfix">
+			{$join_link=$cbgroup->group_opt_link($group,'join'," class='btn btn-primary btn-sm line-height-1' ")}
+			{if $join_link}{$join_link}{/if}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,410 @@
+{$required_fields=$userquery->load_signup_fields()|@array_filter}
+{$cutom_fields=$userquery->custom_signup_fields}
+{if $mode == 'signup_success'}
+	<div class="simple_container">
+		{if $udetails.usr_status !='Ok'}
+			{lang code='signup_success_usr_ok'}
+		{else}
+			{lang code='signup_success_usr_emailverify' assign='signupsuccessusremailverify'}
+			{link name='login' assign='login_link'}
+			{$signupsuccessusremailverify|sprintf:$login_link}
+		{/if}
+	</div>
+{else}
+	{$mode = $smarty.get.mode}
+	<div class="account-container">
+		{if $mode == 'login'}
+			<div class="clearfix signin-block">
+				<div class="account-holder">
+					<form name="login_form" method="post" action="" id="login_form" class="user-form">
+						<h2>{lang code="login"}</h2>
+						<div class="form-group">
+							{*<label for="login_username_sp">{lang code="Username"}</label>*}
+							<input type="text" id="login_username_sp" placeholder="{lang code='type_username_here'}"
+							class="form-control" name="username">
+						</div>
+
+						<div class="form-group">
+							{*<label for="login_password_sp">{lang code="Password"}</label>*}
+							<input type="password" id="login_password_sp" placeholder="{lang code='type_password_here'}"
+							class="form-control" name="password">
+						</div>
+
+						<div class="checkbox custom-elements form-group">
+							<label>
+								<input type="checkbox" name="remember_me" value="yes">
+								{lang code="remember_me"}
+							</label>
+						</div>
+
+						<input id="login_btn" type="submit" name="login" value="{lang('Login')}" class="btn btn-primary btn-lg btn-block">
+
+						<div class="clearfix links">
+							<a href="{$baseurl}/forgot.php">{lang code='user_forgot_message'}?</a>
+							<a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='com_forgot_username'}?</a>
+						</div>
+						<input type="hidden" name="login" value="login"></input>
+						{if function_exists('show_all_btns')} 
+						<div class="clearfix social-links">
+							<span>or login with</span>
+							<div id="social_buttons">
+								{ANCHOR place="show_all_btns"}
+							</div>
+						</div>
+						{/if}
+					</form>
+					<div class="side-box">
+						<h2>{lang code='get_your_account'}</h2>
+						<div class="text-box">
+							<p>{lang code='create_account_msg'}</p>
+						</div>
+						<a class="btn btn-default btn-lg" href="{link name='signup'}">{lang code='get_your_account'}</a>
+					</div>
+				</div>
+			</div>
+		{else}
+			<div class="clearfix signup-block">
+				<div class="account-holder">
+					{if $allow_registeration}
+						{$allow_registeration}
+					{else}
+					<form name="signup_form" id="signup_form" method="post" action="{$baseurl}/signup.php"  class="user-form custom-elements">
+						<h2>Signup!</h2>
+						{foreach from=$required_fields item=field}
+							{if $field.type!='checkbox' && $field.type!='radiobutton'}
+								{$field.class='form-control'}
+							{/if}
+
+							<div class="form-group clearfix">
+								{*<label for="{$field.id}">{$field.title}</label>*}
+								{if $field.type=='radiobutton'}
+									{$field.label_class="radio-inline"}
+									{$field.sep=" "}
+								{/if}
+
+								{if $field.type=='checkbox'}
+									{$field.label_class="checkbox-inline"}
+									{$field.sep=" "}
+								{/if}
+
+								{if $field.hint_before}
+								<span class="help-block">{$field.hint_before}</span>
+								{/if}
+
+								{ANCHOR place=$field.anchor_before}
+								{$formObj->createField($field,false, true)}
+								{ANCHOR place=$field.anchor_after}
+								{if $field.hint_after}
+								<span class="help-block">{$field.hint_after}</span>
+								{/if}
+							</div>
+						{/foreach}
+						<!-- Loading Custom Fields -->
+						{foreach from=$custom_field item=field}
+							<div class="form-group clearfix">
+								{*<label for="{$field.id}">{$field.title}</label>*}
+								{if $field.type=='radiobutton'}
+								{$field.label_class="radio-inline"}
+								{$field.sep=" "}
+								{/if}
+
+								{if $field.type=='checkbox'}
+								{$field.label_class="checkbox-inline"}
+								{$field.sep=" "}
+								{/if}
+
+
+								{if $field.hint_before}
+								<span class="help-block">{$field.hint_before}</span>
+								{/if}
+								{ANCHOR place=$field.anchor_before}
+
+								{$formObj->createField($field)}
+								{ANCHOR place=$field.anchor_after}
+								{if $field.hint_after}
+								<span class="help-block">{$field.hint_after}</span>
+								{/if}
+							</div>
+						{/foreach}
+
+						{$captcha = get_captcha()}
+						{if $captcha} 
+							{if $captcha.show_field}
+						 		{*<label class="label" for="verification_code">Verification Code</label>*}
+								{load_captcha captcha=$captcha load=field field_params = ' id="verification_code" '}
+						 	{/if}
+							<div align="center">
+								{load_captcha captcha=$captcha load=function}
+							</div>
+						
+						{/if}
+
+						<div class="form-group checkbox">
+							<label>
+								<input name="agree" type="checkbox" id="agree" value="yes" checked="checked">
+								{sprintf(lang(user_i_agree_to_the),$cbpage->get_page_link(3),$cbpage->get_page_link(2))}
+
+							</label>
+						</div>
+						{ANCHOR place="the_form"}
+						<input type="hidden" name="signup" value="signup"></input>
+						<div class="form-group checkbox">
+							<button type="submit" name="signup" value="signup" class="btn btn-success btn-lg btn-block" id="signup_submit">{lang code='signup'}</button>
+						</div>
+						{ANCHOR place='signup_form'}
+						{if function_exists('show_all_btns')} 
+						<div class="clearfix social-links">
+							<span>or login with</span>
+							<div id="social_buttons">
+								{ANCHOR place="show_all_btns"}
+							</div>
+						</div>
+						{/if}
+					</form>
+					{/if}
+				</div>
+			</div>
+		{/if}
+	</div>
+{/if}
+
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script>
+
+	$(document).ready(function(){
+		var pageMode = "{$smarty.get.mode}";
+		if (pageMode == 'login') {
+			document.title = 'Login - {$Cbucket->configs.site_title}';
+		}
+		jQuery('#dob').datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			changeMonth: true,
+			dateFormat:"yy-mm-dd",
+			changeYear: true,
+			yearRange: "-56:+0"
+		});
+		$('.simple_container').addClass('alert-success alert container');
+		var currentDate = new Date("1988,04,07");
+		$("#dob").datepicker("setDate", currentDate);
+	 });
+	
+	var errors = {
+		"empty_name" : "{lang code='usr_uname_err'}", 
+		"name_length" : "{lang code='user_name_invalid_len'}", 
+		"name_invalid_chars" : "{lang code='usr_uname_err3'}",
+		"pass_mismatch" : "{lang code='usr_pass_err3'}", 
+		"empty_pass" : "{lang code='usr_pass_err2'}", 
+		"empty_email" : "{lang code='usr_email_err1'}" , 
+		"invalid_email":"{lang code='usr_email_err2'}",
+		"user_exists":"{lang code='usr_uname_err2'}",
+		"email_exists":"{lang code='usr_email_err3'}",
+		"weak_pass":"{lang code='weak_pass'}",
+		"username_spaces":"{lang code='username_spaces'}",
+	};
+	function removeErrClass(obj, passSec = false) {
+		$(obj).closest('.form-group').removeClass('invalid-error');
+		$(obj).closest('.form-group').removeClass('warning-ind');
+		$(obj).closest('.form-group').addClass('success-ind');
+		$(obj).next('span').remove();
+		if (passSec == true) {
+			theVal = 'password';
+		} else {
+			theVal = $(obj).val();
+		}
+		$('<span class="help-block"><strong>'+theVal+'</strong> seems good to go</span>').insertAfter(obj);
+	}
+
+	function addErrClass(obj, msg, override = false, scroll = true, tclass = false) {
+		$(obj).closest('.form-group').removeClass('success-ind');
+		if (tclass != false) {
+			$(obj).closest('.form-group').removeClass('invalid-error');
+			$(obj).closest('.form-group').addClass(tclass);
+		} else {
+			$(obj).closest('.form-group').removeClass('warning-ind');
+			$(obj).closest('.form-group').addClass('invalid-error');
+		}
+		if (override == true) {
+			$(obj).next('span').remove();
+		}
+		$('<span class="help-block">'+msg+"</span>").insertAfter(obj);
+		if (scroll == true) {
+			$("html, body").animate({ scrollTop: 0 }, "slow");
+		}
+	}
+
+	$('input#username').on('keyup', function() {
+	     var userSect = $('#username'),
+	     usernameVal = userSect.val(),
+	     usernameLen = usernameVal.length;
+	     if (usernameVal == '') {
+	     	addErrClass(userSect, errors["empty_name"], true, false);
+	     } else if (usernameLen <= 2 || usernameLen >= 50) {
+	     	addErrClass(userSect, errors["name_length"], true, false);
+	     } else {
+	     	$.ajax({
+				url: baseurl + "/ajax/commonAjax.php",
+				type: "post",
+				dataType: "html",
+				data: {
+					"mode":'userExists',
+					"username":usernameVal,
+				},
+				beforeSend: function() {
+					$(document).find('#more-view-channel').text('Loading videos..')
+				},
+
+				success: function(data) {
+					if (data == 'NO') {
+						removeErrClass(userSect);	
+					} else {
+						addErrClass(userSect, errors['user_exists'], true, false)
+					}
+				}
+			});
+	     }
+	});
+
+	$('input#email').on('keyup', function() {
+	     var emailSec = $('#email'),
+	     email = emailSec.val(),
+	     emailLen = email.length;
+	     if (emailLen == 0 || email == '') {
+	     	addErrClass(emailSec, errors["empty_email"], true, false);
+	     } else if (!isValidEmail(email)) {
+	     	addErrClass(emailSec, errors["invalid_email"], true, false);
+	     } else if (isValidEmail(email)) {
+	     	removeErrClass(emailSec);	
+	     } else {
+	     	$.ajax({
+				url: baseurl + "/ajax/commonAjax.php",
+				type: "post",
+				dataType: "html",
+				data: {
+					"mode":'emailExists',
+					"email":email,
+				},
+				beforeSend: function() {
+					$(document).find('#more-view-channel').text('Loading videos..')
+				},
+
+				success: function(data) {
+					if (data == 'NO') {
+						removeErrClass(emailSec);	
+					} else {
+						addErrClass(emailSec, errors['email_exists'], true, false)
+					}
+				}
+			});
+	     }
+	});
+
+	$('input#password').on('keyup', function() {
+	     var passSec = $('#password'),
+	     passVal = passSec.val(),
+	     passLen = passVal.length;
+	     if (passLen == 0 || passVal == '') {
+	     	addErrClass(passSec, errors["empty_pass"], true, false);
+	     } else {
+	     	if (passLen < 8) {
+	     		addErrClass(passSec,errors["weak_pass"],true, false ,'warning-ind');
+	     	} else {
+	     		removeErrClass(passSec,true);
+	     	}
+	     }
+	});
+
+	$('input#cpassword').on('keyup', function() {
+	     var cPassSec = $('#cpassword'),
+	     cPassVal = cPassSec.val();
+	     passVal = $('#password').val();
+	     if (cPassVal != passVal) {
+	     	addErrClass(cPassSec, errors["pass_mismatch"], true, false);
+	     } else {
+	     	removeErrClass(cPassSec,true);
+	     }
+	});
+
+	/*$('input#login_username_sp').on('keyup change', function() {
+	     var userName = $('#login_username_sp'),
+	     user = userName.val(),
+	     userLen = user.length;
+	     if (userLen > 50 || userLen < 2) {
+	     	$('#login_btn').attr('disabled','disabled');
+	     	addErrClass(userName, errors["name_length"], true, false);
+	     } else if (user.indexOf(' ') >= 0) {
+	     	$('#login_btn').attr('disabled','disabled');
+	     	addErrClass(userName, errors["username_spaces"], true, false);
+	     } else {
+	     	removeErrClass(userName);
+	     	$('#login_btn').removeAttr('disabled');
+
+	     }
+	});*/
+
+	$('#login_btn').on("click",function(e){
+		e.preventDefault();
+		$('#login_form').submit();
+	});
+
+	$('#signup_submit').on("click",function(e){
+		e.preventDefault();
+		$('.help-block').remove();
+		$('div').removeClass('invalid-error');
+		var usernameSect = $('#username'),
+		username = usernameSect.val(),
+		emailSect = $('#email'),
+		email = emailSect.val(),
+		passwordSect = $('#password'),
+		password = passwordSect.val(),
+		cpasswordSect = $('#cpassword'),
+		cpassword = cpasswordSect.val();
+		gotNums = username.match(/\d+/g);
+		var goodToGo = true;
+
+		if (username.length == 0) {
+			addErrClass(usernameSect, errors["empty_name"]);
+			goodToGo = false;
+		} else if (username.length < 2 || username.length > 50) {
+			addErrClass(usernameSect, errors["name_length"]);
+			goodToGo = false;
+		} 
+
+		/*if (gotNums != null) {
+			addErrClass(usernameSect, errors["name_invalid_chars"]);
+			goodToGo = false;
+		} */
+
+		if (email.length == 0) {
+			addErrClass(emailSect, errors["empty_email"]);
+			goodToGo = false;
+		} else if (!isValidEmail(email)) {
+			addErrClass(emailSect, errors["invalid_email"]);
+			goodToGo = false;
+		}
+
+		if (password.length == 0)  {
+			addErrClass(passwordSect, errors["empty_pass"]);
+			goodToGo = false;
+		}
+
+		if (password != cpassword) {
+			addErrClass(cpasswordSect, errors["pass_mismatch"]);
+			goodToGo = false;
+		}
+
+		if (goodToGo == true) {
+			$('#signup_form').submit();
+		}
+	});
+
+</script>
+
+	<style>
+		.ui-datepicker {
+			background: #fff;
+			/*border: 1px solid #357EBD;*/
+			width: 140px;
+			vertical-align: center;
+		}
+	</style>
