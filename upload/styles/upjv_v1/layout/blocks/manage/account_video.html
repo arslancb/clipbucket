@@ -19,14 +19,14 @@
 			<br>
 			<span class="maccountlabels">
 				<strong>{$video.date_added|niceTime}</strong>
-				{lang code='views'} : <strong>{$video.views|number_format}</strong>
+				{if $video.views > 1}{lang code='views'}{else}{lang code="view"}{/if} : <strong>{$video.views|number_format}</strong>
 			</span>
 			<div class="labels">
 				{if $video.featured=='yes'}
-				<span class="label label-primary">Featured{else}{/if}</span>
+				<span class="label label-primary">{lang|capitalize code="featured"}{else}{/if}</span>
 				<span class="label {if $video.active=='yes'}label-success{else}label-warning{/if} mlabel">{if $video.active=='yes'}Active{else}InActive{/if}</span>
-				<span class="label {if $video.status=='Successful'}label-success{else}label-warning{/if}">{if $video.status=='Successful'}Successful{else}Processing{/if}</span>
-				<span class="label label-info">Viewed {$video.last_viewed|niceTime}</span>
+				<span class="label {if $video.status=='Successful'}label-success{else}label-warning{/if}">{if $video.status=='Successful'}{lang|capitalize code="Successful"}{else}{lang|capitalize code="processing"}{/if}</span>
+				<span class="label label-info">{lang code="view"} : {$video.last_viewed|niceTime}</span>
 			</div>
 		</div>
 	</td>
@@ -48,12 +48,12 @@
 				Actions <i class="caret"></i></button>
 			<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
 			{if $cbvid->is_video_owner($video.videoid,$user.userid) || has_access('admin_access')}
-				<li><a role="menuitem" tabindex="-1" href="{$baseurl}/edit_video.php?vid={$video.videoid}" class="">Edit</a></li>
+				<li><a role="menuitem" tabindex="-1" href="{$baseurl}/edit_video.php?vid={$video.videoid}" class="">{lang|capitalize code="edit"}</a></li>
 
-				<li><a role="menuitem" tabindex="-1" href="javascript:_cb.Confirm_Delete('?vid_delete={$video.videoid}')">Delete</a>
+				<li><a role="menuitem" tabindex="-1" href="javascript:_cb.Confirm_Delete('?vid_delete={$video.videoid}')">{lang|capitalize code="delete"}</a>
 				</li>
 			{/if}
-				<li><a role="menuitem" tabindex="-1" href="{$baseurl}/watch_video.php?v={$video.videokey}"target="_blank">Watch</a>
+				<li><a role="menuitem" tabindex="-1" href="{$baseurl}/watch_video.php?v={$video.videokey}"target="_blank">{lang|capitalize code="to_view"}</a>
 					
 				</li>
 
@@ -78,9 +78,9 @@
 			<img class="edit-img-thumbnail" src="{getThumb vdetails=$video}">
 			<p class="marginTop">{$video.title|truncate:100}</p>
 			<div class="btn-group show">
-				<a class="btn btn-primary btn-sm" href="{videoLink vdetails=$video}">view</a>
+				<a class="btn btn-primary btn-sm" href="{videoLink vdetails=$video}">{lang|capitalize code="to_view"}</a>
 				<a class="btn btn-primary btn-sm" href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$video.playlist_item_id}','{lang code="remove_playlist_item_confirm"}','?mode=edit_playlist&pid={$pid}&amp;delete_item={$video.playlist_item_id}')" id="delete_icon_a-{$video.playlist_item_id}">
-				delete
+				{lang|capitalize code="delete"}
 				</a>
 			</div>
 		</div>

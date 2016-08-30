@@ -7,7 +7,7 @@
 	<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
 	  <div class="account_box">
 		{if $mode =='manage_playlist'}
-		  <h2>{lang code='manage_playlists'}</h2>
+		  <h1>{lang code='manage_playlists'}</h1>
 
 		  <!-- ADD NEW PLAYLIST -->
 		  <div class="account_form">
@@ -46,7 +46,7 @@
 					<td valign="middle">
 					  {$playlists[plist].playlist_name|truncate:100}
 					  <span class="video_control">
-						<a href="?mode=edit_playlist&amp;pid={$playlists[plist].playlist_id}">{lang code='view'}</a> - <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$playlists[plist].playlist_id}','{lang code="remove_playlist_confirm"}','?mode=manage_playlist&amp;delete_pl={$playlists[plist].playlist_id}')" id="delete_icon_a-{$playlists[plist].playlist_id}">{lang code='delete'}</a>
+						<a href="?mode=edit_playlist&amp;pid={$playlists[plist].playlist_id}">{lang|capitalize code='to_view'}</a> - <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$playlists[plist].playlist_id}','{lang code="remove_playlist_confirm"}','?mode=manage_playlist&amp;delete_pl={$playlists[plist].playlist_id}')" id="delete_icon_a-{$playlists[plist].playlist_id}">{lang|capitalize code='delete'}</a>
 					  </span>
 					</td>
 					<td>{$playlists[plist].date_added|date_format}</td>
@@ -60,7 +60,7 @@
 		{/if}
 
 		{if $mode =='edit_playlist'}
-		  <h2>{lang code='manage_playlists'}</h2>
+		  <h1>{lang code='manage_playlists'}</h1>
 		  <div class="account_form">
 			<form method="post" name="edit_profile">
 			  
@@ -85,7 +85,7 @@
 			<p><a href="{videoLink vdetails=$items[0]}" >{lang code='play_now'}</a></p>
 		  {/if}
 		  <form name="edit_playlist" method="post">
-			<input type="submit" class="btn btn-primary" value="{lang code='delete_selected'}" name="delete_playlist_item"/>
+			<input type="submit" class="btn btn-primary" value="{lang code='delete_selected'}" name="delete_playlist_item"/><br><br>
 			<div class="account_table">
 				<table class="table table-striped table-bordered">
 					<tr>

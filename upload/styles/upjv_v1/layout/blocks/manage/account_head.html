@@ -50,17 +50,17 @@
 									{$video.title|truncate:80} </a><br>
 								<span class="maccountlabels">
 									<strong>{$video.date_added|niceTime}</strong>
-									{if $video.views > 1}{lang code='views'}{else}{lang code="view"}{/if} : <strong>{prettyNum($video.views)}</strong>
+									{if $video.views > 1}{lang|capitalize code='views'}{else}{lang|capitalize code="view"}{/if} : <strong>{prettyNum($video.views)}</strong>
 								</span>
 								<div class="labels">
-									{if $video.featured=='yes'}<span class="label label-primary">{lang code="featured"}</span>&nbsp;{else}{/if}
+									{if $video.featured=='yes'}<span class="label label-primary">{lang|capitalize code="featured"}</span>&nbsp;{else}{/if}
 	
 									<span class="label {if $video.active=='yes'}label-success{else}label-warning{/if} mlabel">
 										{if $video.active=='yes'}Active{else}Inactive{/if}
 									</span>&nbsp;
 
 									<span class="label {if $video.status=='Successful'}label-success{else}label-warning{/if}">
-										{if $video.status=='Successful'}{lang code="Successful"}{else}{lang code="processing"}{/if}
+										{if $video.status=='Successful'}{lang|capitalize code="Successful"}{else}{lang|capitalize code="processing"}{/if}
 									</span>&nbsp;
 
 									<span class="label label-info">
