@@ -242,6 +242,8 @@ if(isset($_POST['update'])){
 					'welcome_email',
 					'vbrate_hd',
 					'store_guest_session',
+					'delete_mass_upload',
+					'stay_mp4'
 					
 					);
 	
@@ -308,8 +310,15 @@ if(isset($_POST['update'])){
 
     if (isset($_POST['seo']) != "yes") {
         $_POST['seo']= "no";
-
     }
+    if(isset($_POST['delete_mass_upload']) != "yes"){
+    	$_POST['delete_mass_upload'] = "no";
+    }
+
+     if(isset($_POST['stay_mp4']) != "yes"){
+    	$_POST['stay_mp4'] = "no";
+    }
+
     if (isset($_POST['send_comment_notification']) != "yes") {
         $_POST['send_comment_notification']= "no";
 

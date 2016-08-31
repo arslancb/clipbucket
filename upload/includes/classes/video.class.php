@@ -209,7 +209,7 @@ class CBvideo extends CBCategory
         if ( $data ) {
             return $data;
         }
-
+        //pr($query,true);
         $result = select( $query );
 
         if ( $result ) {
@@ -310,6 +310,7 @@ class CBvideo extends CBCategory
 			{
 				$db->update(tbl("video"),array('featured','featured_date'),array('yes',now())," videoid='$vid' OR videokey = '$vid' ");
 				e(lang("class_vdo_fr_msg"),'m');
+				return "featured";
 			}
 			break;
 			
@@ -839,6 +840,15 @@ class CBvideo extends CBCategory
 			$cond .= " ".("video.userid")." <> '".$params['nonuser']."' ";
 
 		}	
+
+		if($params['editor_pick'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " ".("in_editor_pick")." = '".$params['editor_pick']."' ";
+
+		}	
+
 		//padding videos in mass_embed pllugin
 		if($params['mass_embed_status'])
 		{
@@ -1577,12 +1587,16 @@ class CBvideo extends CBCategory
 	 */
 	function show_video_rating($params)
 	{
+
 		$rating 	= $params['rating'];
 		$ratings 	= $params['ratings'];
 		$total 		= $params['total'];
 		$id 			= $params['id'];
 		$type 		= $params['type'];
 		
+		if (empty($ratings)) {
+			$ratings = $params['rated_by'];
+		}
 		//Checking Percent
 		{
 			if($total<=10)

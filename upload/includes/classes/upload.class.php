@@ -202,7 +202,13 @@ class Upload{
 			
 			$query_field[] = "date_added";
 			$query_val[] = now();
+			$config_for_mp4 = $Cbucket->configs['stay_mp4'];
 			
+			if ($config_for_mp4 == 'yes') {
+				$query_field[] = "status";
+				$query_val[] = "Successful";
+			}
+
 			$query = "INSERT INTO ".tbl("video")." (";
 			$total_fields = count($query_field);
 			
@@ -423,7 +429,7 @@ class Upload{
 		if(!empty($file) && $ext =='jpg'){
 			$image = new ResizeImage();
 			if($image->ValidateImage($file,$ext)){
-				$thumb = BASEDIR.'/files/thumbs/'.GetThumb($flv,$thumbid);
+				$thumb = FILES_DIR.'/thumbs/'.GetThumb($flv,$thumbid);
 				move_uploaded_file($file,$thumb);
 				$image->CreateThumb($thumb,$thumb,THUMB_WIDTH,$ext,THUMB_HEIGHT,false);
 				return true;

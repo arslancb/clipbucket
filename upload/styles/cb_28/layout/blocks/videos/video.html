@@ -57,7 +57,7 @@
 		<button data-quick="quick-{$video.videoid}"
  class="icon-plus2 add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
  		</button>
-		<span class="duration">{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
+		<span class="duration" title="Video duration : {if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}">{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
 
 	</div>
 	<div class="clearfix video-info">
@@ -108,7 +108,7 @@
 			<button data-quick="quick-{$video.videoid}"
 		 class="icon-plus2 add_icon cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.videoid, $qlist_vids)}icon-tick{/if}" vtitle="{$video.title}" v-id="{$video.videoid}" vlink="{videoLink($video)}" vthumb="{getThumb vdetails=$video size=600x338 }" vduration="{$video.duration|SetTime}" title="Add {$video.title} to Quicklist">
 		 	</button>
-			<span class="duration">{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
+			<span class="duration" title="Video duration : {if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}">{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
 	</div>
 </div>
 {/if}

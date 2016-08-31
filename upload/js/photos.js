@@ -130,6 +130,9 @@ $(document).on("click", "#btn-close", function () {
 
 $( document ).on( 'keydown', function ( e ) {
     if ( e.keyCode === 27 ) { // ESC
-       document.getElementById("myNav").style.left = "-100%";
+       	var myNav = document.getElementById("myNav");
+       	if (myNav != null){
+       	 	myNav.style.left = "-100%";
+       	}
     }
 });

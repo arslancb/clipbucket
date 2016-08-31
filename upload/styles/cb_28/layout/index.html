@@ -54,7 +54,7 @@
 				</div>
 				<div id="featured_pre" class="clearfix"></div>
 				<div id="featured-loadmore" class="clearfix text-center">
-					<button id="featured_load_more" class="btn btn-loadmore" loadtype="video" loadmode="featured" loadlimit="{$row.index_featured}" loadhit="1">{lang code="load_more"}</button>
+					<button id="featured_load_more" class="btn btn-loadmore" loadtype="video" loadmode="featured" loadlimit="{$row.index_featured}" loadhit="1" title="Load more featured video">{lang code="load_more"}</button>
 				</div>
 			</section>
 
@@ -64,7 +64,7 @@
 				</div>
 				<div id="recent_pre" class="clearfix"></div>
 				<div id="recent-loadmore" class="clearfix text-center">
-					<button id="recent_load_more" class="btn btn-loadmore" loadtype="video" loadmode="recent" loadlimit="{$row.index_recent}" loadhit="1">{lang code="load_more"}</button>
+					<button id="recent_load_more" class="btn btn-loadmore" loadtype="video" loadmode="recent" loadlimit="{$row.index_recent}" loadhit="1" title="Load more recent video">{lang code="load_more"}</button>
 				</div>
 			</section>
 		</div>
@@ -101,7 +101,7 @@
 			{if $row.collectionsSection == 'yes'}
 			{$collections = $cbcollection->get_collections(['limit'=>4, 'active'=>'yes', 'order'=>'total_objects DESC'])}
 			{$collections = $cbcollection->activeCollections($collections)}
-			<h2>{lang code="top_collections"}</h2>
+			<h2 title="Collections with most items">{lang code="top_collections"}</h2>
 			<div class="clearfix sidebar-items collections-grid">
 				<div class="clearfix row">
 				{$limit=10}
@@ -124,10 +124,10 @@
 			{$playlists = activePlaylists($playlists)}
 			{if $playlists}
 			<div class="clearfix sidebar-playlists">
-				<h2>{lang code="top_playlists"}</h2>
+				<h2 title="Playlists with most videos">{lang code="top_playlists"}</h2>
 				{foreach $playlists as $playlist}
 				<div class="playlist clearfix"> 
-					<a href="{videoLink vdetails=$playlist['first_item']|@json_decode}&play_list={$playlist.playlist_id}"><h3>{$playlist.playlist_name}</h3></a>
+					<a href="{videoLink vdetails=$playlist['first_item']|@json_decode}{if $Cbucket->configs.seo == 'no'}&{else}?{/if}play_list={$playlist.playlist_id}"><h3>{$playlist.playlist_name}</h3></a>
 					{$items = get_playlist_items($playlist.playlist_id)}
 					<div class="clearfix row">
 					{foreach $items as $item}

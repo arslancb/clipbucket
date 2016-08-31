@@ -65,7 +65,7 @@
 	//Pagination
 	$pages->paginate($total_pages,$page);
 
-	assign('results',$results );	
+	assign('results',array_reverse($results) );	
 	assign('template_var',$search->template_var);
 	assign('display_template',$search->display_template);
 
@@ -76,7 +76,12 @@
 	}
 
 	if(mysql_clean(get('query'))) {
-		subtitle($search->search_type[$type]['title'].' &raquo; '.mysql_clean(get('query')));
+		$squery = get('query');
+		if ($squery == 'clipbucket') {
+			subtitle("Awesomeness...!!");
+		} else {
+			subtitle($search->search_type[$type]['title'].' &raquo; '.mysql_clean(get('query')));
+		}
 	}
 
 	//Displaying The Template

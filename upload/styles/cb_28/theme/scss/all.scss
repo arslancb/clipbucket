@@ -3124,6 +3124,15 @@ textarea#comment_box{
 .well{
 	border-radius: 0;
 }
+.alert-msg-holder{
+	.alert{
+		position: fixed;
+		width: 100%;
+		left: 0;
+		z-index:5;
+		padding: 10px 40px 10px 10px;
+	}
+}
 /**/
 @import "header";
 @import "sidebar";

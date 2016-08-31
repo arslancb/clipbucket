@@ -480,6 +480,7 @@ class Collections extends CBCategory
 	function get_collection_items($id,$order=NULL,$limit=NULL)
 	{
 		global $db;
+
 		$result = $db->select(tbl($this->items),"*"," collection_id = $id",$limit,$order);
 		if($result)
 			return $result;
@@ -570,10 +571,11 @@ class Collections extends CBCategory
 		$itemsTbl = tbl($this->items);
 		$objTbl = tbl($this->objTable);
 		$tables = $itemsTbl.",".$objTbl.",".tbl("users");
-		
+		//$order = tbl('photos').".date_added DESC";
 		if(!$count_only)
 		{
 			$result = $db->select($tables,"$itemsTbl.ci_id,$itemsTbl.collection_id,$objTbl.*,".tbl('users').".username"," $itemsTbl.collection_id = '$id' AND active = 'yes' AND $itemsTbl.object_id = $objTbl.".$this->objFieldID." AND $objTbl.userid = ".tbl('users').".userid",$limit,$order);
+
 			//echo $db->db_query;
 		} else {
 			$result = $db->count($itemsTbl,"ci_id"," collection_id = $id");	
@@ -886,17 +888,13 @@ class Collections extends CBCategory
 			
 			if(count($this->custom_collection_fields) > 0)
 				$collection_fields = array_merge($collection_fields,$this->custom_collection_fields);
-				
+	
+
+
 			foreach($collection_fields as $field)
 			{
 				$name = formObj::rmBrackets($field['name']);
 				$val = $array[$name];
-				$val = mysql_clean($val);
-				if($field['use_func_val'])
-					$val = $field['validate_function']($val);
-				
-				if(!empty($field['db_field']))
-					$query_field[] = $field['db_field'];
 				
 				if(is_array($val))
 				{
@@ -906,15 +904,33 @@ class Collections extends CBCategory
 						$new_val .= "#".$v."# ";
 					}
 					$val = $new_val;
+					
 				}
-				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
+				//$foot[] = $val;
+				$val = mysql_clean($val);
+				if($field['use_func_val']){
+					$val = $field['validate_function']($val);
+				}
+				
+				if(!empty($field['db_field'])){
+					$query_field[] = $field['db_field'];
+				}
+
+		
+				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func']))){
 					$val = ($val);
+					
+
+				}
+
 				else
 					$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
 
 				if(!empty($field['db_field']))
 					$query_val[] = $val;	
+
 			}
+	
 			
 			// date_added
 			$query_field[] = "date_added";
@@ -1190,6 +1206,7 @@ class Collections extends CBCategory
 	{
 		global $imgObj,$cbphoto;
 		$file_ext = strtolower(getext($file['name']));
+
 		$exts = array("jpg","gif","jpeg","png");
 		
 		foreach($exts as $ext)
@@ -1197,6 +1214,7 @@ class Collections extends CBCategory
 			if($ext == $file_ext)
 			{
 				$thumb = COLLECT_THUMBS_DIR."/".$cid.".".$ext;
+
 				$sThumb = COLLECT_THUMBS_DIR."/".$cid."-small.".$ext;
 				$oThumb = COLLECT_THUMBS_DIR."/".$cid."-orignal.".$ext;
 				foreach($exts as $un_ext)
@@ -1313,6 +1331,7 @@ class Collections extends CBCategory
 				e(lang("collection_updated"),"m");
 				
 				if(!empty($array['collection_thumb']['tmp_name']))
+					//pex($array,true);
 					$this->upload_thumb($cid,$array['collection_thumb']);	
 			}
 		}
@@ -1982,7 +2001,9 @@ class Collections extends CBCategory
         		switch ($col_data['type']){
         			case 'photos':
         			default : {
-        				$first_col = $cbphoto->collection->get_collection_items_with_details($col_data['collection_id'],0,1,false);
+        				$order = tbl('photos').".date_added DESC";
+        				$first_col = $cbphoto->collection->get_collection_items_with_details($col_data['collection_id'],$order,1,false);
+
         				$param['details'] = $first_col[0];
 		        		if (!$size) {
 		        			$param['size'] = 's';

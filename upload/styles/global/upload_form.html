@@ -3,6 +3,8 @@
 {$sharingOptions = $videoFields[1]}
 {$dateAndLocation = $videoFields[2]}
 {$custom_fields = $videoFields[4]}
+
+{$config_for_mp4 = $Cbucket->configs['stay_mp4']}
 <div class="uploaderContainer clearfix" id="uploaderContainer">
     <div class="upload-area col-md-12">
         <div class="fileUploaderForm">
@@ -33,7 +35,7 @@
     <div id="allUploadForms" class="tab-content allUploadForms"></div>
 </div>
 
-<form action="#" id="updateVideoInfoForm" class="hidden" enctype="multipart/form-data">
+<form action="#" id="updateVideoInfoForm" class="hidden" enctype="multipart/form-data" method="post">
     <div class="row">
         <div class="col-md-8">
             <div class="" id="updateVideoInfo">
@@ -57,6 +59,20 @@
                         {/if}
                         </div>
                     {/foreach}
+                  
+                    
+                    <div id= "duration" class="form-group hidden">
+                        <label for="duration">Duration</label>
+                        <input type="text" placeholder="" name="duration" id="duration" class="form-control" cols="45">
+
+                    </div>
+
+                  <!--   <div class="form-group">
+                        <label for="thumb12">Thumbnail</label>
+                        <input  class="thumb12"  name="thumb12" type="file" placeholder=""   class="form-control" cols="45">
+                    </div> -->
+
+            
                     {ANCHOR place="upload_video_form"}
                 </div>
                 {if $custom_flag && $custom_fields!=""}

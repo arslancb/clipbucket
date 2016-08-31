@@ -77,11 +77,12 @@ if($udetails)
 		if(!error())
 		$udetails = $userquery->get_user_details($uid);
 	}
-	
+
 	$profile = $userquery->get_user_profile($udetails['userid']);
 	$user_profile = array_merge($udetails,$profile);
 	assign('u',$udetails);
 	assign('p',$user_profile);
+	assign("catparmas",'catparmas');
 
 
     /*$type = "u";

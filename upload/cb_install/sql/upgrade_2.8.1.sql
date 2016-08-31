@@ -6,7 +6,7 @@ INSERT INTO `{tbl_prefix}config` (`name`, `value`) VALUES ('clientid', 'your_cli
 
 INSERT INTO `{tbl_prefix}config` (`name`, `value`) VALUES ('secretId', 'your_client_secret_here');
 ALTER TABLE `{tbl_prefix}collection_categories` ADD `parent_id` int DEFAULT 1;
-INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'youtube_api_key', 'key_here');
+INSERT INTO `{tbl_prefix}config` (`name`, `value`) VALUES ('youtube_api_key', 'key_here');
 /*Indexing of following tables*/
 /*Author: Sikander Ali 	*/
 
@@ -35,3 +35,6 @@ ALTER TABLE `{tbl_prefix}video` ADD INDEX(`comments_count`);
 ALTER TABLE `{tbl_prefix}video` ADD INDEX(`last_viewed`);
 
 UPDATE `{tbl_prefix}config` SET value = 'cb_28' WHERE name = 'template_dir';
+INSERT INTO `{tbl_prefix}config`(`name`, `value`) VALUES ('stay_mp4','');
+INSERT INTO `{tbl_prefix}config`(`name`, `value`) VALUES ('youtube_api_key','');
+ALTER TABLE `{tbl_prefix}video` ADD `video_files` text(33) NOT NULL;

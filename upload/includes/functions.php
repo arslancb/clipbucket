@@ -4307,11 +4307,13 @@
 		if(PHP_OS == "Linux") {
 			$destination.'/'.$dest_name;
 			$saveTo = $destination.'/'.$dest_name;
+			#exit($saveTo);
 			$fp = fopen ($saveTo, 'w+');
 		} elseif (PHP_OS == "WINNT") {
 			$destination.'\\'.$dest_name;
 			$fp = fopen ($destination.'\\'.$dest_name, 'w+');
 		}
+
 		$ch = curl_init($snatching_file);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 600);
 		curl_setopt($ch, CURLOPT_FILE, $fp);
@@ -5519,6 +5521,7 @@
 		$filepath = $params['filepath'];
 		$width = $params['width'];
 		$height = $params['height'];
+		$ms = $params['ms'];
 		$ext = pathinfo($filepath, PATHINFO_EXTENSION);
 		
 		$thumbs_settings_28 = thumbs_res_settings_28();
@@ -5534,10 +5537,45 @@
 				$height_setting = $height;
 			}
 
-			$outputFilePath = THUMBS_DIR.'/'.$files_dir.'/'.$file_name.'-'.$dimensions.'-'.$file_num.'.'.$ext;	
+			if (!$ms) {
+				$outputFilePath = THUMBS_DIR.'/'.$files_dir.'/'.$file_name.'-'.$dimensions.'-'.$file_num.'.'.$ext;	
+			} else {
+				$outputFilePath = $files_dir.'/'.$file_name.'-'.$dimensions.'-'.$file_num.'.'.$ext;	
+			}
+
 			$imgObj->CreateThumb($filepath,$outputFilePath,$width_setting,$ext,$height_setting,false);
 		}
 		unlink($filepath);
+	}
+
+	/**
+	* Get size of a directory in different tyoes
+	* @param : { string } { $dir } { path to directory for which you want to get size }
+	* @param : { string } { $sizeType } { type to get size in e.g mb, kb, gb }
+	*
+	* @return : { string } { $size } { size of given directory }
+	* @since : 15th August, 2016 ClipBucket 2.8.1
+	* @author : Saqib Razzaq
+	*/
+
+	function getDirSize($dir, $sizeType = 'mb') {
+		if (file_exists($dir) || is_dir($dir)) {
+			$to_open = popen ('/usr/bin/du -sk ' . $dir, 'r' );
+			$size = fgets ( $to_open, 4096);
+			$size = substr ( $size, 0, strpos ( $size, "\t" ) );
+			pclose ( $io );
+			if ($sizeType == 'kb') {
+				return $size.' KB';
+			} elseif ($sizeType == 'gb') {
+				$size = $size / 1024 / 1024;
+				return $size.' GB';
+			} else {
+				$size = $size / 1024;
+				return $size.' MB';
+			}
+		} else {
+			return false;
+		}
 	}
 
 	function array_val_assign($vals) {

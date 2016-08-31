@@ -16,7 +16,7 @@
 				global $db, $cbvid, $Smarty;
 				$load_hit = $_POST['loadHit'];
 				$load_limit = $_POST['loadLimit'];
-				$user = $_POST['user'];
+				$user = $_POST['userid'];
 				$start = $load_limit * $load_hit - $load_limit;
 				$sql_limit = "$start, $load_limit";
 				$total_items = $_POST['totalVids'];

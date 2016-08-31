@@ -320,7 +320,15 @@ class userquery extends CBCategory{
 			//$sess->set('user_session_key',$udetails['user_session_key']);
 			//$sess->set('user_session_code',$udetails['user_session_code']);
 			
-			
+			//local client ip access
+			$ip = $cblog->get_local_ipv4();
+
+			if($ip['eth0']){
+				$ipv = $ip['eth0'];
+			}
+			if($ip['wlan0']){
+				$ipv = $ip['wlan0'];
+			}
 			//Setting Vars
 			$this->userid = $udetails['userid'];
 			$this->username = $udetails['username'];
@@ -332,7 +340,7 @@ class userquery extends CBCategory{
 							  'num_visits','last_logged','ip'
 							  ),
 						array(
-							  '|f|num_visits+1',NOW(),$_SERVER['REMOTE_ADDR']
+							  '|f|num_visits+1',NOW(),$ipv
 							  ),
 						"userid='".$userid."'"
 						);
@@ -1270,7 +1278,7 @@ class userquery extends CBCategory{
 		elseif(!$user)
 			e(sprintf(lang('please_login_subscribe'),$to_user['username']));
 		elseif($this->is_subscribed($to,$user))
-			e(sprintf(lang("usr_sub_err"),$to_user['username']));
+			e(sprintf(lang("usr_sub_err"),"<strong>".$to_user['username']."</strong>"));
 		elseif($to_user['userid'] == $user)
 			e(lang("you_cant_sub_yourself"));	
 		else
@@ -2141,10 +2149,12 @@ class userquery extends CBCategory{
 			$cond = " AND $cond ";
 		
 		if ($myacc) {
-			$cond .= " LIMIT 0,15 ";
+			$limit .= " 0,15 ";
+			$order = " videoid DESC";
 		}
 
-		$results = $db->select(tbl("video"),"*"," userid = '$uid' $cond");
+
+		$results = $db->select(tbl("video"),"*"," userid = '$uid' $cond","$limit","$order");
 		if($db->num_rows > 0) {
 			if ($myacc) {
 				return $results;

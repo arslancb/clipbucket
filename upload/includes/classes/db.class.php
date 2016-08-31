@@ -41,6 +41,10 @@ class Clipbucket_db
 
             $this->mysqli = new mysqli($host,$uname, $pwd, $name);
             if($this->mysqli->connect_errno) return false;
+            $this->db_host = $host;
+            $this->db_name = $name;
+            $this->uname = $uname;
+            $this->pwd = $pwd;
 
         } catch(DB_Exception $e) {
             $e->getError();
