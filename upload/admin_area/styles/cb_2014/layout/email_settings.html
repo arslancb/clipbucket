@@ -12,8 +12,12 @@
       </select>
     </div>
     <div class="col-md-4">
-      <label for="smtp_host">SMTP Host<br />if using smtp, Set SMTP server port</label>
+      <label for="smtp_host">SMTP Host<br />if using smtp, Set SMTP server host</label>
       <input class="form-control" type="text" name="smtp_host" id="smtp_host" value="{$row.smtp_host}" />
+    </div>
+    <div class="col-md-4">
+      <label for="smtp_host">SMTP Port<br />if using smtp, Set SMTP server port</label>
+      <input class="form-control" type="text" name="smtp_port" id="smtp_port" value="{$row.smtp_port}" />
     </div>
     <div class="col-md-4">
       <label for="smtp_user">SMTP Username<br />if using smtp, please enter SMTP username</label>

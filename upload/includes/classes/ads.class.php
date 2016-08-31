@@ -24,9 +24,9 @@ class AdsManager
 		if(!$array)
 			$array = $_POST;
 		 
-		$name		= mysql_clean($array['name']);
+		$name		= $array['name'];
 		// $code		= mysql_real_escape_string(htmlspecialchars($array['code']));
-		$code		= mysql_clean(htmlspecialchars($array['code']));
+		$code		= $array['code'];
 		$placement 	= mysql_clean($array['placement']);
 		$category  	= $array['category'];
 		$status		= $array['status'];
@@ -91,7 +91,7 @@ class AdsManager
 		$placement 	= mysql_clean($array['placement']);
 		$name	= mysql_clean($array['name']);
 		// $code	= mysql_real_escape_string(htmlspecialchars($array['code']));
-		$code = htmlspecialchars($array['code']);
+		$code = $array['code'];
 		$category = mysql_clean(@$array['category']);
 		$id = $array['ad_id'];
 		
@@ -314,6 +314,32 @@ class AdsManager
 	{
 		global $db;
 		return $db->count(tbl("ads_data"),"ad_id"," ad_placement='$place'");
+	}
+
+
+	/**
+	*@author : Fahad Abbas
+	*@date   : 24-Feb-2016
+	*@param  : { Null }
+	*return  : { Array } { Array of ads_placement.xml  }
+	*@reason : { this method used to convert ads_placement.xml content to php array} 
+	*/
+	function get_placement_xml()
+	{
+		if (file_exists(STYLES_DIR.'/'.TEMPLATE.'/ads_placement.xml'))
+		{
+			$xml_file =  STYLES_DIR.'/'.TEMPLATE.'/ads_placement.xml'; 
+			$xml_content = file_get_contents($xml_file);
+			$xmlSimpleElement = simplexml_load_string($xml_content) or die("Error: Cannot create object");
+			$jsonArray = json_encode($xmlSimpleElement);
+			$results = json_decode($jsonArray,true);
+
+			return $results;
+		}
+		else
+		{
+			e(lang("no_ads_xml_found"),"e");
+		}
 	}
 }
 ?>

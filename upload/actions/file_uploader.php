@@ -4,8 +4,9 @@
  * @Author : Arslan Hassan
  */
 include('../includes/config.inc.php');
-
+require_once(dirname(dirname(__FILE__))."/includes/classes/sLog.php");
 //var_dump($_FILES);die();
+global $Cbucket;
 
 if($_FILES['Filedata'])
 	$mode = "upload";
@@ -120,13 +121,53 @@ switch($mode)
 	
 	case "upload":
 	{
+		$config_for_mp4 = $Cbucket->configs['stay_mp4'];
+		$ffmpegpath = $Cbucket->configs['ffmpegpath'];
+		$extension = getExt( $_FILES['Filedata']['name']);
+		$raw_content_type = mime_content_type($_FILES['Filedata']['tmp_name']);
+		$content_type = substr($raw_content_type, 0,strpos($raw_content_type, '/'));
+		if ($content_type != 'video') {
+			echo json_encode(array("status"=>"504","msg"=>"Provided file is invalid video (".$raw_content_type.")"));
+			exit();
+		}
+		//Stay as it MP4 Module .. 
+		if($config_for_mp4 == "yes" && $extension == "mp4" ) {
+			
+			$file_name	= time().RandomString(5);
+			$tempFile = $_FILES['Filedata']['tmp_name'];
+			$file_directory = date('Y/m/d');
+			@mkdir(VIDEOS_DIR . '/' . $file_directory, 0777, true);
+			$targetFileName = $file_name.'.'.getExt( $_FILES['Filedata']['name']);
+			$targetFile = TEMP_DIR."/".$targetFileName;
+			$ta = VIDEOS_DIR.'/'.$file_directory;
+			logData(VIDEOS_DIR.'/'.$file_directory.$file_name,'ta');
+			$orginal_file = VIDEOS_DIR.'/'.$file_directory.'/'.$file_name.'.'.getExt( $_FILES['Filedata']['name']);
+
+			move_uploaded_file($tempFile,VIDEOS_DIR.'/'.$file_directory.'/'.$file_name.'.'.getExt( $_FILES['Filedata']['name']));
+
+			logData($command,"time");
+			echo json_encode(array("success"=>"yes","file_name"=>$file_name, 'phpos' => PHP_OS , "extension"=>$extension));
+			exit();
+		}
 
 		$file_name	= time().RandomString(5);
 		$tempFile = $_FILES['Filedata']['tmp_name'];
 		$file_directory = date('Y/m/d');
 		$targetFileName = $file_name.'.'.getExt( $_FILES['Filedata']['name']);
 		$targetFile = TEMP_DIR."/".$targetFileName;
-		$logFile = $file_name . ".log";
+		createDataFolders(LOGS_DIR);
+		$logFile = LOGS_DIR.'/'.$file_directory.'/'.$file_name.".log";
+		
+		$log = new SLog($logFile);
+		$log->newSection("Pre-Check Configurations");
+		$log->writeLine("File to be converted", 'Initializing File <strong>'.$file_name.'.mp4</strong> and pre checking configurations...', true);
+		$hardware = shell_exec('lshw -short');
+		if ($hardware){
+			$log->writeLine("System hardware Information", $hardware, true);	
+		}else{
+			$log->writeLine('System hardware Information', 'Unable log System hardware information, plaese install "lshw" ', true);	
+		}
+
 
 		logData('Checking Server configurations to start for filename : '.$file_name.'','checkpoints');
 		
@@ -151,7 +192,9 @@ switch($mode)
         2=>"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form",
         3=>"The uploaded file was only partially uploaded",
         4=>"No file was uploaded",
-        6=>"Missing a temporary folder"
+        6=>"Missing a temporary folder",
+        7=>"Failed to write file to disk",
+        8=>"A PHP extension stopped the file upload. PHP does not provide a way to ascertain which extension caused the file upload to stop; examining the list of loaded extensions with phpinfo() may help"
 		);
 		if (!isset($_FILES['Filedata'])) {
 			upload_error("No file was selected");
@@ -185,13 +228,20 @@ switch($mode)
 			exit(0);
 		}
 		
-		logData('moving physical file to TEMP_DIR','checkpoints');
-		move_uploaded_file($tempFile,$targetFile);
+		$moved = move_uploaded_file($tempFile,$targetFile);
+		
+		if ($moved){
+			$log->writeLine('Temporary Uploading', 'File Uploaded to Temp directory successfully and video conversion file is being executed !', true);	
+		}else{
+			$log->writeLine('Temporary Uploading', 'Went something wrong in moving the file in Temp directory!', true);	
+		}
 
 		
+
 		$Upload->add_conversion_queue($targetFileName);
 		$quick_conv = config('quick_conv');
 		$use_crons = config('use_crons');
+	
 		if($quick_conv=='yes' || $use_crons=='no')
 		{
 			//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
@@ -204,10 +254,15 @@ switch($mode)
 				
 			} else {
 				// for ubuntu or linux
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName $file_name $file_directory > /dev/null &");
+				
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php {$targetFileName} {$file_name} {$file_directory} {$logFile} > /dev/null &");
 			}
 		}
+	
+		$TempLogData = 'Video Converson File executed successfully with Target File > !'.$targetFileName; 
+		$log->writeLine('Video Conversion File Execution', $TempLogData, true);	
 		
+
 		echo json_encode(array("success"=>"yes","file_name"=>$file_name, 'phpos' => PHP_OS));
 		
 	}
@@ -215,8 +270,70 @@ switch($mode)
 	
 	case "update_video":
 	{
+		$config_for_mp4 = $Cbucket->configs['stay_mp4'];
 		$Upload->validate_video_upload_form();
+		$data = get_video_details($_POST['videoid']);
+		logData($_FILES,"MyFileMP4");
+		$vid_file = VIDEOS_DIR.'/'.$data['file_directory'].'/'.get_video_file($data,false,false);
+
+	
+		if($config_for_mp4 == 'yes'){
+			#pr("before config",true);
+			if($data['files_thumbs_path']!=''){
+		
+				
+				$files_thumbs_path= $data['files_thumbs_path'];
+				$serverApi = str_replace('/files/thumbs', '', $files_thumbs_path);
+				$serverApi = $serverApi.'/actions/custom_thumb_upload.php';
+				
+				$file_thumb = $_FILES['vid_thumb']['tmp_name'][0];
+                $postvars['mode'] = 'add';
+                $postvars['file_thumb'] = "@".$file_thumb;
+                $postvars['files_thumbs_path'] = $files_thumbs_path;
+                $postvars['file_directory'] = $data['file_directory'];
+                $postvars['file_name'] = $data['file_name'];
+
+				$ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $serverApi);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST'); 
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postvars); 
+                /* Tell cURL to return the output */
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                 /* Tell cURL NOT to return the headers */
+                curl_setopt($ch, CURLOPT_HEADER, false);
+                $response = curl_exec($ch);
+                /* Check HTTP Code */
+                $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+
+                
+			    if(!$response)
+					e(lang($response),'w');
+				elseif((int)($response)){
+					e(lang(' remote upload successfully'),'m');
+					$query = "UPDATE " . tbl("video") . " SET file_thumbs_count = ".(int)($response)."  WHERE videoid = ".$data['videoid'];
+					$db->Execute($query);
+					$data['file_thumbs_count'] = (int)($response);
+				}
+				else
+					e(lang($response),'e');
+			}
+			else{
+
+				/*$Upload->upload_thumb_upload_form($data['file_name'],$_FILES['thumb12'],$data['file_directory'],$data['thumbs_version']);*/
+				
+				/*$query = "UPDATE " . tbl("video") . " SET status = 'Successful'  WHERE videoid = ".$_POST['videoid'];*/
+				//pex($query,true);
+				#$db->Execute($query);
+			}
+
+		}
+
 		$_POST['videoid'] = trim($_POST['videoid']);
+		$_POST['title'] = addslashes($_POST['title']);
+		$_POST['description'] = addslashes($_POST['description']);
+		$_POST['duration'] = addslashes($_POST['duration']);
+
 		if(empty($eh->error_list))
 		{
 			$cbvid->update_video();

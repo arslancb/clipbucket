@@ -43,8 +43,12 @@ for($id=0;$id<=$total_placements;$id++)
 {
 	$ads_placements[$id]['total_ads'] = $adsObj->count_ads_in_placement($ads_placements[$id]['placement']);
 }
+
+$placement_info = $ads_query->get_placement_xml();
+
 				
 Assign('ads_placements',$ads_placements);
+Assign('placement_info',$placement_info);
 //pr($ads_placements,true);	
 	
 subtitle("Add Advertisment Placement");

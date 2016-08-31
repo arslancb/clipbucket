@@ -12,21 +12,29 @@
 		getting the aguments
 		$argv[1] => first argument, in our case its the path of the file
 	*/
-	$log = new SLog();
+	if (config('use_crons') == 'yes') {
+		$argv = convertWithCron();
+	}
 
 	//error_reporting(E_ALL);
+	#file_put_contents('__argv__', $argv[1]."\n".$argv[2]."\n".$argv[3]."\n".$argv[4]."\n");
 	logData(json_encode($argv),"argvs");
 	$fileName = (isset($argv[1])) ? $argv[1] : false;
+	//This is exact file name of a video e.g 132456789
 	$_filename = (isset($argv[2])) ? $argv[2] : false;
-	$file_directory = (isset($argv[3])) ? $argv[3] : false;
-	$file_directory = $file_directory.'/';
+	$file_directory_ = (isset($argv[3])) ? $argv[3] : false;
+	$file_directory = $file_directory_.'/';
+	$logFile = (isset($argv[4])) ? $argv[4] : false;
+	logData($logFile,'argvs');
 
-
-	logData("1.Initializing Conversion of Video Filename : ".$_filename,'checkpoints');
-	//$fileName = "/home/sajjad/Desktop/abc.mp4";
+	$log = new SLog($logFile);
+	
 	$log->newSection("Starting Conversion Log");
-	$log->writeLine("File to be converted", $fileName, false);
-	$status = "Successful";
+	$TempLogData = "Filename : {$fileName}\n";
+	$TempLogData .= "File directory : {$file_directory_}\n";
+	$TempLogData .= "Log file : {$logFile}\n";
+	$log->writeLine("Getting Arguments",$TempLogData, true, true);
+
 	/*
 		Getting the videos which are currently in our queue
 		waiting for conversion
@@ -37,13 +45,16 @@
 	else
 		$queue_details = get_queued_video(TRUE,$fileName);
 
-
-	
-
-	$fileDir 	= $queue_details["date_added"];
+	$log->writeLine("Conversion queue","Getting the file information from the queue for conversion", true);
+	if(!$file_directory_){
+		$fileDir 	= $queue_details["date_added"];
+	}
+	else{
+		$fileDir = $file_directory;
+	}
 	$dateAdded 	= explode(" ", $fileDir);
 	$dateAdded 	= array_shift($dateAdded);
-	$fileDir 	= implode("/", explode("-", $dateAdded));
+	$file_directory = implode("/", explode("-", $dateAdded));
 	//logData($fileDir);
 
 	/*
@@ -63,11 +74,18 @@
 		Delete the uploaded file from temp directory 
 		and move it into the conversion queue directory for conversion
 	*/
+	
 
 	if(isset($_GET['test']))
-		copy($temp_file,$orig_file);
+		$renamed = copy($temp_file,$orig_file);
 	else
-		rename($temp_file,$orig_file);
+		$renamed = rename($temp_file,$orig_file);
+
+	if ($renamed){
+		$log->writeLine("Conversion queue","File has been moved from Temporary dir to Conversion Queue", true);
+	}else{
+		$log->writeLine("Conversion queue","Some Thing Went wrong in moving the file to Conversion Queue", true);
+	}
 
 	/*
 		Preparing the configurations for video conversion from database
@@ -75,6 +93,12 @@
 	logData('Preparing configuration to parse in ffmpeg class','checkpoints');
 
 	$configs = array(
+		'use_video_rate' => true,
+		'use_video_bit_rate' => true,
+		'use_audio_rate' => true,
+		'use_audio_bit_rate' => true,
+		'use_audio_codec' => true,
+		'use_video_codec' => true,
 		'format' => 'mp4',
 		'video_codec'=> config('video_codec'),
 		'audio_codec'=> config('audio_codec'),
@@ -87,29 +111,46 @@
 		'high_res' => config('high_resolution'),
 		'max_video_duration' => config('max_video_duration'),
 		'resize'=>'max',
-		'outputPath' => $fileDir
+		'outputPath' => $fileDir,
+		'cb_combo_res' => config('cb_combo_res'),
+		'gen_240' => config('gen_240'),
+		'gen_360' => config('gen_360'),
+		'gen_480' => config('gen_480'),
+		'gen_720' => config('gen_720'),
+		'gen_1080' => config('gen_1080')
 	);
+
+
+	foreach ($configs as $key => $value){
+		$configLog .= "<strong>{$key}</strong> : {$value}\n";
+	}
+
+	$log->writeLine("Parsing FFmpeg Configurations",$configLog, true);
 
 	logData('Inlcuding FFmpeg Class','checkpoints');
 	require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
 	
 	$ffmpeg = new FFMpeg($configs, $log);
 	$ffmpeg->ffmpeg($orig_file);
-	$ffmpeg->cb_combo_res = config('cb_combo_res');
-	$ffmpeg->res_configurations = array('gen_240'  => config('gen_240'),
-										'gen_360'  => config('gen_360'),
-										'gen_480'  => config('gen_480'),
-										'gen_720'  => config('gen_720'),
-										'gen_1080' => config('gen_1080')
-										);
-	logData($ffmpeg->res_configurations,'checkpoints');
+	$ffmpeg->configs = $configs;
 	$ffmpeg->file_name = $tmp_file;
 	$ffmpeg->filetune_directory = $file_directory;
 	$ffmpeg->raw_path = VIDEOS_DIR.'/'.$file_directory.$_filename;
 	//$ffmpeg->logs = $log;
-	logData('Going to call ClipBucket Function','checkpoints');
-	$ffmpeg->ClipBucket();
+
 	
+	$ffmpeg->ClipBucket();
+	if ($ffmpeg->lock_file && file_exists($ffmpeg->lock_file)){
+		unlink($ffmpeg->lock_file);
+	}
+	logData($ffmpeg->video_files,'video_files');
+
+	
+
+	$video_files = json_encode($ffmpeg->video_files);
+	$db->update(tbl('video'), array("video_files"), array($video_files), " file_name = '{$outputFileName}'");
+	
+
 
 	if (stristr(PHP_OS, 'WIN'))
 	{
@@ -131,7 +172,7 @@
 
 exit();
 $str = "/".date("Y")."/".date("m")."/".date("d")."/";
-$orig_file1 = BASEDIR.'/files/videos'.$str.$tmp_file.'-sd.'.$ext;
+$orig_file1 = FILES_DIR.'/videos'.$str.$tmp_file.'-sd.'.$ext;
 
 if($orig_file1)
 {

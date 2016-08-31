@@ -79,27 +79,31 @@ if($cbcollection->is_viewable($cid))
 				case "p":
 				{
 					global $cbphoto;
-					$photo = $cbphoto->get_photo($item);
-					if($photo)
-					{
-						$info = $cbphoto->collection->get_collection_item_fields($cid,$photo['photo_id'],'ci_id');
-						if($info)
+					if (isSectionEnabled('photos')) {
+						$photo = $cbphoto->get_photo($item);
+						if($photo)
 						{
-							$photo = array_merge($photo,$info[0]);							
-							increment_views($photo['photo_id'],'photo');
-							
-							assign('object',$photo);
-							assign('user',$userquery->get_user_details($photo['userid']));
-							assign('c',$collect);
-							
-							subtitle($photo['photo_title'].' &laquo; '.$collect['collection_name']);
+							$info = $cbphoto->collection->get_collection_item_fields($cid,$photo['photo_id'],'ci_id');
+							if($info)
+							{
+								$photo = array_merge($photo,$info[0]);							
+								increment_views($photo['photo_id'],'photo');
+								
+								assign('object',$photo);
+								assign('user',$userquery->get_user_details($photo['userid']));
+								assign('c',$collect);
+								
+								subtitle($photo['photo_title'].' &laquo; '.$collect['collection_name']);
+							} else {
+								e(lang("item_not_exist"));
+								$Cbucket->show_page = false;	
+							}
 						} else {
 							e(lang("item_not_exist"));
 							$Cbucket->show_page = false;	
 						}
 					} else {
-						e(lang("item_not_exist"));
-						$Cbucket->show_page = false;	
+						$Cbucket->show_page = false;
 					}
 				}
 				break;
@@ -128,6 +132,10 @@ $get_limit = create_query_limit($page,MAINPLIST);
 $clist = $cond;
 $clist['limit'] = $get_limit;
 $clist ['order']  = " last_viewed DESC";
+if(isset($photo['photo_id']))
+{
+	$clist['exclude'] = $photo['photo_id']; 	
+}
 $photos = get_photos($clist);
 
 Assign('photos', $photos);

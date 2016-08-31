@@ -71,3 +71,8 @@ h6 {
   position: absolute;
   display: block;
 }
+
+#uploadMessage {
+  width: 100%; 
+  margin-left: 0px;
+}

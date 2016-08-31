@@ -50,7 +50,9 @@ define('CB_PM_MAX_INBOX',500); // 0 - OFF , U - Unlimited
 			assign('video',$cbvid->get_video_details($vkey));
 			assign('only_once',true);
 			echo '<h3>Attached Video</h3>';
-			template('blocks/video.html');
+			echo '<div class="clearfix videos row" >';
+			template('blocks//videos/video.html');
+			echo '</div>';
 		}
 	}
 	
@@ -62,7 +64,7 @@ define('CB_PM_MAX_INBOX',500); // 0 - OFF , U - Unlimited
 		global $cbvid;
 		$vid_array = array('user'=>userid(),'order'=>'date_added DESC','limit'=>15);
 		$videos = $cbvid->get_videos($vid_array);
-		$vids_array = array('' => lang("No Video"));
+		$vids_array = array('' => lang("no_video"));
 		if($videos)
 		foreach($videos as $video)
 		{
@@ -70,7 +72,7 @@ define('CB_PM_MAX_INBOX',500); // 0 - OFF , U - Unlimited
 		}
 		$field = array(
 					   'video_form' => array
-					   ('title'=> 'Attach video',
+					   ('title'=> lang('usr_attach_video'),
 						'type'=>'dropdown',
 						'name'=> 'attach_video',
 						'id'=> 'attach_video',
@@ -159,10 +161,8 @@ class cb_pm
 			$type = $array['type'] ? $array['type'] : 'pm';
 			$reply_to = $this->is_reply($array['reply_to'],$from);
 			
-			$fields = array('message_from','message_to','message_content',
-										 'message_subject','date_added','message_attachments','message_box','reply_to');
-			$values = array($from,$to,$array['content'],
-											   $array['subj'],now(),$attachments);
+			$fields = array('message_from','message_to','message_content', 'message_subject','date_added','message_attachments','message_box','reply_to');
+			$values = array($from,$to,$array['content'], $array['subj'],now(),$attachments);
 			
 			//PM INBOX FIELDS
 			$fields_in = $fields;
@@ -490,7 +490,7 @@ class cb_pm
 		$array = array
 		(
 		 'to'	=>array(
-						'title'=> 'to',
+						'title'=> lang('to'),
 						'type'=>'textfield',
 						'name'=> 'to',
 						'id'=> 'to',
@@ -499,7 +499,7 @@ class cb_pm
 						'required'=>'yes'
 					),
 		 'subj'	=>array(
-						'title'=> 'Subject',
+						'title'=> lang('subject'),
 						'type'=>'textfield',
 						'name'=> 'subj',
 						'id'=> 'subj',
@@ -507,7 +507,7 @@ class cb_pm
 						'required'=>'yes'
 					),
 		 'content'	=>array(
-						'title'=> 'content',
+						'title'=> lang('content'),
 						'type'=>'textarea',
 						'name'=> 'content',
 						'id'=> 'pm_content',
@@ -548,6 +548,7 @@ class cb_pm
 		$msgid = $array['msg_id'];
 		//Get To(Emails)
 		$emails = $this->get_users_emails($array['to']);
+		#pr($emails,true);
 		$vars =	array
 		(
 		'{sender}' => $sender,
@@ -589,9 +590,8 @@ class cb_pm
 		$results = $db->select(tbl($userquery->dbtbl['users']),'email',$cond);
 		foreach($results as $result)
 		{
-			$emails[] = $result[0];
+			$emails[] = $result['email'];
 		}
-		
 		return implode(',',$emails);
 	}
 	

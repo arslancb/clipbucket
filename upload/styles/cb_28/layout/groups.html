@@ -1,0 +1,89 @@
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
+<div id="main" class="clearfix">
+	<div class="custom-container clearfix">
+		{*include file="$style_dir/blocks/manage/account_menu.html"*}
+		<div class="clearfix inner-block">
+			 <!-- Listing Categories -->
+			{*{include file="$style_dir/blocks/category_list.html" type='groups'}*}
+			<!-- Listing Categories End -->
+			<header class="heading clearfix"><!-- Page Heading -->
+				{assign var=sorting_links value=sorting_links()}
+				<h1>Browsing All Categories<i class="icon-arrow-right"></i></h1>
+				<div class="dropdowns clearfix">
+					<!--Sorting By View-->
+					<div class="dropdown">
+						{if $smarty.get.sort}
+						{foreach from=$sorting_links item=name key=sort name=sorts}
+							{if $smarty.get.sort==$sort && isset($smarty.get.sort)} 
+							<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">{$name} <span class="caret"></span></a>
+							{/if}
+						{/foreach}
+						{else}
+							<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">Recent <span class="caret"></span></a>
+						{/if}    
+
+						<ul class="dropdown-menu">
+							{foreach from=$sorting_links item=name key=sort}
+							<li>
+								<a href="{link name=sort sort=$sort type=groups}&sorting=sort" {if $smarty.get.sort==$sort} class="selected" {/if}>{$name}</a>
+							</li>
+							{/foreach}
+						</ul>
+					</div>
+
+					<!--Sorting By time-->
+					{assign var=time_links value=time_links()}
+					<div class="dropdown">
+						{if $smarty.get.time} 
+
+						{foreach from=$time_links item=name key=sort name=times}
+							{if $smarty.get.time==$sort && isset($smarty.get.time)} 
+							<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">{$name} <span class="caret"></span></a>
+							{/if}
+						{/foreach}
+						{else}
+							<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">all time <span class="caret"></span></a>
+						{/if}  
+						  <ul class="dropdown-menu">
+							{foreach from=$time_links item=name key=sort name=times}
+								<li>
+									<a href="{link name=time sort=$sort type=groups}&timing=time" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a>
+								</li>
+							{/foreach}
+						  </ul>
+					</div>
+				</div>
+			</header><!-- /Page Heading-->
+			<div class="clearfix row">
+				<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 group-list">
+					{if $groups}
+					<div class="clearfix row">
+						{foreach $groups as $key => $group}
+						{include file="$style_dir/blocks/group/group.html"}
+						{/foreach}
+					</div>
+					{else}
+					<div class="clearfix">No Groups</div>
+					{/if}
+					<div align="center" class="clearfix"><!--Pagination-->
+						{include file="$style_dir/blocks/pagination.html"}
+					</div><!-- /Pagination-->
+				</div>
+				<div class="col-md-2" >
+					<div class="ad-holder">
+						{AD place='ad_160x600'}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var adHtml = $('.ad-holder').html();
+	if(adHtml<1){
+		$('.ad-holder').parent().remove();
+		$('.group-list').removeClass('col-lg-10 col-md-10 col-sm-10');
+		$('.group-list').addClass('clearfix col-lg-12 col-md-12 col-sm-12');
+	}
+</script>

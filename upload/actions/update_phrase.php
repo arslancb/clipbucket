@@ -14,7 +14,7 @@ $userquery->admin_login_check();
 $phrase_id = $_POST['pk'];
 $value = $_POST['value'];
 
-$lang_obj->update_phrase($phrase_id,'|no_mc|'.$value);
+$lang_obj->update_phrase($phrase_id,$value);
 
 echo ($value);
 

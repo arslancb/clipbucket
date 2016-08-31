@@ -1,0 +1,11 @@
+<div id="main" class="clearfix container">
+	<div id="collectionItemView" class="clearfix"> 
+		{if $type == 'photos'}
+		   {include file="$style_dir/view_photo.html" photo=$object user=$user}
+		{/if}
+
+		{if $type == 'videos'}
+		   {include file="$style_dir/watch_video.html" vdo=$object user=$user}
+		{/if} 
+	</div>
+</div>

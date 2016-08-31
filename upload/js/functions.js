@@ -102,7 +102,7 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 		         	attrb.css('display','none');
 		        }
 		        
-		         
+		         $('#'+inner_mode).html('Laod More...');
 		    },
 		/*    complete:function (argument) {
 		    	$('#'+inner_mode).button().button('reset');
@@ -181,7 +181,7 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 				  var vid = data.vid;
 				  
 				   $.post(baseurl+'/actions/file_uploader.php',
-				  {"getForm":"get_form","title":$("#remote_file_url").val(),"objId":remoteObjID},
+				  {"getForm":"get_form","title":$("#remote_file_url").val(),"objId":remoteObjID,"vid":vid},
 				  function(data)
 				  {
 					    $('#remoteUploadBttnStop').hide();
@@ -208,9 +208,9 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 	function youtube_upload()
 	{
 
-		$('#remoteUploadBttn').button('loading');
+		$('#remoteUploadBttn').attr('disabled','disabled');
 		//$('#ytUploadBttn').attr("disabled","disabled");
-		$('#ytUploadBttn').button('loading');
+		$('#ytUploadBttn').attr('disabled','disabled');
 		var file = $("#remote_file_url").val();
 		force_stop = false;		
 		if(!file || file=='undefined')
@@ -255,18 +255,27 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
                     var wrapperDiv = document.createElement("div");
                     var i=0;
                     if(i == 0){
-                        wrapperDiv.className = "tab-pane active uploadFormContainer";
+                        wrapperDiv.className = "tab-pane active uploadFormContainer __theClassHere";
                     }else{
                         wrapperDiv.className = "tab-pane uploadFormContainer";
                     }
+                    $('.__theClassHere').find('#updateVideoInfoForm').remove();
                     wrapperDiv.id = "tab"+i;
                     oneUploadForm.className = "";
+                    console.log('.__theClassHere');
+
+                    //$('#youtube_form').find('#updateVideoInfoForm').attr('id','the_new_one_here');
                     $(oneUploadForm).find("input[name='title']").val(data.title);
                     $(oneUploadForm).find("textarea#desc").val(data.desc);
                     $(oneUploadForm).find("input[name='category[]']:first").attr('checked', 'checked');
                     wrapperDiv.appendChild(oneUploadForm);
                     $(wrapperDiv).appendTo('#remote_upload_div');
                     $(oneUploadForm).find("#saveVideoDetails").removeAttr("disabled");
+                    grabbed_json = data;
+
+                    $(oneUploadForm).on('submit',function(e){
+                    	e.preventDefault();
+                    });
                       /*vid = data.vid;
 					  $('#remoteUploadBttn').attr("disabled","disabled").hide();
 					  $('#ytUploadBttn').attr("disabled","disabled").hide();
@@ -290,6 +299,9 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 					  },'text');*/
 					  
 				  }
+
+				$(document).find('.__theClassHere').find('#saveVideoDetails').attr('id','youtube_update');
+				$(document).find('.__theClassHere').find('#youtube_update').text('Update Grabbed Video');
 				  $("#loading").html('');
 
 			  }
@@ -549,7 +561,7 @@ var loading_img_2 = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-l
 				$("#"+result_cont).css("display","none");
 				$("#"+result_cont).html(data);
 
-				$("#result_cont").append(data);
+				$("#result_cont").html(data);
 				$("#result_cont").show(0).delay(3000).fadeOut('slow');
 			}
 		},'text');
@@ -1735,7 +1747,7 @@ function decode64(input) {
 	function add_comment_js(form_id,type)
 	{   
 		$("#add_comment_result").css("display","block");
-		$("#add_comment_button").val('Uploading...');
+		$("#add_comment_button").val('Adding...');
 		$("#add_comment_button").attr("disabled",true);
 		$(".add-reply").attr("disabled",true);
 
@@ -1817,19 +1829,20 @@ function decode64(input) {
 
 	function reply_box(cid,type,type_id)
 	{
+		var replying_to_user = $(document).find('#says_'+cid).attr('speaker');
 		var html = '<form name="reply_form" method="post" id="reply_form_'+cid+'" onsubmit="return false;">';
 		html += '<input type="hidden" name="reply_to" id="reply_to" value="'+cid+'">';
 		html += '<input type="hidden" name="obj_id" id="obj_id" value="'+type_id+'">';
 		html += '<input type="hidden" name="type" value="'+type+'" />';
 		html += '<div class="textarea-comment clearfix">';
-		html += '<textarea name="comment" id="reply_box_'+cid+'" class="form-control" placeholder="Reply..."></textarea>';
+		html += '<textarea name="comment" id="reply_box_'+cid+'" class="form-control" placeholder="Reply to '+replying_to_user+'..."></textarea>';
 		html += '<i class="remove-'+cid+' remove-icon" onclick="remove_reply_box('+cid+')">';
-		html += '<span style="color:#e50000;cursor:pointer">';
+		html += '<span style="color:#006dcc;cursor:pointer">';
 		html += '<strong>X</strong>';
 		html += '</span>';
 		html += '</i>';
 		html += '</div>';
-		html += '<input type="button" name="add_reply" id="add_reply_button_'+cid+'" class="btn btn-danger pull-right add-reply" onclick="add_comment_js(\'reply_form_'+cid+'\',\''+type+'\')" value="Reply">';
+		html += '<input type="button" name="add_reply" id="add_reply_button_'+cid+'" class="btn btn-primary pull-right add-reply" onclick="add_comment_js(\'reply_form_'+cid+'\',\''+type+'\')" value="Reply">';
 		html += '</form>';
 		$('.reply-box-' + cid).html(html).slideDown("slow");
 		$('#reply_box_' + cid).focus();
@@ -1858,5 +1871,13 @@ function decode64(input) {
 		$("#add_comment_button").val('Add Comment');
 		$("#add_comment_button").attr("disabled",false);
 		$(".add-reply").attr("disabled",false);
+	}
+
+	function isValidEmail(email) {
+		if (email.match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)) {
+			return email;
+		} else {
+			return false;
+		}
 	}
 	

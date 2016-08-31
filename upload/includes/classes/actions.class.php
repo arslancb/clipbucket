@@ -682,7 +682,7 @@ class cbactions
 		
 			//return true;
 			$pid = $db->insert_id();
-			e(lang("new_playlist_created".$pid),"m");
+			e(lang("new_playlist_created"),"m");
 			//Logging Playlist			
 			/*$log_array = array
 			(

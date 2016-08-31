@@ -1,0 +1,87 @@
+
+
+<form name="videos_manager" method="post">
+  <div>
+    <input type="submit" name="delete_pm" id="delete_fav_videos" value="{lang code='delete'}" class="btn btn-primary" />
+  </div>
+  <div id="messages_container" class="account_table marginTop">
+     <table class="table table-bordered table-striped">
+  	  <tr>
+  	    <td width="25">
+          <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+        </td>
+  	    {if $show_from}
+          <td width="100">{lang code='from'}</td>
+        {/if}
+        {if $show_to}
+          <td width="100">{lang code='to'}</td>
+        {/if}
+  	    <td>{lang code='subject'}</td>
+  	    <td width="100">{lang code='date_sent'}</td>
+        <td>{lang code='date_added'}</td>
+      </tr>
+        {section name=msg loop=$user_msgs}
+        <tr id="message-{$user_msgs[msg].message_id}">
+          <td>
+            <input type="checkbox" name="msg_id[]" id="msg_id" value="{$user_msgs[msg].message_id}" />
+          </td>
+          {if $show_from}
+            <td>
+              <a href="?mode={$mode}&mid={$user_msgs[msg].message_id}">{$user_msgs[msg].message_from_user}</a>
+            </td>
+          {/if}
+          {if $show_to}
+            <td>
+              <a href="?mode={$mode}&mid={$user_msgs[msg].message_id}"> 
+              {$to_id = $user_msgs[msg].message_to}
+              {$trimed_to = str_replace('#','', $to_id)}
+              
+             {ucfirst(get_username($trimed_to))}
+
+              </a>
+            </td>
+          {/if}
+          <td>
+            <a href="?mode={$mode}&mid={$user_msgs[msg].message_id}">{$user_msgs[msg].message_subject|truncate:70}</a>
+          </td>
+          <td>
+            <a id="delete_icon-{$pr_msg.message_id}" href="?mode={$mode}&delete_mid={$user_msgs[msg].message_id}">
+              <img src="{$imageurl}/dot.gif" border="0" class="delete_icon" />
+            </a>
+          </td>
+          <td>{$user_msgs[msg].date_added}</td>
+        </tr>
+        {sectionelse}
+          <strong><em>{lang code='you_dont_hv_any_pm'}</em></strong>
+        {/section}
+  	  </table>
+  </div>
+</form>
+
+
+
+
+{if $pr_msg !=''}
+
+<div>
+  <div style="padding:5px" align="right">
+    <a id="delete_icon-{$pr_msg.message_id}" href="?mode={$mode}&delete_mid={$pr_msg.message_id}"><img src="{$imageurl}/dot.gif" border="0" class="delete_icon" /></a>
+    <a id="reply_icon-{$pr_msg.message_id}" href="?mode=new_msg&reply={$pr_msg.message_id}"><img src="{$imageurl}/dot.gif" border="0" class="reply_icon" title="Reply!" /></a>
+  </div>
+  <div class="pm_message_top" align="left">
+    <div class="pm_line">
+      {lang code='from'} : 
+      <strong>
+        <a href="{$userquery->profile_link($pr_msg)}">{$pr_msg.username}</a>
+      </strong> - {$pr_msg.date_added|date_format:"%A, %B %e, %Y %I:%M %p"}
+    </div>
+    <div class="pm_line">
+      {lang code='Subject'} : <strong>{$pr_msg.message_subject}</strong>
+    </div>
+  </div>
+  {private_message pm=$pr_msg}
+</div>
+
+{/if}
+
+<div class="clearfix" style="height:10px"></div>

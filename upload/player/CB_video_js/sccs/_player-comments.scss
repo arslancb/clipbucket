@@ -1,0 +1,447 @@
+@mixin alltransition($ease-property, $ease-time, $ease){
+	-webkit-transition: $ease-property $ease-time $ease;
+	-moz-transition: $ease-property $ease-time $ease;
+	-ms-transition: $ease-property $ease-time $ease;
+	-o-transition: $ease-property $ease-time $ease;
+	transition: $ease-property $ease-time $ease;
+}
+@mixin myanimation ($name, $duration, $ease) {
+	-webkit-animation: $name $duration $ease;
+	-moz-animation:    $name $duration $ease;
+	-ms-animation:     $name $duration $ease;
+	-o-animation: $name $duration $ease;
+	animation: $name $duration $ease;
+}
+@mixin scale ($factor) {
+	-webkit-transform: scale($factor);
+	-moz-transform: 	 scale($factor);
+	-ms-transform: 		 scale($factor);
+	-o-transform: 		 scale($factor);
+}
+@mixin rotate ($deg) {
+	-webkit-transform: rotate($deg);
+	-moz-transform: 	 rotate($deg);
+	-ms-transform: 		 rotate($deg);
+	-o-transform: 		 rotate($deg);
+}
+@mixin translate ($x, $y:0) {
+	-webkit-transform:       translate($x, $y);
+	-moz-transform: 	 translate($x, $y);
+	-ms-transform: 		 translate($x, $y);
+	-o-transform: 		 translate($x, $y);
+}
+$blue-player:#0080b4;
+.video-js{
+	#cb-vjs-comments{
+		overflow: hidden;
+		position: absolute;
+		left:0;
+		bottom: 38px;
+		width: 100%;
+		height: 185px;
+		z-index: 1;
+		ul{
+			list-style: none;
+			padding: 0 10px;
+			margin: 0;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+		}
+		.cb-vjs-comments-list{
+			overflow: hidden;
+			height: 50px;
+			margin: 0 0 10px;
+			@include alltransition($ease-property: all, $ease-time: 0.3s, $ease: linear);
+			&.active{
+				@include myanimation ($name: lefttoright, $duration: 0.3s, $ease: ease-in);
+				~ .cb-vjs-comments-list{
+					position: absolute;
+					left:-1000px;
+				}
+			}
+			&.fade-comment{
+				opacity: 0.4;
+			}
+		}
+		.cb-vjs-comments-avatar{
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			float: left;
+			margin: 0 10px 0 0;
+
+		}
+		.cb-vjs-comment-box{
+			float: left;
+			color: #c2c2c2;
+			font-size: 12px;
+			line-height:14px;
+			padding: 2px 0;
+			.comment{
+				font-size: 14px;
+				line-height: 16px;
+				color: #000;
+				padding: 5px;
+				border-radius: 2px;
+				background: #fff;
+				overflow: hidden;
+				height: 27px;
+			}
+		}
+		.cb-vjs-comment-username{
+			display: block;
+			margin: 0 0 5px;
+			font-weight: 600;
+		}
+	}
+}
+@mixin translate ($x, $y:0) {
+	-webkit-transform:       translate($x, $y);
+	-moz-transform: 	 translate($x, $y);
+	-ms-transform: 		 translate($x, $y);
+	-o-transform: 		 translate($x, $y);
+}
+@mixin lefttoright(){
+	0%{
+		opacity: 0;
+		@include translate ($x:-100%, $y:0);
+	}
+	100%{
+		opacity: 1;
+		@include translate ($x:0, $y:0);
+	}
+}
+@-webkit-keyframes lefttoright {
+	@include lefttoright();
+}
+
+@-moz-keyframes lefttoright {
+	@include lefttoright();
+}
+@-o-keyframes lefttoright {
+	@include lefttoright();
+}
+@keyframes lefttoright {
+	@include lefttoright();
+}
+
+.cb-vjs-timecomment-form {
+	top: 0;
+	left: 0;
+	position: absolute;
+	display: table;
+	height: 100%;
+	width: 100%;
+	z-index: 4;
+	opacity: 0;
+	@include scale ($factor:0);
+	@include alltransition($ease-property: all, $ease-time: 0.6s, $ease: ease-in-out);
+	&.open-comment {
+		opacity: 1;
+		@include scale ($factor:1);
+	}
+	.comment-wrapper {
+		display: table-cell;
+		vertical-align: middle;
+		width: 100%;
+		text-align: center;
+		padding: 0 10px;
+		.inner-wrapper {
+			max-width: 550px;
+			width: 100%;
+			font-size: 12px;
+			line-height: 14px;
+			display: inline-block;
+			padding: 10px 10px 10px 0;
+			background: rgba(255,255,255, .9);
+			color: #000;
+			position: relative;
+			@include alltransition($ease-property: all, $ease-time: 0.3s, $ease: ease-in-out);
+			.timecomments-header{
+				padding: 0 5px 0 15px;
+			}
+			.alert{
+				margin: 0 0 5px;
+				@include alltransition($ease-property: all, $ease-time: 0.3s, $ease: ease-in-out);
+			}
+			#timecomment-box-dismiss{
+				position: absolute;
+				width: 24px;
+				height: 24px;
+				top: -12px;
+				right: -12px;
+				font-size: 20px;
+				line-height: 25px;
+				text-align: center;
+				color:$blue-player;
+				background: #fff;
+				border-radius: 50%;
+				cursor: pointer;
+			}
+			.cb-vjs-comment-data {
+				margin: 0 0 5px;
+				overflow: hidden;
+				>div{
+					overflow: hidden;
+					padding:5px 5px 5px 0;
+					&:first-child{
+						overflow: visible;
+						float: left;
+						width: 84px;
+						padding:5px;
+					}
+				}
+				img {
+					display:block;
+					width: 50px;
+					height: 50px;
+					border-radius:50%;
+					margin: 0 auto 10px;
+				}
+				textarea {
+					display: block;
+					width: 100%;
+					border: 1px solid #d9d9d9;
+					color: #000; 
+					height: 140px;
+					padding: 20px;
+					font-size: 14px;
+					line-height: 18px;
+					resize:none;
+					vertical-align: top;
+					-webkit-appearance:none;
+					&:focus,
+					&:active {
+						outline: none;
+					}
+				}
+				.time-username{
+					display: block;
+					color: $blue-player;
+					text-align: center;
+				}
+			}
+			.timecomments-footer{
+				padding: 0 5px 0 89px;
+				&:after{
+					clear: both;
+					display: block;
+					content: "";
+				}
+			}
+			.character-counter{
+				float: left;
+				width: 50px;
+				color: #000;
+				line-height: 30px;
+				padding: 0 5px 0 0;
+				text-align: left;
+			}
+			.cb-vjs-comments-btn-holder {
+				float: right;
+				width: 200px;
+				text-align: right;
+				padding: 0 0 0 5px;
+				&:after{
+					clear: both;
+					display: block;
+					content: "";
+				}
+				.add-timecomment {
+					min-width: 106px;
+					font-size: 12px;
+					line-height: 16px;
+					padding: 6px 4px;
+					margin: 0 0 0 10px;
+					display: inline-block;
+					vertical-align: middle;
+					border-radius: 4px;
+					text-align: center;
+					cursor: pointer;
+					background-color: $blue-player; 
+					color: #fff;
+					border: 1px solid $blue-player;
+				}
+				.current-time-show{
+					display: inline-block;
+					vertical-align: middle;
+				}
+			}
+		}
+	}
+}
+.video-js{
+	.cb-vjs-comments-display{
+		background: #fff;
+		z-index: 2;
+	}
+	.vjs-progress-control:hover .vjs-progress-holder{
+		.cb-vjs-addcomment-clicker{
+			font-size: 12px;
+			line-height: 16px;
+		}
+	}
+	.cb-vjs-togglecomments-view{
+		flex: 0 0 auto;
+		height: 20px;
+		margin: 11px 0 0;
+		outline:none;
+		position: relative;
+		text-align: center;
+		width: 38px;
+		background: #fff;
+		border-radius: 2em;
+		padding: 2px;
+		cursor: pointer;
+		span{
+			position: absolute;
+			width: 16px;
+			height: 16px;
+			top: 2px;
+			right: 2px;
+			border-radius: 50%;
+			background: $blue-player;
+			@include alltransition($ease-property: all, $ease-time: 0.4s, $ease: ease-in-out);
+		}
+		&.comment-off{
+			span{
+				background: #8f8f8f;
+				right: 20px;
+			}
+		}
+	}
+	.add-comment-holder{
+		outline: 0 none;
+		padding: 0 0.4em;
+		position: absolute;
+		width: 100%;
+		height: 14px;
+		left: 0;
+		top: 0;
+		.add-comment-child-holder{
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+		.cb-vjs-addcomment-clicker{
+			position: absolute;
+			min-width: 132px;
+			height: 26px;
+			padding: 5px;
+			background: #fff;
+			bottom: 8px;
+			left: -65px;
+			z-index: 2;
+			font-size: 12px;
+			line-height: 16px;
+			color: #000;
+			&:after {
+				top: 100%;
+				left: 50%;
+				border: solid transparent;
+				content: "";
+				height: 0;
+				width: 0;
+				position: absolute;
+				z-index: 2;
+				pointer-events: none;
+				border-color: rgba(255, 255, 255, 0);
+				border-top-color: #fff;
+				border-width: 6px;
+				margin-left: -6px;
+			}
+		}
+	}
+	.vjs-progress-control{
+		&:hover .add-comment-holder{
+			padding: 0 0.7em;
+		}
+	}
+}
+@media only screen and (max-width: 991px) {
+	.video-js{
+		#cb-vjs-comments{
+			.cb-vjs-comment-box{
+				.comment{
+					max-width: 460px;
+				}
+			}
+		}
+	}
+}
+@media only screen and (max-width: 767px) {
+	.cb-vjs-timecomment-form{
+		display: block;
+		.comment-wrapper{
+			display: block;
+			padding: 10px;
+			.inner-wrapper{
+				padding: 5px 5px 10px 0;
+				.timecomments-header{
+					padding: 0 5px;
+				}
+				.alert-dismissable .close,
+				.alert-dismissible .close{
+					right: -15px;
+					top: 0;
+				}
+				.alert{
+					padding: 5px 20px 5px 5px;
+				}
+				.cb-vjs-comment-data{
+					> div{
+						&:first-child{
+							width: 60px;
+						}
+					}
+					img{
+						margin: 0 auto;
+					}
+					textarea{
+						height: 50px;
+						padding: 5px;
+						font-size: 12px;
+						line-height: 14px;
+					}
+					.time-username{
+						display: none;
+					}
+				}
+				.timecomments-footer{
+					padding: 0 5px 0 60px;
+				}
+				.character-counter{
+					width: 40px;
+					padding: 0;
+					line-height: 26px;
+				}
+				.cb-vjs-comments-btn-holder{
+					width: 150px;
+					padding: 0;
+					.add-timecomment{
+						padding: 4px;
+					}
+				}
+			}
+		}
+	}
+	.video-js{
+		#cb-vjs-comments{
+			height: 124px;
+			.cb-vjs-comment-username{
+				margin: 0 0 2px;
+			}
+			.cb-vjs-comment-box{
+				padding: 0;
+				.comment{
+					height: auto;
+					max-width: 220px;
+					font-size: 12px;
+					line-height: 14px;
+					padding: 3px 5px;
+				}
+			}
+		}
+	}
+}

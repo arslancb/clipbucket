@@ -144,6 +144,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="views">Views</label>
+                                        <input class="form-control" name="cur_col" type="hidden" id="cur_col"/>
                                         <input class="form-control" name="views" id="views" value="{$data.views}" />
                                     </div>
                                     <div class="col-md-4">
@@ -192,12 +193,12 @@
                     </a>
                 </li>
                 <li class="">
-                    <a data-toggle="tab" href="#rating">
+                    <a data-toggle="tab" href="#rating2">
                         Rating
                     </a>
                 </li>
             </ul>
-
+         
             <div class="tab-content">
                 <div id="comments" class="tab-pane active">
                     {foreach from=$otherFields item=field}
@@ -208,6 +209,7 @@
                     {/foreach}
                 </div>
                 <div id="embedding" class="tab-pane">
+                {pr("asasas",true)}
                     {foreach from=$otherFields item=field}
                     {if $field.title=='Embedding'}
                     <label><strong>{$field.title}</strong></label><br>
@@ -215,7 +217,7 @@
                     {/if}
                     {/foreach}
                 </div>
-                <div id="rating" class="tab-pane">
+                <div id="rating2" class="tab-pane">
                     {foreach from=$otherFields item=field}
                     {if $field.title=='Rating'}
                     <label><strong>{$field.title}</strong></label><br>
@@ -223,21 +225,37 @@
                     {/if}
                     {/foreach}
                 </div>
-                </div>
-                </div>
-    </div>
             </div>
         </div>
-
+    </div>
+</div>
+</div>
         <div class="row">
             <div class="col-md-6">
-                <input type="submit" class="btn btn-primary" value="Update Photo Details" name="update" style="margin-top: 10px">
+                <input id="edit_photo_submit" type="submit" class="btn btn-primary" value="Update Photo Details" name="update" style="margin-top: 10px">
             </div>
             <div class="col-md-6">
-    
-</div>
             </div>
-
-
+            </div>
         </div>
 </form>
+
+<script type="text/javascript">
+    var changed_col = false;
+    var cur_col = false;
+    $('#collection_id').focus(function(){
+        console.log('hovered');
+        if (changed_col == false) {
+            changed_col = true;
+            cur_col = $('#collection_id').val();
+            $('#cur_col').attr('value',cur_col);
+        }
+    });
+
+    $('#edit_photo_submit').on("click",function(e){
+        e.preventDefault();
+        $('#edit_photo').submit();
+    })
+
+       
+</script>

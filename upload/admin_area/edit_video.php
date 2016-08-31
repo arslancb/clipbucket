@@ -33,6 +33,7 @@ if(@$_GET['msg']){
 
 	$video = mysql_clean($_GET['video']);
 
+
 	//Updating Video Details
 	if(isset($_POST['update'])){
 		
@@ -44,9 +45,12 @@ if(@$_GET['msg']){
 		}
 	}
 	
+
+
 	//Performing Video Acttions
 	if($_GET['mode']!=''){
-		$cbvid->action($_GET['mode'],$video);
+		$modedata = $cbvid->action($_GET['mode'],$video);
+		assign("modedata",$modedata);
 	}
 	
 	//Check Video Exists or Not
@@ -58,7 +62,7 @@ if(@$_GET['msg']){
 			$myquery->delete_comment($cid);
 		}
 		
-		
+		//pr($video,true);
 		$data = get_video_details($video);
 		Assign('udata',$userquery->get_user_details($data['userid']));
 		Assign('data',$data);
@@ -70,9 +74,16 @@ if(@$_GET['msg']){
     $type = "v";
     $comment_cond = array();
     $comment_cond['order'] = " comment_id DESC";
+    $comment_cond['videoid'] = $video;
     $comments = getComments($comment_cond);
     assign("comments",$comments);
 
+    
+	//Deleting comment 
+	if(isset($_POST['del_cmt'])){
+		$cid = mysql_clean($_POST['cmt_id']);
+		$myquery->delete_comment($cid);
+	}
 
 if(!$array['order'])
     $result_array['order'] = " doj DESC LIMIT 1  ";

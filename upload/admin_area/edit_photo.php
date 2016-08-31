@@ -12,7 +12,6 @@ $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 $pages->page_redir();
 
-
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
     define('MAIN_PAGE', 'Photos');
@@ -21,19 +20,15 @@ if(!defined('SUB_PAGE')){
     define('SUB_PAGE', 'Edit Photo');
 }
 
-
-
 $id = mysql_clean($_GET['photo']);
 
-
-if(isset($_POST['update']))
-{
+if(isset($_POST['photo_id'])) {
+	#pr($_POST,true);
 	$cbphoto->update_photo();		
 }
 
 //Performing Actions
-if($_GET['mode']!='')
-{
+if($_GET['mode']!='') {
 	$cbphoto->photo_actions($_GET['mode'],$id);
 }
 

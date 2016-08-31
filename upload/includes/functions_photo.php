@@ -158,11 +158,14 @@ function get_image_file( $params ) {
     $details = $params[ 'details' ];
     $output = $params[ 'output' ];
     $size = $params[ 'size' ];
+    $static = $params['static'];
     $default = array( 't', 'm', 'l', 'o' );
     $thumbs = array();
     if( !$details ) {
         //var_dump("get default 1");
         return get_photo_default_thumb( $size, $output );
+    } else if ($static) {
+        return BASEURL.'/files/photos/'.$details['file_directory'].'/'.$details['filename'].'_'.$size.'.jpg';
     }
 
     if ( !is_array( $details ) ) {
@@ -280,7 +283,7 @@ function get_image_file( $params ) {
                 $width = $dem[0];
                 $height = $dem[1];
                 /* UPDATEING IMAGE DETAILS */
-                $cbphoto->update_image_details( $photo );
+                #$cbphoto->update_image_details( $photo );
             } else {
                 $width = $image_details[ $size ][ 'width' ];
                 $height = $image_details[ $size ][ 'height' ];

@@ -41,8 +41,12 @@ if($cbcollection->is_viewable($c))
 		case "photo":
 		case "p":
 		{
-			$items = $cbphoto->collection->get_collection_items_with_details($c,$order,$get_limit);
-			$count = $cbphoto->collection->get_collection_items_with_details($c,NULL,NULL,TRUE);
+			if (isSectionEnabled('photos')) {
+				$items = $cbphoto->collection->get_collection_items_with_details($c,$order,$get_limit);
+				$count = $cbphoto->collection->get_collection_items_with_details($c,NULL,NULL,TRUE);
+			} else {
+				$Cbucket->show_page = false;
+			}
 		}
 		break;
 	}

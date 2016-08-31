@@ -67,6 +67,16 @@ if(isset($_POST['deactivate_selected'])){
 	$eh->flush();
 	e("Selected users have been deactivated","m");
 }
+
+if (isset($_GET['resend_verif'])) {
+	$revrfy_user = $_GET['resend_verif'];
+	$send_mail = resend_verification($revrfy_user);
+	if ($send_mail) {
+		e("Reverification email has been sent to user <strong>".$send_mail."</strong>","m");
+	} else {
+		e("Something went wrong trying to send reverification email");
+	}
+}
 			
 //Make User Featured
 if(isset($_GET['featured'])){
@@ -130,6 +140,18 @@ if(isset($_POST['unban_selected'])){
 	$page = mysql_clean($_GET['page']);
 	$get_limit = create_query_limit($page,RESULTS);
 	
+	if ( isset($_GET['category']) )
+	{
+		if ( $_GET['category'][0] == 'all')
+		{
+			$cat_field = "";
+		}
+		else 
+		{
+			$cat_field = $_GET['category'];
+		}
+	}
+
 	if(isset($_GET['search']))
 	{
 		
@@ -137,7 +159,7 @@ if(isset($_POST['unban_selected'])){
 		(
 		 'userid' 	=> $_GET['userid'],
 		 'username'	=> $_GET['username'],
-		 'category' => $_GET['category'],
+		 'category' => $cat_field,
 		 'featured' => $_GET['featured'],
 		 'ban'		=> $_GET['ban'],
 		 'status'	=> $_GET['status'],
@@ -152,7 +174,7 @@ if(isset($_POST['unban_selected'])){
 	$result_array['limit'] = $get_limit;
 	if(!$array['order'])
 		$result_array['order'] = " doj DESC ";
-		
+	#pr($result_array,true);
 	$users = get_users($result_array);
 
 	Assign('users', $users);	

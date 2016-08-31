@@ -23,7 +23,7 @@ if(!defined('SUB_PAGE')){
 if(isset($_POST['add_phrase']))
 {
 	$name = mysql_clean($_POST['name']);
-	$text = mysql_real_escape_string($_POST['text']);
+	$text = mysql_clean($_POST['text']);
 	$lang_code = mysql_clean($_POST['lang_code']);
 	$lang_obj->add_phrase($name,$text,$lang_code);
 }

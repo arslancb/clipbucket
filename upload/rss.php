@@ -11,7 +11,7 @@
 define("THIS_PAGE",'rss');
 require 'includes/config.inc.php';
 header ("Content-type: text/xml; charset=utf-8");
-echo '<?xml version=\'1.0\' encoding=\'UTF-8\'?>'."\n";
+
 
 $limit = 20;
 $page = $_GET['page'];
@@ -99,7 +99,7 @@ subtitle($title);
     ?>
     <item>
         <author><?=$video['username']?></author>
-        <title><?=substr($video['title'],0,50)?></title>
+        <![CDATA[   <title><?=substr($video['title'],0,50)?></title> ]]>        
         <link><?=video_link($video)?></link>
         <description>
         <![CDATA[   
@@ -126,8 +126,8 @@ subtitle($title);
         <pubDate><?=$video['date_added']?></pubDate>
         <media:player url="<?=video_link($video)?>" />
         <media:thumbnail url="<?=get_thumb($video)?>" width="120" height="90" />
-        <media:title><?=substr($video['title'],0,50)?></media:title>
-        <media:category label="Tags"><?=strip_tags(tags($video['tags'],'video'))?></media:category>
+        <![CDATA[<media:title><?=substr($video['title'],0,50)?></media:title> 
+        <media:category label="Tags"><?=strip_tags(tags($video['tags'],'video'))?></media:category>]]>
         <media:credit><?=$video['username']?></media:credit>
         <enclosure url="<?=video_link($video)?>" type="application/x-shockwave-flash" />
 

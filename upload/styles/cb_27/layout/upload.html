@@ -22,6 +22,10 @@
         </div>
     {/if}   
     </div>
+
+    <div id="uploadMessage2" class="hidden">
+        <div class="alert alert-block alert-info"> </div>
+    </div>
     
     <div class="cb-box" id="mainUploadContainer">
         <div class="pad-bottom video-info-container tabs-bar-style">
@@ -40,6 +44,7 @@
                 {/foreach}
             </ul>
             <div class="tab-content uploadFormDiv">
+            <div class="ad">{AD place=ad_728x90}</div>
              <div class="instructions alert alert-block alert-info">
                {lang code='upload_right_guide_vid'}
             </div>
@@ -230,89 +235,100 @@
                 
 
                 uploader.bind('FileUploaded', function(plupload, fileDetails, response){
-                    $("#overallProgress").css("width", ((100/files.length)*(++filesUploaded))+"%");
-                    $("#overallProgress").parents(".row").find("#uploadedFilesInfo").text("Uploaded " + (filesUploaded) + " of " + files.length);
                     var serverResponse = $.parseJSON(response.response);
-                    var fileName = serverResponse.file_name;
-                    var uploadForm = $("#tab"+currentFileIndex+" form");
-                    totalUploaded++;
-                    //enabling savedetails button for Current form 
-                    var _upload_form_Div_ = $('#tab'+currentFileIndex);
-                    _upload_form_Div_.find("#saveVideoDetails").attr("disabled",false);
-                    /*
-                    Insert the video in the database and get the video db id from the
-                    database which will be sent with the final form
-                    */
-                    var fileId = false;
-                    $.ajax({
-                        url : baseurl + "/actions/file_uploader.php",
-                        type : "post",
-                        data : {
-                            insertVideo : "yes",
-                            title : fileDetails.name,
-                            file_name : fileName
-                        }
-                    }).success(function(msg){
-                        console.log(msg);
-                        res = $.parseJSON(msg);
-                        console.log(res);
-                        fileId = res.videoid;
 
-                        // creating the hidden form fields
-                        var hiddenVideoIdField = document.createElement('input');
-                        hiddenVideoIdField.name = 'videoid';
-                        hiddenVideoIdField.type = 'hidden';
-                        hiddenVideoIdField.value =  fileId;
-
-                        var hiddenVideoNameField = document.createElement('input');
-                        hiddenVideoNameField.name = 'file_name';
-                        hiddenVideoNameField.type = 'hidden';
-                        hiddenVideoNameField.value =  fileName;
-
-                        var hiddenUploadVideoFlagField = document.createElement('input');
-                        hiddenUploadVideoFlagField.type = 'hidden';
-                        hiddenUploadVideoFlagField.name = 'updateVideo';
-                        hiddenUploadVideoFlagField.value = 'yes';
-
+                    if (serverResponse.error){
+                        $("#uploadMessage2").removeClass("hidden");
+                        $("#uploadMessage2").html(serverResponse.error).attr("class", "alert alert-danger");
+                        setTimeout(function(){
+                            $("#uploadMessage2").addClass("hidden");
+                        }, 5000);
+                    }else if (serverResponse.success){
+                        $("#overallProgress").css("width", ((100/files.length)*(++filesUploaded))+"%");
+                        $("#overallProgress").parents(".row").find("#uploadedFilesInfo").text("Uploaded " + (filesUploaded) + " of " + files.length);
                         
-                        uploadForm.append(hiddenVideoIdField);
-                        uploadForm.append(hiddenVideoNameField);
-                        uploadForm.append(hiddenUploadVideoFlagField);
-                        uploadForm.find("#cbSubmitUpload").removeAttr('disabled').val('Upload').addClass('btn-success');
-                    });
+                        var fileName = serverResponse.file_name;
+                        var uploadForm = $("#tab"+currentFileIndex+" form");
+                        totalUploaded++;
+                        //enabling savedetails button for Current form 
+                        var _upload_form_Div_ = $('#tab'+currentFileIndex);
+                        _upload_form_Div_.find("#saveVideoDetails").attr("disabled",false);
+                        /*
+                        Insert the video in the database and get the video db id from the
+                        database which will be sent with the final form
+                        */
+                        var fileId = false;
+                        $.ajax({
+                            url : baseurl + "/actions/file_uploader.php",
+                            type : "post",
+                            data : {
+                                insertVideo : "yes",
+                                title : fileDetails.name,
+                                file_name : fileName
+                            }
+                        }).success(function(msg){
+                            console.log(msg);
+                            res = $.parseJSON(msg);
+                            console.log(res);
+                            fileId = res.videoid;
 
-                    /* 
-                    Submit the form with all the video details and options 
-                    to update the video information in the system
-                    */
-                    $(uploadForm).on({
-                        submit: function(e){
-                            e.preventDefault();
-                            var self = this;
-                            var data = $(this).serialize();
-                            $.ajax({
-                                url : baseurl + "/actions/file_uploader.php",
-                                type : "post",
-                                data : data
-                            }).success(function(msg){
-                                msg = $.parseJSON(msg);
-                                $("#uploadMessage").removeClass("hidden");
-                                if(msg.error){
-                                    $("#uploadMessage").html(msg.error).attr("class", "alert alert-danger");
-                                }else{
-                                    $("#uploadMessage").html(msg.msg).attr("class", "alert alert-success");
-                                }
-                                setTimeout(function(){
-                                    $("#uploadMessage").addClass("hidden");
-                                }, 5000);
-                            }).fail(function(err){
-                                console.log(err);
-                            });
-                        }
-                    });
+                            // creating the hidden form fields
+                            var hiddenVideoIdField = document.createElement('input');
+                            hiddenVideoIdField.name = 'videoid';
+                            hiddenVideoIdField.type = 'hidden';
+                            hiddenVideoIdField.value =  fileId;
 
-                    currentFileIndex++;
+                            var hiddenVideoNameField = document.createElement('input');
+                            hiddenVideoNameField.name = 'file_name';
+                            hiddenVideoNameField.type = 'hidden';
+                            hiddenVideoNameField.value =  fileName;
 
+                            var hiddenUploadVideoFlagField = document.createElement('input');
+                            hiddenUploadVideoFlagField.type = 'hidden';
+                            hiddenUploadVideoFlagField.name = 'updateVideo';
+                            hiddenUploadVideoFlagField.value = 'yes';
+
+                            
+                            uploadForm.append(hiddenVideoIdField);
+                            uploadForm.append(hiddenVideoNameField);
+                            uploadForm.append(hiddenUploadVideoFlagField);
+                            uploadForm.find("#cbSubmitUpload").removeAttr('disabled').val('Upload').addClass('btn-success');
+                        });
+
+                        /* 
+                        Submit the form with all the video details and options 
+                        to update the video information in the system
+                        */
+                        $(uploadForm).on({
+                            submit: function(e){
+                                e.preventDefault();
+                                var self = this;
+                                var data = $(this).serialize();
+                                $.ajax({
+                                    url : baseurl + "/actions/file_uploader.php",
+                                    type : "post",
+                                    data : data
+                                }).success(function(msg){
+                                    msg = $.parseJSON(msg);
+                                    $("#uploadMessage").removeClass("hidden");
+                                    if(msg.error){
+                                        $("#uploadMessage").html(msg.error).attr("class", "alert alert-danger");
+                                    }else{
+                                        $("#uploadMessage").html(msg.msg).attr("class", "alert alert-success");
+                                    }
+                                    setTimeout(function(){
+                                        $("#uploadMessage").addClass("hidden");
+                                    }, 5000);
+                                }).fail(function(err){
+                                    console.log(err);
+                                });
+                            }
+                        });
+
+                        currentFileIndex++;
+
+                    }
+                    
                 });
 
                 uploader.bind("UploadComplete", function(plupload, files){
@@ -320,7 +336,7 @@
                     $("#uploadMore").removeClass("hidden");
                     $(".uploadingProgressContainer").hide();
                     uploader.refresh();
-                    $("#uploadMessage").html("All Files are uploaded Successfully").attr("class", "alert alert-success");            
+                    $("#uploadMessage").html("Uploading Process Completed").attr("class", "alert alert-success");            
                     setTimeout(function(){
                         $("#uploadMessage").addClass("hidden");
                     }, 5000);

@@ -25,6 +25,7 @@ class language
 	
 	var $lang = 'en';
 	var $lang_iso = 'en';
+	var $lang_name = 'English';
 	
 	/** 
 	 * __Constructor
@@ -64,7 +65,9 @@ class language
 	
 		if($default['language_code'])
 		{
+
 			$this->lang = $this->lang_iso = $default['language_code'];
+			$this->lang_name = $this->lang_iso = $default['language_name'];
 		}
 	}
 	 
@@ -120,9 +123,10 @@ class language
 	function update_phrase($id,$text,$lang_code='en')
 	{
 		global $db;
+
 		//First checking if phrase already exists or not
 		if($this->get_phrase($id,$lang_code))
-			$db->update(tbl("phrases"),array('text'),array(mysql_real_escape_string($text))," id = '".mysql_real_escape_string($id)."' ");
+			$db->update(tbl("phrases"),array('text'),array(mysql_escape_string($text))," id = '".mysql_escape_string($id)."' ");
 	}
 	
 	/**
@@ -192,6 +196,17 @@ class language
 		$results = $db->select(tbl("languages"),"*",$cond);
 		return $results;
 	}
+
+		function get_langs_latest($active=false)
+	{
+		global $db;
+		$cond = NULL;
+		if($active)
+			$cond = " language_active='yes' "."ORDER BY DESC LIMIT 1";
+		$results = $db->select(tbl("languages"),"*",$cond);
+		return $results;
+	}
+	
 	
 	
 	
@@ -210,7 +225,7 @@ class language
 			return false;
 	}
 	
-	
+
 	/**
 	 * Make Language Default
 	 */
@@ -280,6 +295,36 @@ class language
 			e(lang("lang_doesnt_exist"));
 	}
 	
+
+/**
+	* Function use for downloading .lang file 
+	* @param : { integer } { $id } { Language id of a file to be downloaded }
+	* 
+	* @return : { file } { save file }
+	* @since : 17 may, 2016 ClipBucket 2.8.1
+	* @author : Sikander Ali 
+	*/
+	function export_lang_Json($id){
+		$lang_details = $this->get_lang($id);
+		$file = BASEURL."/includes/langs/".$lang_details['language_code']."."."lang";
+		if($lang_details)
+		{
+	header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    readfile($file);
+    exit;
+		}else{
+			e(lang("lang_doesnt_exist"));
+		}
+	}
+
+
+
 	/**
 	 * Function used to import language
 	 */
@@ -322,13 +367,27 @@ class language
 					{
 						if(!empty($sql))
 							$sql .=",\n";
-						$sql .= "('".$data['iso_code']."','$code','".mysql_real_escape_string($phrase)."')";
+						$sql .= "('".$data['iso_code']."','$code','".htmlspecialchars($phrase,ENT_QUOTES, "UTF-8")."')";
 					}
 					$sql .= ";";
 					$query = "INSERT INTO ".tbl("phrases")." (lang_iso,varname,text) VALUES \n";
 					$query .= $sql;
 					$db->execute($query);
+				
+					// checking dublicate value..
+
+					$count = $this->count_phrases();
+					$other = count($phrases);
+		
+					if($count > $other){
+						e(lang("Lanuage Pack is not complete."),"w");
+					}
+					elseif($count == $other){
+						e(lang("Full Language Pack is added.","m"));
+					}
+					
 					e(lang("lang_added"),"m");
+					e(lang("lange_upload_after"),"m");;
 				}
 			}
 			
@@ -339,6 +398,59 @@ class language
 			unlink($file_name);
 	} 
 	
+
+
+
+/** 
+	* Function use for adding language & saving phrases into db
+	* @param : { string } { $iso_code } { contains language code e.g 'en' }
+	* 		 : { array } {$transLang } {translated phrases}
+	*		 : {string} {$lang_name} { Language name e.g 'english'}
+	* @since : 17 may, 2016 ClipBucket 2.8.1
+	* @author : Sikander Ali 
+	*/
+  function import_packlang($iso_code,$transLang,$lang_name)
+	{
+		global $db;
+		$phrases = $transLang;
+		$data['iso_code'] = $iso_code;
+		$data['name'] = $lang_name;
+		$db->insert(tbl("languages"),array("language_code","language_name","language_regex","language_default"),array($data['iso_code'],$data['name'],"/^".$data['iso_code']."/i","no"));
+		$sql = '';
+		foreach($phrases as $code => $phrase) {
+			if(!empty($sql))
+				$sql .=",\n";
+			$sql .= "('".$data['iso_code']."','$code','".htmlspecialchars($phrase,ENT_QUOTES, "UTF-8")."')";
+		}
+		$sql .= ";";
+		$query = "INSERT INTO ".tbl("phrases")." (lang_iso,varname,text) VALUES \n";
+		$query .= $sql;
+		$db->execute($query);
+	
+		// checking dublicate value..
+
+		$count = $this->count_phrases();
+		$other = count($phrases);
+
+		if($count > $other){
+			e(lang("Lanuage Pack is not complete."),"w");
+		}
+		elseif($count == $other){
+			e(lang("Full Language Pack is added.","m"));
+		}
+		
+		e(lang("lang_added"),"m");
+		e(lang("lange_upload_after"),"m");
+	
+	}
+
+
+
+
+
+
+
+
 	/**
 	 * Function used to delete language pack
 	 */
@@ -391,7 +503,7 @@ class language
 	 * Function used to create new language pack
 	 * that can be used by clipbucket
 	 * 
-	 */
+	 **/
 	function createPack($lang=false)
 	{
 		if(!$lang)
@@ -401,8 +513,10 @@ class language
 		if(count($phrases)==0) return false;
 		$new_array = array();
 		foreach($phrases as $phrase)
-		{
-			$new_array[$phrase['varname']] = $phrase['text'];
+		{	
+			$new_array[$phrase['varname']] =html_entity_decode(html_entity_decode($phrase['text']));
+			//$new_array[$phrase['varname']] = unhtmlentities($phrase['text']);
+			//pr($new_array,true);
 		}
 		$fo = fopen(BASEDIR.'/includes/langs/'.$lang.'.lang','w+');
 		fwrite($fo,json_encode($new_array));
@@ -460,6 +574,17 @@ class language
 		$phrases = json_decode($langData,true);
 		return $phrases;	
 	}
+
+
+	function set_lang($ClientId,$secertId)
+	{
+		global $db;
+		$cl = $ClientId;
+		$sc = $secertId;
+		$db->update(tbl('config'),array("value"),array($cl)," name='clientid' ");
+		$db->update(tbl('config'),array("value"),array($sc)," name='secretId' ");
+	}
+
 	
 	/** 
 	 * Function used to import language from lang file

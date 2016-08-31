@@ -1,0 +1,21 @@
+<!-- Flag This {$type} -->
+<div id="flag_item" class="action_box" {if $type == 'photos' || $type =='videos'}style="display:none"{/if}>
+	<div class="form_container">
+		<form id="flag_form" name="flag_form"  method="post" action="#">
+			<div class="alert alert-info">
+				{sprintf(lang("report_text"),$params.type)}
+			</div>
+			{$flag_options=get_flag_options($type)}
+			<label for="flag_type" class="label-block">{lang("category")}</label>
+			<div class="form-group custom-elements clearfix">
+				<select class="form-control" name="flag_type" id="flag_type">
+					{foreach from=$flag_options key=key item=item}
+					<option value="{$key}">{$item}</option>
+					{/foreach}
+				</select>
+			</div>
+			<input type="button" name="send_content" value="{sprintf(lang('flag'),$params.type)}" class="btn btn-primary" onclick="_cb.flag_objectNew('flag_form','{$params.id}','{$params.type}')">
+		</form>
+	</div>
+</div>
+<!-- Flag This {$type} -->

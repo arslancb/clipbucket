@@ -28,7 +28,7 @@ class formObj
 	/**
 	* FUNCTION USED TO CREATE TEXT FIELD
 	*/
-	function createField($field,$multi=FALSE)
+	function createField($field,$multi=FALSE, $skipall = false)
 	{
 		$field['sep'] = $field['sep'] ? $field['sep'] : '<br>';
 		
@@ -48,7 +48,7 @@ class formObj
 			$fields=$this->createRadioButton($field,$multi);
 			break;
 			case 'dropdown':
-			$fields=$this->createDropDown($field,$multi);
+			$fields=$this->createDropDown($field,$multi, $skipall);
 			break;
 			
 
@@ -71,9 +71,9 @@ class formObj
 
 		//Starting Text Field
 		if($field['type']=='textfield')
-			$textField = '<input type="text"';
+			$textField = '<input type="text" placeholder="'.$field['placehoder'].'"';
 		if($field['type']=='password')
-			$textField = '<input type="password"';
+			$textField = '<input type="password" placeholder="'.$field['placehoder'].'"';
 		elseif($field['type']=='textarea')
 			$textField = '<textarea';			
 		if(!empty($field['name']))
@@ -174,6 +174,9 @@ class formObj
 		}
 		
 		$count=0;
+		if (!is_array($field['value'])) {
+			$field['value'] = explode(",", $field['value']);
+		}
 		foreach($field['value'] as $key => $value)
 		{
 			$count++;
@@ -192,10 +195,9 @@ class formObj
 				}
 			}
 			
-			if(!$multi)
+			if(!$multi) {
 				$field_name = $field['name'];
-			else
-			{
+			} else {
 				$field_name = $field['name'];
 				$field_name = $this->rmBrackets($field_name);
 				$field_name = $field_name.$multi_cat_id.'[]';
@@ -343,6 +345,9 @@ class formObj
 		$count = 0;
 		$sep = $field['sep'];
 		$arrayName = $this->rmBrackets($field['name']);
+		if (!is_array($field['value'])) {
+			$field['value'] = explode(",", $field['value']);
+		}
 		foreach($field['value'] as $key => $value)
 		{
 			if(!empty($_POST[$arrayName]) || !empty($field['checked']))
@@ -412,7 +417,7 @@ class formObj
 		return $catArray = getCategoryList(array("type" => $type));
 	}
 
-	function createDropDown($field,$multi=FALSE)
+	function createDropDown($field,$multi=FALSE, $skipall = false)
 	{
 		global $LANG;
 		//First Checking if value is CATEGORY
@@ -426,6 +431,12 @@ class formObj
 
 			foreach ($catArray as $cat)
 			{
+				if ($skipall == true) {
+					if ($cat['category_id'] == 'all') {
+						continue;
+					}
+				}
+
 				$field['value'][$cat['category_id']] = $cat['category_name'];
 			}
 		}
@@ -437,6 +448,9 @@ class formObj
 		
 		$ddFieldStart = '<select name="'.$field_name.'" id="'.$field['id'].'" class="'.$field['class'].'">';
 		$arrayName = $this->rmBrackets($field['name']);
+		if (!is_array($field['value'])) {
+			$field['value'] = explode(",", $field['value']);
+		}
 		if(is_array($field['value']))
 		foreach($field['value'] as $key => $value)
 		{

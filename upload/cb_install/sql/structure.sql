@@ -107,6 +107,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}collections` (
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}collection_categories` (
   `category_id` int(255) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(255) NOT NULL DEFAULT 1,
   `category_name` varchar(30) NOT NULL,
   `category_order` int(5) NOT NULL,
   `category_desc` text NOT NULL,
@@ -200,8 +201,8 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}conversion_queue` (
   `cqueue_tmp_ext` varchar(3) CHARACTER SET utf8 NOT NULL,
   `cqueue_conversion` enum('yes','no','p') CHARACTER SET utf8 NOT NULL DEFAULT 'no',
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `time_started` varchar(32) NOT NULL,
-  `time_completed` varchar(32) NOT NULL,
+  `time_started` varchar(32) NOT NULL DEFAULT 0,
+  `time_completed` varchar(32) NOT NULL DEFAULT 0,
   PRIMARY KEY (`cqueue_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=262 ;
 
@@ -942,6 +943,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video` (
   `is_hd` enum('yes','no') NOT NULL DEFAULT 'no',
   `unique_embed_code` varchar(50) NOT NULL,
   `remote_play_url` text NOT NULL,
+  `video_files` text(33) NOT NULL,
   `server_ip` varchar(20) NOT NULL,
   `file_server_path` text NOT NULL,
   `files_thumbs_path` text NOT NULL,
@@ -1080,7 +1082,7 @@ ALTER TABLE `{tbl_prefix}user_levels_permissions` ADD `photos_moderation` ENUM( 
 ADD `collection_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `photos_moderation` ,
 ADD `plugins_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `collection_moderation` ,
 ADD `tool_box` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `plugins_moderation` ,
-ADD `plugins_perms` TEXT NOT NULL AFTER `tool_box` ;
+ADD `plugins_perms` varchar(20) NOT NULL DEFAULT 'none'  AFTER `tool_box` ;
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}mass_emails` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
@@ -1188,10 +1190,52 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}admin_todo` (
 ALTER TABLE `{tbl_prefix}action_log` DROP `action_link`; 
 ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 10 ) NOT NULL AFTER  `file_server_path`;
 
+
+-- Alterations for 2.8.1
+INSERT INTO `{tbl_prefix}config`(`name`, `value`) VALUES ('index_recent','6');
+INSERT INTO `{tbl_prefix}config`(`name`, `value`) VALUES ('index_featured','2');
+INSERT INTO `{tbl_prefix}config` (`name`, `value`) VALUES ('clientid', 'your_client_id_here');
+INSERT INTO `{tbl_prefix}config` (`name`, `value`) VALUES ('secretId', 'your_client_secret_here');
+UPDATE `{tbl_prefix}config` SET value = 'cb_28' WHERE name = 'template_dir';
+
+ALTER TABLE `{tbl_prefix}collection_categories` ADD `parent_id` int DEFAULT 1;
+INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'youtube_api_key', 'key_here');
+/*Indexing of following tables*/
+/*Author: Sikander Ali  */
+/*Cb_collection*/
+ALTER TABLE `{tbl_prefix}collections` ADD INDEX(`userid`);
+ALTER TABLE `{tbl_prefix}collections` ADD INDEX(`featured`);
+/*Editor Pick*/
+ALTER TABLE `{tbl_prefix}editors_picks` ADD INDEX(`videoid`);
+/*Favourites*/
+ALTER TABLE `{tbl_prefix}favorites` ADD INDEX(`userid`);
+/*Cb_Photos*/
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`userid`);
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`collection_id`);
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`featured`);
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`last_viewed`);
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`rating`);
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`total_comments`);
+ALTER TABLE `{tbl_prefix}photos` ADD INDEX(`last_viewed`);
+
+/*Cb_videos*/
+ALTER TABLE `{tbl_prefix}video` ADD  `thumbs_version` varchar(5)  NOT NULL DEFAULT  "2.6";
+ALTER TABLE `{tbl_prefix}video` ADD INDEX(`userid`);
+ALTER TABLE `{tbl_prefix}video` ADD INDEX(`featured`);
+ALTER TABLE `{tbl_prefix}video` ADD INDEX(`last_viewed`);
+ALTER TABLE `{tbl_prefix}video` ADD INDEX(`rating`);
+ALTER TABLE `{tbl_prefix}video` ADD INDEX(`comments_count`);
+ALTER TABLE `{tbl_prefix}video` ADD INDEX(`last_viewed`);
+ALTER TABLE `{tbl_prefix}video` ADD `video_files` text(33) NOT NULL;
+
+
+
+
+
 -- For Sql performance improvements
 -- @Author : <jozo@jozo.sk>
 
-ALTER TABLE  `{tbl_prefix}plugins` ADD INDEX (  `plugin_active` );
+/*ALTER TABLE  `{tbl_prefix}plugins` ADD INDEX (  `plugin_active` );
 ALTER TABLE  `{tbl_prefix}sessions` ADD INDEX (  `session` );
 ALTER TABLE  `{tbl_prefix}languages` ADD INDEX (  `language_default` );
 ALTER TABLE  `{tbl_prefix}conversion_queue` ADD INDEX (  `cqueue_conversion` );
@@ -1202,5 +1246,5 @@ ALTER TABLE  `{tbl_prefix}users` ADD INDEX (  `username`(255),`userid` );
 ALTER TABLE  `{tbl_prefix}pages` ADD INDEX (  `active`,`display` );
 ALTER TABLE  `{tbl_prefix}video` ADD INDEX (  `videoid`,`videokey`(255) );
 ALTER TABLE  `{tbl_prefix}languages` ADD INDEX (  `language_code`,`language_id` );
-ALTER TABLE  `{tbl_prefix}video_categories` ADD INDEX (  `parent_id` );
+ALTER TABLE  `{tbl_prefix}video_categories` ADD INDEX (  `parent_id` );*/
 

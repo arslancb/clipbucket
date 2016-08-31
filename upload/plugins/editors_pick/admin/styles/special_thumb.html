@@ -1,0 +1,80 @@
+<div class="heading">
+    <h2>Editor's Pick Special Thumb</h2>
+</div>
+<div class="row" style="margin-left:20px;">
+	
+	<div class="response-msg clearfix" style="display:none;">
+		<div class="msg-alert alert alert-success"></div>
+	</div>
+	<div class="response-msg clearfix" >
+		<a href="{$baseurl}/admin_area/plugin.php?folder=editors_pick/admin&file=editor_pick.php" ><div class="btn btn-danger brn-sm"><i class="glyphicon glyphicon-arrow-left"></i>Back to EP manager</div></a>
+	</div>
+	<br>
+	<form id="special-thumb" class="clearfix" method="post" enctype="multipart/form-data">
+		<input name="mode" id="mode" type="hidden" value="upload_special_thumb"  />
+		<input name="vid" id="vid" type="hidden" value="{$smarty.get.vid}"  />
+		<div class="row">
+			<div class="col-md-4 col-lg-4 form-group">
+				<label for="size">Place Size Here</label>
+				<input name="size" id="size" type="text"  class="form-control" placeholder="e.g 1500x720" required/>
+				<span class="smallText" style="font-size:11px;">e.g 1500x720</span>
+			</div>
+			<div class="col-md-4 col-lg-4 form-group">
+				<label for="size">Select Thumb here</label>
+				<input type="file" class="form-control" name="special_thumb" id="special_thumb" required/>
+				<span class="smallText" style="font-size:11px;">Input file dimensions should be near to output desired thumb</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 col-lg-2 form-group">
+				<input type="submit"  class="form-control btn btn-success btn-sm" value="Upload Special Thumb !" id="submit_thumb" />
+			</div>
+		</div>
+	</form>
+</div>
+
+
+<script type="text/javascript">
+	var ajaxurl = "{$ep_ajax_url}";
+	
+	$(document).ready(function(){
+		$("#special-thumb").submit(function(e){
+			e.preventDefault();
+
+			var size = $("input[name=size]").val();
+			var desc = $("textarea[name=special_thumb]").val();
+
+			
+			var data = new FormData(this);
+			console.log(data);
+			$.ajax({
+	            url: ajaxurl,
+	            type: "POST",
+	            dataType: "json",
+	            data: data ,
+	            cache:false,
+            	contentType: false,
+            	processData: false, 
+            	beforeSend : function(data)
+            	{
+            		$("#submit_thumb").attr("disabled",true);
+            		$('#submit_thumb').val("Uploading..");
+            	},
+	            success : function(data) 
+	            {
+	            	
+	            	$("#submit_thumb").attr("disabled",false);
+	            	$('#submit_thumb').val("Upload Special Thumb");
+	            	$('.response-msg').slideDown("slow");
+	            	$('.msg-alert').html(data.msg);
+	            	$('#special-thumb').slideUp("slow");
+	            },
+	            error : function(data) 
+	            {
+		            
+		        }
+	        });
+	    });
+	});
+</script>
+

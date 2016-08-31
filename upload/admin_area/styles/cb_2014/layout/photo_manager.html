@@ -9,7 +9,6 @@
         <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate"
                class="button"/>
         {/if}
-        <input type="submit" name="move_to_selected" value="Move To" class="btn btn-primary btn-xs"/>
     <input type="submit" name="make_featured_selected" value="Make Featured" class="btn btn-primary btn-xs"/>
     <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="btn btn-primary btn-xs"/>
     <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-xs" onclick="return confirm_it('Are you sure you want to delete selected photos(s). This will permanently delete these photos from website.')"/>
@@ -43,7 +42,7 @@
                          <span class="labels1"> <strong>{$photos[list].date_added|niceTime}</strong>
                             {lang code='views'} : <strong>{$photos[list].views|number_format}</strong></span>
                         <div class="labels">
-                            {if $photos[list].featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
+                            {if $photos[list].featured|lower=='yes'}<span class="label label-primary">Featured{else}NA{/if}</span>
                                     <span class="label {if $photos[list].active=='yes'}label-success{else}label-warning{/if}">
                                         {if $photos[list].active=='yes'}Active{else}InActive{/if} </span>
                                     <span class="label label-info">
@@ -140,7 +139,6 @@
         <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate"
                class="button"/>
         {/if}
-  <input type="submit" name="move_to_selected" value="Move To" class="btn btn-primary btn-xs"/>
   <input type="submit" name="make_featured_selected" value="Make Featured" class="btn btn-primary btn-xs"/>
   <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="btn btn-primary btn-xs"/>
   <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-xs" onclick="return confirm_it('Are you sure you want to delete selected photos(s)')"/>

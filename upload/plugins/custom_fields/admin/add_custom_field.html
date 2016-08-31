@@ -24,6 +24,8 @@ $('#myTab3').trigger('click'); //here, select by ID the tab you need to show
 
     <div class="tab-content">
         <div id="risession" class="tab-pane in active">
+        <h3>Video Custom Fields</h3>
+        <hr>
                  <form method="post">            
 <div id="itemRows">
 Field Name: <input type="text" name="fieldname" size="20" class="fieldname"/> Field Title(Label): <input type="text" name="fieldtitle" size="20" />Type:  <select name="type" id="test2">
@@ -34,24 +36,48 @@ Field Name: <input type="text" name="fieldname" size="20" class="fieldname"/> Fi
                     <option value="checkbox">Checkbox</option>
                     <option value="radiobutton">Radiobutton</option>
                     <option value="dropdown">Dropdown</option>
-</select>&nbsp;Default Values:<textarea name="default_value" placeholder="Use Comma Separated values for drop down, radio buttons and checkboxes"  cols="19" rows="4" id="default_video"></textarea>&nbsp;<br/>DB Field(Note:Check this for db field value otherwise use fieldname value)
-<input type='checkbox' value='yes' name='usethis' onclick="enableText(this.checked, 'myTextArea');" id="x">&nbsp;<input id="myTextArea" type="text" disabled="disabled" name="db_field">&nbsp;<input onclick="addRow(this.form);" type="button" value="Add row" class="btn btn-primary btn-xs"/>
-<input type="hidden" name="type_page" value="video">
+</select>&nbsp;Default Values:<textarea name="default_value" placeholder="Use Comma Separated values for drop down, radio buttons and checkboxes"  cols="19" rows="4" id="default_video"></textarea>
+<input type="hidden" name="section_type" value="video"></input>
 </div><br/>
  <div class="form-group">
    <input class="btn btn-primary btn-xs" type="submit" value="Submit" name="submit"/>
  </div>
-            </form>
+</form>
+    <input type="hidden" name="section_type" value="video"></input>
     <table class="table table-bordered table-striped manageUsersTable">
         <tr>
             <td>Custom Field ID</td>
-            <td>Custom Field Name</td>
+            <td>Video Custom Field Name</td>
             <td>Custom Field Title</td>
             <td>Custom Field Type</td>
-            <td>DB Field</td>
-            <td>&nbsp;</td>
+            <td>Action</td>
         </tr>
-    {section name=listscustom loop=$listscustom}
+        {foreach from=$vcustom_fields key=k item=field}
+            <tr>
+                <td>{$field.custom_field_list_id}</td>
+                <td>{$field.custom_field_name}</td>
+                <td>{$field.custom_field_title}</td>
+                <td>{$field.custom_field_type}</td>
+                <td>
+                  
+                  <div class="dropdown">
+                    <button class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Actions
+                    <i class="icon-angle-down icon-on-right"></i></button>
+                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1" style="margin-left:100px;">
+                       <li>
+                        <a href='{$baseurl}/{$custom_field_edit_page}&custom_edit={$field.custom_field_list_id}'>Edit</a>
+                      </li>
+                      <li>
+                      </li>
+                        <li>
+            <a tabindex="-1" href="{$baseurl}/{$custom_field_edit_page}&del_custom_field={$field.custom_field_list_id}" role="menuitem">Delete</a></li></ul>
+                  </div>
+
+                </td>
+            </tr>
+        {/foreach}
+
+    {section name=listscustom loop=$custom_fields}
     {if $listscustom[listscustom].customfields_flag =='video'}
 <tr>
     <td>{$listscustom[listscustom].custom_field_list_id}</td>
@@ -80,11 +106,12 @@ Field Name: <input type="text" name="fieldname" size="20" class="fieldname"/> Fi
 {/section}
 </table>
 </div>
-        <div id="ruserlog" class="tab-pane">
-    
-              <form method="post">
-<div id="itemRows2">
-Field Name: <input type="text" name="fieldname_signup" size="20" class="fieldname"/> Field Title(Label): <input type="text" name="fieldtitle_signup" size="20" />Type:  <select name="type2" id="test2">
+        <div id="ruserlog" class="tab-pane in active">
+        <h3>User Custom Fields</h3>
+        <hr>
+                 <form method="post">            
+<div id="itemRows">
+Field Name: <input type="text" name="fieldname" size="20" class="fieldname"/> Field Title(Label): <input type="text" name="fieldtitle" size="20" />Type:  <select name="type" id="test2">
                     <option value=""></option>
                     <option value="textfield">Textfield</option>
                     <option value="password">Password</option>
@@ -92,27 +119,50 @@ Field Name: <input type="text" name="fieldname_signup" size="20" class="fieldnam
                     <option value="checkbox">Checkbox</option>
                     <option value="radiobutton">Radiobutton</option>
                     <option value="dropdown">Dropdown</option>
-</select>&nbsp;Default Values:<textarea name="default_value_signup" placeholder="Use Comma Separated values for drop down, radio buttons and checkboxes"  cols="19" rows="4" id="default_signup"></textarea>&nbsp;<br/>DB Field(Note:Check this for db field value otherwise use fieldname value)
-<input type='checkbox' value='yes' name='usethis' onclick="enableText2(this.checked, 'myTextArea2');" id="x2">&nbsp;<input id="myTextArea2" type="text" disabled="disabled" name="db_field_signup">&nbsp;<input onclick="addRow2(this.form);" type="button" value="Add row" class="btn btn-primary btn-xs"/>
-<input type="hidden" name="type_page" value="signup">
+</select>
+&nbsp;Default Values:<textarea name="default_value" placeholder="Use Comma Separated values for drop down, radio buttons and checkboxes"  cols="19" rows="4" id="default_video"></textarea>&nbsp;<br/>
+<input type="hidden" name="section_type" value="signup"></input>
+
 </div><br/>
  <div class="form-group">
-   <input class="btn btn-primary btn-xs" type="submit" value="Submit" name="submit_signup"/>
+   <input class="btn btn-primary btn-xs" type="submit" value="Submit" name="submit"/>
  </div>
 </form>
-
-
- <table class="table table-bordered table-striped manageUsersTable">
+    <table class="table table-bordered table-striped manageUsersTable">
         <tr>
             <td>Custom Field ID</td>
-            <td>Custom Field Name</td>
+            <td>User Custom Field Name</td>
             <td>Custom Field Title</td>
             <td>Custom Field Type</td>
-            <td>DB Field</td>
-            <td>&nbsp;</td>
+            <td>Action</td>
         </tr>
-    {section name=listscustom loop=$listscustom}
-{if $listscustom[listscustom].customfields_flag=='signup'}
+        {foreach from=$scustom_fields key=k item=field}
+            <tr>
+                <td>{$field.custom_field_list_id}</td>
+                <td>{$field.custom_field_name}</td>
+                <td>{$field.custom_field_title}</td>
+                <td>{$field.custom_field_type}</td>
+                <td>
+                  
+                  <div class="dropdown">
+                    <button class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Actions
+                    <i class="icon-angle-down icon-on-right"></i></button>
+                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1" style="margin-left:100px;">
+                       <li>
+                        <a href='{$baseurl}/{$custom_field_edit_page}&custom_edit={$field.custom_field_list_id}'>Edit</a>
+                      </li>
+                      <li>
+                      </li>
+                        <li>
+            <a tabindex="-1" href="{$baseurl}/{$custom_field_edit_page}&del_custom_field={$field.custom_field_list_id}" role="menuitem">Delete</a></li></ul>
+                  </div>
+
+                </td>
+            </tr>
+        {/foreach}
+
+    {section name=listscustom loop=$custom_fields}
+    {if $listscustom[listscustom].customfields_flag =='video'}
 <tr>
     <td>{$listscustom[listscustom].custom_field_list_id}</td>
     <td>{$listscustom[listscustom].field_name}</td>
@@ -122,7 +172,8 @@ Field Name: <input type="text" name="fieldname_signup" size="20" class="fieldnam
     <td>
       
       <div class="dropdown">
-        <button class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Actions<i class="icon-angle-down icon-on-right"></i></button>
+        <button class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Actions
+        <i class="icon-angle-down icon-on-right"></i></button>
         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1" style="margin-left:100px;">
            <li>
             <a href='{$cb_custom_fields_edit_page}&edit_customfield={$listscustom[listscustom].custom_field_list_id}'>Edit</a>
@@ -130,7 +181,7 @@ Field Name: <input type="text" name="fieldname_signup" size="20" class="fieldnam
           <li>
           </li>
             <li>
-<a tabindex="-1" href="{$smarty.server.REQUEST_URI}&deletefield={$listscustom[listscustom].custom_field_list_id}&deletefield_name={$listscustom[listscustom].field_name}&dbfield_name={$listscustom[listscustom].db_field}" role="menuitem">Delete</a></li></ul>
+<a tabindex="-1" href="{$smarty.server.REQUEST_URI}&deletefield={$listscustom[listscustom].custom_field_list_id}&deletefield_name={$listscustom[listscustom].field_name}&dbfield_name={$listscustom[listscustom].db_field}&page_type={$listscustom[listscustom].customfields_flag}" role="menuitem">Delete</a></li></ul>
       </div>
 
     </td>
@@ -138,7 +189,7 @@ Field Name: <input type="text" name="fieldname_signup" size="20" class="fieldnam
 {/if}
 {/section}
 </table>
-        </div>
+</div>
         </div>
   <!--</div>-->
   {/if}

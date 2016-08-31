@@ -1,5 +1,6 @@
 {assign var='signup_fields' value=$userquery->load_signup_fields($u)}
 {assign var='channel_profile_fields' value=$userquery->load_user_fields($p)}
+{$thecats = pullCategories('channels')}
 
 <div class="row">
 <div class="lead dropdown">
@@ -175,6 +176,18 @@
                                 {assign var=levels value=$userquery->get_levels()}
                                 {foreach from=$levels item=level}
                                 <option value="{$level.user_level_id}" {if $u.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
+                                {/foreach}
+                            </select></p>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="first"> <label for="category">User Category</label></td>
+                        <td class="last">
+                            <p><select class="form-control" name="category" id="category" >
+
+                                {foreach from=$thecats item=cat}
+                                <option value="{$cat.category_id}" {if $cat.category_id == $u.category}selected="selected"{/if}>{$cat.category_name}</option>
                                 {/foreach}
                             </select></p>
                             
@@ -405,6 +418,11 @@
                     </td>
                 </tr>
                 <tr>
+                    <td class="first"><label for="total_videos">Total Videos</label></td>
+                    <td width="500">   <input class="form-control" name="total_videos" type="text" id="total_videos" value="{$u.total_videos}" />
+                    </td>
+                </tr>
+                <tr>
                     <td class="first"><label for="total_watched">Videos Watched</label></td>
                     <td width="500"><input class="form-control" name="total_watched" type="text" id="total_watched" value="{$u.total_watched}" />
                     </td>
@@ -450,16 +468,16 @@
             </li>
             <li class="">
                 <a data-toggle="tab" href="#avatar">
-                    User Avatar & Background
+                    User Avatar
 
                 </a>
             </li>
-            <li class="">
+            <!-- <li class="">
                 <a data-toggle="tab" href="#background">
                     User Background image
 
                 </a>
-            </li>
+            </li> -->
             </ul>
         <div class="tab-content">
             <div id="recent" class="tab-pane active">

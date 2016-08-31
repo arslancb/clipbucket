@@ -1,0 +1,114 @@
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 6)}
+<div id="main" class="clearfix container">
+{if !function_exists('server_thumb') && has_access("admin_access")}
+	<div class="alert alert-warning">Kindly install <strong>Server Thumb</strong> plugin by going to <strong><a href="{$baseurl}/admin_area/plugin_manager.php">Plugin Manager</a> to make photos show properly</strong></div>
+{/if}
+	<div class="clearfix">
+		<section id="content" class="clearfix photos">
+			<div class="clearfix leaderboard-ad ad">
+				{AD place='ad_728x90'}
+			</div>
+			{assign var=sorting_links value=sorting_links()}
+			<div class="filter-dropdowns clearfix">
+				<div class="sorting-col clearfix">
+					<!--Sorting By View-->
+					<div class="dropdown">
+						{if $smarty.get.sort}
+						{foreach from=$sorting_links item=name key=sort name=sorts}
+							{if $smarty.get.sort==$sort && isset($smarty.get.sort)} 
+							<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">{$name} <span class="icon-down-arrow"></span></a>
+							{/if}
+						{/foreach}
+						{else}
+							<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">Recent <span class="icon-down-arrow"></span></a>
+						{/if}    
+
+						<ul class="dropdown-menu">
+							{foreach from=$sorting_links item=name key=sort}
+							<li>
+								<a href="{link name=sort sort=$sort type=photos}&sorting=sort" {if $smarty.get.sort==$sort} class="selected" {/if}>{if $smarty.get.sort==$sort}<i class="icon-tick"></i>{/if}{$name}</a>
+							</li>
+							{/foreach}
+						</ul>
+					</div>
+					
+					<!--Sorting By time-->
+					{assign var=time_links value=time_links()}
+					<div class="dropdown">
+						{if $smarty.get.time} 
+
+						{foreach from=$time_links item=name key=sort name=times}
+							{if $smarty.get.time==$sort && isset($smarty.get.time)} 
+							<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">{$name} <span class="icon-down-arrow"></span></a>
+							{/if}
+						{/foreach}
+						{else}
+							<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">all time <span class="icon-down-arrow"></span></a>
+						{/if}  
+						  <ul class="dropdown-menu">
+							{foreach from=$time_links item=name key=sort name=times}
+								<li>
+									<a href="{link name=time sort=$sort type=photos}&timing=time" {if $smarty.get.time==$sort} class="selected"{/if}>{if $smarty.get.time==$sort}<i class="icon-tick"></i>{/if}{$name}</a>
+								</li>
+							{/foreach}
+						  </ul>
+					</div>
+				</div>
+			</div>
+			<!-- /Page Heading -->
+			<div class="clearfix row">
+			{if $photos}
+				{foreach from=$photos item=p_list}
+				<div class="item-photo col-lg-4 col-md-4 col-sm-6 col-xs-12">
+					{include file="$style_dir/blocks/photo.html" photo=$p_list display_type = "default_photo"}
+				</div>
+				{/foreach}
+			{else}
+				<div class="well well-info">{lang code='no_results_found'}</div>
+			{/if}
+
+			</div>
+			<div align="center" class="clearfix">
+				{include file="$style_dir/blocks/pagination.html"}
+			</div>
+		</section>
+		<aside id="sidebar">
+			<div class="box-ad ad">{AD place='ad_300x250'}</div>
+			{$featured=get_photos(["featured"=>"yes","limit"=>6])}
+			{if $featured}
+			<h2>{lang code="featured_photos"}</h2>
+			<div class="clearfix sidebar-items">
+				<div class="row">
+					{foreach $featured as $photo}
+						<div class="item-photo col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							{include file="$style_dir/blocks/photo.html" display_type='featuredPhoto_sidebar'}
+						</div>
+					{/foreach}
+				</div>
+			</div>
+			{/if}
+			{$row = $myquery->Get_Website_Details()}
+			{if $row.collectionsSection == 'yes'}
+				{$collections = $cbcollection->get_collections(['limit'=>5, 'active'=>'yes'])}
+				{$collections = $cbcollection->activeCollections($collections)}
+				<h2>{lang code="top_collections"}</h2>
+				<div class="clearfix sidebar-items collections-grid">
+					{$limit=10}
+					{if $collections}
+					<div class="clearfix row">
+						{foreach from=$collections item=collection}
+							{$first_col_thumb = $cbcollection->coll_first_thumb($collection,'l')}
+							<div class="clearfix collection-item col-lg-6 col-md-6 col-sm-12 col-xs-12"> 
+								{include file="$style_dir/blocks/collection-item.html"}
+							</div>
+						{/foreach}
+					</div>
+					{else}
+					<div class="well well-info">{lang code="no_collection_found"}</div>
+					{/if}
+				</div>
+			{/if}
+		</aside>
+	</div>
+</div>

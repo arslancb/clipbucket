@@ -9,7 +9,7 @@
 </div>
 <form action="upload_thumbs.php?video={$data.videoid}" method="post" enctype="multipart/form-data" name="set_default_thumb" id="set_default_thumb">
     <fieldset class="fieldset">
-        {assign var=vidthumbs value=get_thumb($data,1,TRUE,FLASE,TRUE,FALSE)}
+        {assign var=vidthumbs value=get_thumb($data,1,TRUE,FLASE,TRUE,FALSE,'original')}
         {foreach from=$vidthumbs item=vid_thumb}
         <div class="cbthumbs">
             {$video.title}

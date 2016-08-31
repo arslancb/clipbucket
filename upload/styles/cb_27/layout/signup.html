@@ -1,18 +1,18 @@
-{$required_fields=$userquery->load_signup_fields()}
-{$cutom_fields=$userquery->custom_signup_fields}
-
+{$required_fields=$userquery->load_signup_fields()|@array_filter}
+{$custom_fields=$Upload->load_custom_form_fields(false,false,false,true)}
 {ANCHOR place="all_conn_btns"}
 
 {if $mode == 'signup_success'}
-<div class="simple_container">
-        {if $udetails.usr_status !='Ok'}
-            {lang code='signup_success_usr_ok'}
-        {else}
-            {lang code='signup_success_usr_emailverify' assign='signupsuccessusremailverify'}
-            {link name='login' assign='login_link'}
-            {$signupsuccessusremailverify|sprintf:$login_link}
-{/if} </div>
-{else}    
+<div class="simple_container alert-success alert">
+    {if $udetails.usr_status !='Ok'}
+        {lang code='signup_success_usr_ok'}
+    {else}
+        {$signupsuccessusremailverify = lang('signup_success_usr_emailverify')}
+        {$login_link = cblink(["name"=>"login"])}
+        {sprintf($signupsuccessusremailverify,$login_link)}
+</div>
+{/if} 
+{else}       
 <div class="container">
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -83,22 +83,23 @@
                             {/if}
                         </div>
                     {/foreach}
-                    <!-- Loading Custom Fields -->
-                    {foreach from=$custom_field item=field}
+                    {foreach from=$custom_fields item=field}
+                        {if $field.type!='checkbox' && $field.type!='radiobutton'}
+                            {$field.class='form-control'}
+                        {/if}
                         <div class="form-group">
                             <label for="{$field.id}">{$field.title}</label>
                             {if $field.type=='radiobutton'}
-                            {$field.label_class="radio-inline"}
-                            {$field.sep=" "}
-                            <div></div>
+                                {$field.label_class="radio-inline"}
+                                {$field.sep=" "}
+                                <div></div>
                             {/if}
 
                             {if $field.type=='checkbox'}
-                            {$field.label_class="checkbox-inline"}
-                            {$field.sep=" "}
-                            <div></div>
+                                {$field.label_class="checkbox-inline"}
+                                {$field.sep=" "}
+                                <div></div>
                             {/if}
-
 
                             {if $field.hint_before}
                             <span class="help-block">{$field.hint_before}</span>

@@ -107,7 +107,7 @@
 <div class="col-md-4">
   <label for="enlarge_button">
     Enlarge/small Button<br>
-    <small>this will let you enable enlarge/small button in your player</small>
+    <small>this will let you enable enlarge/small button for CB_html5_player</small>
   </label>
     <select class="form-control" name="enlarge_button" id="enlarge_button">
         <option value="yes"  {if $row.enlarge_button=='yes'} selected="selected" {/if}>Yes</option>
@@ -130,74 +130,12 @@
 </div>
 </div>
 <div class="button">
+<br>
 <input type="submit" class="btn btn-primary" value="Update Player Settings"  name="update" id="update_player_settings">
 </div>
 </form>
 <br>
-        <div class="row">
-<!--<div class="col-md-6">
-  <label for="pakplayer_contextmsg">
-    Pakplayer Context Menu<br>
-    <small>Write what you want to display when user right clicks on pakplayer (only if have pak player license)</small>
-  </label>
-  <input class="form-control" type="text" name="pakplayer_contextmsg" id="pakplayer_contextmsg" value="{$row.pakplayer_contextmsg}" />
-    <br>
-    <input type="submit" class="btn btn-primary pull-left" value="Update" name="update" />
-</div>-->
-
-
-
-<div class="col-md-6">
-<div class="panel-group" id="accordion">
-    <div class="panel ">
-      <div class="">
-            <h6 class="panel-title alert alert-danger">
-                <b>This option has been deprecated.</b>
-              </h6>
-        </div>
-        <!--  <div id="collapseOne" class="panel-collapse collapse in">
-            <div class="panel-body">
-                <div class="ui-widget-content"  style="width:{$Cbucket->configs.player_width}px;  height:{$Cbucket->configs.player_height}px;">
-                    <h3 class="ui-widget-header">Original Size of your Main Website Player</h3>
-                    {FlashPlayer vdetails=$data}
-                </div>
-                <div class="player_dims">
-                    <label for="width">Width</label>
-                    <input type="text" name="width" id="width" value="{$Cbucket->configs.player_width}" />
-                    <label for="height">Height</label>
-                    <input type="text" name="height" id="height" value="{$Cbucket->configs.player_height}" />
-                </div>
-              </div>
-        </div>...-->
-
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title alert alert-info">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                   <b> Click here to edit channel player size.</b>
-                </a>
-            </h4>
-        </div>
-        <div id="collapseTwo" class="panel-collapse collapse">
-            <div class="panel-body">
-                <div class="ui-widget-content" style="width:{$Cbucket->configs.channel_player_width}px; height:{$Cbucket->configs.channel_player_height}px; margin:auto">
-                    <h3 class="ui-widget-header">Original Size of your Channel Player</h3>
-                </div>
-                <div class="player_dims">
-                    <label for="width">Width</label>
-                    <input type="text" name="width" id="channel_width" value="{$Cbucket->configs.channel_player_width}" />
-                    <label for="height">Height</label>
-                    <input type="text" name="height" id="channel_height" value="{$Cbucket->configs.channel_player_height}" />
-                </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-            </div>
-
-
+        
 
 {literal}
 

@@ -6,10 +6,10 @@
  * in prior version, this file was not so reliable
  * this time it has complete set of instruction 
  * and proper downloader
- * @author : Arslan Hassan
+ * @author : Arslan Hassan, Saqib Razzaq
  * @license : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * @since : 01 July 2009
- * @last_modified: 9th July, 2015 (Implementation of YouTube API 3) 
+ * @last_modified: 18th December, 2015 (YouTube Thumbs Qulaity Improved) 
  */
 
 
@@ -79,79 +79,32 @@ if(isset($_POST['youtube']))
 	*
 	* Tip: Replace part between 'key' to '&' to use your own key
 	*/ 
-
+	$apiKey = $Cbucket->configs['youtube_api_key'];
 	// grabs video details (snippet, contentDetails)
-	$youtube_content = file_get_contents('https://www.googleapis.com/youtube/v3/videos?id='.$YouTubeId.'&key=AIzaSyDOkg-u9jnhP-WnzX5WPJyV1sc5QQrtuyc&part=snippet,contentDetails');
-	$content = json_decode($youtube_content);
-	
-	//$content = xml2array('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId);
+	$request = 'https://www.googleapis.com/youtube/v3/videos?id='.$YouTubeId.'&key='.$apiKey.'&part=snippet,contentDetails';
+	$youtube_content = file_get_contents($request);
+	$content = json_decode($youtube_content,true);
+	$thumb_contents = maxres_youtube($content);
+	$max_quality_thumb = $thumb_contents['thumb'];
 
-	// getting things such as title out of Snippet
-	$data = $content->items[0]->snippet;
+	$data = $content['items'][0]['snippet'];
 
 	// getting time out of contentDetails
-	$time = $content->items[0]->contentDetails->duration;
+	$time = $content['items'][0]['contentDetails']['duration'];
 
 	/**
 	* Converting YouTube Time in seconds
 	*/
 
-	function getStringBetween($str,$from,$to)
-	{
-    $sub = substr($str, strpos($str,$from)+strlen($from),strlen($str));
-    return substr($sub,0,strpos($sub,$to));
-	}
-
-	$str = $time;
-	$str = str_replace("P", "", $str);
-	$from = "T";
-	$to = "H";
-
-	$hours = getStringBetween($str,$from,$to);
-
-	$from = "H";
-	$to = "M";
-
-	$mins = getStringBetween($str,$from,$to);
-
-	$from = "M";
-	$to = "S";
-
-	$secs = getStringBetween($str,$from,$to);
-
-	$hours = $hours * 3600;
-	$mins = $mins * 60;
-	$total = $hours + $mins + $secs;
-
-	/*	$match_arr = 
-	array
-	(
-		"title"=>"/<meta name=\"title\" content=\"(.*)\">/",
-		"description"=>"/<meta name=\"description\" content=\"(.*)\">/",
-		"tags" =>"/<meta name=\"keywords\" content=\"(.*)\">/",
-		"embed_code" => "/<meta name=\"keywords\" content=\"(.*)\">/",
-		"duration" => "/<span class=\"video-time\">([0-9\:]+)<\/span>/"
-	);
-	
-	$vid_array = array();
-	foreach($match_arr as $title=> $match)
-	{
-		preg_match($match,$content,$matches);
-		$vid_array[$title] = $matches[1];
-	}*/
-	
-	$vid_array['title'] 		= $data->title;
-	$vid_array['description'] 	= $data->description;
-	$vid_array['tags'] 			= $data->title;
+	$total = yt_time_convert($time);
+	$vid_array['title'] 		= $data['title'];
+	$vid_array['description'] 	= $data['description'];
+	$vid_array['tags'] 			= $data['title'];
 	$vid_array['duration'] 		= $total;
 	
-	
-	$vid_array['thumbs'] = 
-	array('http://i3.ytimg.com/vi/'.$YouTubeId.'/1.jpg','http://i3.ytimg.com/vi/'.
-	$YouTubeId.'/2.jpg','http://i3.ytimg.com/vi/'.$YouTubeId.'/3.jpg',
-	'big'=>'http://i3.ytimg.com/vi/'.$YouTubeId.'/0.jpg');
-	
+	$vid_array['thumbs'] = $max_quality_thumb;
 
+	#pex($vid_array['thumbs'],true);
 
 	$vid_array['embed_code'] = '<iframe width="560" height="315"';
 	$vid_array['embed_code'] .= ' src="//www.youtube.com/embed/'.$YouTubeId.'" ';
@@ -163,13 +116,6 @@ if(isset($_POST['youtube']))
 	$vid_array['userid'] = userid();
 	
 	$duration = $vid_array['duration'];
-	/*	$duration = explode(":",$duration);
-		$sep = count($duration);
-		if($sep==3)
-			$duration = ($duration[0]*60*60)+($duration[1]*60)+($duration[2]);
-		else
-			$duration = ($duration[0]*60)+($duration[1]);
-	*/
 	$vid = $Upload->submit_upload($vid_array);
 	
 	if(error())
@@ -185,17 +131,19 @@ if(isset($_POST['youtube']))
 	$ref_url = get_refer_url_from_embed_code(unhtmlentities(stripslashes($vdetails['embed_code'])));
 	$ref_url = $ref_url['url'];
 	$db->update(tbl("video"),array("status","refer_url","duration"),array('Successful',$ref_url,$duration)," videoid='$vid'");
-	
+
 	//Downloading thumb
-	foreach($vid_array['thumbs'] as $tid => $thumb)
-	{
-		if($tid!='big')
-			$thumbId = $tid+1;
-		else
-			$thumbId = 'big';
-		snatch_it(urlencode($thumb),THUMBS_DIR.'/'.$file_directory,$filename."-$thumbId.jpg");
-	}
-	
+	$downloaded_thumb = snatch_it(urlencode($max_quality_thumb),THUMBS_DIR.'/'.$file_directory,$filename."-ytmax.jpg");
+
+	$params = array();
+	$params['filepath'] = $downloaded_thumb;
+	$params['files_dir'] = $file_directory;
+	$params['file_name'] = $filename;
+	$params['width'] = $thumb_contents['width'];
+	$params['height'] = $thumb_contents['height'];
+
+	thumbs_black_magic($params);
+
 	exit(json_encode(array('youtubeID'=>$YouTubeId,
 	'vid'=>$vid,
 	'title'=>$vid_array['title'],'desc'=>$vid_array['description'],
@@ -381,15 +329,15 @@ $vidDetails = array
 $vid = $Upload->submit_upload($vidDetails);
 
 echo json_encode(array('vid'=>$vid));
-
-
+$file_dir = $vidDetails['file_directory'];
+$logFile = LOGS_DIR.'/'.$file_dir.'/'.$file_name.".log";
 if($quick_conv=='yes' || $use_crons=='no')
 {
 	//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 	if (stristr(PHP_OS, 'WIN')) {
 			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName sleep");
 		} else {
-			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName sleep&> /dev/null &");
+			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName $file_name $file_dir $logFile > /dev/null &");
 	}
 }
 

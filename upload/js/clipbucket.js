@@ -1590,6 +1590,7 @@
 		 * Function used to rate object
 		 */
 		this.rate = function(id,rating,type){
+			alert("BIEATCh");
 			var self = this;
 			var page = this.baseurl+'/ajax.php';
 			$.post(page, 
@@ -1761,6 +1762,40 @@
           });
       };
 
+      this.getCommentsNew = function(type,type_id,last_update,pageNum,total,object_type,admin){
+			 var self = this;
+          $.ajax({
+            type: 'POST',
+            url: page,
+            data: {
+					mode:'getCommentsNew',
+					page:pageNum,
+					type:type,
+					type_id:type_id,
+					object_type : object_type,
+					last_update : last_update,
+					total_comments : total,
+					comments_voting : comments_voting,
+					admin : admin
+            },
+
+            beforeSend: function() {
+            	$(document).find('#load-more-comments').text('loading comments..');
+            },
+
+            success: function(comments){
+              if (comments == 'none') {
+              	  $('#load-more-comments').text('End of comments list');
+              	  $('#load-more-comments').attr('disabled','disabled');
+              } else {
+	              $("#userCommentsList").append(comments);
+	              $(document).find('#load-more-comments').text('Load More');
+              }
+            },
+            dataType: 'text'
+          });
+      };
+
 		this.addToFav = function(type,id){
 			 var self = this;
 			$('#messageFav').show();
@@ -1816,6 +1851,332 @@
 			};
 	   }
 
+	   this.throwHeadMsg = function(tclass, msg, hideAfter,scroll) {
+	   		var self = this;
+			$(document).find('#headErr').remove();
+			hideAfter = parseInt(hideAfter);
+			
+			if (scroll == true) {
+				$("html, body").animate({ scrollTop: 0 }, "slow");
+			}
+
+			if (hideAfter < 10) {
+				hideAfter = 3000;
+			}
+
+			if (tclass.length < 3) {
+				tclass = 'info';
+			}
+
+			$('<div id="headErr" style="display:none" class="alert-msg-holder"><div class="alert alert-'+tclass+' alert-dismissible alert-ajax" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+msg+'</div></div>').insertAfter('#header').fadeIn('slow').delay(hideAfter).fadeOut();
+		};
+		
+		/**
+		* New improved version of ClipBucket rating system
+		* @since: 8th, April 2016 ClipBucket 2.8.1
+		* @author: Saqib Razzaq
+		*/
+
+		this.rateNew = function (id,rating,type) {
+			curObj = this;
+			var page = baseurl+'/ajax.php';
+			$.post(page, { 	
+				mode : 'rating',
+				id:id,
+				rating:rating,
+				type:type
+			},
+			function(data)
+			{
+				if(!data) {
+					alert("No data");
+				} else {
+					likesSect = $('.likes').find('span:nth-child(2)').html();
+					dislikesSect = $('.dislikes').find('span:nth-child(2)').html();
+					currLikes = parseInt(likesSect);
+					currDislikes = parseInt(dislikesSect);
+
+					isError = $(data).find('span.error').html();
+					isOk = $(data).find('span.msg').html();
+					if (isError) {
+						if (isError.length > 2) {
+							curObj.throwHeadMsg('danger',isError, 5000, true);
+						}
+					} else if (isOk) {
+						if (isOk.length > 2) {
+							if (rating == 5) {
+								newRating = currLikes + 1;
+								$('.likes').addClass('rated');
+								$('.likes').find('span:nth-child(2)').html(newRating);
+							} else {
+								newRating = currDislikes + 1;
+								if (newRating < 0) {
+									newRating = 0;
+								}
+								$('.dislikes').addClass('rated');
+								$('.dislikes').find('span:nth-child(2)').html(newRating);
+							}
+							curObj.throwHeadMsg('success',isOk, 5000, true);
+						}
+					}
+				}
+			},'text');
+		}
+
+		this.showMeTheMsg = function(data, alertDiv) {
+			curObj = this;
+			if (alertDiv == true) {
+				isOk = $(data).filter('div.msg').find('div.alert').html();
+			} else {
+				isOk = $(data).filter('div.msg').html();
+			}
+			isError = $(data).filter('div.error').html();
+			
+       		if (isError) {
+				if (isError.length > 2) {
+					curObj.throwHeadMsg('danger',isError, 5000, true);
+				}
+			} else if (isOk) {
+				if (isOk.length > 2) {
+					curObj.throwHeadMsg('success',isOk, 5000, true);
+				}
+			}
+		}
+
+		this.subscribeToChannelNew = function(user,type){
+		   curObj = this;
+	       $.post(page, {  
+	           mode : type,
+	           subscribe_to : user
+	       },
+	       function(data){
+	           if(!data){
+	               alert("No data");
+	           }
+	           else{
+	           		curObj.showMeTheMsg(data);
+	           }
+	       },'text');
+	   };
+
+	   this.add_friendNew = function (uid,result_cont){
+	   		curObj = this;
+			$("#"+result_cont).css("display","block");
+			$("#"+result_cont).html(this.loading);
+			
+			$.post(page, 
+			{ 	
+				mode : 'add_friend',
+				uid : uid
+			},
+			function(data)
+			{
+				if(!data)
+					alert("No data");
+				else
+				{
+					$("#"+result_cont).css("display","none");
+					curObj.showMeTheMsg(data);
+				}
+			},'text');
+		};
+
+		this.subscribeToChannelNew = function(user,type){
+			var curObj = this;
+
+	        $.post(page, {  
+	           mode : type,
+	           subscribe_to : user
+	       },
+	       function(data){
+	           if(!data){
+	               alert("No data");
+	           }
+	           else{
+	               curObj.showMeTheMsg(data);
+	           }
+	       },'text');
+	   };
+
+	   this.add_to_favNew = function(type,id){
+			var curObj = this;
+			$("#video_action_result_cont").css("display","block");
+			$("#video_action_result_cont").html(curObj.loading);
+			
+			$.post(page, 
+			{ 	
+				mode : 'add_to_fav',
+				type : type,
+				id : id
+			},
+			function(data)
+			{
+				if(!data)
+					alert("No data");
+				else
+				{
+					$("#video_action_result_cont").hide();
+					curObj.showMeTheMsg(data, true);
+				}
+			},'text');
+		};
+
+		this.flag_objectNew = function(form_id,id,type){
+			var curObj = this;
+			$("#flag_form_result").css("display","block");
+			$("#flag_form_result").html(this.loading);
+			$.post(page, 
+			{ 	
+				mode : 'flag_object',
+				type : type,
+				flag_type : $("#"+form_id+" select option:selected").val(),
+				id : id
+			},
+			function(data)
+			{
+				if(!data)
+					alert("No data");
+				else
+				{
+					$("#flag_form_result").hide();
+					curObj.showMeTheMsg(data);
+				}
+			},'text');
+		};
+
+		/*this.add_to_favNew = function (type,id) {
+			curObj = this;
+			$("#video_action_result_cont").css("display","block");
+			$("#video_action_result_cont").html(loading);
+			
+			$.post(page, 
+			{ 	
+				mode : 'add_to_fav',
+				type : type,
+				id : id
+			},
+			function(data)
+			{
+				console.log(data);
+				if(!data)
+					alert("No data");
+				else
+				{
+					$("#video_action_result_cont").css("display","none");
+					cleanedHtml = data;
+					var msg = $(cleanedHtml).find('div').html();
+					curObj.throwHeadMsg('success',msg, 5000, true);
+				}
+			},'text');
+		}*/
+
+		this.uploadSubtitle = function(videoid, lang, honeyAjax) {
+			if (honeyAjax.length < 5) {
+				return false;
+			}
+
+			//return true;
+			var file_data = $('#captions').prop('files')[0];   
+		    var form_data = new FormData();                  
+		    var themode = 'yes';
+		    form_data.append('subtitle_lang',lang);
+		    form_data.append('file', file_data);
+		    form_data.append('videoid', videoid);
+		    $.ajax({
+		    	type:'post',
+		    	cache: false,
+                contentType: false,
+                processData: false,
+				url: honeyAjax,
+				data: form_data,
+
+				beforeSend: function() {
+
+				},
+
+				success: function(data) {
+
+				}
+			});
+		}
+
+		this.add_playlistNew = function (mode,vid,form_id,objtype){
+			curObj = this;
+			$("#playlist_form_result").css("display","block");
+			$("#playlist_form_result").html("loading");
+			switch(mode)
+			{
+				case 'add':
+				{
+					$.post(page, 
+					{ 	
+						mode : 'add_playlist',
+						id : vid,
+						objtype : objtype,
+						pid : $("#playlist_id option:selected").val()
+			},
+					function(data)
+					{
+						$("#playlist_form_result").html("");
+						if(!data)
+							alert("No data");
+						else
+						{	
+							if(data.err.length > 2)
+							{
+								cleanedHtml = $.parseHTML(data.err);
+								var msg = $(cleanedHtml).html();
+								curObj.throwHeadMsg('danger',msg, 5000, true);
+							}
+							
+							if(data.msg.length > 2)
+							{
+								cleanedHtml = $.parseHTML(data.msg);
+								var msg = $(cleanedHtml).find('div.alert').html();
+								curObj.throwHeadMsg('success',msg, 5000, true);
+								$("#"+form_id).css("display","none");
+							}	
+							
+						}
+					},'json');
+				}
+				break;
+				
+				case 'new':
+				{
+
+					$.post(page, 
+					{ 	
+						mode : 'add_new_playlist',
+						id : vid,
+						objtype : objtype,
+						plname : $("#playlist_name").val()
+			},
+					function(data)
+					{
+						if(!data)
+							alert("No data");
+						else
+						{	
+							if(data.err )
+							{
+								$("#playlist_form_result").css("display","block");
+								$("#playlist_form_result").html(data.err);
+							}
+							
+							if(data.msg)
+							{
+								$("#playlist_form_result").css("display","block");
+								$("#playlist_form_result").html(data.msg);
+								$("#"+form_id).css("display","none");
+							}	
+							
+						}
+					},'json');
+				}
+				break;
+			}
+		};
 	};
 
 	window._cb = new _cb();

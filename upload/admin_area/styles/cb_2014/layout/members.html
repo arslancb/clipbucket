@@ -9,8 +9,6 @@
     {include file="$layout_dir/blocks/advanced_member_search.html" }
 </div>
 
-
-
 {if $users}
 <!-- Displaying Members -->
 <form name="user_manage" method="post">
@@ -18,7 +16,7 @@
     <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate" />
     <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" />
     <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured" />
-    <input class="btn btn-primary btn-xs" type="submit" name="ban_selected2" value="Make Unfeatured" id="ban_selected2"/>
+    <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured" id="ban_selected2"/>
     <input class="btn btn-primary btn-xs" type="submit" name="ban_selected" value="Ban Selected" id="ban_selected"/>
     <input class="btn btn-primary btn-xs" type="submit" name="unban_selected" value="Unban Selected" id="unban_selected"/>
     <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete" onclick="return confirm_it('Are you sure you want to delete selected User(s)')"/>
@@ -53,13 +51,13 @@
                             {if $u.featured=='Yes'}<span class="label label-primary">Featured{else}{/if}</span>
                             <span class="label {if $u.usr_status == Ok}label-success{else}label-warning{/if}"><span>{if $u.usr_status=='Ok'}Active
                                     {else}InActive{/if}</span></span>
-                            <span class="label label-info"><span>{$u.level|get_user_level}</span></span>
+                            <span class="label label-info"><span>Userlevel: {$u.level}</span></span>
                             <span class="label"><span>Active</span> : <span>{$u.last_active|nicetime}</span></span>
-                            {if $smarty.get.private=='private'}
+                            {*if $smarty.get.private=='private'}
                             Private Channels
                             {else}
                             Member Manager
-                            {/if}
+                            {/if*}
 
                             {if function_exists('channels_control')}
                                 {if $u.private == private}
@@ -93,6 +91,7 @@
         {if $u.usr_status == Ok}
         <li><a role="menuitem" tabindex="-1" href="?deactivate={$u.userid}">Deactivate</a></li>
         {elseif $u.usr_status == ToActivate}
+        <li><a role="menuitem" tabindex="-1" href="?resend_verif={$u.userid}">Resend Verification</a></li>
         <li><a role="menuitem" tabindex="-1" href="?activate={$u.userid}">Activate</a></li>
         {/if}
         {if $u.ban_status == yes}

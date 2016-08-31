@@ -95,7 +95,7 @@ if(isset($_POST['experiment']))
 				$msg[] = "<br>".nl2br($width);
 				$msg[] = "<br>".nl2br($v_bitrate);
 				$msg[] = "<br>".nl2br($a_bitrate);
-				$msg[] = "<br>".nl2br(shell_output($Cbucket->configs['ffmpegpath'].' -i '.$victimFile." -vcodec libx264 -acodec libfaac -s ".$width."x".$height." -preset ".$preset." -f mp4 -b:v ".$v_bitrate." -b:a ".$a_bitrate." -r 25 -ar 22050 ".TEMP_DIR."/".$t."121.mp4"));
+				$msg[] = "<br>".nl2br(shell_output($Cbucket->configs['ffmpegpath'].' -i '.$victimFile." -vcodec libx264 -acodec ".config('audio_codec')." -s ".$width."x".$height." -preset ".$preset." -f mp4 -b:v ".$v_bitrate." -b:a ".$a_bitrate." -r 25 -ar 22050 ".TEMP_DIR."/".$t."121.mp4"));
 				$msg[] = "<div class=\"expOK\">Video file is convertable..</div>";
 				
 			}
@@ -116,7 +116,7 @@ if(isset($_POST['experiment']))
 				$msg[] = "<br>".nl2br($width);
 				$msg[] = "<br>".nl2br($v_bitrate);
 				$msg[] = "<br>".nl2br($a_bitrate);
-				$msg[] = "<br>".nl2br(shell_output($Cbucket->configs['ffmpegpath'].' -i '.$victimFile." -vcodec libx264 -acodec libfaac -s ".$width."x".$height." -preset ".$preset." -f mp4 -b:v ".$v_bitrate." -b:a ".$a_bitrate." -r 25 -ar 22050 ".TEMP_DIR."/".$t."121.mp4"));
+				$msg[] = "<br>".nl2br(shell_output($Cbucket->configs['ffmpegpath'].' -i '.$victimFile." -vcodec libx264 -acodec ".config('audio_codec')." -s ".$width."x".$height." -preset ".$preset." -f mp4 -b:v ".$v_bitrate." -b:a ".$a_bitrate." -r 25 -ar 22050 ".TEMP_DIR."/".$t."121.mp4"));
 				$msg[] = "<div class=\"expOK\">Video file is convertable..</div>";
 			}
 			else

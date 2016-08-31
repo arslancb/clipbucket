@@ -1456,12 +1456,6 @@ function _logType(type, args){
   // call appropriate log function
   if (console[type].apply) {
     console[type].apply(console, argsArray);
-
-    // check if YouClip Is Installed
-    if (!(typeof(extract_yt_url_ajax)=='undefined')) {
-      // grab video URL 
-      extract_yt_url_ajax(this.the_data);
-    }
   } else {
     // ie8 doesn't allow error.apply, but it will just join() the array anyway
     console[type](argsArray.join(' '));
@@ -6166,7 +6160,7 @@ vjs.MuteToggle = vjs.Button.extend({
   /** @constructor */
   init: function(player, options){
     vjs.Button.call(this, player, options);
-
+   
     this.on(player, 'volumechange', this.update);
 
     // hide mute toggle if the current tech doesn't support volume control
@@ -6192,7 +6186,15 @@ vjs.MuteToggle.prototype.createEl = function(){
 };
 
 vjs.MuteToggle.prototype.onClick = function(){
-  this.player_.muted( this.player_.muted() ? false : true );
+  var _this_player_muted = this.player_.muted();
+  console.log(_this_player_muted);
+  if (!_this_player_muted){
+    $.cookie("_this_player_muted","Muted"); 
+  }else{
+    $.cookie("_this_player_muted","UnMuted"); 
+  }
+
+ this.player_.muted( this.player_.muted() ? false : true );
 };
 
 vjs.MuteToggle.prototype.update = function(){
@@ -6207,6 +6209,12 @@ vjs.MuteToggle.prototype.update = function(){
     level = 2;
   }
 
+  //added for mute cookie 
+  if (level == 0){
+     $.cookie("_this_player_muted","Muted"); 
+  }else{
+      $.cookie("_this_player_muted","UnMuted"); 
+  }
   // Don't rewrite the button text if the actual text doesn't change.
   // This causes unnecessary and confusing information for screen reader users.
   // This check is needed because this function gets called every time the volume level is changed.
@@ -6219,9 +6227,9 @@ vjs.MuteToggle.prototype.update = function(){
           this.el_.children[0].children[0].innerHTML = this.localize('Mute'); // change the button text to "Mute"
       }
   }
-
   /* TODO improve muted icon classes */
   for (var i = 0; i < 4; i++) {
+
     vjs.removeClass(this.el_, 'vjs-vol-'+i);
   }
   vjs.addClass(this.el_, 'vjs-vol-'+level);
