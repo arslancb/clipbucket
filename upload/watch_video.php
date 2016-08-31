@@ -34,7 +34,7 @@
 		call_watch_video_function($vdo);
 		subtitle(ucfirst($vdo['title']));
 	} else {
-		return $Cbucket->show_page = false;
+		$Cbucket->show_page = false;
 
 	}
 

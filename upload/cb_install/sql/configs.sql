@@ -277,6 +277,7 @@ INSERT INTO `{tbl_prefix}config`(`name`, `value`) VALUES ('index_featured','2');
 UPDATE `{tbl_prefix}config` SET value = 'cb_28' WHERE name = 'template_dir';
 
 
-
+INSERT INTO `{tbl_prefix}config`(`name`, `value`) VALUES ('stay_mp4','');
+INSERT INTO `{tbl_prefix}config`(`name`, `value`) VALUES ('youtube_api_key','');
 
 

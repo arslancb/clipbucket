@@ -8,6 +8,7 @@
 }
 
 $icon-font-family: 'icomoon';
+$carousel-icon-font-family: 'relatedCarousel';
 $icon-font-path: '../fonts' !default;
 
 @font-face {
@@ -31,7 +32,16 @@ $icon-font-path: '../fonts' !default;
 	font-weight: normal;
 	font-style: normal;
 }
-
+@font-face {
+	font-family: 'relatedCarousel';
+	src:url('#{$icon-font-path}/relatedCarousel.eot');
+	src:url('#{$icon-font-path}/relatedCarousel.eot') format('embedded-opentype'),
+	url('#{$icon-font-path}/relatedCarousel.ttf') format('truetype'),
+	url('#{$icon-font-path}/relatedCarousel.woff') format('woff'),
+	url('#{$icon-font-path}/relatedCarousel.svg') format('svg');
+		font-weight: normal;
+		font-style: normal;
+}
 [class^="icon-"], [class*=" icon-"] {
 	/* use !important to prevent issues with browser extensions that change fonts */
 	font-family: 'icomoon' !important;
@@ -196,4 +206,34 @@ $icons: (
 }
 .icon-volumemute:before {
     content: "\e612";
+}
+//related icons
+.icon-next,
+.icon-prev,
+.icon-related,
+.vjs-button.vjs-control.vjs-related-carousel-button.icon-videojs-carousel-toggle,
+.icon-videojs-carousel-right,
+.icon-videojs-carousel-left{
+	font-family: 'relatedCarousel' !important;
+}
+
+.vjs-button.vjs-control.vjs-related-carousel-button.icon-videojs-carousel-toggle:before {
+	content: "\e9a2";
+}
+.icon-related:before {
+	content: "\e9a2";
+}
+//
+.icon-videojs-carousel-left:before {
+	content: "\e9a1";
+}
+.icon-videojs-carousel-left.icon-prev:before {
+	content: "\e9a1";
+}
+//
+.icon-videojs-carousel-right:before {
+	content: "\e9aa";
+}
+.icon-videojs-carousel-right.icon-next:before {
+	content: "\e9aa";
 }

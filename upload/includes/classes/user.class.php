@@ -1278,7 +1278,7 @@ class userquery extends CBCategory{
 		elseif(!$user)
 			e(sprintf(lang('please_login_subscribe'),$to_user['username']));
 		elseif($this->is_subscribed($to,$user))
-			e(sprintf(lang("usr_sub_err"),$to_user['username']));
+			e(sprintf(lang("usr_sub_err"),"<strong>".$to_user['username']."</strong>"));
 		elseif($to_user['userid'] == $user)
 			e(lang("you_cant_sub_yourself"));	
 		else
@@ -2149,10 +2149,12 @@ class userquery extends CBCategory{
 			$cond = " AND $cond ";
 		
 		if ($myacc) {
-			$cond .= " LIMIT 0,15 ";
+			$limit .= " 0,15 ";
+			$order = " videoid DESC";
 		}
 
-		$results = $db->select(tbl("video"),"*"," userid = '$uid' $cond");
+
+		$results = $db->select(tbl("video"),"*"," userid = '$uid' $cond","$limit","$order");
 		if($db->num_rows > 0) {
 			if ($myacc) {
 				return $results;

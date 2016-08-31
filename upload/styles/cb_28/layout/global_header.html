@@ -47,9 +47,10 @@
 
 		<script>
 			var loading = '<i class="glyphicon glyphicon-refresh animate-spin"></i> {lang code="loading"}...';
-			var baseurl = "{$baseurl}";
-			var imageurl = "{$imageurl}";
-			var userid = "{userid()}";
+			var baseurl = "{$baseurl}",
+			imageurl = "{$imageurl}",
+			userid = "{userid()}",
+			THIS_PAGE = "{$smarty.const.THIS_PAGE}";
 		</script>
 		{if $__devmsgs}
 			<script src="{$theme}/js/custom.js"></script>

@@ -1590,6 +1590,7 @@
 		 * Function used to rate object
 		 */
 		this.rate = function(id,rating,type){
+			alert("BIEATCh");
 			var self = this;
 			var page = this.baseurl+'/ajax.php';
 			$.post(page, 

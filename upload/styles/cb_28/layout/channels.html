@@ -85,8 +85,8 @@
 					<div class="channel-info">
 						<h3><a href="{$userquery->profile_link($user)}">{$user.username}</a></h3>
 						<div class="clearfix views-videos">
-							<span>{$user.profile_hits|number_format} {lang code='views'}</span>
-							<span>{$user.total_videos|number_format} {lang code='videos'}</span>
+							<span>{prettyNum($user.profile_hits|number_format)} {lang code='views'}</span>
+							<span>{prettyNum($user.total_videos|number_format)} {lang code='videos'}</span>
 						</div>
 					</div>
 				</div>
