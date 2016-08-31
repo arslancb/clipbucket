@@ -459,8 +459,7 @@ class Clipbucket_db
      */
     function clean_var($var)
     {	
-    	  $var=$this->mysqli->real_escape_string($var); //Simple mysql escape string. Probably not strong enough
-    	  return $var;
+		return mysql_clean($var);
     }
 
     /**
