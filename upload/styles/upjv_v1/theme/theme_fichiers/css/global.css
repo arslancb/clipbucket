@@ -114,6 +114,18 @@ select, textarea, input[type="submit"], input[type="reset"], input[type="button"
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+/*	background: #e2e2e2;	*/
+	border: 1px solid #e2e2e2;
+	font: 500 1em Tahoma, Verdana, Segoe, sans-serif;
+	padding: .25em;
+	text-decoration: none;
+	max-width: 100%;
+}
+
+#query {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	background: #e2e2e2;
 	border: 1px solid #e2e2e2;
 	font: 500 1em Tahoma, Verdana, Segoe, sans-serif;
