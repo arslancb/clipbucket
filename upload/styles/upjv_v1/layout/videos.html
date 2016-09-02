@@ -3,6 +3,15 @@
 <div id="main" class="clearfix container">
 	<div class="clearfix">
 		<section id="content" class="clearfix videos">
+
+			{$category = $smarty.get.cat}
+			{$catname = $cbvid->get_category_name($category)}
+			{$catname = $catname.category_name}
+
+			<div class="row">
+			<h1>{$catname}</h1>
+			</div>
+
 			<div class="clearfix leaderboard-ad ad">
 				{AD place='ad_728x90'}
 			</div>
