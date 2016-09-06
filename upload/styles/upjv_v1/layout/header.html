@@ -387,51 +387,68 @@ class="ui-state-default"
 					<span>Menu</span>
 				</button>
 -->
+
+
+
+
+				
+
+
+<!-- ------------- Menu des categories -------------------------------- -->
+{$catname = $cbvid->get_categories()}
+
+<ul id="menu_principal" data-unfold-target="menu_principal">
+	<li>
+		<a href="{$baseurl}">Accueil</a>
+	</li>
+
+	{foreach from=$catname item=main}
+		{if $catname[$main@key].parent_id eq 0}
+			<li><a href="{cblink(['name'=>'category','data'=>$catname[$main@key],'type'=>'video'])}">{$catname[$main@key].category_name}</a>
+				<ul>
+					{foreach from=$catname item=sub}
+						{if $catname[$sub@key].parent_id eq $catname[$main@key].category_id}
+							<li><a href="{cblink(['name'=>'category','data'=>$catname[$sub@key],'type'=>'video'])}">{$catname[$sub@key].category_name}</a></li>
+						{/if}
+					{/foreach}
+				</ul>
+			</li>
+		{/if}
+	{/foreach}
+</ul>
+<!-- ------------------------------------------------ -->
+
+
+
+
+					<!-- ---------------------------------- -->
+					<!--
+
 				<ul id="menu_principal" data-unfold-target="menu_principal">
 					<li>
 						<a href="{$baseurl}">Accueil</a>
 					</li>
-				
 					<li>
 						<a href="{$baseurl}/videos.php?cat=37">Université</a>
-					<!--
 						<ul>
-							<li><a href="#">Dernières vidéos</a></li>
-							<li><a href="#">Vidéos les plus vues</a></li>
+							<li><a href="http://192.168.56.103/cb_uhdf/upload/videos.php?cat=41&sort=most_recent&time=all_time&seo_cat_name=">Institutionnel</a></li>
 						</ul>
-					-->
 					</li>
 					
 					<li>
 						<a href="{$baseurl}/videos.php?cat=38">Recherche</a>
-					<!--
-						<ul>
-							<li><a href="#">Dernières vidéos</a></li>
-							<li><a href="#">Vidéos les plus vues</a></li>
-						</ul>
-					-->
 					</li>
 				
 					<li>
 						<a href="{$baseurl}/videos.php?cat=39">Vie étudiante</a>
-					<!--
-						<ul>
-							<li><a href="#">Dernières vidéos</a></li>
-							<li><a href="#">Vidéos les plus vues</a></li>
-						</ul>
-					-->
 					</li>
 				
 					<li>
 						<a href="{$baseurl}/videos.php?cat=40">Culture</a>
-					<!--
-						<ul>
-							<li><a href="#">Dernières vidéos</a></li>
-							<li><a href="#">Vidéos les plus vues</a></li>
-						</ul>
-					-->
 					</li>
 				</ul>
+					-->
+				
 			<!-- #menu_principal -->
 			</div>
 			<!-- #menu_principal_deco -->
