@@ -39,6 +39,7 @@
 @import "components/captions-settings";
 @import "components/modal-dialog";
 @import "player-comments.scss";
+@import "videojs.relatedCarousel.scss";
 .cb_player,
 .player-holder {
 	overflow: hidden;
@@ -64,13 +65,15 @@
 		.vidTitle {
 			width: 70%;
 		}
-		p {
+		a {
 			font-size: 16px;
 			margin: 0;
 			line-height: normal;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
+			color:#fff;
+			text-decoration:none;
 		}
 		.uploaderName {
 			float: right;

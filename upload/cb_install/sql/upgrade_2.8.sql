@@ -9,3 +9,4 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'ge
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'gen_720', 'no');
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'gen_1080', 'no');
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'photo_activation', '1');
+ALTER TABLE `{tbl_prefix}video` ADD `video_files` text(33) NOT NULL;

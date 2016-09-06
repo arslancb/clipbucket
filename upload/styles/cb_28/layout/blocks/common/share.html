@@ -78,7 +78,12 @@
 		<form id="cb_share_item" name="share_form" method="post" action="">
 			<div class="form-group">
 				<label for="ShareUsers" class="block-label">{sprintf(lang('share_this_type'),$type)}</label>
-				<input name="users" type="text" class="form-control" id="ShareUsers" placeholder="{lang code='seperate_usernames_with_comma'}">
+				<input name="users" type="text" class="form-control" id="ShareUsers" placeholder="{lang code='seperate_usernames_with_comma'}" list="suggested_users">
+				<datalist id='suggested_users'>
+			       <option label='label1' value='value1123213'>
+			       <option label='label2' value='value2213213'>
+			       ...
+			    </datalist>
 			</div>
 			<div class="form-group">
 				<label for="message" class="block-label">

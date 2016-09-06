@@ -28,7 +28,7 @@
     <div class="row">
   <div class="col-md-6">
     <label for="code">Advertisement code</label>
-    <textarea class="form-control" name="code" id="code">{$ad_data.ad_code}</textarea>
+    <textarea class="form-control" name="code" id="code" style="height: 300px">{$ad_data.ad_code}</textarea>
   </div>
 
   <div class="col-md-6">
@@ -140,13 +140,3 @@
 </table>
 <br><br><br>
 {/if}
-
-
-
-<script src="{$baseurl}/admin_area/styles/cb_2014/theme/bootstrap/js/summernote.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $('#code').summernote();
-    });
-</script>

@@ -6,18 +6,19 @@ var TimeComments = function(player,settings){
 	timecomments.activeId = "";
 	timecomments.activeComment = "";
 	timecomments.show = false;
+	timecomments.forceShow = settings.forceShow;
 	timecomments.init();
 }
 
 TimeComments.prototype.init = function(){
 	var timecomments = this;
 
-	if (typeof timecomments.settings.comments == 'undefined' || timecomments.settings.comments == ''){
+	if (typeof timecomments.settings.comments == 'undefined' || timecomments.settings.comments == '' || !timecomments.settings.comments){
 		timecomments.comments = [];
 	}else{
 		timecomments.comments = timecomments.GetTimeComments(timecomments.settings.dummy);
 	}
-	
+	/*console.log(timecomments.comments);*/
 	timecomments.AddComment();
 	timecomments.AddControlBArMenu();
 	timecomments.Structure();
@@ -26,6 +27,7 @@ TimeComments.prototype.init = function(){
 }
 
 TimeComments.prototype.AddComment = function(){
+
 	var timecomments = this;
 	var progressControl  = timecomments.player.controlBar.progressControl.el_;
 	var progressControl_ = timecomments.player.controlBar.progressControl;
@@ -33,6 +35,10 @@ TimeComments.prototype.AddComment = function(){
 
 	var mouseDisplay_time    = "";
 	var dataSetTime    = "0:00";
+
+	var sendTimeWith = "";
+	var sendTimeDisplay = "0:00";
+
 	var addCommentHolder = "";
 	var addCommentChildHolder = "";
 	var cTimeDisplay = "";
@@ -49,7 +55,7 @@ TimeComments.prototype.AddComment = function(){
 		addCommentHolder.className = "add-comment-holder";
 		addCommentChildHolder = document.createElement('div');
 		addCommentChildHolder.className = "add-comment-child-holder";
-
+		addCommentChildHolder.style.cursor = "pointer";
 		addCommentChildHolder.innerHTML = "<span class='cb-vjs-addcomment-clicker'>"+dataSetTime+" | Add Comment "+"</span>";
 		
 		addCommentHolder.appendChild(addCommentChildHolder);
@@ -59,27 +65,32 @@ TimeComments.prototype.AddComment = function(){
 
 
 	var setCommentTime  = function(event){
+
 		var mouseTimeDisplay = timecomments.player.controlBar.progressControl.seekBar.mouseTimeDisplay;
 		var duration = timecomments.player.duration();
     	var val = mouseTimeDisplay.calculateDistance(event) * duration;
     	var newTime = val.toFixed(2);
     	mouseDisplay_time = newTime;
+    	
+    	if (parseInt(mouseDisplay_time) >= parseInt(timecomments.player.duration().toFixed(2)) || mouseDisplay_time == 0){
 
-    	if (mouseDisplay_time > timecomments.player.duration() || mouseDisplay_time == 0){
     		hideAddComment();
     	}
 
     	dataSetTime = mouseDisplay.dataset.currentTime;
     	mouseDisplay.style.display = "none";
-    	//cTimeDisplay.innerHTML = "<span class='cb-vjs-addcomment-clicker'>"+dataSetTime+" | Add Comment "+"</span>";
+    	addCommentChildHolder.innerHTML = "<span class='cb-vjs-addcomment-clicker'>"+dataSetTime+" | Add Comment "+"</span>";
 		cTimeDisplay.style.left = mouseDisplay.style.left;
+		addCommentHolder.style.left = mouseDisplay.style.left;
 	}
 
 	var showAddComment = function(){
+		addCommentHolder.style.display = "block";
 		cTimeDisplay.style.display = "block";
 	}
 
 	var hideAddComment = function(){
+		addCommentHolder.style.display = "none";
 		cTimeDisplay.style.display = "none";
 	}
 
@@ -89,67 +100,150 @@ TimeComments.prototype.AddComment = function(){
 		commentBoxForm = document.createElement('form');
 		commentBoxForm.className = 'cb-vjs-timecomment-form';
 
-		var commentData = document.createElement('div');
-		commentData.className = 'cb-vjs-comment-data';
-		commentData.innerHTML = "<img src="+timecomments.settings.userprofile+"><textarea id='timecommnts-send-box' class='timecommnts-send-box'></textarea>";
-		
-		var btnHolder = document.createElement('div');
-		btnHolder.className = 'cb-vjs-comments-btn-holder';
-		btnHolder.innerHTML = "<span id='timecomment-box-dismiss' class='timecomment-box-dismiss'>Cancel</span><span id='add-timecomment' class='add-timecomment'>Add Comment</span>";
-			
 		var commentWrapper  = document.createElement('div');
 		commentWrapper.className = "comment-wrapper";
 
 		var innerWrapper  = document.createElement('div');
 		innerWrapper.className = "inner-wrapper";
 
+		var timeCommentsHeader = document.createElement('div');
+		timeCommentsHeader.className = "timecomments-header";
+
+		var alertDismissable = document.createElement('div');
+		alertDismissable.className = "alert alert-danger alert-dismissible";
+		alertDismissable.id = "time-error";
+		alertDismissable.setAttribute("role", "alert");
+		alertDismissable.style.display = "none";
+		var dismissBtn = document.createElement('button');
+		dismissBtn.className = "close";
+		dismissBtn.setAttribute("type","button");
+		dismissBtn.setAttribute("data-dismiss","alert");
+		dismissBtn.setAttribute("aria-label","Close");
+		var message = document.createElement('p');
+		message.className = "message-show";
+		message.id = "message-show";
+		message.innerHTML = "Warning ! Fuck Off ";
+		alertDismissable.appendChild(dismissBtn);
+		alertDismissable.appendChild(message);
+
+		var tCommentsDismiss = document.createElement('span');
+		tCommentsDismiss.className = "timecomment-box-dismiss glyphicon glyphicon-remove-circle";
+		tCommentsDismiss.id = "timecomment-box-dismiss";
+
+		var commentData = document.createElement('div');
+		commentData.className = 'cb-vjs-comment-data';
+		commentData.innerHTML = "<div>"+
+								"<img src="+timecomments.settings.userprofile+">"+
+								"<span class='time-username'>"+timecomments.settings.username+"</span>"+
+								"</div>"+
+								"<div>"+
+								"<textarea id='timecommnts-send-box' class='timecommnts-send-box' maxlength='60'></textarea>"+
+								"</div>";
+		
+		var timeCommentsFooter = document.createElement('div');
+		timeCommentsFooter.className = "timecomments-footer";
+
+		var charCounter = document.createElement('span');
+		charCounter.id = "character-counter";
+		charCounter.className = "character-counter";
+		charCounter.innerHTML = "60";
+
+		var btnHolder = document.createElement('div');
+		btnHolder.className = 'cb-vjs-comments-btn-holder';
+		btnHolder.innerHTML = "<span id='current-time-show' class='current-time-show'>0:00</span>"+
+							 "<span id='add-timecomment' class='add-timecomment'>Add Comment</span>";
+			
+
 		Player_.insertBefore(commentBoxForm,controlBar_);
 		commentBoxForm.appendChild(commentWrapper);
 		commentWrapper.appendChild(innerWrapper);
+		innerWrapper.appendChild(timeCommentsHeader);
+		timeCommentsHeader.appendChild(alertDismissable);
+		innerWrapper.appendChild(tCommentsDismiss);
 		innerWrapper.appendChild(commentData);
-		innerWrapper.appendChild(btnHolder);
+		innerWrapper.appendChild(timeCommentsFooter);
+		timeCommentsFooter.appendChild(charCounter);
+		timeCommentsFooter.appendChild(btnHolder);
 	}
 
 	var showCommentBox = function (){
 		var userid = timecomments.settings.userid;
+		var currentTimeShow = document.getElementById('current-time-show');
+		sendTimeWith = mouseDisplay_time;
+		sendTimeDisplay = dataSetTime;
+		currentTimeShow.innerHTML = sendTimeDisplay;
 		if (typeof userid == 'undefined' || userid == '' || !userid){
-			alert("Please Login to Comment !");
+			var message = "Please Login to Comment !";
+			_cb.throwHeadMsg('warning',message,4000,true);
 			return;
 		}
 		commentBoxForm.className = "cb-vjs-timecomment-form open-comment";
 		timecomments.player.pause();
 	}
 
-	var dismissCommentBox = function(){
+	var dismissCommentBox = function(clear){
 		commentBoxForm.className = "cb-vjs-timecomment-form";
-		document.getElementById('timecommnts-send-box').value = "";
 		timecomments.player.play();
+		if ( clear == true ){
+			var comment = document.getElementById('timecommnts-send-box');
+			comment.value = "";
+		}
+	}
+
+	var forceDismissCommentBox = function(e){
+		if (e.keyCode == 27){
+			if (commentBoxForm != null && commentBoxForm.className == 'cb-vjs-timecomment-form open-comment'){
+				dismissCommentBox();
+			}
+			
+		}
 	}
 
 	var sendComment = function(){
 		var videoid = timecomments.settings.videoid;
 		var userid = timecomments.settings.userid;
 		var comment = document.getElementById('timecommnts-send-box').value;
-		var time = mouseDisplay_time;
+		var time = sendTimeWith;
 		if (comment != ''){
 			timecomments.setNewCommentTemp_(comment,time);
-			dismissCommentBox();
+			dismissCommentBox(true);
 			sendTimeComment_(videoid,userid,comment,time);
+			var message = "your Comment has been added and will be popped up at time : "+sendTimeDisplay;
+			_cb.throwHeadMsg('success',message,4000,true);
 		}else{
-			alert("Please Write something text field !");
+			throwError("Please Write something in text field !");
 		}
 		
 	}
+	var consoleMe = function(e){
+		var words = this.value.length;
+		var charCounter = document.getElementById('character-counter');
+		charCounter.innerHTML = 60 - words;
+	}
+
+	var throwError  = function(msg){
+		var message = document.getElementById('message-show');
+		var alertDismissable = document.getElementById('time-error');
+		message.innerHTML = msg;
+		alertDismissable.style.display = "block";
+		setTimeout(function(){ 
+			alertDismissable.style.display = "none";
+			message.innerHTML = "";
+		}, 3500);
+	}
+
 
 	setCommentBox();
 	commentTimeDisplay();
-	cTimeDisplay.addEventListener('click',showCommentBox);
+	document.getElementById('timecommnts-send-box').addEventListener('keyup',consoleMe);
+	addCommentHolder.addEventListener('click',showCommentBox);
 	progressControl.addEventListener("mouseover", showAddComment);
-	progressControl.addEventListener("mouseout", hideAddComment);
-	/*cTimeDisplay.addEventListener('mouseleave',hideAddComment);*/
+	progressControl.addEventListener("mouseleave", hideAddComment);
 	progressControl.addEventListener("mousemove", setCommentTime);
-	document.getElementById('timecomment-box-dismiss').addEventListener('click',dismissCommentBox);
 	document.getElementById('add-timecomment').addEventListener('click',sendComment);
+	document.getElementById('timecomment-box-dismiss').addEventListener('click',dismissCommentBox);
+	document.addEventListener('keyup',forceDismissCommentBox);
+	
 }
 
 TimeComments.prototype.AddControlBArMenu = function(){
@@ -167,16 +261,19 @@ TimeComments.prototype.AddControlBArMenu = function(){
 	toggleCommentsView.id = "cb-vjs-togglecomments-view";
 	toggleCommentsView.className = "cb-vjs-togglecomments-view";
 	toggleCommentsView.innerHTML = "<span></span>";
+	toggleCommentsView.setAttribute("title", "Comments On/Off");
 	controlBar.insertBefore(toggleCommentsView,cbVjsLogo);
 
 	var showCommentsAction = function(show){
-		console.log(timecomments.show);
-		if (timecomments.show == false){
-			timecomments.show == true;
+
+		if (timecomments.player.timecomments.forceShow == false){
+			timecomments.player.timecomments.forceShow = true;
 			timecomments.ForceShowComments();
+			toggleCommentsView.className = "cb-vjs-togglecomments-view";
 		}else{
-			timecomments.show == false;
+			timecomments.player.timecomments.forceShow = false;
 			timecomments.HideComments();
+			toggleCommentsView.className = "cb-vjs-togglecomments-view comment-off";
 		}
 	}
 
@@ -342,7 +439,8 @@ TimeComments.prototype.ShowComments = function(){
 	var CurrentTime = player.currentTime();
 	var UnOrderedList = document.getElementById('cb-vjs-comments-list-main');
 	var FirstComment = player.timecomments.comments[0];
-	if ( typeof FirstComment != 'undefined' && player.timecomments.show == false && CurrentTime >= FirstComment.time ){
+	
+	if ( typeof FirstComment != 'undefined' && player.timecomments.show == false && CurrentTime >= FirstComment.time &&  player.timecomments.forceShow == true){
 		UnOrderedList.style.display = "block";
 		player.timecomments.show = true;
 	}
@@ -351,8 +449,11 @@ TimeComments.prototype.ShowComments = function(){
 TimeComments.prototype.ForceShowComments = function(){
 	var timecomments = this;
 	var UnOrderedList = document.getElementById('cb-vjs-comments-list-main');
-	UnOrderedList.style.display = "block";
-	timecomments.player.timecomments.show = true;
+	if (timecomments.player.timecomments.currentIndex != 0){
+		UnOrderedList.style.display = "block";
+		timecomments.player.timecomments.show = true;
+	}
+	
 }
 
 
@@ -368,19 +469,30 @@ TimeComments.prototype.HideComments = function(){
 
 TimeComments.prototype.TriggerComment = function(){
 	var player = this;
+	var previousIndex = player.timecomments.currentIndex -1;
+	var CurrentTime = player.currentTime();
 	var curr_comment = player.timecomments.comments[player.timecomments.currentIndex];
-
-	if (typeof curr_comment != 'undefined'){
-		var CurrentTime = player.currentTime();
-		if (CurrentTime >= curr_comment.time && player.timecomments.currentIndex < player.timecomments.comments.length){
+	if (previousIndex >-1 ){
+		var previousComment = player.timecomments.comments[previousIndex];	
+	}
 	
+	if (typeof curr_comment != 'undefined'){
+		if (CurrentTime >= curr_comment.time && player.timecomments.currentIndex < player.timecomments.comments.length){
 			player.timecomments.SetActiveComment(curr_comment);
 			player.timecomments.currentIndex++;
-
 		}
 	}else{
 		//console.error("WTH :O no comments ? ");
 	}
+	if (previousIndex>-1) {
+		var lastActiveDiff = CurrentTime - previousComment.time
+		/*console.log(CurrentTime +"  "+"  " +previousComment.time);*/
+		if ( lastActiveDiff > 5){
+			player.timecomments.HideComments();
+		}
+	}
+	
+	
 } 
 
 TimeComments.prototype.SetActiveComment = function(current){
@@ -389,13 +501,23 @@ TimeComments.prototype.SetActiveComment = function(current){
 	timecomments.activeId = current.id;
 	timecomments.activeComment = document.getElementById('comment-'+timecomments.activeId);
 	timecomments.activeComment.className = "cb-vjs-comments-list active";
-	
+
+	var activeNode = 0;
 	for (i in timecomments.comments){
 		if ( timecomments.comments[i].id != current.id){
 			var inActiveId = parseInt(timecomments.comments[i].id);
 			var inActiveComments = document.getElementById('comment-'+inActiveId);
 			inActiveComments.className = "cb-vjs-comments-list";	
+		}else{
+			activeNode = i;
+			fadeNode = i-2;
 		}
+	}
+
+	var fadeComment = timecomments.comments[fadeNode];
+	if (typeof fadeComment != 'undefined'){
+		fadeComment = document.getElementById('comment-'+fadeComment.id);
+		fadeComment.className = "cb-vjs-comments-list fade-comment";
 	}
 
 }

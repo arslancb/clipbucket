@@ -202,7 +202,13 @@ class Upload{
 			
 			$query_field[] = "date_added";
 			$query_val[] = now();
+			$config_for_mp4 = $Cbucket->configs['stay_mp4'];
 			
+			if ($config_for_mp4 == 'yes') {
+				$query_field[] = "status";
+				$query_val[] = "Successful";
+			}
+
 			$query = "INSERT INTO ".tbl("video")." (";
 			$total_fields = count($query_field);
 			

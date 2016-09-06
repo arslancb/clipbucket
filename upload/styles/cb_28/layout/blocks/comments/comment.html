@@ -58,10 +58,12 @@
 			<strong  class="commenter">
 				{if $comment.anonym_name != ''}
 					{$comment.anonym_name} (Guest)
+				<div id="says_{$comment.comment_id}" speaker="{$comment.anonym_name}"></div>
 				{else}
 				<a href="{$userquery->profile_link($user)}" >
 					{name($user)}
 				</a>
+				<div id="says_{$comment.comment_id}" speaker="{name($user)}"></div>
 				{/if}
 				<span>{$comment.date_added|niceTime}</span>
 			</strong>

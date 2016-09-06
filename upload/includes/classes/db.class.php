@@ -41,6 +41,10 @@ class Clipbucket_db
 
             $this->mysqli = new mysqli($host,$uname, $pwd, $name);
             if($this->mysqli->connect_errno) return false;
+            $this->db_host = $host;
+            $this->db_name = $name;
+            $this->uname = $uname;
+            $this->pwd = $pwd;
 
         } catch(DB_Exception $e) {
             $e->getError();
@@ -455,8 +459,7 @@ class Clipbucket_db
      */
     function clean_var($var)
     {	
-    	  $var=$this->mysqli->real_escape_string($var); //Simple mysql escape string. Probably not strong enough
-    	  return $var;
+		return mysql_clean($var);
     }
 
     /**

@@ -1226,7 +1226,7 @@ ALTER TABLE `{tbl_prefix}video` ADD INDEX(`last_viewed`);
 ALTER TABLE `{tbl_prefix}video` ADD INDEX(`rating`);
 ALTER TABLE `{tbl_prefix}video` ADD INDEX(`comments_count`);
 ALTER TABLE `{tbl_prefix}video` ADD INDEX(`last_viewed`);
-
+ALTER TABLE `{tbl_prefix}video` ADD `video_files` text(33) NOT NULL;
 
 
 
