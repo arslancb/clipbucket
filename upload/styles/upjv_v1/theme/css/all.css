@@ -972,7 +972,7 @@ h1{
 	color:#757575;
 	padding:8px;
 	background:#fff;
-	height:100px;
+/*	height:100px;	*/
 	position:relative
 }
 
@@ -1007,12 +1007,12 @@ h1{
 }
 
 .videos .video-info .views-date{
-	position:absolute;
+/*	position:absolute;	*/
 	z-index:2;
 	left:0;
 	bottom:8px;
 	width:100%;
-	padding:0 8px
+/*	padding:8px	*/
 }
 
 .videos .video-info .views-date .date,.videos .video-info .views-date span{
