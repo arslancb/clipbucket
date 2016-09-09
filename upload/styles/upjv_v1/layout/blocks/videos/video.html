@@ -19,6 +19,7 @@
 {/if}
 
 {if $display_type=='homeVideos'}
+
 	<div class="clearfix thumb-holder userAppending">
 		<a class="video-link" href="{videoLink($video)}" title="{$video.title|title}">
 			<img class="img-responsive" src="{getThumb vdetails=$video size=416x260 }">
@@ -33,21 +34,18 @@
 		
 	</div>
 	<div class="clearfix video-info">
-		<h2 class="title"><a href="{videoLink($video)}">2:{$video.title|truncate:50}</a></h2>
+		<h2 class="title"><a href="{videoLink($video)}">{$video.title|truncate:50}</a></h2>
 		
 		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
 		
-		
+		<span>{$video.description|truncate:50}</span>
 		
 		<div class="clearfix views-date">
-		<span>
-		{$video.description|truncate:50}
-		</span>
-		
 			<span>{prettyNum($video.views)}&nbsp;{if $video.views > 1}{lang|lower code='views'}{else}{lang|lower code="view"}{/if}</span>
 			<time class="date" datetime="2016-15-03">{$video.date_added|niceTime}</time>
 		</div>
 	</div>
+	
 {/if}
 
 
@@ -71,6 +69,7 @@
  style="display: none"
 -->
 
+
 <div class="item-video col-lg-4 col-md-4 col-sm-4 col-xs-12 recentAppending">
 	<div class="clearfix thumb-holder">
 		<a class="video-link" href="{videoLink($video)}" title="{$video.title|title}">
@@ -86,7 +85,7 @@
 
 	</div>
 	<div class="clearfix video-info">
-		<h2 class="title"><a href="{videoLink($video)}">3:{$video.title|truncate:50}</a></h2>
+		<h2 class="title"><a href="{videoLink($video)}">{$video.title|truncate:50}</a></h2>
 		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
 
 		<span>{$video.description|truncate:80}</span>
@@ -97,6 +96,8 @@
 		</div>
 	</div>
 </div>
+
+
 
 	{if $cpt eq 3 or $cpt eq $total_vids}
 		</div>

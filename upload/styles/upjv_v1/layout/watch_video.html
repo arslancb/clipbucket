@@ -18,13 +18,15 @@
 				<header class="clearfix details">
 					<h1>{$video.title}</h1>
 					<div class="user-video-info clearfix">
+					<!--
 						<a href="{$userquery->profile_link($video)}" class="avatar">
 							<img src="{$userquery->avatar($video,'m',userid())}" class="img-responsive">
 						</a>
 						<h2 class="user-title">
 							<a href="{$userquery->profile_link($video)}"> {$video.username}</a>
 						</h2>
-						<div class="views-counter">
+						-->
+						<div class="views-counter pull-right">
 							<span>{prettyNum($vdo.views)} {if $vdo.views > 1}{lang code='views'}{else}{lang code="view"}{/if}</span>
 						</div>
 					</div>
@@ -78,11 +80,15 @@
 						<li>
 							<a href="#cb-item-addto" data-toggle="tab"><span class="icon-plusrounded"></span>{lang code='add_to'}</a>
 						</li>
+						<!--
 						<li>
 							<a href="#cb-item-report" data-toggle="tab"><span class="icon-flag"></span>{lang code='report_this'}</a>
 						</li>
+						-->
 					</ul>
 					<div class="tab-content clearfix">
+					
+						<!-- INFO SECTION TAB -->
 						<div class="tab-pane fade in clearfix active" id="cb-item-info">
 							<div class="clearfix watch-vid-details">
 								<h2>{description($video.description)}</h2>
@@ -98,6 +104,7 @@
 							</div>
 						</div>
 
+						<!-- SHARED/EMBED SECTION TAB -->
 						<div class="tab-pane fade in clearfix" id="cb-item-share">
 							<ul class="social-share">
 								<li>
@@ -118,10 +125,11 @@
 							</ul>
 								{show_share_form id=$vdo.videoid type=video}
 						</div>
-						
+
+						<!-- ADD TO SECTION TAB -->
 						<div class="tab-pane fade in clearfix custom-elements" id="cb-item-addto">
 							<div class="clearfix btn-fav">
-								<div id="video_action_result_cont" style="border:1px solid red;"></div>
+								<div id="video_action_result_cont"></div>
 								<a id="addfav" class="btn btn-block btn-primary" href="javascript:void(0)" onclick="_cb.add_to_favNew('video','{$vdo.videoid}');">{lang code='add_to_my_favorites'}</a>
 							</div>
 							<div class="clearfix">
@@ -140,14 +148,18 @@
 							</div>
 						</div>
 						
+						<!-- REPORT SECTION TAB -->
+						<!--
 						<div class="tab-pane fade in clearfix custom-elements" id="cb-item-report">
 							<h2>{lang code='report_video'}</h2>
-							{show_flag_form id=$vdo.videoid type=video}
+							{*show_flag_form id=$vdo.videoid type=video*}
 						</div>
+						-->
 					</div>
 				</div>
 			</section>
 
+<!--
 			<div class="clearfix comments-block" id="comments-block">
 				<div id="test1"></div>
 				<div id="reply" class="clearfix"> 
@@ -177,6 +189,7 @@
 					{/if}
 				</div>
 			</div>
+			-->
 		</section>
 		<aside id="sidebar">
 			<div class="box-ad ad">{AD place='ad_300x250'}</div>
@@ -292,6 +305,7 @@
 		  });*/
 	});
 
+/*
 	$(document).on('click','#load-more-comments',function(){
 		var page = $(this).attr('page');
 		page = parseInt(page);
@@ -307,7 +321,7 @@
 		$(this).attr('page', nextPage);
 		$(this).text("Load More")
 	})
-
+*/
 	var resizePlayer =  _cb.debounce(function() {
 		$cb_player.height( $cb_player.width() / aspect_ratio );
 	}, 500, false);

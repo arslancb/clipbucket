@@ -1,13 +1,4 @@
 <!DOCTYPE HTML>
-<!-- 
-http://192.168.56.103/cb_uhdf/upload/
-http://192.168.56.103/cb_uhdf/upload/myaccount.php?user=1
-http://192.168.56.103/cb_uhdf/upload/edit_account.php?mode=change_password
-http://192.168.56.103/cb_uhdf/upload/view_channel.php?user=admin
-http://192.168.56.103/cb_uhdf/upload/signup.php?mode=login
-http://192.168.56.103/cb_uhdf/upload/watch_video.php?v=NW4UKB4KBXM1
-
- -->
 <html>
 	<head>
 		{if in_dev()}
@@ -19,7 +10,7 @@ http://192.168.56.103/cb_uhdf/upload/watch_video.php?v=NW4UKB4KBXM1
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 		<!-- ClipBucket v{$Cbucket->version} -->
 		<meta name="copyright" content="ClipBucket - Integrated Units 2007 - {$smarty.now|date_format:"%Y"}">
-		<link rel="icon" type="image/ico" href="{$baseurl}/favicon.ico">
+		<link rel="icon" type="image/ico" href="{$theme}/images/favicon.ico">
 
 		<!-- RSS FEEDS -->
 		{rss_feeds link_tag=true}
@@ -33,66 +24,29 @@ http://192.168.56.103/cb_uhdf/upload/watch_video.php?v=NW4UKB4KBXM1
 			<title>{cbtitle}</title>
         {/if}
 
-
-		<!-- <link rel="stylesheet" href="{$theme}/css/bootstrap.min.css?cache={$cache_buster}"> -->
-		<!-- <link rel="stylesheet" href="{$theme}/css/font-awesome.min.css?cache={$cache_buster}"> -->
-
-		<!-- MON BOOTSTRAP et MON FONT AWESOME -->
-<!-- 		<link rel="stylesheet" href="{$theme}/my/bootstrap-3.3.6/css/bootstrap.css">
-		<link rel="stylesheet" href="{$theme}/my/font-awesome-4.6.3/css/font-awesome.css">
- -->
-
-<!-- 
-		<link rel="stylesheet" href="{$theme}/css/bootstrap.min.css">
--->
-		
-		<link rel="stylesheet" href="{$theme}/css/font-awesome.min.css">
-		<!-- MON BOOTSTRAP et MON FONT AWESOME -->
-
-		
+		<!-- ------------------ STYLE ------------------ -->
 		<link rel="stylesheet" href="{$theme}/css/icon-font.css?cache={$cache_buster}">
-
 		<link rel="stylesheet" href="{$theme}/css/custom-elements.css?cache={$cache_buster}">
 
 		{*if !in_dev()*}
-		<link rel="stylesheet" href="{$theme}/css/all.css?cache={$cache_buster}">
+			<link rel="stylesheet" href="{$theme}/css/all.css?cache={$cache_buster}">
 		{*/if*}
 
 		<script src="{$theme}/js/jquery-1.11.3.min.js"></script>
 		
-<!--		
 		{if $__devmsgs}
 			<link rel="stylesheet" href="{$baseurl}/styles/global/jquery_ui.css">
 		{else}
 			<link rel="stylesheet" href="{$baseurl}/styles/global/jquery_ui.min.css">
 		{/if}
--->
-		<link rel="stylesheet" href="{$baseurl}/styles/global/jquery_ui.css">
-
-<!-- ======================================================== STYLE ======================================================== -->
-
-		<!-- MON BOOTSTRAP et MON FONT AWESOME -->
-			<!-- <link rel="stylesheet" href="{$theme}/my/bootstrap-3.3.6/css/bootstrap-theme.css"> -->
-			<link rel="stylesheet" href="{$theme}/theme_fichiers/lib/font-awesome-4.6.3/css/font-awesome.css">
-		<!-- MON BOOTSTRAP et MON FONT AWESOME -->
-
-
-
-	<!-- 
-		Bootstrap
-	-->
-    <link href="{$theme}/theme_fichiers/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">	
-
-	
-	<!-- 
-		COMMENTAIRE Temporairement : verifier l'inutilité
-	-->
-	<link rel="stylesheet" type="text/css" media="screen" href="{$theme}/theme_fichiers/css/jquery-ui.css">
-
-	<link rel="stylesheet" type="text/css" media="all" href="{$theme}/theme_fichiers/css/global.css">
-	<!-- <link rel="stylesheet" type="text/css" media="all" href="{$theme}/theme_fichiers/css/global_resp.css"> -->
-
-<!-- ====================================================== FIN STYLE ====================================================== -->
+		
+		<!-- 	Font Awesome	-->
+		<link rel="stylesheet" href="{$theme}/lib/font-awesome-4.6.3/css/font-awesome.css">
+		<!-- 	Bootstrap	-->
+		<link href="{$theme}/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">	
+		<!-- 	Global CSS	-->
+		<link rel="stylesheet" type="text/css" media="all" href="{$theme}/css/global.css">
+		<!-- ---------------- FIN STYLE ---------------- -->
 
 
 		<script>
@@ -101,6 +55,7 @@ http://192.168.56.103/cb_uhdf/upload/watch_video.php?v=NW4UKB4KBXM1
 			var imageurl = "{$imageurl}";
 			var userid = "{userid()}";
 		</script>
+		
 		{if $__devmsgs}
 			<script src="{$theme}/js/custom.js"></script>
 		{else}
@@ -108,28 +63,14 @@ http://192.168.56.103/cb_uhdf/upload/watch_video.php?v=NW4UKB4KBXM1
 			<!-- <script src="{$theme}/js/custom.min.js"></script> -->
 		{/if}
 
-		<!-- <script src="{$theme}/js/bootstrap.min.js"></script> -->
 		<!-- MON BOOTSTRAP et MON FONT AWESOME -->
-		<!-- <script type="text/javascript" src="{$theme}/theme_fichiers/lib/bootstrap-3.3.6/js/bootstrap.js"></script> -->
-		<script type="text/javascript" src="{$theme}/theme_fichiers/lib/bootstrap/js/bootstrap.js"></script>
+		<script type="text/javascript" src="{$theme}/lib/bootstrap/js/bootstrap.js"></script>
 		
-<!--
-		<script src="{$theme}/js/ui_plugins.js"></script>
--->
-		
-
 		{if $__devmsgs}
 			<script src="{$baseurl}/js/clipbucket.js"></script>
 		{else}
 			<script src="{$baseurl}/js/clipbucket.min.js"></script>
 		{/if}
-
-		<!-- <script src="{$theme}/js/uslider_js/jquery.mousewheel.js"></script> -->
-		
-<!--
-		// *** Système de captcha Google
-		<script src='https://www.google.com/recaptcha/api.js'></script>
--->
 		
 
 		<!-- Script For Home Page Videos Slider //-->
@@ -174,8 +115,6 @@ http://192.168.56.103/cb_uhdf/upload/watch_video.php?v=NW4UKB4KBXM1
 		    <!-- Ending Headers -->
 		{/if}
 		
-	<script type="text/javascript" src="{$theme}/theme_fichiers/js/fonctions.js"></script>
-
-	<script type="text/javascript" src="{$theme}/theme_fichiers/helium/helium.js"></script>
-
+	<script type="text/javascript" src="{$theme}/js/fonctions.js"></script>
+	
 	</head>

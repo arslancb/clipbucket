@@ -6,66 +6,66 @@
 
 @font-face {
 	font-family: 'rokkittregular';
-	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/rokkitt/rokkitt-webfont.eot");
-	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/rokkitt/rokkitt-webfont.eot?#iefix") format("embedded-opentype"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/rokkitt/rokkitt-webfont.woff") format("woff"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/rokkitt/rokkitt-webfont.ttf") format("truetype"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/rokkitt/rokkitt-webfont.svg#rokkittregular") format("svg");
+	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/rokkitt/rokkitt-webfont.eot");
+	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/rokkitt/rokkitt-webfont.eot?#iefix") format("embedded-opentype"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/rokkitt/rokkitt-webfont.woff") format("woff"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/rokkitt/rokkitt-webfont.ttf") format("truetype"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/rokkitt/rokkitt-webfont.svg#rokkittregular") format("svg");
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'sansationregular';
-	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-regular-webfont.eot");
-	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-regular-webfont.eot?#iefix") format("embedded-opentype"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-regular-webfont.woff") format("woff"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-regular-webfont.ttf") format("truetype"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-regular-webfont.svg#sansationregular") format("svg");
+	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-regular-webfont.eot");
+	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-regular-webfont.eot?#iefix") format("embedded-opentype"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-regular-webfont.woff") format("woff"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-regular-webfont.ttf") format("truetype"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-regular-webfont.svg#sansationregular") format("svg");
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'sansationbold';
-	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-bold-webfont.eot");
-	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-bold-webfont.eot?#iefix") format("embedded-opentype"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-bold-webfont.woff") format("woff"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-bold-webfont.ttf") format("truetype"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-bold-webfont.svg#sansationbold") format("svg");
+	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-bold-webfont.eot");
+	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-bold-webfont.eot?#iefix") format("embedded-opentype"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-bold-webfont.woff") format("woff"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-bold-webfont.ttf") format("truetype"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-bold-webfont.svg#sansationbold") format("svg");
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'sansation_lightlight';
-	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-light-webfont.eot");
-	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-light-webfont.eot?#iefix") format("embedded-opentype"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-light-webfont.woff") format("woff"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-light-webfont.ttf") format("truetype"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/sansation/sansation-light-webfont.svg#sansation_lightlight") format("svg");
+	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-light-webfont.eot");
+	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-light-webfont.eot?#iefix") format("embedded-opentype"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-light-webfont.woff") format("woff"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-light-webfont.ttf") format("truetype"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/sansation/sansation-light-webfont.svg#sansation_lightlight") format("svg");
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'arvoregular';
-	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/arvo/arvo-regular-webfont.eot");
-	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/arvo/arvo-regular-webfont.eot?#iefix") format("embedded-opentype"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/arvo/arvo-regular-webfont.woff") format("woff"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/arvo/arvo-regular-webfont.ttf") format("truetype"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/arvo/arvo-regular-webfont.svg#arvoregular") format("svg");
+	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/arvo/arvo-regular-webfont.eot");
+	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/arvo/arvo-regular-webfont.eot?#iefix") format("embedded-opentype"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/arvo/arvo-regular-webfont.woff") format("woff"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/arvo/arvo-regular-webfont.ttf") format("truetype"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/arvo/arvo-regular-webfont.svg#arvoregular") format("svg");
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'arvobold';
-	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/arvo/arvo-bold-webfont.eot");
-	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/arvo/arvo-bold-webfont.eot?#iefix") format("embedded-opentype"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/arvo/arvo-bold-webfont.woff") format("woff"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/arvo/arvo-bold-webfont.ttf") format("truetype"), 
-		 url("/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/fonts/arvo/arvo-bold-webfont.svg#arvobold") format("svg");
+	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/arvo/arvo-bold-webfont.eot");
+	src: url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/arvo/arvo-bold-webfont.eot?#iefix") format("embedded-opentype"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/arvo/arvo-bold-webfont.woff") format("woff"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/arvo/arvo-bold-webfont.ttf") format("truetype"), 
+		 url("/cb_uhdf/upload/styles/upjv_v1/theme/fonts/arvo/arvo-bold-webfont.svg#arvobold") format("svg");
 	font-weight: normal;
 	font-style: normal;
 }
@@ -938,7 +938,7 @@ ul#portails_ent{
 }
 
 #meta_menu ul:not([class]):not([id]) li:before{
-	background:url('/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/img/puce.svg') no-repeat scroll 0 0 #148cbc;
+	background:url('/cb_uhdf/upload/styles/upjv_v1/theme/images/puce.svg') no-repeat scroll 0 0 #148cbc;
  	content:"";
 	display:inline-block;
 	height:6px;
@@ -1058,6 +1058,4 @@ a:hover, .plansite3 > li > a, #meta_menu_tabs .meta_menu_contenu ul a:hover, .ac
 }
 
 
-#bandeau_visuel {
-	background-image : url(/cb_uhdf/upload/styles/upjv_v1/theme/theme_fichiers/img/bandeau.jpg);
-}
+
