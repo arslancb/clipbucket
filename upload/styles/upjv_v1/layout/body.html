@@ -4,7 +4,10 @@
 {/if}    
 	<body>
 	
-    	<div id="page">
+		{if ($smarty.get['moto'] != 'ajax')}
+			<div id="page">
+		{/if}    
+    	
     	<div id="container">
 			{showDevWitch()}
 			
@@ -28,6 +31,9 @@
 			{/if}
 			
 		</div>
-		</div>
+		
+		{if ($smarty.get['moto'] != 'ajax')}
+			</div>
+		{/if}
     </body>
 </html>

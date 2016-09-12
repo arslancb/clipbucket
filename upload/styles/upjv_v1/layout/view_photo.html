@@ -11,7 +11,7 @@
 				{AD place='ad_728x90'}
 			</div>
 
-			<div class="clearfix photo-view" >
+			<div class="clearfix photo-view">
 			<div id="gallery">
 				<i id="enlarge" class="fa fa-expand fa-2x" style="float:right; cursor:pointer" data-toggle="modal" data-target="#myModal"></i>
 			{get_photo details=$photo size='l' class='img-responsive center-block' output='html' height="100"}
@@ -43,7 +43,9 @@
 				<header class="clearfix details">
 					<div id="result_cont"></div>
 					<h1>{$photo.photo_title}</h1>
+					<!--
 					<h1 id="img-title"></h1>
+					-->
 					<div class="user-video-info clearfix">
 						<a href="{$userquery->profile_link($user)}" class="avatar">
 							<img src="{$userquery->avatar($video,'m',userid())}" class="img-responsive">
@@ -154,6 +156,8 @@
 					</div>
 				</div>
 			</section>
+			
+			<!--
 			<div class="clearfix comments-block" id="comments-block">
 				<div id="test1"></div>
 				<div id="reply" class="clearfix"> 
@@ -170,7 +174,7 @@
 							</div>
 
  						{if $myquery->is_commentable($photo,'p')}
-							{include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
+							{*include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p*}
 							{else}
 							<div class="alert alert-warning">{lang code='Comments disabled for this photo'}</div>
 						{/if}
@@ -181,6 +185,8 @@
 					</div>
 				</div>
 			</div>
+			-->
+			
 		</section>
 		
 		<aside id="sidebar">

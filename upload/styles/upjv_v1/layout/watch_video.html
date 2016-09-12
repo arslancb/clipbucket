@@ -2,6 +2,28 @@
 {$type='video'}
 {$channel = $userquery->get_user_details($video.userid)}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div id="main" class="clearfix container">
 	<div class="clearfix">
 		<section id="content" class="clearfix videos">
@@ -37,11 +59,13 @@
 							{/if}
 						</div>
 						<div class="clearfix subscribe-col col-lg-6 col-md-6 col-sm-6 col-xs-12">
+						<!--
 							{if $video.userid != userid()}
 								<a id="subscribeUser" class="btn btn-subscribe btn-primary" href="javascript:void(0)">
 									<span>{lang code='subscribe'}</span>
 								</a>
 							{/if}
+						-->
 							{if $Cbucket->configs.video_download==1 && $cbvid->downloadable($vdo)}
 								<div class="dropdown">
 									<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
@@ -327,5 +351,8 @@
 	}, 500, false);
 
 	$(window).resize(resizePlayer);
-
+	
 </script>
+
+<link rel="stylesheet" href="{$theme}/css/branding-removal.css">
+

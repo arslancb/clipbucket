@@ -1058,4 +1058,11 @@ a:hover, .plansite3 > li > a, #meta_menu_tabs .meta_menu_contenu ul a:hover, .ac
 }
 
 
+#vjs-cb-logo{
+	display:none;
+}
+
+.uploaderName{
+	display:none !important;
+}
 
