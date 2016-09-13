@@ -2,47 +2,6 @@
 
 <footer id="footer" class="clearfix">
 	{$Cbucket->footer()}
-			<!--
-	<div class="container">
-		<div class="footer-holder">
-			<ul class="footer-links column">
-				{*$foot_menu=foot_menu()*}
-				{foreach from=$foot_menu item=fm}
-				{if $fm.name!=''}
-					<li><a href="{$fm.link}" {if $fm.target} target="{$fm.target}"{/if} {if $fm.onclick} onclick="{$fm.onclick}" {/if}>{$fm.name}</a></li>
-				{/if}
-				{/foreach}
-			</ul>
-			<div class="lang_wrapper column">
-				{if config("allow_language_change")}
-				{$langs = $lang_obj->get_langs('yes')}
-				{$total_langs = count($langs)}
-				{if $total_langs >= 2}
-					<div class="langdrop dropup">
-					<button class="btn btn-default dropdown-toggle" id="cblang-selector" type="button" data-toggle="dropdown">
-						<span>{$lang_obj->lang_name}</span>
-						<i class="icon-down-arrow"></i>
-					</button>
-					<ul class="dropdown-menu">
-						{foreach $langs as $lang}
-							{if $lang_obj->lang == $lang.language_code}
-								{$selected = "selected" }
-							{else}
-								{$selected = "" }
-							{/if}
-							<li data-lang="{$lang.language_code}" class="pick-lang {$selected}"><a href="javascript:void(0);">{$lang.language_name}</a></li>
-						{/foreach}
-				 	</ul>
-				</div>
-				{/if}
-				{/if}
-			</div>
-			<div class="copyright-poweredby column">
-				<span>#ClipBucket#</span>
-			</div>
-		</div>
-	</div>
-			-->
 
 	
 	<div id="pied_page">
@@ -61,36 +20,8 @@
 					{/foreach}
 				</ul>
 			</div>
-			
-<!--
-			<div>
-				<h3 data-unfold-trigger="1409658933682">Outils</h3>
-				<ul data-unfold-target="1409658933682">
-					<li>
-						<a href="https://www.u-picardie.fr/outils/contact/">@contact</a>
-					</li>
-					<li>
-						<a href="https://www.u-picardie.fr/outils/plans-d-acces/">plans d'accès</a>
-					</li>
-					<li>
-						<a href="https://www.u-picardie.fr/outils/annuaire/">annuaire</a>
-					</li>
-					<li>
-						<a href="https://www.u-picardie.fr/outils/plan-du-site/">plan du site</a>
-					</li>
-					<li>
-						<a href="https://www.u-picardie.fr/outils/flux-rss/">flux RSS</a>
-					</li>
-					<li>
-						<a href="https://www.u-picardie.fr/outils/wifi/">Wifi</a>
-					</li>
-					<li>
-						<a href="https://www.u-picardie.fr/outils/ent/">ENT</a>
-					</li>
-				</ul>
-			</div>
--->
 
+<!--
 			<div>
 				<h3 data-unfold-trigger="1409658995683">Accès</h3>
 				<ul data-unfold-target="1409658995683">
@@ -147,6 +78,7 @@
 					</li>
 				</ul>
 			</div>
+		
 
 			<div>
 				<h3 data-unfold-trigger="1409659074677">Réseaux</h3>
@@ -162,16 +94,18 @@
 					</li>
 				</ul>
 			</div>
+-->
 		</div>
 		<!-- #pied_page_rubriques -->
 
-		
 		<p id="pied_page_logos">
 			<a title="(Nouvelle fenêtre)" href="https://www.u-picardie.fr/">
 				<img src="{$theme}/images/logo-UPJV.png">
 			</a>
 		</p>
 
+
+		
 <!--
 		<center id="menu_pied_page">
 			Université de Picardie Jules Verne – Chemin du Thil, 80000 Amiens&nbsp;|&nbsp;
@@ -200,7 +134,9 @@
 	<!-- #pied_page -->
 
 </footer>
-
+<!--
+#ClipBucket#
+-->
 
 
 
