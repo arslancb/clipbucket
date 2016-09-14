@@ -9,8 +9,11 @@
 	</div> <!--VIDEO_THUMB END-->
 	
 	<div class="details_block">
-		<strong class="title"><a href="{videoLink($pop_video)}">1:{$pop_video.title|truncate:50}</a></strong>
+		<strong class="title"><a href="{videoLink($pop_video)}">{$pop_video.title|truncate:50}</a></strong>
+<!--		
+		<span class="author">{lang code="by"}&nbsp;{$pop_video.username}</span>
 		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($pop_video)}">{$pop_video.username}</a></span>
+-->
 		<div class="views-date">
 			<span>{prettyNum($pop_video.views)}&nbsp;{if $pop_video.views > 1}{lang|lower code='views'}{else}{lang|lower code="view"}{/if}</span>
 		</div>
@@ -19,6 +22,11 @@
 {/if}
 
 {if $display_type=='homeVideos'}
+
+
+
+
+
 
 	<div class="clearfix thumb-holder userAppending">
 		<a class="video-link" href="{videoLink($video)}" title="{$video.title|title}">
@@ -35,9 +43,10 @@
 	</div>
 	<div class="clearfix video-info">
 		<h2 class="title"><a href="{videoLink($video)}">{$video.title|truncate:50}</a></h2>
-		
+<!--
 		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
-		
+-->
+
 		<span>{$video.description|truncate:50}</span>
 		
 		<div class="clearfix views-date">
@@ -45,6 +54,7 @@
 			<time class="date" datetime="2016-15-03">{$video.date_added|niceTime}</time>
 		</div>
 	</div>
+
 	
 {/if}
 
@@ -86,7 +96,9 @@
 	</div>
 	<div class="clearfix video-info">
 		<h2 class="title"><a href="{videoLink($video)}">{$video.title|truncate:50}</a></h2>
+		<!--
 		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
+		-->
 
 		<span>{$video.description|truncate:80}</span>
 
@@ -117,8 +129,10 @@
 		</div> <!--VIDEO_THUMB END-->
 		
 		<div class="details_block">
-			<strong class="title"><a href="{videoLink($video)}">4:{$video.title|truncate:50}</a></strong>
+			<strong class="title"><a href="{videoLink($video)}">{$video.title|truncate:50}</a></strong>
+			<!--
 			<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
+			-->
 			<div class="views-date">
 				<span>{prettyNum($video.views)}&nbsp;{if $video.views > 1}{lang|lower code='views'}{else}{lang|lower code="view"}{/if}</span>
 			</div>
@@ -134,7 +148,7 @@
 	<div class="clearfix thumb-holder">
 		<a class="video-link" href="{videoLink($video)}" title="{$video.title|title}">
 			<img class="img-responsive" src="{getThumb vdetails=$video size=632x395 }">
-			<h2 class="title">5:{$video.title|truncate:50}</h2>
+			<h2 class="title">{$video.title|truncate:50}</h2>
 		</a>
 		<img src="{$theme}/images/thumb-ratio.png" class="thumb-ratio" alt="">
 		
@@ -163,7 +177,7 @@
 		
 	</div>
 	<div class="clearfix video-info">
-		<h2 class="title"><a href="{videoLink($video)}">6:{$video.title|truncate:50}</a></h2>
+		<h2 class="title"><a href="{videoLink($video)}">{$video.title|truncate:50}</a></h2>
 		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
 		<div class="clearfix views-date">
 
@@ -189,7 +203,7 @@
 		{/if}
 	</p>
 	<a href="{videoLink($video)}" title="{$video.title|title}"><h5>
-	<b> 7:{$video.title|truncate:25}</b></h5></a>                     
+	<b>{$video.title|truncate:25}</b></h5></a>                     
 	<span class="pull-left"><h5><small>{prettyNum($video.views)}&nbsp;{if $video.views > 1}{lang|lower code='views'}{else}{lang|lower code="view"}{/if}</small></h5></span>
 	<span class="pull-right"><h5><small>{$video.date_added|niceTime}</small></h5></span>
 </div>
@@ -200,7 +214,7 @@
 		<a class="video_link" href="{videoLink($video)}" title="{$video.title|title}">
 			<img class="img-responsive" src="{getThumb vdetails=$video size=416x260 }">
 			<div class="play-info">
-				<strong class="title">8:{$video.title|truncate:30}</strong>
+				<strong class="title">{$video.title|truncate:30}</strong>
 				<i class="icon-playweb"></i>
 				<span class="duration">{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
 			</div>
@@ -230,7 +244,7 @@
 	</div>
 	<div class="col-xs-6">
 		<h5 class="dropdown hide_btn">
-			<a data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" data-delay="1000" data-close-others="false" onClick="location.href='{videoLink($video)}'" href="{videoLink($video)}">9:{$video.title|truncate:15} </a>
+			<a data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" data-delay="1000" data-close-others="false" onClick="location.href='{videoLink($video)}'" href="{videoLink($video)}">{$video.title|truncate:15} </a>
 		</h5>
 		
 		<h5>{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{name($video)}</a></h5>
@@ -260,7 +274,7 @@
 		</div>
 		<div class="clearfix">
 			<h5 class="dropdown hide_btn">
-				<a data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" data-delay="1000" data-close-others="false" onClick="location.href='{videoLink($video)}'" href="{videoLink($video)}">10:{$video.title|truncate:15} </a>
+				<a data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" data-delay="1000" data-close-others="false" onClick="location.href='{videoLink($video)}'" href="{videoLink($video)}">{$video.title|truncate:15} </a>
 			</h5>
 		</div>
 </div>
@@ -284,7 +298,7 @@
 	</div>
 	<div class="clearfix">
 		<h5 class="dropdown hide_btn">
-			<a data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" data-delay="1000" data-close-others="false" onClick="location.href='{videoLink($video)}'" href="{videoLink($video)}">11:{$video.title|truncate:30} </a>
+			<a data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" data-delay="1000" data-close-others="false" onClick="location.href='{videoLink($video)}'" href="{videoLink($video)}">{$video.title|truncate:30} </a>
 			
 		</h5>
 		

@@ -35,9 +35,20 @@
 				<div class="clearfix row">
 				{if $objects}
 					{foreach $objects as $video}
-						<div class="item-video col-lg-3 col-md-4 col-sm-4 col-xs-12">
+					
+						{$cpt = {counter}}
+						{if $cpt eq 1 or ($cpt%3 == 1)}
+							<div class="row" style="padding:8px;">
+						{/if}
+				
+						<div class="item-video col-lg-4 col-md-4 col-sm-4 col-xs-12">
 						{include file="$style_dir/blocks/videos/video.html" display_type='homeVideos'}
 						</div>
+
+						{if $cpt%3 == 0}
+							</div>
+						{/if}
+
 					{/foreach}
 				{else}
 					<div class="well well-info">No Videos Found !</div>

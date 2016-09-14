@@ -100,9 +100,14 @@ arvobold
 
 */
 
+li .active:hover{
+	border:0px;
+}
+
+
 
 h2{
-	color: #333;
+	color: #666;
 	font: 500 1.57143em Rockwell, rokkittregular, Tahoma, Verdana, Segoe, sans-serif;
 }
 

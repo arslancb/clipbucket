@@ -1987,12 +1987,19 @@ h1{
 .view-tabs .nav-tabs.nav>li>a{
 	border:none;
 	margin:0;
+	border: 0px solid #7c7c7c;
 	padding:10px 16px 10px 0;
 	color:#7c7c7c
 }
 
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+	border:0px solid red;
+}
+
 .view-tabs .nav-tabs.nav>li>a:hover{
 	border-color:#148dc8;
+	/*border: 0px*/
+	border: 0px solid #7c7c7c;
 	background:none;
 	color:#000
 }
@@ -2007,7 +2014,8 @@ h1{
 
 .view-tabs .nav-tabs.nav>li.active>a,.view-tabs .nav-tabs.nav>li.active>a:hover,.view-tabs .nav-tabs.nav>li.active>a:focus{
 	color:#148dc8;
-	background:none
+	background:none;
+	border:0px solid #f7f7f7;
 }
 
 .view-tabs .tab-content>.tab-pane{
@@ -5787,6 +5795,8 @@ textarea#comment_box{
 	font-size:23px;
 	line-height:23px;
 	font-family:"source_sans_prosemibold",sans-serif;
+	color: #666;
+	font: 500 1.57143em Rockwell, rokkittregular, Tahoma, Verdana, Segoe, sans-serif;
 	margin:0 0 20px
 }
 

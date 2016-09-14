@@ -121,11 +121,29 @@
 							{if $uservideos}
 								<div id="usr-vids" class="clearfix">
 								{foreach $uservideos as $video}
-									<div class="item-video col-lg-4 col-md-4 col-sm-6 col-xs-12">
+
+									{$cpt = {counter}}
+									{if $cpt eq 1 or ($cpt%3 == 1)}
+										<div class="row" style="padding:8px;">
+									{/if}
+				
+									<div class="item-video col-lg-4 col-md-4 col-sm-4 col-xs-12">
 									{include file="$style_dir/blocks/videos/video.html" display_type='homeVideos'}
 									</div>
+					
+
+									{if $cpt%3 == 0}
+										</div>
+									{/if}
+									
+									<!--
+									<div class="item-video col-lg-4 col-md-4 col-sm-6 col-xs-12">
+									{*include file="$style_dir/blocks/videos/video.html" display_type='homeVideos'*}
+									</div>
+									-->
 								{/foreach}
 								</div>
+
 								{if $total_videos > 9}
 									<div class="clearfix text-center">
 										<button id="more-view-channel" class="btn btn-loadmore" dataLimit="9" dataHit="2">{lang code='load_more'}</button>
@@ -379,13 +397,14 @@ $('#cover_info').show();
 				"loadHit":loadHit,
 				"loadLimit":loadLimit,
 				"totalVids":totalVids,
-				"userid":user,
+				"userid":{$user.userid},
 			},
 			beforeSend: function() {
 				$(document).find('#more-view-channel').text('Loading videos..')
 			},
 
 			success: function(data) {
+				alert(data);
 				$('#more-view-channel').remove();
 				if (data.length > 1) {
 					$(data).appendTo('#usr-vids').fadeIn('slow');
