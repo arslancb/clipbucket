@@ -8,10 +8,10 @@ $pages->page_redir();
 
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
-	define('MAIN_PAGE', 'Speaker');
+	define('MAIN_PAGE', lang('speakers'));
 }
 if(!defined('SUB_PAGE')){
-	define('SUB_PAGE', 'Edit Speaker');
+	define('SUB_PAGE', lang('speaker_edition'));
 }
 
 
@@ -35,7 +35,8 @@ if ($details){
 	assign('speak',$details);
 }
 
-//error_reporting(E_ERROR & E_WARNING & E_STRING);
-//ini_set('display_errors', True);
+//Set HTML title
+subtitle(lang('speaker_edition'));
+
 template_files('edit_speaker.html',SPEAKER_ADMIN_DIR);
 ?>

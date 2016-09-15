@@ -8,10 +8,10 @@ $pages->page_redir();
 
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
-	define('MAIN_PAGE', 'Speaker');
+	define('MAIN_PAGE', lang('speakers'));
 }
 if(!defined('SUB_PAGE')){
-	define('SUB_PAGE', 'Link Speaker');
+	define('SUB_PAGE', lang('speaker_link'));
 }
 
 //get video object
@@ -71,6 +71,8 @@ $total_pages = count_pages($total_rows,RESULTS);
 //Pagination
 $pages->paginate($total_pages,$page);
 
+//Set HTML title
+subtitle(lang('speaker_link'));
 
 template_files('link_speaker.html',SPEAKER_ADMIN_DIR);
 ?>
