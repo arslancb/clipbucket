@@ -1554,7 +1554,8 @@ h1{
 }
 
 .filter-dropdowns .sorting-col .dropdown-menu>li a.selected,.filter-dropdowns .sorting-col .dropdown-menu>li a:hover{
-	background:#17181a
+	background:#17181a;
+	color:white;
 }
 
 .filter-dropdowns .dropdown{
