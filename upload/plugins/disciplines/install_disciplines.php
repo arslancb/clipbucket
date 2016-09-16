@@ -18,12 +18,12 @@ function install_disciplines() {
 			// WARNING ! Use `` instead of '' for fields - SMARTY restriction
 			"CREATE TABLE IF NOT EXISTS ".tbl('disciplines')." (
 			`id` int(225) NOT NULL AUTO_INCREMENT,
-			`name` varchar(255) NOT NULL,
+			`name` varchar(128) NOT NULL,
 			`discipline_order` bigint(5) NOT NULL DEFAULT '1',
-			`description` varchar(255) NOT NULL DEFAULT 'Default discipline',
+			`description` varchar(2048) NOT NULL DEFAULT 'Default discipline',
 			`is_default` BOOLEAN NOT NULL DEFAULT '0',
 			`in_menu` BOOLEAN NOT NULL DEFAULT '1',
-			`color` varchar(255) NOT NULL DEFAULT '#999999',
+			`color` varchar(50) NOT NULL DEFAULT '#999999',
 			`thumb` BOOLEAN DEFAULT '1',
 			`thumb_url` varchar(255) NOT NULL DEFAULT 'default.png',
 			PRIMARY KEY (`id`)
