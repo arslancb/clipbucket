@@ -57,7 +57,7 @@ if(!function_exists("discipline_thumb_output")) {
 	function discipline_thumb_output($data){
 		global $disciplinequery;
 		$disc = $disciplinequery->get_discipline_of_video($data);
-		echo '<a href="#" style="color:'.$disc[0]['color'].';border-color:'.$disc[0]['color'].'">'.$disc[0]['name'].'</a>';
+		echo '<a href="'.BASEURL."/search_result.php?type=disciplines&query=".$disc[0]['id'].'" style="color:'.$disc[0]['color'].';border-color:'.$disc[0]['color'].'">'.$disc[0]['name'].'</a>';
 	}
 	// use {ANCHOR place="discipline"} to display the link above
 	register_anchor_function("discipline_thumb_output","discipline");
