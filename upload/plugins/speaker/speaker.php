@@ -8,7 +8,8 @@
  Version: 1.0
  Website:
  */
- 
+require_once 'speaker_class.php';
+
 // Define Plugin's uri constants
 define("SITE_MODE",'/admin_area');
 define('SPEAKER_BASE',basename(dirname(__FILE__)));
@@ -22,7 +23,6 @@ define("SPEAKER_MANAGEPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".SPEAKER_
 assign("speaker_managepage",SPEAKER_MANAGEPAGE_URL);
 define("SPEAKER_LINKPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".SPEAKER_BASE."/admin&file=link_speaker.php");
 assign("speaker_linkpage",SPEAKER_LINKPAGE_URL);
-require SPEAKER_DIR.'/speaker_class.php';
 
 
 /**
@@ -65,19 +65,24 @@ if ($cbplugin->is_installed('extend_search.php')){
 	$cbvidext->columns[]=array('table'=>'speaker', 'field'=>'slug','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
 }
 
-/**
- * Add a new entry into the video manager menu
+/**_____________________________________
+ * addLinkSpeakerMenuEntry
+ * ____________________________________
+ * Add a new entry "Link speaker" into the video manager menu named "Actions" associated to each video
+ * 
+ *  input $vid : the video id
+ *  output : the html string to be inserted into the menu
  */
 function addLinkSpeakerMenuEntry($vid){
 	$idtmp=$vid['videoid'];
 	return '<li><a role="menuitem" href="'.SPEAKER_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("speaker_link").'</a></li>';
 }
-	
+$cbvid->video_manager_link[]='addLinkSpeakerMenuEntry';
+
 /**
  * Add entries for the plugin in the administration pages
  */
 add_admin_menu(lang('speakers'),lang('add_new_speaker'),'add_speaker.php',SPEAKER_BASE.'/admin');
 add_admin_menu(lang('speakers'),lang('manage_speakers'),'manage_speakers.php',SPEAKER_BASE.'/admin');
-$cbvid->video_manager_link[]='addLinkSpeakerMenuEntry';
 	
 ?>

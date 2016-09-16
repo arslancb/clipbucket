@@ -29,5 +29,7 @@
 		<list_of_unselected_roles>Liste des intervenants non sélectionnés</list_of_unselected_roles>
 		<speaker_link>Associer les intervenants</speaker_link>
 		<speaker_empty_role_err>Veuillez renseigner le profil vide</speaker_empty_role_err>
+		<no_speaker_found>AUCUN INTERVENANT DANS LA BASE</no_speaker_found>
+		<speaker_edition>Edition des intervenants</speaker_edition>
 	</phrases>
 </clipbucket_language>

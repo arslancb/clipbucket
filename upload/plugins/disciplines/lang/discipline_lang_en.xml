@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>English</name>
+	<iso_code>en</iso_code>
+	<phrases>
+		<discipline>Discipline</discipline>
+		<link_discipline>Link discipline</link_discipline>
+		<link_discipline_to_video>Link discipline to video N°</link_discipline_to_video>
+		<description>Description</description>
+		<thumbnail>Thumbnail</thumbnail>
+		<no_discipline_found>No discipline found</no_discipline_found>
+		<unable_to_copy_default_image>Unable to copy default image</unable_to_copy_default_image>
+		<unable_to_create_folder>Unable to create folder : check your server config and CHMOD</unable_to_create_folder>
+		<not_a_valid_floder> is not a valid folder</not_a_valid_floder>
+		<discipline_added>Discipline added</discipline_added>
+		<discipline_modified>Discipline modified</discipline_modified>
+		<Discipline_name_is_required>Discipline name is required</Discipline_name_is_required>
+		<unable_to_copy_file>Unable to copy file</unable_to_copy_file>
+		<file_is_too_big>File is too big</file_is_too_big>
+		<upload_failed>Upload failed</upload_failed>
+		<manage_disciplines>Manage disciplines</manage_disciplines>
+		<add>Add</add>
+		<color>Color</color>
+		<show_the_discipline_in_the_main_menu>Show the discipline in the main menu</show_the_discipline_in_the_main_menu>
+		<replace_the_current_thumbnail>Replace the current thumbnail</replace_the_current_thumbnail>
+		<thumbnail>Thumbnail</thumbnail>
+		<recommanded_size>Recommanded size </recommanded_size>
+		<ratio_w_h>Ratio width / height</ratio_w_h>
+		<reseet>Reset</reseet>
+		<order>Order</order>
+		<in_the_menu>In the menu</in_the_menu>
+		<default_discipline>Default discipline</default_discipline>
+		<none>None</none>
+		<by_default>By default</by_default>
+		<hide_from_menu>Hide from menu</hide_from_menu>
+		<show_in_menu>Show in menu</show_in_menu>
+		<no_discipline_has_benn_created_yet>No discipline has been created yet</no_discipline_has_benn_created_yet>
+		<reorder>Reorder</reorder>
+		<cant_delete_default_discipline>Can't delete default discipline.</cant_delete_default_discipline>
+		<videos_use_the_discipline>videos use the discipline</videos_use_the_discipline>
+		<please_modify_the_following_videos_before_deleting>Please modify the following videos before deleting</please_modify_the_following_videos_before_deleting>
+	</phrases>
+</clipbucket_language>

@@ -1,0 +1,174 @@
+<h2>{lang code='disciplines'}
+	<button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#addNewDisc" aria-expanded="false" aria-controls="addNewDisc"><span class="glyphicon glyphicon-plus"></span> {lang("add")}</button>
+</h2>
+{if $edit_discipline == off}
+<div class="collapse" id="addNewDisc">
+	<div class="well">
+		<form id="form_add" name="form_add" method="post" action="" enctype="multipart/form-data">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="disc_name">{lang("name")}<span>*</span></label>
+						<input type="text" class="form-control" name="disc_name" id="disc_name">
+					</div>
+					<div class="form-group">
+						<label for="disc_desc">{lang("description")}</label>
+						<textarea class="form-control" name="disc_description" id="disc_desc" rows="3"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="disc_color">{lang("color")}</label>
+						<input type="text" name="disc_color" class="form-control" id="disc_color" value="#ae2573">
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" checked name="is_menu">
+							{lang("show_the_discipline_in_the_main_menu")}
+						</label>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					
+					<div class="thumb-manager"><div class="checkbox">
+						<label>
+							<input type="checkbox" name="replace_thumb" value="replace" id="replace-thumb">
+							{lang("replace_the_current_thumbnail")}
+						</label>
+					</div>
+					<div class="form-group">
+						<input type="hidden" name="MAX_FILE_SIZE" value="300000" />
+						<label for="disc_thumb">{lang("thumbnail")}</label>
+						<input type="file"  name="disc_thumb" disabled id="disc_thumb" class="" />
+						<p class="help-block">{lang("recommanded_size")} : 600&times;340 ({lang("ratio_w_h")} : 1,77)</p>
+						<div class="thumb-holder"><img src="{$thumbdir}/default.png" data-pin-nopin="true" class="disc-thumb"></div>
+					</div></div>
+				</div>
+			</div>					<input class="btn btn-primary btn-sm" name="add_disc" type="submit" value="{lang('add')}">
+					<input class="btn btn-link btn-sm" name="reinit_disc" type="reset" value="{lang('reset')}">
+
+			<div class="clearfix"></div>
+		</form>
+	</div>
+</div>
+{/if}
+{if $edit_discipline == on}
+<div class="collapse in" id="addNewDisc">
+	<div class="well">
+		<form id="form_update" name="form_update" method="post" action="" enctype="multipart/form-data">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="disc_name">{lang("name")}<span>*</span></label>
+						<input type="text" class="form-control" name="disc_name" id="disc_name" value="{$mod_discipline.name}">
+					</div>
+					<div class="form-group">
+						<label for="disc_desc">{lang("description")}</label>
+						<textarea class="form-control" name="disc_description" id="disc_desc" rows="3">{$mod_discipline.description}</textarea>
+					</div>
+					<div class="form-group">
+						<label for="disc_color">{lang("color")}</label>
+						<input type="text" name="disc_color" class="form-control" id="disc_color" value="{$mod_discipline.color}">
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" {if $mod_discipline.in_menu == 1}checked{/if} name="is_menu">
+							{lang("show_the_discipline_in_the_main_menu")}
+						</label>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					
+					<div class="thumb-manager"><div class="checkbox">
+						<label>
+							<input type="checkbox" name="replace_thumb" value="replace" id="replace-thumb">
+							{lang("replace_the_current_thumbnail")}
+						</label>
+					</div>
+					<div class="form-group">
+						<label for="disc_thumb" class="sr-only">{lang("thumbnail")}</label>
+						<input type="hidden" name="MAX_FILE_SIZE" value="300000" />
+						<input type="hidden" name="existing_thumb" value="{$mod_discipline.thumb_url}" />
+						<input type="file"  name="disc_thumb" id="disc_thumb" disabled />
+						<p class="help-block">{lang("recommanded_size")} : 600&times;340 ({lang("ratio_w_h")} : 1,77)</p>
+						<div class="thumb-holder"><img src="{$thumbdir}/{$mod_discipline.thumb_url}" data-pin-nopin="true" class="disc-thumb"></div>
+						
+					</div></div>
+					
+				</div>
+			</div><input name="disc_id" type="hidden" value="{$mod_discipline.id}">
+					<input class="btn btn-primary btn-sm" name="update_disc" type="submit" value="{lang('update')}">
+					<input class="btn btn-link btn-sm" name="reinit_disc" type="reset" value="{lang('reset')}">
+			<div class="clearfix"></div>
+		</form>
+	</div>
+</div>
+{/if}
+{*$disciplines|@print_r*}
+{*$total*}
+<form name="disciplines" action="" method="post">
+	<table width="100%" class="table table-striped">
+		<thead>
+			<tr>
+				<th><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></th>
+				<th>{lang("name")}</th>
+				<th class="center-text">{lang("order")}</th>
+				<th>{lang("description")}</th>
+				<th class="center-text">{lang("in_the_menu")}</th>
+				<th class="center-text">{lang("default_discipline")}</th>
+				<th class="center-text">{lang("thumbnail")}</th>
+				<th class="center-text">{lang("color")}</th>
+				<th>&nbsp;</th>
+			</tr>
+		</thead>
+		<tbody>
+		
+		{if $total != 0}
+		{section name=list loop=$disciplines}
+		<tr>
+			<th scope="row"><input name="check_disc[]" type="checkbox" id="check_disc" value="{$disciplines[list].id}" /></th>
+			<td>{$disciplines[list].name}</td>
+			<td class="center-text"><input name="disc_order_{$disciplines[list].id}" type="text" class="order" value="{$disciplines[list].discipline_order}" size="2" maxlength="2" /></td>
+			<td>{$disciplines[list].description}</td>
+			<td class="center-text">{if $disciplines[list].in_menu == '1'}<span class="glyphicon glyphicon-ok"></span><span class="sr-only">oui</span>{else}<span class="glyphicon glyphicon-remove"></span><span class="sr-only">non</span>{/if}</td>
+			<td class="center-text">{if $disciplines[list].is_default == '1'}<span class="glyphicon glyphicon-ok"></span><span class="sr-only">oui</span>{/if}</td>
+			<td class="center-text">{if $disciplines[list].thumb}
+			<img src="{$thumbdir}/{$disciplines[list].thumb_url}" data-pin-nopin="true" class="disc-thumb">
+			{else}
+			<i>{lang("none")}</i>	
+			{/if}</td>
+			<td class="center-text"><span class="glyphicon glyphicon-stop" style="color:{$disciplines[list].color}"></span></td>
+			<td><div class="dropdown">
+				<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				{lang("actions")} <i class="caret"></i></span>
+				</button>
+				<ul class="dropdown-menu">
+					<li><a href="{$disciplines_edit_page}&discipline={$disciplines[list].id}"><span class="glyphicon glyphicon-pencil"></span> {lang("edit")}</a></li>
+					{if $disciplines[list].is_default != 1}
+					<li><a href="{$disciplines_edit_page}&default={$disciplines[list].id}"><span class="glyphicon glyphicon-certificate"></span> {lang("by_default")}</a></li>
+					{/if}
+					{if $disciplines[list].in_menu == 1}
+					<li><a href="{$disciplines_edit_page}&inmenu=0&id={$disciplines[list].id}"><span class="glyphicon glyphicon-eye-close"></span> {lang("hide_from_menu")}</a></li>
+					{else if $disciplines[list].in_menu == 0}
+					<li><a href="{$disciplines_edit_page}&inmenu=1&id={$disciplines[list].id}"><span class="glyphicon glyphicon-eye-open"></span> {lang("show_in_menu")}</a></li>
+					{/if}
+				</ul>
+			</div></td>
+		</tr>
+		{/section}
+		{else}
+		{lang("no_discipline_has_benn_created_yet")}
+		{/if}
+			</tbody>
+		
+	</table>
+	<input class="btn btn-primary btn-sm" name="update_order" type="submit" value="{lang('reorder')}">
+	<input class="btn btn-danger btn-sm" name="delete_disc" type="submit" value="{lang('remove')}">
+</form>
+<script>
+    $(document).ready(function() {
+        $('#page_content').summernote();
+    });
+	//activate 
+	$('#replace-thumb').change(function() {
+    $('#disc_thumb').attr('disabled',!this.checked)
+});
+</script> 
