@@ -9,8 +9,10 @@ require_once('../includes/common.php');
  */
 function install_disciplines() {	
 	$uploaddir = BASEDIR."/files/thumbs/disciplines";
+	if (is_dir($uploaddir))
+		rmdir($uploaddir);
 	$folder = mkdir($uploaddir,0777);
-	if ($folder){
+	if ($folder || $found){
 		//$handle = fopen(PLUG_DIR."/disciplines/default.png", "r");
 		if(copy(PLUG_DIR."/disciplines/default.png", $uploaddir."/default.png")){
 			global $db;
