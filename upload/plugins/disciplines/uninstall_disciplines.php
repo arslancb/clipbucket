@@ -31,7 +31,7 @@ function uninstall_disciplines(){
 	foreach ($files as $file) {
 		(is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
 	}
-	return rmdir($dir);
+	rmdir($dir);
 
 	// remove disciplines table
 	$db->Execute("DROP TABLE ".tbl('disciplines'));
