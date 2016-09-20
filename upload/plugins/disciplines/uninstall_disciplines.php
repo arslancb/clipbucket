@@ -19,7 +19,20 @@ function uninstall_disciplines(){
 		unlink($uploaddir."/".$tmp['thumb_url']);
 	}
 	unset($tmp);
+	$files = glob($uploaddir.'*'); // get all file names
+	foreach($files as $file){ // iterate files
+		if(is_file($file))
+			unlink($file); // delete file
+	}
 	rmdir($uploaddir);
+
+ 	// Delete folder recursively 
+	$files = array_diff(scandir($dir), array('.','..'));
+	foreach ($files as $file) {
+		(is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
+	}
+	return rmdir($dir);
+
 	// remove disciplines table
 	$db->Execute("DROP TABLE ".tbl('disciplines'));
 	// remove discipline field in video table
