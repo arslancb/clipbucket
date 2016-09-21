@@ -6,7 +6,7 @@
 		<external_links_manager>Gestion des Liens externes</external_links_manager>
 		<external_links>Liens externes</external_links>
 		<add_new_link>Ajouter un nouveau lien</add_new_link>
-		<manage_links>Gérer les liens</manage_links>
+		<manage_links>Gérer les liens externes</manage_links>
 		<add_link>Ajouter le lien</add_link>
 		<search_link>Rechercher</search_link>
 		<title>Titre</title>
@@ -27,5 +27,6 @@
 		<new_link_added>Le nouveau lien a été ajouté</new_link_added>
 		<edit_link_nb>Edition du lien N°</edit_link_nb>
 		<update_link>Mettre à jour le lien</update_link>
+		<video_addon>Extensions Vidéo</video_addon>
 	</phrases>
 </clipbucket_language>

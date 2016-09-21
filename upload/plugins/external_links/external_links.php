@@ -60,7 +60,6 @@ $cbvid->video_manager_link[]='addExternalLinkMenuEntry';
 /**
  * Add entries for the plugin in the administration pages
  */
-add_admin_menu(lang('external_links'),lang('add_new_link'),'add_link.php',LINK_BASE.'/admin');
-add_admin_menu(lang('external_links'),lang('manage_links'),'manage_links.php',LINK_BASE.'/admin');
+add_admin_menu(lang('video_addon'),lang('manage_links'),'manage_links.php',LINK_BASE.'/admin');
 	
 ?>

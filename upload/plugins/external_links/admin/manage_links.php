@@ -11,7 +11,7 @@ if(!defined('MAIN_PAGE')){
 	define('MAIN_PAGE', lang('external_links'));
 }
 if(!defined('SUB_PAGE')){
-	define('SUB_PAGE', lang('link_manager'));
+	define('SUB_PAGE', lang('external_links_manager'));
 }
 
 
@@ -38,7 +38,52 @@ if(isset($_POST['filter'])){
 	assign('title',$_POST['title']);
 	assign('url',$_POST['url']);
 	assign('showfilter',true);
+	assign('showadd',false);
+	assign('showedit',false);
 }
+
+// Run after a post action called 'add_link' (used to filter list of external links)
+if(isset($_POST['add_link'])){
+	if($linkquery->add_link($_POST))	{
+		e(lang("new_link_added"),"m");
+		$_POST = '';
+		assign('showfilter',false);
+		assign('showadd',false);
+		assign('showedit',false);
+	}
+}
+
+// Run after a post action called 'edit_link'
+if (isset($_GET['edit_link'])) {
+	if (error()){
+		$details=$_POST;
+		$details['id']=$details['linkid'];
+	}
+	else {
+		$id = $_GET['edit_link'];
+		$details = $linkquery->get_link_details($id);
+	}
+
+	if ($details){
+		assign('link',$details);
+	}
+	assign('showedit',true);
+	assign('showfilter',false);
+	assign('showadd',false);
+}
+
+// Run after a post action called 'update_link'
+if(isset($_POST['update_link'])){
+	if ($linkquery->update_link($_POST)) {
+		e(lang("update_link"),"m");
+		$_POST = '';
+		assign('showfilter',false);
+		assign('showadd',false);
+		assign('showedit',false);
+		assign('link',false);
+	}
+}
+
 
 
 //Getting link List
@@ -64,7 +109,7 @@ $pages->paginate($total_pages,$page);
 
 
 //Set HTML title
-subtitle(lang("link_manager"));
+subtitle(lang("external_links_manager"));
 
 template_files('manage_links.html',LINK_ADMIN_DIR);
 ?>

@@ -1,16 +1,55 @@
+{assign var='required_fields' value=$linkquery->load_links_fields($link)}
 {if $links}
-<h2>{lang("external_link_manager")}</h2>
-<div><span class="btn btn-primary" onclick="toggle_search('searchdiv')" >{lang('filter')}</span></div>
+<h2>{lang("external_links_manager")}</h2>
+
+<button class="btn btn-primary btn-sm" type="button" onclick="toggle_search('adddiv')" data-toggle="collapse" data-target="#addNewDisc" aria-expanded="false" aria-controls="addNewDisc">{if $showedit!=true} <span class="glyphicon glyphicon-plus"></span> {lang("add")}{else}<span class="glyphicon glyphicon-pencil"></span> {lang("edit")}{/if}</button>
+<br/>
+<div class="add_box" id="adddiv" {if $showadd!=true && $showedit!=true} style="display:none"{/if}>  
+	<div class="well">
+<form id="link_add" name="link_add" method="post" action="" class="link_add">
+	<!--<div><label for="title">{lang('title')} </label> <input name="title" type="text" class="input" id="title" value="{$titlr}" />
+	<label for="lastname">{lang('url')} </label> <input name="url" type="text" class="input" id="url" value="{$url}" /></div>
+	-->
+	{if $showedit==true} <input name="linkid" value="{$link.id}" id="linkid" type="hidden"><h3>{lang('edit_link_nb')}{$link.id}</h3>{/if}
+
+		{$n=0}
+		{foreach from=$required_fields item=field}
+			{if $n==0}
+				<div class="row">
+			{/if}
+			<div class="col-md-4">
+				{$field.class = 'form-control'}
+				<label for="{$field.id}">{$field.title}</label>
+				{if $field.hint_1}{$field.hint_1}<br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}{if $field.hint_2}{$field.hint_2}{/if}
+			</div>
+			{$n=$n+1}
+			{if $n==2}{$n=0}</div><br/>{/if}
+		{/foreach} 
+		{if $n>0}</div>{/if}
+
+
+
+  <br/>
+  <input type="submit" class="btn btn-primary btn-sm" name="add_link" id="add_link" value="{lang('add_link')}" class="button" {if $showedit==true} style="display:none"{/if}/>
+  <input type="submit" class="btn btn-primary btn-sm" name="update_link" id="updatelink" value="{lang('update_link')}" class="button" {if $showedit!=true} style="display:none"{/if}/>
+	
+	    	
+</form>
+</div></div>
+  <br/>
+
+<button class="btn btn-primary btn-sm" type="button" onclick="toggle_search('searchdiv')" ><span class="glyphicon glyphicon-search"></span>{lang('filter')}</button>
 <br/>
 <div class="search_box" id="searchdiv" {if $showfilter!=true} style="display:none"{/if}>  
+	<div class="well">
 <form id="link_search" name="link_search" method="post" action="" class="link_search">
-	<div><label for="title">{lang('title')} </label> <input name="title" type="text" class="input" id="title" value="{$titlr}" />
-	<label for="lastname">{lang('url')} </label> <input name="url" type="text" class="input" id="url" value="{$url}" /></div>
+	<div><label for="title">{lang('title')} </label><br> <input name="title" type="text" class="input" id="title" value="{$titlr}" />
+	</div>
   <br/>
-  <input type="submit" name="filter" id="filter" value="{lang('link_filter')}" class="button"/>
+  <input type="submit" class="btn btn-primary btn-sm" name="filter" id="filter" value="{lang('link_filter')}" class="button"/>
 </form>
+</div></div>
   <br/>
-</div>
 
 <!-- Displaying links -->
 <form name="manage_links" method="post">
@@ -41,7 +80,7 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-9">
-                        <a href="{$link_editpage}&id={$u.id}" class="oneUserName">{$u.title}</a>
+                        <a href="{$link_managepage}&edit_link={$u.id}" class="oneUserName">{$u.title}</a>
                     </div>
                 </div>
             </div>
@@ -63,9 +102,9 @@
         {lang('actions')}<i class="icon-angle-down icon-on-right"></i>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
-         <li><a role="menuitem" tabindex="-1" href="{$link_editpage}&id={$u.id}">{lang('edit')}</a></li>
+         <li><a role="menuitem" tabindex="-1" href="{$link_managepage}&edit_link={$u.id}"><span class="glyphicon glyphicon-pencil"></span> {lang('edit')}</a></li>
         <li class="divider"></li>
-        <li><a role="menuitem" tabindex="-1" href="{$link_managepage}&delete_link={$u.id}">{lang('delete')}</a></li>
+        <li><a role="menuitem" tabindex="-1" href="{$link_managepage}&delete_link={$u.id}"><span class="glyphicon glyphicon-trash"></span> {lang('delete')}</a></li>
       </ul>
     </div>
     </td>
