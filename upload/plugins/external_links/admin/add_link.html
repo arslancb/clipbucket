@@ -1,0 +1,31 @@
+{assign var='required_fields' value=$linkquery->load_links_fields()}
+
+<div class="heading">
+	<h2>{lang('add_new_link')}</h2>
+    
+    
+	<form action="" method="post">
+		{$n=0}
+		{foreach from=$required_fields item=field}
+			{if $n==0}
+				<div class="row">
+			{/if}
+			<div class="col-md-4">
+				{$field.class = 'form-control'}
+				<label for="{$field.id}">{$field.title}</label>
+				{if $field.hint_1}{$field.hint_1}<br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}{if $field.hint_2}{$field.hint_2}{/if}
+			</div>
+			{$n=$n+1}
+			{if $n==2}{$n=0}</div><br/>{/if}
+		{/foreach} 
+		{if $n>0}</div>{/if}
+
+		<div id="add-before-container"></div>
+		<div align="left" style="padding:10px">
+		<input type="submit" name="add_link" value="{lang('add_link')}" class="button" id="add_link" >
+		<input type="submit" name="search_link" value="{lang('search_link')}" class="button" id="search_link" ></div>
+	    
+	</form>    
+</div>
+
+

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>English</name>
+	<iso_code>en</iso_code>
+	<phrases>
+		<external_links_manager>External links Manager</external_links_manager>
+		<external_links>External links</external_links>
+		<add_new_link>Add new link</add_new_link>
+		<manage_links>Manage links</manage_links>
+		<add_link>Add link</add_link>
+		<search_link>Search</search_link>
+		<title>Title</title>
+		<link_already_exists>Link already exists</link_already_exists>
+		<link_does_not_exist>Link does not exist</link_does_not_exist>
+		<no_link_found>No link found</no_link_found>
+		<no_link_selected>No link has been selected</no_link_selected>
+		<link_filter>Filter links</link_filter>
+		<link_edition>Edit links</link_edition>
+		<link_updated>Link succesfully updated</link_updated>
+		<link_does_not_exist>Link does not exist</link_does_not_exist>
+		<cant_del_linked_link_msg>Link is linked to almost one video and has not been deleted</cant_del_linked_link_msg>
+		<link_del_msg>Links(s) succesfully deleted</link_del_msg>
+		<link_external_link>Link external link</link_external_link>
+		<link_external_links_to_video>Link external links to video N°</link_external_links_to_video>
+		<list_of_selected_links>List of selected links</list_of_selected_links>
+		<list_of_unselected_links>List of unselected links</list_of_unselected_links>
+		<new_link_added>New link has been added</new_link_added>
+		<edit_link_nb>Edit link N°</edit_link_nb>
+		<update_link>Update link</update_link>
+	</phrases>
+</clipbucket_language>

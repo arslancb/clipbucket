@@ -1,0 +1,162 @@
+{if $unlinkedLinks}
+<!-- Displaying Links -->
+<div class="heading">
+	<h2>{lang('link_external_links_to_video')}{$video.videoid}</h2>
+</div>
+<div><span class="btn btn-primary" onclick="toggle_search('searchdiv')" >{lang('filter')}</span></div>
+<br/>
+<div class="search_box" id="searchdiv" {if $showfilter!=true} style="display:none"{/if}>  
+<form id="link_search" name="link_search" method="post" action="" class="link_search">
+	<div><label for="title">{lang('title')}</label><input name="title" type="text" class="input" id="title" value="{$linktitle}" />
+  </div>
+  <br/>
+  <input type="submit" name="filter" id="filter" value="{lang('link_filter')}" class="button"/>
+</form>
+  <br/>
+</div>
+
+<form name="user_manage" method="post">
+  <div class="btn-group marginBottomSmall">
+    <input class="btn btn-primary btn-xs" type="submit" name="link_selected" value="{lang('validate')}" onclick="return confirmation(this,'Are you sure you want to validate selected link(s)')"/>
+  </div>
+  
+  
+<table class="table table-bordered table-striped manageUsersTable">
+<caption>{lang('list_of_selected_links')}</caption>
+<thead>
+    <th width="40" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkedall"  checked='true' onclick="checkUncheckAllName(this,'checked_links[]');"/></th>
+    <th width="50" class="head">id</th>
+    <th class="head">{lang('title')}</th>
+    <th class="head">{lang('url')}</th>
+  </thead>
+<tbody>
+{foreach from=$linkedLinks item=u}
+<tr>
+    <td>
+      <input name="checked_links[]" type="checkbox" id="check_link" value="{$u.id}" checked='true' />
+    </td>
+    <td>
+      {$u.id}
+    </td>
+    <td>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-9">
+                        <a href="{$link_editpage}&id={$u.sid}" target="_blank" class="oneUserName">{$u.title} </a>
+                    </div>
+                </div>
+            </div>
+    </td>
+    <td>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-9">
+                        {$u.url}
+                    </div>
+                </div>
+            </div>
+    </td>
+  </tr>
+{if $bgcolor == ""}
+{assign var = bgcolor value = "#EEEEEE"}
+{else}
+{assign var = bgcolor value = ""}
+{/if}  
+{/foreach}
+</tbody>
+</table>
+
+<br>
+<table class="table table-bordered table-striped manageUsersTable">
+<caption>{lang('list_of_unselected_links')}</caption>
+<thead>
+    <th width="40" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAllName(this,'check_links[]');"/></th>
+    <th width="50" class="head">id</th>
+    <th class="head">{lang('title')}</th>
+    <th class="head">{lang('url')}</th>
+  </thead>
+<tbody>
+{foreach from=$unlinkedLinks item=u}
+<tr>
+    <td>
+      <input name="check_links[]" type="checkbox" id="check_links" value="{$u.id}" />
+    </td>
+    <td>
+      {$u.id}
+    </td>
+    <td>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-9">
+                        <a href="{$link_editpage}&id={$u.sid}" target="_blank" class="oneUserName">{$u.title} </a>
+                    </div>
+                </div>
+            </div>
+    </td>
+    <td>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-9">
+                        {$u.url}
+                    </div>
+                </div>
+            </div>
+    </td>
+  </tr>
+{if $bgcolor == ""}
+{assign var = bgcolor value = "#EEEEEE"}
+{else}
+{assign var = bgcolor value = ""}
+{/if}  
+{/foreach}
+</tbody>
+</table>
+
+<div class="btn-group">
+    <input class="btn btn-primary btn-xs" type="submit" name="link_selected" value="{lang('validate')}" onclick="return confirmation(this,'Are you sure you want to validate selected link(s)')"/>
+  </div>
+</form>
+{else}
+	<div align="center"><strong><em>{lang('no_link_found')}</em></strong></div>
+{/if}
+
+
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }
+
+
+<script>
+function checkUncheckAllName(theElement,name) {
+	var theForm = theElement.form, z = 0;
+	for(z=0; z<theForm.length;z++){
+		if(theForm[z].type == 'checkbox' && theForm[z].name == name){
+			theForm[z].checked = theElement.checked;
+		}
+	}
+}
+
+function invertCheckboxes(theElement,name) {
+	var theForm = theElement.form, z = 0;
+	for(z=0; z<theForm.length;z++){
+		if(theForm[z].type == 'checkbox' && theForm[z].name == name){
+			theForm[z].checked = !theForm[z].checked;
+		}
+	}
+}
+	
+
+function confirmation(theElement,msg){
+	var rep=confirm_it(msg);
+	if (rep){
+		invertCheckboxes(theElement,'checked_links[]');
+	}
+	return rep;
+}	
+</script>
