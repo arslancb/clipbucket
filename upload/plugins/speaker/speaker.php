@@ -17,8 +17,6 @@ define('SPEAKER_DIR',PLUG_DIR.'/'.SPEAKER_BASE);
 define('SPEAKER_URL',PLUG_URL.'/'.SPEAKER_BASE);
 define('SPEAKER_ADMIN_DIR',SPEAKER_DIR.'/admin');
 define('SPEAKER_ADMIN_URL',SPEAKER_URL.'/admin');
-define("SPEAKER_EDITPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".SPEAKER_BASE."/admin&file=edit_speaker.php");
-assign("speaker_editpage",SPEAKER_EDITPAGE_URL);
 define("SPEAKER_MANAGEPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".SPEAKER_BASE."/admin&file=manage_speakers.php");
 assign("speaker_managepage",SPEAKER_MANAGEPAGE_URL);
 define("SPEAKER_LINKPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".SPEAKER_BASE."/admin&file=link_speaker.php");
