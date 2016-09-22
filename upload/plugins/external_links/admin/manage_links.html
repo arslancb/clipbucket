@@ -7,9 +7,6 @@
 <div class="add_box" id="adddiv" {if $showadd!=true && $showedit!=true} style="display:none"{/if}>  
 	<div class="well">
 <form id="link_add" name="link_add" method="post" action="" class="link_add">
-	<!--<div><label for="title">{lang('title')} </label> <input name="title" type="text" class="input" id="title" value="{$titlr}" />
-	<label for="lastname">{lang('url')} </label> <input name="url" type="text" class="input" id="url" value="{$url}" /></div>
-	-->
 	{if $showedit==true} <input name="linkid" value="{$link.id}" id="linkid" type="hidden"><h3>{lang('edit_link_nb')}{$link.id}</h3>{/if}
 
 		{$n=0}

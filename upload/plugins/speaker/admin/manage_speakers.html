@@ -1,18 +1,83 @@
+{assign var='required_fields' value=$speakerquery->load_speaker_fields($speak)}
+{assign var='optional_fields' value=$speakerquery->load_speaker_role_fields($speak)}
+{assign var='optional_field_ids' value=$speakerquery->load_speaker_role_ids($speak)}
+{if $optional_fields}
+	{assign var='number' value=$optional_fields['description']['values']|@count}
+{else}
+	{assign var='number' value=0}
+{/if}
+
+
 {if $speakers}
 <h2>{lang("speaker_manager")}</h2>
-<div><span class="btn btn-primary" onclick="toggle_search('searchdiv')" >{lang('filter')}</span></div>
-<br/>
-<div class="search_box" id="searchdiv" {if $showfilter!=true} style="display:none"{/if}>  
-<form id="speaker_search" name="speaker_search" method="post" action="" class="speaker_search">
-	<div><label for="firstname">{lang('user_fname')} </label> <input name="firstname" type="text" class="input" id="firstname" value="{$speakfirstname}" />
-	<label for="lastname">{lang('user_lname')} </label> <input name="lastname" type="text" class="input" id="lastname" value="{$speaklastname}" /></div>
-  <br/>
-  <input type="submit" name="filter" id="filter" value="{lang('speaker_filter')}" class="button"/>
-</form>
-  <br/>
-</div>
 
-<!-- Displaying Members -->
+
+<button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#adddiv" aria-expanded="false" aria-controls="adddiv">{if $showedit!=true} <span class="glyphicon glyphicon-plus"></span> {lang("add")}{else}<span class="glyphicon glyphicon-pencil"></span> {lang("edit")}{/if}</button>
+<br/>
+<div {if $showadd==true || $showedit==true} class="in"{else}class="collapse"{/if} id="adddiv" >
+
+<!--  div class="add_box" id="adddiv" {if $showadd!=true && $showedit!=true} style="display:none"{/if}-->  
+	<div class="well">
+	<form action="{$speaker_managepage}" method="post">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+				{foreach from=$required_fields item=field}
+					{$field.class = 'form-control'}
+					<label for="{$field.id}">{$field.title}</label>
+					{if $field.hint_1}{$field.hint_1}<br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}{if $field.hint_2}{$field.hint_2}{/if}
+				{/foreach} 
+				</div>
+				<label for="cptentries"></label>
+	    		<input name="speakerid" value="{$speak.id}" id="speakerid" type="hidden">
+	    		<input name="cptentries" value="{$number}" id="cptentries" type="hidden">
+			</div>
+			<div class="col-sm-6">
+				<span id="duplicate" class="btn btn-primary btn-xs">{lang('add_a_role')}</span>
+    			{if $optional_fields}
+					{assign var='number' value=$optional_fields['description']['values']|@count}
+	    			{for $i=0 to $number-1}
+   	 			<div class="form-group" id="extra_{$i}">
+	    				<input name="roleids[]" value="{$optional_field_ids[$i].id}" id="roleids" type="hidden">
+						{foreach from=$optional_fields item=field}
+							<div class="col-md-10">
+								{$field.class = 'form-control'}
+								{$field.value = $field.values[$i]}
+								<label for="{$field.id}_$i">{$field.title}</label>
+								{if $field.hint_1}{$field.hint_1}<br>{/if}
+								{$formObj->createField($field,TRUE)}
+								{if $field.hint_2}<br>{$field.hint_2}<br>{/if}
+							</div>
+							<div title="{lang('delete')}" class="btn btn-link btn-sm" onclick="deleteMe('extra_{$i}')" class="delte-date"><br><span class="glyphicon glyphicon-remove color-red"></span><span class="sr-only">{lang('delete')}</span></div>
+						{/foreach}
+    				</div>
+    				{/for}
+    			{/if}
+				<div id="add-before-container"></div>
+    		</div>
+			<div class="col-sm-12">
+				<input type="submit" class="btn btn-primary btn-sm" name="add_speaker" id="add_speaker" value="{lang('add_speaker')}" class="button" {if $showedit==true} style="display:none"{/if}/>
+  				<input type="submit" class="btn btn-primary btn-sm" name="update_speaker" id="update_speaker" value="{lang('update_speaker')}" class="button" {if $showedit!=true} style="display:none"{/if}/>
+			</div>
+	   </div> 
+	</form>    
+	</div>
+</div>
+<br/>
+
+<div><span class="btn btn-primary btn-sm" onclick="toggle_search('searchdiv')" ><span class="glyphicon glyphicon-search"></span>{lang('filter')}</div>
+<div class="search_box" id="searchdiv" {if $showfilter!=true} style="display:none"{/if}>  
+	<div class="well">
+<form id="speaker_search" name="speaker_search" method="post" action="{$speaker_managepage}" class="speaker_search">
+	<div><label for="firstname">{lang('user_fname')} </label> <input name="first_name" type="text" class="input" id="first_name" value="{$speak_firstname}" />
+	<label for="lastname">{lang('user_lname')} </label> <input name="last_name" type="text" class="input" id="last_name" value="{$speak_lastname}" /></div>
+  <br/>
+  <input type="submit" name="filter" id="filter" value="{lang('speaker_filter')}" class="btn btn-primary btn-sm"/>
+</form>
+</div>
+</div>
+  <br/>
+
 <form name="manage_speaker" method="post">
   <div class="btn-group marginBottomSmall">
     <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected speakers(s)')"/>
@@ -20,12 +85,12 @@
   
   
 <table class="table table-bordered table-striped manageUsersTable">
-<thead>
-    <th width="40" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></th>
+<thead><tr>
+    <th width="40" align="center" valign="middle" class="left_head"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></th>
     <th width="50" class="head">id</th>
     <th class="head">{lang('speaker_details')}</th>
     <th>&nbsp;</th>
+    </tr>
   </thead>
 {foreach from=$speakers item=u}
 <tr>
@@ -40,7 +105,8 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-9">
-                        <a href="{$speaker_editpage}&id={$u.id}" class="oneUserName">{$u.firstname} {$u.lastname} </a>
+                        <a href="{$speaker_managepage}&edit_speaker={$u.id}" class="oneUserName">{$u.firstname} {$u.lastname}</a>
+
                         <span>[{$u.slug}]</span>
                     </div>
                 </div>
@@ -52,9 +118,9 @@
         {lang('actions')}<i class="icon-angle-down icon-on-right"></i>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
-         <li><a role="menuitem" tabindex="-1" href="{$speaker_editpage}&id={$u.id}">{lang('edit')}</a></li>
+         <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&edit_speaker={$u.id}"><span class="glyphicon glyphicon-pencil"></span>{lang('edit')}</a></li>
         <li class="divider"></li>
-        <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&delete_speaker={$u.id}">{lang('delete')}</a></li>
+        <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&delete_speaker={$u.id}"><span class="glyphicon glyphicon-trash"></span>{lang('delete')}</a></li>
       </ul>
     </div>
     </td>
@@ -72,10 +138,46 @@
   </div>
 </form>
 {else}
-	<div align="center"><strong><em>NO SPEAKER FOUND</em></strong></div>
+	<div align="center"><strong><em>{lang('no_speaker_found')}</em></strong></div>
 {/if}
 
 
 
 <!-- DIsplaying Videos Ends-->
 {include file="$style_dir/blocks/pagination.html" }
+
+
+<script>
+	$(document).ready(function() {
+		var $i = $("#cptentries").val();	// number of visible roles
+		// Add a new role
+		$("#duplicate").on('click', function(){
+			$s='<div class="form-group" id="extra_'+$i+'">';
+			{foreach from=$optional_fields item=field}
+				$s=$s+'<div class="col-md-10">';
+				{$field.class = 'form-control'}
+				$s=$s+'<label for="{$field.id}_'+"$i"+'">{$field.title}</label><br>';
+				$s=$s+'{if $field.hint_1}{$field.hint_1}<br>{/if}';
+				$s=$s+'{$formObj->createField($field,TRUE)}';
+				$s=$s+'{if $field.hint_2}<br>{$field.hint_2}<br>{/if}';
+				$s=$s+'</div>';
+			{/foreach}
+			$s=$s+'<div title="{lang('delete')}" class="btn btn-link btn-sm" onclick="deleteMe(\'extra_'+$i+'\')"><br><span class="glyphicon glyphicon-remove color-red"></span><span class="sr-only">{lang('delete')}</span></div>';
+			$s=$s+'</div>';
+			$('#add-before-container').before($s);
+			$i++;
+			document.getElementById("cptentries").value = $i;
+		});
+	});
+
+	
+
+	
+	
+
+	
+
+	function deleteMe(param) {
+		$("#"+param).remove();
+	}
+</script>

@@ -14,11 +14,36 @@ if(!defined('SUB_PAGE')){
 	define('SUB_PAGE', lang('speaker_manager'));
 }
 
+if (count($_POST)==0){
+	// Run after a post action called 'delete_speaker'
+	if (isset($_GET['delete_speaker'])) {
+		$delspeaker = mysql_clean($_GET['delete_speaker']);
+		$speakerquery->delete_speaker($delspeaker);
+	}
+	
+	// Run after a get action called 'edit_speaker'
+	if (isset($_GET['edit_speaker'])) {
+		if (error()){
+			$details=$_POST;
+			$details['id']=$details['speakerid'];
+		}
+		else {
+			$id = $_GET['edit_speaker'];
+			$details = $speakerquery->get_speaker_details($id);
+		}
+		if ($details) assign('speak',$details);
+		assign('showedit',true);
+		assign('showfilter',false);
+		assign('showadd',false);
+	}
+}
 
-// Run after a post action called 'delete_speaker'
-if (isset($_GET['delete_speaker'])) {
-	$delspeaker = mysql_clean($_GET['delete_speaker']);
-	$speakerquery->delete_speaker($delspeaker);
+// Run after a post action called 'add_speaker'
+if(isset($_POST['add_speaker'])){
+	if($speakerquery->add_speaker($_POST))	{
+		e(lang("new_speaker_added"),"m");
+		$_POST = '';
+	}
 }
 
 // Run after a post action called 'delete_selected' (Deleting Multiple speakers)
@@ -34,11 +59,27 @@ if(isset($_POST['delete_selected'])){
 
 // Run after a post action called 'filter' (used to filter list of speakers)
 if(isset($_POST['filter'])){
-	$filtercond=" firstname like '%".$_POST['firstname']."%' AND lastname like '%".$_POST['lastname']."%' ";
-	assign('speakfirstname',$_POST['firstname']);
-	assign('speaklastname',$_POST['lastname']);
+	$filtercond=" firstname like '%".$_POST['first_name']."%' AND lastname like '%".$_POST['last_name']."%' ";
+	assign('speak_firstname',$_POST['first_name']);
+	assign('speak_lastname',$_POST['last_name']);
 	assign('showfilter',true);
+	assign('showadd',false);
+	assign('showedit',false);
+	assign('speak',false);
 }
+
+// Run after a post action called 'update_speaker'
+if(isset($_POST['update_speaker'])){
+	if ($speakerquery->update_speaker($_POST)) {
+		e(lang("speaker_updated"),"m");
+		$_POST = '';
+		assign('showfilter',false);
+		assign('showadd',false);
+		assign('showedit',false);
+		assign('speak',false);
+	}
+}
+
 
 
 //Getting speaker List

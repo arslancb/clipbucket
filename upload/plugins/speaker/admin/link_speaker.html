@@ -3,17 +3,21 @@
 <div class="heading">
 	<h2>{lang('link_speakers_to_video')}{$video.videoid}</h2>
 </div>
-<div><span class="btn btn-primary" onclick="toggle_search('searchdiv')" >{lang('filter')}</span></div>
-<br/>
-<div class="search_box" id="searchdiv" {if $showfilter!=true} style="display:none"{/if}>  
+<div><span class="btn btn-primary" onclick="toggle_search('searchdiv')" ><span class="glyphicon glyphicon-search"></span> {lang('filter')}</span></div>
+<div class="search_box" id="searchdiv" {if $showfilter!=true} style="display:none"{/if}>
+	<div class="well">
+  
 <form id="speaker_search" name="speaker_search" method="post" action="" class="speaker_search">
 	<div><label for="firstname">{lang('user_fname')}</label><input name="firstname" type="text" class="input" id="firstname" value="{$speakfirstname}" />
 	<label for="lastname">{lang('user_lname')}</label><input name="lastname" type="text" class="input" id="lastname" value="{$speaklastname}" /></div>
   <br/>
   <input type="submit" name="filter" id="filter" value="{lang('speaker_filter')}" class="button"/>
 </form>
-  <br/>
 </div>
+</div>
+  <br/>
+
+
 <form name="user_manage" method="post">
   <div class="btn-group marginBottomSmall">
     <input class="btn btn-primary btn-xs" type="submit" name="link_selected" value="{lang('validate')}" onclick="return confirmation(this,'Are you sure you want to validate selected speakers(s)')"/>
