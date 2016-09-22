@@ -8,7 +8,7 @@ $pages->page_redir();
 
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
-	define('MAIN_PAGE', lang('external_links'));
+	define('MAIN_PAGE', lang('video_addon'));
 }
 if(!defined('SUB_PAGE')){
 	define('SUB_PAGE', lang('external_links_manager'));

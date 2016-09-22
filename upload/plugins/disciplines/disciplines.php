@@ -96,5 +96,5 @@ $cbvid->video_manager_link[]='addLinkDisciplineMenuEntry';
 
 
 //addadmin menu
-add_admin_menu('Videos',lang("manage_disciplines"),'manage_disciplines.php','disciplines/admin/');
+add_admin_menu(lang('video_addon'),lang("manage_disciplines"),'manage_disciplines.php','disciplines/admin/');
 ?>

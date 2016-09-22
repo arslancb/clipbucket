@@ -6,7 +6,7 @@
 
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
-    define('MAIN_PAGE', 'Videos');
+    define('MAIN_PAGE', lang('video_addon'));
 }
 if(!defined('SUB_PAGE')){
     define('SUB_PAGE', lang('manage_disciplines'));

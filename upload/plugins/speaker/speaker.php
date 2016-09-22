@@ -82,7 +82,7 @@ $cbvid->video_manager_link[]='addLinkSpeakerMenuEntry';
 /**
  * Add entries for the plugin in the administration pages
  */
-add_admin_menu(lang('speakers'),lang('add_new_speaker'),'add_speaker.php',SPEAKER_BASE.'/admin');
-add_admin_menu(lang('speakers'),lang('manage_speakers'),'manage_speakers.php',SPEAKER_BASE.'/admin');
+add_admin_menu(lang('video_addon'),lang('add_new_speaker'),'add_speaker.php',SPEAKER_BASE.'/admin');
+add_admin_menu(lang('video_addon'),lang('speaker_manager'),'manage_speakers.php',SPEAKER_BASE.'/admin');
 	
 ?>

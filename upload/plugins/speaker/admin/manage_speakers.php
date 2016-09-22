@@ -8,7 +8,7 @@ $pages->page_redir();
 
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
-	define('MAIN_PAGE', lang('speakers'));
+	define('MAIN_PAGE', lang('video_addon'));
 }
 if(!defined('SUB_PAGE')){
 	define('SUB_PAGE', lang('speaker_manager'));
