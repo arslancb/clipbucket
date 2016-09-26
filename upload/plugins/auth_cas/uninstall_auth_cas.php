@@ -56,6 +56,6 @@ function remove_auth_cas_langage_pack($lang){
 }
 
 uninstall_auth_cas();
-//	remove_speaker_langage_pack('fr');
-//	remove_speaker_langage_pack('en');
+remove_auth_cas_langage_pack('fr');
+remove_auth_cas_langage_pack('en');
 ?>

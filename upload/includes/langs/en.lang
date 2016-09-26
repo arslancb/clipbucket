@@ -1514,5 +1514,17 @@
 "you_not_grp_mem_or_approved":"You have not joined or an approved member of this group",
 "you_not_grp_mem":"You are not a member of this group",
 "you_not_logged_in":"You are not logged in",
-"you_not_subscribed":"You are not subscribed"
+"you_not_subscribed":"You are not subscribed",
+"cas_configuration":"CAS Configuration",
+"cas_context":"CAS Context",
+"cas_create_user":"Create user when doesn't exist?",
+"cas_in_example":"ie.:",
+"cas_update_config":"Save",
+"cas_version":"CAS Version",
+"cas_authentication":"CAS Authentication",
+"cas_central_authentication_service":"Central Authentication Service",
+"cas_configuration":"Configuration",
+"cas_url":"URL CAS",
+"cas_port":"Port CAS",
+"cas_connexion_link":"CAS Connection"
 }

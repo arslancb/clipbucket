@@ -14,15 +14,139 @@ Version: 1.0
 	define('AUTH_CAS',basename(dirname(__FILE__)));			// *** Chemin du plugin
 
 	$config = get_cas_config();
+	define('CAS_VERSION',$config['version']);						// Localisation du serveur CAS
 	define('CAS_BASE',$config['url']);						// Localisation du serveur CAS
-	define('CAS_VALIDATION',$config['url_validation']);			// URL de validation du serveur CAS
+	define('CAS_CONTEXT',$config['cas_context']);		// URL de validation du serveur CAS
+	define('CAS_PORT',$config['port']);						// URL de validation du serveur CAS
+	define('CAS_CREATE_USER',$config['create_user']);						// URL de validation du serveur CAS
+	
+//	require_once(BASEURL.'/includes/common.php');
+	
+	// *** Inclusion librairie phpCAS
+	require(PLUG_DIR."/".AUTH_CAS."/CAS-1.3.4/CAS.php");
+	
+	
 	
 	// propre URL
-	$service = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SCRIPT_NAME'].'?mode=login';
+//	$service = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SCRIPT_NAME'].'?mode=login';
 
-	// *** Classe de connexion CAS (par UTC)
-//	require_once(PLUG_DIR.'/'.AUTH_CAS.'/authcas.class.php');
+//	phpCAS::setDebug();			// Enable debugging
+//	phpCAS::setVerbose(true);	// Enable verbose error messages. Disable in production!
 
+	/* ***
+	*	Function launch when access the login page
+	*	 place this code {ANCHOR place="is_auth_cas"} in your signup layout to run the plugin
+	*/
+	function is_auth_cas(){
+		global $LANG,$Cbucket;
+		
+		// *** Initialise
+		switch (CAS_VERSION){
+			case "CAS_VERSION_1_0":
+				phpCAS::client(CAS_VERSION_1_0,CAS_BASE,intval(CAS_PORT),'');
+			break;
+			case "CAS_VERSION_2_0":
+				phpCAS::client(CAS_VERSION_2_0,CAS_BASE,intval(CAS_PORT),'');
+			break;
+			case "CAS_VERSION_3_0":
+				phpCAS::client(CAS_VERSION_3_0,CAS_BASE,intval(CAS_PORT),'');
+			break;
+			default:
+				phpCAS::client(CAS_VERSION_2_0,CAS_BASE,intval(CAS_PORT),'');
+			break;
+		}
+
+		phpCAS::setNoCasServerValidation();
+	
+		if ($_GET['auth_cas'] == 'bycas'){
+		
+			$isAuth = check_if_auth();
+		
+			if ( ($isAuth) or (phpCAS::isAuthenticated()) ){
+				$login = phpCAS::getUser();
+				// *** Connexion
+				login_and_create($login);
+			}
+			else{
+				//phpCAS::setFixedServiceURL(BASEURL.'/signup.php?mode=login&auth_cas=bycas');
+				phpCAS::forceAuthentication();
+			}
+	
+		}
+		else{
+			echo '<a href="'.BASEURL.'/signup.php?mode=login&auth_cas=bycas">'.lang('cas_connexion_link').'</a><br>';
+		}
+	} // is_auth_cas
+		
+
+	/* ***
+	*	Function that check if already CAS connected
+	*/
+	function check_if_auth(){
+		return (phpCAS::checkAuthentication()) ? true : false;
+	}
+
+
+	/* ***
+	*	Function launch when access the login page
+	*	 place this code {ANCHOR place="is_auth_cas"} in your signup layout to run the plugin
+	*/
+	function login_and_create($login){
+//		global $service;
+
+		// *** Etablir la connexion via correspondance en BDD
+		$userquery = new userquery();
+		$udetails = $userquery->get_user_details($login);
+		
+		// *** User already exist
+		if (isset($udetails["userid"])){
+			// *** Connecte correctement un utilisateur existant.
+			$userquery->login_as_user($login, '');
+			header("Location: ".BASEURL);
+		}
+		else{
+			// *** Not yet inserted in db
+			if (intval(CAS_CREATE_USER) == 1){
+				$userid = create_user($login);
+			}
+			
+			// *** Check the user id and connect
+			if ($userid){
+				// *** Connecte correctement un utilisateur existant.
+				$userquery->login_as_user($login, '');
+				header("Location: ".BASEURL);
+			}
+		}
+	}
+
+
+
+
+	function create_user($login){
+		$userquery = new userquery();
+		//$udetails = $userquery->get_user_details($login);
+
+		$pass =  RandomString(10);		// create a password
+		// *** Information to create the user 
+		$user_infos = array(
+			'username' => $login,
+			'email'	=> $login.'@u-picardie.fr',
+			'password' => $pass,
+			'cpassword' => $pass,
+			'country' => get_country(config('default_country_iso2')),
+			'gender' => 'Male',
+			'dob'	=> '2000-10-10',
+			'category' => '1',
+			'level' => '6',
+			'active' => 'yes',
+			'agree' => 'yes',
+		);
+
+		// *** Insert id if user was created...
+		$userid = $userquery->signup_user($user_infos, false);
+		
+		return $userid;
+	}
 
 
 
@@ -57,11 +181,11 @@ Version: 1.0
 		foreach ($tmp_config as $key => $value){
 			// *** Si la valeur existe, c'est un update
 			if (array_key_exists($key, $org_config)){
-				// *** Uniquement si c'est different
-				if ($org_config[$key][$value] != $tmp_config[$key][$value]){
+				// *** Uniquement si c'est different - pose probleme sur le : CAS_VERSION_X_0
+//				if ($org_config[$key][$value] != $tmp_config[$key][$value]){
 					// update
 					$db->update(tbl('auth_cas_config'), array('name','value'), array($key,$tmp_config[$key]), "name='$key'");
-				}	// *** Sinon la nouvelle valeur et la meme que l'ancienne, on ne fait rien
+//				}	// *** Sinon la nouvelle valeur et la meme que l'ancienne, on ne fait rien
 			}
 			else{
 				// *** Sinon, on créé la valeur
@@ -70,109 +194,6 @@ Version: 1.0
 		}
 	}
 
-	
-	/* ***
-	*	 Verifie la presence du ticket et du auth_cas
-	*		@ticket 	: fourni par CAS (si authentification ok)
-	*		@auth_cas 	: une chaine quelconque
-	*/
-	function validate_auth_cas() {
-		global $service ;
-	
-		// Récupération du ticket (retour du serveur CAS)
-		if ( (!isset($_GET['ticket'])) && (isset($_GET['auth_cas'])) ) {
-			// Pas de ticket : on redirige le navigateur web vers le serveur CAS
-			header("Location:".CAS_BASE."/login?service=".$service);
-		}
-	}
-
-	/* ***
-	*	Cette simple fonction réalise l’authentification CAS.
-	*		@return le login de l’utilisateur authentifié, ou FALSE.
-	*/
-	function authenticate() {
-		global $service ;
-
-		// Un ticket a été transmis, on essaie de le valider auprès du serveur CAS
-		$fpage = fopen (CAS_BASE . CAS_VALIDATION . '?service=' . preg_replace('/&/','%26',$service) . '&ticket=' . $_GET['ticket'], 'r');
-
-		if ($fpage) {
-			while (!feof ($fpage)) { $page .= fgets ($fpage, 1024); }
-			
-			// Analyse de la réponse du serveur CAS
-			if (preg_match('|<cas:authenticationSuccess>.*</cas:authenticationSuccess>|mis',$page)) {
-				if(preg_match('|<cas:user>(.*)</cas:user>|',$page,$match)){
-					return $match[1];
-					exit();
-				}
-			}
-		}
-		// problème de validation
-		return FALSE;
-	}
-
-	/* ***
-	*	Function launch when access the login page
-	*	 place this code {ANCHOR place="is_auth_cas"} in your signup layout to run the plugin
-	*/
-	function is_auth_cas(){
-		global $service;
-		
-		$login = authenticate();
-		
-		if ($login === FALSE ) {
-			// *** Renvoi vers la page CAS
-			validate_auth_cas();
-			// *** Affiche le lien de connexion 
-			//		(le paramètre auth_cas n'a pas d'importance, 
-			//		il doit juste contenir une chaine. 
-			//		Il est là pour savoir que l'on a cliquer sur le lien 
-			//		et faire la redirection)
-			echo '<a href="'.$service.'&auth_cas=bycas">Connexion CAS</a>';
-		}
-		else{
-		
-			// *** Etablir la connexion via correspondance en BDD
-			$userquery = new userquery();
-			$udetails = $userquery->get_user_details($login);
-			
-			// *** User already exist
-			if (isset($udetails["userid"])){
-				// *** Connecte correctement un utilisateur existant.
-				$userquery->login_as_user($login, '');
-				header("Location: ".BASEURL);
-			}
-			else{
-				// *** Not yet inserted in db
-				$pass =  RandomString(10);		// create a password
-				// *** Information to create the user 
-				$user_infos = array(
-					'username' => $login,
-					'email'	=> $login.'@u-picardie.fr',
-					'password' => $pass,
-					'cpassword' => $pass,
-					'country' => get_country(config('default_country_iso2')),
-					'gender' => 'Male',
-					'dob'	=> '2000-10-10',
-					'category' => '1',
-					'level' => '6',
-					'active' => 'yes',
-					'agree' => 'yes',
-				);
-
-				// *** Insert id if user was created...
-				$userid = $userquery->signup_user($user_infos, false);
-				
-				// *** Check the user id and connect
-				if ($userid){
-					// *** Connecte correctement un utilisateur existant.
-					$userquery->login_as_user($login, '');
-					header("Location: ".BASEURL);
-				}
-			}
-		}
-	}
-	
 	register_anchor_function("is_auth_cas", "is_auth_cas");
 	
 	/* ***

@@ -35,9 +35,11 @@ function install_auth_cas() {
  */
 function import_auth_cas_langage_pack($lang){
 	global $db,$lang_obj;
+	
 	$folder= PLUG_DIR.'/'.basename(dirname(__FILE__))."/lang";
 	$file_name = $folder.'/auth_cas_lang_'.$lang.'.xml';
-	//Reading Content
+	
+	// *** Reading Content
 	$content = file_get_contents($file_name);
 	if(!$content) {
 		e(lang("err_reading_file_content")." : ".$file_name);
@@ -71,6 +73,6 @@ function import_auth_cas_langage_pack($lang){
 }
 
 install_auth_cas();
-//	import_speaker_langage_pack('fr');
-//	import_speaker_langage_pack('en');
+import_auth_cas_langage_pack('fr');
+import_auth_cas_langage_pack('en');
 ?>
