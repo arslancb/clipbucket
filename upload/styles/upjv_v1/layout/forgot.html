@@ -1,0 +1,43 @@
+{if $pass_recover=='success'}
+
+	{lang code='pass_changed_success'}
+
+{else}
+<div class="account-container">
+	{if $mode=='' || $mode=='reset_pass' }  
+
+	<div class="clearfix forgot-block">
+		<div class="account-holder">
+			<form action="" method="post" name="actvation" id="actvation" class="user-form">
+				<h2>{lang code='user_forgot_message'}</h2>
+				<div class="clearfix text-box">
+					<p>Please enter your username and verification code in the box, password reset instructions will be sent to your mailbox.</p>
+				</div>
+				{*<label for="login_username_sp">{lang code="username"}</label>*}
+				<div class="form-group">
+					<input type="text" name="forgot_username" class="form-control" placeholder="User Name" required autofocus>
+				</div>
+				<input name="reset" type="submit" class="btn btn-success btn-block" id="reset" value="{lang code='user_reset'}">
+			</form>
+			
+		</div>
+	</div>
+	
+	{/if}
+
+	{if $mode=='recover_username'}
+	<div class="clearfix forgot-block">
+		<div class="account-holder">
+			<form action="" method="post" name="activation" id="activation" class="user-form">
+				<h2>{lang code='user_recover_user'}</h2>
+				{*<label for="forgot_email" >{lang code='email'}</label>*}
+				<div class="form-group">
+					<input type="text" name="forgot_email" id="forgot_email" class="form-control" placeholder="name@youremail.com" required autofocus>
+				</div>
+				<input name="recover_username" type="submit" class="btn btn-success btn-block" id="recover_username" value="{lang code='user_recover'}">
+			</form>
+		</div>
+	</div>
+	{/if}
+</div>
+{/if}

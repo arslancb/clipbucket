@@ -1,0 +1,32 @@
+<script type="text/javascript">
+{literal}
+
+$( document ).ready( function() {
+	$("#duration").parent().parent().prev().append("<div class=\"row\"><a class=\"btn btn-primary btn-sm dropdown-toggle pull-right has-spinner\" style=\"margin:30px;\" onclick=\"getTimeFromVideo(\'cb_video_js\');\" title=\"Génére une vignette à partir de l\'emplacement lu dans la vidéo.\">Générer la vignette</a><input type=\"hidden\" name=\"time_for_thumbnail\" id=\"time_for_thumbnail\" value=\"\"><input type=\"hidden\" name=\"video_id_for_thumnail\" id=\"video_id_for_thumnail\" value=\""+$("#videoid").val()+"\"><div id=\"choose_thumbnail_info\"></div></div>");
+});
+
+
+function getTimeFromVideo(player) {
+
+	theplayer = videojs(player);
+	var time = theplayer.currentTime(); // Temps ecoule
+	$("#time_for_thumbnail").val = time;	// *** On met la valeur de temps dans le champ input caché
+
+	var formData = {thumb_time:time,video_id:$("#video_id_for_thumnail").val()}; //Array 
+	
+	if (confirm("Etes vous sur de vouloir générer cette vignette ?")){
+		$("#choose_thumbnail_info").html('<p>Génération en cours...</p>');
+		$.ajax({
+			type	  	: "POST",
+			url 	  	: "../plugins/choose_thumbnail/generate_thumbnail.php",
+			data		: formData,
+			success : function(q)
+			{
+				location.reload();
+			}
+		});
+	}
+}
+
+{/literal}
+</script>

@@ -1,0 +1,76 @@
+<script type="text/javascript">
+	$('body').on('click', '.social-icon', function(event) {
+		event.preventDefault();
+		// Act on the event //
+		var link  = $(this).data('source');
+		var target  = $(this).data('target');
+		console.log(link);
+		console.log(target);
+		onpenSocialIcons(link,target);
+
+	});
+
+	function onpenSocialIcons(link,target) {
+	   window.open(
+	  link,
+	  target // <- This is what makes it open in a new window.
+	);
+	}
+</script>
+<aside id="sidebar" class="custom-elements">
+	<div class="sidebar-holder scrollable-area">
+		<ul class="social-icons clearfix">
+			<li>
+				<span data-source="http://www.facebook.com/" data-target="_blank" class="facebook social-icon">
+					<i class="fa fa-facebook"></i>
+				</span>
+			</li>
+			<li>
+				<span data-source="http://www.twitter.com/" data-target="_blank" class="twitter social-icon">
+					<i class="fa fa-twitter"></i>
+				</span>
+			</li>
+			<li>
+				<span data-source="https://plus.google.com/" data-target="_blank" class="google-plus social-icon">
+					<i class="fa fa-google-plus"></i>
+				</span>
+			</li>
+			<li>
+				<span data-source="http://www.pinterest.com/" data-target="_blank" class="pinterest social-icon">
+					<i class="fa fa-pinterest"></i>
+				</span>
+			</li>
+		</ul>
+		<!-- Left Column Start -->
+		<ul class="cat-list clearfix">
+			{$categories= $cbvid->getCbCategories($var)}
+			{if $categories}
+			{foreach $categories as $category}
+				{$cat_id=$category.category_id}
+				{$_is_parent = $cbvid->is_parent($cat_id)}
+				{if !$_is_parent}
+					<li>
+						<a {if $smarty.get.cat==$category.category_id }  class="active" {/if} href="{cblink(['name'=>'category','data'=>$category,'type'=>'v'])}">
+							<img src="{$cbvid->get_category_thumb($category,'video')}" class="img-responsive" alt="">
+							<span>{$category.category_name}</span>
+						</a>
+					</li>
+				{/if}
+			{/foreach}
+			{/if}
+			
+			{*<li id="more-icon"  class="arrow-down show">
+				<a href="javascript:void(0)" >Show more</a>
+			</li>*}
+		</ul>
+		{*<div class="blog-visit">
+			<a href="#">Visit our blog</a>
+		</div>*}
+		<P>&nbsp;</P>
+		<P>&nbsp;</P>
+		<P>&nbsp;</P>
+		<P>&nbsp;</P>
+		<P>&nbsp;</P>
+
+	</div><!-- Left Column Ends -->
+</aside>
