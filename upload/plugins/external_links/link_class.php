@@ -309,7 +309,9 @@ class linkquery extends CBCategory{
 	 */
 	function link_link($id,$videoid) {
 		global $db;
-		$db->insert(tbl('video_links'), array('video_id','link_id'), array(mysql_clean($videoid),mysql_clean($id)));
+		$cnt= $db->count(tbl('video_links'),'*',"link_id=".$id.	" and video_id=".$videoid);
+		if ($cnt==0)
+			$db->insert(tbl('video_links'), array('video_id','link_id'), array(mysql_clean($videoid),mysql_clean($id)));
 	}
 
 	/**_____________________________________
@@ -322,7 +324,9 @@ class linkquery extends CBCategory{
 	 */
 	function unlink_link($id,$videoid) {
 		global $db;
-		$db->execute("DELETE FROM ".tbl("video_links")." WHERE video_id='$videoid' AND link_id='$id'");
+		$cnt= $db->count(tbl('video_links'),'*',"link_id=".$id.	" and video_id=".$videoid);
+		if ($cnt>0)
+			$db->execute("DELETE FROM ".tbl("video_links")." WHERE video_id='$videoid' AND link_id='$id'");
 	}
 	
 	/**_____________________________________
