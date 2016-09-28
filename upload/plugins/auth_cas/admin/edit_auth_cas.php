@@ -32,5 +32,17 @@ if(!defined('SUB_PAGE')){
 		assign($key, $config[$key]);
 	}
 	
+	
+	if (function_exists('search_ldap')) {
+		e("Les fonctions LDAP sont disponibles.<br />\n", "m");
+	}
+	else {
+		e("Les fonctions LDAP ne sont pas disponibles.<br />\n", "w");
+	}
+
+	
+	
+	
+	
 template_files(PLUG_DIR.'/auth_cas/admin/edit_auth_cas.html',true);
 ?>

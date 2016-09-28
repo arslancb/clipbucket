@@ -14,21 +14,17 @@ Version: 1.0
 	define('AUTH_CAS',basename(dirname(__FILE__)));			// *** Chemin du plugin
 
 	$config = get_cas_config();
-	define('CAS_VERSION',$config['version']);						// Localisation du serveur CAS
+	define('CAS_VERSION',$config['version']);				// Version du serveur CAS
 	define('CAS_BASE',$config['url']);						// Localisation du serveur CAS
-	define('CAS_CONTEXT',$config['cas_context']);		// URL de validation du serveur CAS
-	define('CAS_PORT',$config['port']);						// URL de validation du serveur CAS
-	define('CAS_CREATE_USER',$config['create_user']);						// URL de validation du serveur CAS
+	define('CAS_CONTEXT',$config['cas_context']);			// Suite de l'URL du serveur CAS
+	define('CAS_PORT',$config['port']);						// Port du serveur CAS
+	define('CAS_CREATE_USER',$config['create_user']);		// Option de creation de l'utilisateur
 	
 //	require_once(BASEURL.'/includes/common.php');
 	
 	// *** Inclusion librairie phpCAS
 	require(PLUG_DIR."/".AUTH_CAS."/CAS-1.3.4/CAS.php");
 	
-	
-	
-	// propre URL
-//	$service = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SCRIPT_NAME'].'?mode=login';
 
 //	phpCAS::setDebug();			// Enable debugging
 //	phpCAS::setVerbose(true);	// Enable verbose error messages. Disable in production!
@@ -92,7 +88,6 @@ Version: 1.0
 	*	 place this code {ANCHOR place="is_auth_cas"} in your signup layout to run the plugin
 	*/
 	function login_and_create($login){
-//		global $service;
 
 		// *** Etablir la connexion via correspondance en BDD
 		$userquery = new userquery();
@@ -120,17 +115,26 @@ Version: 1.0
 	}
 
 
-
-
+	/* ***
+	*	Créer l'utilisateur dans la base Clipbucket
+	* */
 	function create_user($login){
 		$userquery = new userquery();
-		//$udetails = $userquery->get_user_details($login);
 
+		if (function_exists('search_ldap')) {
+			e("Les fonctions LDAP sont disponibles.<br />\n", "m");
+			$email = search_ldap($login);
+		}
+		else {
+			e("Les fonctions LDAP ne sont pas disponibles.<br />\n", "m");
+			$email = '';
+		}
+	
 		$pass =  RandomString(10);		// create a password
 		// *** Information to create the user 
 		$user_infos = array(
 			'username' => $login,
-			'email'	=> $login.'@u-picardie.fr',
+			'email'	=> $email,
 			'password' => $pass,
 			'cpassword' => $pass,
 			'country' => get_country(config('default_country_iso2')),
@@ -147,7 +151,6 @@ Version: 1.0
 		
 		return $userid;
 	}
-
 
 
 	/* ***
@@ -194,8 +197,8 @@ Version: 1.0
 		}
 	}
 
+
 	register_anchor_function("is_auth_cas", "is_auth_cas");
-	
 	/* ***
 	*	Add entries for the plugin in the administration pages
 	*/
