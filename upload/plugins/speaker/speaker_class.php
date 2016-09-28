@@ -417,6 +417,8 @@ class speakerquery extends CBCategory{
 	 */
 	function link_speaker($id,$videoid) {
 		global $db;
+		$cnt= $db->count(tbl('video_speaker'),'*',"speakerfunction_id=".$id.	" and video_id=".$videoid);
+		if ($cnt==0)
 		$db->insert(tbl('video_speaker'), array('video_id','speakerfunction_id'), array(mysql_clean($videoid),mysql_clean($id)));
 	}
 
@@ -430,6 +432,8 @@ class speakerquery extends CBCategory{
 	 */
 	function unlink_speaker($id,$videoid) {
 		global $db;
+		$cnt= $db->count(tbl('video_speaker'),'*',"speakerfunction_id=".$id.	" and video_id=".$videoid);
+		if ($cnt>0)
 		$db->execute("DELETE FROM ".tbl("video_speaker")." WHERE video_id='$videoid' AND speakerfunction_id='$id'");
 	}
 	
