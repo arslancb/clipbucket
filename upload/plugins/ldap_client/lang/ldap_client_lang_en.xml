@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>English</name>
+	<iso_code>en</iso_code>
+	<phrases>
+		<ldap_configuration>LDAP Configuration</ldap_configuration>
+		<ldap_host>Host LDAP</ldap_host>
+		<ldap_port>Port LDAP</ldap_port>
+		<ldap_filtre>LDAP filter</ldap_filtre>
+		<ldap_basedn>Base DN</ldap_basedn>
+		<ldap_update_config>Save</ldap_update_config>
+		<ldap_recherche>LDAP search</ldap_recherche>
+		<search>Search</search>
+		<btn_search>Send</btn_search>
+		<ldap_client>LDAP Client</ldap_client>
+	</phrases>
+</clipbucket_language>

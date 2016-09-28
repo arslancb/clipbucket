@@ -1,0 +1,58 @@
+<h2>{lang('ldap_configuration')}</h2>
+
+<form class="form-horizontal" role="form" method="post">
+	<div class="form-group">
+		<label for="ldap_host" class="col-sm-2 control-label">{lang('ldap_host')}</label>
+		<div class="col-sm-8">
+			<input type="text" class="form-control" name="ldap_host" id="ldap_host" value="{$ldap_host}" placeholder="ldap.domain.com">
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="ldap_port" class="col-sm-2 control-label">{lang('ldap_port')}</label>
+		<div class="col-sm-8">
+			<input type="text" class="form-control" name="ldap_port" id="ldap_port" value="{$ldap_port}" placeholder="Ex : 389">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="ldap_filtre" class="col-sm-2 control-label">{lang('ldap_filtre')}</label>
+		<div class="col-sm-8">
+			<input type="text" class="form-control" name="ldap_filtre" id="ldap_filtre" value="{$ldap_filtre}" placeholder="Ex : uid=">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="ldap_basedn" class="col-sm-2 control-label">{lang('ldap_basedn')}</label>
+		<div class="col-sm-8">
+			<input type="text" class="form-control" name="ldap_basedn" id="ldap_basedn" value="{$ldap_basedn}" placeholder="Ex">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-8 col-sm-offset-2">
+			<input type="submit" class="btn btn-primary" name="update_config" id="update_config" value="{lang('ldap_update_config')}">
+		</div>
+	</div>
+</form>
+
+<h2>{lang('ldap_recherche')}</h2>
+
+<form class="form-horizontal" role="form" method="post">
+	<div class="form-group">
+		<label for="ldap_host" class="col-sm-2 control-label">{lang('search')}</label>
+		<div class="col-sm-8">
+			<input type="text" class="form-control" name="search" id="search" value="{$search}" placeholder="search">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-8 col-sm-offset-2">
+			<input type="submit" class="btn btn-primary" name="btn_search" id="btn_search" value="{lang('btn_search')}">
+		</div>
+	</div>
+</form>
+
+<pre>
+<b>LDAP Result :</b>
+{print_r($ldap_result)}
+</pre>
+
