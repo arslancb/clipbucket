@@ -10,7 +10,7 @@ require_once('../includes/common.php');
 function install_disciplines() {	
 	$uploaddir = BASEDIR."/files/thumbs/disciplines";
 	if (is_dir($uploaddir)){ 
-		$files = glob($uploaddir.'*'); // get all file names
+		$files = glob($uploaddir.'/*'); // get all file names
 		foreach($files as $file){ // iterate files
 			if(is_file($file))
 				unlink($file); // delete file

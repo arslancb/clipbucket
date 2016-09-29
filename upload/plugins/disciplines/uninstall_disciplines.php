@@ -19,7 +19,7 @@ function uninstall_disciplines(){
 		unlink($uploaddir."/".$tmp['thumb_url']);
 	}
 	unset($tmp);
-	$files = glob($uploaddir.'*'); // get all file names
+	$files = glob($uploaddir.'/*'); // get all file names
 	foreach($files as $file){ // iterate files
 		if(is_file($file))
 			unlink($file); // delete file
