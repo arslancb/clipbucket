@@ -1,0 +1,434 @@
+@font-face {
+	font-family: 'source_sans_probold';
+	src: url('../fonts/sourcesanspro-bold-webfont.eot');
+	src: url('../fonts/sourcesanspro-bold-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/sourcesanspro-bold-webfont.woff2') format('woff2'),
+		 url('../fonts/sourcesanspro-bold-webfont.woff') format('woff'),
+		 url('../fonts/sourcesanspro-bold-webfont.ttf') format('truetype'),
+		 url('../fonts/sourcesanspro-bold-webfont.svg#source_sans_probold') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'source_sans_prolight';
+	src: url('../fonts/sourcesanspro-light-webfont.eot');
+	src: url('../fonts/sourcesanspro-light-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/sourcesanspro-light-webfont.woff2') format('woff2'),
+		 url('../fonts/sourcesanspro-light-webfont.woff') format('woff'),
+		 url('../fonts/sourcesanspro-light-webfont.ttf') format('truetype'),
+		 url('../fonts/sourcesanspro-light-webfont.svg#source_sans_prolight') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'source_sans_proregular';
+	src: url('../fonts/sourcesanspro-regular-webfont.eot');
+	src: url('../fonts/sourcesanspro-regular-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/sourcesanspro-regular-webfont.woff2') format('woff2'),
+		 url('../fonts/sourcesanspro-regular-webfont.woff') format('woff'),
+		 url('../fonts/sourcesanspro-regular-webfont.ttf') format('truetype'),
+		 url('../fonts/sourcesanspro-regular-webfont.svg#source_sans_proregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'source_sans_prosemibold';
+	src: url('../fonts/sourcesanspro-semibold-webfont.eot');
+	src: url('../fonts/sourcesanspro-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/sourcesanspro-semibold-webfont.woff2') format('woff2'),
+		 url('../fonts/sourcesanspro-semibold-webfont.woff') format('woff'),
+		 url('../fonts/sourcesanspro-semibold-webfont.ttf') format('truetype'),
+		 url('../fonts/sourcesanspro-semibold-webfont.svg#source_sans_prosemibold') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+/* variables */
+$black:#000;
+$white:#fff;
+$search-txt:#a8a8a8;
+$bg-theme:#17181a;
+$grey-txt:#757575;
+$lt-grey:#f9f9f9;
+$photo-btn-color:#f3f3f3;
+$green: #4caf50;
+$sidebar-color:#1a1e21;
+$orange:#ffa000;
+$dark-btn:#17181a;
+$header-btn:#262727;
+$dropdown-bg:#424242;
+$opacity:0.6;
+$blue:#0080b4;
+$body-bg:#eee;
+$block-color:#333;
+$heading-color:#666;
+$search-toggle:#999;
+$base-font:'source_sans_proregular', sans-serif;
+$bold-font:'source_sans_probold', sans-serif;
+$semibold-font:'source_sans_prosemibold', sans-serif;
+$light-font:'source_sans_prolight', sans-serif;
+$base-color:$black;
+$font-icon: 'icomoon';
+$bordercolor:#d9d9d9;
+$default-border:1px solid $bordercolor;
+$fb-color:#2b4b90;
+$tw-color:#1c95d0;
+$gplus-color:#d34332;
+$linkedin-color:#007bb5;
+$com-color:#2d2d2d;
+$probox-bg: #f8f8f8;
+$input-bg: #f6f6f6;
+$error-color:#f44336;
+/**/
+@mixin overlaybg($color, $opacity){
+	background: rgba($color, $opacity);
+}
+@mixin txtinput(){
+	color:$base-color;
+	background: $input-bg;
+	border-color: $bordercolor;
+	font-size: 15px;
+	line-height: 28px;
+	height: 42px;
+	/* placeholder input styles */
+	input[type="text"]::-webkit-input-placeholder { /* WebKit browsers */
+			color: lighten($base-color,74%);
+	}
+	input[type="text"]:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		color: lighten($base-color,74%);
+	}
+	input[type="text"]::-moz-placeholder { /* Mozilla Firefox 19+ */
+		color: lighten($base-color,74%);
+		opacity: 1;
+	}
+	input[type="text"]:-ms-input-placeholder { /* Internet Explorer 10+ */
+		color: lighten($base-color,74%);
+	}
+}
+
+@mixin gradient-bg(){
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.6+0,0.59+43,0.55+49,0.26+70,0.12+82,0.05+90,0.01+100 */
+	background: -moz-linear-gradient(top,  rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.59) 43%, rgba(0,0,0,0.55) 49%, rgba(0,0,0,0.26) 70%, rgba(0,0,0,0.12) 82%, rgba(0,0,0,0.05) 90%, rgba(0,0,0,0.01) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.59) 43%,rgba(0,0,0,0.55) 49%,rgba(0,0,0,0.26) 70%,rgba(0,0,0,0.12) 82%,rgba(0,0,0,0.05) 90%,rgba(0,0,0,0.01) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.59) 43%,rgba(0,0,0,0.55) 49%,rgba(0,0,0,0.26) 70%,rgba(0,0,0,0.12) 82%,rgba(0,0,0,0.05) 90%,rgba(0,0,0,0.01) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#99000000', endColorstr='#03000000',GradientType=0 ); /* IE6-9 */
+}
+@mixin gradientbottom-bg(){
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,0.01+9,0.07+21,0.24+36,0.53+55,0.78+76,0.8+81,0.8+100 */
+	background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.01) 9%, rgba(0,0,0,0.07) 21%, rgba(0,0,0,0.24) 36%, rgba(0,0,0,0.53) 55%, rgba(0,0,0,0.78) 76%, rgba(0,0,0,0.8) 81%, rgba(0,0,0,0.8) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 9%,rgba(0,0,0,0.07) 21%,rgba(0,0,0,0.24) 36%,rgba(0,0,0,0.53) 55%,rgba(0,0,0,0.78) 76%,rgba(0,0,0,0.8) 81%,rgba(0,0,0,0.8) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 9%,rgba(0,0,0,0.07) 21%,rgba(0,0,0,0.24) 36%,rgba(0,0,0,0.53) 55%,rgba(0,0,0,0.78) 76%,rgba(0,0,0,0.8) 81%,rgba(0,0,0,0.8) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#cc000000',GradientType=0 ); /* IE6-9 */
+}
+@mixin after(){
+	display: block;
+	clear: both;
+	content: "";
+}
+@mixin list-style(){
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+@mixin transition-property($transitionProperty){
+	-webkit-transition-property: $transitionProperty;
+	-moz-transition-property: $transitionProperty;
+	-ms-transition-property: $transitionProperty;
+	-o-transition-property: $transitionProperty;
+	transition-property: $transitionProperty;
+}
+@mixin alltransition($ease-property, $ease-time, $ease){
+	-webkit-transition: $ease-property $ease-time $ease;
+	-moz-transition: $ease-property $ease-time $ease;
+	-ms-transition: $ease-property $ease-time $ease;
+	-o-transition: $ease-property $ease-time $ease;
+	transition: $ease-property $ease-time $ease;
+}
+@mixin transition($transition) {
+	-webkit-transition: $transition;  
+	-moz-transition:    $transition;
+	-ms-transition:     $transition; 
+	-o-transition:      $transition;
+}
+@mixin boxsizing(){
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+@mixin text-replacement(){
+	text-indent:-9999px;
+	overflow: hidden;
+}
+@mixin pro-box-mix(){
+	background: $probox-bg;
+	border:1px solid #e1e1e1;
+}
+
+@mixin img-thumb(){
+	.row{
+		margin: 0 -10px;
+	}
+	.img-holder{
+		padding: 0 10px;
+		margin: 0 auto 20px;
+		img{
+			width: 100%;
+		}
+	}
+}
+@mixin vertical-top(){
+	display: inline-block;
+	vertical-align: top;
+}
+
+@mixin vertical-middle(){
+	display: inline-block;
+	vertical-align: middle;
+}
+
+@mixin vertical-bottom(){
+	display: inline-block;
+	vertical-align: bottom;
+}
+/**/
+@mixin text-shadow ($string: 0 1px 3px rgba(0, 0, 0, 0.25)) {
+	text-shadow: $string;
+}
+@mixin box-shadow ($string) {
+	-webkit-box-shadow: $string;
+	-moz-box-shadow:    $string;
+	box-shadow:         $string;
+}
+@mixin drop-shadow ($x: 0, $y: 1px, $blur: 2px, $spread: 0, $alpha: 0.25) {
+	-webkit-box-shadow:	$x $y $blur $spread rgba(0, 0, 0, $alpha);
+	-moz-box-shadow:	$x $y $blur $spread rgba(0, 0, 0, $alpha);
+	box-shadow:		$x $y $blur $spread rgba(0, 0, 0, $alpha);
+}
+@mixin inner-shadow ($x: 0, $y: 1px, $blur: 2px, $spread: 0, $alpha: 0.25) {
+	-webkit-box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $alpha);
+	-moz-box-shadow:    inset $x $y $blur $spread rgba(0, 0, 0, $alpha);
+	box-shadow:         inset $x $y $blur $spread rgba(0, 0, 0, $alpha);
+}
+@mixin gradient ($startColor: #eee, $endColor: white) {
+	background-color: $startColor;
+	background: -webkit-gradient(linear, left top, left bottom, from($startColor), to($endColor));
+	background: -webkit-linear-gradient(top, $startColor, $endColor);
+	background: -moz-linear-gradient(top, $startColor, $endColor);
+	background: -ms-linear-gradient(top, $startColor, $endColor);
+	background: -o-linear-gradient(top, $startColor, $endColor);
+}
+@mixin horizontal-gradient ($startColor: #eee, $endColor: white) {
+	background-color: $startColor;
+	background-image: -webkit-gradient(linear, left top, right top, from($startColor), to($endColor));
+	background-image: -webkit-linear-gradient(left, $startColor, $endColor);
+	background-image: -moz-linear-gradient(left, $startColor, $endColor);
+	background-image: -ms-linear-gradient(left, $startColor, $endColor);
+	background-image: -o-linear-gradient(left, $startColor, $endColor);
+}
+@mixin myanimation ($name, $duration, $ease) {
+	-webkit-animation: $name $duration $ease;
+	-moz-animation:    $name $duration $ease;
+	-ms-animation:     $name $duration $ease;
+	-o-animation: $name $duration $ease;
+	animation: $name $duration $ease;
+}
+
+@mixin transform($string){
+	-webkit-transform: $string;
+	-moz-transform: 	 $string;
+	-ms-transform: 		 $string;
+	-o-transform: 		 $string;
+}
+@mixin scale ($factor) {
+	-webkit-transform: scale($factor);
+	-moz-transform: 	 scale($factor);
+	-ms-transform: 		 scale($factor);
+	-o-transform: 		 scale($factor);
+}
+@mixin rotate ($deg) {
+	-webkit-transform: rotate($deg);
+	-moz-transform: 	 rotate($deg);
+	-ms-transform: 		 rotate($deg);
+	-o-transform: 		 rotate($deg);
+}
+@mixin skew ($deg, $deg2) {
+	-webkit-transform:       skew($deg, $deg2);
+	-moz-transform: 	 skew($deg, $deg2);
+	-ms-transform: 		 skew($deg, $deg2);
+	-o-transform: 		 skew($deg, $deg2);
+}
+@mixin translate ($x, $y:0) {
+	-webkit-transform:       translate($x, $y);
+	-moz-transform: 	 translate($x, $y);
+	-ms-transform: 		 translate($x, $y);
+	-o-transform: 		 translate($x, $y);
+}
+@mixin translate3d ($x, $y: 0, $z: 0) {
+	-webkit-transform:       translate3d($x, $y, $z);
+	-moz-transform: 	 translate3d($x, $y, $z);
+	-ms-transform: 		 translate3d($x, $y, $z);
+	-o-transform: 		 translate3d($x, $y, $z);
+}
+@mixin perspective ($value: 1000) {
+	-webkit-perspective: 	$value;
+	-moz-perspective: 	$value;
+	-ms-perspective: 	$value;
+	perspective: 		$value;
+}
+@mixin transform-origin ($x:center, $y:center) {
+	-webkit-transform-origin: $x $y;
+	-moz-transform-origin:    $x $y;
+	-ms-transform-origin:     $x $y;
+	-o-transform-origin:      $x $y;
+}
+/* buttons */
+.btn-default{
+	background:darken($lt-grey,5%);
+	border-color: darken($lt-grey,5%);
+	font-family:$base-font;
+	color: $black;
+	&:hover,
+	&:active{
+		background:darken($lt-grey,5%);
+		border-color: darken($lt-grey,5%);
+	}
+}
+.btn-ghost{
+	background: $white;
+	border: 2px solid $black;
+	padding: 5px 10px;
+	font-family:$base-font;
+	font-size: 15px;
+	line-height: 21px;
+	color:$black;
+	&.btn-lg{
+		font-size: 18px;
+		line-height: 36px;
+	}
+	&:hover,
+	&:active{
+		background:$blue;
+		border-color:$blue;
+		color:$white;
+	}
+}
+.btn-primary{
+	background:$blue;
+	border-color:$blue;
+	font-family:$base-font;
+	color:$white;
+	&:hover,
+	&:active{
+		background:$blue;
+		border-color:$blue;
+		color:$white;
+	}
+}
+.btn-success{
+	background:$green;
+	border-color:$green;
+	font-family:$base-font;
+	color:$white;
+	&:hover,
+	&:active{
+		background:$green;
+		border-color:$green;
+		color:$white;
+	}
+}
+.btn-black{
+	background: lighten($black,13%);
+	border-color:lighten($black,13%);
+	font-family:$base-font;
+	font-size: 15px;
+	color:$white;
+	&:hover,
+	&:active{
+		background: lighten($black,13%);
+		border-color:lighten($black,13%);
+		color:$white;
+	}
+}
+/* form elements */
+.form-control{
+	@include txtinput();
+}
+/* error messages */
+/* error animations */
+@mixin error-animation ($name:bounce, $duration:800ms, $ease:ease-out){
+	-webkit-animation: $name $duration $ease;
+	-moz-animation:    $name $duration $ease;
+	-ms-animation:     $name $duration $ease;
+	-o-animation: $name $duration $ease;
+	animation: $name $duration $ease;
+}
+@mixin animatetop(){
+	0% {
+		transform:translateY(-100%);
+		opacity: 0;
+	}
+	5% {
+		transform:translateY(-100%);
+		opacity: 0;
+	}
+	15% {
+		transform:translateY(0);
+		padding-bottom: 5px;
+	}
+	30% {
+		transform:translateY(-50%);
+	}
+	40% {
+		transform:translateY(0%);
+		padding-bottom: 6px;
+	}
+	50% {
+		transform:translateY(-30%);
+	}
+	70% {
+		transform:translateY(0%);
+		padding-bottom: 7px;
+	}
+	80% {
+		transform:translateY(-15%);
+ 	}
+	90% {
+		transform:translateY(0%);
+		padding-bottom: 8px;
+	}
+	95% {
+		transform:translateY(-7%);
+	}
+	97% {
+		transform:translateY(0%);
+		padding-bottom: 9px;
+	}
+	99% {
+		transform:translateY(-3%);
+	}
+	100% {
+		transform:translateY(0);
+		padding-bottom: 9px;
+		opacity: 1;
+	}
+}
+@-webkit-keyframes bounce {
+	@include animatetop();
+}
+
+@-moz-keyframes bounce {
+	@include animatetop();
+}
+@-o-keyframes bounce {
+	@include animatetop();
+}
+@keyframes bounce {
+	@include animatetop();
+}
+.alert-msg-holder {
+	margin: 0 auto;
+	text-align: center;
+	max-width: 1170px !important;
+}
+.alert-ajax {
+	@include error-animation();
+}

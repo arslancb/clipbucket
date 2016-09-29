@@ -1,0 +1,87 @@
+{assign var='requiredFields' value=$cbgroup->load_required_fields()}
+{assign var='optionFields' value=$cbgroup->load_other_fields()}
+{assign var='customFields' value=$cbgroup->custom_group_fields}
+
+{$myAccountLinks = $userquery->my_account_links()}
+<div class="container clearfix">
+	<div class="row cb-box">
+		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
+			{include file="$style_dir/blocks/manage/userMenuLeft.html"}
+		</div>
+		<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+			<div class="clearfix">
+				<div class="upload_info clearfix">
+					<h2>{lang code='grp_crt_grp'}</h2>
+					<form name="upload_form" class="upload_form creat_group" method="post" action="" enctype="multipart/form-data">
+						<fieldset class="fieldset">
+						   <p>Upload Thumb</p>
+							<div class="clearfix">
+								<p class="nopadding">{lang code='grp_must_be'} JPG | GIF | PNG</p>
+								<p class="nopadding">{lang code='grp_90x90'}</p>
+								<p class="nopadding">{lang code='grp_thumb_warn'}</p>
+								<div class="form-group clearfix">
+									<input type="file" name="thumb_file" id="thumb_file">
+								</div>
+							</div>
+						</fieldset>
+						<!-- Required Fields -->
+						{foreach from=$requiredFields item=field}
+						
+							<p>{lang code='grp_info_all_fields_req'}</p>
+							<label for="{$field.id}">{$field.title}</label>
+							{if $field.hint_1}
+							<p>{$field.hint_1}</p>
+							{/if}
+
+							{$field.class='form-control'}
+
+							{if $field.type == 'checkbox'}
+								{$field.class = ''}
+								{$field.label_class = 'checkbox'}
+								{$field.notShowSeprator = true}
+							{/if}							
+							<div class="clearfix form-group">
+								{$formObj->createField($field)}
+							</div>
+							{if $field.hint_2}
+							
+							<p>{$field.hint_2}</p>
+							{/if}
+						
+						{/foreach}
+						<!-- Required Fields -->
+
+						<div id="more_fields" style="display:none">
+							<!-- MORE Fields -->
+
+							<h4><a href="#">more options</a></h4>
+							{foreach from=$optionFields item=field}
+							<div class="field">
+								<label for="{$field.id}">{$field.title}</label>
+								{if $field.hint_1}
+								<p>{$field.hint_1}</p>
+								{/if}
+								{$field.label_class='radio'}
+								{$field.notShowSeprator = true}
+								{$formObj->createField($field)}
+								{if $field.hint_2}
+								<p>{$field.hint_2}</p>
+								{/if}
+							</div>
+							{/foreach}
+							<!-- MORE Fields -->
+						</div>
+
+						<span class="more_button">
+							<a class="btn btn-danger btn-xs" href="javascript:void()" onClick="$('#more_fields').slideToggle();$('.more_button').toggleClass('more_button_up');">{lang code='more_options'}</a>
+						</span>
+
+						<div align="right" class="clearfix">
+							<input type="submit" name="create_group" value="{lang code='grp_crt_grp'}" class="btn btn-primary">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

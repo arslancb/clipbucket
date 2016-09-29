@@ -1,0 +1,130 @@
+@import "mymixins";
+#sidebar{
+	float: right;
+	width: 25.6%;
+	h2{
+		font-size: 23px;
+		line-height: 23px;
+		font-family: $semibold-font;
+		margin: 0 0 20px;
+	}
+}
+.sidebar-channels{
+	background: $white;
+	padding: 0 16px;
+	margin: 0 0 20px;
+	 .channel-item{
+	 	background: $white;
+	 	padding: 16px 0;
+	 	border-bottom:$default-border;
+	 	&:last-child{
+	 		border: none;
+	 	}
+	 	.avatar{
+	 		width: 50px;
+	 		height: 50px;
+	 		float: left;
+	 		margin: 0 10px 0 0;
+	 		img{
+	 			width: 100%;
+	 			height: 100%;
+	 		}
+	 	}
+	 	.channel-info{
+	 		overflow: hidden;
+	 		padding: 10px 0 0;
+	 		color: $grey-txt;
+	 		h3{
+	 			font-size: 15px;
+	 			line-height: 15px;
+	 			font-family: $semibold-font;
+	 			margin: 0 0 10px;
+	 			color: $black;
+	 			a{
+	 				color: $black;
+	 			}
+	 		}
+	 		.views-videos{
+	 			span{
+	 				@include vertical-middle();
+	 				padding: 0 0 0 10px;
+	 				position: relative;
+	 				&:after{
+	 					content: "";
+	 					position: absolute;
+	 					top: 50%;
+	 					left: 0;
+	 					margin: -2px 0 0;
+	 					width: 4px;
+	 					height: 4px;
+	 					border-radius: 2px;
+	 					background: $grey-txt;
+	 				}
+	 				&:first-child{
+	 					margin: 0 5px 0 0;
+	 					padding: 0;
+	 					&:after{
+	 						display: none;
+	 					}
+	 				}
+	 			}
+	 		}
+	 	}
+	 }
+}
+.sidebar-items{
+	background: $white;
+	padding: 16px 16px 0;
+	margin: 0 0 16px;
+	.featured-video{
+		font-size: 14px;
+		line-height: 14px;
+		&:first-child{
+			padding: 0 0 14px;
+		}
+		.title{
+			font-size: 15px;
+			line-height: 17px;
+			font-family: $semibold-font;
+			margin: 0 0 6px;
+		}
+		.author{
+			font-size: 13px;
+			line-height: 13px;
+		}
+	}
+	.row{
+		margin: 0 -8px;
+	}
+	.item-photo{
+		.photo-holder{
+			i{
+				width: 30px;
+				height: 30px;
+				font-size: 30px;
+				line-height: 30px;
+				margin: -15px 0 0 -15px;
+			}
+		}
+	}
+}
+@media only screen and (max-width: 991px) {
+	.sidebar-items{
+		.featured-video{
+			width: 100%;
+			display: block;
+			padding: 0;
+			margin: 0 0 16px;
+			font-size: 14px;
+			line-height: 14px;
+			&:first-child{
+				padding: 0;
+			}
+		}
+	}
+}
+@media only screen and (max-width: 767px) {
+	#sidebar{
+		display: none;
+	}
+}

@@ -1,0 +1,49 @@
+<h2>{lang('cas_configuration')}</h2>
+	
+<form class="form-horizontal" role="form" method="post">
+	<div class="form-group">
+		<label for="version" class="col-sm-2 control-label">{lang('cas_version')}</label>
+		<div class="col-sm-8">
+			<select name="version" id="version" class="form-control">
+				<option value="CAS_VERSION_1_0"{if $version == 'CAS_VERSION_1_0'} selected{/if}>1.0</option>
+				<option value="CAS_VERSION_2_0"{if $version == 'CAS_VERSION_2_0'} selected{/if}>2.0</option>
+				<option value="CAS_VERSION_3_0"{if $version == 'CAS_VERSION_3_0'} selected{/if}>3.0</option>
+			</select>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="url" class="col-sm-2 control-label">{lang('cas_url')}</label>
+		<div class="col-sm-8">
+			<input type="text" class="form-control" name="url" id="url" value="{$url}" placeholder="{lang('cas_in_example')} https://cas.domain.com/">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="port" class="col-sm-2 control-label">{lang('cas_url')}</label>
+		<div class="col-sm-8">
+			<input type="text" class="form-control" name="port" id="port" value="{$port}" placeholder="{lang('cas_in_example')} 443">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="cas_context" class="col-sm-2 control-label">{lang('cas_context')}</label>
+		<div class="col-sm-8">
+			<input type="text" class="form-control" name="cas_context" id="cas_context" value="{$cas_context}" placeholder="{lang('cas_in_example')} /">
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="create_user" class="col-sm-2 control-label">{lang('cas_create_user')} </label>
+		<div class="col-sm-8">
+			<label class="inline">
+				<input value="yes" id="create_user" {if $create_user == 'yes'}checked="checked"{/if}  name="create_user"  type="checkbox" class="ace ace-switch ace-switch-5 bootstrap-switch-on">
+				<span class="lbl"></span>
+			</label>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<div class="col-sm-8 col-sm-offset-2">
+			<input type="submit" class="btn btn-primary" name="update_config" id="update_config" value="{lang('cas_update_config')}">
+		</div>
+	</div>
+</form>

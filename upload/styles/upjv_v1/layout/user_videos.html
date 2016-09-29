@@ -1,0 +1,52 @@
+{lang code='channel' assign='object_type'}
+{include file="$style_dir/global_header.html"}
+{include file="$style_dir/header.html"}
+
+<div id="container">
+	<div id="main" class="clearfix container">
+		<div class="clearfix">
+			{if $playlist_mode == 'on'}
+				{if $playlists}
+				<div class="clearfix">
+					{foreach $playlists as $playlist}
+					<div class="clearfix">
+						<div class="clearfix">
+							<label class="label label-info">{$playlist.playlist_name}</label>
+						</div>
+						<img src="{get_playlist_thumb($playlist)}">
+						{$list_id=$playlist.playlist_id}
+						{$first=get_playlist_items($list_id,1)}
+						{if $first}
+						<a href="{videoLink vdetails=$first[0]}" >{lang code='play_now'}</a>
+						{/if}
+						<div class="clearfix">
+							<span class="maccountlabels">
+								<strong>{$playlist.date_added|niceTime}</strong>
+							</span>
+						</div>
+					</div>
+					{/foreach}
+					<div class="clearfix">
+						{include file="$style_dir/blocks/pagination.html"}
+					</div>
+				</div>
+				{/if}
+			{else}
+			<section id="content" class="clearfix videos">
+				<h1>User Videos </h1>
+				<div class="clearfix row">
+				{foreach $videos as $video}
+					<div class="item-video col-lg-3 col-md-4 col-sm-4 col-xs-12">
+					{include file="$style_dir/blocks/video.html" display_type='user-videos'}
+					</div>
+				{/foreach}
+				</div>
+				<div class="clearfix">
+					{include file="$style_dir/blocks/pagination.html"}
+				</div>
+			</section>
+			{/if}
+		</div>
+	</div>
+	{include file="$style_dir/footer.html"}
+</div>
