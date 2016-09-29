@@ -14,6 +14,8 @@
 /upload/files/temp/*
 /upload/files/thumbs/20*
 /upload/files/videos/20*
+/upload/files/thumbs.disciplines
+/upload/files/documents
 #/upload/images/*.*
 #/upload/images/avatars/*.*
 #/upload/images/backgrounds/*.*

@@ -17,7 +17,7 @@
 				<header>
 					<div class="video-type clearfix"> {$video.category|categories:video}
 						<!--YB signaler la video show_flag_form id=$vdo.videoid type=video-->
-						<button type="button" class="btn btn-success btn-xs share-btn pull-right" data-toggle="modal" data-target="#shareModal"><span class="fa fa-share-alt"></span>&nbsp;{lang code='share'}</button>
+						<button type="button" class="btn btn-success btn-xs share-btn pull-right" data-toggle="modal" data-target="#shareModal"><span class="fa fa-share-alt"></span>&nbsp;{lang code='share_this'}</button>
 					</div>
 					<h2 class="reset">{$video.title}</h2>
 					<!-- ajouter |niceTime derrière une date pour afficher "il y a X années" au lieu de Y-m-d-->
@@ -64,7 +64,7 @@
 							<li>
 								<h5><span class="glyphicon glyphicon glyphicon-file"></span> Documents</h5>
 								<ul class="reset nolist">
-									<li><span class="no-link">#</span></li>
+									<li><span class="no-link">{ANCHOR place="external_document_list" data=$video}</span></li>
 								</ul>
 							</li>
 							<li>
