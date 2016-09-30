@@ -43,7 +43,7 @@ Version: 0.1
 
 				ldap_close($ds);		// Fermeture de la connexion
 
-				return $email;
+				return $info;
 
 			} else {
 				return '';
