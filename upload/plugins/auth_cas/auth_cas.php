@@ -33,7 +33,7 @@ Version: 1.0
 	*	Function launch when access the login page
 	*	 place this code {ANCHOR place="is_auth_cas"} in your signup layout to run the plugin
 	*/
-	function is_auth_cas(){
+	function is_auth_cas($urlonly=false){
 		global $LANG,$Cbucket;
 		
 		// *** Initialise
@@ -70,7 +70,13 @@ Version: 1.0
 	
 		}
 		else{
-			echo '<a href="'.BASEURL.'/signup.php?mode=login&auth_cas=bycas">'.lang('cas_connexion_link').'</a><br>';
+			$url=BASEURL.'/signup.php?mode=login&auth_cas=bycas';
+			if ($urlonly) {
+				echo $url;
+			}
+			else {
+				echo '<a href="'.$url.'">'.lang('cas_connexion_link').'</a><br>';
+			}
 		}
 	} // is_auth_cas
 		
@@ -101,7 +107,7 @@ Version: 1.0
 		}
 		else{
 			// *** Not yet inserted in db
-			if (intval(CAS_CREATE_USER) == 1){
+			if (CAS_CREATE_USER == 'yes'){
 				$userid = create_user($login);
 			}
 			
