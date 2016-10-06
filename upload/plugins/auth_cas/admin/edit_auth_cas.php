@@ -2,7 +2,7 @@
 
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
-    define('MAIN_PAGE', lang('cas_central_authentication_service'));
+    define('MAIN_PAGE', 'Stats And Configurations');
 }
 
 if(!defined('SUB_PAGE')){

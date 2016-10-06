@@ -207,7 +207,8 @@ Version: 1.0
 	register_anchor_function("is_auth_cas", "is_auth_cas");
 	/* ***
 	*	Add entries for the plugin in the administration pages
+	*
 	*/
-	add_admin_menu('Authentification CAS','Configuration CAS','edit_auth_cas.php',AUTH_CAS.'/admin');
+	add_admin_menu('Stats And Configurations','Configuration CAS','edit_auth_cas.php',AUTH_CAS.'/admin');
 
 ?>
