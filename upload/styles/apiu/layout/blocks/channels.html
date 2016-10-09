@@ -1,0 +1,163 @@
+{if $block_type == '' || $block_type=='normal'}
+<div class="clearfix" id="user-{$user.userid}">
+	<a href="{$userquery->profile_link($user)}" class="avatar">
+		<img src="{avatar details=$user size='220x124'}">
+	</a>
+	<h2><a href="{$userquery->profile_link($user)}">{$user.username}</a></h2>
+	<span class="videos-count">
+		{if isSectionEnabled('videos')}
+			{lang code="videos"}:  {$user.total_videos|number_format}
+		{/if}
+	</span>
+	<span class="subscribers-count">
+		{lang code="subscribers"}:  {$user.subscribers|number_format}
+	</span>
+	
+	<h2>{$user.total_videos|number_format} {lang code="videos"} {$user.profile_hits|number_format} {lang code="views"}</h2>
+	<img src="{$userquery->getCover($user.userid)}" alt="">
+</div>
+{/if}
+
+{if $block_type == 'homeChannel' || $block_type=='normal'}
+{assign var='user_cover' value=$userquery->getCover($user.userid)}
+
+<a href="{$userquery->profile_link($user)}" id="user-{$user.userid}" style="background:url({if $user_cover != ''} {$user_cover} {else} {$theme}/images/cover_default.jpg  {/if} )">
+	<img class="avatar" src="{avatar details=$user}">
+	<div class="info">
+		<h2>{$user.username}</h2>
+		<div class="clearfix">
+			<span>{$user.total_videos|number_format} {lang code="videos"}</span>
+			<span>{$user.profile_hits|number_format} {lang code="views"}</span>
+		</div>
+	</div>
+</a>
+{/if}
+
+{if $block_type == 'featuredChannel'}
+{assign var='user_cover' value=$userquery->getCover($featured.userid)}
+
+<a href="{$userquery->profile_link($featured)}" id="user-{$featured.userid}" class="featured-userlink">
+	<img class="sm-cover img-responsive" src="{if $user_cover != ''} {$user_cover} {else} {$theme}/images/cover_default.jpg  {/if}"  size='368x124'>
+	<div class="info">
+		<img class="avatar" src="{avatar details=$featured}">
+		<h2>{$featured.username}</h2>
+		<div class="clearfix">
+			<span>{$featured.total_videos|number_format} {lang code="videos"}</span>
+			<span>{$featured.profile_hits|number_format} {lang code="views"}</span>
+		</div>
+	</div>
+</a>
+<i class="btn-subscribe">{$featured.subscribers|number_format} {lang code="subscriber(s)"}</i>
+{/if}
+
+{if $block_type == 'itemChannel' || $block_type=='normal'}
+{assign var='user_cover_tune' value=$userquery->getCover($user.userid)}
+
+<div class="channel-holder">
+	<a href="{$userquery->profile_link($user)}" id="user-{$user.userid}" class="user-block">
+		<img class="avatar" src="{avatar details=$user size='m'}">
+		<h2>{$user.username}</h2>
+	</a>
+	<div class="info clearfix">
+		<div class="col">
+			<strong>
+				{lang code="views"}
+				<span>{$user.profile_hits|number_format}</span>
+			</strong>
+			{if isSectionEnabled('videos')}
+			<strong>
+				{lang code="videos"}
+				<span>{$user.total_videos|number_format}</span>
+			</strong>
+			{/if}
+		</div>
+		<div class="col">
+			<strong>
+				{lang code="subscribers"}
+				<span>{$user.subscribers|number_format}</span>
+			</strong>
+			{if isSectionEnabled('photos')}
+			<strong>
+				{lang code="photos"}
+				<span>{$user.total_photos|number_format}</span>
+			</strong>
+			{/if}
+		</div>
+	</div>
+</div>
+
+{/if}
+
+{if $block_type == 'subscribedby_channel'}
+
+{assign var="user_data" value=$userquery->get_user_details($subscriber)}
+<div class="channel-holder">
+	<a href="{$userquery->profile_link($user_data.userid)}" id="user-{$my_user.userid}" class="user-block">
+		<img class="avatar" src="{$userquery->getuserthumb($user_data.userid)}">
+		<h2>{$user_data.username}</h2>
+	</a>
+	<div class="info">
+		<span>{$user_data.total_videos|number_format} {lang code="videos"}</span>
+		<span>{$user_data.profile_hits|number_format} {lang code="views"}</span>
+		<span>{lang code="subscribers"}:  {$user_data.subscribers|number_format}</span>
+	</div>
+	
+</div>
+
+{/if}
+
+{if $block_type == 'subscribedby_list'}
+
+{assign var="user_data" value=$userquery->get_user_details($subscriber)}
+	<a href="{$userquery->profile_link($user_data.userid)}" title="{$user_data.username}" id="user-{$user_data.userid}" class="sub-avatar">
+		<img class="avatar img-responsive img-circle"  src="{$userquery->getuserthumb($user_data.userid)}">
+	</a>
+	<span>{$user_data.username}</span>
+{/if}
+
+{if $block_type =='small'}
+<div class="col-md-2" id="user-{$user.userid}" align="center">
+	<a href="{$userquery->profile_link($user)}">{$user.username}</a>
+	<a href="{$userquery->profile_link($user)}">
+		<img src="{$userquery->getuserthumb($user)}" class="img-thumbnail" class="user_mid_thumb">
+	</a>
+</div>
+{/if}
+
+{if $block_type =='medium'}
+<div class="user_block_med" id="user-{$user.userid}">
+	<div class="thumb_container_medium" >
+		<a href="{$userquery->profile_link($user)}">
+			<img src="{$userquery->getuserthumb($user)}" class="img-thumbnail" class="user_thumb_medium">
+		</a>
+	</div>
+	<div class="prof_title"><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
+	{$user.total_videos|number_format} {lang code="videos"} {$user.profile_hits|number_format} {lang code="views"}
+</div>
+{/if}
+
+{if $block_type == "friends"}
+<div class="pull-left marginLeft" id="user-{$user.userid}">
+	<a href="{$userquery->profile_link($user)}" title="{$user.username}">
+		<img class="img-thumbnail" src="{avatar details=$user size='small'}" alt="{$user.username}" />
+	</a>
+</div>
+{/if}
+
+{if $block_type == "topic_view"}
+<div class="topicStarterAvatar moveL">
+	<i class="topicStarterAvatarBG" style="background:url({avatar details=$user }) center no-repeat; width:56px; height:56px;"><a href="{$userquery->profile_link($user)}">{$user.username}</a></i>
+</div>
+{/if}
+
+<script>
+	$(document).ready(function (){
+		var id = '{$user.userid}';
+		$('#subuser-' + id).on({
+			click: function(e){
+				e.preventDefault();
+				_cb.subscribeToChannel(id,'subscribe_user','video_detail_result_cont');
+			}
+		});
+	});
+</script>

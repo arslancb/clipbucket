@@ -1,0 +1,152 @@
+{ANCHOR place="play_front_anchor"}
+
+
+
+<footer class="footer">
+	<div class="row">
+		<p class="text-center">
+		<small>
+			Les établissements d'enseignement supérieur de Picardie Universités :
+		</small>
+		</p>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-offset-2 col-sm-2">
+			<a href="http://www.esad-amiens.fr/" target="_blank" title="ESAD (Ecole Supérieure d'Art et de Design) (nouvelle fenêtre)">
+				<img src="{$theme}/images/partenaires/logo_ESAD_amiens.png" class="center-block" height="40">
+			</a>
+		</div>
+
+		<div class="row visible-xs-block"><br></div>
+
+		<div class="col-sm-offset-1 col-sm-2">
+			<a href="https://www.escom.fr/" target="_blank" title="ESCOM (Ecole Supérieure de Chimie Organique et Minérale) (nouvelle fenêtre)">
+				<img src="{$theme}/images/partenaires/logo_ESCOM.jpg" class="center-block" height="40">
+			</a>
+		</div>
+
+		<div class="row visible-xs-block"><br></div>
+
+		<div class="col-sm-offset-1 col-sm-2">
+			<a href="http://www.esiee-amiens.fr/" target="_blank" title="ESIEE (Ecole Supérieure d'Ingénieurs en Electrotechnique et Electronique) ">
+				<img src="{$theme}/images/partenaires/logo_ESIEE_AMIENS.png" class="center-block" height="40">
+			</a>
+		</div>
+	</div>
+	
+	<div class="row"><br></div>
+	
+	<div class="row">
+		<div class="col-sm-offset-2 col-sm-2">
+			<a href="http://www.lasalle-beauvais.fr/" target="_blank" title="Institut polytechnique lasalle beauvais (nouvelle fenêtre)">
+				<img src="{$theme}/images/partenaires/logo_IPLB.png" class="center-block" height="40">
+			</a>
+		</div>
+
+		<div class="row visible-xs-block"><br></div>
+
+		<div class="col-sm-offset-1 col-sm-2">
+			<a href="https://www.u-picardie.fr/" target="_blank" title="UPJV (Université de Picardie Jules Verne)&lt;/a&gt;">
+				<img src="{$theme}/images/partenaires/logo_UPJV.png" class="center-block" height="40">
+			</a>
+		</div>
+
+		<div class="row visible-xs-block"><br></div>
+
+		<div class="col-sm-offset-1 col-sm-2">
+			<a href="https://www.utc.fr/" target="_blank" title="UTC (Université de Technologie de Compiègne) (nouvelle fenêtre)">
+				<img src="{$theme}/images/partenaires/logo_UTC.png" class="center-block" height="40">
+			</a>
+		</div>
+	</div>
+		
+	<div class="row"><br></div>
+	
+	<div class="row">
+		<div class="col-sm-6">
+			<p>
+				<small>
+					© 2016 - Association Picardie Universités
+				</small>
+			</p>
+		</div>
+		<div class="row visible-xs-block"><br></div>
+		
+		<div class="col-sm-6 pull-right">
+		
+			<p class="pull-right">
+				<small>
+					<a href="mailto:apiu@u-picardie.fr"><i class="glyphicon glyphicon-envelope"></i> Nous contacter</a>
+				</small>
+			</p>
+		</div>
+	</div>
+	
+</footer>
+
+
+
+
+
+<!--
+<footer id="footer" class="clearfix">
+	{*$Cbucket->footer()*}
+
+</footer>
+-->
+<!--
+#ClipBucket#
+-->
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" src="{$baseurl}/js/photos.js"></script>
+<script>
+	$(document).on('click','.pick-lang',function(){
+		var _this = $(this);
+		var lang_code = _this.data('lang');
+		var $currentLocation = window.location.href,
+		matchedElement = $currentLocation.match(/\?/);
+			  
+		if(matchedElement == null)
+		{
+			window.location = "?set_site_lang="+lang_code;    
+		} else {
+			window.location = window.location+"&set_site_lang="+lang_code;    
+		}
+	});
+
+	$(document).on('click','#cbsearch',function(e){
+		e.preventDefault();
+		searchForm = $('.search-form');
+		searchQuery = $('#query').val();
+		queryLen = searchQuery.length;
+		if (queryLen <= 2) {
+			msg = 'Search query<strong> '+searchQuery+'</strong> is too short. Open up!';
+			_cb.throwHeadMsg('warning', msg, 3000,true);
+			//alert("Search term is too short");
+		} else {
+			$('.search-form').submit();
+		}
+	});
+
+	$('.dropdown-menu li').on('click',function(){
+		var searchType = $('#searchTypes').find('span.search-type').html();
+		var searchQuery = $('input#query').val();
+		if (searchQuery.length > 1) {
+			$('#cbsearch').trigger('click');
+		}
+	});
+
+
+
+</script>
+{$Cbucket->footer()}

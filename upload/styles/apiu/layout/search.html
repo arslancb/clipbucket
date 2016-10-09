@@ -1,0 +1,44 @@
+{$myAccountLinks = $userquery->my_account_links()}
+<div id="main" class="clearfix container">
+	<div class="clearfix">
+		<section class="clearfix videos">
+			<div class="clearfix leaderboard-ad ad">
+				{AD place='ad_728x90'}
+			</div>
+			<h1>{$search_type_title}</h1>
+			{if $results}
+			<div class="clearfix row">
+				{foreach item=result from=$results}
+					{assign var=$template_var value =$result}
+					{include file="$display_template" }
+				{/foreach}
+			</div>
+			{else}
+			<div class="clearfix well">
+				{lang code='no_results_found'}
+			</div>
+			{/if}
+			{include file="$style_dir/blocks/pagination.html"}
+		</section>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+		$("#cbsearchtype a").on({
+			click: function(e){
+				e.preventDefault();
+				var searchtype = $("#SearchType").val();
+				var buttonText = $(this).text().toLowerCase();
+				if($("#SearchType option[value='"+ buttonText +"']").length > 0){
+					$("#SearchType option:selected").removeAttr("selected");
+					$("#SearchType option[value='"+ buttonText +"']").attr("selected" , "selected");
+					$(this).parents("ul").find(".active").removeClass("active");
+					$(this).parent().addClass("active");
+
+				}
+			}
+		});
+
+	});
+
+</script>
