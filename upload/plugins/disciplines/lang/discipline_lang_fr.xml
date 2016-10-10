@@ -39,5 +39,6 @@
 		<cant_delete_default_discipline>Impossible de supprimer la discipline par défaut</cant_delete_default_discipline>
 		<videos_use_the_discipline>videos utilisent la discipline</videos_use_the_discipline>
 		<please_modify_the_following_videos_before_deleting>Veuillez modifier les vidéos suivantes avant de supprimer.</please_modify_the_following_videos_before_deleting>
+		<video_addon>Extensions Vidéo</video_addon>
 	</phrases>
 </clipbucket_language>

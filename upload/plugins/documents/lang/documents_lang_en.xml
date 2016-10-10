@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>English</name>
+	<iso_code>en</iso_code>
+	<phrases>
+		<document_manager>documents Manager</document_manager>
+		<document>Documents</document>
+		<add_new_document>Add new document</add_new_document>
+		<manage_documents>Manage documents</manage_documents>
+		<add_document>Add document</add_document>
+		<search_document>Search</search_document>
+		<title>Title</title>
+		<document_already_exists>Document already exists</document_already_exists>
+		<document_does_not_exist>Document does not exist</document_does_not_exist>
+		<no_document_found>No document found</no_document_found>
+		<no_document_selected>No document has been selected</no_document_selected>
+		<document_filter>Filter documents</document_filter>
+		<document_edition>Edit documents</document_edition>
+		<document_updated>Document succesfully updated</document_updated>
+		<document_does_not_exist>Document does not exist</document_does_not_exist>
+		<cant_del_documented_document_msg>Document is documented to almost one video and has not been deleted</cant_del_documented_document_msg>
+		<document_del_msg>Documents(s) succesfully deleted</document_del_msg>
+		<link_document>Link document</link_document>
+		<link_document_to_video>Document external documents to video N°</link_document_to_video>
+		<list_of_selected_documents>List of selected documents</list_of_selected_documents>
+		<list_of_unselected_documents>List of unselected documents</list_of_unselected_documents>
+		<new_document_added>New document has been added</new_document_added>
+		<edit_document_nb>Edit document N°</edit_document_nb>
+		<update_document>Update document</update_document>
+		<video_addon>Video Addon</video_addon>
+		<filetype_not_allowed>File type not allowed</filetype_not_allowed>
+		<mimetype>mimetype</mimetype>
+		<file_is_too_big>File is too big</file_is_too_big>
+		<size>Size</size>
+		<storedfilename>Stored file name</storedfilename>
+		<filename_on_disk>File name on disk</filename_on_disk>
+		<filename>File name</filename>
+	</phrases>
+</clipbucket_language>

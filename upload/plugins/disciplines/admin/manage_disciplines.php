@@ -221,6 +221,9 @@ if(isset($_POST['delete_disc'])) {
 						lang("please_modify_the_following_videos_before_deleting")." : ".$videolist,'w');
 			}
 			if (!$error)
+				if($disc[0]['thumb_url'] != "default.png"){
+					unlink($uploaddir."/".$disc[0]['thumb_url']);
+				}
 				$db->delete(tbl('disciplines'),array('id'),array($did));
 		}
 		$disc = $db->_select("SELECT * FROM ".tbl("disciplines")." ORDER BY discipline_order ASC");

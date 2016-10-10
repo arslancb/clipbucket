@@ -102,6 +102,6 @@ Version: 0.1
 	/* ***
 	*	Add entries for the plugin in the administration pages
 	*/
-	add_admin_menu(lang('ldap_client'),lang('ldap_configuration'),'edit_ldap_client.php',LDAP_CLIENT.'/admin');
+	add_admin_menu(lang('Stats And Configurations'),lang('ldap_configuration'),'edit_ldap_client.php',LDAP_CLIENT.'/admin');
 
 ?>

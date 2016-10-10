@@ -31,5 +31,6 @@
 		<speaker_empty_role_err>Please fill empty role</speaker_empty_role_err>
 		<no_speaker_found>No speaker found</no_speaker_found>
 		<speaker_edition>Edit speakers</speaker_edition>
+		<video_addon>Video Addon</video_addon>
 	</phrases>
 </clipbucket_language>

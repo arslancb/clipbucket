@@ -31,5 +31,6 @@
 		<speaker_empty_role_err>Veuillez renseigner le profil vide</speaker_empty_role_err>
 		<no_speaker_found>Aucun intervenant trouvé</no_speaker_found>
 		<speaker_edition>Edition des intervenants</speaker_edition>
+		<video_addon>Extensions Vidéo</video_addon>
 	</phrases>
 </clipbucket_language>
