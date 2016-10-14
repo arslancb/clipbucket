@@ -17,14 +17,18 @@ Go to "Video manager" and in each video "Action" button you'll find a new comman
 
 ## Use in the front office :
 In the front office use the following anchor to display a formatted list of all speakers :
+
 	`{ANCHOR place="speaker_list" data=$video}`
+
 This will return something like :
+
 	\<li>\<a href="$url">$firstname $lastname\</a>\<span>$description\</span>\</li>
 	\<li>\<a href="$url">$firstname $lastname\</a>\<span>$description\</span>\</li>
 	...
 	\<li>\<a href="$url">$firstname $lastname\</a>\<span>$description\</span>\</li>
 
 where :
+
 	- $url is a link to the search engine that can retrieve all videos from this particular speaker.
 	- $firstname, $lastname are the speaker first and last name.
 	- $description is the role of the speaker in this video 
