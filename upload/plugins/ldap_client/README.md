@@ -28,9 +28,9 @@ This system make a correlation between the LDAP attributes and the ClipBucket da
 Click on th "+" button in order to add item.
 
 *Renseigner une ou plusieurs correspondance d'attribut LDAP et de champs de la table ClipBucket "user_profile". L'attribut "mail" est toujours ajouté par défaut.
-Ces champs seront rapatrié lors de la création d'un compte.
+Ces champs seront rapatrié lors de la création d'un compte.*
 
-Cliquer sur le bouton "+" pour ajouter des champs de saisie.*
+*Cliquer sur le bouton "+" pour ajouter des champs de saisie.*
 
 ### Test
 Test tab let the root manager to test the system configuration.
