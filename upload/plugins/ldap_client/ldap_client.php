@@ -13,52 +13,61 @@ Version: 0.1
 	define("SITE_MODE",'/admin_area');
 	
 	define('LDAP_CLIENT',basename(dirname(__FILE__)));			// *** Chemin du plugin
+	
+	assign('ldap_layout_dir', PLUG_DIR.'/ldap_client/admin');
 
-
-	/* ***
-	*	Fonction de recherche
-	*		Retourne uniquement l'email s'il est trouvé
-	* */
-	function search_ldap($query){
+	/**
+	 *	@var string $query Search string
+	 *	@return array LDAP tree
+	 */
+	function searchLdap($query){
 
 		if ($query <> ''){
 	
-			$ldap_config = get_ldap_client_config();
+			$ldap_config = getLdapClientConfig();
+			$tab_retour = array();
 
+			// Get fields correspondence
+			if (isset($ldap_config['ldap_fields_connection'])){
+				$ldap_fields_connection = detachLdapFieldsConnection($ldap_config['ldap_fields_connection']);
+			}
+			
 			$host = $ldap_config['ldap_host'];
 			$port = $ldap_config['ldap_port'];
 			$filtre = $ldap_config['ldap_filtre'].$query."*";
 			$basedn = $ldap_config['ldap_basedn'];
 		
-			$test = array();
 
-			$ds=ldap_connect($host);  // doit être un serveur LDAP valide !
+			$ds=ldap_connect($host);  // Must be a valide LDAP server !
 
 			if ($ds) { 
-				$r=ldap_bind($ds);     // Connexion anonyme, typique pour un accès en lecture seule.
-				$sr=ldap_search($ds,$basedn, $filtre);  	// Recherche
+				$r=ldap_bind($ds);     // Anonymous connection, read only mode.
+				$sr=ldap_search($ds,$basedn, $filtre);  	// Search
 				$info = ldap_get_entries($ds, $sr);
-		
-				$email = $info[0]["mail"][0];
 
-				ldap_close($ds);		// Fermeture de la connexion
+				if (isset($ldap_fields_connection)){
+					foreach ($ldap_fields_connection as $key => $value){
+						$tab_retour[$key] = $info[0][$value][0];
+					}
+				}
 
-				return $info;
+				$tab_retour['mail'] = $info[0]["mail"][0];	// Add the mail
+
+				ldap_close($ds);		// Close connection
+
+				return $tab_retour;
 
 			} else {
 				return '';
 			}
-		}	// *** Fin si non vide
-	}	// *** Fin fonction
+		}	// End if empty
+	}	// End function
 
 
-
-
-
-	/* ***
-	*	Recupere la config actuelle
-	* */
-	function get_ldap_client_config(){
+	/**
+	 *	@return array La liste des configurations
+	 */
+	function getLdapClientConfig(){
 		global $db;
 		$cas_config = $db->_select('SELECT `name`, `value` FROM '.tbl("ldap_client_config"));
 	
@@ -72,36 +81,65 @@ Version: 0.1
 	}
 
 
-	/* ***
-	*	Met à jour la config CAS
-	*		@tmp_config : array associatif des valeurs poste
-	* */
-	function update_ldap_client_config($tmp_config){
+	/**
+	 *	@var array $tmp_config Tableau associatif des valeurs poste
+	 */
+	function updateLdapClientConfig($tmp_config){
 		global $db;
 		
-		// *** Recupere la config
-		$org_config = get_ldap_client_config();
+		// Get config
+		$org_config = getLdapClientConfig();
 		
-		// *** Parcours la nouvelle config
+		// Loop on new config
 		foreach ($tmp_config as $key => $value){
-			// *** Si la valeur existe, c'est un update
+			// If value exist, it's an update
 			if (array_key_exists($key, $org_config)){
-				// *** Uniquement si c'est different - pose probleme sur le : CAS_VERSION_X_0
-//				if ($org_config[$key][$value] != $tmp_config[$key][$value]){
-					// update
-					$db->update(tbl('ldap_client_config'), array('name','value'), array($key,$tmp_config[$key]), "name='$key'");
-//				}	// *** Sinon la nouvelle valeur et la meme que l'ancienne, on ne fait rien
+				// update
+				$db->update(tbl('ldap_client_config'), array('name','value'), array($key,$tmp_config[$key]), "name='$key'");
 			}
 			else{
-				// *** Sinon, on créé la valeur
+				// Else, insert value
 				$db->insert(tbl('ldap_client_config'), array('name','value'), array($key,$tmp_config[$key]));
 			}
 		}
 	}
 
-	/* ***
-	*	Add entries for the plugin in the administration pages
-	*/
+
+	/**
+	 *	Encode the correspondence string to JSON
+	 *		@var array $ldap_attr array of value LDAP Attribute
+	 * 		@var array $cb_corresp array of value db ClipBucket
+	 */
+	function ldapFieldsConnection($ldap_attr, $cb_coresp){
+		
+		$array = array();
+		
+		foreach ($ldap_attr as $key => $value){
+			if (!empty($cb_coresp[$key])){
+				$array[$value] = $cb_coresp[$key];
+			}
+		}
+		return json_encode($array);
+		
+	}
+
+
+	/**
+	 *	@var string $json String of correspondence in JSON format
+	 *	@return array Flipped array value
+	 */
+	function detachLdapFieldsConnection($json){
+	
+		$tmp = json_decode(html_entity_decode($json), true);
+		$other_tmp = array_flip($tmp);
+		return $other_tmp;
+	
+	}
+
+
+	/**
+	 *	Add entries for the plugin in the administration pages
+	 */
 	add_admin_menu(lang('Stats And Configurations'),lang('ldap_configuration'),'edit_ldap_client.php',LDAP_CLIENT.'/admin');
 
 ?>
