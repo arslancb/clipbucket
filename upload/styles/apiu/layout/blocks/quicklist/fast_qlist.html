@@ -1,0 +1,17 @@
+	
+	<div class="qlist_item clearfix" style="background-color:#fff; "  id="quicklist_playlist_cont_{$ql_item.videoid}">
+		<div class="pl_num"></div>
+		<div class="pl_thumb">
+			<a href="{videoLink($ql_item)}" >
+				<img src="{getThumb vdetails=$ql_item size=168x105}" class="img-responsive" alt="">
+				<img src="{$theme}/images/thumb-ratio.png" alt="" class="thumb-ratio">
+			</a>
+			<span class="pl_duration">{if $ql_item.duration>1}{$ql_item.duration|SetTime}{else}00:00{/if}</span>
+		</div>
+		<div class="pl_details" onclick="window.location=''">
+			<p><a href="{videoLink($ql_item)}">{$ql_item.title|truncate:35}</a></p>
+			<p>by {$ql_item.username}</p>
+		</div>
+		<button todel={$ql_item.videoid} class="ql_delete glyphicon glyphicon-trash btn btn-danger btn-sm" title="remove {$ql_item.title} from qucklist" alt="quicklist">
+		</button>
+	</div>	

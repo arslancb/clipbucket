@@ -68,6 +68,10 @@ function import_auth_cas_langage_pack($lang){
 			$query .= $sql;
 			$db->execute($query);
 			e(lang("lang_added")." : ".$lang,"m");
+			// *** Generate pack
+			if($lang_obj->createPack($lang)){
+				e("Language pack has been re-created","m");
+			}
 		}
 	}
 }

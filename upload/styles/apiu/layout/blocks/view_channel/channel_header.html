@@ -1,0 +1,76 @@
+<div id="messageFav" class="channel-alert"></div>
+<div class="cover" id="coverContainer">
+	<div class="cover-holder clearfix">
+		<img class="img-responsive cb-live-background" src="{if $coverPhoto != ''}{$coverPhoto}{else}{$theme}/images/cover_default.jpg {/if}" size='1140x276' alt="">
+		
+		{if $user.userid == userid()}
+		<a href="#" class="btn btn-sm changeCover" id="changeCover">{lang code="update_cover"}<span class="icon-photo"></span></a>
+		{/if}
+
+		<div class="ratting-counts clearfix">
+			{if $user.userid != userid()}
+			<div class="user-ratting" id="rating_container">
+				{show_video_rating rating=$p.rating ratings=$p.rated_by total='10' id=$p.userid type=user}
+			</div>
+			{/if}
+			<ul class="counters">
+			{if isSectionEnabled('videos')}
+				<li>
+					<i class="icon-videos"></i>{prettyNum($user.total_videos)} &nbsp;<span>{lang code='videos'}</span>
+				</li>
+			{/if}
+			{if isSectionEnabled('photos')}
+				<li>
+					<i class="icon-photos"></i>{prettyNum($user.total_photos)} &nbsp;<span>{lang code='photos'}</span>
+				</li>
+			{/if}
+				<li>
+					<i class="icon-views"></i>{prettyNum($user.profile_hits)} &nbsp;<span>{lang code='views'}</span>
+				</li>
+				<li>
+					<i class="icon-subscribers"></i>{prettyNum($user.subscribers)} &nbsp;<span>{if $user.subscribers <= 1}{lang code='contact'}{else}{lang code='contacts'}{/if}</span>
+				</li>
+			</ul>
+		</div>
+		<div class="friend-block clearfix">
+			{if $user.userid != userid()}
+				{$friend_status = $userquery->friendship_status(userid(), $user.userid)}
+				{if $friend_status == "f"}
+				<a href="{$baseurl}/manage_contacts.php?mode=delete&userid={$u.userid}"  class="btn btn-danger btn-sm new1">
+					{lang code="unfriend"}
+				</a>
+				{elseif $friend_status == "r"}
+				<a href="{$baseurl}/manage_contacts.php?mode=requests&confirm={$u.userid}"  class="btn btn-primary btn-sm new1">
+					{lang code="accept_request"}
+				</a>
+				{elseif $friend_status == 's'}
+				<a href="{$baseurl}/manage_contacts.php?mode=delete&userid={$u.userid}"  class="btn btn-primary btn-sm new1">
+					{lang code="cancel_request"}
+				</a>
+				{else}
+				<a href="javascript:void(0)"  class="btn btn-primary btn-sm new1" 
+				   onclick="_cb.add_friendNew('{$user.userid}','result_cont')"> 
+					{lang code="add_as_friend"}
+				{/if}
+				</a>
+			{/if}
+		</div>
+	</div>
+
+	<div class="avatar">
+		<img class="img-responsive img-circle" src="{$userquery->getUserThumb($user)}">
+	</div>
+
+	<div class="profile-buttons clearfix">
+		<h2>{$user.username}</h2>
+		<div class="btn-holder">
+			{if $user.userid != userid()}
+				<button id="report-user" class="btn btn-default">{lang code="Report"}</button>
+				<a href="{$baseurl}/private_message.php?mode=new_msg&to={$user.username}" class="btn btn-default">
+					{lang code="user_send_message"}
+				</a>
+				<button id="subscribe_channel" class="btn btn-default">{lang code="subscribe"}</button>
+			{/if}
+		</div>
+	</div>
+</div>

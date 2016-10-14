@@ -1,0 +1,309 @@
+.btn-default{
+	background:#ececec;
+	border-color:#ececec;
+	color:#000
+}
+
+.btn-default:hover,.btn-default:active{
+	background:#ececec;
+	border-color:#ececec
+}
+
+@-webkit-keyframes bounce{
+	0%{
+		transform:translateY(-100%);
+		opacity:0
+	}
+
+	5%{
+		transform:translateY(-100%);
+		opacity:0
+	}
+
+	15%{
+		transform:translateY(0);
+		padding-bottom:5px
+	}
+
+	30%{
+		transform:translateY(-50%)
+	}
+
+	40%{
+		transform:translateY(0%);
+		padding-bottom:6px
+	}
+
+	50%{
+		transform:translateY(-30%)
+	}
+
+	70%{
+		transform:translateY(0%);
+		padding-bottom:7px
+	}
+
+	80%{
+		transform:translateY(-15%)
+	}
+
+	90%{
+		transform:translateY(0%);
+		padding-bottom:8px
+	}
+
+	95%{
+		transform:translateY(-7%)
+	}
+
+	97%{
+		transform:translateY(0%);
+		padding-bottom:9px
+	}
+
+	99%{
+		transform:translateY(-3%)
+	}
+
+	100%{
+		transform:translateY(0);
+		padding-bottom:9px;
+		opacity:1
+	}
+}
+
+@-moz-keyframes bounce{
+	0%{
+		transform:translateY(-100%);
+		opacity:0
+	}
+
+	5%{
+		transform:translateY(-100%);
+		opacity:0
+	}
+
+	15%{
+		transform:translateY(0);
+		padding-bottom:5px
+	}
+
+	30%{
+		transform:translateY(-50%)
+	}
+
+	40%{
+		transform:translateY(0%);
+		padding-bottom:6px
+	}
+
+	50%{
+		transform:translateY(-30%)
+	}
+
+	70%{
+		transform:translateY(0%);
+		padding-bottom:7px
+	}
+
+	80%{
+		transform:translateY(-15%)
+	}
+
+	90%{
+		transform:translateY(0%);
+		padding-bottom:8px
+	}
+
+	95%{
+		transform:translateY(-7%)
+	}
+
+	97%{
+		transform:translateY(0%);
+		padding-bottom:9px
+	}
+
+	99%{
+		transform:translateY(-3%)
+	}
+
+	100%{
+		transform:translateY(0);
+		padding-bottom:9px;
+		opacity:1
+	}
+}
+
+@-o-keyframes bounce{
+	0%{
+		transform:translateY(-100%);
+		opacity:0
+	}
+
+	5%{
+		transform:translateY(-100%);
+		opacity:0
+	}
+
+	15%{
+		transform:translateY(0);
+		padding-bottom:5px
+	}
+
+	30%{
+		transform:translateY(-50%)
+	}
+
+	40%{
+		transform:translateY(0%);
+		padding-bottom:6px
+	}
+
+	50%{
+		transform:translateY(-30%)
+	}
+
+	70%{
+		transform:translateY(0%);
+		padding-bottom:7px
+	}
+
+	80%{
+		transform:translateY(-15%)
+	}
+
+	90%{
+		transform:translateY(0%);
+		padding-bottom:8px
+	}
+
+	95%{
+		transform:translateY(-7%)
+	}
+
+	97%{
+		transform:translateY(0%);
+		padding-bottom:9px
+	}
+
+	99%{
+		transform:translateY(-3%)
+	}
+
+	100%{
+		transform:translateY(0);
+		padding-bottom:9px;
+		opacity:1
+	}
+}
+
+@keyframes bounce{
+	0%{
+		transform:translateY(-100%);
+		opacity:0
+	}
+
+	5%{
+		transform:translateY(-100%);
+		opacity:0
+	}
+
+	15%{
+		transform:translateY(0);
+		padding-bottom:5px
+	}
+
+	30%{
+		transform:translateY(-50%)
+	}
+
+	40%{
+		transform:translateY(0%);
+		padding-bottom:6px
+	}
+
+	50%{
+		transform:translateY(-30%)
+	}
+
+	70%{
+		transform:translateY(0%);
+		padding-bottom:7px
+	}
+
+	80%{
+		transform:translateY(-15%)
+	}
+
+	90%{
+		transform:translateY(0%);
+		padding-bottom:8px
+	}
+
+	95%{
+		transform:translateY(-7%)
+	}
+
+	97%{
+		transform:translateY(0%);
+		padding-bottom:9px
+	}
+
+	99%{
+		transform:translateY(-3%)
+	}
+
+	100%{
+		transform:translateY(0);
+		padding-bottom:9px;
+		opacity:1
+	}
+}
+
+.scrollable-area-wrapper{
+	position:relative;
+	overflow:hidden;
+	width:100% !important;
+	height:auto !important
+}
+
+.scrollable-area-wrapper .hscrollbar,.scrollable-area-wrapper .vscrollbar{
+	position:absolute;
+	top:0px;
+	right:0;
+	width:4px
+}
+
+.scrollable-area-wrapper .hscroll-left,.scrollable-area-wrapper .vscroll-up,.scrollable-area-wrapper .hscroll-right,.scrollable-area-wrapper .vscroll-down{
+	background:#777;
+	width:20px;
+	height:20px;
+	float:left;
+	display:none
+}
+
+.scrollable-area-wrapper .hscroll-line,.scrollable-area-wrapper .vscroll-line{
+	background:#fff;
+	width:4px;
+	float:left
+}
+
+.scrollable-area-wrapper .hscroll-slider,.scrollable-area-wrapper .vscroll-slider{
+	background:#0080b4;
+	width:4px;
+	height:20px;
+	border-radius:2px
+}
+
+.scrollable-area-wrapper .hscrollbar{
+	position:static;
+	height:20px;
+	top:auto
+}
+
+.scrollable-area-wrapper .hscroll-line{
+	height:20px;
+	width:auto
+}
+

@@ -1,0 +1,216 @@
+{$currentPage = $smarty.const.THIS_PAGE|lower}
+
+{if $currentPage == 'view_channel' || $currentPage == 'channels'}
+	{$currentPage = 'channels'}
+	{$toSearch = 'channels'}
+{elseif $currentPage == 'view_item' || $currentPage == 'photos'}
+	{$currentPage = 'photos'}
+	{$toSearch = 'photos'}
+{elseif $currentPage == 'collections' || $currentPage == 'view_collection'}
+	{$currentPage = 'collections'}
+	{$toSearch = 'collections'}
+{elseif $currentPage == 'watch_video' || $currentPage == 'videos'}
+	{$currentPage = 'videos'}
+	{$toSearch = 'videos'}
+{elseif $currentPage == 'list'}
+	{$currentPage = 'audios'}
+{/if}
+
+{$vidMode = {lang code="videos"}}
+{$photoMode = {lang code="photos"}}
+{$channelsMode = {lang code="channels"}}
+{$pageType = $smarty.get.type|lower}
+
+<div id="quick_container">
+	<div id="quicklist_box">
+	</div>
+</div> 
+
+{$searchPage = $smarty.get.query}
+	
+	
+	
+	
+	
+
+<!-- <header id="header" class="clearfix"> -->
+
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="header-holder">
+				<div class="navbar-header clearfix">
+					
+					<h1 class="logo">
+						<a href="{$baseurl}">
+							<img src="{$theme}/images/logo.png" alt="cbtune" class="img-responsive">
+							<span>clipbucket</span>
+						</a>
+					</h1>
+					
+					<button class="navbar-toggle" data-toggle="collapse" data-target="#bs-collapse">Menu<span class="glyphicon glyphicon-menu-down"></span></button>
+					
+					<a href="javascript:void(0)" class="btn-search-toggle btn visible-xs">
+						<i class="glyphicon glyphicon-search"></i>
+					</a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-collapse">
+					<div class="menu-holder">
+						
+						<div class="col">
+							<nav class="main-links">
+								{$head_menu=cb_menu()}
+								<ul>
+									{foreach $head_menu as $menu}
+									{if $menu.name|lower == 'groups'}
+										{continue}
+									{/if}
+									{if $menu@iteration < 6}
+									{if $menu.name|lower == 'home'}
+										{continue}
+									{/if}
+									{if $menu.name == "home"}
+										{continue}
+									{/if}
+									<li {if $menu.name|lower == $smarty.const.THIS_PAGE|lower || $menu.name|lower == $currentPage}class="active"{/if}>
+										<a href="{$menu.link}">{$menu.name}</a>
+									</li>
+									{/if}
+									{/foreach}
+									
+									{ANCHOR place="cb_28_head"}
+								</ul>
+							</nav>
+						</div>
+
+						<div class="col btn-holder user_menu text-right">
+							<div class="search">
+								<form class="search-form" action="{link name='search_result'}">
+									<div class="cbsearchtype">
+										<div class="search-drop">
+											<button id="searchTypes" tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
+												<span class="search-type">{if $pageType}{$pageType|ucfirst}{elseif $currentPage == 'videos' || $currentPage == 'channels' || $currentPage == 'photos'}{$currentPage|ucfirst}{else}{lang code="videos"}{/if}</span> <span class="glyphicon glyphicon-menu-down"></span>
+											</button>
+											<ul class="dropdown-menu">
+												{$counter = 1}
+												{foreach from=$Cbucket->search_types item=t key=stypes}
+												{if $stypes|lower == 'groups'}
+													{continue}
+												{/if}
+												{if $counter == 3}
+												<li value="{$stypes}" {if $pageType == $stypes || $currentPage == $stypes}  class="active"  {/if}>
+													<a  class="s-types" href="#" valNow="{$stypes}">{lang code ="{$stypes}"}</a>
+												</li>
+												{else}
+												<li value="{$stypes}" {if $pageType == $stypes || $currentPage == $stypes}  class="active" {/if}>
+													<a  class="s-types" href="#" valNow="{$stypes}">{lang code ="{$stypes}"}</a>
+												</li>
+												{/if}
+												{$counter = $counter + 1}
+												{/foreach}
+												{ANCHOR place="beat_search"}
+											</ul>
+										</div>
+										<input type="text" class="form-control" name="query" placeholder="{lang code="search_keyword_feed"}" value="{'query'|get_form_val:true}" id="query">
+										<input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{elseif $toSearch}{$toSearch}{else}videos{/if}" id="type">
+										<button tabindex="-1" type="submit" name="cbsearch" id="cbsearch" class="btn btn-default btn-search glyphicon glyphicon-search"></button>
+									</div>
+								</form><!-- form Ends -->
+							</div>
+
+							<ul class="nav navbar-nav navbar-right right-menu">
+								{if userid()}
+								<li class="dropdown upload_link">
+									<a href="{link name='upload'}" class="dropdown-toggle btn-upload btn btn-default" data-toggle="dropdown"><i class="fa fa-upload"></i>&nbsp;<span>{lang code="upload"}</span>&nbsp;<b class="glyphicon glyphicon-menu-down"></b></a>
+									<ul role="menu" class="dropdown-menu">
+									{if isSectionEnabled('videos')}
+										<li class="up_vid"><a href="{link name='upload'}">{lang code="upload_video"}<i class="icon-video visible-xs"></i></a></li>
+									{/if}
+										{if isSectionEnabled('photos')}
+										<li class="up_img"><a href="{link name='photo_upload'}">{lang code="upload_photo"}<i class="icon-photo visible-xs"></i></a></li>
+										{/if}
+										{ANCHOR place="aud_upload_link"}
+									</ul>
+								</li>
+
+								<li class="dropdown myaccount-dd">
+									<a href="javascript:void(0)" class="user-area dropdown-toggle" data-toggle="dropdown">
+										{$user_det = $userquery->get_user_details(userid())}
+										<img src="{$userquery->getUserThumb($user_det)}" width="35" height="35">
+										<span>{$userquery->username|truncate:15}</span>
+									</a>
+									<ul class="dropdown-menu">
+									{if has_access('admin_access')}
+										<li class="hidden-xs"><a href="{$admin_baseurl}">{lang code="admin_area"}</a></li>
+									{/if}
+										<li class="hidden-xs"><a href="{link name='my_account' }{userid}">{lang code="my_account"}</a></li>
+										<li class="hidden-xs"><a href="{link name='my_videos'}">{lang code="manage_videos"}</a></li>
+										{ANCHOR place="head_audio_dropdown"}
+										<li><a href="{link name='channels'}">{lang code="view_channels"}</a></li>
+										<li><a href="{$baseurl}/view_channel.php?user={$userquery->username}">{lang code="my_channel"}</a></li>
+										{ANCHOR place='premium_button_link'}
+										<li class="divider"></li>
+										<li><a href="{link name='logout'}">{lang code="logout"}</a></li>
+									</ul>
+								</li>
+								{else}
+						
+								<!-- Shown to small devices only Start  @todo : Add condition for logged in user -->
+								<li class="navbar-sm-login-links">
+									<a class="btn btn-default btn-newacc" href="{link name='signup'}">{lang code='create_new_account'}</a>
+								</li>
+								<li class="navbar-sm-login-links">
+									<a class="btn btn-default btn-login" href="{link name='signup'}?mode=login">{lang code='login'}</a>
+								</li>
+								
+								<!-- Ends -->
+								{/if}
+							</ul>
+						</div>
+					</div>
+					
+					
+					
+				</div><!--navbar-collapse-->
+			</div>
+		</div><!--container-fluid-->
+	</nav>
+<!-- </header> -->
+
+
+<script>
+	$(document).ready(function(){
+		var vidMode = "{$vidMode}",
+		photoMode = "{$photoMode}",
+		channelsMode = "{$channelsMode}",
+		currentDisplay = $('span.search-type').text();
+		if (currentDisplay == 'Videos') {
+			$('span.search-type').text(vidMode);
+		}
+		else if (currentDisplay == 'Channels') {
+			$('span.search-type').text(channelsMode);
+		}
+		else if (currentDisplay == 'Photos') {
+			$('span.search-type').text(photoMode);
+		}
+
+		$(".cbsearchtype a").on({
+			click: function(e){
+				e.preventDefault();
+				var prent_li = $(this).parents();
+				var theNewVal = $(this).attr('valNow');
+				$('.type').val(theNewVal);
+				$('.cbsearchtype li').removeClass('active');
+				prent_li.addClass('active');
+			}
+		});
+
+		$('.s-types').on("click", function(){
+			var _this = $(this);
+			var text = _this.html();
+			$('.search-type').html(text);
+		});
+	});
+</script>
