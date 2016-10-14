@@ -1,0 +1,106 @@
+{assign var='required_fields' value=$documentquery->load_documents_fields($document)}
+<h2>{lang("importcsv_manager")}</h2>
+
+<button class="btn btn-primary btn-sm" type="button" onclick="toggle_search('mapping_model_div')" data-toggle="collapse"  aria-expanded="false" ><span class="glyphicon glyphicon-file"></span> {lang("import_mapping_model")}</button>
+<button class="btn btn-primary btn-sm" type="button" onclick="toggle_search('join_model_div')" data-toggle="collapse"  aria-expanded="false" ><span class="glyphicon glyphicon-file"></span> {lang("import_join_model")}</button>
+<button class="btn btn-primary btn-sm" type="button" onclick="toggle_search('mapping_data_div')" data-toggle="collapse"  aria-expanded="false" ><span class="glyphicon glyphicon-file"></span> {lang("import_mapping_data")}</button>
+<button class="btn btn-primary btn-sm" type="button" onclick="toggle_search('join_data_div')" data-toggle="collapse"  aria-expanded="false" ><span class="glyphicon glyphicon-file"></span> {lang("import_join_data")}</button>
+<br/>
+
+
+<div class="add_box" id="mapping_model_div" {if $showadd!=true && $showedit!=true} style="display:none"{/if}>  
+<form id="insert_mapping" name="f_mapping_model" method="post" action="{$importCSV_managepage}" enctype="multipart/form-data">
+	<div class="well">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="filename">{lang("csv_file")}</label>
+						<input type="file"  name="filename" id="filename1" class="" />
+					</div>
+				</div>
+				<div class="col-sm-6">
+					{lang('import_mapping_model_help')}
+				</div>
+			</div>
+			<input type="submit" class="btn btn-primary btn-sm" name="import_mapping_model" id="import_mapping_model" value="{lang('import_file')}" class="button"/>
+			<input type="submit" class="btn btn-primary btn-sm" name="delete_mapping_model" id="delete_mapping_model" value="{lang('cleanup_database')}" class="button"/>
+		</div>					
+</form>
+</div>
+
+
+
+<div class="add_box" id="join_model_div" {if $showadd!=true && $showedit!=true} style="display:none"{/if}>  
+<form id="insert_join" name="f_join_model" method="post" action="{$importCSV_managepage}" enctype="multipart/form-data">
+	<div class="well">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="filename">{lang("csv_file")}</label>
+						<input type="file"  name="filename" id="filename2" class="" />
+					</div>
+				</div>
+				<div class="col-sm-6">
+					{lang('import_insert_join_mapping_help')}
+				</div>
+			</div>
+			<input type="submit" class="btn btn-primary btn-sm" name="import_join_model" id="import_join_model" value="{lang('import_file')}" class="button"/>
+			<input type="submit" class="btn btn-primary btn-sm" name="delete_join_model" id="delete_join_model" value="{lang('cleanup_database')}" class="button"/>
+		</div>					
+  <br/>
+</form>
+</div>
+
+<div class="add_box" id="mapping_data_div" {if $showadd!=true && $showedit!=true} style="display:none"{/if}>  
+<form id="insert_mapping" name="f_mapping_data" method="post" action="{$importCSV_managepage}" enctype="multipart/form-data">
+	<div class="well">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="separator">{lang("field_separator")}</label>
+						<input type="text" class="form-control" name="separator" id="mapping_field_separator" value=";">
+						<label for="tablename">{lang("table_name")}</label>
+						<input type="text" class="form-control" name="tablename" id="mapping_tablename" >
+						<label for="filename">{lang("csv_file")}</label>
+						<input type="file"  name="filename" id="filename3" class="" />
+					</div>
+				</div>
+				<div class="col-sm-6">
+					{lang('import_mapping_data_help')}
+				</div>
+			</div>
+			<input type="submit" class="btn btn-primary btn-sm" name="import_mapping_data" id="import_mapping_data" value="{lang('import_file')}" class="button"/>
+		</div>					
+</form>
+</div>
+
+
+
+<div class="add_box" id="join_data_div" {if $showadd!=true && $showedit!=true} style="display:none"{/if}>  
+<form id="insert_join" name="f_join_data" method="post" action="{$importCSV_managepage}" enctype="multipart/form-data">
+	<div class="well">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="tablename">{lang("table_name")}</label>
+						<input type="text" class="form-control" name="tablename" id="mapping_tablename" >
+						<label for="filename">{lang("csv_file")}</label>
+						<input type="file"  name="filename" id="filename4" class="" />
+					</div>
+				</div>
+				<div class="col-sm-6">
+					{lang('import_join_data_help')}
+				</div>
+			</div>
+			<input type="submit" class="btn btn-primary btn-sm" name="import_join_data" id="import_join_data" value="{lang('import_file')}" class="button"/>
+		</div>					
+  <br/>
+</form>
+</div>
+
+
+
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }
+
