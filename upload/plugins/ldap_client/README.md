@@ -1,21 +1,38 @@
 #Plugin ClipBucket - LDAP Client
 
-## Requirement 
-Le module ldap doit être installé et activé. Sur un système debian (ou variante), installer le paquet php5-ldap (penser à relancer apache après l'installation).
+## Requirement - *Minimum requis*
+In order to use this plugin, you have to install and enable the "php5-ldap" module. (Keep in touch to reload apache after installation).
+
+*Le module ldap doit être installé et activé. Sur un système debian (ou variante), installer le paquet "php5-ldap" (penser à relancer apache après l'installation).*
 
 ## Installation
-Activer le plugin depuis la rubrique plugin de l'administration.
+Go to the plugin administration panel and install the "LDAP Client" plugin. The translation were not updated immeditaly. You have to reload another page.
+
+*Activer le plugin "LDAP Client" depuis la rubrique plugin de l'administration. Les traductions ne sont pas chargé immédiatement. Vous devez charger une page.*
+
+## Usage
+An item is added in administration dashbord menu. Go to the "Stats and configurations", then "LDAP configuration".
+
+*Une entrée est ajouter dans le menu. Rendez-vous dans la rubrique "Stats and configurations", puis "Configuration LDAP".*
 
 ## Configuration
 
 ### Connexion
-Depuis l'administration du site, renseigner les informations requises (serveur, port, basedn, etc...).
+From admin panel, save the required informations (server, port, ...).
 
-### Correspondance des données
-Renseigner une ou plusieurs correspondance d'attribut LDAP et de champs de la table user_profile. L'attribut "mail" est toujours ajouté par défaut.
-Ces champs seront enregistrer lors de la création d'un compte.
+*Depuis l'administration du site, renseigner les informations requises (serveur, port, basedn, etc...).*
 
-Cliquer sur le bouton "+" pour ajouter des champs de saisie.
+### Data correlation - *Correspondance des données*
+This system make a correlation between the LDAP attributes and the ClipBucket database model. It populates the corresponding table on the ClipBucket system ("user_profile"). The "mail" attribute of LDAP is always integrated by default. This fields will be saved when an account is going to be created.
+
+Click on th "+" button in order to add item.
+
+*Renseigner une ou plusieurs correspondance d'attribut LDAP et de champs de la table ClipBucket "user_profile". L'attribut "mail" est toujours ajouté par défaut.
+Ces champs seront rapatrié lors de la création d'un compte.
+
+Cliquer sur le bouton "+" pour ajouter des champs de saisie.*
 
 ### Test
-Permet de tester la configuration.
+Test tab let the root manager to test the system configuration.
+
+*Permet à l'administrateur de tester la configuration.*
