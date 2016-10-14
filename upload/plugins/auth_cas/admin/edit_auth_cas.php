@@ -1,6 +1,6 @@
 <?php
 
-/* Assigning page and subpage */
+// Assigning page and subpage
 if(!defined('MAIN_PAGE')){
     define('MAIN_PAGE', 'Stats And Configurations');
 }
@@ -19,30 +19,27 @@ if(!defined('SUB_PAGE')){
 		// BUG : je suis passé par un yes/no car le 0/1 réinitialise à 0 à chaque affichage de la page (même sans POST).
 		$tmp_config['create_user']	= ($_POST['create_user'] == 'yes') ? $_POST['create_user'] : 'no';	
 		
-		// *** MAJ la table auth_cas_config
-		update_cas_config($tmp_config);
+		// Update table auth_cas_config
+		updateCasConfig($tmp_config);
 	}
 	
-	// *** Recupere la config
-	$config = get_cas_config();
+	// get configuration
+	$config = getCasConfig();
 	
-	// *** Parcours la nouvelle config
+	// Loop the new config
 	foreach ($config as $key => $value){
-		// *** Si la valeur existe, c'est un update
+		// Assign the value to the named key for display in template
 		assign($key, $config[$key]);
 	}
 	
 	
-	if (function_exists('search_ldap')) {
+	if (function_exists('searchLdap')) {
 		e("Les fonctions LDAP sont disponibles.<br />\n", "m");
 	}
 	else {
 		e("Les fonctions LDAP ne sont pas disponibles.<br />\n", "w");
 	}
 
-	
-	
-	
-	
+// Output
 template_files(PLUG_DIR.'/auth_cas/admin/edit_auth_cas.html',true);
 ?>
