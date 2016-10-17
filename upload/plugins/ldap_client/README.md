@@ -8,12 +8,12 @@ In order to use this plugin, you have to install and enable the "php5-ldap" modu
 ## Installation
 Go to the plugin administration panel and install the "LDAP Client" plugin. The translation were not updated immeditaly. You have to reload another page.
 
-*Activer le plugin "LDAP Client" depuis la rubrique plugin de l'administration. Les traductions ne sont pas chargé immédiatement. Vous devez charger une page.*
+*Activer le plugin "LDAP Client" depuis la rubrique plugin de l'administration. Les traductions ne sont pas chargées immédiatement. Vous devez charger une page.*
 
 ## Usage
 An item is added in administration dashbord menu. Go to the "Stats and configurations", then "LDAP configuration".
 
-*Une entrée est ajouter dans le menu. Rendez-vous dans la rubrique "Stats and configurations", puis "Configuration LDAP".*
+*Une entrée est ajoutée dans le menu. Rendez-vous dans la rubrique "Stats and configurations", puis "Configuration LDAP".*
 
 ## Configuration
 
@@ -28,7 +28,7 @@ This system make a correlation between the LDAP attributes and the ClipBucket da
 Click on th "+" button in order to add item.
 
 *Renseigner une ou plusieurs correspondance d'attribut LDAP et de champs de la table ClipBucket "user_profile". L'attribut "mail" est toujours ajouté par défaut.
-Ces champs seront rapatrié lors de la création d'un compte.*
+Ces champs seront rapatriés lors de la création d'un compte.*
 
 *Cliquer sur le bouton "+" pour ajouter des champs de saisie.*
 
