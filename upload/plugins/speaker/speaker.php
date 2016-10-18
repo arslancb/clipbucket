@@ -1,16 +1,18 @@
 <?php
 /*
  Plugin Name: Video Speaker
- Description: This plugin will add a list of video speakers to a video.
+ Description: This plugin will add a list of video speakers to a video with their specific role in the video.
  Author: Franck Rouze
  Author Website: http://semm.univ-lille1.fr/
- ClipBucket Version: 2
+ ClipBucket Version: 2.8
  Version: 1.0
  Website:
  */
 require_once 'speaker_class.php';
 
-// Define Plugin's uri constants
+/**
+ * Define Plugin's uri constants. These constants represents folders or urls
+ */
 define("SITE_MODE",'/admin_area');
 define('SPEAKER_BASE',basename(dirname(__FILE__)));
 define('SPEAKER_DIR',PLUG_DIR.'/'.SPEAKER_BASE);
@@ -24,13 +26,13 @@ assign("speaker_linkpage",SPEAKER_LINKPAGE_URL);
 
 
 /**
- * Défine the Anchor to display speakers into description of a video main page 
+ * Define the Anchor to display speakers into description of a video main page 
  */
 if(!function_exists('speaker_list')){
 	function speaker_list($data){
 		global $speakerquery;
 		$data["selected"]="yes";
-		$spk=$speakerquery->get_speaker_and_roles($data);
+		$spk=$speakerquery->getSpeakerAndRoles($data);
 		$str='';
 		foreach ($spk as $sp) {
 			$url=BASEURL.'/'.'search_result.php?type=videos&query='.$sp['slug'];
@@ -63,19 +65,25 @@ if ($cbplugin->is_installed('extend_search.php')){
 	$cbvidext->columns[]=array('table'=>'speaker', 'field'=>'slug','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
 }
 
-/**_____________________________________
- * addLinkSpeakerMenuEntry
- * ____________________________________
- * Add a new entry "Link speaker" into the video manager menu named "Actions" associated to each video
+/**
+ * Connect the plugin to the video manager
  * 
- *  input $vid : the video id
- *  output : the html string to be inserted into the menu
+ * Add a new entry "Link speaker" into the video manager menu named "Actions" for each video
+ * 
+ *  @param CBvideo $vid 
+ *  	the CBVideo object returned by the video manager when senected "Actions" on a specific video
+ *  @return  string
+ *  	the html string to be inserted into the menu
  */
 function addLinkSpeakerMenuEntry($vid){
 	$idtmp=$vid['videoid'];
 	return '<li><a role="menuitem" href="'.SPEAKER_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("speaker_link").'</a></li>';
 }
+
+/** Add the previous function in the list of entries into the video manager "Actions" button */
 $cbvid->video_manager_link[]='addLinkSpeakerMenuEntry';
+
+
 
 /**
  * Add entries for the plugin in the administration pages

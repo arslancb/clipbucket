@@ -1,6 +1,6 @@
-{assign var='required_fields' value=$speakerquery->load_speaker_fields($speak)}
-{assign var='optional_fields' value=$speakerquery->load_speaker_role_fields($speak)}
-{assign var='optional_field_ids' value=$speakerquery->load_speaker_role_ids($speak)}
+{assign var='required_fields' value=$speakerquery->loadSpeakerFields($speak)}
+{assign var='optional_fields' value=$speakerquery->loadSpeakerRoleFields($speak)}
+{assign var='optional_field_ids' value=$speakerquery->loadSpeakerRoleIds($speak)}
 {if $optional_fields}
 	{assign var='number' value=$optional_fields['description']['values']|@count}
 {else}
