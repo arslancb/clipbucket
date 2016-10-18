@@ -33,7 +33,7 @@ Version: 1.0
 	 *
 	 *	@param bool $urlonly
 	 */
-	function is_auth_cas($urlonly=false){
+	function is_auth_cas($urlonly=true){
 		global $LANG,$Cbucket;
 		
 		// Initialise
@@ -71,12 +71,7 @@ Version: 1.0
 		}
 		else{
 			$url=BASEURL.'/signup.php?mode=login&auth_cas=bycas';
-			if ($urlonly) {
-				echo $url;
-			}
-			else {
-				echo '<a href="'.$url.'">'.lang('cas_connexion_link').'</a><br>';
-			}
+			echo $url;
 		}
 	} // End is_auth_cas
 		
