@@ -5,6 +5,12 @@ This plugin is used to add add informations in relation with the videos. For eac
 To activate this plugin, go to the plugin manager and add click on the "install button" on the "Video Speaker" plugin. 
 This will create 3 tables in CB database. It will also add locales for the plugin. In this version English and French are supported.
 
+## Requirements
+This plugin is based on the following plugins :
+
+-**Extended Search** (Optional) : Used to perform search with CB search CORE but into speakers data. If not installed the search will not be active.
+- **Common Library** (Required) : Used in this plugin for localisation **(not yet implémented)**
+- **php5-intl** The plugin need this php package to be installed. a function uses iconv function to convert some text in utf8.
 # Uninstall
 Uninstalling the plugin in the plugin manager will remove the 3 database tables and clean up the locales.
 	
@@ -18,7 +24,7 @@ Go to "Video manager" and in each video "Action" button you'll find a new comman
 ## Use in the front office :
 In the front office use the following anchor to display a formatted list of all speakers :
 
-	`{ANCHOR place="speaker_list" data=$video}`
+	{ANCHOR place="speaker_list" data=$video}
 
 This will return something like :
 
@@ -29,6 +35,6 @@ This will return something like :
 
 where :
 
-	- $url is a link to the search engine that can retrieve all videos from this particular speaker.
-	- $firstname, $lastname are the speaker first and last name.
-	- $description is the role of the speaker in this video 
+- $url is a link to the search engine that can retrieve all videos from this particular speaker.
+- $firstname, $lastname are the speaker first and last name.
+- $description is the role of the speaker in this video 

@@ -5,18 +5,18 @@
 
 
 // Global Object $speakerquery is used in the plugin
-$speakerquery = new speakerquery();
+$speakerquery = new SpeakerQuery();
 $Smarty->assign_by_ref('speakerquery', $speakerquery);
 
-/**_____________________________________
- * slugify
- * _____________________________________
- *Transform text to a slug (remove non alphabetic or numeric chars, transform in lowercase string)
+/**
+ * Transform text to a slug 
+ * Remove non alphabetic or numeric chars, transform in lowercase string
  *
- *input $text : string to be normalized
- *output : a string corresponding to the slug
- *
- *WARNING: "php5-intl" package is required
+ * @param string $text 
+ *		string to be normalized
+ * @return string
+ * 		the slug corresponding to the parameter string
+ *@see php5-intl	this package is required
  */
 function slugify($text) {
 	// replace non letter or digits by -
@@ -38,19 +38,17 @@ function slugify($text) {
 	return $text;
 }
 
-function prepareSlug($firstname, $lastname) {
-	return $firstname.'-'.$lastname;
-	//return substr($firstname,0,4).'-'.$lastname;
-}
 
-/**_____________________________________
- * speaker_role_check
- * _____________________________________
- *Validate speaker's roles if there's no empty role added
+/**
+ * Validate speaker's roles if there's no empty role added
  *
- *input $val : is an array containing all speaker's roles
+ * @param array $val 
+ * 		array containing all speaker's roles
+ * @return bool
+ * 		false if one of $val entries is Empty
+ * 		 true if no entry in $val is empty
  */
-function speaker_role_check($val) {
+function speakerRoleCheck($val) {
 	foreach ($val as $v) {
 		if ($v=="")
 			return false;
@@ -58,21 +56,17 @@ function speaker_role_check($val) {
 	return true;
 }
 
-/**_____________________________________________________
- * Class speakerquery
- * _____________________________________________________
- *Contains all actions that can affect the speaker's plugin 
+/**
+ * Class Containing actions for the speaker plugin 
  */
-class speakerquery extends CBCategory{
+class SpeakerQuery extends CBCategory{
 	private $basic_fields = array();
 	private $extra_fields = array();
 	
-	/**_____________________________________
-	 * speakerquery
-	 * _____________________________________
-	 *Constructor for speakerquery's instances
+	/**
+	 * Constructor for speakerquery's instances
 	 */
-	function speakerquery()	{
+	function SpeakerQuery()	{
 		global $cb_columns;
 		$basic_fields = array('id', 'firstname','lastname', 'slug', 'photo');
 		$cb_columns->object( 'speakers' )->register_columns( $basic_fields );
@@ -82,24 +76,24 @@ class speakerquery extends CBCategory{
 		$cb_columns->object( 'video_speaker' )->register_columns( $basic_fields );
 	}
 
-	/**_____________________________________
-	 * add_speaker
-	 * ____________________________________
-	 *Function used to add a new speakers 
+	/**
+	 * Function used to add a new speakers 
 	 *
-	 *input $array : a dictionnary that contains all fields for a speaker. $_POST is used if empty
-	 * output : return speaker's id if exists , otherwise false
+	 * @param array $array 
+	 * 		a dictionnary that contains all fields for a speaker. $_POST is used if empty
+	 * @return bool
+	 * 		true if speaker's id if exists , otherwise false
 	 */
-	function add_speaker($array=NULL){
+	function addSpeaker($array=NULL){
 		global $db;
 		if($array==NULL)
 			$array = $_POST;
-		$this->validate_form_fields($array);
+		$this->validateFormFields($array);
 		if(!error()) {
 			$firstname=mysql_clean($array['firstname']);
 			$lastname=mysql_clean($array['lastname']);
 			//$slug=mysql_clean($array['slug']);
-			$slug=slugify(prepareSlug($firstname,$lastname));
+			$slug=slugify($firstname.'-'.$lastname);
 			$req=" firstname = '$firstname' AND lastname='$lastname'";
 			$res=$db->select(tbl('speaker'),'id',$req,false,false,false);
 			// test speaker's unicity
@@ -121,25 +115,25 @@ class speakerquery extends CBCategory{
 		}
 	}
 	
-	/**_____________________________________
-	 * update_speaker
-	 * ____________________________________
-	 *Function used to update a speakers 
+	/**
+	 * Function used to update a speakers 
 	 *
-	 *input $array : a dictionnary that contains all fields for a speaker. $_POST is used if empty
-	 * output : return speaker's id if exists , otherwise false
+	 * @param array $array
+	 * 		a dictionnary that contains all fields for a speaker. $_POST is used if empty
+	 * @return bool
+	 * 		true if speaker's id if exists , otherwise false
 	 */
-	function update_speaker($array=NULL){
+	function updateSpeaker($array=NULL){
 		global $db;
 		if($array==NULL)
 			$array = $_POST;
-		$this->validate_form_fields($array);
+		$this->validateFormFields($array);
 		if(!error()) {
 			$firstname=mysql_clean($array['firstname']);
 			$lastname=mysql_clean($array['lastname']);
 			//$slug=mysql_clean($array['slug']);
 			$speakerid=mysql_clean($array['speakerid']);
-			$slug=slugify(prepareSlug($firstname,$lastname));
+			$slug=slugify($firstname.'-'.$lastname);
 			$req=" firstname = '$firstname' AND lastname='$lastname' AND id<>$speakerid";
 			$res=$db->select(tbl('speaker'),'id',$req,false,false,false);
 			// test speaker's unicity
@@ -173,19 +167,20 @@ class speakerquery extends CBCategory{
 		}
 	}
 	
-	/**_____________________________________
-	 * search_speaker
-	 * ____________________________________
-	 *Function used to test if a speakers exists testing the existance of  firstname & lastname fields
+	/**
+	 * Function used to test if a speakers exists.
+	 * This function is testing the existance of firstname & lastname fields
 	 * 
-	 *input $array : a dictionnary that contains fields for a speaker. $_POST is used if empty
-	 * output : return true if speaker exists , otherwise false
+	 * @param array $array
+	 * 		a dictionnary that contains fields for a speaker. $_POST is used if empty
+	 * @return bool
+	 * 		true if speaker exists , otherwise false
 	 */
-	function search_speaker($array=NULL){
+	function searchSpeaker($array=NULL){
 		global $db;
 		if($array==NULL)
 			$array = $_POST;
-		$this->validate_form_fields($array,false);
+		$this->validateFormFields($array,false);
 		if(!error()) {
 			$firstname=$array['firstname'];
 			$lastname=$array['lastname'];
@@ -206,20 +201,20 @@ class speakerquery extends CBCategory{
 		}
 	}
 	
-	/**_____________________________________
-	 * get_speakers
-	 * ____________________________________
+	/**
 	 *Function used to get speakers 
 	 *
-	 *input $params : is a dictionary containing information about the requested speakers
-	 *				$params['limit'] is for pagination (ie '0.100')
-	 *				$params['order'] is for ordering
-	 *				$params['cond'] is the "where" condition of the sql request
+	 *@param array $params 
+	 *		is a dictionary containing information about the requested speakers :
+	 *			$params['limit'] is for pagination (ie '0.100')
+	 *			$params['order'] is for ordering
+	 *			$params['cond'] is the "where" condition of the sql request
 	 * 			$params['count_only'] used only if we want to retrive number of speakers
 	 * 			$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template
-	 * output : return specified speakers
+	 * @return speaker|int 
+	 * 		the specified speakers or the number of spaker if $param["count_only"] is set
 	 */
-	function get_speakers($params=NULL)	{
+	function getSpeakers($params=NULL)	{
 		global $db;
 		global $cb_columns;
 		$limit = $params['limit'];
@@ -250,23 +245,23 @@ class speakerquery extends CBCategory{
 		return $result;
 	}
 
-	/**_____________________________________
-	 * get_speaker_and_roles
-	 * ____________________________________
-	 *Function used to get speakers and speaker's roles for a specific video
+	/**
+	 * Function used to get speakers and speaker's roles for a specific video
 	 *
-	 *input $params : is a dictionary containing information about the requested speakers
-	 *				$params['limit'] is for pagination (ie '0.100')
-	 *				$params['order'] is for ordering
-	 *				($params['selected'] if =="yes" returns speakers linked to the video
-	 *										 if =="no" returns speakers not linked to the video
-	 *				$params['videoid'] is the video's id
-	 *				$params['cond'] is the "where" condition of the sql request
+	 * @param array $params
+	 * 		is a dictionary containing information about the requested speakers
+	 *			$params['limit'] is for pagination (ie '0.100')
+	 *			$params['order'] is for ordering
+	 *			($params['selected'] if =="yes" returns speakers linked to the video
+	 *								 if =="no" returns speakers not linked to the video
+	 *			$params['videoid'] is the video's id
+	 *			$params['cond'] is the "where" condition of the sql request
 	 * 			$params['count_only'] used only if we want to retrive number of speakers
-	 * 			$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template
-	 * output : return specified speakers and roles
+	 *			$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template
+	 * @return speaker|int 
+	 * 		the specified speakers and roles or the number of spaker if $param["count_only"] is set
 	 */
-	function get_speaker_and_roles($params=NULL){
+	function getSpeakerAndRoles($params=NULL){
 		global $db;
 		global $cb_columns;
 		$limit = $params['limit'];
@@ -325,30 +320,30 @@ class speakerquery extends CBCategory{
 	}
 	
 	
-	/**_____________________________________
-	 * speaker_exists
-	 * ____________________________________
-	 *Test if speaker's id exists or not 
+	/**
+	 * Test if speaker's id exists or not 
 	 *
-	 *input $id : is teh speaker's id
-	 *output : true if speaker exists otherwise false
+	 * @param int $id
+	 * 		the speaker's id
+	 * @return bool
+	 * 		true if speaker exists otherwise false
 	 */
-	function speaker_exists($id){
+	function speakerExists($id){
 		global $db;
 		$result = $db->count(tbl('speaker'),"id"," id='".$id."'");
 		return ($result>0);
 	}
 	
 	
-	/**_____________________________________
-	 * get_speaker_details
-	 * ____________________________________
-	 *Function used to get speaker details using it's id 
+	/**
+	 * Function used to get speaker details using it's id 
 	 *
-	 *input $id : speaker's id
-	 *output : a dictionary containig each fields for a speaker, false if no speaker found
+	 * @param int $id 
+	 * 		the speaker's id
+	 * @return array|bool 
+	 * 		a dictionary containig each fields for a speaker, false if no speaker found
 	 */
-	function get_speaker_details($id=NULL)	{
+	function getSpeakerDetails($id=NULL)	{
 		global $db;
 		$fields = tbl_fields(array('speaker' => array('*')));
 		$query = "SELECT $fields FROM ".cb_sql_table('speaker');
@@ -385,17 +380,18 @@ class speakerquery extends CBCategory{
 		return false;
 	}
 	
-	/**_____________________________________
-	 * delete_speaker
-	 * ____________________________________
-	 *Remove speaker and speaker's role from the database. 
-	 *TODO : if the speaker is linked to a video, then nothing is done, just an error message appears.
-	 *input $id : the id of ths speaker to be deleted 
+	/**
+	 * Remove speaker and speaker's role from the database.
+	 * 
+	 * @param int $id 
+	 * 		the id of ths speaker to be deleted 
+	 * @todo 
+	 * 		if the speaker is linked to a video, then nothing is done, just an error message appears.
 	 */
-	function delete_speaker($id) {
+	function deleteSpeaker($id) {
 		global $db;
-		if($this->speaker_exists($id)) {
-			$udetails = $this->get_speaker_details($id);
+		if($this->speakerExists($id)) {
+			$udetails = $this->getSpeakerDetails($id);
 				$test=$db->execute("DELETE FROM ".tbl("speakerfunction")." WHERE speaker_id='$id'");
 				$test2=$db->execute("DELETE FROM ".tbl("speaker")." WHERE id='$id'");
 				if (!$test2)
@@ -407,40 +403,39 @@ class speakerquery extends CBCategory{
 		}
 	}
 	
-	/**_____________________________________
-	 * link_speaker
-	 * ____________________________________
-	 *Associate a speaker's role to video 
+	/**
+	 * Associate a speaker's role to video 
 	 *
-	 *input $id : speaker role's id
-	 *			$videoid : the video's id
+	 * @param int $id 
+	 *		speaker role's id
+	 *	@param int $videoid 
+	 *		the video's id
 	 */
-	function link_speaker($id,$videoid) {
+	function linkSpeaker($id,$videoid) {
 		global $db;
 		$cnt= $db->count(tbl('video_speaker'),'*',"speakerfunction_id=".$id.	" and video_id=".$videoid);
 		if ($cnt==0)
 			$db->insert(tbl('video_speaker'), array('video_id','speakerfunction_id'), array(mysql_clean($videoid),mysql_clean($id)));
 	}
 
-	/**_____________________________________
- 	 * unlink_speaker
- 	 * ____________________________________
-	 *Remove associate between a speaker's role and a video 
+	/**
+	 * Remove associate between a speaker's role and a video 
 	 *
-	 *input $id : speaker role's id
-	 *			$videoid : the video's id
+	 * @param int $id
+	 * 		speaker role's id
+	 * @param int $videoid 
+	 * 		the video's id
 	 */
-	function unlink_speaker($id,$videoid) {
+	function unlinkSpeaker($id,$videoid) {
 		global $db;
 		$cnt= $db->count(tbl('video_speaker'),'*',"speakerfunction_id=".$id.	" and video_id=".$videoid);
 		if ($cnt>0)
 			$db->execute("DELETE FROM ".tbl("video_speaker")." WHERE video_id='$videoid' AND speakerfunction_id='$id'");
 	}
 	
-	/**_____________________________________
- 	 * load_speaker_fields
- 	 * ____________________________________
- 	 *Create initial array for speaker fields 
+	/**
+ 	 * Create initial array for speaker fields 
+ 	 *
 	 * this will tell
 	 * array(
 	 *       title [text that will represents the field]
@@ -458,11 +453,14 @@ class speakerquery extends CBCategory{
 	 *       anchor_after [anchor after field]
 	 *      )
 	 *
- 	 *input $input : a dictionary with speaker's informations (if null $_POST is used)
-	 *		$strict : if trus then field is requiered in the data form
- 	 *output : Fields for the administration page of the plugin
+ 	 * @param array $input 
+ 	 * 		a dictionary with speaker's informations (if null $_POST is used)
+	 * @param bool $strict
+	 * 		if true then field is requiered in the data form
+ 	 *	@return array 
+ 	 *		Fields for the administration page of the plugin
  	 */
-	function load_speaker_fields($input=NULL,$strict=true) {
+	function loadSpeakerFields($input=NULL,$strict=true) {
 		global $LANG,$Cbucket;
 		$default = array();
 		if(isset($input))
@@ -502,41 +500,15 @@ class speakerquery extends CBCategory{
 						'value'=> $user_lname,
 						'db_field'=>'lastname',
 						'required'=>($strict) ? 'yes' : 'no',
-						//'hint_1'=> lang('user_allowed_format'),
-						//'hint_2'=> lang('user_allowed_format'),
-						// 'syntax_type'=> 'username',
-						//'validate_function'=> 'username_check',
-						//'function_error_msg' => lang('user_contains_disallow_err'),
-						//'db_value_check_func'=> 'user_exists',
-						//'db_value_exists'=>false,
-						//'db_value_err'=>lang('usr_uname_err2'),
-						//'min_length'	=> config('min_username'),
-						//'max_length' => config('max_username'),
 				),
-				/*'slug' => array(
-						'title'=> lang('Slug'),
-						'type'=> "textfield",
-						'name'=> "slug",
-						'id'=> "slug",
-						'value'=> $slug,
-						'db_field'=>'slug',
-						'required'=>($strict) ? 'yes' : 'no',
-						//'invalid_err'=>lang('usr_cpass_err'),
-						//'extra_tags'=>'readonly',
-						//'syntax_type'=> 'email',
-						//'db_value_check_func'=> 'email_exists',
-						//'db_value_exists'=>false,
-						//'db_value_err'=>lang('usr_email_err3')
-				),*/
 		);
 		return $my_fields;
 	}
 
 
-	/**_____________________________________
-	 * load_speaker_role_fields
-	 * ____________________________________
-	 *Create initial array for speaker roles fields 
+	/**
+	 * Create initial array for speaker roles fields 
+	 * 
 	 * this will tell
 	 * array(
 	 *       title [text that will represents the field]
@@ -554,10 +526,12 @@ class speakerquery extends CBCategory{
 	 *       anchor_after [anchor after field]
 	 *      )
 	 *
-	 *input $input : a dictionary with speaker's informations (if null $_POST is used)
-	 *output : Fields for the administration page of the plugin
+	 * @param array $input
+	 * 		a dictionary with speaker's informations (if null $_POST is used)
+	 * @return array
+	 *		Fields for the administration page of the plugin
 	 */
-	function load_speaker_role_fields($input=NULL) {
+	function loadSpeakerRoleFields($input=NULL) {
 		global $LANG,$Cbucket;
 		$default = array();
 		if(isset($input))
@@ -577,29 +551,20 @@ class speakerquery extends CBCategory{
 						'required'=>'yes',
 						'validate_function'=> 'speaker_role_check',
 						'function_error_msg' => lang('speaker_empty_role_err'),
-						//'hint_1'=> lang('user_allowed_format'),
-						//'hint_2'=> lang('user_allowed_format'),
-						// 'syntax_type'=> 'username',
-						//'function_error_msg' => lang('user_contains_disallow_err'),
-						//'db_value_check_func'=> 'user_exists',
-						//'db_value_exists'=>false,
-						//'db_value_err'=>lang('usr_uname_err2'),
-						//'min_length'	=> config('min_username'),
-						//'max_length' => config('max_username'),
 				),
 		);
 		return $my_fields;
 	}
 	
-	/**_____________________________________
-	 * load_speaker_role_ids
-	 * ____________________________________
-	 *return ids for speakers roles
+	/**
+	 * return ids for speakers roles
 	 *
-	 *input $input : a dictionary containing speaker'id (if NULL $_POST is used)
-	 *output : list of roles ids
+	 * @param array $input 
+	 *		a dictionary containing speaker'id (if NULL $_POST is used)
+	 * @return 
+	 * 		list of roles ids
 	 */
-	function load_speaker_role_ids($input=NULL) {
+	function loadSpeakerRoleIds($input=NULL) {
 		global $db;
 		global $LANG,$Cbucket;
 		$default = array();
@@ -613,25 +578,26 @@ class speakerquery extends CBCategory{
 		return $res;
 	}
 	
-	/**_____________________________________
-	 * validate_form_fields
-	 * ____________________________________
-	 *Validate speaker's administrion form fields (Add and Edit forms) 
+	/**
+	 * Validate speaker's administrion form fields (Add and Edit forms) 
 	 *
- 	 *input $input : a dictionary with speaker's informations (if null $_POST is used)
-	 *		$strict : if trus then field is requiered in the data form
-	 *output : true if the form is valid, otherwise false
+ 	 * @param  array $input 
+ 	 * 		a dictionary with speaker's informations (if null $_POST is used)
+	 *	@param bool $strict
+	 *		if true then field is requiered in the data form
+	 * @return 
+	 * 		true if the form is valid, otherwise false
 	 */
-	function validate_form_fields($array=NULL,$strict=true) {
-		$fields= $this->load_speaker_fields($array,$strict);
-		$extrafields = $this->load_speaker_role_fields(NULL,$strict);
+	function validateFormFields($array=NULL,$strict=true) {
+		$fields= $this->loadSpeakerFields($array,$strict);
+		$extrafields = $this->loadSpeakerRoleFields(NULL,$strict);
 		$ok=false;
 		foreach($extrafields as $field) {
 			if(is_array($array[$field['name']])) 
 				$ok=true;
 		}
 		if ($ok)
-			$fields= array_merge($this->load_speaker_fields($array,$strict),	$extrafields = $this->load_speaker_role_fields(NULL,$strict));
+			$fields= array_merge($this->loadSpeakerFields($array,$strict),	$extrafields = $this->loadSpeakerRoleFields(NULL,$strict));
 		if($array==NULL)
 			$array = $_POST;
 		if(is_array($_FILES))
