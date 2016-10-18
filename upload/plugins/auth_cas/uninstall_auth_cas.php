@@ -1,12 +1,11 @@
 <?php
 require_once('../includes/common.php');
 
-/**____________________________________
- * uninstall_speaker
- * ____________________________________
- *Remove speaker table from the database 
+/**
+ * Delete database table of CAS configuration.
+ *
  */
-function uninstall_auth_cas()	{
+function uninstallAuthCas()	{
 		global $db;
 		$db->Execute(
 		'DROP TABLE IF EXISTS '.tbl("auth_cas_config").';'
@@ -14,25 +13,21 @@ function uninstall_auth_cas()	{
 	}
 
 
-/**____________________________________
- * remove_speaker_langage_pack
- * ____________________________________
- *Remove the plugin language data from the "phrases" database table. Read 
- *inserted keys in the corresponding xml language pack 
- *e
- *input $lang : iso code of the pack to import (ie: 'en')
+/**
+ * Delete language code
+ *	@var string $lang Iso country code
  */
-function remove_auth_cas_langage_pack($lang){
+function removeAuthCasLangagePack($lang){
 	global $db,$lang_obj;
 	$folder= PLUG_DIR.'/'.basename(dirname(__FILE__))."/lang";
 	$file_name = $folder.'/auth_cas_lang_'.$lang.'.xml';
-	//Reading Content
+	// Reading Content
 	$content = file_get_contents($file_name);
 	if(!$content) {
 		e(lang("err_reading_file_content")." : ".$file_name);
 	}
 	else {
-		//Converting data from xml to array
+		// Converting data from xml to array
 		$data = xml2array($content,1,'tag',false);
 		$data = $data['clipbucket_language'];
 		$phrases = $data['phrases'];
@@ -55,7 +50,7 @@ function remove_auth_cas_langage_pack($lang){
 	}
 }
 
-uninstall_auth_cas();
-remove_auth_cas_langage_pack('fr');
-remove_auth_cas_langage_pack('en');
+uninstallAuthCas();
+removeAuthCasLangagePack('fr');
+removeAuthCasLangagePack('en');
 ?>

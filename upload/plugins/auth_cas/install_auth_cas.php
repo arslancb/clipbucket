@@ -2,13 +2,10 @@
 require_once('../includes/common.php');
 
 
-
-/**____________________________________
- * install_video_speaker
- * ____________________________________
- *Creating Table for video speaker Role if not exists 
+/**
+ * Install db table of CAS configuration
  */
-function install_auth_cas() {
+function installAuthCas() {
 	global $db;
 	$db->Execute(
 		'CREATE TABLE '.tbl("auth_cas_config").' ( 
@@ -19,33 +16,30 @@ function install_auth_cas() {
 		) 
 		ENGINE = InnoDB CHARSET=utf8;'
 	);
-}
+// }
 
 
-
-
-
-/**____________________________________
- * import_speaker_langage_pack
- * ____________________________________
- *Import language data from an xml file called  "speaker_lang_XX.xml" where "XX" is 
- *the language iso code. The file must be placed in then "lang" subfolder of the plugin.
+/**
+ * Add information of language.
  *
- *input $lang : iso code of the pack to import (ie: 'en')
+ * Import language data from an xml file called  "auth_cas_lang_XX.xml" where "XX" is 
+ * the language iso code. The file must be placed in then "lang" subfolder of the plugin.
+ *
+ * @param string $lang Iso code of the pack to import (ie: 'en')
  */
-function import_auth_cas_langage_pack($lang){
+function importAuthCasLangagePack($lang){
 	global $db,$lang_obj;
 	
 	$folder= PLUG_DIR.'/'.basename(dirname(__FILE__))."/lang";
 	$file_name = $folder.'/auth_cas_lang_'.$lang.'.xml';
 	
-	// *** Reading Content
+	// Reading Content
 	$content = file_get_contents($file_name);
 	if(!$content) {
 		e(lang("err_reading_file_content")." : ".$file_name);
 	}
 	else {
-		//Converting data from xml to array
+		// Converting data from xml to array
 		$data = xml2array($content,1,'tag',false);
 		$data = $data['clipbucket_language'];
 		$phrases = $data['phrases'];
@@ -68,7 +62,7 @@ function import_auth_cas_langage_pack($lang){
 			$query .= $sql;
 			$db->execute($query);
 			e(lang("lang_added")." : ".$lang,"m");
-			// *** Generate pack
+			// Generate pack
 			if($lang_obj->createPack($lang)){
 				e("Language pack has been re-created","m");
 			}
@@ -76,7 +70,7 @@ function import_auth_cas_langage_pack($lang){
 	}
 }
 
-install_auth_cas();
-import_auth_cas_langage_pack('fr');
-import_auth_cas_langage_pack('en');
+installAuthCas();
+importAuthCasLangagePack('fr');
+importAuthCasLangagePack('en');
 ?>
