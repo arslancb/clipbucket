@@ -5,10 +5,9 @@ In order to use this plugin, you have to install and enable the "php5-ldap" modu
 
 __Be careful__, the Common Library plugin must be firstly installed and activated on the ClipBucket platform.
 
-*Le module ldap doit être installé et activé. Sur un système debian (ou variante), installer le paquet "php5-ldap" (penser à relancer apache après l'installation).
+*Le module ldap doit être installé et activé. Sur un système debian (ou variante), installer le paquet "php5-ldap" (penser à relancer apache après l'installation).*
 
-__Attention__, le plugin Common Library doit d'abord être installé et activé sur la plateforme Clipbucket.
-*
+*__Attention__, le plugin Common Library doit d'abord être installé et activé sur la plateforme Clipbucket.*
 
 ## Installation
 Go to the plugin administration panel and install the "LDAP Client" plugin. The translation were not updated immeditaly. You have to reload another page.
