@@ -5,9 +5,7 @@ if (!is_dir($uploaddir)) {
 	die($uploaddir.lang("not_a_valid_folder"));
 }
 
-/**____________________________________
- * uninstall_disciplines
- * ____________________________________
+/**
  *Remove discplines table from the database 
  */
 function uninstall_disciplines(){
@@ -84,4 +82,17 @@ function remove_discipline_langage_pack($lang){
 uninstall_disciplines();
 remove_discipline_langage_pack('en');
 remove_discipline_langage_pack('fr');
+
+
+/**
+ * remove locales for this plugin
+ */
+global $cbplugin;
+if ($cbplugin->is_installed('common_library.php')){
+	require_once PLUG_DIR.'/common_library/common_library.php';
+	$folder= PLUG_DIR.'/'.basename(dirname(__FILE__))."/lang";
+	removeLangagePack($folder,'en');
+	removeLangagePack($folder,'fr');
+}
+
 ?>
