@@ -8,7 +8,7 @@ This will create 3 tables in CB database. It will also add locales for the plugi
 ## Requirements
 This plugin is based on the following plugins :
 
--**Extended Search** (Optional) : Used to perform search with CB search CORE but into speakers data. If not installed the search will not be active.
+- **Extended Search** (Optional) : Used to perform search with CB search CORE but into speakers data. If not installed the search will not be active.
 - **Common Library** (Required) : Used in this plugin for localisation **(not yet implémented)**
 - **php5-intl** The plugin need this php package to be installed. a function uses iconv function to convert some text in utf8.
 # Uninstall
