@@ -1,12 +1,21 @@
-#Plugin ClipBucket - Central Authentication Service
+#Plugin ClipBucket - Central Authentication Service (Single sign-on)
 
-# Installation
-Activer le plugin depuis la rubrique plugin de l'administration.
+## Requirement - *Minimum requis*
+__Be careful__, the Common Library plugin must be firstly installed and activated on the ClipBucket platform.
 
-# Configuration
-Depuis l'administration du site, renseigner les informations requises (serveur, port, etc...).
+*__Attention__, le plugin Common Library doit d'abord être installé et activé sur la plateforme Clipbucket.*
 
-# Utilisation
-Dans votre template (styles/<nom_du_template>/layout/signup.html), ajouter le code suivant : `{ANCHOR place="is_auth_cas"}`
+## Installation
+Activate the plugin from the plugin manager section of the administration panel.
 
-Si besoin d'une personallisation plus forte du lien d'authentification : ajouter `{ANCHOR place="is_auth_cas" data="true"}`. Ceci retourne uniquement l'url de connexion SSO-CAS que l'on peu placer dans un lien HTML customisé.
+*Activer le plugin depuis la rubrique plugin manager de l'administration.*
+
+## Configuration
+From administration, go to "Stats and Configuration", then "CAS Configuration" and inquire the required fields (server, port, etc...).
+
+*Depuis l'administration du site aller dans la rubrique "Stats and Configuration" puis "Connexion CAS" et renseigner les informations requises (serveur, port, etc...).*
+
+## Utilisation - Usage
+In your layout (styles/<nom_du_template>/layout/signup.html), add the code `{ANCHOR place="is_auth_cas"}`
+
+*Dans votre template (styles/<nom_du_template>/layout/signup.html), ajouter le code suivant : `{ANCHOR place="is_auth_cas"}`*
