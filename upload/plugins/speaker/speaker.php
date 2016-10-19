@@ -81,13 +81,13 @@ function addLinkSpeakerMenuEntry($vid){
 }
 
 /** Add the previous function in the list of entries into the video manager "Actions" button */
-$cbvid->video_manager_link[]='addLinkSpeakerMenuEntry';
+if ($userquery->permission["speaker_admin"]=='yes')
+	$cbvid->video_manager_link[]='addLinkSpeakerMenuEntry';
 
 
 
-/**
- * Add entries for the plugin in the administration pages
- */
-add_admin_menu(lang('video_addon'),lang('speaker_manager'),'manage_speakers.php',SPEAKER_BASE.'/admin');
+/**Add entries for the plugin in the administration pages */
+if ($userquery->permission["speaker_admin"]=='yes')
+	add_admin_menu(lang('video_addon'),lang('speaker_manager'),'manage_speakers.php',SPEAKER_BASE.'/admin');
 	
 ?>

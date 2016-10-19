@@ -2,10 +2,8 @@
 require_once SPEAKER_DIR.'/speaker_class.php';
 /** Check if user has admin acces */
 $userquery->admin_login_check();
-/** @todo
- * 		Check if user has admin acces to this plugin
- */
-//$userquery->login_check('member_moderation');
+/** Check if user has admin acces to this plugin */
+$userquery->login_check('speaker_admin');
 $pages->page_redir();
 
 /** Assigning page and subpage */

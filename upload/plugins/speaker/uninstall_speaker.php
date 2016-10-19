@@ -32,9 +32,26 @@ function uninstallVideospeaker()
 	);
 }
 
-uninstallVideospeaker();
+/**
+ * remove management for this plugin administration permissions
+ *
+ * Add fields and values in the database to allow the administrator setting on or off the administration
+ * part of this plugin
+ */
+function uninstallSpeakerAdminPermissions(){
+	global $db;
+	/** Remove the added field into user_level_permission table  that s used tu manage permissions for each user level */
+	$db->Execute('ALTER TABLE '.tbl("user_levels_permissions"). " DROP `speaker_admin` ");
+
+	/** Remove the entry into the user_permission table that deal with this adminstration level */
+	$db->Execute ("DELETE FROM ".tbl('user_permissions')." WHERE `permission_code` = 'speaker_admin'");
+}
+
+
+/*uninstallVideospeaker();
 uninstallSpeakerfunction();
-uninstallSpeaker();
+uninstallSpeaker();*/
+uninstallSpeakerAdminPermissions();
 
 /**
  * remove locales for this plugin

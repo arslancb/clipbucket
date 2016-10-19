@@ -32,5 +32,6 @@
 		<no_speaker_found>No speaker found</no_speaker_found>
 		<speaker_edition>Edit speakers</speaker_edition>
 		<video_addon>Video Addon</video_addon>
+		<allow_video_speaker_management>Allow Video Speaker Management</allow_video_speaker_management>
 	</phrases>
 </clipbucket_language>

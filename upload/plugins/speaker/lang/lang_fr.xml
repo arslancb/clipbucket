@@ -32,5 +32,6 @@
 		<no_speaker_found>Aucun intervenant trouvé</no_speaker_found>
 		<speaker_edition>Edition des intervenants</speaker_edition>
 		<video_addon>Extensions Vidéo</video_addon>
+		<allow_video_speaker_management>Autoriser la gestion des intervenants</allow_video_speaker_management>
 	</phrases>
 </clipbucket_language>
