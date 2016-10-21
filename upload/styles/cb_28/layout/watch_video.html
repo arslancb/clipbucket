@@ -49,11 +49,12 @@
 									{$files = get_video_files($vdo,true,true)}
 									{foreach $files as $file}
 									{$quality = explode('-',$file)}
-									{$quality = explode('.',$quality.1)}
+									{$quality = array_reverse($quality)}
+									{$quality = explode('.',$quality.0)}
 									{$file_quality = $quality.0}
 									<li role="presentation">
 										<a role="menuitem" tabindex="-1" href="{$file}"  download>
-										<span class="glyphicon glyphicon-download-alt"></span>{$file_quality}</a>
+										<span class="glyphicon glyphicon-download-alt"></span> {$file_quality}</a>
 										
 									</li>
 									{/foreach}
@@ -82,7 +83,7 @@
 					<div class="tab-content clearfix">
 						<div class="tab-pane fade in clearfix active" id="cb-item-info">
 							<div class="clearfix watch-vid-details">
-								<h2>{description($video.description)}</h2>
+								<p>{AutoLinkUrls($video.description|unescape:"html")}</p>
 								<ul class="clearfix desc-list">
 									<li><strong>{lang code='category'}</strong>:&nbsp;{$vdo.category|categories:video}</li>
 									<li><strong>{lang code='duration'}</strong>:&nbsp;{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</li>
@@ -210,7 +211,53 @@
 </div>
 
 <script>
+
+	/*Cookie based comments backup start*/
+	var current_video = "{$video.videoid}",
+	cookieToSave = 'comment_data_u'+userid+"v"+current_video,
+	commentDataCheck = $.cookie(cookieToSave);
+
+	if (commentDataCheck !== null) {
+		$('#comment_box').val(commentDataCheck);
+	}
+	$('#comment_box').on('keyup', function() {
+	    var comment_data = $('#comment_box').val();
+	    $.cookie(cookieToSave, comment_data, { expires : 10, path : "/" });
+	});
+
+	$('#add_comment_button').on("click",function(){
+		$.cookie(cookieToSave, null, { path : "/" });
+	});
+	/*Cookie based comments backup end*/
+
+	var playlist_total = "{$total_items}";
+	$('#ShareUsers').on("keyup",function(){
+		var typed = $(this).val();
+		$.ajax({
+			url: baseurl+'/ajax.php',
+			type: 'post',
+			dataType: 'html',
+			data: {
+				"mode":'user_suggest',
+				"typed": typed
+			},
+			beforeSend: function() {
+			},
+
+			success: function(data) {
+				$('#suggested_users').html('');
+				var jsoned = $.parseJSON(data);
+				$( jsoned.matching_users ).each(function( index, element ) {
+					$('#suggested_users').append("<option label='"+element+"' value='"+element+"'>");
+			  	});
+			}
+		});
+	});
+
+	/*Playlist load more start*/
+	var playlist_total = "{$total_items}";
 	$('#playlist-pull').on("click",function(){
+		var __this = $(this);
 		loadHit = $(this).attr('dataHit');
 		loadLimit = $(this).attr('dataLimit');
 		playlist = $(this).attr('dataList');
@@ -226,10 +273,16 @@
 				"playlist": playlist
 			},
 			beforeSend: function() {
-				$(this).text("loading");
+				$(__this).text("loading");
 			},
 
 			success: function(data) {
+				var loaded = loadLimit * loadHit;
+				if (playlist_total <= loaded) {
+					$(__this).remove();
+				} else {
+					$(__this).text("Load More");
+				}
 				if (data == 'none') {
 					$('#playlist-pull').remove();
 				}
@@ -238,6 +291,7 @@
 			}
 		});
 	});
+	/*Playlist load more end*/
 
 	var aspect_ratio = 1.77778
 	var $cb_player = $("#cb_player");

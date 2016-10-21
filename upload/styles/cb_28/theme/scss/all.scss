@@ -749,7 +749,7 @@ h1{
 		background:$white;
 		padding: 10px 0 0;
 		overflow: hidden;
-		height: 26px;
+		height: 28px;
 	}
 }
 
@@ -1599,8 +1599,6 @@ h1{
 	height: 474px;
 	img{
 		margin: 0 auto;
-		height: 100%;
-		width: auto;
 	}
 	.btn-holder{
 		position: absolute;
@@ -1647,7 +1645,9 @@ h1{
 		background:rgba(0,0,0,0.98); /* Black w/opacity */
 		overflow-y: hidden;
 		transition: 0.3s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
-		display: table;
+		&.maximized{
+			display: table;
+		}
 		img{
 			position: relative;
 		}
@@ -1697,8 +1697,12 @@ h1{
 			display: table-cell;
 			vertical-align: middle;
 			img{
-				width: auto;
 				height: auto;
+				&.tallest{
+					height: 100%;
+					height: 100vh;
+				}
+				// max-height: 100%;
 			}
 			.btn-holder{
 				position: fixed;
@@ -1713,6 +1717,7 @@ h1{
 	height: 474px;
 	margin: 0 0 16px;
 	position: relative;
+	overflow: hidden;
 	#enlarge{
 		cursor: pointer;
 		padding: 5px;
@@ -1727,6 +1732,32 @@ h1{
 		background: $photo-btn-color;
 		border-radius:50%;
 		text-align: center;
+	}
+	.image-holder{
+		display: table;
+		width: 100%;
+		height: 100%;
+		.inner-holder{
+			display: table-cell;
+			vertical-align: middle;
+			img{
+				height: auto;
+				&.tall_img{
+					max-height: 100%;
+				}
+			}
+		}
+	}
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	/* IE10+ CSS styles go here */
+	#gallery .image-holder .inner-holder img.tall_img{
+		height: 100%;
+	}
+
+	.photo-view .overlay .overlay-content img.tallest{
+		height: 100%;
+		max-height: 100%;
 	}
 }
 
@@ -1887,6 +1918,20 @@ textarea#comment_box{
 	overflow: hidden;
 	.form-control{
 		box-shadow:none;
+	}
+	textarea{
+		resize:none;
+	}
+}
+.comment_txt_area,
+.textarea-comment{
+	textarea{
+		resize:none !important;
+	}
+}
+.textarea-comment{
+	textarea.form-control{
+		padding: 6px 24px 6px 12px;
 	}
 }
 .comments {
@@ -3124,6 +3169,15 @@ textarea#comment_box{
 .well{
 	border-radius: 0;
 }
+.alert-msg-holder{
+	.alert{
+		position: fixed;
+		width: 100%;
+		left: 0;
+		z-index:5;
+		padding: 10px 40px 10px 10px;
+	}
+}
 /**/
 @import "header";
 @import "sidebar";
@@ -3205,6 +3259,9 @@ textarea#comment_box{
 		border: none;
 		&:first-child{
 			padding: 0 8px;
+		}
+		&:nth-child(n+9){
+			display: none;
 		}
 	}
 	.item-video .thumb-holder .video-link .title{

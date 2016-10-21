@@ -56,7 +56,7 @@ if (!function_exists('cb_video_js'))
 	*/
 	function cb_logo()
 	{
-		$l_details = BASEURL.'/images/icons/country/hp-cb.png';
+		$l_details = BASEDIR.'/images/icons/country/hp-cb.png';
 		$l_convert = base64_encode(file_get_contents($l_details));
 		return $l_convert;
 	}
@@ -104,6 +104,92 @@ if (!function_exists('cb_video_js'))
 			return False;
 		}
 		
+	}
+
+	/**
+	* Used to return functions of custom/premium plugins
+	* @param   : { Array } { function } { videoid }
+	* @example : get_my_function($params) { will check the required function name and return the case }
+	* @return  : { functions/Boolean } 
+	* @since   : 01st August, 2016 ClipBucket 2.8.1
+	* @author  : Fahad Abbas
+	*/
+	function get_my_function($params){
+
+		$function = $params['function'];
+		$videoid = $params['videoid'];
+
+		if (!$function){
+			return False;
+		}
+
+		switch ($function) {
+
+			case 'get_ultimate_ads':{
+				if (CB_ULTIMATE_ADS == 'installed'){
+
+					global $CbUads;
+					$ads_array = array("filter_ad"=>true,"status"=>"1","non_expiry"=>'true');
+					$current_ad = $CbUads->get_ultimate_ads($ads_array);
+					
+					if ( !empty($current_ad) ){
+						return $current_ad;
+					}else{
+						return false;
+					}
+				}else{
+					return false;
+				}
+
+			}
+			break;
+
+			case 'get_timeCommnets':{
+				if (CB_TIMECOMMENTS_PLUGIN == 'installed'){
+					$timecomments = get_timeComments($videoid);
+					if (!empty($timecomments)){
+						return json_encode($timecomments);
+					}else{
+						return false;	
+					}
+				}else{	
+					return false;
+				}
+			}
+			break;
+
+			case 'get_video_editor':{
+				if ( IA_ADS_INSTALLED == 'installed' ){
+					$video_editor_enabled = video_editor_enabled();
+					return $video_editor_enabled;
+				}else{
+					return false;
+				}
+			}
+			case 'get_slot':{
+				if ( IA_ADS_INSTALLED == 'installed' ){
+					global $ia_ads;
+					$slot_paramas['videoid'] = $videoid;
+					
+					if ( !empty($_GET['slot_id']) ){
+						$slot_paramas['slot_id'] = $_GET['slot_id'];
+					}else{
+						$slot_paramas['state'] = '1';
+					}
+					$slot_id = $ia_ads->get_slot($slot_paramas)[0]['slot_id'];
+					if (!empty($slot_id)){
+						$instances = $ia_ads->get_instance(array("slot_id"=>$slot_id,'order'=>'starttime ASC'));	
+					}
+					return $instances;
+				}else{
+					return false;
+				}
+			}
+			
+			default:
+				# code...
+			break;
+		}
 	}
 
 	register_actions_play_video('cb_video_js');

@@ -36,14 +36,14 @@ class CBLogs
 	{
 		global $db,$userquery;
 		$a = $details_array;
-		//$ip = $_SERVER['REMOTE_ADDR'];
-		$ipv = $this->get_local_ipv4();
+		$ip = $_SERVER['REMOTE_ADDR'];
+		/*$ipv = $this->get_local_ipv4();
 		if($ipv['eth0']){
 			$ip = $ipv['eth0'];
 		}
 		if($ipv['wlan0']){
 			$ip = $ipv['wlan0'];
-		}
+		}*/
 		$agent = $_SERVER['HTTP_USER_AGENT'];
 		$userid = getArrayValue($a, 'userid');
 		$username = $a['username'];

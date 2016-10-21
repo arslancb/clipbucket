@@ -307,13 +307,11 @@
                 <div class="widgetBox">
                     <div class="addTodo paddingRightSmall paddingLeftLarge marginBottomLarge">
                         <div class="row">
-                            <div class="from-group col-md-10">
-                                <input type="text" name="addTodo" class="form-control">
-                            </div>
-                            <div class="from-group  relative">
-                                <div class="addTodoButton">
-                                    <button id="addTodo" class="btn btn-primary btn-sm">Add</button>
-                                </div>
+                            <div class="from-group relative">
+								<div class="from-group">
+									<input type="text" name="addTodo" class="form-control addTodoText">
+									<button id="addTodo" class="btn btn-primary btn-sm">Add</button>
+								</div>
                             </div>
                         </div>
                         
@@ -789,53 +787,54 @@ $.ajax({
                 e.preventDefault();
                 var self = this;
                 var newVal = $(this).parents(".addTodo").find("input").val();
-                if(newVal.length){
-                $(this).parents(".addTodo").find("input").val("");
-                var ajaxCall = $.ajax({
-                    url: page,
-                    type: "post",
-                    data: {
-                        val: newVal,
-                        mode: "add_todo",
-                    },
-                });
-                ajaxCall.success(function(data){
-                    data = $.parseJSON(data);
-                    var li = document.createElement("li");
-                    li.className = "col-md-12";
-                    var p = document.createElement("p");
-                    p.className = "oneTodo paddingLeftSmall col-md-10";
-                    p.id = data.id;
-                    p.innerHTML = data.todo;
-                    var a = document.createElement("a");
-                    a.href = "#";
-                    a.className = "col-md-2 btn btn-danger btn-xs delete";
-                    a.innerHTML = "Delete";
-                    $(a).on("click", function(e){
-                        e.preventDefault();
-                        var self = this;
-                        var id = $(this).prev().attr("id");
-                        var ajaxCall = $.ajax({
-                            url: page,
-                            type: "post",
-                            data: {
-                                id: id,
-                                mode: "delete_todo",
-                            },
-                        });
-                        ajaxCall.success(function(data){
-                            $(self).parents("li").remove();
-                        });
+                if(newVal.length)
+                {
+					$(this).parents(".addTodo").find("input").val("");
+					var ajaxCall = $.ajax({
+						url: page,
+						type: "post",
+						data: {
+							val: newVal,
+							mode: "add_todo",
+						},
+					});
+					ajaxCall.success(function(data){
+						data = $.parseJSON(data);
+						var li = document.createElement("li");
+						li.className = "col-md-12";
+						var p = document.createElement("p");
+						p.className = "oneTodo paddingLeftSmall col-md-10";
+						p.id = data.id;
+						p.innerHTML = data.todo;
+						var a = document.createElement("a");
+						a.href = "#";
+						a.className = "col-md-2 btn btn-danger btn-xs delete";
+						a.innerHTML = "Delete";
+						$(a).on("click", function(e){
+							e.preventDefault();
+							var self = this;
+							var id = $(this).prev().attr("id");
+							var ajaxCall = $.ajax({
+								url: page,
+								type: "post",
+								data: {
+									id: id,
+									mode: "delete_todo",
+								},
+							});
+							ajaxCall.success(function(data){
+								$(self).parents("li").remove();
+							});
 
-                    });
-                    var div = document.createElement("div");
-                    div.className = "col-md-12";
+						});
+						var div = document.createElement("div");
+						div.className = "col-md-12";
 
-                    $(li).append(div).find("div").append(p).append(a);
-                    $(self).parents(".widgetBox").find("ul").prepend(li);
-                });
+						$(li).append(div).find("div").append(p).append(a);
+						$(self).parents(".widgetBox").find("ul").prepend(li);
+					});
                 }else{
-                alert("Please enter a valid value");
+                	alert("Please enter a valid value");
                 }
             }
         });

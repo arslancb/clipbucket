@@ -47,7 +47,7 @@ if(!empty($mode))
 					$file_path = THUMBS_DIR.'/'.$file_name.'-'.$file_num.'.'.$ext;
 				}
 			}
-
+			$file_path = str_replace('-', '-original', $file_path);
 			move_uploaded_file($file['tmp_name'],$file_path);
 			$imgObj->CreateThumb($file_path,$file_path,$width,$ext,$height,false);
 

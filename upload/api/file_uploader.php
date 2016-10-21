@@ -9,6 +9,9 @@ $request = $_REQUEST;
 
 $file_name = $request['file_name'];
 $file_directory = $request['file_directory'];
+if (!$file_directory) {
+    $file_directory = createDataFolders();
+}
 $video_id = $request['videoid'];
 
 $tempFile = $_FILES['Filedata']['tmp_name'];
@@ -81,7 +84,7 @@ if (!in_array($file_ext, $types_array))
 
 
 move_uploaded_file($tempFile, $targetFile);
-
+#exit($file_directory);
 $Upload->add_conversion_queue($targetFileName, $file_directory);
             
 //exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
@@ -91,7 +94,7 @@ if (stristr(PHP_OS, 'WIN'))
 }
 else
 {
-    exec(php_path() . " -q " . BASEDIR . "/actions/video_convert.php $targetFileName &> /dev/null &");
+    exec(php_path()." -q ".BASEDIR."/actions/video_convert.php {$targetFileName} {$file_name} {$file_directory} {$logFile} > /dev/null &");
 }
 
 $status_array['success'] = 'yes';

@@ -1,0 +1,49 @@
+<div class="comments clearfix">
+    <ul id="comments-ul">
+    {if $comments}
+    	{foreach from=$comments.comments item=comment}
+            {include file="$style_dir/blocks/comments/comment.html" comment=$comment type=$type parents=$comments.parents}
+        {/foreach}
+        <div class="break2"></div>
+    {else}
+    	<div class="break2"></div>
+    	<li class="col-lg-12 no-related no-comments clearfix">
+       		<span class="well well-info btn-block">No Comments Added</span>
+        </li>
+    {/if}
+    </ul>
+</div>
+
+
+
+
+<style type="text/css">
+    li {
+        list-style: none;
+    }
+    .main_pic, .comnt_pic, .reply_pic {
+        width: 20px;
+        height: 20px;
+    }
+    .textarea-comment {
+        position: relative;
+    }
+    .textarea-comment textarea {
+        margin-bottom: 10px;
+    }
+    .textarea-comment .remove-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+</style>
+ <script type="text/javascript">
+//user page user popover
+            $('.comments-load-more').on("click", function(){
+                var _this = $(this).data("flag");
+                show_replies(_this);
+                $(this).hide();
+                console.log('nae g ');
+            });
+ </script>

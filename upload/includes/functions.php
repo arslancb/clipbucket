@@ -689,7 +689,7 @@
 	*/
 
 	function pullSmartyRating($param) {
-		return pullRating($param['id'],$param['show5'],$param['showPerc'],$aram['showVotes'],$param['static']);	
+		return pullRating($param['id'],$param['show5'],$param['showPerc'],$param['showVotes'],$param['static']);
 	}
 	
 	/**
@@ -2378,10 +2378,9 @@
 	function validate_cb_form($input,$array) {
 		//Check the Collpase Category Checkboxes 
 		if($input['cat']['title']=='Video Category') {
-			global $db;
-			$query = "SELECT * FROM ".tbl("config")." WHERE configid=234";
+			$query = "SELECT * FROM ".tbl("config")." WHERE name=234"; // On fresh install, id 234 = max_topic_length, this must be wrong
 			$row = db_select($query);
-			$row[0]['value'].$input['cat']['title'];
+			$row[0]['value'].$input['cat']['title']; // Something must be wrong here
 			if($row[0]['value']=='0') {
 				unset($input['cat']);	
 			}
@@ -2552,7 +2551,10 @@
 		$difference = round($difference);
 	   
 		if($difference != 1) {
-			$periods[$j].= "s";
+			// *** Dont apply plural if terms ending by a "s". Typically, french word for "month" is "mois".
+			if(substr($periods[$j], -1) != "s") {
+				$periods[$j].= "s";
+			}
 		}
 		return sprintf(lang($tense),$difference,$periods[$j]);
 	}
@@ -4307,11 +4309,13 @@
 		if(PHP_OS == "Linux") {
 			$destination.'/'.$dest_name;
 			$saveTo = $destination.'/'.$dest_name;
+			#exit($saveTo);
 			$fp = fopen ($saveTo, 'w+');
 		} elseif (PHP_OS == "WINNT") {
 			$destination.'\\'.$dest_name;
 			$fp = fopen ($destination.'\\'.$dest_name, 'w+');
 		}
+
 		$ch = curl_init($snatching_file);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 600);
 		curl_setopt($ch, CURLOPT_FILE, $fp);
@@ -5519,6 +5523,7 @@
 		$filepath = $params['filepath'];
 		$width = $params['width'];
 		$height = $params['height'];
+		$ms = $params['ms'];
 		$ext = pathinfo($filepath, PATHINFO_EXTENSION);
 		
 		$thumbs_settings_28 = thumbs_res_settings_28();
@@ -5534,10 +5539,45 @@
 				$height_setting = $height;
 			}
 
-			$outputFilePath = THUMBS_DIR.'/'.$files_dir.'/'.$file_name.'-'.$dimensions.'-'.$file_num.'.'.$ext;	
+			if (!$ms) {
+				$outputFilePath = THUMBS_DIR.'/'.$files_dir.'/'.$file_name.'-'.$dimensions.'-'.$file_num.'.'.$ext;	
+			} else {
+				$outputFilePath = $files_dir.'/'.$file_name.'-'.$dimensions.'-'.$file_num.'.'.$ext;	
+			}
+
 			$imgObj->CreateThumb($filepath,$outputFilePath,$width_setting,$ext,$height_setting,false);
 		}
 		unlink($filepath);
+	}
+
+	/**
+	* Get size of a directory in different tyoes
+	* @param : { string } { $dir } { path to directory for which you want to get size }
+	* @param : { string } { $sizeType } { type to get size in e.g mb, kb, gb }
+	*
+	* @return : { string } { $size } { size of given directory }
+	* @since : 15th August, 2016 ClipBucket 2.8.1
+	* @author : Saqib Razzaq
+	*/
+
+	function getDirSize($dir, $sizeType = 'mb') {
+		if (file_exists($dir) || is_dir($dir)) {
+			$to_open = popen ('/usr/bin/du -sk ' . $dir, 'r' );
+			$size = fgets ( $to_open, 4096);
+			$size = substr ( $size, 0, strpos ( $size, "\t" ) );
+			pclose ( $io );
+			if ($sizeType == 'kb') {
+				return $size.' KB';
+			} elseif ($sizeType == 'gb') {
+				$size = $size / 1024 / 1024;
+				return $size.' GB';
+			} else {
+				$size = $size / 1024;
+				return $size.' MB';
+			}
+		} else {
+			return false;
+		}
 	}
 
 	function array_val_assign($vals) {
@@ -5641,6 +5681,29 @@
 			unlink($_FILES["fileToUpload"]["tmp_name"]);
 		}
 	}
+
+	function AutoLinkUrls($str,$popup = FALSE){
+	    if (preg_match_all("#(^|\s|\()((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i", $str, $matches)){
+			$pop = ($popup == TRUE) ? " target=\"_blank\" " : "";
+			for ($i = 0; $i < count($matches['0']); $i++){
+				$period = '';
+				if (preg_match("|\.$|", $matches['6'][$i])){
+					$period = '.';
+					$matches['6'][$i] = substr($matches['6'][$i], 0, -1);
+				}
+				$str = str_replace($matches['0'][$i],
+						$matches['1'][$i].'<a href="http'.
+						$matches['4'][$i].'://'.
+						$matches['5'][$i].
+						$matches['6'][$i].'"'.$pop.'>http'.
+						$matches['4'][$i].'://'.
+						$matches['5'][$i].
+						$matches['6'][$i].'</a>'.
+						$period, $str);
+			}//end for
+	    }//end if
+	    return $str;
+	}//end AutoLinkUrls
 
 
     include( 'functions_db.php' );

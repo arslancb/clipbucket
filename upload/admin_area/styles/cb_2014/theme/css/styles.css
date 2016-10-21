@@ -514,8 +514,7 @@ ul.mainTabs{
     display: block;
     padding: 6px;
     text-align: right;
-    
-
+	white-space: nowrap;
 }
 
 .myTable .last {
@@ -639,4 +638,34 @@ ul.mainTabs{
     top: 40px;
     width: 100%;
     z-index: 10;
+}
+
+.addTodoText {
+	width: 80%;
+	display: inline;
+}
+
+.userInfoSettings input{
+	width: 100%;
+}
+
+.checkboxMassImport {
+	vertical-align: middle;
+}
+
+#massUploadSelectAll{
+	display: inline-block;
+}
+
+#massUploadSelect{
+	margin-left: 20px;
+}
+
+#massUploadCategoriesSelection{
+	display: inline-block;
+	margin-left: 30px;
+}
+
+#massUploadCategoriesSelection label{
+	margin-left: 5px;
 }

@@ -320,15 +320,18 @@ class userquery extends CBCategory{
 			//$sess->set('user_session_key',$udetails['user_session_key']);
 			//$sess->set('user_session_code',$udetails['user_session_code']);
 			
-			//local client ip access
-			$ip = $cblog->get_local_ipv4();
+			//local client ip access - only works on linux : is it really useful ??
+			/*$ip = $cblog->get_local_ipv4();
 
-			if($ip['eth0']){
+			if( isset($ip['eth0']) ){
 				$ipv = $ip['eth0'];
 			}
-			if($ip['wlan0']){
+			if( isset($ip['wlan0']) ){
 				$ipv = $ip['wlan0'];
-			}
+			}*/
+
+			$ipv = $_SERVER["REMOTE_ADDR"];
+
 			//Setting Vars
 			$this->userid = $udetails['userid'];
 			$this->username = $udetails['username'];
@@ -764,10 +767,11 @@ class userquery extends CBCategory{
 
         return false;
 
-	}function GetUserData($id=NULL){ return $this->get_user_details($id); }
-	
+	}
 
-	
+	function GetUserData($id=NULL){
+		return $this->get_user_details($id);
+	}
 
 	//Function Used To Activate User
 	function activate_user_with_avcode($user,$avcode)
@@ -1278,7 +1282,7 @@ class userquery extends CBCategory{
 		elseif(!$user)
 			e(sprintf(lang('please_login_subscribe'),$to_user['username']));
 		elseif($this->is_subscribed($to,$user))
-			e(sprintf(lang("usr_sub_err"),$to_user['username']));
+			e(sprintf(lang("usr_sub_err"),"<strong>".$to_user['username']."</strong>"));
 		elseif($to_user['userid'] == $user)
 			e(lang("you_cant_sub_yourself"));	
 		else
@@ -2149,10 +2153,12 @@ class userquery extends CBCategory{
 			$cond = " AND $cond ";
 		
 		if ($myacc) {
-			$cond .= " LIMIT 0,15 ";
+			$limit .= " 0,15 ";
+			$order = " videoid DESC";
 		}
 
-		$results = $db->select(tbl("video"),"*"," userid = '$uid' $cond");
+
+		$results = $db->select(tbl("video"),"*"," userid = '$uid' $cond","$limit","$order");
 		if($db->num_rows > 0) {
 			if ($myacc) {
 				return $results;
@@ -3605,7 +3611,10 @@ class userquery extends CBCategory{
 
 		//die();
 
-
+		$isSocial = false;
+		if (isset($_POST['social_ac_id'])) {
+			$isSocial = true;
+		}
 		if($array==NULL)
 			$array = $_POST;
 
@@ -3618,7 +3627,7 @@ class userquery extends CBCategory{
 
 		// first checking if captha plugin is enabled
 		// do not trust the form cb_captcha_enabled value
-		if(get_captcha() && !$userquery->admin_login_check(true)){
+		if(get_captcha() && !$userquery->admin_login_check(true) && !$isSocial){
 			// now checking if the user posted captha value is not empty and cb_captcha_enabled == yes
 			if(!isset($array['cb_captcha_enabled']) || $array['cb_captcha_enabled'] == 'no'){
 				e(lang('usr_ccode_err'));
@@ -4062,7 +4071,7 @@ class userquery extends CBCategory{
 
             $fields = array(
                 'users' => get_user_fields(),
-                'profile' => array( 'rating', 'rated_by', 'voters', 'first_name', 'last_name' ),
+                'profile' => array( 'rating', 'rated_by', 'voters', 'first_name', 'last_name', 'profile_title', 'profile_desc'),
             );
             $fields['users'][] = 'last_active';
             $fields['users'][] = 'total_collections';

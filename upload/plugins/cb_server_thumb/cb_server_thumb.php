@@ -216,6 +216,7 @@ if(!function_exists('server_thumb'))
 
                     }    
 
+                    $photo_link = str_replace('.jpg', '_l.jpg', $photo_link);
                     if($output=='html')
                         return "<img class='img-responsive' id='theMainImg' src='$photo_link'>";
                     else

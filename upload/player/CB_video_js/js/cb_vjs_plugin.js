@@ -40,6 +40,7 @@ var cbvjsheader = function(player,options){
 	
 	cbvjsheader.title = options.videotitle;
 	cbvjsheader.uploader = options.uploader;
+	cbvjsheader.videoid = options.videoid;
 	cbvjsheader.player = player;
 	
 	cbvjsheader.init();
@@ -50,7 +51,7 @@ cbvjsheader.prototype.init = function(){
 	var CbVjsHeader = document.createElement("div");
 	CbVjsHeader.id = "vjs-cb-header";
 	CbVjsHeader.className = "vjs-cb-header-caption";
-	CbVjsHeader.innerHTML = "<div class='captionBlock'><div class='vidTitle col'><p>"+cbvjsheader.title+"</p></div><div class='uploaderName col'>by "+cbvjsheader.uploader+"</div></div>";
+	CbVjsHeader.innerHTML = "<div class='captionBlock'><div class='vidTitle col'><a target='_blank' href='"+baseurl+"/watch_video.php?v="+cbvjsheader.videoid+"'>"+cbvjsheader.title+"</a></div><div class='uploaderName col'>by "+cbvjsheader.uploader+"</div></div>";
 
 	var BigPlayButton = cbvjsheader.player.getChild('bigPlayButton').el_;
 	cbvjsheader.player.el_.insertBefore(CbVjsHeader, BigPlayButton);
@@ -75,7 +76,7 @@ cbvjsvolume.prototype.init = function(){
 			cbvjsvolume.player.volume(cbvjsvolume.vol_cookie);
 		}
 	}else{
-		console.log("Dont Mess Around Here! ");
+		console.log("Ninja : Dont Mess Around Here! ");
 	}
 	cbvjsvolume.player.on('volumechange',function(){
 		cbvjsvolume.Currvol = cbvjsvolume.player.volume();

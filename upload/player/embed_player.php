@@ -19,7 +19,7 @@ include("../includes/config.inc.php");
 $vid = $_GET['vid'];
 //gettin video details
 $vdetails = get_video_details($vid);
-
+increment_views_new($vid, 'video');
 $width = @$_GET['width'];
 $height = @$_GET['height'];
 $autoplay = @$_GET['autoplay'];

@@ -59,7 +59,7 @@
 					@include vertical-middle();
 				}
 				&.logged-out{
-					width: 560px;
+					width: 600px;
 				}
 			}
 		}
@@ -465,11 +465,12 @@
 		.menu-holder .col{
 			&.user_menu{
 				width: 510px;
+				padding: 0;
 				.search{
-					width: 286px;
+					width: 280px;
 				}
 				&.logged-out{
-					width: 430px;
+					width: 542px;
 				}
 			}
 		}
@@ -494,6 +495,18 @@
 		}
 	}
 }
+@media only screen and (max-width: 1130px) {
+	#header{
+		.menu-holder .col{
+			&.user_menu{
+				&.logged-out{
+					width: 515px;
+				}
+			}
+		}
+
+	}
+}
 @media only screen and (max-width: 1100px) {
 	#header{
 		.main-links > ul{
@@ -507,9 +520,9 @@
 		.menu-holder .col{
 			&.user_menu{
 				width: 410px;
-			}
-			&.logged-out{
-				width: 440px;
+				&.logged-out{
+					width: 460px;
+				}
 			}
 		}
 
@@ -549,7 +562,7 @@
 		display: block !important;
 		width: 100%;
 		.search{
-			width: 300px;
+			width: 273px;
 			@include vertical-middle();
 		}
 	}
@@ -558,6 +571,12 @@
 		width: 450px;
 	}
 	#header{
+		.search .cbsearchtype{
+			padding: 0 40px 0 86px;
+			.search-drop{
+				width: 86px;
+			}
+		}
 		.menu-holder{
 			display: block;
 			.col{
@@ -627,12 +646,6 @@
 		left: 0;
 		top: 100%;
 		z-index: 3;
-	}
-	.alert{
-		position: fixed;
-		width: 100%;
-		z-index:5;
-		padding: 10px 40px 10px 10px;
 	}
 	.navbar-header .search{
 		width: 100%;

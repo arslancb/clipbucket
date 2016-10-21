@@ -1,0 +1,17 @@
+<div class="container clearfix">
+	<h1>recent videos</h1>
+	<div class="clearfix">
+		{$most_viewed=$cbvid->get_videos(["order"=>"date_added DESC"])}
+		{if $most_viewed}
+			<div class="row clearfix">
+				{foreach from=$most_viewed item=video}
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+					{include file="$style_dir/blocks/videos/video.html" display_type='homeVideos'}
+					</div>
+				{/foreach}
+			</div>
+		{else}
+			<div class="well well-info">No Videos Found !</div>
+		{/if}
+	</div>
+</div>

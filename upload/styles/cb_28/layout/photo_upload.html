@@ -327,6 +327,7 @@
 						  $('#photo_title').val(slicedTitle);
 						  $('#photo_description').val(slicedDesc);
 						  $(uploadForm).find("img").attr("src", msg.photoPreview);
+						  $(uploadForm).find("img").css("max-width", "100%");
 						  $(".submitPhoto").removeAttr("disabled");
 						  
 						  if(typeof files[(currentFileIndex - 1)] !== "undefined"){

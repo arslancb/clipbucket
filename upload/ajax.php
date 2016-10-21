@@ -188,9 +188,9 @@ if(!empty($mode))
 			{
 				case "video":
 				{
-					$rating 	= $_POST['rating']*2;
-					$id 		= $_POST['id'];
-					$result 	= $cbvid->rate_video($id,$rating);
+					$rating = mysql_clean($_POST['rating'])*2;
+					$id = mysql_clean($_POST['id']);
+					$result = $cbvid->rate_video($id,$rating);
 					$result['is_rating'] = true;
 					$cbvid->show_video_rating($result);
 					
@@ -205,8 +205,8 @@ if(!empty($mode))
 				
 				case "photo":
 				{
-					$rating = $_POST['rating']*2;
-					$id = $_POST['id'];
+					$rating = mysql_clean($_POST['rating'])*2;
+					$id = mysql_clean($_POST['id']);
 					$result = $cbphoto->rate_photo($id,$rating);
 					$result['is_rating'] = true;
 					$cbvid->show_video_rating($result);
@@ -221,8 +221,8 @@ if(!empty($mode))
 				break;
 				case "collection":
 				{
-					$rating = $_POST['rating']*2;
-					$id = $_POST['id'];
+					$rating = mysql_clean($_POST['rating'])*2;
+					$id = mysql_clean($_POST['id']);
 					$result = $cbcollection->rate_collection($id,$rating);
 					$result['is_rating'] = true;
 					$cbvid->show_video_rating($result);
@@ -238,8 +238,8 @@ if(!empty($mode))
 				
 				case "user":
 				{
-					$rating = $_POST['rating']*2;
-					$id = $_POST['id'];
+					$rating = mysql_clean($_POST['rating'])*2;
+					$id = mysql_clean($_POST['id']);
 					$result = $userquery->rate_user($id,$rating);
 					$result['is_rating'] = true;
 					$cbvid->show_video_rating($result);
@@ -1760,6 +1760,24 @@ if(!empty($mode))
 			}
         }
     	break;
+
+    	case 'user_suggest':
+    		global $db;
+    		$typed = mysql_clean($_POST['typed']);
+    		if (empty($typed)) {
+    			return "none";
+    		}
+    		$raw_users = $db->select(tbl("users"),"username","username LIKE '%$typed%' LIMIT 0,5");
+    		$matching_users['matching_users'] = array();
+    		foreach ($raw_users as $key => $userdata) {
+    			$matching_users['matching_users'][] = $userdata['username'];
+    		}
+    		if (empty($matching_users)) {
+    			return "none";
+    		} else {
+    			echo json_encode($matching_users);
+    		}
+    		break;
             
 		default:
 		header('location:'.BASEURL);

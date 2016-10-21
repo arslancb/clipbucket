@@ -1,0 +1,657 @@
+------------------------------------------------------------------------
+r4330 | sikanderzel | 2016-06-10 15:44:07 +0500 (Fri, 10 Jun 2016) | 1 line
+
+static pages lang code
+------------------------------------------------------------------------
+r4331 | jamilrehman | 2016-06-13 12:51:57 +0500 (Mon, 13 Jun 2016) | 1 line
+
+remote upload form style issue fixed 
+------------------------------------------------------------------------
+r4332 | fahad.abbas | 2016-06-13 13:59:34 +0500 (Mon, 13 Jun 2016) | 2 lines
+
+modified : js source edited ! for player
+
+------------------------------------------------------------------------
+r4333 | fahad.abbas | 2016-06-13 14:07:45 +0500 (Mon, 13 Jun 2016) | 2 lines
+
+modified : cb video js comments strutucre updated
+
+------------------------------------------------------------------------
+r4334 | saqib.razzaq | 2016-06-13 15:10:20 +0500 (Mon, 13 Jun 2016) | 2 lines
+
+Fetching preview photo differently
+
+------------------------------------------------------------------------
+r4335 | saqib.razzaq | 2016-06-13 15:11:39 +0500 (Mon, 13 Jun 2016) | 2 lines
+
+Extra condition added for return image file path
+
+------------------------------------------------------------------------
+r4336 | saqib.razzaq | 2016-06-13 15:14:17 +0500 (Mon, 13 Jun 2016) | 2 lines
+
+Removed test case
+
+------------------------------------------------------------------------
+r4337 | saqib.razzaq | 2016-06-13 15:27:17 +0500 (Mon, 13 Jun 2016) | 2 lines
+
+Fixed: https://github.com/arslancb/clipbucket/issues/158
+
+------------------------------------------------------------------------
+r4338 | saqib.razzaq | 2016-06-14 11:05:08 +0500 (Tue, 14 Jun 2016) | 2 lines
+
+Fixed: https://github.com/arslancb/clipbucket/issues/161
+
+------------------------------------------------------------------------
+r4339 | saqib.razzaq | 2016-06-14 12:10:34 +0500 (Tue, 14 Jun 2016) | 2 lines
+
+Fixed: text not translating on home page
+
+------------------------------------------------------------------------
+r4340 | saqib.razzaq | 2016-06-14 12:27:48 +0500 (Tue, 14 Jun 2016) | 2 lines
+
+Fixed language translation issue with Load More
+
+------------------------------------------------------------------------
+r4341 | saqib.razzaq | 2016-06-14 13:15:30 +0500 (Tue, 14 Jun 2016) | 2 lines
+
+Fixed search issue with translated languages
+
+------------------------------------------------------------------------
+r4342 | saqib.razzaq | 2016-06-14 14:01:29 +0500 (Tue, 14 Jun 2016) | 2 lines
+
+Lang code added for login
+
+------------------------------------------------------------------------
+r4343 | saqib.razzaq | 2016-06-14 14:09:54 +0500 (Tue, 14 Jun 2016) | 2 lines
+
+Removed " causing problems
+
+------------------------------------------------------------------------
+r4344 | saqib.razzaq | 2016-06-14 14:20:37 +0500 (Tue, 14 Jun 2016) | 2 lines
+
+Fixed: https://github.com/arslancb/clipbucket/issues/167
+
+------------------------------------------------------------------------
+r4345 | saqib.razzaq | 2016-06-14 14:51:00 +0500 (Tue, 14 Jun 2016) | 2 lines
+
+Inactive photos links added
+
+------------------------------------------------------------------------
+r4346 | jamilrehman | 2016-06-14 14:57:12 +0500 (Tue, 14 Jun 2016) | 2 lines
+
+style added for comments in video js player
+z-indexes updated for big button and player footer control bar 
+------------------------------------------------------------------------
+r4347 | saqib.razzaq | 2016-06-15 15:54:30 +0500 (Wed, 15 Jun 2016) | 2 lines
+
+Fixed: https://github.com/arslancb/clipbucket/issues/171
+
+------------------------------------------------------------------------
+r4348 | fahad.abbas | 2016-06-15 16:58:13 +0500 (Wed, 15 Jun 2016) | 2 lines
+
+modified : multiserver custom thumbs uplload issue fixed
+
+------------------------------------------------------------------------
+r4349 | saqib.razzaq | 2016-06-16 15:11:27 +0500 (Thu, 16 Jun 2016) | 2 lines
+
+YouTube API Key field added into admin area
+
+------------------------------------------------------------------------
+r4350 | saqib.razzaq | 2016-06-16 15:11:54 +0500 (Thu, 16 Jun 2016) | 2 lines
+
+Dynamically using API key in request call
+
+------------------------------------------------------------------------
+r4351 | saqib.razzaq | 2016-06-16 15:12:36 +0500 (Thu, 16 Jun 2016) | 2 lines
+
+Warning message displayed on remote upload page if api key is invalid
+
+------------------------------------------------------------------------
+r4352 | saqib.razzaq | 2016-06-16 15:18:05 +0500 (Thu, 16 Jun 2016) | 2 lines
+
+Queries added to create Api key field on fresh install and upgrader
+
+------------------------------------------------------------------------
+r4353 | saqib.razzaq | 2016-06-16 15:20:38 +0500 (Thu, 16 Jun 2016) | 2 lines
+
+signup page condtion added for captcha plugin
+
+------------------------------------------------------------------------
+r4354 | saqib.razzaq | 2016-06-16 16:21:48 +0500 (Thu, 16 Jun 2016) | 2 lines
+
+Explained better
+
+------------------------------------------------------------------------
+r4355 | saqib.razzaq | 2016-06-20 14:21:02 +0500 (Mon, 20 Jun 2016) | 2 lines
+
+fixed: https://github.com/arslancb/clipbucket/issues/174
+
+------------------------------------------------------------------------
+r4356 | saqib.razzaq | 2016-06-20 15:18:38 +0500 (Mon, 20 Jun 2016) | 2 lines
+
+Fixed: https://github.com/arslancb/clipbucket/issues/176
+
+------------------------------------------------------------------------
+r4357 | saqib.razzaq | 2016-06-21 14:01:33 +0500 (Tue, 21 Jun 2016) | 2 lines
+
+Fixed: https://github.com/arslancb/clipbucket/issues/180
+
+------------------------------------------------------------------------
+r4358 | saqib.razzaq | 2016-06-21 15:21:14 +0500 (Tue, 21 Jun 2016) | 2 lines
+
+Fixed: https://github.com/arslancb/clipbucket/issues/168
+
+------------------------------------------------------------------------
+r4359 | saqib.razzaq | 2016-06-21 15:47:21 +0500 (Tue, 21 Jun 2016) | 2 lines
+
+Fixed: https://github.com/arslancb/clipbucket/issues/164
+
+------------------------------------------------------------------------
+r4360 | fahad.abbas | 2016-06-22 13:26:56 +0500 (Wed, 22 Jun 2016) | 2 lines
+
+modified : extra exit() condition fixed 
+
+------------------------------------------------------------------------
+r4361 | saqib.razzaq | 2016-06-23 13:19:18 +0500 (Thu, 23 Jun 2016) | 2 lines
+
+Collection first thumb method made compatible with TimThumb
+
+------------------------------------------------------------------------
+r4362 | sikanderzel | 2016-06-24 12:17:56 +0500 (Fri, 24 Jun 2016) | 1 line
+
+mass uploader working fine now ...
+------------------------------------------------------------------------
+r4363 | sikanderzel | 2016-06-27 16:07:57 +0500 (Mon, 27 Jun 2016) | 1 line
+
+lang code added
+------------------------------------------------------------------------
+r4364 | sikanderzel | 2016-06-27 16:12:32 +0500 (Mon, 27 Jun 2016) | 1 line
+
+dropdown working now
+------------------------------------------------------------------------
+r4365 | sikanderzel | 2016-06-28 11:53:06 +0500 (Tue, 28 Jun 2016) | 1 line
+
+make featured issue resolved..
+------------------------------------------------------------------------
+r4366 | sikanderzel | 2016-06-28 11:53:40 +0500 (Tue, 28 Jun 2016) | 1 line
+
+make featured issue resolved
+------------------------------------------------------------------------
+r4367 | sikanderzel | 2016-06-28 11:54:41 +0500 (Tue, 28 Jun 2016) | 1 line
+
+action function updated for featured video
+------------------------------------------------------------------------
+r4368 | sikanderzel | 2016-06-28 13:03:27 +0500 (Tue, 28 Jun 2016) | 1 line
+
+rating tab now working..
+------------------------------------------------------------------------
+r4369 | fahad.abbas | 2016-06-28 15:15:04 +0500 (Tue, 28 Jun 2016) | 2 lines
+
+modified : timecooments added
+
+------------------------------------------------------------------------
+r4370 | sikanderzel | 2016-06-28 15:43:11 +0500 (Tue, 28 Jun 2016) | 1 line
+
+videos of selected channel..
+------------------------------------------------------------------------
+r4371 | sikanderzel | 2016-06-28 15:45:53 +0500 (Tue, 28 Jun 2016) | 1 line
+
+load more request updated.issue resolved
+------------------------------------------------------------------------
+r4372 | fahad.abbas | 2016-06-28 16:53:00 +0500 (Tue, 28 Jun 2016) | 2 lines
+
+modofied : comments structure changed
+
+------------------------------------------------------------------------
+r4373 | fahad.abbas | 2016-06-29 11:55:16 +0500 (Wed, 29 Jun 2016) | 2 lines
+
+modified : structure changed for add comment box
+
+------------------------------------------------------------------------
+r4374 | jamilrehman | 2016-06-29 12:27:57 +0500 (Wed, 29 Jun 2016) | 1 line
+
+player changes commited
+------------------------------------------------------------------------
+r4375 | jamilrehman | 2016-06-29 12:30:33 +0500 (Wed, 29 Jun 2016) | 1 line
+
+changes for player customization 
+------------------------------------------------------------------------
+r4376 | saqib.razzaq | 2016-06-29 12:52:30 +0500 (Wed, 29 Jun 2016) | 2 lines
+
+FILES_DIR constant added
+
+------------------------------------------------------------------------
+r4377 | jamilrehman | 2016-06-29 14:26:47 +0500 (Wed, 29 Jun 2016) | 1 line
+
+comment box style added
+------------------------------------------------------------------------
+r4378 | fahad.abbas | 2016-06-29 14:41:22 +0500 (Wed, 29 Jun 2016) | 2 lines
+
+modified : mousetimedisplay attribute changed
+
+------------------------------------------------------------------------
+r4379 | fahad.abbas | 2016-06-29 15:01:58 +0500 (Wed, 29 Jun 2016) | 2 lines
+
+modified  : MouseTimeDisplay span added 
+
+------------------------------------------------------------------------
+r4380 | sikanderzel | 2016-06-29 15:08:06 +0500 (Wed, 29 Jun 2016) | 1 line
+
+mass uploader is in working condition now..
+------------------------------------------------------------------------
+r4381 | sikanderzel | 2016-06-29 15:08:38 +0500 (Wed, 29 Jun 2016) | 1 line
+
+added mass uploader switch
+------------------------------------------------------------------------
+r4382 | sikanderzel | 2016-06-29 15:09:12 +0500 (Wed, 29 Jun 2016) | 1 line
+
+mass uploader is in working condition now ..
+------------------------------------------------------------------------
+r4383 | sikanderzel | 2016-06-29 15:10:50 +0500 (Wed, 29 Jun 2016) | 1 line
+
+added mass uploader switch
+------------------------------------------------------------------------
+r4384 | sikanderzel | 2016-06-29 15:33:53 +0500 (Wed, 29 Jun 2016) | 1 line
+
+user block updated..
+------------------------------------------------------------------------
+r4385 | fahad.abbas | 2016-06-29 15:35:33 +0500 (Wed, 29 Jun 2016) | 2 lines
+
+modified : comments on off toggle structure created
+
+------------------------------------------------------------------------
+r4386 | jamilrehman | 2016-06-29 15:46:46 +0500 (Wed, 29 Jun 2016) | 1 line
+
+player add comment style added
+------------------------------------------------------------------------
+r4387 | saqib.razzaq | 2016-06-29 16:21:50 +0500 (Wed, 29 Jun 2016) | 2 lines
+
+Removed weird code reaction
+
+------------------------------------------------------------------------
+r4388 | fahad.abbas | 2016-06-29 16:43:00 +0500 (Wed, 29 Jun 2016) | 2 lines
+
+modified : timecomments updtae
+
+------------------------------------------------------------------------
+r4389 | jamilrehman | 2016-06-29 17:28:13 +0500 (Wed, 29 Jun 2016) | 3 lines
+
+toggle switch style added
+
+switch off with a class comment-off on parent 
+------------------------------------------------------------------------
+r4390 | jamilrehman | 2016-06-29 17:30:26 +0500 (Wed, 29 Jun 2016) | 3 lines
+
+toggle switch style added
+
+switch off with a class comment-off on parent 
+------------------------------------------------------------------------
+r4391 | jamilrehman | 2016-06-29 17:31:24 +0500 (Wed, 29 Jun 2016) | 3 lines
+
+toggle switch style added
+
+switch off with a class comment-off on parent 
+------------------------------------------------------------------------
+r4392 | saqib.razzaq | 2016-06-29 17:34:56 +0500 (Wed, 29 Jun 2016) | 2 lines
+
+Removed helper class inclusion, dbconnect inclusion added dynamically
+
+------------------------------------------------------------------------
+r4393 | fahad.abbas | 2016-06-30 12:59:37 +0500 (Thu, 30 Jun 2016) | 2 lines
+
+modified : timcomments structure changed
+
+------------------------------------------------------------------------
+r4394 | jamilrehman | 2016-06-30 14:15:43 +0500 (Thu, 30 Jun 2016) | 1 line
+
+design update 
+------------------------------------------------------------------------
+r4395 | jamilrehman | 2016-06-30 15:04:00 +0500 (Thu, 30 Jun 2016) | 1 line
+
+comments position issue fixed  
+------------------------------------------------------------------------
+r4396 | jamilrehman | 2016-06-30 15:31:41 +0500 (Thu, 30 Jun 2016) | 1 line
+
+fade comment style added
+------------------------------------------------------------------------
+r4397 | saqib.razzaq | 2016-06-30 17:36:31 +0500 (Thu, 30 Jun 2016) | 2 lines
+
+Fixed "Use Cron" issue 
+
+------------------------------------------------------------------------
+r4398 | saqib.razzaq | 2016-06-30 17:45:06 +0500 (Thu, 30 Jun 2016) | 2 lines
+
+Documented convertWithCron()
+
+------------------------------------------------------------------------
+r4399 | sikanderzel | 2016-07-01 10:57:01 +0500 (Fri, 01 Jul 2016) | 1 line
+
+reindexer is working now...
+------------------------------------------------------------------------
+r4400 | saqib.razzaq | 2016-07-01 16:00:20 +0500 (Fri, 01 Jul 2016) | 2 lines
+
+Removed HTML5 jquery file + added jquery1.11
+
+------------------------------------------------------------------------
+r4401 | sikanderzel | 2016-07-01 16:16:28 +0500 (Fri, 01 Jul 2016) | 1 line
+
+collection name in place of category
+------------------------------------------------------------------------
+r4402 | sikanderzel | 2016-07-01 17:06:18 +0500 (Fri, 01 Jul 2016) | 1 line
+
+link of videos are editable now..
+------------------------------------------------------------------------
+r4403 | fahad.abbas | 2016-07-01 17:07:16 +0500 (Fri, 01 Jul 2016) | 2 lines
+
+modified : time comments condition emoved
+
+------------------------------------------------------------------------
+r4404 | jamilrehman | 2016-07-02 12:43:43 +0500 (Sat, 02 Jul 2016) | 2 lines
+
+fontawesome conflicts removed with additional class on paranet fontawesome-icons
+edit video wording fixed with removal of unnecessary margins
+------------------------------------------------------------------------
+r4405 | jamilrehman | 2016-07-02 12:45:14 +0500 (Sat, 02 Jul 2016) | 1 line
+
+a parent class added to fix the style of fontawesome icons
+------------------------------------------------------------------------
+r4406 | sikanderzel | 2016-07-11 15:36:28 +0500 (Mon, 11 Jul 2016) | 1 line
+
+Latest collection preview . ..
+------------------------------------------------------------------------
+r4407 | sikanderzel | 2016-07-11 18:10:48 +0500 (Mon, 11 Jul 2016) | 1 line
+
+unlisted videos now not searchable ..
+------------------------------------------------------------------------
+r4408 | sikanderzel | 2016-07-11 19:32:03 +0500 (Mon, 11 Jul 2016) | 1 line
+
+client ip address integrated in action logs
+------------------------------------------------------------------------
+r4409 | sikanderzel | 2016-07-11 19:32:56 +0500 (Mon, 11 Jul 2016) | 1 line
+
+Client Ip address integrated  in action logs
+------------------------------------------------------------------------
+r4410 | sikanderzel | 2016-07-11 20:04:11 +0500 (Mon, 11 Jul 2016) | 1 line
+
+action log ip issue
+------------------------------------------------------------------------
+r4411 | sikanderzel | 2016-07-11 20:04:48 +0500 (Mon, 11 Jul 2016) | 1 line
+
+function added for retreiving client ip address
+------------------------------------------------------------------------
+r4412 | sikanderzel | 2016-07-12 12:03:53 +0500 (Tue, 12 Jul 2016) | 1 line
+
+Playlist url corrected
+------------------------------------------------------------------------
+r4413 | sikanderzel | 2016-07-12 12:15:50 +0500 (Tue, 12 Jul 2016) | 1 line
+
+videos report button correction..
+------------------------------------------------------------------------
+r4414 | fahad.abbas | 2016-07-12 15:14:16 +0500 (Tue, 12 Jul 2016) | 2 lines
+
+modified : comment form structure changed
+
+------------------------------------------------------------------------
+r4415 | fahad.abbas | 2016-07-12 19:44:24 +0500 (Tue, 12 Jul 2016) | 2 lines
+
+modified : icon-close class added
+
+------------------------------------------------------------------------
+r4416 | fahad.abbas | 2016-07-13 11:26:35 +0500 (Wed, 13 Jul 2016) | 2 lines
+
+modified : icon-close class changed
+
+------------------------------------------------------------------------
+r4417 | fahad.abbas | 2016-07-13 12:17:26 +0500 (Wed, 13 Jul 2016) | 2 lines
+
+modified : add comment box structure changed
+
+------------------------------------------------------------------------
+r4418 | fahad.abbas | 2016-07-13 14:52:12 +0500 (Wed, 13 Jul 2016) | 2 lines
+
+modified : btn holder strucure changed 
+
+------------------------------------------------------------------------
+r4419 | fahad.abbas | 2016-07-13 15:25:17 +0500 (Wed, 13 Jul 2016) | 2 lines
+
+modified : comment form header added
+
+------------------------------------------------------------------------
+r4420 | saqib.razzaq | 2016-07-13 16:19:53 +0500 (Wed, 13 Jul 2016) | 2 lines
+
+File uploader modified to allow uploading from api
+
+------------------------------------------------------------------------
+r4421 | jamilrehman | 2016-07-13 17:21:34 +0500 (Wed, 13 Jul 2016) | 1 line
+
+player comments responsiveness and ui fixes done
+------------------------------------------------------------------------
+r4422 | saqib.razzaq | 2016-07-14 15:01:59 +0500 (Thu, 14 Jul 2016) | 2 lines
+
+Fixed: https://github.com/arslancb/clipbucket/issues/213
+
+------------------------------------------------------------------------
+r4423 | saqib.razzaq | 2016-07-14 15:04:49 +0500 (Thu, 14 Jul 2016) | 2 lines
+
+THIS_PAGE variable initialized for jQuery access
+
+------------------------------------------------------------------------
+r4424 | saqib.razzaq | 2016-07-14 15:12:04 +0500 (Thu, 14 Jul 2016) | 2 lines
+
+Fixed: User background section showing up even though it is not suported on frontend
+
+------------------------------------------------------------------------
+r4425 | fahad.abbas | 2016-07-14 15:12:14 +0500 (Thu, 14 Jul 2016) | 2 lines
+
+modified : timecomments UX enhancments done
+
+------------------------------------------------------------------------
+r4426 | saqib.razzaq | 2016-07-14 15:41:11 +0500 (Thu, 14 Jul 2016) | 2 lines
+
+Adding a little extra
+
+------------------------------------------------------------------------
+r4427 | saqib.razzaq | 2016-07-14 15:54:59 +0500 (Thu, 14 Jul 2016) | 2 lines
+
+Show recent results first
+
+------------------------------------------------------------------------
+r4428 | saqib.razzaq | 2016-07-14 16:26:53 +0500 (Thu, 14 Jul 2016) | 2 lines
+
+Reply box colors changed
+
+------------------------------------------------------------------------
+r4429 | saqib.razzaq | 2016-07-14 16:30:30 +0500 (Thu, 14 Jul 2016) | 2 lines
+
+Vertical scrolling added for comment box
+
+------------------------------------------------------------------------
+r4430 | saqib.razzaq | 2016-07-14 17:00:10 +0500 (Thu, 14 Jul 2016) | 2 lines
+
+User friendly placeholder added
+
+------------------------------------------------------------------------
+r4431 | saqib.razzaq | 2016-07-14 17:34:46 +0500 (Thu, 14 Jul 2016) | 2 lines
+
+Missing tooltips added
+
+------------------------------------------------------------------------
+r4432 | saqib.razzaq | 2016-07-14 18:05:04 +0500 (Thu, 14 Jul 2016) | 2 lines
+
+added Cookie Comments : if you are typing a comment and leave halfway without adding comment, whenever you come back (upto 10 days) your comment will still be there in comment box waiting for you to finish
+
+------------------------------------------------------------------------
+r4433 | saqib.razzaq | 2016-07-15 17:26:25 +0500 (Fri, 15 Jul 2016) | 2 lines
+
+Smart username suggestions added
+
+------------------------------------------------------------------------
+r4434 | jamilrehman | 2016-07-15 18:01:30 +0500 (Fri, 15 Jul 2016) | 1 line
+
+player comment mobile fixes 
+------------------------------------------------------------------------
+r4435 | saqib.razzaq | 2016-07-15 19:14:25 +0500 (Fri, 15 Jul 2016) | 2 lines
+
+Fixed: https://github.com/arslancb/clipbucket/issues/151
+
+------------------------------------------------------------------------
+r4436 | jamilrehman | 2016-07-15 19:28:49 +0500 (Fri, 15 Jul 2016) | 1 line
+
+fixes for alerts on mobile
+------------------------------------------------------------------------
+r4437 | saqib.razzaq | 2016-07-15 19:57:26 +0500 (Fri, 15 Jul 2016) | 2 lines
+
+Changed Fast Quicklist button colors to match ClipBucket theme colors
+
+------------------------------------------------------------------------
+r4438 | saqib.razzaq | 2016-07-18 15:11:38 +0500 (Mon, 18 Jul 2016) | 2 lines
+
+Add special thumb issue fixed
+
+------------------------------------------------------------------------
+r4439 | saqib.razzaq | 2016-07-18 16:06:18 +0500 (Mon, 18 Jul 2016) | 2 lines
+
+Missing lang code added
+
+------------------------------------------------------------------------
+r4440 | saqib.razzaq | 2016-07-18 18:21:58 +0500 (Mon, 18 Jul 2016) | 2 lines
+
+Bold username
+
+------------------------------------------------------------------------
+r4441 | saqib.razzaq | 2016-07-20 19:59:29 +0500 (Wed, 20 Jul 2016) | 2 lines
+
+Made Server Thumb error admin only 
+
+------------------------------------------------------------------------
+r4442 | saqib.razzaq | 2016-07-21 14:18:30 +0500 (Thu, 21 Jul 2016) | 2 lines
+
+Fixed: https://github.com/arslancb/clipbucket/issues/217
+
+------------------------------------------------------------------------
+r4443 | saqib.razzaq | 2016-07-21 14:54:32 +0500 (Thu, 21 Jul 2016) | 2 lines
+
+Fixed: https://github.com/arslancb/clipbucket/issues/218
+
+------------------------------------------------------------------------
+r4444 | saqib.razzaq | 2016-07-21 15:26:10 +0500 (Thu, 21 Jul 2016) | 2 lines
+
+Fixed: https://github.com/arslancb/clipbucket/issues/209
+
+------------------------------------------------------------------------
+r4445 | saqib.razzaq | 2016-07-21 16:39:40 +0500 (Thu, 21 Jul 2016) | 2 lines
+
+Fixed rating issue in premium theme for photos
+
+------------------------------------------------------------------------
+r4446 | jamilrehman | 2016-07-22 12:48:42 +0500 (Fri, 22 Jul 2016) | 2 lines
+
+fixes for header 
+(4:3 screen after 1280px device width)
+------------------------------------------------------------------------
+r4447 | jamilrehman | 2016-07-22 14:53:29 +0500 (Fri, 22 Jul 2016) | 1 line
+
+header fixes
+------------------------------------------------------------------------
+r4448 | saqib.razzaq | 2016-07-22 14:57:39 +0500 (Fri, 22 Jul 2016) | 2 lines
+
+Fixed : no option to edit user category from backend
+
+------------------------------------------------------------------------
+r4449 | saqib.razzaq | 2016-07-22 15:11:08 +0500 (Fri, 22 Jul 2016) | 2 lines
+
+Fixed home menu issue with translated languages
+
+------------------------------------------------------------------------
+r4450 | jamilrehman | 2016-07-22 15:18:22 +0500 (Fri, 22 Jul 2016) | 1 line
+
+header menu design fixes
+------------------------------------------------------------------------
+r4451 | jamilrehman | 2016-07-22 15:39:47 +0500 (Fri, 22 Jul 2016) | 1 line
+
+header menu design fixes for other language 
+------------------------------------------------------------------------
+r4452 | jamilrehman | 2016-07-22 16:03:14 +0500 (Fri, 22 Jul 2016) | 1 line
+
+header menu design fixes for other language 
+------------------------------------------------------------------------
+r4453 | sikanderzel | 2016-07-22 16:30:24 +0500 (Fri, 22 Jul 2016) | 1 line
+
+stay as mp4 feature added
+------------------------------------------------------------------------
+r4454 | sikanderzel | 2016-07-22 16:30:56 +0500 (Fri, 22 Jul 2016) | 1 line
+
+stay as MP4 feature added
+------------------------------------------------------------------------
+r4455 | sikanderzel | 2016-07-22 16:31:33 +0500 (Fri, 22 Jul 2016) | 1 line
+
+stay as MP4 feature added
+------------------------------------------------------------------------
+r4456 | sikanderzel | 2016-07-22 16:32:31 +0500 (Fri, 22 Jul 2016) | 1 line
+
+stay as MP4 feature added
+------------------------------------------------------------------------
+r4457 | sikanderzel | 2016-07-22 16:33:16 +0500 (Fri, 22 Jul 2016) | 1 line
+
+stay as MP4 feature added
+------------------------------------------------------------------------
+r4458 | saqib.razzaq | 2016-07-22 18:00:33 +0500 (Fri, 22 Jul 2016) | 2 lines
+
+Fetched missing avatar url
+
+------------------------------------------------------------------------
+r4459 | saqib.razzaq | 2016-07-22 18:16:54 +0500 (Fri, 22 Jul 2016) | 2 lines
+
+Function changed
+
+------------------------------------------------------------------------
+r4460 | saqib.razzaq | 2016-07-25 12:35:45 +0500 (Mon, 25 Jul 2016) | 2 lines
+
+Fixed photo watermarking issue
+
+------------------------------------------------------------------------
+r4461 | saqib.razzaq | 2016-07-25 15:09:05 +0500 (Mon, 25 Jul 2016) | 2 lines
+
+Removed extra spaces
+
+------------------------------------------------------------------------
+r4462 | saqib.razzaq | 2016-07-25 15:13:57 +0500 (Mon, 25 Jul 2016) | 2 lines
+
+Added pretty num to sidebar of channels page
+
+------------------------------------------------------------------------
+r4463 | saqib.razzaq | 2016-07-26 17:31:49 +0500 (Tue, 26 Jul 2016) | 2 lines
+
+Form method changed, fixed youtube grab update
+
+------------------------------------------------------------------------
+r4464 | saqib.razzaq | 2016-07-26 17:36:52 +0500 (Tue, 26 Jul 2016) | 2 lines
+
+Added compressed file 
+
+------------------------------------------------------------------------
+r4465 | saqib.razzaq | 2016-07-26 17:42:45 +0500 (Tue, 26 Jul 2016) | 2 lines
+
+Parse json added to show message properly
+
+------------------------------------------------------------------------
+r4466 | saqib.razzaq | 2016-07-26 17:45:17 +0500 (Tue, 26 Jul 2016) | 2 lines
+
+Removed test cases
+
+------------------------------------------------------------------------
+r4467 | saqib.razzaq | 2016-07-26 17:56:01 +0500 (Tue, 26 Jul 2016) | 2 lines
+
+Added SQL queries for STABLE version
+
+------------------------------------------------------------------------
+r4468 | saqib.razzaq | 2016-07-26 18:24:00 +0500 (Tue, 26 Jul 2016) | 2 lines
+
+Fixed successful status issue for keep MP4
+
+------------------------------------------------------------------------
+r4469 | saqib.razzaq | 2016-07-26 19:17:43 +0500 (Tue, 26 Jul 2016) | 2 lines
+
+Structure queries added
+
+------------------------------------------------------------------------

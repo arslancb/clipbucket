@@ -286,27 +286,35 @@
     <p><strong>Importing Language Pack. Please sit back and relax while magic happens.</strong></p>
 </div>
 <!-- Progress Bar  -->
-<div class = "col-md-4" id="bar" style="display:none">
+<div class="col-md-12" id="bar" style="display:none; margin-top: 20px">
+<h3>Current Progress</h3>
     <div class="progress">
-        <div class="progress-bar" id="progress-bar"role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+        <div class="progress-bar" id="progress-bar"role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:10%">
             <span id="loaderVal"></span>
         </div>
     </div>
 </div>
+
+
+<div id="progMsg" style="display: none"></div>
+
 <div id= "lang-pack">
 </div>
+
 <div id = "lang-ex">
 </div>
 <div id= "div"></div>
 <div id="ref"></div>
 </br>
 <script type="text/javascript">
+    
     var process,progress,lastElementArray = 0;
     var progress = 0;
     var NewLang,langExists,sizeOfArray;
     var percentPakro,allTextLines = [];  
     var set=true;
     var sec = {$secret_Id};
+    var firstHit = true;
     var dialogLangPack= $('<div class="alert-msg-holder" id="headErr"><div role="alert" class="alert alert-success alert-dismissible alert-ajax"><button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button><strong>Language Pack Uploaded </strong></div></div>');
     var log = $('<div class="alert-msg-holder" id="headErr"><div role="alert" class="alert alert-danger alert-dismissible alert-ajax"><button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button><strong>Invalid keys stored in database </strong></div></div>');
     
@@ -328,7 +336,7 @@
         },1000);
     }
     
-    function readLate(){
+    /*function readLate(){
         lastElementArray == 100;
         $('#loaderVal').text(lastElementArray+'%');
         $('.progress-bar').css('width',lastElementArray+'%');
@@ -345,7 +353,10 @@
         $('#headErr').css('display','block').delay(1000);
         $('#lang-pack').html(dialogLangPack);
     
-    }
+    }*/
+
+    var goodToGo = true;
+
     function checkExists(){
         clearInterval(process);
         $('#lang-ex').append(dialogLangExisit);
@@ -401,9 +412,95 @@
     
         });
     })
-    
-    
-  $(document).on("click", "#submit_lang1", function () {
+
+    thePhrases = {$langData|@json_encode};
+    var cleanRunway = true,
+    totalPhrases = 0,
+    phraseNum = 1,
+    interval = '',
+    currentKey = 0,
+    phrase_code = Object.keys(thePhrases)[0],
+    phrase = thePhrases[phrase_code],
+    selectFieldValue = $('select.changeStatus').val(),
+    langDetect = $('option:selected', '#lang_option').attr('data-check');
+    $.each( thePhrases, function( phrase_code, phrase ) {
+            totalPhrases = totalPhrases + 1;
+    });
+
+    function sendAjax(data) {
+        goodToGo = false;
+        $.ajax({
+            //async: false,
+            url: 'ajaxLang.php', 
+            type: "post",
+            data: data,
+            dataType: 'json',
+            beforeSend: function() {
+                },
+            success:function(xhr) {
+                
+                if (xhr.phrase != 'aye') {
+
+                    var progressNow = xhr.progress,
+                    existingLog = $('#progMsg').html();
+                    $('#bar').show();
+                    $('#progMsg').show();
+                    $('#loaderVal').text(progressNow);
+                    $('.progress-bar').attr('aria-valuenow',progressNow);
+                    $('.progress-bar').css('width', progressNow+"%");
+
+                    $('#progMsg').html(existingLog+"<br>Translated : "+xhr.phrase+" ( phrase #"+phraseNum+" out of "+totalPhrases+" phrases )");
+
+                    currentKey = currentKey + 1;
+                    phrase_code = Object.keys(thePhrases)[currentKey];
+                    phrase = thePhrases[phrase_code];
+                    phraseNum = phraseNum + 1;
+
+                    data = {
+                     'selectFieldValue': selectFieldValue,
+                     'langDetect': langDetect,
+                     'phrase_code' : phrase_code,
+                     'phrase' : phrase,
+                     'totalPhrases' : totalPhrases,
+                     'phraseNum' : phraseNum
+                    }
+
+                    sendAjax(data);
+                } else {
+                    $('#submit_lang1').text('Successfully completed');
+                }
+                if (!xhr.status == 'success') {
+                    alert("Unable to translate "+phrase);
+                }
+                //alert("NOW");
+                goodToGo = true;
+                return true;
+            }
+        });
+    }
+
+
+    $(document).on("click", "#submit_lang1", function () {  
+        $('#submit_lang1').text("Translating...");
+        
+        data = {
+             'selectFieldValue': selectFieldValue,
+             'langDetect': langDetect,
+             'phrase_code' : phrase_code,
+             'phrase' : phrase,
+             'totalPhrases' : totalPhrases,
+             'phraseNum' : phraseNum
+            }
+            
+            //console.log(data);
+            sendAjax(data);
+            
+
+            phraseNum = phraseNum + 1;
+        
+  });
+
+/*  $(document).on("click", "#submit_lang1", function () {
     if($.cookie('bing_access_token') != null){ 
         var selectFieldValue = $('select.changeStatus').val();
        var langDetect = $('option:selected', '#lang_option').attr('data-check');
@@ -462,6 +559,6 @@
       } else {
         $('#ref').html(refresh_ch);
       }
-    });
+    });*/
     
 </script>

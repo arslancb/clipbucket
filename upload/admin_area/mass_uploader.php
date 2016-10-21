@@ -3,7 +3,7 @@
  **************************************************************
  | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
  | @ Author : ArslanHassan										
- | @ Software : ClipBucket , © PHPBucket.com					
+ | @ Software : ClipBucket , Â© PHPBucket.com
  **************************************************************
 */
 
@@ -12,7 +12,7 @@ require_once(dirname(dirname(__FILE__))."/includes/classes/sLog.php");
 $userquery->admin_login_check();
 $pages->page_redir();
 global $Cbucket;
-$mass_upload_config = config('delete_mass_upload');
+$delMassUpload = config('delete_mass_upload');
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
 	define('MAIN_PAGE', 'Videos');
@@ -41,7 +41,10 @@ if(isset($_POST['mass_upload_video']))
 	$vtitle=$_POST['title'];
 	$total = count($_POST['mass_up']);
 	for($i=0;$i<$total;$i++)
-	{	
+	{
+		if( !isset($_POST['filesToImport'][$i]) ) // Check if file is checked for import
+			continue;
+
 		$file_key = time().RandomString(5);
 		$file_arr = $files[$i];
 		$file_path = $files[$i]['path'];
@@ -51,13 +54,12 @@ if(isset($_POST['mass_upload_video']))
 		{
 			$code = $i+1;
 			//Inserting Video Data...
-			$array = array
-			(
-			'title' => $_POST['title'][$i],
-			'description' => $_POST['description'][$i],
-			'tags' => $_POST['tags'][$i],
-			'category' => $_POST['category'.$code],
-			'file_name' => $file_key,
+			$array = array(
+				'title' => $_POST['title'][$i],
+				'description' => $_POST['description'][$i],
+				'tags' => $_POST['tags'][$i],
+				'category' => $_POST['category'.$code],
+				'file_name' => $file_key,
 			);
 			$vid = $Upload->submit_upload($array);
 		}else{
@@ -107,8 +109,8 @@ if(isset($_POST['mass_upload_video']))
 				}
 				
 			}
-			if($mass_upload_config == 'no') {
-				if(!file_exists($file_path.'processed')){
+			/*if($delMassUpload != 'no') {
+				if(!file_exists($file_path.'processedmass')){
 					$oldmask = umask(0);
 					mkdir($file_path.'processed', 0777);
 					umask($oldmask);
@@ -116,6 +118,10 @@ if(isset($_POST['mass_upload_video']))
 				rename($file_path.$file_orgname, $file_path.'processed/'.$file_orgname);
 			}
 			else{
+				unlink($file_path.$file_orgname);
+			}*/
+
+			if ($delMassUpload != 'no') {
 				unlink($file_path.$file_orgname);
 			}
 		}

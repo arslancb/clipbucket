@@ -221,7 +221,10 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (221, 'collection_rating', '1'),
 (222, 'own_collection_rating', '1'),
 (223, 'own_video_rating', '1'),
-(224, 'vbrate_hd', '500000');
+(224, 'vbrate_hd', '500000'),
+(225, 'store_guest_session', 'no'),
+(226, 'delete_mass_upload', 'no'),
+(227, 'pseudostreaming', 'yes');
 
 
 
@@ -277,6 +280,7 @@ INSERT INTO `{tbl_prefix}config`(`name`, `value`) VALUES ('index_featured','2');
 UPDATE `{tbl_prefix}config` SET value = 'cb_28' WHERE name = 'template_dir';
 
 
-
+INSERT INTO `{tbl_prefix}config`(`name`, `value`) VALUES ('stay_mp4','');
+INSERT INTO `{tbl_prefix}config`(`name`, `value`) VALUES ('youtube_api_key','');
 
 
