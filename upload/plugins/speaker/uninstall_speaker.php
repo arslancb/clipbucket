@@ -48,9 +48,9 @@ function uninstallSpeakerAdminPermissions(){
 }
 
 
-/*uninstallVideospeaker();
+uninstallVideospeaker();
 uninstallSpeakerfunction();
-uninstallSpeaker();*/
+uninstallSpeaker();
 uninstallSpeakerAdminPermissions();
 
 /**
