@@ -4,7 +4,7 @@
 ****************************************************************
 | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.	
 | @ Author 	: ArslanHassan										
-| @ Software 	: ClipBucket , © PHPBucket.com					
+| @ Software 	: ClipBucket , Â© PHPBucket.com					
 ****************************************************************
 ****************************************************************
 Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
@@ -27,14 +27,14 @@ class mass_upload extends Upload
 		}
 	   	
 		$FILES = glob($source_folder.$this->dirsep."*.".$ext);
-		
+
 		$set_limit    = 0;
 	   
 		foreach($FILES as $key => $file)
 		{
 			if( filemtime( $file ) > $sec ){
 				$FILE_LIST[$key]['path']    = substr( $file, 0, ( strrpos( $file, $this->dirsep ) +1 ) );
-				$FILE_LIST[$key]['file']    = substr( $file, ( strrpos( $file, $this->dirsep ) +1 ) ); 
+				$FILE_LIST[$key]['file']    = substr( $file, ( strrpos( $file, $this->dirsep ) +1 ) );
 				$FILE_LIST[$key]['title']    = getName($FILE_LIST[$key]['file']);
 				$FILE_LIST[$key]['description']    = getName($FILE_LIST[$key]['file']);
 				$FILE_LIST[$key]['tags']    = gentags(str_replace(" ",",",getName($FILE_LIST[$key]['file'])));
@@ -70,11 +70,13 @@ class mass_upload extends Upload
 		$vid_files = array();
 		$files = $this->get_files();
 		if(is_array($files))
-		foreach($files as $file)
 		{
-			$ext = getext($file['file']);
-			if(in_array($ext,$exts))
-				$vid_files[] = $file;
+			foreach($files as $file)
+			{
+				$ext = getext($file['file']);
+				if(in_array($ext,$exts))
+					$vid_files[] = $file;
+			}
 		}
 		return $vid_files;
 	}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>HelloWorld Theme</name>
+	<author>Saqib Razzaq</author>
+	<smarty_version>3</smarty_version>
+	<version>1</version>
+	<released>Tue, 13th October 2016 06:00:00 +0000</released>
+	<description>Simple bootstrap template to provide basic layout for your theme</description>
+	<website title="ClipBucket">http://clip-bucket.com</website>
+	<license>Attribute Assurance License</license>
+</template>

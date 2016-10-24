@@ -1,0 +1,138 @@
+.vjs-related-carousel-holder {
+	position: absolute;
+	width: 100%;
+	bottom: 42px;
+	text-align: center;
+	background: rgba(43, 51, 63, 0.75);
+	height: 0;
+	overflow: hidden;
+	z-index: 3;
+	-webkit-transition: height 0.25s ease-out;
+	-moz-transition: height 0.25s ease-out;
+	-ms-transition: height 0.25s ease-out;
+	-o-transition: height 0.25s ease-out;
+	transition: height 0.25s ease-out;
+	&.active {
+		height: 116px;
+		-webkit-transition: height 0.25s ease-in;
+		-moz-transition: height 0.25s ease-in;
+		-ms-transition: height 0.25s ease-in;
+		-o-transition: height 0.25s ease-in;
+		transition: height 0.25s ease-in;
+	}
+	h5 {
+		font-size: 1.5em;
+		margin: 0.2em;
+	}
+}
+.vjs-carousel-viewport {
+	position: relative;
+}
+
+.carousel-items {
+	width: 1000%;
+	list-style: none;
+	position: relative;
+	padding-left: 50px;
+	left: 0;
+	display: table;
+	-webkit-transition: left 0.25s linear;
+	-moz-transition: left 0.25s linear;
+	-ms-transition: left 0.25s linear;
+	-o-transition: left 0.25s linear;
+	transition: left 0.25s linear;
+}
+
+.carousel-item {
+	list-style-type: none;
+	float: left;
+	display: table-cell;
+	width: 110px;
+	padding: 0 4px;
+}
+
+.carousel-item img {
+	height: auto;
+	width: 100% !important;
+}
+
+.carousel-item a {
+	text-decoration: none;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.carousel-item .carousel-item-title {
+	font-size: 10px;
+	color: white;
+}
+
+.vjs-carousel-left-button, .vjs-carousel-right-button {
+	position: absolute;
+	top: 0;
+	width: 50px;
+	height: 100%;
+	display: table;
+	cursor: pointer;
+	background: rgba(43, 51, 63, 0.9);
+}
+
+.vjs-carousel-left-button {
+	left: 0;
+}
+
+.vjs-carousel-right-button {
+	right: 0;
+}
+
+.vjs-carousel-left-button div, .vjs-carousel-right-button div {
+	display: table-cell;
+	vertical-align: middle;
+	color: white;
+	font-size: 5em;
+}
+
+
+
+/* Hide the carousel when the video is playing and the user is inactive  */
+.vjs-default-skin.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-related-carousel-holder {
+	visibility: hidden;
+	opacity: 0;
+}
+
+.vjs-carousel-thumbnail {
+	width: 10%;
+	opacity: 1;
+	margin: 2px;
+}
+
+.vjs-default-skin .vjs-related-carousel-button {
+	cursor: pointer;
+}
+
+.vjs-related-carousel-button:before {
+	content: "\e00d";
+}
+
+.vjs-user-inactive.vjs-playing .vjs-fade-out {
+	display: block;
+	visibility: hidden;
+	opacity: 0;
+	-webkit-transition: visibility 1.5s, opacity 1.5s !important;
+	-moz-transition: visibility 1.5s, opacity 1.5s !important;
+	-ms-transition: visibility 1.5s, opacity 1.5s !important;
+	-o-transition: visibility 1.5s, opacity 1.5s !important;
+	transition: visibility 1.5s, opacity 1.5s !important;
+}
+
+.vjs-default-skin.vjs-user-inactive.vjs-playing .vjs-related-carousel-holder {
+	display: block;
+	visibility: hidden;
+	opacity: 0;
+	-webkit-transition: visibility 1.5s, opacity 1.5s !important;
+	-moz-transition: visibility 1.5s, opacity 1.5s !important;
+	-ms-transition: visibility 1.5s, opacity 1.5s !important;
+	-o-transition: visibility 1.5s, opacity 1.5s !important;
+	transition: visibility 1.5s, opacity 1.5s !important;
+}

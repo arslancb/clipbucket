@@ -1,0 +1,27 @@
+<div class="well well-sm clearfix">
+	<h5 class="nomargin">{lang code="Suggested Groups"}</h5>
+	{foreach $groups as $key => $group}
+	<div class="grid_view list_view  clearfix user_on_right">
+		<div id="group-" class="user_block">
+			<div class="avatar pull-left">
+				<a href="{group_link details=$group}">
+					<img src="{$cbgroup->get_group_thumb($group)}" class="img-responsive" style="" />
+				</a>
+			</div>
+			<div class="prof_title small">
+				
+				<h5 class="nomargin "><a class="theme_color" href="{group_link details=$group}">{$group.group_name}</a></h5>
+				<div class="list-unstyled small">
+					{$group.total_members|number_format}
+						{lang code='members'} 
+				</div>
+				<div class="clearfix">
+					{$join_link=$cbgroup->group_opt_link($group,'join'," class='btn btn-primary btn-sm line-height-1' ")}
+					{if $join_link}{$join_link}{/if}
+				</div>
+				  
+			</div>
+		</div>
+	</div>
+	{/foreach}   
+</div>

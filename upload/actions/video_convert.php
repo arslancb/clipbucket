@@ -27,6 +27,14 @@
 	$logFile = (isset($argv[4])) ? $argv[4] : false;
 	logData($logFile,'argvs');
 
+	if (empty($logFile)) {
+		$logFile = LOGS_DIR.'/'.$file_directory.$_filename.'.log';
+	}
+
+	$file = FILES_DIR.'/temp/args.txt';
+	$text = "fileName [".$fileName.'] _filename ['.$_filename.'] file_directory ['.$file_directory.'] logfile ['.$logFile.']';
+	file_put_contents($file, $text);
+
 	$log = new SLog($logFile);
 	
 	$log->newSection("Starting Conversion Log");

@@ -1,0 +1,16 @@
+<div onclick="get_ep_video('{$video.videoid}')" class="featured-video clearfix">
+	<div class="video_thumb">
+		<img src="{getThumb vdetails=$video size=168x105}" {ANCHOR place="video_thumb" data=$video} class="img-responsive">
+		<img src="{$theme}/images/thumb-ratio.png" class="thumb-ratio" alt="">
+		<time datetime="2016-15-03" class="duration">
+		{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</time>
+	</div> <!--VIDEO_THUMB END-->
+	<div class="details_block">
+		<strong class="title"><a href="#">{$video.title|truncate:40}</a></strong>
+		<span class="author">{lang code='by'}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
+		<div class="views-date">
+			<span>{$video.views}&nbsp;{lang code='views'}</span>
+			<time datetime="2016-15-03" class="date">{$video.date_added|niceTime}</time>
+		</div>
+	</div>
+</div> <!--DETAILS_BLOCK END-->

@@ -28,7 +28,7 @@ class Upload{
 		//First Load All Fields in an array
 		$required_fields = $this->loadRequiredFields($array);
 		$location_fields = $this->loadLocationFields($array);
-		$date_fields = $this->loadDateForm('','/',TRUE);
+		//$date_fields = $this->loadDateForm('','/',TRUE);
 		$option_fields = $this->loadOptionFields($array);
 		
 		if($array==NULL)
@@ -41,18 +41,13 @@ class Upload{
 		$upload_fields = array_merge($required_fields,$location_fields,$option_fields);
 		
 		//Adding Custom Upload Fields
-			if(count($this->custom_upload_fields )>0 && $is_upload)
-				$upload_fields = array_merge($upload_fields,$this->custom_upload_fields);
-			//Adding Custom Form Fields
-			if(count($this->custom_form_fields)>0)
-				$upload_fields = array_merge($upload_fields,$this->custom_form_fields);
-				
+		if(count($this->custom_upload_fields )>0 && $is_upload)
+			$upload_fields = array_merge($upload_fields,$this->custom_upload_fields);
+		//Adding Custom Form Fields
+		if(count($this->custom_form_fields)>0)
+			$upload_fields = array_merge($upload_fields,$this->custom_form_fields);
 
-		/*dump($array);
-		dump($upload_fields);
-		die();*/
 		validate_cb_form($upload_fields,$array);
-		
 	}
 	function ValidateUploadForm()
 	{
@@ -77,7 +72,6 @@ class Upload{
 
 		if(empty($eh->error_list))
 		{
-
 			$required_fields = $this->loadRequiredFields($array);
 			$location_fields = $this->loadLocationFields($array);
 			$option_fields = $this->loadOptionFields($array);
@@ -201,7 +195,7 @@ class Upload{
 			$query_val[] = $active;
 			
 			$query_field[] = "date_added";
-			$query_val[] = now();
+			$query_val[] = dateNow();
 			$config_for_mp4 = $Cbucket->configs['stay_mp4'];
 			
 			if ($config_for_mp4 == 'yes') {

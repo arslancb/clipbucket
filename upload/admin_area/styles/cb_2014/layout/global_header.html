@@ -34,15 +34,9 @@
 </script>
 
 
-
-
-
 <!-- ace settings handler -->
-
 <script src="{$theme_url}/assets/js/ace-extra.min.js"></script>
 <script src="{$baseurl}/js/clipbucket.js"></script>
-
-
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
@@ -61,12 +55,10 @@
 
 <!-- for bootstrap wysiwyg -->
 
-        <!-- for popovers -->
+<!-- for popovers -->
 <script>
-    $(function (){
-        $(".popoverButton").popover();
-    });
-
+	if( $(".popoverButton").length > 0 )
+		$(".popoverButton").popover();
 </script>
 
 <!-- bootstrap x-editable -->
@@ -88,11 +80,6 @@
         });*/
     });
 
-
-
-</script>
-<script>
-
     $(document).ready(function(){
         $(".drop").on({
             click: function(e){
@@ -102,23 +89,12 @@
         });
     });
 
-
-</script>
-
-<script>
     $(document).ready(function() {
         $('#desc').summernote();
     });
-</script>
 
-
-
-
-
-<script>
-    $(function(){
-
-
+    $(function()
+	{
         $(".saveTodo").click(function(e){
             var self = this;
              var newVal = $(this).parent().parent().find("input[name='todo']").val();
@@ -151,28 +127,26 @@
              }
         });
 
-
-    $("#todolist").on("click", ".editable-clear-x", function(e){
-        e.preventDefault();
-            var self = this;
-            var id = $(this).parents(".editable-container").prev().attr("id");
-            id = id.match(/([0-9]+)$/g);
-            id = id.pop();
-            var ajaxCall = $.ajax({
-                url: "{$baseurl}" + "/admin_area/index.php",
-                type: "post",
-                data: {
-                    id: id,
-                    mode: "delete_todo",
-                },
-            });
-            ajaxCall.success(function(data){
-                $(self).parents("p").remove();
-                $(self).parents(".editable-container").remove();
-            });
-            e.stopPropagation();
-    });
-
+		$("#todolist").on("click", ".editable-clear-x", function(e){
+			e.preventDefault();
+				var self = this;
+				var id = $(this).parents(".editable-container").prev().attr("id");
+				id = id.match(/([0-9]+)$/g);
+				id = id.pop();
+				var ajaxCall = $.ajax({
+					url: "{$baseurl}" + "/admin_area/index.php",
+					type: "post",
+					data: {
+						id: id,
+						mode: "delete_todo",
+					},
+				});
+				ajaxCall.success(function(data){
+					$(self).parents("p").remove();
+					$(self).parents(".editable-container").remove();
+				});
+				e.stopPropagation();
+		});
     });
 </script>
 

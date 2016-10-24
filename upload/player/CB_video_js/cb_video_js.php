@@ -167,7 +167,23 @@ if (!function_exists('cb_video_js'))
 				}
 			}
 			case 'get_slot':{
-
+				if ( IA_ADS_INSTALLED == 'installed' ){
+					global $ia_ads;
+					$slot_paramas['videoid'] = $videoid;
+					
+					if ( !empty($_GET['slot_id']) ){
+						$slot_paramas['slot_id'] = $_GET['slot_id'];
+					}else{
+						$slot_paramas['state'] = '1';
+					}
+					$slot_id = $ia_ads->get_slot($slot_paramas)[0]['slot_id'];
+					if (!empty($slot_id)){
+						$instances = $ia_ads->get_instance(array("slot_id"=>$slot_id,'order'=>'starttime ASC'));	
+					}
+					return $instances;
+				}else{
+					return false;
+				}
 			}
 			
 			default:

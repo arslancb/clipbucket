@@ -14,31 +14,33 @@
 			</div>
 
 			<div class="clearfix photo-view" >
-			<div id="gallery">
-				<i id="enlarge" class="fa fa-expand fa-2x" style="float:right; cursor:pointer" data-toggle="modal" data-target="#myModal"></i>
-			{get_photo details=$photo size='l' class='img-responsive center-block' output='html' height="100"}
-			</div>
-				<!-- Enlarge icon -->
-
-				<!-- overlay div when clicked on extend icon -->
-						<div id="myNav" class="overlay">
-							<div class="overlay-content">
-								<img id="gallery-exd" class="img-responsive center-block">
-								<button type="button" class="img-close" id="btn-close" data-dismiss="modal" data-check="">&times;</button>
-								<!-- Next and Previous Button inside overlay -->
-								<div class="btn-holder clearfix">
-									<button class="btn view-photo-nxt icon-right-arrow next en-large" data-check="next" ><i>next</i></button>
-
-									<button class="btn view-photo-pre icon-left-arrow prev en-large" data-check="prev"><i>prev</i></button>
-								</div>
-							</div>
-						 </div>
-						 <!-- Next and Previous button  -->
-					<div class="btn-holder clearfix">
-						<button id="mainNextBtn" class="btn view-photo-nxt icon-right-arrow next view-photo" data-check="next" ><i>next</i></button>
-
-						<button id="mainPrevBtn" class="btn view-photo-pre icon-left-arrow prev view-photo" data-check="prev"><i>prev</i></button>
+				<div id="gallery">
+					<i id="enlarge" class="fa fa-expand fa-2x" style="float:right; cursor:pointer" data-toggle="modal" data-target="#myModal"></i>
+					<div class="image-holder">
+						<div class="inner-holder">
+							{get_photo details=$photo size='l' class='img-responsive center-block' output='html' height="100"}
+						</div>
 					</div>
+				</div>
+				<!-- Enlarge icon -->
+				<!-- overlay div when clicked on extend icon -->
+				<div id="myNav" class="overlay">
+					<div class="overlay-content">
+						<img id="gallery-exd" class="img-responsive center-block">
+						<button type="button" class="img-close" id="btn-close" data-dismiss="modal" data-check="">&times;</button>
+						<!-- Next and Previous Button inside overlay -->
+						<div class="btn-holder clearfix">
+							<button class="btn view-photo-nxt icon-right-arrow next en-large" data-check="next" ><i>next</i></button>
+							<button class="btn view-photo-pre icon-left-arrow prev en-large" data-check="prev"><i>prev</i></button>
+						</div>
+					</div>
+				</div>
+				<!-- Next and Previous button  -->
+				<div class="btn-holder clearfix">
+					<button id="mainNextBtn" class="btn view-photo-nxt icon-right-arrow next view-photo" data-check="next" ><i>next</i></button>
+
+					<button id="mainPrevBtn" class="btn view-photo-pre icon-left-arrow prev view-photo" data-check="prev"><i>prev</i></button>
+				</div>
 			</div>
 			
 			<section class="view-details clearfix">

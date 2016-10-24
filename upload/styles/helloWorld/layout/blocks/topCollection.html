@@ -1,0 +1,23 @@
+{if $display_type == "" || $display_type == "normal"}
+<div class="collection-item">
+	<div class="thumb">
+		<img class="img-responsive" src="{$cbcollection->coll_first_thumb($collection,'m')}">
+	</div>
+	<a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
+		<div class="details">
+			<span>{$collection.collection_name|truncate:30}<br>{$collection.total_objects} {$collection.type}</span>
+		</div>
+	</a>
+</div>
+{/if}
+
+<!--<div class="row" style="margin-bottom: 3px">-->
+	<!--<div class="col-md-5">-->
+		<!--<a href="">-->
+			<!--<a href="{$cbcollection->collection_links($collection,'view')}"><img  src="{$cbcollection->get_thumb($collection,'small')}" /></a>-->
+		<!--</a>-->
+	<!--</div>-->
+	<!--<div class="col-md-6">-->
+		<!--{$collection.collection_name|truncate:15}</a> ({$collection.total_objects} {$collection.type})-->
+	<!--</div>-->
+<!--</div>-->

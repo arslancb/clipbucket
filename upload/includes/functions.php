@@ -689,7 +689,7 @@
 	*/
 
 	function pullSmartyRating($param) {
-		return pullRating($param['id'],$param['show5'],$param['showPerc'],$aram['showVotes'],$param['static']);	
+		return pullRating($param['id'],$param['show5'],$param['showPerc'],$param['showVotes'],$param['static']);
 	}
 	
 	/**
@@ -2378,10 +2378,9 @@
 	function validate_cb_form($input,$array) {
 		//Check the Collpase Category Checkboxes 
 		if($input['cat']['title']=='Video Category') {
-			global $db;
-			$query = "SELECT * FROM ".tbl("config")." WHERE configid=234";
+			$query = "SELECT * FROM ".tbl("config")." WHERE name=234"; // On fresh install, id 234 = max_topic_length, this must be wrong
 			$row = db_select($query);
-			$row[0]['value'].$input['cat']['title'];
+			$row[0]['value'].$input['cat']['title']; // Something must be wrong here
 			if($row[0]['value']=='0') {
 				unset($input['cat']);	
 			}
@@ -5682,6 +5681,29 @@
 			unlink($_FILES["fileToUpload"]["tmp_name"]);
 		}
 	}
+
+	function AutoLinkUrls($str,$popup = FALSE){
+	    if (preg_match_all("#(^|\s|\()((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i", $str, $matches)){
+			$pop = ($popup == TRUE) ? " target=\"_blank\" " : "";
+			for ($i = 0; $i < count($matches['0']); $i++){
+				$period = '';
+				if (preg_match("|\.$|", $matches['6'][$i])){
+					$period = '.';
+					$matches['6'][$i] = substr($matches['6'][$i], 0, -1);
+				}
+				$str = str_replace($matches['0'][$i],
+						$matches['1'][$i].'<a href="http'.
+						$matches['4'][$i].'://'.
+						$matches['5'][$i].
+						$matches['6'][$i].'"'.$pop.'>http'.
+						$matches['4'][$i].'://'.
+						$matches['5'][$i].
+						$matches['6'][$i].'</a>'.
+						$period, $str);
+			}//end for
+	    }//end if
+	    return $str;
+	}//end AutoLinkUrls
 
 
     include( 'functions_db.php' );

@@ -7,7 +7,7 @@
  * Making sense with error handling
  */
 
-class DB_Exception extends mysqli_sql_exception
+class DB_Exception
 {
 
     public function getError()

@@ -124,10 +124,13 @@ switch($mode)
 		$config_for_mp4 = $Cbucket->configs['stay_mp4'];
 		$ffmpegpath = $Cbucket->configs['ffmpegpath'];
 		$extension = getExt( $_FILES['Filedata']['name']);
-		$raw_content_type = mime_content_type($_FILES['Filedata']['tmp_name']);
-		$content_type = substr($raw_content_type, 0,strpos($raw_content_type, '/'));
-		if ($content_type != 'video') {
-			echo json_encode(array("status"=>"504","msg"=>"Provided file is invalid video (".$raw_content_type.")"));
+		/*$raw_content_type = mime_content_type($_FILES['Filedata']['tmp_name']);
+		$content_type = substr($raw_content_type, 0,strpos($raw_content_type, '/'));*/
+		$types = strtolower(config('allowed_types'));
+		$supported_extensions = explode(',', $types);
+
+		if (!in_array($extension, $supported_extensions)) {
+			echo json_encode(array("status"=>"504","msg"=>"Invalid video extension"));
 			exit();
 		}
 		//Stay as it MP4 Module .. 

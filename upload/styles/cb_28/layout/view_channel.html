@@ -54,6 +54,16 @@
 						<div class="clearfix watch-vid-details">
 							<h2>{lang code='user_activity'}</h2>
 							<ul class="clearfix desc-list">
+								{if $p.profile_title}
+								<li>
+									<strong>{lang code='Title'}</strong>:{$p.profile_title}
+								</li>
+								{/if}
+								{if $p.profile_desc}
+								<li>
+									<strong>{lang code='Description'}</strong>:{$p.profile_desc}
+								</li>
+								{/if}
 								<li>
 									<strong>{lang code='joined'}</strong>:&nbsp;{$u.doj|niceTime}
 								</li>

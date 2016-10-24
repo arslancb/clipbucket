@@ -263,11 +263,9 @@ if (!function_exists('validate_embed_code'))
                 $iframe = str_replace('width=', 'width="'.$data['width'].'"', $iframe);
                 $embed_code = $iframe;
             
-
-               
                  
-                $embed_code = str_replace('href=', 'style="display:none;"', $embed_code);
-                $embed_code = str_replace('by', '', $embed_code);
+               # $embed_code = str_replace('href=', 'style="display:none;"', $embed_code);
+               # $embed_code = str_replace('by', '', $embed_code);
                 $embed_code = unhtmlentities($embed_code);
                 
 

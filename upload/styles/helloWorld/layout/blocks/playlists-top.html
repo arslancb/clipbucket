@@ -1,0 +1,27 @@
+<div class="playlists-dropdown hidden-xs custom-elements">
+	<header class="playlist-header row clearfix">
+		<div class="left-col col-lg-6 col-md-6 col-sm-6 col-xs-12">
+			<h2>Playlists</h2>
+			{*<button class="btn-default btn btn-newplaylist"><span class="fa fa-plus-circle"></span> New playlist</button>*}
+		</div>
+		<div class="left-col col-lg-6 col-md-6 col-sm-6 col-xs-12">
+			{*<button class="btn btn-default btn-showmore">Show more</button>*}
+			<a href="{$baseurl}/manage_playlists.php" class="btn btn-default btn-viewall">View All</a>
+			<button class="btn close-playlists">close</button>
+		</div>
+	</header>
+	<div class="clearfix item_playlist scrollable-area hscrollable playlists-scroll">
+		{$playlists = $cbvid->action->get_playlists(["limit"=>12])}
+		
+		{if $playlists}
+		{*pr($playlists,true)*}
+		
+		{foreach $playlists as $playlist name=limit}
+			{include file="$style_dir/blocks/playlist/playlist-block.html"}
+		{/foreach}
+		
+		{else}
+			no playlist found
+		{/if}
+	</div>
+</div>

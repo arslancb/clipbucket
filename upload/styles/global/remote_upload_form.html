@@ -2,7 +2,7 @@
 	{lang('upload_remote_video_msg')}
 	{if has_access("admin_access")}
 		{if $Cbucket->configs.youtube_api_key|strlen < 10}
-			<div class="alert alert-danger">YouTube API key prodived in Website Settings & Configurations > General is of invalid length hence, Grab From YouTube may not work <a target="_blank" href="https://developers.google.com/youtube/v3/getting-started">Get API Key</a></div>
+			<div class="alert alert-danger">YouTube API key provided in Website Settings & Configurations > General is of invalid length hence, Grab From YouTube may not work <a target="_blank" href="https://developers.google.com/youtube/v3/getting-started">Get API Key</a></div>
 		{/if}
 	{/if}
 </div>

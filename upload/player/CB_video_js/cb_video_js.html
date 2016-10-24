@@ -16,6 +16,16 @@
 {$video_editor_enabled = get_my_function($v_editor_params)}
 <!-- End -->
 
+<!-- This code is added for instance manager Interactive ads plugin intances-->
+{if !$video_editor_enabled }
+	{$intance_params = ['function'=>'get_slot','videoid'=>$vdata.videoid]}
+	{$active_instances = get_my_function($intance_params)}
+	{if is_array($active_instances)}
+		{$active_instances = json_encode($active_instances)}
+	{/if}
+{/if}
+<!-- End -->
+
 <!-- This code is added for Related Videos carousel plugin-->
 {foreach $videos as $video}
 	{$related['imageSrc'] = get_thumb($video,1,FALSE,FALSE,TRUE,FALSE,'168x105')}
@@ -49,6 +59,9 @@
 {if $video_editor_enabled}
 <script type="text/javascript" src="{$cb_ia_ads_url}/assets/js/instance_manager.js"></script>
 {/if}
+{if $active_instances && !$video_editor_enabled}
+<script type="text/javascript" src="{$cb_ia_ads_url}/assets/js/interactive.js"></script>
+{/if}
 <script src="{$cb_vjs_player_url}/js/videojs.ads.js"></script>
 <script src="{$cb_vjs_player_url}/js/videojs.ima.js"></script>
 <script src="{$cb_vjs_player_url}/js/cb_ultimate_ads.js"></script>
@@ -79,6 +92,20 @@
 	var show_logo = true;
 	var autoplay = "{$player_config.autoplay}";
 	var default_res = "{$default_quality}";
+	
+	if (autoplay == 'no'){
+		autoplay = false;
+	}else{
+		autoplay = true;
+	}
+	//player settings
+	var cb_player_setup = {
+		plugins : { }, 
+		"techOrder" : ['html5', 'flash'],
+		"controls": true,
+		"autoplay": autoplay,
+		"preload": "auto",
+	};
 
 	var cb_timecomments_plugin = "{$cb_timecomments_plugin}"; // timecomments settings
 	if (cb_timecomments_plugin){
@@ -98,21 +125,7 @@
 	related_videos_active= true;
 
 	var video_editor_enabled = "{$video_editor_enabled}"; // Interactive Ads plugin settings
-
-
-	if (autoplay == 'no'){
-		autoplay = false;
-	}else{
-		autoplay = true;
-	}
-	//player settings
-	var cb_player_setup = {
-		plugins : { }, 
-		"techOrder" : ['html5', 'flash'],
-		"controls": true,
-		"autoplay": autoplay,
-		"preload": "auto",
-	};
+	var i_instances = '{$active_instances}';
 
 	//Setting CallBack
 	var cb_vjs_callback = function(){
@@ -178,12 +191,23 @@
 			cb_vjs.relatedCarousel(related_videos);
 		}
 
-		//Calling instance manager pplugin for backend
+		//Calling instance manager plugin for backend
 		if ( video_editor_enabled && typeof video_editor_enabled != 'undefined'){
 			instance_manager_settings = {
 				slot_id : slot_id
 			}
 			cb_vjs.instanceManager(instance_manager_settings);
+		}
+
+		//Calling interactive ads plugin
+		if (i_instances){
+			i_instances = JSON.parse(i_instances);
+			i_instances_settings = {
+				enable : true,
+				dummy : false,
+				instances : i_instances,
+			}
+			cb_vjs.interactiveAds(i_instances_settings);	
 		}
 
 		var  stateCheck = setInterval(function(){
