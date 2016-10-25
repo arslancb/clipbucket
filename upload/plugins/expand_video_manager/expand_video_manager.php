@@ -1,0 +1,76 @@
+<?php
+/*
+Plugin Name: Expand Video Manager
+Description: Add possibility to inject code on the Video manager (Edit Video section)
+Author: Adrien Ponchelet
+Author Website: https://www.u-picardie.fr
+ClipBucket Version: 2.8.1 rc1
+Version: 0.1
+*/
+
+      
+	/**
+	*	Build an array of plugin to integrate
+	*/
+	function getExpandPage(){
+		global $db;
+
+		$results = $db->select(tbl("expand_video_manager"),"*");
+		
+		$tmp = array();
+
+		if(is_array($results)){
+			foreach($results as $result)
+			{
+				$id = $result["evm_id"];
+				unset($result["evm_id"]);
+				$tmp["evm-".$id] = $result;
+			}
+		}
+		
+		return $tmp;
+	}
+
+
+	/**
+	 *	Begin
+	 */
+	$postData = '';
+	$getData = '';
+
+	/**
+	*	Recupere les param POST et GET
+	*/
+	if (isset($_POST)){	$postData = $_POST; }
+	if (isset($_GET)){	$getData = $_GET; }
+
+
+	/**
+	*	Passe le JSON aux JS
+	*/
+	$json = json_encode(array_merge( getExpandPage(), $postData, $getData ), true);
+	Assign('expand_video_manager_json_content', $json);
+
+// 	function plop(){
+// 	  echo '<pre>';
+// 	  print_r();
+// 	  echo '</pre>';
+// 	}
+
+// 	register_anchor_function('plop', 'key_rep');
+
+	/**
+	*	Injecte le JS dans le HEADER
+	*	Uniquement si on est dans la bonne page
+	*/
+	if (substr($_SERVER['SCRIPT_NAME'], -14, 14) == "edit_video.php"){
+		$Cbucket->add_admin_header(PLUG_DIR . '/expand_video_manager/admin/header.html', 'global');
+	}
+	
+	
+	/**
+	 *	Add entries for the plugin in the administration pages
+	 */
+	add_admin_menu('Templates And Players','Expand Video Edit','evm_manager.php','expand_video_manager/admin');
+
+?>

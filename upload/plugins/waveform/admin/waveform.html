@@ -1,0 +1,34 @@
+<h2>WaveForm</h2>
+
+{if $waveform neq ''}
+<div id="pointer_div" onclick="point_it(event)" style="width:100%">
+<img src="{$waveform}" title="Forme d'onde de la video" alt="Forme d'onde de la video" width="100%" id="waveform">
+</div>
+{/if}
+
+
+{literal}
+<script language="JavaScript">
+	function point_it(event){
+	
+		var duration = {/literal}{$duration}{literal}
+	
+	
+		var millisecondes = duration * 1000
+
+		var img = document.getElementById('waveform'); 
+		//or however you get a handle to the IMG
+		var width = img.clientWidth;
+	
+	
+		pos_x = event.offsetX?(event.offsetX):event.pageX-document.getElementById("pointer_div").offsetLeft;
+		
+		alert("X : " + pos_x + ' - Width : ' + width + 'ms : '+ millisecondes);
+	}
+
+</script>
+
+
+
+
+{/literal}

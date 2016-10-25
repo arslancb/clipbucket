@@ -1,0 +1,185 @@
+<script type="text/javascript">
+{literal}
+
+/**
+ *	Add the tab to the panel
+ *	
+ *	@param string titleContent 	The title of the Tab to Add (if same than another, update)
+ *	@param string zone		Left/right column
+ */
+function addEvmTab(titleContent, zone){
+
+	var myElem = document.getElementById(titleContent);
+	if (myElem === null){
+		// Add li item
+		$("#expand_video_manager_"+zone+"_tab").append('<li><a data-toggle="tab" href="#'+titleContent+'">'+titleContent+'</a></li>');
+
+		// Add div item
+		$("#expand_video_manager_"+zone+"_content").append('<div id="'+titleContent+'" class="tab-pane"></div>');
+	}
+	else{
+//		alert('Exist!');
+	}
+
+}
+
+/**
+ *	Retrieve the content and populate the correct div panel
+ *	
+ *	@param string plugurl 	Path of plugin URL to be loaded
+ *	@param string appenDiv 	Tab to display the content
+ *	@param string json 	JSON string of all param send to the page (POST and GET inside of data)
+ */
+function getEvmContent(plugurl, appendDiv, json){
+
+	$.ajax({
+		type	  	: "POST",
+		url 	  	: "../plugins/expand_video_manager/generate_template.php",
+		data		: {page: plugurl, data: json},
+		success : function(q)
+		{
+			// Populate the div item
+			$("#"+appendDiv).append(q);
+		}
+	});
+}
+
+/**
+ *	When document is loaded :
+ *		modify the DOM to add our div id
+ *		fetch json object to view the element to include
+ *		include element
+ */
+$( document ).ready( function() {
+
+	/**
+	*	JSON of all configured item to add
+	*/
+	var json = {/literal}{$expand_video_manager_json_content}{literal};
+	
+	/**
+	*	First :
+	*		Modify Left Column
+	*/
+	var pointDepart = $("#myTab").parent().parent();
+// 	$("#myTab").parent().parent().className = "plop";
+	var orgData = $("#myTab").parent().parent().children();
+
+ 	var contenu = '';
+	var data = '';
+
+	$.each( orgData, function( key, value ) {
+		contenu += value.innerHTML;
+		/**
+		 *   value.remove delete the item, 
+		 *   it's more beautiful than empty 
+		 *   the item with : value.innerHTML=''; 
+		 */
+		value.remove();
+	});
+	
+	
+	data = '<div id="evmLeft" class="col-md-6">';
+    
+	    data += '<div class="tabbable">';
+	    
+		data += '<ul class="nav nav-tabs" id="expand_video_manager_left_tab">';
+		    data += '<li class="active">';
+			data += '<a data-toggle="tab" href="#oringinalLeftData">OriginalLeftData</a>';
+		    data += '</li>';
+		data += '</ul>';
+		
+		data += '<div class="tab-content" id="expand_video_manager_left_content">';
+		    data += '<div id="oringinalLeftData" class="tab-pane active">';
+			data += contenu;
+		    data += '</div>';
+		data += '</div>';
+		
+	    data += '</div>';
+	data += '</div>';
+
+	data += '<div id="evmLeftDebug"></div>';
+	
+	$(data).insertBefore(pointDepart);
+	$("#evmLeft").next().remove();
+	
+
+	/**
+	*	Then :
+	*		Modify Right Column
+	*/
+	
+	var pointDepart = $("input[name=title]").parent().parent().parent();
+	var orgData = $("input[name=title]").parent().parent().parent().children();
+
+	var contenu = '';
+	var data = '';
+
+	$.each( orgData, function( key, value ) {
+		contenu += value.innerHTML;
+		/**
+		 *   value.remove delete the item, 
+		 *   it's more beautiful than empty 
+		 *   the item with : value.innerHTML=''; 
+		 */
+		value.remove();
+	});
+	
+	
+	data = '<div id="evmRight" class="head col-md-12">';
+    
+	    data += '<br><br>';
+	    
+	    data += '<div class="tabbable">';
+	    
+		data += '<ul class="nav nav-tabs" id="expand_video_manager_right_tab">';
+		    data += '<li class="active">';
+			data += '<a data-toggle="tab" href="#oringinalRightData">OriginalRightData</a>';
+		    data += '</li>';
+		data += '</ul>';
+		
+		data += '<div class="tab-content" id="expand_video_manager_right_content">';
+		    data += '<div id="oringinalRightData" class="tab-pane active">';
+			data += contenu;
+		    data += '</div>';
+		data += '</div>';
+		
+	    data += '</div>';
+	data += '</div>';
+	
+	data += '<div id="evmRightDebug"></div>';
+	
+	
+	$(data).insertAfter(pointDepart);
+	
+	
+	/**
+	*	Loop :
+	*		Add the Element from Object (created by Expand Video Manager plugin)
+	*/
+	for (var i in json)
+	{
+		if (typeof json[i].evm_plugin_url != "undefined"){
+		
+			if (json[i].evm_zone == 'expand_video_manager_right_panel'){
+			  var zone = 'right';
+			}
+			else{
+			  var zone = 'left';
+			}
+		
+		
+			if (json[i].evm_is_new_tab == 1){
+				// TODO: Ajoute le li
+				addEvmTab(json[i].evm_tab_title, zone);
+				
+				// TODO: Ajoute le contenu
+				getEvmContent(json[i].evm_plugin_url, json[i].evm_tab_title, json);
+			}
+		}
+	}
+
+});
+
+{/literal}
+</script>
