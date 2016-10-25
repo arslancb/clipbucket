@@ -13,18 +13,36 @@ Version: 0.1
 	*	Build an array of plugin to integrate
 	*/
 	function getExpandPage(){
-		global $db;
+		global $db, $cbplugin;
+		
+		$tab_installed = $cbplugin->getInstalledPlugins();
 
 		$results = $db->select(tbl("expand_video_manager"),"*");
 		
 		$tmp = array();
 
 		if(is_array($results)){
+		
 			foreach($results as $result)
 			{
-				$id = $result["evm_id"];
-				unset($result["evm_id"]);
-				$tmp["evm-".$id] = $result;
+				// Get the plugin folder by exploding the path
+				$a = explode("/", $result["evm_plugin_url"]);
+				// Search the item "plugins"
+				$k = array_search('plugins', $a);
+				// Get the item immediately after
+				$plug_dir = $a[$k+1];
+				
+				foreach($tab_installed as $plug_installed){
+				
+					if ($plug_installed['folder'] == $plug_dir){
+						if ($plug_installed['plugin_active'] == 'yes'){
+							$id = $result["evm_id"];
+							unset($result["evm_id"]);
+							$tmp["evm-".$id] = $result;
+						}
+					}
+				
+				}
 			}
 		}
 		
