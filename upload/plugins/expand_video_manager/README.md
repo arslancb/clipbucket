@@ -17,7 +17,7 @@ Go to the plugin administration panel and install the "Expand Video Manager".
 * for users
   1. Go to the admin area > Videos > Video Manager. Select a video to edit by clicking to the link. Search for a tab with a name similar to the plugin.
 
-*pour les développeurs
+*pour les développeurs*
 
   Vous devez penser à faire deux choses lorsque vous développez votre plugin :
   
