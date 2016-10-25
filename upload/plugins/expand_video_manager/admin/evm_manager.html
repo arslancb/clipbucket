@@ -1,0 +1,30 @@
+<h2>Expand Video Edit Manager</h2>
+
+<div class="tabbable">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="{if $tabactive eq ''}active{/if}"><a data-toggle="tab" href="#firstTab">Tab 1</a></li>
+	</ul>
+
+	<!-- 
+		Listing
+	-->
+	<div class="tab-content">
+		<div id="firstTab" class="tab-pane{if $tabactive eq ''} active{/if}">
+			<h2>List of activated item :</h2>
+
+			<form class="form-horizontal" role="form" method="post">
+				<div class="form-group">
+
+				{foreach from=$listeplugin item=modulename key=modulekey name=sorts}
+					{foreach from=$modulename item=name key=key name=sorts}
+						<div class="col-sm-3">
+							{$key} : <input type="text" class="" value="{$name}">
+						</div>
+					{/foreach}
+				{/foreach}
+	
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
