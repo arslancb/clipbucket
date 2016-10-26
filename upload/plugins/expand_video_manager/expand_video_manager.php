@@ -21,7 +21,8 @@ Version: 0.1
 		// TODO: Dynamically find name og the script
 		if ($plug_installed['plugin_file'] == 'expand_video_manager.php'){
 			if ($plug_installed['plugin_active'] == 'yes'){
-			    $bool == true;
+			    $bool = true;
+		
 			}
 		}
 	}
@@ -30,7 +31,6 @@ Version: 0.1
 	 *	If plugin activated, include the script
 	 */
 	if ($bool == true){
-	
 		/**
 		*	Build an array of plugin to integrate
 		*/
