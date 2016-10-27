@@ -4,13 +4,79 @@
 <div id="pointer_div" onclick="point_it(event)" style="width:100%;">
 	<canvas id="waveformImg"></canvas>
 </div>
-<div id="temps">00:00:00</div>
+<div class="pull-right" id="temps">00:00:00</div>
+
+
+<div id="silenceFinder">
+	<a class="btn btn-primary" onclick="silenceFinder();" title="Silence Finder">Silence Finder</a>
+	Seuil : <input type="text" name="seuil" id="seuil" size="2" value="0">
+</div>
+
+<div id="silenceFinderResult"></div>
+
 {/if}
 
 
 
 {literal}
 <script language="JavaScript">
+
+function silenceFinder(){
+  
+	var formData = {video_id:{/literal}{$video_id}{literal},seuil:$("#seuil").val(),largeur:canvas.width}; //Array 
+	
+		$("#silenceFinderResult").html('<p>Recherche en cours...</p>');
+		$.ajax({
+			type	  	: "POST",
+			url 	  	: "../plugins/waveform/silence_finder.php",
+			data		: formData,
+			success : function(q)
+			{	
+				jsonToLink(q);
+			}
+		});
+}
+
+
+function jsonToLink(data){
+	var txt = '';
+	var temps;
+
+	JSON.parse(data, (key, value) => {
+		if (key != ''){
+		
+			clientPixel = convertOrgPixelToClientPixelView(value, canvas.width);
+			
+			console.log('clientPixel : ' + clientPixel + ' org pixel : ' + value);
+			
+			temps = pixelToTime(parseInt(clientPixel), duration, canvas.width);
+			
+			hms = secondsToTime(temps);
+				
+			if (hms.h < 10){hms.h = "0"+hms.h;}
+			if (hms.m < 10){hms.m = "0"+hms.m;}
+			if (hms.s < 10){hms.s = "0"+hms.s;}
+			
+			formattedTime = hms.h + ':' + hms.m + ':' + hms.s;
+			txt += '<a href="javascript:;" onclick="video.play();video.currentTime='+(temps-0.5)+';" onmouseover="moveLine('+clientPixel+');updateTimeArea('+temps+')">Silence n°' + key + ' ('+formattedTime+' / '+clientPixel+'px)</a><br>';
+		}
+	});
+	
+	$("#silenceFinderResult").html(txt);
+
+}
+
+
+function convertOrgPixelToClientPixelView(pixel, targetWidth){
+
+	  var clientPixel = Math.ceil(parseFloat((targetWidth*pixel)/640));
+	  return clientPixel;
+
+}
+
+
+
+
 	/**
 	*	GENERAL VAR
 	*	
@@ -201,7 +267,7 @@
 	*	@param float secondes
 	*/
 	function updateTimeArea(secondes){
-	  console.log(secondes);
+	  //console.log(secondes);
 		hms = secondsToTime(secondes);
 			
 		if (hms.h < 10){hms.h = "0"+hms.h;}

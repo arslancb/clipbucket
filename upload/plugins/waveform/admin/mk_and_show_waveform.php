@@ -11,7 +11,6 @@
 	*/
 	if ($_POST['data']['video']){
 	
-	
 		/**
 		*	From here, the code of your plugin, 
 		*	make the stuff you want
@@ -60,6 +59,9 @@
 
 		$duration = $video_details['duration'];
 		assign('duration', $duration);
+		
+		
+		assign('video_id', $_POST['data']['video']);
 	}
 
 	
