@@ -5,7 +5,7 @@ Description: /!\ Use Expand Video Manager. Add functionnality in the admin page 
 Author: Adrien Ponchelet
 Author Website: https://www.u-picardie.fr
 ClipBucket Version: 2.8.1 rc1
-Version: 0.1
+Version: 0.2
 */
 
 	/**

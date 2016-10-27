@@ -46,8 +46,8 @@
 			
 				// Path to write file
 				$output = $waveform_folder.'/'.$waveform_filename;
-				$command = $ffmpeg_path." -i ".$input." -filter_complex \"compand,showwavespic=s=640x120\" -frames:v 1 ".$output;
-				
+				$command = $ffmpeg_path.' -i '.$input.' -filter_complex "[0:a]aformat=channel_layouts=mono, compand, showwavespic=s=640x120, colorkey=black, colorchannelmixer=rr=66/255:gr=139/255:br=202/255[fg]; color=s=640x120:color=#ffffff, drawgrid=width=iw/10:height=ih/5:color=#555555@0.1[bg]; [bg][fg]overlay=format=rgb,drawbox=x=(iw-w)/2:y=(ih-h)/2:w=iw:h=1:color=#2d608b" -frames:v 1 '.$output;
+
 				// Execute the commande
 				$cmd = shell_exec($command);
 			}	// *** FIN FICHIER EXISTE PAS
@@ -62,10 +62,6 @@
 		assign('duration', $duration);
 	}
 
-	
-	
-	
-	
 	
 	/**
 	 *	/!\ Important to use Expand Video Manager

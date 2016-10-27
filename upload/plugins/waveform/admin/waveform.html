@@ -1,102 +1,266 @@
 <h2>WaveForm</h2>
 
 {if $waveform neq ''}
-<div id="pointer_div" onclick="point_it(event)" style="width:100%">
-<img src="{$waveform}" title="Forme d'onde de la video" alt="Forme d'onde de la video" width="100%" id="waveform">
+<div id="pointer_div" onclick="point_it(event)" style="width:100%;">
+	<canvas id="waveformImg"></canvas>
 </div>
-<div id="temps"></div>
+<div id="temps">00:00:00</div>
 {/if}
+
 
 
 {literal}
 <script language="JavaScript">
-	function point_it(event){
+	/**
+	*	GENERAL VAR
+	*	
+	*	canva = l'élément <canvas>
+	*	ctx = le contexte : "la boite à outils"
+	*	line = objet ligne
+	*	img = object image
+	*/
+	var canvas = document.getElementById('waveformImg'),
+	    ctx = canvas.getContext('2d'),
+	    line = new Line(ctx),
+	    img = new Image;
+	    
+	ctx.strokeStyle = '#2d608b';
 	
-		var video = document.getElementById("cb_video_js_html5_api");
-		var duration = {/literal}{$duration}{literal}
+	img.onload = start;
+	img.src = '{/literal}{$waveform}{literal}';
 
-		// Image Width
-		var img = document.getElementById('waveform'); 
-		var width = img.clientWidth;
+	var video = document.getElementById("cb_video_js_html5_api");
+	var duration = {/literal}{$duration}{literal}
+
+	/**
+	*	Function to init the size of the canva, because his parent 
+	*	is 100 percent width and a canvas must be defined with pixel value.
+	*/
+	function init() {
+		if (canvas.getContext) {
+
+			width = $(canvas).parent().width();
+			canvas.width = (width-2);
+
+			console.log('New width : ' + width);
+			
+			start();
+		}
+	}
+
+
+	/**
+	*	When tab link is clicked, resize the canvas to target 
+	*	his parent size.
+	*	
+	*/
+	$(document).on("click", "#Waveform-link", function(evt) {
+		console.log("Resize when appear");
+		init();
+	});
+
+
+	/**
+	*	When windows is resize, resize the canva to match 
+	*	his parent size.
+	*/
+	$(window).resize(function () {
+		init();
+	});
+
+
+	/**
+	*	Class Line
+	*	@param object ctx
+	*/
+	function Line(ctx) {
+	    
+		var me = this;
+	    
+		this.x1 = 0;
+		this.x2 = 0;
+		this.y1 = 0;
+		this.y2 = 0;
+	    
+		this.draw = function() {
+			ctx.beginPath();
+			ctx.moveTo(me.x1, me.y1);
+			ctx.lineTo(me.x2, me.y2);
+			ctx.stroke();
+		}
+	}
+
+
+	function start() {
+		ctx.drawImage(img, 0, 0, waveformImg.width, waveformImg.height);
+		canvas.onmousemove = updateLine;
+	}
+
+	function updateLine(e) {
+	    var r = canvas.getBoundingClientRect(),
+		x = e.clientX - r.left,
+		y = e.clientY - r.top;
+	    
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+		line.x1 = x;
+		line.y1 = 0;
+		line.x2 = x;
+		line.y2 = canvas.height;
+		line.draw();
+	}
+
+	/**
+	*	@param object event The click event
+	*/
+	function point_it(event){
+		// Canvas Width
+		var width = canvas.clientWidth;
 		
 		// Click position
 		pos_x = event.offsetX?(event.offsetX):event.pageX-document.getElementById("pointer_div").offsetLeft;
 		
-		var debut = Calcul(pos_x, duration, width);
+		var debut = pixelToTime(pos_x, duration, width);
 
 		video.play();
 		video.currentTime = debut;
 	}
 	
-	
-	function Calcul(pixelEnCours, dureeTotal, pixelTotal){
+	/**
+	*	@param integer pixelEnCours
+	*	@param float dureeTotal
+	*	@param float pixelTotal
+	*	@return integer
+	*/
+	function pixelToTime(pixelEnCours, dureeTotal, pixelTotal){
 		
 		var debut = Math.ceil(parseFloat((pixelEnCours*dureeTotal)/pixelTotal));
-
 		return debut;
 	}
+
+	/**
+	*	@param float dureeEnCours
+	*	@param float dureeTotal
+	*	@param integer pixelTotal
+	*	@return integer
+	*/
+	function timeToPixel(dureeEnCours, dureeTotal, pixelTotal){
 	
+		var pixelEnCours = Math.ceil(parseFloat((pixelTotal*dureeEnCours)/dureeTotal));
+		return pixelEnCours;
+	}
+
 	
-	
-	
+	/**
+	* Convert number of seconds into time object
+	* Source : http://codeaid.net/javascript/convert-seconds-to-hours-minutes-and-seconds-(javascript)
+	*
+	* @param integer secs Number of seconds to convert
+	* @return object
+	*/
+	function secondsToTime(secs)
+	{
+		var hours = Math.floor(secs / (60 * 60));
+
+		var divisor_for_minutes = secs % (60 * 60);
+		var minutes = Math.floor(divisor_for_minutes / 60);
+
+		var divisor_for_seconds = divisor_for_minutes % 60;
+		var seconds = Math.ceil(divisor_for_seconds);
+
+		var obj = {
+			"h": hours,
+			"m": minutes,
+			"s": seconds
+		};
+		return obj;
+	}
+
+
+	/**
+	*	redraw the canvas and draw line at X
+	*	@param integer GrandX
+	*/
+	function moveLine(GrandX) {
+	    var r = canvas.getBoundingClientRect(),
+		x = GrandX - r.left;
+		
+		// Init canvas
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+		line.x1 = GrandX;
+		line.y1 = 0;
+		line.x2 = GrandX;
+		line.y2 = canvas.height;
+		line.draw();
+	}
+
+
+	/**
+	*	Convert the div area and update the div area
+	*	@param float secondes
+	*/
+	function updateTimeArea(secondes){
+	  console.log(secondes);
+		hms = secondsToTime(secondes);
+			
+		if (hms.h < 10){hms.h = "0"+hms.h;}
+		if (hms.m < 10){hms.m = "0"+hms.m;}
+		if (hms.s < 10){hms.s = "0"+hms.s;}
+		
+		
+		document.getElementById("temps").innerHTML = hms.h + ':' + hms.m + ':' + hms.s;
+	}
+
+
+	/**
+	*	Ecoute evenement lecture
+	*/
+	video.addEventListener('play',function() {
+			i=window.setInterval(function() {
+				var pixelEnCours = timeToPixel(video.currentTime, duration, canvas.width);
+				moveLine(pixelEnCours);
+				updateTimeArea(video.currentTime);
+			},1100);
+		},false
+	);
+
+
+	/**
+	*	Ecoute evenement pause
+	*/
+	video.addEventListener('pause',function() {
+			window.clearInterval(i);
+		},false
+	);
+
+
+	/**
+	*	Ecoute evenement fin de video
+	*/
+	video.addEventListener('ended',function() {
+			clearInterval(i);
+		}
+		,false
+	);
+
+
+	/**
+	*	Ecoute evenement souris au dessus
+	*/
 	$(document).ready(function(){
-		$("#waveform").bind("mousemove",function(e){
+		$("#waveformImg").bind("mousemove",function(e){
 		
-			var duration = {/literal}{$duration}{literal}
-
-			// Image Width
-			var img = document.getElementById('waveform'); 
-			var width = img.clientWidth;
-
+			var width = canvas.clientWidth;
 		
-			var offset = $("#waveform").offset();
+			var offset = $("#waveformImg").offset();
 			var clickX=e.clientX - offset.left;
 			var clickY=e.clientY - offset.top;
 			
-			var debut = Calcul(clickX, duration, width);
-			
-			hms = secondsToTime(debut);
-			
-			if (hms.h < 10){hms.h = "0"+hms.h;}
-			if (hms.m < 10){hms.m = "0"+hms.m;}
-			if (hms.s < 10){hms.s = "0"+hms.s;}
-			
-			
-			document.getElementById("temps").innerHTML = hms.h + ':' + hms.m + ':' + hms.s;
+			var debut = pixelToTime(clickX, duration, width);
+			updateTimeArea(debut);
 		});
 	});
 	
-	
-	
-	
-    /**
-     * Convert number of seconds into time object
-     *
-     * @param integer secs Number of seconds to convert
-     * @return object
-     */
-    function secondsToTime(secs)
-    {
-        var hours = Math.floor(secs / (60 * 60));
-       
-        var divisor_for_minutes = secs % (60 * 60);
-        var minutes = Math.floor(divisor_for_minutes / 60);
-     
-        var divisor_for_seconds = divisor_for_minutes % 60;
-        var seconds = Math.ceil(divisor_for_seconds);
-       
-        var obj = {
-            "h": hours,
-            "m": minutes,
-            "s": seconds
-        };
-        return obj;
-    }
-
-	
 </script>
-
-
-
-
 {/literal}
