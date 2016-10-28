@@ -26,11 +26,11 @@ define("SPEAKER_LINKPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".SPEAKER_BA
 assign("speaker_linkpage",SPEAKER_LINKPAGE_URL);
 
 
-if(!function_exists('speaker_list')){
+if(!function_exists('speakerList')){
 	/**
 	 * Define the Anchor to display speakers into description of a video main page
 	 */
-	function speaker_list($data){
+	function speakerList($data){
 		global $speakerquery;
 		$data["selected"]="yes";
 		$spk=$speakerquery->getSpeakerAndRoles($data);
@@ -41,8 +41,8 @@ if(!function_exists('speaker_list')){
 		}
 		echo $str;	
 	}
-	// use {ANCHOR place="speaker_list" data=$video} to display the formatted list above
-	register_anchor_function('speaker_list','speaker_list');
+	// use {ANCHOR place="speakerList" data=$video} to display the formatted list above
+	register_anchor_function('speakerList','speakerList');
 }	
 
 /**

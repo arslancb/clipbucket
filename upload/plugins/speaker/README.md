@@ -16,7 +16,7 @@ This plugin is based on the following plugins :
 Uninstalling the plugin in the plugin manager will remove the 3 database tables and clean up the locales and permissions.
 	
 # Use
-The plugin has two parts : one ine the site administration and the other in the front office. Nothing has been done in video editing in to the front office.
+The plugin has two parts : one in the site administration and the other in the front office. Nothing has been done in video editing in to the front office.
 
 ## Use in the administration :
 in the administration part go to "video Addon/Speaker manager" to add, edit or delete speakers and speaker's roles.
@@ -25,7 +25,7 @@ Go to "Video manager" and in each video "Action" button you'll find a new comman
 ## Use in the front office :
 In the front office use the following anchor to display a formatted list of all speakers :
 
-	{ANCHOR place="speaker_list" data=$video}
+	{ANCHOR place="speakerList" data=$video}
 
 This will return something like :
 
