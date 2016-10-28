@@ -18,7 +18,7 @@ The plugin has two parts : one in the site administration and the other in the f
 
 ## Use in the administration :
 in the administration part go to "video Addon/Discipline manager" to add, edit or delete disciplines.
-Go to "Video manager" and in each video "Action" button you'll find a new command "Link discipline" to connectdiscipline to the selected video. 
+Go to "Video manager" and in each video "Action" button you'll find a new command "Link discipline" to connect a discipline to the selected video. 
 
 ## Use in the front office :
 
