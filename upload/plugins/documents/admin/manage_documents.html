@@ -1,4 +1,4 @@
-{assign var='required_fields' value=$documentquery->load_documents_fields($document)}
+{assign var='required_fields' value=$documentquery->loadDocumentsFields($document)}
 <h2>{lang("document_manager")}</h2>
 
 <button class="btn btn-primary btn-sm" type="button" onclick="toggle_search('adddiv')" data-toggle="collapse" data-target="#addNewDisc" aria-expanded="false" aria-controls="addNewDisc">{if $showedit!=true} <span class="glyphicon glyphicon-plus"></span> {lang("add")}{else}<span class="glyphicon glyphicon-pencil"></span> {lang("edit")}{/if}</button>
@@ -23,15 +23,15 @@
 						{/if}
 					</div></div>
 				</div>
-			  <input type="submit" class="btn btn-primary btn-sm" name="add_document" id="add_document" value="{lang('add_document')}" class="button" {if $showedit==true} style="display:none"{/if}/>
-			  <input type="submit" class="btn btn-primary btn-sm" name="update_document" id="updatedocument" value="{lang('update_document')}" class="button" {if $showedit!=true} style="display:none"{/if}/>
+			  <input type="submit" class="btn btn-primary btn-sm" name="addDocument" id="addDocument" value="{lang('add_document')}" class="button" {if $showedit==true} style="display:none"{/if}/>
+			  <input type="submit" class="btn btn-primary btn-sm" name="updateDocument" id="updateDocument" value="{lang('update_document')}" class="button" {if $showedit!=true} style="display:none"{/if}/>
 		</div>					
   <br/>
 	
 	    	
 </form>
 </div>
-  <br/>
+  <hr/>
 
 <button class="btn btn-primary btn-sm" type="button" onclick="toggle_search('searchdiv')" ><span class="glyphicon glyphicon-search"></span>{lang('filter')}</button>
 <br/>
@@ -50,14 +50,13 @@
 		</form>
 	</div>
 </div>
-  <br/>
 
 {if $documents}
-
+<hr/>
 <!-- Displaying documents -->
 <form name="manage_documents" method="post">
   <div class="btn-group marginBottomSmall">
-    <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected document(s)')"/>
+    <input class="btn btn-danger btn-sm" type="submit" name="deleteSelected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected document(s)')"/>
   </div>
   
   
@@ -84,7 +83,7 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-9">
-                        <a href="{$document_managepage}&edit_document={$u.id}" class="oneUserName">{$u.title}</a>
+                        <a href="{$document_managepage}&editDocument={$u.id}" class="oneUserName">{$u.title}</a>
                     </div>
                 </div>
             </div>
@@ -116,9 +115,9 @@
         {lang('actions')}<i class="icon-angle-down icon-on-right"></i>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
-         <li><a role="menuitem" tabindex="-1" href="{$document_managepage}&edit_document={$u.id}"><span class="glyphicon glyphicon-pencil"></span> {lang('edit')}</a></li>
+         <li><a role="menuitem" tabindex="-1" href="{$document_managepage}&editDocument={$u.id}"><span class="glyphicon glyphicon-pencil"></span> {lang('edit')}</a></li>
         <li class="divider"></li>
-        <li><a role="menuitem" tabindex="-1" href="{$document_managepage}&delete_document={$u.id}"><span class="glyphicon glyphicon-trash"></span> {lang('delete')}</a></li>
+        <li><a role="menuitem" tabindex="-1" href="{$document_managepage}&deleteDocument={$u.id}"><span class="glyphicon glyphicon-trash"></span> {lang('delete')}</a></li>
       </ul>
     </div>
     </td>
@@ -132,7 +131,7 @@
 </table>
 
 <div class="btn-group">
-    <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected document(s)')"/>
+    <input class="btn btn-danger btn-sm" type="submit" name="deleteSelected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected document(s)')"/>
   </div>
 </form>
 {else}
