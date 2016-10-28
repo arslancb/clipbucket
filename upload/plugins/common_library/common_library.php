@@ -123,30 +123,30 @@ function removeLangagePack($folder, $lang){
  * Add fields and values in the database to allow the administrator setting on or off the administration
  * part for the specified plugin
  * 
- * @param string $plugin_name
+ * @param string $pluginName
  * 		The plugin name. This name will be stored in the database as a new field in the "user_levels_permissions" table 
  * 		and as an entry in the "user_permissions" table so use an appropriate name (ie : my_plugin). 
  * 		For secure reasons the given name will be prefixed by this function. 
- * @param string $plugin_title
+ * @param string $pluginTitle
  * 		This string will bi displayed in the "User levels" admin page as the title of the plugin 
  * 		for wich you want to set permissions
- * @param string $plugin_description
+ * @param string $pluginDescription
  * 		This string is used to give a tooltip to administrator. It will also be displaied in the "User levels" admin page.
- * @param "yes"|"no" $allow_acces
+ * @param "yes"|"no" $allowAcces
  * 		If "yes" users will have acces to the plugin administration otherwinse not. 
  * 		Be carefull even the administrator will not acces to the plugin by default. 
  * 		It's default value is set to "no"
  * @see uninstallPluginAdminPermissions()
  */
-function installPluginAdminPermissions($plugin_name, $plugin_title, $plugin_description='Allow acces to this plugin in the admin panel',$allow_acces="no"){
-	$plugin_name = getStoredPluginName($plugin_name);
+function installPluginAdminPermissions($pluginName, $pluginTitle, $pluginDescription='Allow acces to this plugin in the admin panel',$allowAcces="no"){
+	$pluginName = getStoredPluginName($pluginName);
 	global $db;
 	/** Add a field into user_level_permission table to be able to set the admnistration level for each user level */
-	$db->Execute('ALTER TABLE '.tbl("user_levels_permissions"). " ADD `".$plugin_name."` ENUM('yes','no') NOT NULL DEFAULT '".$allow_acces."'");
+	$db->Execute('ALTER TABLE '.tbl("user_levels_permissions"). " ADD `".$pluginName."` ENUM('yes','no') NOT NULL DEFAULT '".$allowAcces."'");
 
 	/** Insert a new entry into the user_permission table to specify what is this adminstration level */
 	$flds=['permission_type', 'permission_name', 'permission_code', 'permission_desc', 'permission_default'];
-	$vls=['3', $plugin_title, $plugin_name, $plugin_description, $allow_acces];
+	$vls=['3', $pluginTitle, $pluginName, $pluginDescription, $allowAcces];
 	$db->insert(tbl('user_permissions'), $flds, $vls);
 }
 
@@ -156,34 +156,34 @@ function installPluginAdminPermissions($plugin_name, $plugin_title, $plugin_desc
  *
  * Cleanup the database by removing the appropriate field in the "user_levels_permissions" table 
  * and an entry in the "user_permissions" table.
- * @param string $plugin_name
+ * @param string $pluginName
  * 		The plugin name. This name correspond to the $plugin_name given in the installPluginAdminPermissions function.
  * 		The corresponding field in the "user_levels_permissions" table will be droped and 
  * 		the entry in the "user_permissions" table deleted. 
  * 		For secure reasons the given name will be prefixed by this function. 
  * @see installPluginAdminPermissions()  
  */
-function uninstallPluginAdminPermissions($plugin_name){
-	$plugin_name = getStoredPluginName($plugin_name);
+function uninstallPluginAdminPermissions($pluginName){
+	$pluginName = getStoredPluginName($pluginName);
 	global $db;
 	/** Remove the added field into user_level_permission table  that s used tu manage permissions for each user level */
-	$db->Execute('ALTER TABLE '.tbl("user_levels_permissions"). " DROP `speaker_admin` ");
+	$db->Execute('ALTER TABLE '.tbl("user_levels_permissions"). " DROP `".$pluginName."` ");
 
 	/** Remove the entry into the user_permission table that deal with this adminstration level */
-	$db->Execute ("DELETE FROM ".tbl('user_permissions')." WHERE `permission_code` = 'speaker_admin'");
+	$db->Execute ("DELETE FROM ".tbl('user_permissions')." WHERE `permission_code` = '".$pluginName."'");
 }
 
 
 /**
  * Return the plugin name has it is stored in the persission tables 
  *
- * @param string $plugin_name
+ * @param string $pluginName
  * 		The plugin name. This name correspond to the $plugin_name given in the installPluginAdminPermissions function.
  * 		For secure reasons the given name will be prefixed by this function.
  */
-function getStoredPluginName($plugin_name){
+function getStoredPluginName($pluginName){
 	/**	Add a fixed prefix to the $plugin_name to prevent wrong deletion when uninstalling */
-	return  "plgadm_".$plugin_name;
+	return  "plgadm_".$pluginName;
 }
 
 ?>
