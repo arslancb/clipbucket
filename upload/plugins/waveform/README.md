@@ -1,7 +1,7 @@
 #Plugin ClipBucket - Waveform
 
 ## Requirement - *Minimum requis*
-/!\ This plugin need the Expand Video Manager plugin was installed in order to work.
+/!\ This plugin need that the Expand Video Manager plugin was installed in order to work.
 
 */!\ Ce plugin nécessite que le plugin Expand Video Manager soit installé pour pouvoir fonctionner.*
 
