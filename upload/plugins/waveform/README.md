@@ -15,9 +15,7 @@ An item is added in video edit administration page. Click, wait and see :)
 
 *Une entrée est ajoutée dans la page d'administration d'édition de video. Cliquer, attendre et regarder :)*
 
-<div align="center">
-![Waveform screenshot](https://github.com/UHDF/clipbucket/blob/develop/upload/plugins/waveform/waveform_capture.png)
-</div>
+![Waveform screenshoot](https://raw.githubusercontent.com/UHDF/clipbucket/develop/upload/plugins/waveform/waveform_capture.png)
 
 Move your mouse over the waveform will display a line and indicates the time in the video. When you click on, the video start to play. A moving cursor appear while video is playing.
 
