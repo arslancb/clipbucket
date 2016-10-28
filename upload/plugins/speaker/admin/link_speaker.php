@@ -3,7 +3,7 @@ require_once SPEAKER_DIR.'/speaker_class.php';
 /** Check if user has admin acces */
 $userquery->admin_login_check();
 /** Check if user has admin acces to this plugin */
-$userquery->login_check('speaker_admin');
+if ($cbplugin->is_installed('common_library.php'))	$userquery->login_check(getStoredPluginName("speaker"));
 $pages->page_redir();
 
 /** Assigning page and subpage */

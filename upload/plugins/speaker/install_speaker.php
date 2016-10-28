@@ -1,4 +1,5 @@
 <?php
+require_once PLUG_DIR.'/common_library/common_library.php';
 require_once('../includes/common.php');
 
 /**
@@ -10,6 +11,7 @@ if ($cbplugin->is_installed('common_library.php')){
 	$folder= PLUG_DIR.'/'.basename(dirname(__FILE__))."/lang";
 	importLangagePack($folder,'en');
 	importLangagePack($folder,'fr');
+	installPluginAdminPermissions("speaker", "Video Speaker administration", "Allow video speaker management");
 }
 
 /**
@@ -50,7 +52,7 @@ function installSpeakerfunction() {
 
 
 /**
- * Create Table for video speaker Role if not exists 
+ * Create a join table for linking speaker Roles to videos 
  */
 function installVideospeaker() {
 	global $db;
@@ -73,25 +75,7 @@ function installVideospeaker() {
 	);
 }
 
-/**
- * Preparing management of this plugin administration permissions
- * 
- * Add fields and values in the database to allow the administrator setting on or off the administration 
- * part of this plugin 
- */
-function installSpeakerAdminPermissions(){
-	global $db;
-	/** Add a field into user_level_permission table to be able to set the admnistration level for each user level */
-	$db->Execute('ALTER TABLE '.tbl("user_levels_permissions"). " ADD `speaker_admin` ENUM('yes','no') NOT NULL DEFAULT 'no'");
-	
-	/** Insert a new entry into the user_permission table to specify what is this adminstration level */
-	$flds=['permission_type', 'permission_name', 'permission_code', 'permission_desc', 'permission_default'];
-	$vls=['3', 'Video Speaker administration', 'speaker_admin', lang('allow_video_speaker_management'), 'no'];
-	$db->insert(tbl('user_permissions'), $flds, $vls);
-}
-
 installSpeaker();
 installSpeakerfunction();
 installVideospeaker();
-installSpeakerAdminPermissions();
 ?>

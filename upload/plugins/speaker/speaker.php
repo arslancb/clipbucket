@@ -9,7 +9,8 @@
  Website:
  */
 require_once 'speaker_class.php';
-
+require_once PLUG_DIR.'/common_library/common_library.php';
+	
 /**
  * Define Plugin's uri constants. These constants represents folders or urls
  */
@@ -81,13 +82,13 @@ function addLinkSpeakerMenuEntry($vid){
 }
 
 /** Add the previous function in the list of entries into the video manager "Actions" button */
-if ($userquery->permission["speaker_admin"]=='yes')
+if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("speaker")]=='yes')
 	$cbvid->video_manager_link[]='addLinkSpeakerMenuEntry';
 
 
 
 /**Add entries for the plugin in the administration pages */
-if ($userquery->permission["speaker_admin"]=='yes')
+if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("speaker")]=='yes')
 	add_admin_menu(lang('video_addon'),lang('speaker_manager'),'manage_speakers.php',SPEAKER_BASE.'/admin');
-	
+		
 ?>
