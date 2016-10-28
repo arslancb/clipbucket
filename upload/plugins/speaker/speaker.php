@@ -26,10 +26,10 @@ define("SPEAKER_LINKPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".SPEAKER_BA
 assign("speaker_linkpage",SPEAKER_LINKPAGE_URL);
 
 
-/**
- * Define the Anchor to display speakers into description of a video main page 
- */
 if(!function_exists('speaker_list')){
+	/**
+	 * Define the Anchor to display speakers into description of a video main page
+	 */
 	function speaker_list($data){
 		global $speakerquery;
 		$data["selected"]="yes";

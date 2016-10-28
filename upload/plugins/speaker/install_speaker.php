@@ -75,6 +75,7 @@ function installVideospeaker() {
 	);
 }
 
+/** install the plugin */
 installSpeaker();
 installSpeakerfunction();
 installVideospeaker();
