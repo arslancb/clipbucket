@@ -10,36 +10,6 @@ $Smarty->assign_by_ref('importCSVobject', $importCSVobject);
 
 
 /**_____________________________________________________
- * mimetype_check
- * _____________________________________________________
- * Return True if uploaded file mimetype is allowed or not
- * input $mime : a string that contains the uploaded file mimetype
- * output : return true if it's ok otherwise false
- */
-/*function mimetype_check($mime){
-	$allowed = array('application/doc', 'application/pdf', 'image.png', 'image.jpeg'); //allowed mime-type
-	return (in_array($mime, $allowed)); 	  //Check uploaded file type
-}*/
-
-/**_____________________________________________________
- * filesize_check
- * _____________________________________________________
- * Return True if upload file size is under a specified value or not
- * input $size : a string that contains the value of the size
- * output : return true if it's ok otherwise false
- */
-/*function filesize_check($size){
-	$a=$size;
-	global $db;
-	$req=" name = 'document_max_filesize'";
-	$res=$db->select(tbl('config'),'*',$req,false,false,false);
-	//return $size < 25000000;
-	return $size < $res[0]["value"];
-}*/
-
-
-
-/**_____________________________________________________
  * Class importCSVobject
  * _____________________________________________________
  *Contains all actions that can affect the  document plugin 
