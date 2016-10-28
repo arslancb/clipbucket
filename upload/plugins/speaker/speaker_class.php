@@ -202,17 +202,19 @@ class Speaker extends CBCategory{
 	}
 	
 	/**
-	 *Function used to get speakers 
+	 * Get all speakers speficied by the $param attribute 
 	 *
-	 *@param array $params 
+	 * @param array $params 
 	 *		is a dictionary containing information about the requested speakers :
-	 *			$params['limit'] is for pagination (ie '0.100')
-	 *			$params['order'] is for ordering
-	 *			$params['cond'] is the "where" condition of the sql request
-	 * 			$params['count_only'] used only if we want to retrive number of speakers
-	 * 			$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template
-	 * @return speaker|int 
-	 * 		the specified speakers or the number of spaker if $param["count_only"] is set
+	 *		<ul>
+	 *			<li>$params['limit'] is for pagination (ie '0.100')</li>
+	 *			<li>$params['order'] is for ordering</li>
+	 *			<li>$params['cond'] is the "where" condition of the sql request</li>
+	 * 			<li>$params['count_only'] used only if we want to retrive number of speakers</li>
+	 * 			<li>$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template</li>
+	 * 		</ul>
+	 * @return int|array
+	 * 		the number of speakers if $params['count_only'] is set otherwise an array of all specified speakers objects
 	 */
 	function getSpeakers($params=NULL)	{
 		global $db;
@@ -250,16 +252,18 @@ class Speaker extends CBCategory{
 	 *
 	 * @param array $params
 	 * 		is a dictionary containing information about the requested speakers
-	 *			$params['limit'] is for pagination (ie '0.100')
-	 *			$params['order'] is for ordering
-	 *			($params['selected'] if =="yes" returns speakers linked to the video
-	 *								 if =="no" returns speakers not linked to the video
-	 *			$params['videoid'] is the video's id
-	 *			$params['cond'] is the "where" condition of the sql request
-	 * 			$params['count_only'] used only if we want to retrive number of speakers
-	 *			$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template
-	 * @return speaker|int 
-	 * 		the specified speakers and roles or the number of spaker if $param["count_only"] is set
+	 *		<ul>
+	 *			<li>$params['limit'] is for pagination (ie '0.100')</li>
+	 *			<li>$params['order'] is for ordering</li>
+	 *			<li>$params['selected'] if =="yes" returns speakers linked to the video, 
+	 *									if =="no" returns speakers not linked to the video</li>
+	 *			<li>$params['videoid'] is the video's id</li>
+	 *			<li>$params['cond'] is the "where" condition of the sql request</li>
+	 * 			<li>$params['count_only'] used only if we want to retrive number of speakers</li>
+	 * 			<li>$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template</li>
+	 * 		</ul>
+	 * @return int|array
+	 * 		the number of speakers if $params['count_only'] is set otherwise an array of all specified speakers objects
 	 */
 	function getSpeakerAndRoles($params=NULL){
 		global $db;

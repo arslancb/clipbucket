@@ -15,7 +15,7 @@
 </form>
 </div>
 </div>
-  <br/>
+  <hr/>
 
 
 <form name="user_manage" method="post">
@@ -46,7 +46,7 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-9">
-                        <a href="{$speaker_managepage}&edit_speaker={$u.sid}" target="_blank" class="oneUserName">{$u.firstname} {$u.lastname} </a>
+                        <a href="{$speaker_managepage}&editSpeaker={$u.sid}" target="_blank" class="oneUserName">{$u.firstname} {$u.lastname} </a>
                         <span>[{$u.description}]</span>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
 </tbody>
 </table>
 
-<br>
+<hr>
 <table class="table table-bordered table-striped manageUsersTable">
 <caption>{lang('list_of_unselected_roles')}</caption>
 <thead>
@@ -85,7 +85,7 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-9">
-                        <a href="{$speaker_managepage}&edit_speaker={$u.sid}" target="_blank" class="oneUserName">{$u.firstname} {$u.lastname} </a>
+                        <a href="{$speaker_managepage}&editSpeaker={$u.sid}" target="_blank" class="oneUserName">{$u.firstname} {$u.lastname} </a>
                         <span>[{$u.description}]</span>
                     </div>
                 </div>

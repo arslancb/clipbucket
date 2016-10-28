@@ -17,20 +17,20 @@ if(!defined('SUB_PAGE'))
  * Manage $_GET messages only if no POST is made.
  */
 if (count($_POST)==0){
-	/** Action run after a post action called 'delete_speaker' */
-	if (isset($_GET['delete_speaker'])) {
-		$delspeaker = mysql_clean($_GET['delete_speaker']);
+	/** Action run after a post action called 'deleteSpeaker' */
+	if (isset($_GET['deleteSpeaker'])) {
+		$delspeaker = mysql_clean($_GET['deleteSpeaker']);
 		$speakerquery->deleteSpeaker($delspeaker);
 	}
 	
-	/** Action run after a get action called 'edit_speaker' */
-	if (isset($_GET['edit_speaker'])) {
+	/** Action run after a get action called 'editSpeaker' */
+	if (isset($_GET['editSpeaker'])) {
 		if (error()){
 			$details=$_POST;
 			$details['id']=$details['speakerid'];
 		}
 		else {
-			$id = $_GET['edit_speaker'];
+			$id = $_GET['editSpeaker'];
 			$details = $speakerquery->getSpeakerDetails($id);
 		}
 		if ($details) assign('speak',$details);
@@ -46,8 +46,8 @@ else if(isset($_POST['add_speaker'])){
 		$_POST = '';
 	}
 }
-/** Run after a post action called 'delete_selected' (Deleting Multiple speakers) */
-else if(isset($_POST['delete_selected'])){
+/** Run after a post action called 'deleteSelected' (Deleting Multiple speakers) */
+else if(isset($_POST['deleteSelected'])){
 	$cnt=count($_POST['check_speaker']);
 	if ($cnt>0){
 		for($id=0;$id<$cnt;$id++)
