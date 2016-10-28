@@ -24,3 +24,28 @@ The button "Silence Finder" will display (after small computing) a list of link 
 *En déplaçant votre souris sur la forme d'onde, un trait apparé et le temps indiqué change. Lorsque vous cliquez dessus, la vidéo commence à jouer à partir de ce moment. Un curseur se déplace pendant que la vidéo et lu.*
 
 *Le bouton "Silence Finder" affiche (après une petit calcul) une liste de lien ou il n'y à pas de son. Le seuil par défault est 0. Cela cherche les vrais silences. Quoiqu'il en soit, dans la vraie vie il est difficile d'obtenir du silence (égal à 0). Vous pouvez changer le "Seuil" avec un maximum de 58.*
+
+## ChangeLog
+### [1.0] - 2016-10-28
+#### Added
+- Generate a waveform scaled on duration
+- Display silence duration
+
+#### Changed
+- Scale computing of waveform
+- Computing silence finder function
+
+### [0.2] - 2016-10-24
+#### Added
+- Cursor on mouseover event
+- Play video onclick on image
+- Listen event while video is playing, paused or ended
+
+#### Changed
+- Modify style of generated waveform image
+- Use canvas tag instead of img tag
+- Client display width adjustement
+
+### [0.1] - 2016-10-20
+#### Added
+- Simple Waveform display
