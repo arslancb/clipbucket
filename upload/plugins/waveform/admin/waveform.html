@@ -12,7 +12,7 @@
 	Seuil : <input type="text" name="seuil" id="seuil" size="2" value="0">
 </div>
 
-<div id="silenceFinderResult"></div>
+<div id="silenceFinderResult" style="overflow:scroll; overflow-x:hidden; display:none; height:200px;"></div>
 
 {/if}
 
@@ -21,59 +21,15 @@
 {literal}
 <script language="JavaScript">
 
-function silenceFinder(){
-  
-	var formData = {video_id:{/literal}{$video_id}{literal},seuil:$("#seuil").val(),largeur:canvas.width}; //Array 
-	
-		$("#silenceFinderResult").html('<p>Recherche en cours...</p>');
-		$.ajax({
-			type	  	: "POST",
-			url 	  	: "../plugins/waveform/silence_finder.php",
-			data		: formData,
-			success : function(q)
-			{	
-				jsonToLink(q);
-			}
-		});
-}
-
-
-function jsonToLink(data){
-	var txt = '';
-	var temps;
-
-	JSON.parse(data, (key, value) => {
-		if (key != ''){
-		
-			clientPixel = convertOrgPixelToClientPixelView(value, canvas.width);
-			
-			console.log('clientPixel : ' + clientPixel + ' org pixel : ' + value);
-			
-			temps = pixelToTime(parseInt(clientPixel), duration, canvas.width);
-			
-			hms = secondsToTime(temps);
-				
-			if (hms.h < 10){hms.h = "0"+hms.h;}
-			if (hms.m < 10){hms.m = "0"+hms.m;}
-			if (hms.s < 10){hms.s = "0"+hms.s;}
-			
-			formattedTime = hms.h + ':' + hms.m + ':' + hms.s;
-			txt += '<a href="javascript:;" onclick="video.play();video.currentTime='+(temps-0.5)+';" onmouseover="moveLine('+clientPixel+');updateTimeArea('+temps+')">Silence n°' + key + ' ('+formattedTime+' / '+clientPixel+'px)</a><br>';
-		}
-	});
-	
-	$("#silenceFinderResult").html(txt);
-
-}
-
-
-function convertOrgPixelToClientPixelView(pixel, targetWidth){
-
-	  var clientPixel = Math.ceil(parseFloat((targetWidth*pixel)/640));
-	  return clientPixel;
-
-}
-
+	/**
+	*	MAIN PROGRAM
+	*	
+	*	Generate the image
+	*	
+	*	TODO: Convert the canvas system to SVG for more 
+	*	interaction and accessibility
+	*	
+	*/
 
 
 
@@ -114,27 +70,7 @@ function convertOrgPixelToClientPixelView(pixel, targetWidth){
 		}
 	}
 
-
-	/**
-	*	When tab link is clicked, resize the canvas to target 
-	*	his parent size.
-	*	
-	*/
-	$(document).on("click", "#Waveform-link", function(evt) {
-		console.log("Resize when appear");
-		init();
-	});
-
-
-	/**
-	*	When windows is resize, resize the canva to match 
-	*	his parent size.
-	*/
-	$(window).resize(function () {
-		init();
-	});
-
-
+	
 	/**
 	*	Class Line
 	*	@param object ctx
@@ -277,6 +213,142 @@ function convertOrgPixelToClientPixelView(pixel, targetWidth){
 		
 		document.getElementById("temps").innerHTML = hms.h + ':' + hms.m + ':' + hms.s;
 	}
+
+
+
+	/**
+	*	SILENCE FINDER
+	*	
+	*	Here the three function of silence finder system.
+	*	
+	*	Principle :
+	*		- silenceFinder() : Execute silence_finder.php script. 
+	*		Get a JSON dictionnary of first pixel (white or gray)
+	*		
+	*		- jsonToLink(data) : Convert the JSON dictionnary to HTML link
+	*		and populate the silenceFinderResult DIV
+	*		
+	*		- convertOrgPixelToClientPixelView(pixel, targetWidth) : 
+	*		Make the correspondance of original pixel to the client size view
+	*/
+
+
+	/**
+	*	AJAX call the php script that will work on image file
+	*	PHP script return a JSON.
+	*/
+	function silenceFinder(){
+	  
+		var formData = {video_id:{/literal}{$video_id}{literal},seuil:$("#seuil").val(),duration:duration}; //Array 
+		
+			$("#silenceFinderResult").html('<p>Recherche en cours...</p>');
+			$.ajax({
+				type	  	: "POST",
+				url 	  	: "../plugins/waveform/silence_finder.php",
+				data		: formData,
+				dataType	: "json",
+				success : function(q)
+				{	
+					jsonToLink(q);
+					// Debug
+					//$("#silenceFinderResult").html(q);
+					
+				}
+			});
+	}
+
+
+	/**
+	*	Create the link from JSON source
+	*	
+	*	@param string data The JSON string
+	*/
+	function jsonToLink(data){
+		var txt = '';
+		var cpt = 1;
+	
+		var json = eval(data);
+		
+		for (var i in json)
+		{
+			var pix = json[i].pixel;
+			var duree = json[i].duree;
+		
+			clientPixel = convertOrgPixelToClientPixelView(pix, canvas.width);
+				
+			console.log('clientPixel : ' + clientPixel + ' org pixel : ' + pix);
+			
+			temps = pixelToTime(parseInt(clientPixel), duration, canvas.width);
+			
+			hms = secondsToTime(temps);
+				
+			if (hms.h < 10){hms.h = "0"+hms.h;}
+			if (hms.m < 10){hms.m = "0"+hms.m;}
+			if (hms.s < 10){hms.s = "0"+hms.s;}
+			
+			formattedTime = hms.h + ':' + hms.m + ':' + hms.s;
+			txt += '<a href="javascript:;" onclick="video.play();video.currentTime='+(temps-0.5)+';" onmouseover="moveLine('+clientPixel+');updateTimeArea('+temps+')">Silence n°' + cpt + ' ('+formattedTime+' / Durée : '+duree+' sec';
+			if (duree > 1){ txt += 's';}
+			txt += ')</a><br>';
+			
+			cpt++;
+	
+		}
+
+		$("#silenceFinderResult").show();
+		$("#silenceFinderResult").html(txt);
+	}
+
+
+	/**
+	*	Because the size of image generated always have a 
+	*	width of 640px. We must convert the pixel to the 
+	*	new view (the client side was in a 100% div).
+	*	
+	*	@param integer pixel the org pixel
+	*	@param integer targetWidth the final size corresponding
+	*	
+	*/
+	function convertOrgPixelToClientPixelView(pixel, targetWidth){
+
+		  var clientPixel = Math.ceil(parseFloat((targetWidth*pixel)/duration));
+		  return clientPixel;
+
+	}
+
+
+
+	/**
+	*	LISTENER EVENT
+	*	
+	*	All functions here wait for event.
+	*	 
+	*	clik = when mouse click on tab corresponding
+	*	resize = when window resize
+	*	play, pause, ended = video player event
+	*	ready = when page load is terminated
+	*/
+
+
+
+	/**
+	*	When tab link is clicked, resize the canvas to target 
+	*	his parent size.
+	*	
+	*/
+	$(document).on("click", "#Waveform-link", function(evt) {
+		console.log("Resize when appear");
+		init();
+	});
+
+
+	/**
+	*	When windows is resize, resize the canva to match 
+	*	his parent size.
+	*/
+	$(window).resize(function () {
+		init();
+	});
 
 
 	/**
