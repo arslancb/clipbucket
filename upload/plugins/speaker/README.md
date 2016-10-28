@@ -11,6 +11,7 @@ This plugin is based on the following plugins :
 - **Extended Search** (Optional) : Used to perform search with CB search CORE but into speakers data. If not installed the search will not be active.
 - **Common Library** (Required) : Used in this plugin for localisation, and admin access permissions. 
 - **php5-intl** The plugin need this php package to be installed. a function uses iconv function to convert some text in utf8.
+
 # Uninstall
 Uninstalling the plugin in the plugin manager will remove the 3 database tables and clean up the locales.
 	
