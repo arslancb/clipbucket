@@ -3,7 +3,7 @@ require_once PLUG_DIR.'/common_library/common_library.php';
 require_once('../includes/common.php');
 
 /**
- * Install locales for this plugin
+ * Install locales for this plugin and set admin permissions
  */
 global $cbplugin;
 if ($cbplugin->is_installed('common_library.php')){

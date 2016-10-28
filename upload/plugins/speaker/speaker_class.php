@@ -5,7 +5,7 @@
 
 
 // Global Object $speakerquery is used in the plugin
-$speakerquery = new SpeakerQuery();
+$speakerquery = new Speaker();
 $Smarty->assign_by_ref('speakerquery', $speakerquery);
 
 /**
@@ -59,14 +59,14 @@ function speakerRoleCheck($val) {
 /**
  * Class Containing actions for the speaker plugin 
  */
-class SpeakerQuery extends CBCategory{
+class Speaker extends CBCategory{
 	private $basic_fields = array();
 	private $extra_fields = array();
 	
 	/**
-	 * Constructor for speakerquery's instances
+	 * Constructor for speaker's instances
 	 */
-	function SpeakerQuery()	{
+	function Speaker()	{
 		global $cb_columns;
 		$basic_fields = array('id', 'firstname','lastname', 'slug', 'photo');
 		$cb_columns->object( 'speakers' )->register_columns( $basic_fields );
