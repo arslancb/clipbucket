@@ -19,6 +19,7 @@ if ($cbplugin->is_installed('common_library.php')){
  *Create Table for disciplines if not exists 
  */
 function installDisciplines() {	
+	/** Create folder for storing disciplines thumbnails */
 	$uploaddir = BASEDIR."/files/thumbs/disciplines";
 	if (is_dir($uploaddir)){ 
 		$files = glob($uploaddir.'/*'); // get all file names

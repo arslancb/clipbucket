@@ -27,12 +27,6 @@ function uninstallDisciplines(){
 	}
 	rmdir($uploaddir);
 
- 	// Delete folder recursively 
-	$files = array_diff(scandir($dir), array('.','..'));
-	foreach ($files as $file) {
-		(is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
-	}
-	rmdir($dir);
 
 	// remove disciplines table
 	$db->Execute("DROP TABLE ".tbl('disciplines'));

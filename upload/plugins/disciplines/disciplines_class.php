@@ -14,7 +14,7 @@ $Smarty->assign_by_ref('disciplinequery', $disciplinequery);
 class Discipline extends CBCategory{
 
 	/**
-	 * Constructor for disciplinequery's instances
+	 * Constructor for discipline's instances
 	 */
 	function Discipline()	{
 		$this->init();
