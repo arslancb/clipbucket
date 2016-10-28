@@ -13,7 +13,7 @@ This plugin is based on the following plugins :
 - **php5-intl** The plugin need this php package to be installed. a function uses iconv function to convert some text in utf8.
 
 # Uninstall
-Uninstalling the plugin in the plugin manager will remove the 3 database tables and clean up the locales.
+Uninstalling the plugin in the plugin manager will remove the 3 database tables and clean up the locales and permissions.
 	
 # Use
 The plugin has two parts : one ine the site administration and the other in the front office. Nothing has been done in video editing in to the front office.
