@@ -2,20 +2,21 @@
 /**
  * This File contains a class that extends cbsearch in order to modifiy it's behaviour and accept extended search
  */
-class extend_search extends cbsearch {
+class ExtendSearch extends cbsearch {
 	
 	/**
 	 * Function used to convert array to query condition
 	 * 
-	 * Overwride of cbsearch query_cond function to accept search in other table tha, $this->db_tbl
+	 * Overrride of cbsearch query_cond function to be able to accept searches in other table than $this->db_tbl
 	 * By default if $array doesn't contains "table" field then run the same code than the original function
 	 * Otherwise take the $array['table'] as source for the field to be searched
 	 * 
-	 * input $array : an array tha contains an elements of the query's condition. It look's like :
-	 * 	array('table'=>'table_name', 'field'=>'field_name','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR')
-	 * 	where 'table" default value is $this->db_tbl
-	 * 	where "type" may be one of ['<','>','<=', '>=','like', 'match', '=', '!=', '<>'] Default Value = "="
-	 * 	where "op" may be one of ["OR", "AND"] default value is "AND"
+	 * @param array $array 
+	 * 		an array that contains an elements of the query's condition. It look's like :<br/>
+	 * 		array('table'=>'table_name', 'field'=>'field_name','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR')<br/>
+	 * 		where 'table" default value is $this->db_tbl<br/>
+	 * 		where "type" may be one of ['<','>','<=', '>=','like', 'match', '=', '!=', '<>'] Default Value = "="<br/>
+	 * 		where "op" may be one of ["OR", "AND"] default value is "AND"
 	 */
 	function query_cond($array) {
 		$table=$this->db_tbl;
@@ -58,9 +59,9 @@ class extend_search extends cbsearch {
 	
 	/**
 	 * Run the database search request. 
-	 * 	need $this->columns for adding conditions in WHERE part of the query
-	 * 	need $this->reqTbls for adding tables in FROM part of the query
-	 * 	need $this->reqTblsJoin for adding conditions in WHERE part of the query (table junction)
+	 * Need $this->columns to be filed for adding conditions in WHERE part of the query<br/>
+	 * Need $this->reqTbls to be filed for adding tables in FROM part of the query<br/>
+	 * Need $this->reqTblsJoin to be filed for adding conditions in WHERE part of the query (table junction)<br/>
 	 */
 	 function search(){
 		global $db;
@@ -105,10 +106,29 @@ class extend_search extends cbsearch {
 		}
 		
 		$condition = "";
-		#Creating Condition
+		$firstCond ='';
+		$orConds= [];
+		$andConds= [];
+		$foundAnd=false;
+		#Creating Condition (put all "OR" conditions together inside a parenthesis  and then and conditions.)
 		foreach($this->query_conds as $cond) {
-			$condition .= $cond." ";
+			//$condition .= $cond.' ';
+			if (preg_match("/^OR\b/", $cond))
+				$orConds [] = $cond;
+			else if (preg_match("/^AND\b/", $cond))
+				$andConds [] = $cond;
+			else 
+				$firstCond = $cond;
 		}
+		if (count ($orConds >0)) 
+			$condition .= '(';
+		$condition .= $firstCond." ";
+		foreach($orConds as $cond) 
+			$condition .= $cond.' ';
+		if (count ($orConds >0)) 
+			$condition .= ') ';
+		foreach($andConds as $cond)
+			$condition .= $cond.' ';
 		
 		$tables="";
 		#Creating liste of from tables

@@ -1,5 +1,5 @@
 # Plugin ClipBucket - Video Speaker
-This plugin is used to add add informations in relation with the videos. For each video you can add which speaker is concerned by the video and what was the role of the speaker in this particular video. Each speaker may have multiple roles.
+This plugin is used to add informations in relation with the videos. For each video you can add which speaker is concerned by the video and what was the role of the speaker in this particular video. Each speaker may have multiple roles.
 
 # Install
 To activate this plugin, go to the plugin manager and add click on the "install button" on the "Video Speaker" plugin. 

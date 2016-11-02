@@ -9,8 +9,18 @@
  Website:
  */
 require_once 'speaker_class.php';
-require_once PLUG_DIR.'/common_library/common_library.php';
-	
+global $cbplugin;
+if (!$cbplugin->is_installed('common_library.php'))
+	e(sprintf(lang("plugin_not_installed : %s"),"Common Library"));
+else
+	require_once PLUG_DIR.'/common_library/common_library.php';
+
+if (!$cbplugin->is_installed('extend_search.php'))
+	e(sprintf(lang("plugin_not_installed : %s"),"Extended  Search"));
+else
+	require_once PLUG_DIR.'/extend_search/extend_search.php';
+		
+
 /**
  * Define Plugin's uri constants. These constants represents folders or urls
  */
@@ -26,6 +36,12 @@ define("SPEAKER_LINKPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".SPEAKER_BA
 assign("speaker_linkpage",SPEAKER_LINKPAGE_URL);
 
 
+// Connect the speaker search ngine to the mulitisearch object in order to extend the relust of the video search result to speakers.
+global $multicategories;
+$multicategories->addSearchObject("speakerquery");
+$Cbucket->search_types['speaker'] = "speakerquery";
+
+
 if(!function_exists('speakerList')){
 	/**
 	 * Define the Anchor to display speakers into description of a video main page
@@ -36,7 +52,7 @@ if(!function_exists('speakerList')){
 		$spk=$speakerquery->getSpeakerAndRoles($data);
 		$str='';
 		foreach ($spk as $sp) {
-			$url=BASEURL.'/'.'search_result.php?type=videos&query='.$sp['slug'];
+			$url=BASEURL.'/'.'search_result.php?type=speaker&query='.$sp['slug'];
 			$str.='<li><a href="'.$url.'">'.$sp['firstname'] .' '. $sp['lastname'].'</a><span>,'.$sp['description'].'</span></li>'; 
 		}
 		echo $str;	
@@ -45,26 +61,6 @@ if(!function_exists('speakerList')){
 	register_anchor_function('speakerList','speakerList');
 }	
 
-/**
- * Connect Speaker Plugin to extend_search plugin if extend_search is installed
- */
-global $cbplugin;
-if ($cbplugin->is_installed('extend_search.php')){
-	require_once PLUG_DIR.'/extend_search/extend_search.php';
-	global $cbvidext;
-	//add tables for this plugin in extended search plugin
-	$cbvidext->reqTbls[]='speaker';
-	$cbvidext->reqTbls[]='speakerfunction';
-	$cbvidext->reqTbls[]='video_speaker';
-	//add tables associations for this plugin in extended search plugin
-	$cbvidext->reqTblsJoin[]=array('table1'=>'speaker', 'field1'=>'id','table2'=>'speakerfunction','field2'=>'speaker_id');
-	$cbvidext->reqTblsJoin[]=array('table1'=>'speakerfunction', 'field1'=>'id','table2'=>'video_speaker','field2'=>'speakerfunction_id');
-	$cbvidext->reqTblsJoin[]=array('table1'=>'video_speaker', 'field1'=>'video_id','table2'=>'video','field2'=>'videoid');
-	//add search fields for this plugin in extended search plugin
-	$cbvidext->columns[]=array('table'=>'speaker', 'field'=>'firstname','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
-	$cbvidext->columns[]=array('table'=>'speaker', 'field'=>'lastname','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
-	$cbvidext->columns[]=array('table'=>'speaker', 'field'=>'slug','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
-}
 
 /**
  * Connect the plugin to the video manager

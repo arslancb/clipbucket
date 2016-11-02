@@ -1,5 +1,5 @@
 # Plugin ClipBucket - documents
-This plugin is used to add add informations in relation with the videos. For each video you can add the documents associated to this video.
+This plugin is used to add informations in relation with the videos. For each video you can add the documents associated to this video.
 
 # Install
 To activate this plugin, go to the plugin manager and add click on the "install button" on the "Documents" plugin. 

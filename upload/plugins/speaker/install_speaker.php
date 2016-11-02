@@ -75,7 +75,16 @@ function installVideospeaker() {
 	);
 }
 
+/**
+ * Add an entry into the CB config table in order to use Speaker class as a search engine
+ */
+function installConfig(){
+	global $db;
+	$db->insert(tbl("config"),array("name","value"),array("speakerSection","yes"));
+}
+
 /** install the plugin */
+installConfig();
 installSpeaker();
 installSpeakerfunction();
 installVideospeaker();

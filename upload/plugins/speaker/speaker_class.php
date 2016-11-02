@@ -2,7 +2,7 @@
 /*
  * This file contains speakerquery class and some usefull functions used in this plugin
  */ 
-
+require_once PLUG_DIR.'/extend_search/extend_video_class.php';
 
 // Global Object $speakerquery is used in the plugin
 $speakerquery = new Speaker();
@@ -609,7 +609,72 @@ class Speaker extends CBCategory{
 	
 		validate_cb_form($fields,$array);
 	}
+
+	/**
+	 * Clone an object
+	 *
+	 * Make a pseudo clone of an object to an other. This method is used to copy all attribute of a source object
+	 * to a destination one. The current use case is copying attribute to an object of a derived class
+	 * of the source object's class
+	 *
+	 * @param object $srcObj
+	 * 		The source object
+	 * @param object $dstObj
+	 * 		The destination object
+	 */
+	function cloneValues($srcObj , $dstObj){
+		foreach (get_object_vars($srcObj) as $key => $val){
+			$dstObj->{$key}=$srcObj->{$key};
+		}
+	}
 	
+	/**
+	 * Array of strings that contains all requiered table names for the search request.
+	 *
+	 * This variable can be extended extrernally
+	 */
+	var $reqTbls=array('video','users', 'speaker', 'speakerfunction', 'video_speaker');
+	
+	/**
+	 * Array that contains all requiered table and fields fo a sql join
+	 * 
+	 * each value of this table is an array like :
+	 * array('table1'=>'table1_name'.'field1' => 'field1_name', 'table2'=>'table2_name'.'field2' => 'field2_name')
+	 *
+	 * This variable can be extended extrernally
+	 */
+	var $reqTblsJoin=array(array('table1'=>'users', 'field1'=>'userid','table2'=>'video','field2'=>'userid'),
+			array('table1'=>'speaker', 'field1'=>'id','table2'=>'speakerfunction','field2'=>'speaker_id'),
+			array('table1'=>'speakerfunction', 'field1'=>'id','table2'=>'video_speaker','field2'=>'speakerfunction_id'),
+			array('table1'=>'video_speaker', 'field1'=>'video_id','table2'=>'video','field2'=>'videoid')
+		);
+	
+	/**
+	 * This method initilize the search engine for this class
+	 */
+	function init_search(){
+		
+		//parent::init_search();
+		$search=new ExtendSearch();
+		$this->cloneValues($this->search,$search);
+		$this->search=$search;
+		$this->search->has_user_id = true;
+		$this->search->results_per_page = config('videos_items_search_page');
+		$this->search->display_template = LAYOUT.'/blocks/video.html';
+		$this->search->template_var = 'video';
+		//set tables for this plugin in extended search plugin
+		$this->search->reqTbls=$this->reqTbls;
+		//set tables associations for this plugin in extended search plugin
+		$this->search->reqTblsJoin =$this->reqTblsJoin;
+		//set search fields for this plugin in extended search plugin
+		$this->search->columns =array(
+			array('table'=>'speaker', 'field'=>'firstname','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR'),
+			array('table'=>'speaker', 'field'=>'lastname','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR'),
+			array('table'=>'speaker', 'field'=>'slug','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR'),
+			array('field'=>'broadcast','type'=>'!=','var'=>'unlisted','op'=>'AND','value'=>'static'),
+			array('field'=>'status','type'=>'=','var'=>'Successful','op'=>'AND','value'=>'static')
+		);
+	}
 	
 }
 
