@@ -4,7 +4,7 @@
  Description: This plugin will add external links to a video.
  Author: Franck Rouze
  Author Website: http://semm.univ-lille1.fr/
- ClipBucket Version: 2
+ ClipBucket Version: 2.8
  Version: 1.0
  Website:
  */
@@ -25,41 +25,47 @@ define("LINK_LINKPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".LINK_BASE."/a
 assign("link_linkpage",LINK_LINKPAGE_URL);
 
 
-/**
- * Défine the Anchor to display links into description of a video main page 
- */
-if(!function_exists('external_link_list')){
-	function external_link_list($data){
+if(!function_exists('externalLinkList')){
+	/**
+	 * Define the Anchor to display links into description of a video main page
+	 * 
+	 * @param array $data
+	 * 		a dictionary containing information about the requested documents
+	 * 	@see Link.getLinkForVideo() function for more details
+	 */
+	function externalLinkList($data){
 		global $linkquery;
 		$data["selected"]="yes";
-		$lnks=$linkquery->get_link_for_video($data);
+		$lnks=$linkquery->getLinkForVideo($data);
 		$str='';
 		foreach ($lnks as $lnk) {
-			$str.='<li><a target="blanck" href="'.$lnk['url'].'">'.$lnk['title'] .'</a></li>'; 
+			$str.='<li><a target="_blank" href="'.$lnk['url'].'">'.$lnk['title'] .'</a></li>'; 
 		}
 		echo $str;	
 	}
-	// use {ANCHOR place="external_link_list" data=$video} to display the formatted list above
-	register_anchor_function('external_link_list','external_link_list');
+	// use {ANCHOR place="externalLinkList" data=$video} to display the formatted list above
+	register_anchor_function('externalLinkList','externalLinkList');
 }	
 
-/**_____________________________________
- * addExternalLinkMenuEntry
- * ____________________________________
+/**
  * Add a new entry "Link external link" into the video manager menu named "Actions" associated to each video
  * 
- *  input $vid : the video id
- *  output : the html string to be inserted into the menu
+ *  @param int $vid 
+ *  	the video id
+ *  @return string
+ *  	the html string to be inserted into the menu
  */
 function addExternalLinkMenuEntry($vid){
 	$idtmp=$vid['videoid'];
 	return '<li><a role="menuitem" href="'.LINK_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("link_external_link").'</a></li>';
 }
-$cbvid->video_manager_link[]='addExternalLinkMenuEntry';
+if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("links")]=='yes')
+	$cbvid->video_manager_link[]='addExternalLinkMenuEntry';
 
 /**
  * Add entries for the plugin in the administration pages
  */
-add_admin_menu(lang('video_addon'),lang('external_links_manager'),'manage_links.php',LINK_BASE.'/admin');
+if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("links")]=='yes')
+	add_admin_menu(lang('video_addon'),lang('external_links_manager'),'manage_links.php',LINK_BASE.'/admin');
 	
 ?>
