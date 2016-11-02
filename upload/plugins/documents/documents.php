@@ -4,7 +4,7 @@
  Description: This plugin will add documents to a video.
  Author: Franck Rouze
  Author Website: http://semm.univ-lille1.fr/
- ClipBucket Version: 2
+ ClipBucket Version: 2.8
  Version: 1.0
  Website:
  */
@@ -26,6 +26,10 @@ define("DOCUMENT_DOWNLOAD_DIR",BASEDIR."/files/documents");
 if(!function_exists('externalDocumentList')){
 	/**
 	 * Define the Anchor to display documents into description of a video main page
+	 * 
+	 * @param array $data
+	 * 		a dictionary containing information about the requested documents
+	 * 	@see Document.getDocumentForVideo() function for more details
 	 */
 	function externalDocumentList($data){
 		global $documentquery;

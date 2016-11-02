@@ -1,6 +1,5 @@
 <?php
 
-
 // Global Object $documentquery is used in the plugin
 $documentquery = new Document();
 $Smarty->assign_by_ref('documentquery', $documentquery);
@@ -214,7 +213,7 @@ class Document extends CBCategory{
 	 * Depending on the $params['selected'] value it get all documents linked to th video or all documents non linked to the video 
 	 *
 	 * @param array $params 
-	 * 		is a dictionary containing information about the requested documents
+	 * 		a dictionary containing information about the requested documents
 	 *		<ul>
 	 *			<li>$params['limit'] is for pagination (ie '0.100')</li>
 	 *			<li>$params['order'] is for ordering</li>
@@ -303,7 +302,7 @@ class Document extends CBCategory{
 	 *	@param int $id 
 	 *		the document's id
 	 * @return bool|array 
-	 * 		a dictionary containig each fields for a document or false if no document found
+	 * 		a dictionary containing each fields for a document or false if no document found
 	 */
 	function getDocumentDetails($id=NULL)	{
 		global $db;
@@ -323,7 +322,7 @@ class Document extends CBCategory{
 	 * Remove the document from the database and file system.
 	 *  
 	 * The removal is only treated if the document is not linked to a video. 
-	 * If it isassociated to a video, then nothing is done, just an error message appears.
+	 * If it is associated to a video, then nothing is done, just an error message appears.
 	 * 
 	 * @param int $id 
 	 * 		the id of the document to be deleted 
