@@ -12,7 +12,7 @@ function addEvmTab(titleContent, zone){
 	var myElem = document.getElementById(titleContent);
 	if (myElem === null){
 		// Add li item
-		$("#expand_video_manager_"+zone+"_tab").append('<li><a data-toggle="tab" href="#'+titleContent+'">'+titleContent+'</a></li>');
+		$("#expand_video_manager_"+zone+"_tab").append('<li><a data-toggle="tab" href="#'+titleContent+'" id="'+titleContent+'-link">'+titleContent+'</a></li>');
 
 		// Add div item
 		$("#expand_video_manager_"+zone+"_content").append('<div id="'+titleContent+'" class="tab-pane"></div>');
@@ -26,16 +26,16 @@ function addEvmTab(titleContent, zone){
 /**
  *	Retrieve the content and populate the correct div panel
  *	
- *	@param string plugurl 	Path of plugin URL to be loaded
+ *	@param string plugUrl 	Path of plugin URL to be loaded
  *	@param string appenDiv 	Tab to display the content
  *	@param string json 	JSON string of all param send to the page (POST and GET inside of data)
  */
-function getEvmContent(plugurl, appendDiv, json){
+function getEvmContent(plugUrl, appendDiv, json){
 
 	$.ajax({
 		type	  	: "POST",
 		url 	  	: "../plugins/expand_video_manager/generate_template.php",
-		data		: {page: plugurl, data: json},
+		data		: {page: plugUrl, data: json},
 		success : function(q)
 		{
 			// Populate the div item
