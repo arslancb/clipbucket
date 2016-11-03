@@ -37,8 +37,10 @@ assign("speaker_linkpage",SPEAKER_LINKPAGE_URL);
 
 
 // Connect the speaker search ngine to the mulitisearch object in order to extend the relust of the video search result to speakers.
-global $multicategories;
-$multicategories->addSearchObject("speakerquery");
+if ($cbplugin->is_installed('common_library.php')) { 
+	global $multicategories;
+	$multicategories->addSearchObject("speakerquery");
+}
 $Cbucket->search_types['speaker'] = "speakerquery";
 
 
