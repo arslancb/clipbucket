@@ -52,9 +52,11 @@ function importLangagePack($folder, $lang){
 		{
 			$sql = '';
 			foreach($phrases as $code => $phrase) {
-				if(!empty($sql))
-					$sql .=",\n";
+				$result=$db->_select("SELECT * FROM ".tbl('phrases')." where `varname` = '".$code."' AND `lang_iso` LIKE '".$lang."'");
+				if (count($result)==0) {
+					if(!empty($sql)) $sql .=",\n";
 					$sql .= "('".$data['iso_code']."','$code','".htmlspecialchars($phrase,ENT_QUOTES, "UTF-8")."')";
+				}
 			}
 			$sql .= ";";
 			$query = "INSERT INTO ".tbl("phrases")." (lang_iso,varname,text) VALUES \n";
@@ -63,7 +65,7 @@ function importLangagePack($folder, $lang){
 			e(lang("lang_added")." : ".$lang,"m");
 			/** Generate CB language pack */
 			if($lang_obj->createPack($lang)){
-				e(lang("lang__pack_updated"),"m");
+				e(lang("lang_pack_updated"),"m");
 			}
 		}
 	}
