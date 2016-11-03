@@ -51,8 +51,10 @@ function importLangagePack($folder, $lang){
 		else
 		{
 			$sql = '';
+			// insert data only if it'is not still in the database. This is usefull when you
+			// remove manually the plugin directly in the database
 			foreach($phrases as $code => $phrase) {
-				$result=$db->_select("SELECT * FROM ".tbl('phrases')." where `varname` = '".$code."' AND `lang_iso` LIKE '".$lang."'");
+				$result=$db->_select("SELECT * FROM ".tbl('phrases')." WHERE `varname` = '".$code."' AND `lang_iso` LIKE '".$lang."'");
 				if (count($result)==0) {
 					if(!empty($sql)) $sql .=",\n";
 					$sql .= "('".$data['iso_code']."','$code','".htmlspecialchars($phrase,ENT_QUOTES, "UTF-8")."')";
@@ -62,6 +64,11 @@ function importLangagePack($folder, $lang){
 			$query = "INSERT INTO ".tbl("phrases")." (lang_iso,varname,text) VALUES \n";
 			$query .= $sql;
 			$db->execute($query);
+			// update all phrases. This way the phrases which were present in the previous SQL INSERT will be updated.
+			foreach($phrases as $code => $phrase) {
+				$db->Execute("UPDATE ".tbl('phrases')." SET `text`='".$phrase."' WHERE `varname` = '".$code."' AND `lang_iso` LIKE '".$lang."'");
+			}
+					
 			e(lang("lang_added")." : ".$lang,"m");
 			/** Generate CB language pack */
 			if($lang_obj->createPack($lang)){
