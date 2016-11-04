@@ -76,7 +76,9 @@ function installVideospeaker() {
 }
 
 /**
- * Add an entry into the CB config table in order to use Speaker class as a search engine
+ * Set Plugi Configuration data
+ * 
+ * Add an entry into the CB config table in order to use Speaker class as a search engine. 
  */
 function installConfig(){
 	global $db;

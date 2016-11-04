@@ -1,39 +1,33 @@
 <?php
-/*
- * This file contains linkquery class and some usefull functions used in this plugin
- */ 
-
 
 // Global Object $importCSVobject is used in the plugin
 $importCSVobject = new importCSVobject();
 $Smarty->assign_by_ref('importCSVobject', $importCSVobject);
 
 
-/**_____________________________________________________
- * Class importCSVobject
- * _____________________________________________________
- *Contains all actions that can affect the  document plugin 
+/**
+ * Contains all actions that can affect the  document plugin 
  */
 class importCSVobject extends CBCategory{
-	private $basic_fields = array();
 	
-	/**_____________________________________
-	 * importCSVobject
-	 * _____________________________________
-	 *Constructor for importCSVobject's instances
+	/**
+	 * Constructor for importCSVobject's instances
 	 */
 	function importCSVobject()	{
 	}
 	
-	/**_____________________________________
-	 * import_mapping_model
-	 * ____________________________________
-	 *Function used to add a new documents
+	/**
+	 * import a CSV file for mapping tables and fields
+	 * 
+	 * Get the correspondance between tables & fields from the imported database to the CB database.
 	 *
-	 *input $array : a dictionnary that contains all fields for a document. $_POST is used if empty
-	 * output : return document's id if exists , otherwise false
+	 * @param string $filename 
+	 * 		the CSV file name to upload
+	 * @param string $separator
+	 * 		the separator char used in the file. The default value is ';'
+	 * @see the README.md file describe the needed file format
 	 */
-	function import_mapping_model($filename, $separator=";"){
+	function importMappingModel($filename, $separator=";"){
 		global $db;
 		if (($handle = fopen($filename, "r")) !== FALSE) {
 			$i=0;
@@ -47,10 +41,12 @@ class importCSVobject extends CBCategory{
 					}
 					$query ='SHOW COLUMNS from '.tbl($mytbl['cb_table_name'])." like '".$mytbl['cb_field_name']."'";
 					$result=$db->Execute($query);
+					$flag=false;
 					while($row = mysqli_fetch_array($result)){
 						//echo $row['Field']." ".$row['Type']."<br>";
+						$flag=true;
 					}
-					if (!$row){
+					if (!$flag){
 						$db->Execute("ALTER TABLE ".tbl($mytbl['cb_table_name'])." ADD `".$mytbl['cb_field_name']."` ".$mytbl['cb_field_type']." NULL");
 					}
 					$fields_query="";
@@ -72,7 +68,10 @@ class importCSVobject extends CBCategory{
 		}
 	}
 
-	function delete_mapping_model(){
+	/**
+	 * Cleanup the importCSV_mapping table
+	 */
+	function deleteMappingModel(){
 		global $db;
 		$result=$db->select(tbl('importCSV_mapping'),"*");
 		foreach ($result as $r){
@@ -84,15 +83,18 @@ class importCSVobject extends CBCategory{
 		$db->Execute($query);
 	}
 	
-	/**_____________________________________
-	 * import_join_model
-	 * ____________________________________
-	 *Function used to add a new documents
+	/**
+	 * import a CSV file for mapping join tables 
+	 * 
+	 * Get the correspondance between  join tables  from the imported database to the CB database.
 	 *
-	 *input $array : a dictionnary that contains all fields for a document. $_POST is used if empty
-	 * output : return document's id if exists , otherwise false
+	 * @param string $filename 
+	 * 		the CSV file name to upload
+	 * @param string $separator
+	 * 		the separator char used in the file. The default value is ';'
+	 * @see the README.md file describe the needed file format
 	 */
-	function import_join_model($filename, $separator=";"){
+	function importJoinModel($filename, $separator=";"){
 		global $db;
 		
 		$row = 1;
@@ -111,15 +113,19 @@ class importCSVobject extends CBCategory{
 		}
 	}
 	
-	/**_____________________________________
-	 * import_mapping_data
-	 * ____________________________________
-	 *Function used to add a new documents
+	/**
+	 * Import a CSV file containing data from the source database to CB database table
+	 * 
+	 * Each mapping fields imported with importMappingModel() function will be imported into CB.
 	 *
-	 *input $array : a dictionnary that contains all fields for a document. $_POST is used if empty
-	 * output : return document's id if exists , otherwise false
+	 * @param string $tablename
+	 * 		the name of the source database table you are importing
+	 * @param string $filename 
+	 * 		the CSV file name to upload
+	 * @param string $separator
+	 * 		the separator char used in the file. The default value is ';'
 	 */
-	function import_mapping_data($tablename, $filename, $separator=";"){
+	function importMappingData($tablename, $filename, $separator=";"){
 		global $db;
 		$map=$db->select(tbl('importCSV_mapping'),'*',"`cb_table_name` = '".$tablename."'");
 		// get field type for future conversion
@@ -189,15 +195,19 @@ class importCSVobject extends CBCategory{
 	}
 	
 
-	/**_____________________________________
-	 * import_join_data
-	 * ____________________________________
-	 *Function used to add a new documents
+	/**
+	 * Import a CSV file containing data from the source database join tables to CB database table
+	 * 
+	 * Each mapping fields imported with importMappingModel() function will be imported into CB.
 	 *
-	 *input $array : a dictionnary that contains all fields for a document. $_POST is used if empty
-	 * output : return document's id if exists , otherwise false
+	 * @param string $tablename
+	 * 		the name of the source database join table you are importing
+	 * @param string $filename 
+	 * 		the CSV file name to upload
+	 * @param string $separator
+	 * 		the separator char used in the file. The default value is ';'
 	 */
-	function import_join_data($tablename, $filename, $separator=";"){
+	function importJoinData($tablename, $filename, $separator=";"){
 		global $db;
 		
 		$map=$db->select(tbl('importCSV_join'),'*',"`cb_tablejoin_name` = '".$tablename."'");

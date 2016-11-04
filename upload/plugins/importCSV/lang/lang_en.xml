@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>English</name>
+	<iso_code>en</iso_code>
+	<phrases>
+		<importcsv_manager>Import CSV Manager</importcsv_manager>
+		<import_mapping_model>Import mapping model</import_mapping_model>
+		<import_join_model>Import join Model</import_join_model>
+		<import_mapping_data>Import mapping data</import_mapping_data>
+		<import_join_data>Import join data</import_join_data>
+		<csv_file>csv file</csv_file>
+		<import_file>Import file</import_file>
+		<cleanup_database>Cleanup Database</cleanup_database>
+		<field_separator>Field separator</field_separator>
+		<table_name>Source table name</table_name>
+		<data_successfully_added>Data successfully added</data_successfully_added>
+		<no_file_selected>No file selected</no_file_selected>
+		<data_successfully_deleted>Data successfully deleted</data_successfully_deleted>
+		<import_mapping_model_help>import mapping model help (TODO)</import_mapping_model_help>
+		<import_insert_join_mapping_help>import insert join mapping help (TODO)</import_insert_join_mapping_help>
+		<import_mapping_data_help>import mapping data help (TODO)</import_mapping_data_help>
+		<import_join_data_help>import join data help (TODO)</import_join_data_help>
+	</phrases>
+</clipbucket_language>
