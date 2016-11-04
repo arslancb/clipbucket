@@ -40,7 +40,7 @@ function install_importCSV() {
 			`cb_field_type` varchar(128) NULL,
 			`search_value` varchar(1024) NULL,
 			`replace_value` varchar(1024) NULL,
-			`comment` varchar(128) NULL
+			`comment` varchar(2048) NULL
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;'
 			);
 	$db->Execute(
