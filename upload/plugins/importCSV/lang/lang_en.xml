@@ -12,7 +12,7 @@
 		<import_file>Import file</import_file>
 		<cleanup_database>Cleanup Database</cleanup_database>
 		<field_separator>Field separator</field_separator>
-		<table_name>Source table name</table_name>
+		<table_name>CB table name</table_name>
 		<data_successfully_added>Data successfully added</data_successfully_added>
 		<no_file_selected>No file selected</no_file_selected>
 		<data_successfully_deleted>Data successfully deleted</data_successfully_deleted>

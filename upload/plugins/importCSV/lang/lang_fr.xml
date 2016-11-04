@@ -12,7 +12,7 @@
 		<import_file>Importer</import_file>
 		<cleanup_database>Réinitialiser</cleanup_database>
 		<field_separator>Caractère de séparation</field_separator>
-		<table_name>Nom de la table source</table_name>
+		<table_name>Nom de la table Clipbucket</table_name>
 		<data_successfully_added>Donnée ajoutée avec succes</data_successfully_added>
 		<no_file_selected>Aucun fichier sélectionné</no_file_selected>
 		<data_successfully_deleted>Données supprimées</data_successfully_deleted>
