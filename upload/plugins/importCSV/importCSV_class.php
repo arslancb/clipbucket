@@ -53,7 +53,7 @@ class importCSVobject extends CBCategory{
 					$values_query="";
 					for ($j=0; $j< count($head); $j++) {
 						$fields_query .= $head[$j];
-						$values_query .= "'".filter_sql($mytbl[$head[$j]])."'"; 
+						$values_query .= "'".mysql_clean($mytbl[$head[$j]])."'"; 
 						if($j<count($head)-1){
 							$fields_query .= ',';
 							$values_query .= ',';
@@ -231,8 +231,8 @@ class importCSVobject extends CBCategory{
 						if (count($result_id1)==1 && count($result_id2)==1){
 							$query="INSERT INTO ".tbl($map['cb_tablejoin_name']);
 							$query.=" (`".$map['cb_tablejoin_field1']."`, `".$map['cb_tablejoin_field2']."`) ";
-							$query.=" VALUES ('".filter_sql($result_id1[0][$map['cb_table1_field']])."', '".
-								filter_sql($result_id2[0][$map['cb_table2_field']])."') ";
+							$query.=" VALUES ('".mysql_clean($result_id1[0][$map['cb_table1_field']])."', '".
+								mysql_clean($result_id2[0][$map['cb_table2_field']])."') ";
 							$db->Execute($query);
 						}
 					}
