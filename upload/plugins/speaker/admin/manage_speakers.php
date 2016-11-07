@@ -19,12 +19,12 @@ if(!defined('SUB_PAGE'))
 if (count($_POST)==0){
 	/** Action run after a post action called 'deleteSpeaker' */
 	if (isset($_GET['deleteSpeaker'])) {
-		$delspeaker = mysql_clean($_GET['deleteSpeaker']);
-		$speakerquery->deleteSpeaker($delspeaker);
+		$id = mysql_clean($_GET['deleteSpeaker']);
+		$speakerquery->deleteSpeaker($id);
 	}
 	
 	/** Action run after a get action called 'editSpeaker' */
-	if (isset($_GET['editSpeaker'])) {
+	else if (isset($_GET['editSpeaker'])) {
 		if (error()){
 			$details=$_POST;
 			$details['id']=$details['speakerid'];
@@ -38,7 +38,14 @@ if (count($_POST)==0){
 		assign('showfilter',false);
 		assign('showadd',false);
 	}
-}
+	
+	/** Action run after a post action called 'slugifySpeaker' */
+	else if (isset($_GET['slugifySpeaker'])) {
+		$id = mysql_clean($_GET['slugifySpeaker']);
+		$speakerquery->slugifySpeaker($id);
+	}
+	
+	}
 /** Action run after a post action called 'add_speaker' */
 else if(isset($_POST['add_speaker'])){
 	if($speakerquery->addSpeaker($_POST))	{
@@ -52,6 +59,16 @@ else if(isset($_POST['deleteSelected'])){
 	if ($cnt>0){
 		for($id=0;$id<$cnt;$id++)
 			$speakerquery->deleteSpeaker($_POST['check_speaker'][$id]);
+	}
+	else
+		e(lang("no_speaker_selected"),"w");
+}
+/** Run after a post action called 'slugifySelected' (Slugify Multiple speakers) */
+else if(isset($_POST['slugifySelected'])){
+	$cnt=count($_POST['check_speaker']);
+	if ($cnt>0){
+		for($id=0;$id<$cnt;$id++)
+			$speakerquery->slugifySpeaker($_POST['check_speaker'][$id]);
 	}
 	else
 		e(lang("no_speaker_selected"),"w");

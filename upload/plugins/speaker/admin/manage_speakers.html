@@ -80,6 +80,7 @@
 <form name="manage_speaker" method="post">
   <div class="btn-group marginBottomSmall">
     <input class="btn btn-danger btn-sm" type="submit" name="deleteSelected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected speakers(s)')"/>
+    <input class="btn btn-primary btn-sm" type="submit" name="slugifySelected" value="{lang('slugify_selected')}"/>
   </div>
   
   
@@ -117,9 +118,10 @@
         {lang('actions')}<i class="icon-angle-down icon-on-right"></i>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
-         <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&editSpeaker={$u.id}"><span class="glyphicon glyphicon-pencil"></span>{lang('edit')}</a></li>
+         <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&editSpeaker={$u.id}"><span class="glyphicon glyphicon-pencil"></span> {lang('edit')}</a></li>
+         <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&slugifySpeaker={$u.id}"><span class="glyphicon glyphicon-edit"></span> {lang('slugify')}</a></li>
         <li class="divider"></li>
-        <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&deleteSpeaker={$u.id}"><span class="glyphicon glyphicon-trash"></span>{lang('delete')}</a></li>
+        <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&deleteSpeaker={$u.id}"><span class="glyphicon glyphicon-trash"></span> {lang('delete')}</a></li>
       </ul>
     </div>
     </td>
@@ -134,6 +136,7 @@
 
 <div class="btn-group">
     <input class="btn btn-danger btn-sm" type="submit" name="deleteSelected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected speakers(s)')"/>
+    <input class="btn btn-primary btn-sm" type="submit" name="slugifySelected" value="{lang('slugify_selected')}"/>
   </div>
 </form>
 {else}

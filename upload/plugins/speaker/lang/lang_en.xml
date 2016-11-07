@@ -33,5 +33,9 @@
 		<speaker_edition>Edit speakers</speaker_edition>
 		<video_addon>Video Addon</video_addon>
 		<allow_video_speaker_management>Allow Video Speaker Management</allow_video_speaker_management>
+		<slugify_selected>Slugify selected</slugify_selected>
+		<slugify>Slugify</slugify>
+		<cant_slugify_speaker>Can't slugify speaker</cant_slugify_speaker>
+		<speaker_slugified>Speaker slugified</speaker_slugified>
 	</phrases>
 </clipbucket_language>

@@ -386,20 +386,20 @@ class Speaker extends CBCategory{
 	
 	/**
 	 * Remove speaker and speaker's role from the database.
-	 * 
-	 * @param int $id 
-	 * 		the id of ths speaker to be deleted 
-	 * @todo 
+	 *
+	 * @param int $id
+	 * 		the id of ths speaker to be deleted
+	 * @todo
 	 * 		if the speaker is linked to a video, then nothing is done, just an error message appears.
 	 */
 	function deleteSpeaker($id) {
 		global $db;
 		if($this->speakerExists($id)) {
 			$udetails = $this->getSpeakerDetails($id);
-				$test=$db->execute("DELETE FROM ".tbl("speakerfunction")." WHERE speaker_id='$id'");
-				$test2=$db->execute("DELETE FROM ".tbl("speaker")." WHERE id='$id'");
-				if (!$test2)
-					e(lang("cant_del_linked_speaker_msg")." id=".$id,"e");
+			$test=$db->execute("DELETE FROM ".tbl("speakerfunction")." WHERE speaker_id='$id'");
+			$test2=$db->execute("DELETE FROM ".tbl("speaker")." WHERE id='$id'");
+			if (!$test2)
+				e(lang("cant_del_linked_speaker_msg")." id=".$id,"e");
 				else
 					e(lang("speaker_del_msg")." id=".$id,"m");
 		}else{
@@ -408,6 +408,29 @@ class Speaker extends CBCategory{
 	}
 	
 	/**
+	 * Generate/Regenarate speaker's slug
+	 * 
+	 * @param int $id 
+	 * 		the id of ths speaker to be modified
+	 */
+	function slugifySpeaker($id) {
+		global $db;
+		if($this->speakerExists($id)) {
+			$udetails = $this->getSpeakerDetails($id);
+			$firstname=$udetails['firstname'];
+			$lastname=$udetails['lastname'];
+			$slug=slugify($firstname.'-'.$lastname);
+			$test2=$db->execute("UPDATE ".tbl("speaker")." SET slug='$slug' WHERE `id`=$id");
+			if (!$test2)
+				e(lang("cant_slugify_speaker")." id=".$id,"e");
+			else
+				e(lang("speaker_slugified")." id=".$id,"m");
+		}else{
+			e(lang("speaker_does_not_exist"));
+		}
+	}
+	
+/**
 	 * Associate a speaker's role to video 
 	 *
 	 * @param int $id 
