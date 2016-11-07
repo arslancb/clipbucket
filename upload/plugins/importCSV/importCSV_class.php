@@ -145,7 +145,7 @@ class importCSVobject extends CBCategory{
 		}
 		if (($handle = fopen($filename, "r")) !== FALSE) {
 			$i=0;
-			while (($data = fgetcsv($handle, 1000, $separator)) !== FALSE) {
+			while (($data = fgetcsv($handle, 100000, $separator)) !== FALSE) {
 				if ($i==0){
 					$head=$data;
 				}
