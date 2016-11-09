@@ -9,6 +9,10 @@
  Website:
  */
 require_once 'document_class.php';
+if (!$cbplugin->is_installed('common_library.php'))
+	e(sprintf(lang("plugin_not_installed : %s"),"Common Library"));
+else
+	require_once PLUG_DIR.'/common_library/common_library.php';
 
 // Define Plugin's uri constants
 define("SITE_MODE",'/admin_area');
