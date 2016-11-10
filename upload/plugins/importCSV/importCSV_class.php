@@ -145,7 +145,11 @@ class importCSVobject extends CBCategory{
 		}
 		if (($handle = fopen($filename, "r")) !== FALSE) {
 			$i=0;
-			while (($data = fgetcsv($handle, 100000, $separator)) !== FALSE) {
+			//while (($data = fgetcsv($handle, 100000, $separator)) !== FALSE) {
+			while (($line = fgets($handle)) !== FALSE) {
+				$line=str_replace("\n","",$line);
+				$line=str_replace("\r","",$line);
+				$data=explode($separator,$line);
 				if ($i==0){
 					$head=$data;
 				}
@@ -170,17 +174,18 @@ class importCSVobject extends CBCategory{
 						$replace=$map[$j]["replace_value"];
 						$tsearch=explode("#",$search);
 						$treplace=explode("#",$replace);
-						$value=str_replace($tsearch, $treplace, $value);
+						$value=str_replace('\n',"\n",str_replace($tsearch, $treplace, $value));
 						
 						
 						//convert date to timestamp or date format before inserting into database
 						switch ($cbFieldType[$map[$j][cb_field_name]]){
 							case 'timestamp':
-								//$value=strtotime(str_replace(["/"],["-"],$value));
-								$value=date('Y-m-d',strtotime(str_replace(["/"],["-"],$value)));
+								if (strpos($value,"/") !== FALSE)
+									$value=date('Y-m-d',strtotime(str_replace(["/"],["-"],$value)));
 								break;
 							case 'date':
-								$value=date('Y-m-d',strtotime(str_replace(["/"],["-"],$value)));
+								if (strpos($value,"/") !== FALSE)
+									$value=date('Y-m-d',strtotime(str_replace(["/"],["-"],$value)));
 								break;
 						}
 						
