@@ -36,6 +36,7 @@ function installDocuments(){
 	$db->Execute(
 		'CREATE TABLE IF NOT EXISTS '.tbl("documents").' (
 	  		`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+			`documentkey` varchar(50) NOT NULL ,
 	  		`title` varchar(1024) NOT NULL ,
 	  		`filename` varchar(1024) NOT NULL ,
 	  		`mimetype` varchar(256) NOT NULL ,

@@ -35,5 +35,8 @@
 		<storedfilename>Nom du fichier stocké</storedfilename>
 		<filename_on_disk>Nom du fichier sur le disque</filename_on_disk>
 		<filename>Nom du fichier</filename>
+		<document_not_readable>Le document n'est pas accessible</document_not_readable>
+		<document_not_exist>Le document n'existe pas</document_not_exist>
+		<actual_document>Document actuel</actual_document>
 	</phrases>
 </clipbucket_language>

@@ -14,10 +14,34 @@ $Smarty->assign_by_ref('documentquery', $documentquery);
  * 		true if uploaded file mimetype is allowed otherwiseor false
  */
 function documentMimetypeCheck($mime){
-	$allowed = array('application/doc', 'application/pdf', 'image.png', 'image.jpeg'); //allowed mime-type
+	$allowed = array('application/msword', 'application/mspowerpoint','application/excel',
+			'application/pdf', 'image/png', 'image/jpeg',
+								
+	); //allowed mime-type
 	return (in_array($mime, $allowed)); 	  //Check uploaded file type
 }
 
+/**
+ * Generate UUID
+ * @see https://gist.github.com/dahnielson/508447 for original source code
+ */
+function uuid(){
+	return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+			// 32 bits for "time_low"
+			mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+			// 16 bits for "time_mid"
+			mt_rand(0, 0xffff),
+			// 16 bits for "time_hi_and_version",
+			// four most significant bits holds version number 4
+			mt_rand(0, 0x0fff) | 0x4000,
+			// 16 bits, 8 bits for "clk_seq_hi_res",
+			// 8 bits for "clk_seq_low",
+			// two most significant bits holds zero and one for variant DCE1.1
+			mt_rand(0, 0x3fff) | 0x8000,
+			// 48 bits for "node"
+			mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+			);
+}
 
 /**
  * Check if the uploaded file size is allowed
@@ -49,7 +73,7 @@ class Document extends CBCategory{
 	 */
 	function Document()	{
 		global $cb_columns;
-		$basic_fields = array('id', 'title','filename','size','creationdate','storedfilename','mimetype');
+		$basic_fields = array('id', 'documentkey','title','filename','size','creationdate','storedfilename','mimetype');
 		$cb_columns->object( 'documents' )->register_columns( $basic_fields );
 		$basic_fields = array('id', 'video_id','document_id');
 		$cb_columns->object( 'video_documents' )->register_columns( $basic_fields );
@@ -74,6 +98,7 @@ class Document extends CBCategory{
 			$filename=mysql_clean($array['filename']);
 			$mimetype=mysql_clean($array['mimetype']);
 			$size=mysql_clean($array['size']);
+			$key=uuid();
 			$storedfilename=mysql_clean($array['storedfilename']);
 			$req=" title = '$title' AND filename='$filename'";
 			$res=$db->select(tbl('documents'),'id',$req,false,false,false);
@@ -84,7 +109,7 @@ class Document extends CBCategory{
 			}
 			else {
 				// insert document
-				$db->insert(tbl('documents'), array('title','filename','mimetype','size','storedfilename'), array($title,$filename,$mimetype,$size,$storedfilename));
+				$db->insert(tbl('documents'), array('documentkey','title','filename','mimetype','size','storedfilename'), array($key,$title,$filename,$mimetype,$size,$storedfilename));
 				$res=$db->select(tbl('documents'),'id',$req,false,false,false);
 				$id=$res[0]['id'];
 				return $id;		
@@ -299,8 +324,8 @@ class Document extends CBCategory{
 	/**
 	 * Get document details using it's id 
 	 *
-	 *	@param int $id 
-	 *		the document's id
+	 *	@param int|string $id 
+	 *		if $id is numeric the id of the document object otherwise the documentkey of the document object
 	 * @return bool|array 
 	 * 		a dictionary containing each fields for a document or false if no document found
 	 */
@@ -308,7 +333,10 @@ class Document extends CBCategory{
 		global $db;
 		$fields = tbl_fields(array('documents' => array('*')));
 		$query = "SELECT $fields FROM ".cb_sql_table('documents');
-		$query .= " WHERE documents.id = '$id'";
+		if (is_numeric($id)) 
+			$query .= " WHERE documents.id = '$id'";
+		else
+			$query .= " WHERE documents.documentkey = '$id'";
 		$result = select($query);
 		Assign('document', $result);
 		if ($result) {
@@ -483,7 +511,7 @@ class Document extends CBCategory{
  	 * @param array $input
  	 * 		a dictionary with document's informations (if null $_POST is used)
 	 *	@param array $strict
-	 *		if trus then field is requiered in the data form. Default value is true
+	 *		if true then field is requiered in the data form. Default value is true
 	 * @return bool
 	 * 		true if the form is valid otherwise false
 	 * @see loadDocumentsFields for more information about $array content
@@ -496,6 +524,64 @@ class Document extends CBCategory{
 			$array = array_merge($array,$_FILES);
 		validate_cb_form($fields,$array);
 	}
+
+	/**
+	 * Used encode photo key
+	 */
+	function encode_key($key)
+	{
+		return base64_encode(serialize($key));
+	}
+	
+	/**
+	 * Used encode photo key
+	 */
+	function decode_key($key)
+	{
+		return unserialize(base64_decode($key));
+	}
+	
+	/**
+	 * Download a document and change it's name on the fly
+	 * 
+	 * @param int $id
+	 * 		the document's id
+	 * @todo
+	 * 		Need to control download permissions by checking if there is almost one  video which is active, 
+	 *		correctly encoded, and public or passworded or visible only if logged... before allowing the donwload itself 
+	 */
+	function download($id)	{
+		/** @see photo.class.php :: $file = $this->ready_photo_file($key); */
+		$file= $this->getDocumentDetails($id);
+		if($file) {
+			$p = $file['details'];
+			$mime=$file['mimetype'];
+			$filepath=DOCUMENT_DOWNLOAD_DIR.'/'.$file['storedfilename'];
+			if(file_exists($filepath)) {
+				if(is_readable($filepath)) {
+					$size = filesize($filepath);
+					if($fp=@fopen($filepath,'r')) {
+						// sending the headers
+						header("Content-type: $mime");
+						header("Content-Length: $size");
+						header("Content-Disposition: attachment; filename=\"".$file['filename']."\"");
+						// send the file content
+						fpassthru($fp);
+						// close the file
+						fclose($fp);
+						// and quit
+						exit;
+					}
+				} else {
+					e(lang("document_not_readable"));
+				}
+			} else {
+				e(lang("document_not_exist"));
+			}
+		} else
+			return false;
+	}
+	
 }
 
 ?>
