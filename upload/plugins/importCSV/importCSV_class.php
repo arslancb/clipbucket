@@ -248,6 +248,9 @@ class importCSVobject extends CBCategory{
 		}
 	}
 	
+	/**
+	 * Recreate video name and folder name from video "date_added" field
+	 */
 	function generateVideoFileNames(){
 		global $db;
 		$query="SELECT * FROM ".tbl('video');

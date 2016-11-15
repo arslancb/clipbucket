@@ -20,5 +20,6 @@
 		<import_insert_join_mapping_help>import insert join mapping help (TODO)</import_insert_join_mapping_help>
 		<import_mapping_data_help>import mapping data help (TODO)</import_mapping_data_help>
 		<import_join_data_help>import join data help (TODO)</import_join_data_help>
+		<generate_video_filenames>Recreate video names and folder</generate_video_filenames>
 	</phrases>
 </clipbucket_language>
