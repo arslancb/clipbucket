@@ -14,8 +14,7 @@ if(!defined('SUB_PAGE')){
 	define('SUB_PAGE', lang('importcsv_manager'));
 }
 
-
-
+// run $_POST actions
 if(isset($_POST['importMappingModel'])){
 	global $importCSVobject;
 	if ($_FILES['filename']['name']!="") {
@@ -28,13 +27,11 @@ if(isset($_POST['importMappingModel'])){
 	else
 		e(lang('no_file_selected'),"e");
 }
-
-if(isset($_POST['deleteMappingModel'])){
+else if(isset($_POST['deleteMappingModel'])){
 	$importCSVobject->deleteMappingModel();
 	e(lang('data_successfully_deleted'),'m');
 }
-
-if(isset($_POST['importJoinModel'])){
+else if(isset($_POST['importJoinModel'])){
 	global $importCSVobject;
 	if ($_FILES['filename']['name']!="") {
 		$hashname = RandomString(8)."_".$_FILES['filename']['name']; //randomize name
@@ -46,15 +43,13 @@ if(isset($_POST['importJoinModel'])){
 	else
 		e(lang('no_file_selected'),"e");
 }
-		
-if(isset($_POST['deleteJoinModel'])){
+else if(isset($_POST['deleteJoinModel'])){
 	global $db;
 	$query='DELETE  FROM '.tbl("importCSV_join").' WHERE 1';
 	$db->Execute($query);
 	e(lang('data_successfully_deleted'),'m');
 }
-
-if(isset($_POST['importMappingData'])){
+else if(isset($_POST['importMappingData'])){
 	global $importCSVobject;
 	if ($_FILES['filename']['name']!="") {
 		$hashname = RandomString(8)."_".$_FILES['filename']['name']; //randomize name
@@ -66,8 +61,7 @@ if(isset($_POST['importMappingData'])){
 	else
 		e(lang('no_file_selected'),"e");
 }
-
-if(isset($_POST['importJoinData'])){
+else if(isset($_POST['importJoinData'])){
 	global $importCSVobject;
 	if ($_FILES['filename']['name']!="") {
 		$hashname = RandomString(8)."_".$_FILES['filename']['name']; //randomize name
@@ -79,6 +73,11 @@ if(isset($_POST['importJoinData'])){
 	else
 		e(lang('no_file_selected'),"e");
 }
+else if(isset($_POST['generateVideoFileNames'])){
+	global $importCSVobject;
+	$importCSVobject->generateVideoFileNames();
+}
+	
 
 
 

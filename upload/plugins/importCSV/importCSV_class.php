@@ -248,7 +248,23 @@ class importCSVobject extends CBCategory{
 		}
 	}
 	
-
+	function generateVideoFileNames(){
+		global $db;
+		$query="SELECT * FROM ".tbl('video');
+		$result=$db->_select($query);
+		foreach ($result as $v){
+			$file_directory = create_dated_folder(NULL,$v['date_added']);
+			$query="UPDATE ".tbl('video')." SET `file_directory`='".$file_directory."' WHERE `videoid`=".$v['videoid'];
+			$db->Execute($query);
+			$tmp="".strtotime($v['date_added']);
+			if (strpos($v["file_name"],$tmp) === false) {
+				$file_name = strtotime($v['date_added']).RandomString(5);
+				$query="UPDATE ".tbl('video')." SET `file_name`='".$file_name."' WHERE `videoid`=".$v['videoid'];
+				$db->Execute($query);
+			}
+		}
+	}
+	
 }
 
 ?>

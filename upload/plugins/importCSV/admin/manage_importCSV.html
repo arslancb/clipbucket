@@ -5,7 +5,10 @@
 <button class="btn btn-primary btn-sm" type="button" onclick="toggle_search('mapping_data_div')" data-toggle="collapse"  aria-expanded="false" ><span class="glyphicon glyphicon-file"></span> {lang("import_mapping_data")}</button>
 <button class="btn btn-primary btn-sm" type="button" onclick="toggle_search('join_data_div')" data-toggle="collapse"  aria-expanded="false" ><span class="glyphicon glyphicon-file"></span> {lang("import_join_data")}</button>
 <br/>
-
+<form id="generateVideoFileNames" name="fVideoFileName" method="post" action="{$importCSV_managepage}" enctype="multipart/form-data">
+	<input type="submit" class="btn btn-primary btn-sm" name="generateVideoFileNames" id="generateVideoFileNames" value="{lang('generate_video_filenames')}" class="button"/>
+</form>
+<br/>
 
 <div class="add_box" id="mapping_model_div" {if $showadd!=true && $showedit!=true} style="display:none"{/if}>  
 <form id="insert_mapping" name="fMappingModel" method="post" action="{$importCSV_managepage}" enctype="multipart/form-data">
