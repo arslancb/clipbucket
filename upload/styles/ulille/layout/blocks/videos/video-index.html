@@ -6,7 +6,7 @@
 <div class="thumb">
 {/if}
 	<div class="image-holder">
-		<div class="image"><img nopin="nopin" src="{getThumb vdetails=$video}" alt="alt" class="img-responsive"></div>
+		<div class="image"><img nopin="nopin" src="{getThumb vdetails=$video size='768x432'}" alt="alt" class="img-responsive"></div>
 		<div class="image-overlay fade1s"></div>
 		<div class="duration-anchor fade1s">{$video.category|categories:video} | {if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</div>
 		{if has_access('admin_access')}
