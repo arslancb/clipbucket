@@ -3,6 +3,7 @@
 	<name>English</name>
 	<iso_code>en</iso_code>
 	<phrases>
+		<speakers>Speakers</speakers>
 		<speaker_manager>Speaker Manager</speaker_manager>
 		<speaker_already_exists>Speaker already exists</speaker_already_exists>
 		<speaker_does_not_exist>Speaker does not exist</speaker_does_not_exist>

@@ -9,6 +9,7 @@ This will create 1 table in CB database. It will also add locales for the plugin
 This plugin is based on the following plugins :
 
 - **Common Library** (Required) : Used in this plugin for localisation, and admin access permissions. 
+- **Extended Search** (Optional) : Used to perform search with CB search CORE but into videos and discipline data. If not installed the search will not be active.
 
 # Uninstall
 Uninstalling the plugin in the plugin manager will remove the database table and clean up the locales and permissions.

@@ -2,6 +2,7 @@
 /**
  * This file contains discipline class
  */ 
+require_once PLUG_DIR.'/extend_search/extend_video_class.php';
 
 
 // Global Object $speakerquery is used in the plugin
@@ -31,13 +32,30 @@ class Discipline extends CBCategory{
 	}
 
 	/**
+	 * Array of strings that contains all requiered table names for the search request.
+	 *
+	 * This variable can be extended extrernally
+	 */
+	var $reqTbls=array('video','users');
+	
+	/**
+	 * Array that contains all requiered table and fields fo a sql join
+	 *
+	 * each value of this table is an array like :
+	 * array('table1'=>'table1_name'.'field1' => 'field1_name', 'table2'=>'table2_name'.'field2' => 'field2_name')
+	 *
+	 * This variable can be extended extrernally
+	 */
+	var $reqTblsJoin=array(array('table1'=>'users', 'field1'=>'userid','table2'=>'video','field2'=>'userid'));
+	
+	/**
 	 * Function used to use to initialize search object for video section
 	 * op=>operator (AND OR)
 	 * 
 	 * @see video.class.php/init_search() function. 
 	 */
 	function init_search() {
-		$this->search = new cbsearch;
+		$this->search = new ExtendSearch();
 		$this->search->db_tbl = "video";
 		$this->search->columns =array(
 				array('field'=>'discipline','type'=>'LIKE','var'=>'%{KEY}%'),
@@ -58,67 +76,28 @@ class Discipline extends CBCategory{
 		 * Setting up the sorting thing
 		 */
 	
-		$sorting	= 	array(
-				'date_added'=> lang("date_added"),
-				'views'		=> lang("views"),
-				'comments'  => lang("comments"),
-				'rating' 	=> lang("rating"),
-				'favorites'	=> lang("favorites")
-		);
-	
 		$this->search->sorting	= array(
 				'date_added'=> " date_added DESC",
+				'datecreated'=> " datecreated DESC",
 				'views'		=> " views DESC",
 				'comments'  => " comments_count DESC ",
 				'rating' 	=> " rating DESC",
 				'favorites'	=> " favorites DeSC"
 		);
-		/**
-		 * Setting Up The Search Fields
-		*/
 			
 		$default = $_GET;
 		if(is_array($default['category']))
 			$cat_array = array($default['category']);
 		$uploaded = $default['datemargin'];
-		$sort = $default['sort'];
-	
-		//$this->search->search_type['videos'] = array('title'=>lang('videos'));
+		$this->search->sortby = 'datecreated';
+		
+		$this->search->search_type['disciplines'] = array('title'=>lang('discipline'));
+		//set tables for this plugin in extended search plugin
+		$this->search->reqTbls=$this->reqTbls;
+		//set tables associations for this plugin in extended search plugin
+		$this->search->reqTblsJoin =$this->reqTblsJoin;
+		
 		$this->search->results_per_page = config('videos_items_search_page');
-	
-		$fields = array(
-				'query'	=> array(
-						'title'=> lang('keywords'),
-						'type'=> 'textfield',
-						'name'=> 'query',
-						'id'=> 'query',
-						'value'=>cleanForm($default['query'])
-				),
-				'category'	=>  array(
-						'title'		=> lang('vdo_cat'),
-						'type'		=> 'checkbox',
-						'name'		=> 'category[]',
-						'id'		=> 'category',
-						'value'		=> array('category',$cat_array),
-				),
-				'uploaded'	=>  array(
-						'title'		=> lang('uploaded'),
-						'type'		=> 'dropdown',
-						'name'		=> 'datemargin',
-						'id'		=> 'datemargin',
-						'value'		=> $this->search->date_margins(),
-						'checked'	=> $uploaded,
-				),
-				'sort'		=> array(
-						'title'		=> lang('sort_by'),
-						'type'		=> 'dropdown',
-						'name'		=> 'sort',
-						'value'		=> $sorting,
-						'checked'	=> $sort
-				)
-		);
-	
-		$this->search->search_type['videos']['fields'] = $fields;
 	}
 	
 	/**

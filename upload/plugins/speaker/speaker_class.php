@@ -685,6 +685,16 @@ class Speaker extends CBCategory{
 		$this->search->results_per_page = config('videos_items_search_page');
 		$this->search->display_template = LAYOUT.'/blocks/video.html';
 		$this->search->template_var = 'video';
+		$this->search->sorting	= array(
+				'date_added'=> " date_added DESC",
+				'datecreated'=> " datecreated DESC",
+				'views'		=> " views DESC",
+				'comments'  => " comments_count DESC ",
+				'rating' 	=> " rating DESC",
+				'favorites'	=> " favorites DeSC"
+		);
+		$this->search->sortby = 'datecreated';
+		$this->search->search_type['speaker'] = array('title'=>lang('speakers'));
 		//set tables for this plugin in extended search plugin
 		$this->search->reqTbls=$this->reqTbls;
 		//set tables associations for this plugin in extended search plugin

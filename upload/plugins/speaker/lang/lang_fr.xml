@@ -3,6 +3,7 @@
 	<name>Français</name>
 	<iso_code>fr</iso_code>
 	<phrases>
+		<speakers>Intervenants</speakers>
 		<speaker_manager>Gestion des intervenants</speaker_manager>
 		<speaker_already_exists>L'intervenant existe déjà</speaker_already_exists>
 		<speaker_does_not_exist>L'intervenant n'existe pas</speaker_does_not_exist>

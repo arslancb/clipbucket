@@ -6,6 +6,11 @@ The second one (in multi_xxx.php files) add the possibility to aggregate search 
 # Install
 To activate this plugin, go to the plugin manager and add click on the "install button" on the "Extended Search" plugin. It also add some data in the config table.
 
+## Requirements
+This plugin is based on the following plugins :
+
+- **Common Library** (Required) : Used in this plugin for localisation, and admin access permissions. 
+
 # Uninstall
 Uninstalling the plugin in the plugin manager will remove the database table and clean up the config table.
 	

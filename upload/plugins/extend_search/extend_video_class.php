@@ -63,6 +63,7 @@ class ExtendVideo extends CBvideo {
 		$this->search=$search;
 		$this->search->reqTbls=$this->reqTbls;
 		$this->search->reqTblsJoin=$this->reqTblsJoin;
+		$this->search->search_type['videos'] = array('title'=>lang('videos'));
 		//var_dump(get_object_vars($this->search));
 		$this->search->columns =array(
 				array('field'=>'title','type'=>'LIKE','var'=>'%{KEY}%'),

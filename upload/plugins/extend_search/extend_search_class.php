@@ -104,6 +104,10 @@ class ExtendSearch extends cbsearch {
 		if(isset($this->sort_by) && !$sorting) {
 			$sorting = $this->sorting[$this->sort_by];
 		}
+		// Overridde of orginal sorting method by this one in order to allow other sort than thoses predifined
+		if(isset($this->sortby)) {
+			$sorting = $this->sorting[$this->sortby];
+		}
 		
 		$condition = "";
 		$firstCond ='';
@@ -131,7 +135,7 @@ class ExtendSearch extends cbsearch {
 			$condition .= $cond.' ';
 		
 		$tables="";
-		#Creating liste of from tables
+		# Creating liste of from tables
 		foreach ($this->reqTbls as $table) {
 			$tables.=$table.',';
 		}
@@ -150,26 +154,29 @@ class ExtendSearch extends cbsearch {
 				$query_cond .= " AND ";
 			else
 				$query_cond = $condition;
-			/*
-			$results = $db->select(tbl($this->db_tbl.",users"),
-					tbl($this->db_tbl.'.*,users.userid,users.username').$add_select_field,
-					$query_cond." ".tbl($this->db_tbl).".userid=".tbl("users.userid")." AND ".tbl($this->db_tbl).".active='yes'",$this->limit,$sorting);
-			*/
+			$restrictionCond="";
+			if(!has_access('admin_access',TRUE)){
+				$restrictionCond = " AND ".tbl($this->db_tbl).".active='yes'"."AND".tbl($this->db_tbl).".broadcast='public'";
+			}
+			else{
+				$restrictionCond = " AND ".tbl($this->db_tbl).".active='yes'";
+			}
 			$results = $db->select(tbl($tables),
 					"DISTINCT ".tbl($this->db_tbl.'.*,users.userid,users.username').$add_select_field,
-					$query_cond." ".$joinCondition." AND ".tbl($this->db_tbl).".active='yes'",$this->limit,$sorting);
+					$query_cond." ".$joinCondition.$restrictionCond,$this->limit,$sorting);
 				
 		
-		
-			$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
+			//$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
+			$this->total_results = $db->count(tbl($tables),'*',$query_cond." ".$joinCondition.$restrictionCond);
 				
 		}else {
-			//TODO: Request non modified. If used it should be like the request above but wutthout users table and fields.  
+			//TODO: Request non modified. If used it should be like the request above but without users table and fields.  
 			$results = $db->select(tbl($this->db_tbl),'*',$condition,$this->limit,$sorting);
 			//echo $db->db_query;
 			$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
 		}
-		return $results;
+		// Use array_reverse function because search_result.php also use this function and $result is in good order.
+		return array_reverse($results);
 	}
 	
 }

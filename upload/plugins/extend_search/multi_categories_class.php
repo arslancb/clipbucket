@@ -50,6 +50,7 @@ class MultiCategories extends CBvideo {
 		$search=new MultiSearch();
 		$this->cloneValues($this->search,$search);
 		$this->search=$search;
+		$this->search->search_type['multisearch'] = array('title'=>lang('multisearch'));
 		foreach ($this->searchObjects as $obj){
 			global ${$obj};
 			${$obj}->init_search();
