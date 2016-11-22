@@ -1,33 +1,28 @@
 <?php
-/*
- * This file contains speakerquery class and some usefull functions used in this plugin
+/**
+ * This file contains discipline class
  */ 
+require_once PLUG_DIR.'/extend_search/extend_video_class.php';
 
 
 // Global Object $speakerquery is used in the plugin
-$disciplinequery = new disciplinequery();
+$disciplinequery = new Discipline();
 $Smarty->assign_by_ref('disciplinequery', $disciplinequery);
 
-/**_____________________________________________________
- * Class disciplinequery
- * _____________________________________________________
- *Contains actions that can affect the discipline's plugin 
+/**
+ * Class containing actions that can affect the discipline's plugin 
  */
-class disciplinequery extends CBCategory{
+class Discipline extends CBCategory{
 
-	/**_____________________________________
-	 * disciplinequery
-	 * _____________________________________
-	 *Constructor for disciplinequery's instances
+	/**
+	 * Constructor for discipline's instances
 	 */
-	function disciplinequery()	{
+	function Discipline()	{
 		$this->init();
 	}
 	
-	/**_____________________________________
-	 * init
-	 * _____________________________________
-	 *Call the parent init function and set a new search engine for disciplines into the global $CBucket variable
+	/**
+	 * Call the parent init function and set a new search engine for disciplines into the global $CBucket variable
 	 *
 	 */	
 	function init() {
@@ -36,15 +31,31 @@ class disciplinequery extends CBCategory{
 		$Cbucket->configs['disciplinesSection']='yes';
 	}
 
-	/**_____________________________________
-	 * init_search
-	 * _____________________________________
+	/**
+	 * Array of strings that contains all requiered table names for the search request.
+	 *
+	 * This variable can be extended extrernally
+	 */
+	var $reqTbls=array('video','users');
+	
+	/**
+	 * Array that contains all requiered table and fields fo a sql join
+	 *
+	 * each value of this table is an array like :
+	 * array('table1'=>'table1_name'.'field1' => 'field1_name', 'table2'=>'table2_name'.'field2' => 'field2_name')
+	 *
+	 * This variable can be extended extrernally
+	 */
+	var $reqTblsJoin=array(array('table1'=>'users', 'field1'=>'userid','table2'=>'video','field2'=>'userid'));
+	
+	/**
 	 * Function used to use to initialize search object for video section
 	 * op=>operator (AND OR)
-	 * SEEALSO: made from video class init_search funrtion. 
+	 * 
+	 * @see video.class.php/init_search() function. 
 	 */
 	function init_search() {
-		$this->search = new cbsearch;
+		$this->search = new ExtendSearch();
 		$this->search->db_tbl = "video";
 		$this->search->columns =array(
 				array('field'=>'discipline','type'=>'LIKE','var'=>'%{KEY}%'),
@@ -65,142 +76,111 @@ class disciplinequery extends CBCategory{
 		 * Setting up the sorting thing
 		 */
 	
-		$sorting	= 	array(
-				'date_added'=> lang("date_added"),
-				'views'		=> lang("views"),
-				'comments'  => lang("comments"),
-				'rating' 	=> lang("rating"),
-				'favorites'	=> lang("favorites")
-		);
-	
 		$this->search->sorting	= array(
 				'date_added'=> " date_added DESC",
+				'datecreated'=> " datecreated DESC",
 				'views'		=> " views DESC",
 				'comments'  => " comments_count DESC ",
 				'rating' 	=> " rating DESC",
 				'favorites'	=> " favorites DeSC"
 		);
-		/**
-		 * Setting Up The Search Fields
-		*/
 			
 		$default = $_GET;
 		if(is_array($default['category']))
 			$cat_array = array($default['category']);
 		$uploaded = $default['datemargin'];
-		$sort = $default['sort'];
-	
-		//$this->search->search_type['videos'] = array('title'=>lang('videos'));
+		$this->search->sortby = 'datecreated';
+		
+		$this->search->search_type['disciplines'] = array('title'=>lang('discipline'));
+		//set tables for this plugin in extended search plugin
+		$this->search->reqTbls=$this->reqTbls;
+		//set tables associations for this plugin in extended search plugin
+		$this->search->reqTblsJoin =$this->reqTblsJoin;
+		
 		$this->search->results_per_page = config('videos_items_search_page');
-	
-		$fields = array(
-				'query'	=> array(
-						'title'=> lang('keywords'),
-						'type'=> 'textfield',
-						'name'=> 'query',
-						'id'=> 'query',
-						'value'=>cleanForm($default['query'])
-				),
-				'category'	=>  array(
-						'title'		=> lang('vdo_cat'),
-						'type'		=> 'checkbox',
-						'name'		=> 'category[]',
-						'id'		=> 'category',
-						'value'		=> array('category',$cat_array),
-				),
-				'uploaded'	=>  array(
-						'title'		=> lang('uploaded'),
-						'type'		=> 'dropdown',
-						'name'		=> 'datemargin',
-						'id'		=> 'datemargin',
-						'value'		=> $this->search->date_margins(),
-						'checked'	=> $uploaded,
-				),
-				'sort'		=> array(
-						'title'		=> lang('sort_by'),
-						'type'		=> 'dropdown',
-						'name'		=> 'sort',
-						'value'		=> $sorting,
-						'checked'	=> $sort
-				)
-		);
-	
-		$this->search->search_type['videos']['fields'] = $fields;
 	}
 	
-	/**_____________________________________
-	 * discipline_count
-	 * _____________________________________
-	 *return the number of disciplines
+	/**
+	 * Count the number of disciplines
+	 * @return 
+	 * 		the number of disciplines
 	 */
-	function discipline_count ()	{
+	function disciplineCount ()	{
 		global $db;
 		return $db->count(tbl('disciplines'),'id');
 	}
 	
-	/**_____________________________________
-	 * count_video_of_discipline
-	 * _____________________________________
-	 *return the number of videos of this discipline
+	/**
+	 * Count the number of video in @author franck
+	 * 
+	 * @param int $did
+	 * 		the discipline id
+	 * @return 
+	 * 		the number of videos of this discipline
 	 */
-	function count_video_of_discipline ($did)	{
+	function countVideoOfDiscipline ($did)	{
 		global $db;
 		return $db->count(tbl('video'),'videoid',"discipline=$did");
 	}
 	
-	/**_____________________________________
-	 * get_video_of_discipline
-	 * _____________________________________
-	 *return an array containing all videos ids of this discipline
+	/**
+	 * Get a the list of videos ids of a discipline
+	 * 
+	 * @param int $did
+	 * 		the discipline id
+	 * @return array 
+	 * 		array containing all videos ids of this discipline
 	 */
-	function get_video_of_discipline ($did)	{
+	function getVideosOfDiscipline ($did)	{
 		global $db;
 		return $db->select(tbl('video'),'videoid',"discipline=$did");
 	}
 	
-	/**_____________________________________
-	 * get_all_disciplines
-	 * _____________________________________
-	 *return a table of all disciplines
+	/**
+	 * Get all disciplines
+	 *
+	 * @return array 
+	 * 		array containing all disciplines
 	 */
-	function get_all_disciplines ()	{
+	function getAllDisciplines ()	{
 		global $db;
 		return $db->select(tbl('disciplines'),'*',false,false,"discipline_order");
 	}
 
-	/**_____________________________________
-	 * get_all_disciplines_for_menu
-	 * _____________________________________
-	 *return a table of all disciplines with menu visibility enabled
+	/**
+	 * Get all disciplines that have their in_menu flag set to 1
+	 * 
+	 * @return array
+	 * 		array of all disciplines with menu visibility enabled
 	 */
-	function get_all_disciplines_for_menu ()	{
+	function getAllDisciplinesForMenu ()	{
 		global $db;
 		return $db->_select("SELECT * FROM ".tbl("disciplines")." WHERE in_menu = 1 ORDER BY discipline_order ASC");
 	}
 	
-	/**_____________________________________
-	 * get_discipline
-	 * _____________________________________
-	 * Return the discipline  corresponding to the id in parameter
-	 *
-	 * input $vid : the discipline id
-	 * output : an arraycontaining the discipline's fields
+	/**
+	 * Get a discipline specified by it's id
+	 * 
+	 * @param int $did
+	 * 		th discipline's id
+	 * @return array
+	 * 		array containing the discipline's fields
 	 */
-	function get_discipline($did){
+	function getDiscipline($did){
 		global $db;
 		$alias = $db->_select("SELECT * FROM ".tbl("disciplines")." WHERE id = $did");
 		return $alias;
 	}
 	
-	/**_____________________________________
-	 * get_discipline_of_video
-	 * _____________________________________
-	 * Return the discipline  of a video
+	/**
+	 * Get the discipline of a specified video id
 	 *
-	 * input $vid : the video id
-	 * output : an arraycontaining the discipline's fields
+	 * @param int $vid 
+	 * 		the video id
+	 * @return array
+	 * 		array containing the discipline's fields of this video
 	 */
-	function get_discipline_of_video($vid){
+	function getDisciplineOfVideo($vid){
 		global $db;
 		$alias = $db->_select("SELECT *
 							   FROM ".tbl("disciplines")." AS d, ".tbl("video")." AS v
@@ -209,15 +189,15 @@ class disciplinequery extends CBCategory{
 		return $alias;
 	}
 	
-	/**_____________________________________
-	 * set_discipline
-	 * _____________________________________
-	 *Change the discipline id for a video
+	/**
+	 * Change the discipline of a video
 	 *
-	 *input $vid : the id of the video affected
-	 *input $did : the discipline id to be stored in the video 
+	 * @param int $vid 
+	 * 		the id of the video affected
+	 * @paramint $did 
+	 * 	the new discipline's id for this video 
 	 */
-	function set_discipline($vid, $did){
+	function setDiscipline($vid, $did){
 		global $db;
 		$db->update(tbl('video'), array('discipline'), array($did),"videoid='$vid'");
 	}

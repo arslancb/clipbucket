@@ -1,9 +1,10 @@
 <?php
 require_once DISCIPLINE_DIR.'/disciplines_class.php';
-// Check if user has admin acces
+/** Check if user has admin acces */
 $userquery->admin_login_check();
-// Check that doesn't work on plugis
-//$userquery->login_check('member_moderation');
+/** Check if user has admin acces to this plugin */
+if ($cbplugin->is_installed('common_library.php'))	$userquery->login_check(getStoredPluginName("discipline"));
+
 $pages->page_redir();
 
 /* Assigning page and subpage */
@@ -19,7 +20,7 @@ $video = $cbvid->getVideo($_GET['video']);
 
 // Run after a post action called 'link_selected' (link and unlink multiple speaker to the selectedvideo)
 if(isset($_POST['validate'])){
-	$disciplinequery->set_discipline($video['videoid'],$_POST['checked_discipline'][0]);
+	$disciplinequery->setDiscipline($video['videoid'],$_POST['checked_discipline'][0]);
 	$video['discipline'] = $_POST['checked_discipline'][0];
 }
 Assign('video',$video);
@@ -30,9 +31,9 @@ $get_limit = create_query_limit($page,RESULTS);
 $array=[];
 
 
-$nbdiscipline=$disciplinequery->discipline_count();
+$nbdiscipline=$disciplinequery->disciplineCount();
 assign("nbdiscipline",$nbdiscipline);
-$all_disciplines=$disciplinequery->get_all_disciplines();
+$all_disciplines=$disciplinequery->getAllDisciplines();
 assign("all_disciplines",$all_disciplines);
 
 

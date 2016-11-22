@@ -1,8 +1,8 @@
 <?php
-/*
- * @since : 2016
- * @author : YB
- */
+/** Check if user has admin acces */
+$userquery->admin_login_check();
+/** Check if user has admin acces to this plugin */
+if ($cbplugin->is_installed('common_library.php'))	$userquery->login_check(getStoredPluginName("discipline"));
 
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
@@ -203,16 +203,16 @@ if(isset($_POST['delete_disc'])) {
 	if(!empty($_POST['check_disc'])){
 		$msg="";
 		foreach($_POST['check_disc'] as $did){
-			$disc = $disciplinequery->get_discipline($did);
+			$disc = $disciplinequery->getDiscipline($did);
 			$error=false;
 			if ($disc[0]["is_default"]==1){
 				$error=true;
 				e(lang("cant_delete_default_discipline"),'w');
 			}
-			$nb=$disciplinequery->count_video_of_discipline($did);
+			$nb=$disciplinequery->countVideoOfDiscipline($did);
 			if ($nb>0) {
 				$error=true;
-				$vids = $disciplinequery->get_video_of_discipline($did);
+				$vids = $disciplinequery->getVideosOfDiscipline($did);
 				$videolist="";
 				foreach ($vids as $vid){
 					$videolist=$videolist.$vid["videoid"].", ";

@@ -1,34 +1,57 @@
 <?php
-/*
- * This file contains linkquery class and some usefull functions used in this plugin
- */ 
-
 
 // Global Object $documentquery is used in the plugin
-$documentquery = new documentquery();
+$documentquery = new Document();
 $Smarty->assign_by_ref('documentquery', $documentquery);
 
 
-/**_____________________________________________________
- * mimetype_check
- * _____________________________________________________
- * Return True if uploaded file mimetype is allowed or not
- * input $mime : a string that contains the uploaded file mimetype
- * output : return true if it's ok otherwise false
+/**
+ * Check for autorized upload file types
+ * 
+ * @param str $mine
+ * 		the mimetype of the uploaded file
+ * @return bool
+ * 		true if uploaded file mimetype is allowed otherwiseor false
  */
-function mimetype_check($mime){
-	$allowed = array('application/doc', 'application/pdf', 'image.png', 'image.jpeg'); //allowed mime-type
+function documentMimetypeCheck($mime){
+	$allowed = array('application/msword', 'application/mspowerpoint','application/excel',
+			'application/pdf', 'image/png', 'image/jpeg',
+								
+	); //allowed mime-type
 	return (in_array($mime, $allowed)); 	  //Check uploaded file type
 }
 
-/**_____________________________________________________
- * filesize_check
- * _____________________________________________________
- * Return True if upload file size is under a specified value or not
- * input $size : a string that contains the value of the size
- * output : return true if it's ok otherwise false
+/**
+ * Generate UUID
+ * @see https://gist.github.com/dahnielson/508447 for original source code
  */
-function filesize_check($size){
+function uuid(){
+	return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+			// 32 bits for "time_low"
+			mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+			// 16 bits for "time_mid"
+			mt_rand(0, 0xffff),
+			// 16 bits for "time_hi_and_version",
+			// four most significant bits holds version number 4
+			mt_rand(0, 0x0fff) | 0x4000,
+			// 16 bits, 8 bits for "clk_seq_hi_res",
+			// 8 bits for "clk_seq_low",
+			// two most significant bits holds zero and one for variant DCE1.1
+			mt_rand(0, 0x3fff) | 0x8000,
+			// 48 bits for "node"
+			mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+			);
+}
+
+/**
+ * Check if the uploaded file size is allowed
+ * 
+ * $parap int $size
+ * 		the size of the uploaded file
+ * $return bool 
+ * 		true if upload file size is under the value stored in the database otherwise false
+ */
+function documentFilesizeCheck($size){
 	$a=$size;
 	global $db;
 	$req=" name = 'document_max_filesize'";
@@ -39,45 +62,43 @@ function filesize_check($size){
 
 
 
-/**_____________________________________________________
- * Class documentquery
- * _____________________________________________________
- *Contains all actions that can affect the  document plugin 
+/**
+ * Contains all actions that can affect the  document plugin 
  */
-class documentquery extends CBCategory{
+class Document extends CBCategory{
 	private $basic_fields = array();
 	
-	/**_____________________________________
-	 * documentquery
-	 * _____________________________________
-	 *Constructor for documentquery's instances
+	/**
+	 * Constructor for documentquery's instances
 	 */
-	function documentquery()	{
+	function Document()	{
 		global $cb_columns;
-		$basic_fields = array('id', 'title','filename','size','creationdate','storedfilename','mimetype');
+		$basic_fields = array('id', 'documentkey','title','filename','size','creationdate','storedfilename','mimetype');
 		$cb_columns->object( 'documents' )->register_columns( $basic_fields );
 		$basic_fields = array('id', 'video_id','document_id');
 		$cb_columns->object( 'video_documents' )->register_columns( $basic_fields );
 	}
 
-	/**_____________________________________
-	 * add_document
-	 * ____________________________________
-	 *Function used to add a new documents 
+	/**
+	 * Add a new documents 
 	 *
-	 *input $array : a dictionnary that contains all fields for a document. $_POST is used if empty
-	 * output : return document's id if exists , otherwise false
+	 *	@param array $array
+	 *		a dictionnary that contains all fields for a document. $_POST is used if empty
+	 * @return bool|int
+	 * 		the document's id if it exists otherwise false
+	 * @see validateFormFields for compleate list of fields in $array
 	 */
-	function add_document($array=NULL){
+	function addDocument($array=NULL){
 		global $db;
 		if($array==NULL)
 			$array = $_POST;
-		$this->validate_form_fields($array);
+		$this->validateFormFields($array);
 		if(!error()) {
 			$title=mysql_clean($array['title']);
 			$filename=mysql_clean($array['filename']);
 			$mimetype=mysql_clean($array['mimetype']);
 			$size=mysql_clean($array['size']);
+			$key=uuid();
 			$storedfilename=mysql_clean($array['storedfilename']);
 			$req=" title = '$title' AND filename='$filename'";
 			$res=$db->select(tbl('documents'),'id',$req,false,false,false);
@@ -88,7 +109,7 @@ class documentquery extends CBCategory{
 			}
 			else {
 				// insert document
-				$db->insert(tbl('documents'), array('title','filename','mimetype','size','storedfilename'), array($title,$filename,$mimetype,$size,$storedfilename));
+				$db->insert(tbl('documents'), array('documentkey','title','filename','mimetype','size','storedfilename'), array($key,$title,$filename,$mimetype,$size,$storedfilename));
 				$res=$db->select(tbl('documents'),'id',$req,false,false,false);
 				$id=$res[0]['id'];
 				return $id;		
@@ -96,19 +117,20 @@ class documentquery extends CBCategory{
 		}
 	}
 	
-	/**_____________________________________
-	 * update_document
-	 * ____________________________________
-	 *Function used to update a documents 
-	 *
-	 *input $array : a dictionnary that contains all fields for a document. $_POST is used if empty
-	 * output : return document's id if exists , otherwise false
+	/**
+	 * update a documents from a data form
+	 * 
+	 * @param array $array
+	 * 		a dictionnary that contains all fields for a document. $_POST is used if empty
+	 * @return bool|int
+	 * 		the document's id if exists otherwise false
+	 * @see validateFormFields for compliete list of fields in $array
 	 */
-	function update_document($array=NULL){
+	function updateDocument($array=NULL){
 		global $db;
 		if($array==NULL)
 			$array = $_POST;
-		$this->validate_form_fields($array);
+		$this->validateFormFields($array);
 		if(!error()) {
 			$title=mysql_clean($array['title']);
 			$filename=mysql_clean($array['filename']);
@@ -132,19 +154,20 @@ class documentquery extends CBCategory{
 		}
 	}
 	
-	/**_____________________________________
-	 * search_document
-	 * ____________________________________
-	 *Function used to test if a document already exists 
+	/**
+	 * Check if a document already exists 
 	 * 
-	 *input $array : a dictionnary that contains fields for a document. $_POST is used if empty
-	 * output : return true if document exists , otherwise false
+	 * @param array $array 
+	 * 		a dictionnary that contains fields for a document. $_POST is used if empty
+	 * @return bool
+	 * 		true if document exists otherwise false
+	 * @see validateFormFields for compliete list of fields in $array
 	 */
-	function search_document($array=NULL){
+	function searchDocument($array=NULL){
 		global $db;
 		if($array==NULL)
 			$array = $_POST;
-		$this->validate_form_fields($array,false);
+		$this->validateFormFields($array,false);
 		if(!error()) {
 			$title=$array['title'];
 			$req=" title like '%".title."%'";
@@ -164,20 +187,22 @@ class documentquery extends CBCategory{
 		}
 	}
 	
-	/**_____________________________________
-	 * get_documents
-	 * ____________________________________
-	 *Function used to get documents 
+	/**
+	 * Get all documents speficied by the $param attribute 
 	 *
-	 *input $params : is a dictionary containing information about the requested documents
-	 *				$params['limit'] is for pagination (ie '0.100')
-	 *				$params['order'] is for ordering
-	 *				$params['cond'] is the "where" condition of the sql request
-	 * 			$params['count_only'] used only if we want to retrive number of documents
-	 * 			$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template
-	 * output : return specified documents
+	 * @param array $params
+	 * 		a dictionary containing information about the requested documents
+	 *		<ul>
+	 *			<li>$params['limit'] is for pagination (ie '0.100')</li>
+	 *			<li>$params['order'] is for ordering</li>
+	 *			<li>$params['cond'] is the "where" condition of the sql request</li>
+	 * 			<li>$params['count_only'] used only if we want to retrive number of documents</li>
+	 * 			<li>$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template</li>
+	 * 		</ul>
+	 * @return int|array
+	 * 		the number of documents if $params['count_only'] is set otherwise an array of all specified documents objects
 	 */
-	function get_documents($params=NULL)	{
+	function getDocuments($params=NULL)	{
 		global $db;
 		global $cb_columns;
 		$limit = $params['limit'];
@@ -197,8 +222,7 @@ class documentquery extends CBCategory{
 				$query .= " ORDER BY ".$order;
 			if ($limit)
 				$query .= " LIMIT  ".$limit;
-			//$result = $db->select(tbl('users'),'*',$cond,$limit,$order);
-			$result = select( $query );
+			$result = $db->_select($query);
 		}
 		if($params['count_only']){
 			$result = $db->count(tbl('documents')." AS document ",'id',$cond);
@@ -208,23 +232,27 @@ class documentquery extends CBCategory{
 		return $result;
 	}
 
-	/**_____________________________________
-	 * get_document_for_video
-	 * ____________________________________
-	 *Function used to get documents for a specific video
+	/**
+	 * Get documents relatively to a specific video
+	 * 
+	 * Depending on the $params['selected'] value it get all documents linked to th video or all documents non linked to the video 
 	 *
-	 *input $params : is a dictionary containing information about the requested documents
-	 *				$params['limit'] is for pagination (ie '0.100')
-	 *				$params['order'] is for ordering
-	 *				($params['selected'] if =="yes" returns documents linked to the video
-	 *										 if =="no" returns documents not linked to the video
-	 *				$params['videoid'] is the video's id
-	 *				$params['cond'] is the "where" condition of the sql request
-	 * 			$params['count_only'] used only if we want to retrive number of documents
-	 * 			$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template
-	 * output : return related documents
+	 * @param array $params 
+	 * 		a dictionary containing information about the requested documents
+	 *		<ul>
+	 *			<li>$params['limit'] is for pagination (ie '0.100')</li>
+	 *			<li>$params['order'] is for ordering</li>
+	 *			<li>$params['selected'] if =="yes" returns documents linked to the video, 
+	 *									if =="no" returns documents not linked to the video</li>
+	 *			<li>$params['videoid'] is the video's id</li>
+	 *			<li>$params['cond'] is the "where" condition of the sql request</li>
+	 * 			<li>$params['count_only'] used only if we want to retrive number of documents</li>
+	 * 			<li>$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template</li>
+	 * 		</ul>
+	 * @return int|array
+	 * 		the number of documents if $params['count_only'] is set otherwise an array of all specified documents objects
 	 */
-	function get_document_for_video($params=NULL){
+	function getDocumentForVideo($params=NULL){
 		global $db;
 		global $cb_columns;
 		$limit = $params['limit'];
@@ -266,7 +294,7 @@ class documentquery extends CBCategory{
 				$quer .= " ORDER BY ".$order;
 			if ($limit)
 				$query .= " LIMIT  ".$limit;
-			$result = select( $query );
+			$result = $db->_select($query);
 		}
 		if($params['count_only']){
 			$result = $db->count(tbl('documents')." AS documents ",'*',$cond);
@@ -278,34 +306,37 @@ class documentquery extends CBCategory{
 	}
 	
 	
-	/**_____________________________________
-	 * document_exists
-	 * ____________________________________
-	 *Test if document's id exists or not 
+	/**
+	 * Check if the document's id exists or not 
 	 *
-	 *input $id : is the document's id
-	 *output : true if document exists otherwise false
+	 * $param int  $id : 
+	 * 		the document's id
+	 * @return bool	
+	 * 		true if document exists otherwise false
 	 */
-	function document_exists($id){
+	function documentExists($id){
 		global $db;
 		$result = $db->count(tbl('documents'),"id"," id='".$id."'");
 		return ($result>0);
 	}
 	
 	
-	/**_____________________________________
-	 * get_document_details
-	 * ____________________________________
-	 *Function used to get document details using it's id 
+	/**
+	 * Get document details using it's id 
 	 *
-	 *input $id : document's id
-	 *output : a dictionary containig each fields for a document, false if no document found
+	 *	@param int|string $id 
+	 *		if $id is numeric the id of the document object otherwise the documentkey of the document object
+	 * @return bool|array 
+	 * 		a dictionary containing each fields for a document or false if no document found
 	 */
-	function get_document_details($id=NULL)	{
+	function getDocumentDetails($id=NULL)	{
 		global $db;
 		$fields = tbl_fields(array('documents' => array('*')));
 		$query = "SELECT $fields FROM ".cb_sql_table('documents');
-		$query .= " WHERE documents.id = '$id'";
+		if (is_numeric($id)) 
+			$query .= " WHERE documents.id = '$id'";
+		else
+			$query .= " WHERE documents.documentkey = '$id'";
 		$result = select($query);
 		Assign('document', $result);
 		if ($result) {
@@ -315,17 +346,19 @@ class documentquery extends CBCategory{
 		return false;
 	}
 	
-	/**_____________________________________
-	 * delete_document
-	 * ____________________________________
-	 *Remove document from the database. 
-	 *TODO : if the document is associated to a video, then nothing is done, just an error message appears.
-	 *input $id : the id of the document to be deleted 
+	/**
+	 * Remove the document from the database and file system.
+	 *  
+	 * The removal is only treated if the document is not linked to a video. 
+	 * If it is associated to a video, then nothing is done, just an error message appears.
+	 * 
+	 * @param int $id 
+	 * 		the id of the document to be deleted 
 	 */
-	function delete_document($id) {
+	function deleteDocument($id) {
 		global $db;
-		if($this->document_exists($id)) {
-			$details = $this->get_document_details($id);
+		if($this->documentExists($id)) {
+			$details = $this->getDocumentDetails($id);
 			$test2=$db->execute("DELETE FROM ".tbl("documents")." WHERE id='$id'");
 			if (!$test2)
 				e(lang("cant_del_linked_document_msg")." id=".$id,"e");
@@ -338,62 +371,63 @@ class documentquery extends CBCategory{
 		}
 	}
 	
-	/**_____________________________________
-	 * link_document
-	 * ____________________________________
-	 *Associate a document to video 
+	/**
+	 * Associate a document to video 
 	 *
-	 *input $id : document's id
-	 *			$videoid : the video's id
+	 * @param int $id 
+	 * 		the document's id
+	 * @param int $videoid
+	 * 		the video's id
 	 */
-	function link_document($id,$videoid) {
+	function linkDocument($id,$videoid) {
 		global $db;
 		$cnt= $db->count(tbl('video_documents'),'*',"document_id=".$id.	" and video_id=".$videoid);
 		if ($cnt==0)
 			$db->insert(tbl('video_documents'), array('video_id','document_id'), array(mysql_clean($videoid),mysql_clean($id)));
 	}
 
-	/**_____________________________________
- 	 * unlink_document
- 	 * ____________________________________
-	 *Remove associate between a document and a video 
+	/**
+	 * Remove associate between a document and a video 
 	 *
-	 *input $id : document's id
-	 *			$videoid : the video's id
+	 * @param int $id 
+	 * 		the document's id
+	 * @param int $videoid
+	 * 		the video's id
 	 */
-	function unlink_document($id,$videoid) {
+	function unlinkDocument($id,$videoid) {
 		global $db;
 		$cnt= $db->count(tbl('video_documents'),'*',"document_id=".$id.	" and video_id=".$videoid);
 		if ($cnt>0)
 		$db->execute("DELETE FROM ".tbl("video_documents")." WHERE video_id='$videoid' AND document_id='$id'");
 	}
 	
-	/**_____________________________________
- 	 * load_documents_fields
- 	 * ____________________________________
- 	 *Create initial array for document fields 
-	 * this will tell
-	 * array(
-	 *       title [text that will represents the field]
-	 *       type [One of the following values : textfield, password,texarea, checkbox,radiobutton, dropbox]
-	 *       name [name of the fields, input NAME attribute]
-	 *       id [id of the fields, input ID attribute]
-	 *       value [value of the fields, input VALUE attribute]
-	 *       size
-	 *       class [CSS class of the field]
-	 *       label
-	 *       extra_tags [Extra tags added as is to the field]
-	 *       hint_1 [hint before field]
-	 *       hint_2 [hint after field]
-	 *       anchor_before [anchor before field]
-	 *       anchor_after [anchor after field]
-	 *      )
-	 *
- 	 *input $input : a dictionary with document's informations (if null $_POST is used)
-	 *		$strict : if trus then field is requiered in the data form
- 	 *output : Fields for the administration page of the plugin
+	/**
+ 	 * Create initial array for document fields 
+ 	 * 
+	 * @param array $input 
+	 * 		a dictionary with document's informations (if null $_POST is used)
+	 * @param bool $strict
+	 * 		if true then field is requiered in the data form. Default value is true.
+	 * @return array
+	 * 		Fields for the administration page of the plugin. 
+	 * 		Fields are ('title','filename','storedfilename','size','mimetype'). For each field this will tell
+	 * 		<br/>array(
+	 *      <br/>title [text that will represents the field]
+	 *      <br/>type [One of the following values : textfield, password,texarea, checkbox,radiobutton, dropbox]
+	 *      <br/>name [name of the fields, input NAME attribute]
+	 *      <br/>id [id of the fields, input ID attribute]
+	 *      <br/>value [value of the fields, input VALUE attribute]
+	 *      <br/>size
+	 *      <br/>class [CSS class of the field]
+	 *      <br/>label
+	 *      <br/>extra_tags [Extra tags added as is to the field]
+	 *      <br/>hint_1 [hint before field]
+	 *      <br/>hint_2 [hint after field]
+	 *      <br/>anchor_before [anchor before field]
+	 *      <br/>anchor_after [anchor after field]
+	 *      <br/>)
  	 */
-	function load_documents_fields($input=NULL,$strict=true) {
+	function loadDocumentsFields($input=NULL,$strict=true) {
 		global $LANG,$Cbucket;
 		$default = array();
 		if(isset($input))
@@ -404,7 +438,8 @@ class documentquery extends CBCategory{
 		$title = (isset($default['title'])) ? $default['title'] : "";
 		$filename = (isset($default['filename'])) ? $default['filename'] : "";
 		$size = (isset($default['size'])) ? $default['size'] : "";
-		$filename = (isset($default['filename'])) ? $default['filename'] : "";
+		$mimetype = (isset($default['mimetype'])) ? $default['mimetype'] : "";
+		$storedfilename = (isset($default['$storedfilename'])) ? $default['$storedfilename'] : "";
 		
 		$my_fields = array (
 				'title' => array(
@@ -452,7 +487,7 @@ class documentquery extends CBCategory{
 						'value'=> $size,
 						'db_field'=>'size',
 						'required'=>($strict) ? 'yes' : 'no',
-						'validate_function'=> 'filesize_check',
+						'validate_function'=> 'documentFilesizeCheck',
 						'function_error_msg' => lang('file_is_too_big'),
 				),
 				'mimetype' => array(
@@ -463,32 +498,89 @@ class documentquery extends CBCategory{
 						'value'=> $mimetype,
 						'db_field'=>'mimetype',
 						'required'=>($strict) ? 'yes' : 'no',
-						'validate_function'=> 'mimetype_check',
+						'validate_function'=> 'documentMimetypeCheck',
 						'function_error_msg' => lang('filetype_not_allowed'),
 				),
 		);
 		return $my_fields;
 	}
 
-	/**_____________________________________
-	 * validate_form_fields
-	 * ____________________________________
-	 *Validate document's administion form fields (Add and Edit forms) 
+	/**
+	 * Validate document's administration form fields (Add and Edit forms) 
 	 *
- 	 *input $input : a dictionary with document's informations (if null $_POST is used)
-	 *		$strict : if trus then field is requiered in the data form
-	 *output : true if the form is valid, otherwise false
+ 	 * @param array $input
+ 	 * 		a dictionary with document's informations (if null $_POST is used)
+	 *	@param array $strict
+	 *		if true then field is requiered in the data form. Default value is true
+	 * @return bool
+	 * 		true if the form is valid otherwise false
+	 * @see loadDocumentsFields for more information about $array content
 	 */
-	function validate_form_fields($array=NULL,$strict=true) {
-		$fields= $this->load_documents_fields($array,$strict);
+	function validateFormFields($array=NULL,$strict=true) {
+		$fields= $this->loadDocumentsFields($array,$strict);
 		if($array==NULL)
 			$array = $_POST;
 		if(is_array($_FILES))
 			$array = array_merge($array,$_FILES);
-	
 		validate_cb_form($fields,$array);
 	}
+
+	/**
+	 * Used encode photo key
+	 */
+	function encode_key($key)
+	{
+		return base64_encode(serialize($key));
+	}
 	
+	/**
+	 * Used encode photo key
+	 */
+	function decode_key($key)
+	{
+		return unserialize(base64_decode($key));
+	}
+	
+	/**
+	 * Download a document and change it's name on the fly
+	 * 
+	 * @param int $id
+	 * 		the document's id
+	 * @todo
+	 * 		Need to control download permissions by checking if there is almost one  video which is active, 
+	 *		correctly encoded, and public or passworded or visible only if logged... before allowing the donwload itself 
+	 */
+	function download($id)	{
+		/** @see photo.class.php :: $file = $this->ready_photo_file($key); */
+		$file= $this->getDocumentDetails($id);
+		if($file) {
+			$p = $file['details'];
+			$mime=$file['mimetype'];
+			$filepath=DOCUMENT_DOWNLOAD_DIR.'/'.$file['storedfilename'];
+			if(file_exists($filepath)) {
+				if(is_readable($filepath)) {
+					$size = filesize($filepath);
+					if($fp=@fopen($filepath,'r')) {
+						// sending the headers
+						header("Content-type: $mime");
+						header("Content-Length: $size");
+						header("Content-Disposition: attachment; filename=\"".$file['filename']."\"");
+						// send the file content
+						fpassthru($fp);
+						// close the file
+						fclose($fp);
+						// and quit
+						exit;
+					}
+				} else {
+					e(lang("document_not_readable"));
+				}
+			} else {
+				e(lang("document_not_exist"));
+			}
+		} else
+			return false;
+	}
 	
 }
 

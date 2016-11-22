@@ -3,6 +3,7 @@
 	<name>Français</name>
 	<iso_code>fr</iso_code>
 	<phrases>
+		<speakers>Intervenants</speakers>
 		<speaker_manager>Gestion des intervenants</speaker_manager>
 		<speaker_already_exists>L'intervenant existe déjà</speaker_already_exists>
 		<speaker_does_not_exist>L'intervenant n'existe pas</speaker_does_not_exist>
@@ -33,5 +34,9 @@
 		<speaker_edition>Edition des intervenants</speaker_edition>
 		<video_addon>Extensions Vidéo</video_addon>
 		<allow_video_speaker_management>Autoriser la gestion des intervenants</allow_video_speaker_management>
+		<slugify_selected>Slugifier la sélection</slugify_selected>
+		<slugify>Slugifier</slugify>
+		<cant_slugify_speaker>Impossible de slugifier l'intervenant</cant_slugify_speaker>
+		<speaker_slugified>Intervenant slugifié</speaker_slugified>
 	</phrases>
 </clipbucket_language>

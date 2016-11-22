@@ -1,12 +1,12 @@
 <?php
 require_once DOCUMENT_DIR.'/document_class.php';
-// Check if user has admin acces
+/** Check if user has admin acces */
 $userquery->admin_login_check();
-// Check that doesn't work on plugis
-//$userquery->login_check('member_moderation');
+/** Check if user has admin acces to this plugin */
+if ($cbplugin->is_installed('common_library.php'))	$userquery->login_check(getStoredPluginName("documents"));
 $pages->page_redir();
 
-/* Assigning page and subpage */
+/** Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
 	define('MAIN_PAGE', lang('video_addon'));
 }
@@ -15,24 +15,24 @@ if(!defined('SUB_PAGE')){
 }
 
 
-// Run after a post action called 'delete_document'
-if (isset($_GET['delete_document'])) {
-	$deldocument = mysql_clean($_GET['delete_document']);
-	$documentquery->delete_document($deldocument);
+/** Run after a post action called 'deleteDocument'*/
+if (isset($_GET['deleteDocument'])) {
+	$deldocument = mysql_clean($_GET['deleteDocument']);
+	$documentquery->deleteDocument($deldocument);
 }
 
-// Run after a post action called 'delete_selected' (Deleting Multiple documents)
-if(isset($_POST['delete_selected'])){
+/** Run after a post action called 'deleteSelected' (Deleting Multiple documents) */
+if(isset($_POST['deleteSelected'])){
 	$cnt=count($_POST['check_document']);
 	if ($cnt>0){
 		for($id=0;$id<$cnt;$id++) 
-			$documentquery->delete_document($_POST['check_document'][$id]);
+			$documentquery->deleteDocument($_POST['check_document'][$id]);
 	}
 	else
 		e(lang("no_document_selected"),"w");
 }
 
-// Run after a post action called 'filter' (used to filter list of external documents)
+/** Run after a post action called 'filter' (used to filter list of external documents) */
 if(isset($_POST['filter'])){
 	$filtercond=" title like '%".$_POST['title']."%'";
 	assign('title',$_POST['title']);
@@ -43,8 +43,8 @@ if(isset($_POST['filter'])){
 }
 
 
-// Run after a post action called 'add_document' (used to filter list of external documents)
-if(isset($_POST['add_document'])){
+/** Run after a post action called 'addDocument' (used to filter list of external documents) */
+if(isset($_POST['addDocument'])){
 	$hashname = RandomString(8)."_".$_FILES['filename']['name']; //randomize name
 	$array= array('title'=> $_POST['title'], 
 			'filename' => mysql_clean($_FILES['filename']['name']),
@@ -52,7 +52,7 @@ if(isset($_POST['add_document'])){
 			'size' => $_FILES["filename"]["size"], 
 			'mimetype' => $_FILES["filename"]["type"], 
 	);
-	if($id=$documentquery->add_document($array))	{
+	if($id=$documentquery->addDocument($array))	{
 		move_uploaded_file($_FILES['filename']['tmp_name'], DOCUMENT_DOWNLOAD_DIR."/".$hashname);  //moving file from tmp folder to thumbs folder
 		assign('showfilter',false);
 		assign('showadd',false);
@@ -60,15 +60,15 @@ if(isset($_POST['add_document'])){
 	}
 }
 
-// Run after a post action called 'edit_document'
-if (isset($_GET['edit_document'])) {
+/** Run after a post action called 'editDocument'*/
+if (isset($_GET['editDocument'])) {
 	if (error()){
 		$details=$_POST;
 		$details['id']=$details['documentid'];
 	}
 	else {
-		$id = $_GET['edit_document'];
-		$details = $documentquery->get_document_details($id);
+		$id = $_GET['editDocument'];
+		$details = $documentquery->getDocumentDetails($id);
 	}
 
 	if ($details){
@@ -79,9 +79,9 @@ if (isset($_GET['edit_document'])) {
 	assign('showadd',false);
 }
 
-// Run after a post action called 'update_document'
-if(isset($_POST['update_document'])){
-	$array=$documentquery->get_document_details($_POST['documentid']);
+/** Run after a post action called 'updateDocument'*/
+if(isset($_POST['updateDocument'])){
+	$array=$documentquery->getDocumentDetails($_POST['documentid']);
 	$array['documentid']=$_POST['documentid'];
 	$oldfile=$array['storedfilename'];
 	$array['title']= $_POST['title'];
@@ -92,7 +92,7 @@ if(isset($_POST['update_document'])){
 		$array['size'] =  mysql_clean($_FILES['filename']['size']);
 		$array['mimetype'] =  mysql_clean($_FILES['filename']['type']);
 	}
-	if ($documentquery->update_document($array)) {
+	if ($documentquery->updateDocument($array)) {
 		if ($_FILES['filename']['size']>0){
 			unlink(DOCUMENT_DOWNLOAD_DIR."/".$oldfile);
 			move_uploaded_file($_FILES['filename']['tmp_name'], DOCUMENT_DOWNLOAD_DIR."/".$hashname);  //moving file from tmp folder to thumbs folder
@@ -108,29 +108,29 @@ if(isset($_POST['update_document'])){
 
 
 
-//Getting document List
+/** Prepare page */
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,RESULTS);
 $array=[];
 
 $result_array = $array;
-//Getting document List
+/** Getting document List */
 $result_array['limit'] = $get_limit;
 if ($filtercond) $result_array['cond']=$filtercond;
 //pr($result_array,true);
-$documents = $documentquery->get_documents($result_array);
+$documents = $documentquery->getDocuments($result_array);
 Assign('documents', $documents);
 
-//Collecting Data for Pagination
+/** Collecting Data for Pagination */
 $mcount = $array;
 $mcount['count_only'] = true;
-$total_rows  = $documentquery->get_documents($mcount);
+$total_rows  = $documentquery->getDocuments($mcount);
 $total_pages = count_pages($total_rows,RESULTS);
-//Pagination
+/** Pagination */
 $pages->paginate($total_pages,$page);
 
 
-//Set HTML title
+/** Set HTML title */
 subtitle(lang("documents_manager"));
 
 template_files('manage_documents.html',DOCUMENT_ADMIN_DIR);

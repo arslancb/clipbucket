@@ -2,20 +2,21 @@
 /**
  * This File contains a class that extends cbsearch in order to modifiy it's behaviour and accept extended search
  */
-class extend_search extends cbsearch {
+class ExtendSearch extends cbsearch {
 	
 	/**
 	 * Function used to convert array to query condition
 	 * 
-	 * Overwride of cbsearch query_cond function to accept search in other table tha, $this->db_tbl
+	 * Overrride of cbsearch query_cond function to be able to accept searches in other table than $this->db_tbl
 	 * By default if $array doesn't contains "table" field then run the same code than the original function
 	 * Otherwise take the $array['table'] as source for the field to be searched
 	 * 
-	 * input $array : an array tha contains an elements of the query's condition. It look's like :
-	 * 	array('table'=>'table_name', 'field'=>'field_name','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR')
-	 * 	where 'table" default value is $this->db_tbl
-	 * 	where "type" may be one of ['<','>','<=', '>=','like', 'match', '=', '!=', '<>'] Default Value = "="
-	 * 	where "op" may be one of ["OR", "AND"] default value is "AND"
+	 * @param array $array 
+	 * 		an array that contains an elements of the query's condition. It look's like :<br/>
+	 * 		array('table'=>'table_name', 'field'=>'field_name','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR')<br/>
+	 * 		where 'table" default value is $this->db_tbl<br/>
+	 * 		where "type" may be one of ['<','>','<=', '>=','like', 'match', '=', '!=', '<>'] Default Value = "="<br/>
+	 * 		where "op" may be one of ["OR", "AND"] default value is "AND"
 	 */
 	function query_cond($array) {
 		$table=$this->db_tbl;
@@ -58,9 +59,9 @@ class extend_search extends cbsearch {
 	
 	/**
 	 * Run the database search request. 
-	 * 	need $this->columns for adding conditions in WHERE part of the query
-	 * 	need $this->reqTbls for adding tables in FROM part of the query
-	 * 	need $this->reqTblsJoin for adding conditions in WHERE part of the query (table junction)
+	 * Need $this->columns to be filed for adding conditions in WHERE part of the query<br/>
+	 * Need $this->reqTbls to be filed for adding tables in FROM part of the query<br/>
+	 * Need $this->reqTblsJoin to be filed for adding conditions in WHERE part of the query (table junction)<br/>
 	 */
 	 function search(){
 		global $db;
@@ -103,15 +104,38 @@ class extend_search extends cbsearch {
 		if(isset($this->sort_by) && !$sorting) {
 			$sorting = $this->sorting[$this->sort_by];
 		}
-		
-		$condition = "";
-		#Creating Condition
-		foreach($this->query_conds as $cond) {
-			$condition .= $cond." ";
+		// Overridde of orginal sorting method by this one in order to allow other sort than thoses predifined
+		if(isset($this->sortby)) {
+			$sorting = $this->sorting[$this->sortby];
 		}
 		
+		$condition = "";
+		$firstCond ='';
+		$orConds= [];
+		$andConds= [];
+		$foundAnd=false;
+		#Creating Condition (put all "OR" conditions together inside a parenthesis  and then and conditions.)
+		foreach($this->query_conds as $cond) {
+			//$condition .= $cond.' ';
+			if (preg_match("/^OR\b/", $cond))
+				$orConds [] = $cond;
+			else if (preg_match("/^AND\b/", $cond))
+				$andConds [] = $cond;
+			else 
+				$firstCond = $cond;
+		}
+		if (count ($orConds >0)) 
+			$condition .= '(';
+		$condition .= $firstCond." ";
+		foreach($orConds as $cond) 
+			$condition .= $cond.' ';
+		if (count ($orConds >0)) 
+			$condition .= ') ';
+		foreach($andConds as $cond)
+			$condition .= $cond.' ';
+		
 		$tables="";
-		#Creating liste of from tables
+		# Creating liste of from tables
 		foreach ($this->reqTbls as $table) {
 			$tables.=$table.',';
 		}
@@ -130,26 +154,29 @@ class extend_search extends cbsearch {
 				$query_cond .= " AND ";
 			else
 				$query_cond = $condition;
-			/*
-			$results = $db->select(tbl($this->db_tbl.",users"),
-					tbl($this->db_tbl.'.*,users.userid,users.username').$add_select_field,
-					$query_cond." ".tbl($this->db_tbl).".userid=".tbl("users.userid")." AND ".tbl($this->db_tbl).".active='yes'",$this->limit,$sorting);
-			*/
+			$restrictionCond="";
+			if(!has_access('admin_access',TRUE)){
+				$restrictionCond = " AND ".tbl($this->db_tbl).".active='yes'"."AND".tbl($this->db_tbl).".broadcast='public'";
+			}
+			else{
+				$restrictionCond = " AND ".tbl($this->db_tbl).".active='yes'";
+			}
 			$results = $db->select(tbl($tables),
 					"DISTINCT ".tbl($this->db_tbl.'.*,users.userid,users.username').$add_select_field,
-					$query_cond." ".$joinCondition." AND ".tbl($this->db_tbl).".active='yes'",$this->limit,$sorting);
+					$query_cond." ".$joinCondition.$restrictionCond,$this->limit,$sorting);
 				
 		
-		
-			$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
+			//$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
+			$this->total_results = $db->count(tbl($tables),'*',$query_cond." ".$joinCondition.$restrictionCond);
 				
 		}else {
-			//TODO: Request non modified. If used it should be like the request above but wutthout users table and fields.  
+			//TODO: Request non modified. If used it should be like the request above but without users table and fields.  
 			$results = $db->select(tbl($this->db_tbl),'*',$condition,$this->limit,$sorting);
 			//echo $db->db_query;
 			$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
 		}
-		return $results;
+		// Use array_reverse function because search_result.php also use this function and $result is in good order.
+		return array_reverse($results);
 	}
 	
 }

@@ -3,6 +3,7 @@
 	<name>English</name>
 	<iso_code>en</iso_code>
 	<phrases>
+		<speakers>Speakers</speakers>
 		<speaker_manager>Speaker Manager</speaker_manager>
 		<speaker_already_exists>Speaker already exists</speaker_already_exists>
 		<speaker_does_not_exist>Speaker does not exist</speaker_does_not_exist>
@@ -33,5 +34,9 @@
 		<speaker_edition>Edit speakers</speaker_edition>
 		<video_addon>Video Addon</video_addon>
 		<allow_video_speaker_management>Allow Video Speaker Management</allow_video_speaker_management>
+		<slugify_selected>Slugify selected</slugify_selected>
+		<slugify>Slugify</slugify>
+		<cant_slugify_speaker>Can't slugify speaker</cant_slugify_speaker>
+		<speaker_slugified>Speaker slugified</speaker_slugified>
 	</phrases>
 </clipbucket_language>

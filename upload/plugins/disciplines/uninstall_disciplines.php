@@ -1,5 +1,8 @@
 <?php
 //Function used to uninstall Plugin
+require_once PLUG_DIR.'/common_library/common_library.php';
+require_once('../includes/common.php');
+
 $uploaddir = BASEDIR."/files/thumbs/disciplines";
 if (!is_dir($uploaddir)) {
 	die($uploaddir.lang("not_a_valid_folder"));
@@ -8,7 +11,7 @@ if (!is_dir($uploaddir)) {
 /**
  *Remove discplines table from the database 
  */
-function uninstall_disciplines(){
+function uninstallDisciplines(){
 	global $db;
 	$uploaddir = BASEDIR."/files/thumbs/disciplines";
 	// remove all thumb images
@@ -24,12 +27,6 @@ function uninstall_disciplines(){
 	}
 	rmdir($uploaddir);
 
- 	// Delete folder recursively 
-	$files = array_diff(scandir($dir), array('.','..'));
-	foreach ($files as $file) {
-		(is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
-	}
-	rmdir($dir);
 
 	// remove disciplines table
 	$db->Execute("DROP TABLE ".tbl('disciplines'));
@@ -39,7 +36,8 @@ function uninstall_disciplines(){
 
 
 
-uninstall_disciplines();
+uninstallDisciplines();
+uninstallPluginAdminPermissions("discipline");
 
 /**
  * remove locales for this plugin

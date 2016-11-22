@@ -15,7 +15,6 @@
 <br/>
 <div {if $showadd==true || $showedit==true} class="in"{else}class="collapse"{/if} id="adddiv" >
 
-<!--  div class="add_box" id="adddiv" {if $showadd!=true && $showedit!=true} style="display:none"{/if}-->  
 	<div class="well">
 	<form action="{$speaker_managepage}" method="post">
 		<div class="row">
@@ -32,7 +31,7 @@
 	    		<input name="cptentries" value="{$number}" id="cptentries" type="hidden">
 			</div>
 			<div class="col-sm-6">
-				<span id="duplicate" class="btn btn-primary btn-xs">{lang('add_a_role')}</span>
+				<span id="duplicate" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span>{lang('add_a_role')}</span>
     			{if $optional_fields}
 					{assign var='number' value=$optional_fields['description']['values']|@count}
 	    			{for $i=0 to $number-1}
@@ -62,9 +61,9 @@
 	</form>    
 	</div>
 </div>
-<br/>
 
 {if $speakers}
+<hr/>
 <div><span class="btn btn-primary btn-sm" onclick="toggle_search('searchdiv')" ><span class="glyphicon glyphicon-search"></span>{lang('filter')}</div>
 <div class="search_box" id="searchdiv" {if $showfilter!=true} style="display:none"{/if}>  
 	<div class="well">
@@ -76,11 +75,12 @@
 </form>
 </div>
 </div>
-  <br/>
+  <hr/>
 
 <form name="manage_speaker" method="post">
   <div class="btn-group marginBottomSmall">
-    <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected speakers(s)')"/>
+    <input class="btn btn-danger btn-sm" type="submit" name="deleteSelected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected speakers(s)')"/>
+    <input class="btn btn-primary btn-sm" type="submit" name="slugifySelected" value="{lang('slugify_selected')}"/>
   </div>
   
   
@@ -105,7 +105,7 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-9">
-                        <a href="{$speaker_managepage}&edit_speaker={$u.id}" class="oneUserName">{$u.firstname} {$u.lastname}</a>
+                        <a href="{$speaker_managepage}&editSpeaker={$u.id}" class="oneUserName">{$u.firstname} {$u.lastname}</a>
 
                         <span>[{$u.slug}]</span>
                     </div>
@@ -118,9 +118,10 @@
         {lang('actions')}<i class="icon-angle-down icon-on-right"></i>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
-         <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&edit_speaker={$u.id}"><span class="glyphicon glyphicon-pencil"></span>{lang('edit')}</a></li>
+         <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&editSpeaker={$u.id}"><span class="glyphicon glyphicon-pencil"></span> {lang('edit')}</a></li>
+         <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&slugifySpeaker={$u.id}"><span class="glyphicon glyphicon-edit"></span> {lang('slugify')}</a></li>
         <li class="divider"></li>
-        <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&delete_speaker={$u.id}"><span class="glyphicon glyphicon-trash"></span>{lang('delete')}</a></li>
+        <li><a role="menuitem" tabindex="-1" href="{$speaker_managepage}&deleteSpeaker={$u.id}"><span class="glyphicon glyphicon-trash"></span> {lang('delete')}</a></li>
       </ul>
     </div>
     </td>
@@ -134,7 +135,8 @@
 </table>
 
 <div class="btn-group">
-    <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected speakers(s)')"/>
+    <input class="btn btn-danger btn-sm" type="submit" name="deleteSelected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected speakers(s)')"/>
+    <input class="btn btn-primary btn-sm" type="submit" name="slugifySelected" value="{lang('slugify_selected')}"/>
   </div>
 </form>
 {else}

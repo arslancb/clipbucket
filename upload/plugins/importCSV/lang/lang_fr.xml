@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>Français</name>
+	<iso_code>fr</iso_code>
+	<phrases>
+		<importcsv_manager>Importation CSV</importcsv_manager>
+		<import_mapping_model>Importer un fichier de correspondance</import_mapping_model>
+		<import_join_model>Importer un fichier de jointure</import_join_model>
+		<import_mapping_data>Importer des données de correspondance</import_mapping_data>
+		<import_join_data>Import des données de jointure</import_join_data>
+		<csv_file>fichier csv</csv_file>
+		<import_file>Importer</import_file>
+		<cleanup_database>Réinitialiser</cleanup_database>
+		<field_separator>Caractère de séparation</field_separator>
+		<table_name>Nom de la table Clipbucket</table_name>
+		<data_successfully_added>Donnée ajoutée avec succes</data_successfully_added>
+		<no_file_selected>Aucun fichier sélectionné</no_file_selected>
+		<data_successfully_deleted>Données supprimées</data_successfully_deleted>
+		<import_mapping_model_help>Aide import mapping model (TODO)</import_mapping_model_help>
+		<import_insert_join_mapping_help>Aide import insert join mapping (TODO)</import_insert_join_mapping_help>
+		<import_mapping_data_help>Aide import mapping data (TODO)</import_mapping_data_help>
+		<import_join_data_help>Aide import join data (TODO)</import_join_data_help>
+		<generate_video_filenames>Regénérer les noms des vidéos et leurs dossiers</generate_video_filenames>
+	</phrases>
+</clipbucket_language>

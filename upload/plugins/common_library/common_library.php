@@ -24,6 +24,7 @@ define('COMMON_LIBRARY_URL',PLUG_URL.'/'.COMMON_LIBRARY_BASE);
  * 		the folder where to find the locales file. 	
  * @param string $lang 
  *		iso code of the pack to import (ie: 'en')
+ *@see removeLangagePack()
  */
 function importLangagePack($folder, $lang){
 	global $db,$lang_obj;
@@ -50,19 +51,28 @@ function importLangagePack($folder, $lang){
 		else
 		{
 			$sql = '';
+			// insert data only if it'is not still in the database. This is usefull when you
+			// remove manually the plugin directly in the database
 			foreach($phrases as $code => $phrase) {
-				if(!empty($sql))
-					$sql .=",\n";
+				$result=$db->_select("SELECT * FROM ".tbl('phrases')." WHERE `varname` = '".$code."' AND `lang_iso` LIKE '".$lang."'");
+				if (count($result)==0) {
+					if(!empty($sql)) $sql .=",\n";
 					$sql .= "('".$data['iso_code']."','$code','".htmlspecialchars($phrase,ENT_QUOTES, "UTF-8")."')";
+				}
 			}
 			$sql .= ";";
 			$query = "INSERT INTO ".tbl("phrases")." (lang_iso,varname,text) VALUES \n";
 			$query .= $sql;
 			$db->execute($query);
+			// update all phrases. This way the phrases which were present in the previous SQL INSERT will be updated.
+			foreach($phrases as $code => $phrase) {
+				$db->Execute("UPDATE ".tbl('phrases')." SET `text`='".$phrase."' WHERE `varname` = '".$code."' AND `lang_iso` LIKE '".$lang."'");
+			}
+					
 			e(lang("lang_added")." : ".$lang,"m");
 			/** Generate CB language pack */
 			if($lang_obj->createPack($lang)){
-				e(lang("lang__pack_updated"),"m");
+				e(lang("lang_pack_updated"),"m");
 			}
 		}
 	}
@@ -77,6 +87,7 @@ function importLangagePack($folder, $lang){
  * 		the folder where to find the locales file.
  * @param string $lang
  *		iso code of the pack to import (ie: 'en')
+ *@see importLangagePack()
  */
 function removeLangagePack($folder, $lang){
 	global $db,$lang_obj;
@@ -113,6 +124,75 @@ function removeLangagePack($folder, $lang){
 			}
 		}
 	}
+}
+
+/**
+ * Preparing management of plugins administration permissions
+ *
+ * Add fields and values in the database to allow the administrator setting on or off the administration
+ * part for the specified plugin
+ * 
+ * @param string $pluginName
+ * 		The plugin name. This name will be stored in the database as a new field in the "user_levels_permissions" table 
+ * 		and as an entry in the "user_permissions" table so use an appropriate name (ie : my_plugin). 
+ * 		For secure reasons the given name will be prefixed by this function. 
+ * @param string $pluginTitle
+ * 		This string will bi displayed in the "User levels" admin page as the title of the plugin 
+ * 		for wich you want to set permissions
+ * @param string $pluginDescription
+ * 		This string is used to give a tooltip to administrator. It will also be displaied in the "User levels" admin page.
+ * @param "yes"|"no" $allowAcces
+ * 		If "yes" users will have acces to the plugin administration otherwinse not. 
+ * 		Be carefull even the administrator will not acces to the plugin by default. 
+ * 		It's default value is set to "no"
+ * @see uninstallPluginAdminPermissions()
+ */
+function installPluginAdminPermissions($pluginName, $pluginTitle, $pluginDescription='Allow acces to this plugin in the admin panel',$allowAcces="no"){
+	$pluginName = getStoredPluginName($pluginName);
+	global $db;
+	/** Add a field into user_level_permission table to be able to set the admnistration level for each user level */
+	$db->Execute('ALTER TABLE '.tbl("user_levels_permissions"). " ADD `".$pluginName."` ENUM('yes','no') NOT NULL DEFAULT '".$allowAcces."'");
+
+	/** Insert a new entry into the user_permission table to specify what is this adminstration level */
+	$flds=['permission_type', 'permission_name', 'permission_code', 'permission_desc', 'permission_default'];
+	$vls=['3', $pluginTitle, $pluginName, $pluginDescription, $allowAcces];
+	$db->insert(tbl('user_permissions'), $flds, $vls);
+}
+
+
+/**
+ * remove administration permissions access for the specified plugin 
+ *
+ * Cleanup the database by removing the appropriate field in the "user_levels_permissions" table 
+ * and an entry in the "user_permissions" table.
+ * @param string $pluginName
+ * 		The plugin name. This name correspond to the $plugin_name given in the installPluginAdminPermissions function.
+ * 		The corresponding field in the "user_levels_permissions" table will be droped and 
+ * 		the entry in the "user_permissions" table deleted. 
+ * 		For secure reasons the given name will be prefixed by this function. 
+ * @see installPluginAdminPermissions()  
+ */
+function uninstallPluginAdminPermissions($pluginName){
+	$pluginName = getStoredPluginName($pluginName);
+	global $db;
+	/** Remove the added field into user_level_permission table  that s used tu manage permissions for each user level */
+	$db->Execute('ALTER TABLE '.tbl("user_levels_permissions"). " DROP `".$pluginName."` ");
+
+	/** Remove the entry into the user_permission table that deal with this adminstration level */
+	$db->Execute ("DELETE FROM ".tbl('user_permissions')." WHERE `permission_code` = '".$pluginName."'");
+}
+
+
+/**
+ * Return the plugin name has it is stored in the persission tables 
+ *
+ * @param string $pluginName
+ * 		The plugin name. This name correspond to the $plugin_name given in the installPluginAdminPermissions function.
+ * 		For secure reasons the given name will be prefixed by this function.
+ */
+function getStoredPluginName($pluginName){
+	/**	Add a fixed prefix to the $plugin_name to prevent wrong deletion when uninstalling */
+	return  "plgadm_".$pluginName;
 }
 
 ?>

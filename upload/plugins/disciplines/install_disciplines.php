@@ -1,5 +1,5 @@
 <?php
-
+require_once PLUG_DIR.'/common_library/common_library.php';
 require_once('../includes/common.php');
 
 /**
@@ -11,13 +11,15 @@ if ($cbplugin->is_installed('common_library.php')){
 	$folder= PLUG_DIR.'/'.basename(dirname(__FILE__))."/lang";
 	importLangagePack($folder,'en');
 	importLangagePack($folder,'fr');
+	installPluginAdminPermissions("discipline", "Discipline administration", "Allow discipline management");
 }
 
 
 /**
  *Create Table for disciplines if not exists 
  */
-function install_disciplines() {	
+function installDisciplines() {	
+	/** Create folder for storing disciplines thumbnails */
 	$uploaddir = BASEDIR."/files/thumbs/disciplines";
 	if (is_dir($uploaddir)){ 
 		$files = glob($uploaddir.'/*'); // get all file names
@@ -62,6 +64,6 @@ function install_disciplines() {
 
 
 /** install the plugin */
-install_disciplines();
+installDisciplines();
 
 ?>

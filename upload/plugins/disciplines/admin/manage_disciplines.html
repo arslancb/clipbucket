@@ -1,6 +1,6 @@
 <h2>{lang code='disciplines'}
-	<button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#addNewDisc" aria-expanded="false" aria-controls="addNewDisc"><span class="glyphicon glyphicon-plus"></span> {lang("add")}</button>
 </h2>
+<button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#addNewDisc" aria-expanded="false" aria-controls="addNewDisc"><span class="glyphicon glyphicon-plus"></span> {lang("add")}</button>
 {if $edit_discipline == off}
 <div class="collapse" id="addNewDisc">
 	<div class="well">
@@ -102,8 +102,7 @@
 	</div>
 </div>
 {/if}
-{*$disciplines|@print_r*}
-{*$total*}
+<hr/>
 <form name="disciplines" action="" method="post">
 	<table width="100%" class="table table-striped">
 		<thead>

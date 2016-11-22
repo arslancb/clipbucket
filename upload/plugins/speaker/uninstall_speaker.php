@@ -1,4 +1,5 @@
 <?php
+require_once PLUG_DIR.'/common_library/common_library.php';
 require_once('../includes/common.php');
 
 /**
@@ -24,8 +25,7 @@ function uninstallSpeakerfunction() {
 /**
  *Remove video_speaker table from the database 
  */
-function uninstallVideospeaker()
-{
+function uninstallVideospeaker() {
 	global $db;
 	$db->Execute(
 	'DROP TABLE  IF EXISTS '.tbl("video_speaker").''
@@ -33,25 +33,19 @@ function uninstallVideospeaker()
 }
 
 /**
- * remove management for this plugin administration permissions
- *
- * Add fields and values in the database to allow the administrator setting on or off the administration
- * part of this plugin
+ * Remove documents table from the database
  */
-function uninstallSpeakerAdminPermissions(){
+function uninstallConfig() {
 	global $db;
-	/** Remove the added field into user_level_permission table  that s used tu manage permissions for each user level */
-	$db->Execute('ALTER TABLE '.tbl("user_levels_permissions"). " DROP `speaker_admin` ");
-
-	/** Remove the entry into the user_permission table that deal with this adminstration level */
-	$db->Execute ("DELETE FROM ".tbl('user_permissions')." WHERE `permission_code` = 'speaker_admin'");
+	$db->Execute("DELETE FROM ".tbl("config")." WHERE name='speakerSection' ");
 }
 
 
+uninstallConfig();
 uninstallVideospeaker();
 uninstallSpeakerfunction();
 uninstallSpeaker();
-uninstallSpeakerAdminPermissions();
+uninstallPluginAdminPermissions("speaker");
 
 /**
  * remove locales for this plugin

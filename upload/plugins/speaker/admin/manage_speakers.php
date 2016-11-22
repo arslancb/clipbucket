@@ -3,7 +3,8 @@ require_once SPEAKER_DIR.'/speaker_class.php';
 /** Check if user has admin acces */
 $userquery->admin_login_check();
 /** Check if user has admin acces to this plugin */
-$userquery->login_check('speaker_admin');
+if ($cbplugin->is_installed('common_library.php'))	$userquery->login_check(getStoredPluginName("speaker"));
+
 $pages->page_redir();
 
 /** Assigning page and subpage */
@@ -16,20 +17,20 @@ if(!defined('SUB_PAGE'))
  * Manage $_GET messages only if no POST is made.
  */
 if (count($_POST)==0){
-	/** Action run after a post action called 'delete_speaker' */
-	if (isset($_GET['delete_speaker'])) {
-		$delspeaker = mysql_clean($_GET['delete_speaker']);
-		$speakerquery->deleteSpeaker($delspeaker);
+	/** Action run after a post action called 'deleteSpeaker' */
+	if (isset($_GET['deleteSpeaker'])) {
+		$id = mysql_clean($_GET['deleteSpeaker']);
+		$speakerquery->deleteSpeaker($id);
 	}
 	
-	/** Action run after a get action called 'edit_speaker' */
-	if (isset($_GET['edit_speaker'])) {
+	/** Action run after a get action called 'editSpeaker' */
+	else if (isset($_GET['editSpeaker'])) {
 		if (error()){
 			$details=$_POST;
 			$details['id']=$details['speakerid'];
 		}
 		else {
-			$id = $_GET['edit_speaker'];
+			$id = $_GET['editSpeaker'];
 			$details = $speakerquery->getSpeakerDetails($id);
 		}
 		if ($details) assign('speak',$details);
@@ -37,7 +38,14 @@ if (count($_POST)==0){
 		assign('showfilter',false);
 		assign('showadd',false);
 	}
-}
+	
+	/** Action run after a post action called 'slugifySpeaker' */
+	else if (isset($_GET['slugifySpeaker'])) {
+		$id = mysql_clean($_GET['slugifySpeaker']);
+		$speakerquery->slugifySpeaker($id);
+	}
+	
+	}
 /** Action run after a post action called 'add_speaker' */
 else if(isset($_POST['add_speaker'])){
 	if($speakerquery->addSpeaker($_POST))	{
@@ -45,12 +53,22 @@ else if(isset($_POST['add_speaker'])){
 		$_POST = '';
 	}
 }
-/** Run after a post action called 'delete_selected' (Deleting Multiple speakers) */
-else if(isset($_POST['delete_selected'])){
+/** Run after a post action called 'deleteSelected' (Deleting Multiple speakers) */
+else if(isset($_POST['deleteSelected'])){
 	$cnt=count($_POST['check_speaker']);
 	if ($cnt>0){
 		for($id=0;$id<$cnt;$id++)
 			$speakerquery->deleteSpeaker($_POST['check_speaker'][$id]);
+	}
+	else
+		e(lang("no_speaker_selected"),"w");
+}
+/** Run after a post action called 'slugifySelected' (Slugify Multiple speakers) */
+else if(isset($_POST['slugifySelected'])){
+	$cnt=count($_POST['check_speaker']);
+	if ($cnt>0){
+		for($id=0;$id<$cnt;$id++)
+			$speakerquery->slugifySpeaker($_POST['check_speaker'][$id]);
 	}
 	else
 		e(lang("no_speaker_selected"),"w");

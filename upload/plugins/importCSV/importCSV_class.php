@@ -1,69 +1,33 @@
 <?php
-/*
- * This file contains linkquery class and some usefull functions used in this plugin
- */ 
-
 
 // Global Object $importCSVobject is used in the plugin
 $importCSVobject = new importCSVobject();
 $Smarty->assign_by_ref('importCSVobject', $importCSVobject);
 
 
-/**_____________________________________________________
- * mimetype_check
- * _____________________________________________________
- * Return True if uploaded file mimetype is allowed or not
- * input $mime : a string that contains the uploaded file mimetype
- * output : return true if it's ok otherwise false
- */
-/*function mimetype_check($mime){
-	$allowed = array('application/doc', 'application/pdf', 'image.png', 'image.jpeg'); //allowed mime-type
-	return (in_array($mime, $allowed)); 	  //Check uploaded file type
-}*/
-
-/**_____________________________________________________
- * filesize_check
- * _____________________________________________________
- * Return True if upload file size is under a specified value or not
- * input $size : a string that contains the value of the size
- * output : return true if it's ok otherwise false
- */
-/*function filesize_check($size){
-	$a=$size;
-	global $db;
-	$req=" name = 'document_max_filesize'";
-	$res=$db->select(tbl('config'),'*',$req,false,false,false);
-	//return $size < 25000000;
-	return $size < $res[0]["value"];
-}*/
-
-
-
-/**_____________________________________________________
- * Class importCSVobject
- * _____________________________________________________
- *Contains all actions that can affect the  document plugin 
+/**
+ * Contains all actions that can affect the  document plugin 
  */
 class importCSVobject extends CBCategory{
-	private $basic_fields = array();
 	
-	/**_____________________________________
-	 * importCSVobject
-	 * _____________________________________
-	 *Constructor for importCSVobject's instances
+	/**
+	 * Constructor for importCSVobject's instances
 	 */
 	function importCSVobject()	{
 	}
 	
-	/**_____________________________________
-	 * import_mapping_model
-	 * ____________________________________
-	 *Function used to add a new documents
+	/**
+	 * import a CSV file for mapping tables and fields
+	 * 
+	 * Get the correspondance between tables & fields from the imported database to the CB database.
 	 *
-	 *input $array : a dictionnary that contains all fields for a document. $_POST is used if empty
-	 * output : return document's id if exists , otherwise false
+	 * @param string $filename 
+	 * 		the CSV file name to upload
+	 * @param string $separator
+	 * 		the separator char used in the file. The default value is ';'
+	 * @see the README.md file describe the needed file format
 	 */
-	function import_mapping_model($filename, $separator=";"){
+	function importMappingModel($filename, $separator=";"){
 		global $db;
 		if (($handle = fopen($filename, "r")) !== FALSE) {
 			$i=0;
@@ -77,17 +41,19 @@ class importCSVobject extends CBCategory{
 					}
 					$query ='SHOW COLUMNS from '.tbl($mytbl['cb_table_name'])." like '".$mytbl['cb_field_name']."'";
 					$result=$db->Execute($query);
+					$flag=false;
 					while($row = mysqli_fetch_array($result)){
 						//echo $row['Field']." ".$row['Type']."<br>";
+						$flag=true;
 					}
-					if (!$row){
+					if (!$flag){
 						$db->Execute("ALTER TABLE ".tbl($mytbl['cb_table_name'])." ADD `".$mytbl['cb_field_name']."` ".$mytbl['cb_field_type']." NULL");
 					}
 					$fields_query="";
 					$values_query="";
 					for ($j=0; $j< count($head); $j++) {
 						$fields_query .= $head[$j];
-						$values_query .= "'".$mytbl[$head[$j]]."'"; 
+						$values_query .= "'".mysql_clean($mytbl[$head[$j]])."'"; 
 						if($j<count($head)-1){
 							$fields_query .= ',';
 							$values_query .= ',';
@@ -102,7 +68,10 @@ class importCSVobject extends CBCategory{
 		}
 	}
 
-	function delete_mapping_model(){
+	/**
+	 * Cleanup the importCSV_mapping table
+	 */
+	function deleteMappingModel(){
 		global $db;
 		$result=$db->select(tbl('importCSV_mapping'),"*");
 		foreach ($result as $r){
@@ -114,15 +83,18 @@ class importCSVobject extends CBCategory{
 		$db->Execute($query);
 	}
 	
-	/**_____________________________________
-	 * import_join_model
-	 * ____________________________________
-	 *Function used to add a new documents
+	/**
+	 * import a CSV file for mapping join tables 
+	 * 
+	 * Get the correspondance between  join tables  from the imported database to the CB database.
 	 *
-	 *input $array : a dictionnary that contains all fields for a document. $_POST is used if empty
-	 * output : return document's id if exists , otherwise false
+	 * @param string $filename 
+	 * 		the CSV file name to upload
+	 * @param string $separator
+	 * 		the separator char used in the file. The default value is ';'
+	 * @see the README.md file describe the needed file format
 	 */
-	function import_join_model($filename, $separator=";"){
+	function importJoinModel($filename, $separator=";"){
 		global $db;
 		
 		$row = 1;
@@ -141,15 +113,19 @@ class importCSVobject extends CBCategory{
 		}
 	}
 	
-	/**_____________________________________
-	 * import_mapping_data
-	 * ____________________________________
-	 *Function used to add a new documents
+	/**
+	 * Import a CSV file containing data from the source database to CB database table
+	 * 
+	 * Each mapping fields imported with importMappingModel() function will be imported into CB.
 	 *
-	 *input $array : a dictionnary that contains all fields for a document. $_POST is used if empty
-	 * output : return document's id if exists , otherwise false
+	 * @param string $tablename
+	 * 		the name of the source database table you are importing
+	 * @param string $filename 
+	 * 		the CSV file name to upload
+	 * @param string $separator
+	 * 		the separator char used in the file. The default value is ';'
 	 */
-	function import_mapping_data($tablename, $filename, $separator=";"){
+	function importMappingData($tablename, $filename, $separator=";"){
 		global $db;
 		$map=$db->select(tbl('importCSV_mapping'),'*',"`cb_table_name` = '".$tablename."'");
 		// get field type for future conversion
@@ -169,7 +145,11 @@ class importCSVobject extends CBCategory{
 		}
 		if (($handle = fopen($filename, "r")) !== FALSE) {
 			$i=0;
-			while (($data = fgetcsv($handle, 1000, $separator)) !== FALSE) {
+			//while (($data = fgetcsv($handle, 100000, $separator)) !== FALSE) {
+			while (($line = fgets($handle)) !== FALSE) {
+				$line=str_replace("\n","",$line);
+				$line=str_replace("\r","",$line);
+				$data=explode($separator,$line);
 				if ($i==0){
 					$head=$data;
 				}
@@ -194,17 +174,18 @@ class importCSVobject extends CBCategory{
 						$replace=$map[$j]["replace_value"];
 						$tsearch=explode("#",$search);
 						$treplace=explode("#",$replace);
-						$value=str_replace($tsearch, $treplace, $value);
+						$value=str_replace('\n',"\n",str_replace($tsearch, $treplace, $value));
 						
 						
 						//convert date to timestamp or date format before inserting into database
 						switch ($cbFieldType[$map[$j][cb_field_name]]){
 							case 'timestamp':
-								//$value=strtotime(str_replace(["/"],["-"],$value));
-								$value=date('Y-m-d',strtotime(str_replace(["/"],["-"],$value)));
+								if (strpos($value,"/") !== FALSE)
+									$value=date('Y-m-d',strtotime(str_replace(["/"],["-"],$value)));
 								break;
 							case 'date':
-								$value=date('Y-m-d',strtotime(str_replace(["/"],["-"],$value)));
+								if (strpos($value,"/") !== FALSE)
+									$value=date('Y-m-d',strtotime(str_replace(["/"],["-"],$value)));
 								break;
 						}
 						
@@ -219,15 +200,19 @@ class importCSVobject extends CBCategory{
 	}
 	
 
-	/**_____________________________________
-	 * import_join_data
-	 * ____________________________________
-	 *Function used to add a new documents
+	/**
+	 * Import a CSV file containing data from the source database join tables to CB database table
+	 * 
+	 * Each mapping fields imported with importMappingModel() function will be imported into CB.
 	 *
-	 *input $array : a dictionnary that contains all fields for a document. $_POST is used if empty
-	 * output : return document's id if exists , otherwise false
+	 * @param string $tablename
+	 * 		the name of the source database join table you are importing
+	 * @param string $filename 
+	 * 		the CSV file name to upload
+	 * @param string $separator
+	 * 		the separator char used in the file. The default value is ';'
 	 */
-	function import_join_data($tablename, $filename, $separator=";"){
+	function importJoinData($tablename, $filename, $separator=";"){
 		global $db;
 		
 		$map=$db->select(tbl('importCSV_join'),'*',"`cb_tablejoin_name` = '".$tablename."'");
@@ -251,7 +236,8 @@ class importCSVobject extends CBCategory{
 						if (count($result_id1)==1 && count($result_id2)==1){
 							$query="INSERT INTO ".tbl($map['cb_tablejoin_name']);
 							$query.=" (`".$map['cb_tablejoin_field1']."`, `".$map['cb_tablejoin_field2']."`) ";
-							$query.=" VALUES ('".$result_id1[0][$map['cb_table1_field']]."', '".$result_id2[0][$map['cb_table2_field']]."') ";
+							$query.=" VALUES ('".mysql_clean($result_id1[0][$map['cb_table1_field']])."', '".
+								mysql_clean($result_id2[0][$map['cb_table2_field']])."') ";
 							$db->Execute($query);
 						}
 					}
@@ -262,7 +248,26 @@ class importCSVobject extends CBCategory{
 		}
 	}
 	
-
+	/**
+	 * Recreate video name and folder name from video "date_added" field
+	 */
+	function generateVideoFileNames(){
+		global $db;
+		$query="SELECT * FROM ".tbl('video');
+		$result=$db->_select($query);
+		foreach ($result as $v){
+			$file_directory = create_dated_folder(NULL,$v['date_added']);
+			$query="UPDATE ".tbl('video')." SET `file_directory`='".$file_directory."' WHERE `videoid`=".$v['videoid'];
+			$db->Execute($query);
+			$tmp="".strtotime($v['date_added']);
+			if (strpos($v["file_name"],$tmp) === false) {
+				$file_name = strtotime($v['date_added']).RandomString(5);
+				$query="UPDATE ".tbl('video')." SET `file_name`='".$file_name."' WHERE `videoid`=".$v['videoid'];
+				$db->Execute($query);
+			}
+		}
+	}
+	
 }
 
 ?>

@@ -1,15 +1,15 @@
 <?php
-require "extend_search_class.php";
+require_once "extend_search_class.php";
 /**
  * This File contains a class that extends CBVideo in order to replace the CBvideo vaviable called search 
  * by an instance of extend-search class. This class also add search in video 'description' field by default
  */
-class extend_video extends CBvideo {
-	/**_____________________________________
-	 * init
-	 * _____________________________________
-	 *Call the parent init function and replace the global $CBucket variable stored in $Cbucket->search_types['videos']
-	 *by the global variable "cbvidext" which is an instance of this class.
+class ExtendVideo extends CBvideo {
+	/**
+	 * Initialize the ExtendVideo objetcs
+	 * 
+	 * Call the parent init function and replace the global $CBucket variable stored in $Cbucket->search_types['videos']
+	 * by the global variable "cbvidext" which is an instance of this class.
 	 *
 	 */	
 	function init() {
@@ -18,16 +18,17 @@ class extend_video extends CBvideo {
 		$Cbucket->search_types['videos'] = "cbvidext";
 	}
 	
-	/**_____________________________________
-	 * cloneValues
-	 * _____________________________________
-	 *Make a pseudo clone of an object to an other. This method is used to copy all attribute of a source object
-	 *to a destination one. Th current use case is copying attribute to an object of a derived class 
-	 *of the source object's class
+	/**
+	 * Clone an object
+	 * 
+	 * Make a pseudo clone of an object to an other. This method is used to copy all attribute of a source object
+	 * to a destination one. The current use case is copying attribute to an object of a derived class 
+	 * of the source object's class
 	 *
-	 *input $srcObj : The source object
-	 *		$dstObj : The destination object
-	 *
+	 * @param object $srcObj
+	 * 		The source object
+	 * @param object $dstObj
+	 * 		The destination object
 	 */	
 	function cloneValues($srcObj , $dstObj){
 		foreach (get_object_vars($srcObj) as $key => $val){
@@ -52,23 +53,25 @@ class extend_video extends CBvideo {
 	 */
 	var $reqTblsJoin=array(array('table1'=>'users', 'field1'=>'userid','table2'=>'video','field2'=>'userid'));
 
-	/**_____________________________________
-	 * init_search
-	 * _____________________________________
-	 *This method initilize th instance of extend_video
+	/**
+	 * This method initilize the search engine for this class
 	 */	
 	function init_search(){
 		parent::init_search();
-		$search=new extend_search();
+		$search=new ExtendSearch();
 		$this->cloneValues($this->search,$search);
 		$this->search=$search;
 		$this->search->reqTbls=$this->reqTbls;
 		$this->search->reqTblsJoin=$this->reqTblsJoin;
+		$this->search->search_type['videos'] = array('title'=>lang('videos'));
 		//var_dump(get_object_vars($this->search));
-		$this->search->columns[]=array('field'=>'description','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR');
-		foreach ($this->columns as $column) {
-			$this->search->columns[]=$column;
-		}
+		$this->search->columns =array(
+				array('field'=>'title','type'=>'LIKE','var'=>'%{KEY}%'),
+				array('field'=>'tags','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR'),
+				array('field'=>'broadcast','type'=>'!=','var'=>'unlisted','op'=>'AND','value'=>'static'),
+				array('field'=>'status','type'=>'=','var'=>'Successful','op'=>'AND','value'=>'static'),
+				array('field'=>'description','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR')
+		);
 	}
 	
 }

@@ -28,7 +28,7 @@
 				</div>
 				<div class="collapse row" id="collapseMetas" aria-expanded="false">
 					<section class="col-sm-8 col-xs-12">
-						<p>{description($video.description)|description}</p>
+						<p>{description($video.description)}</p>
 						<ul class="documents nolist well">
 							<li>
 								<h5><span class="glyphicon glyphicon glyphicon-download-alt"></span> Téléchargements</h5>
@@ -64,23 +64,23 @@
 							<li>
 								<h5><span class="glyphicon glyphicon glyphicon-file"></span> Documents</h5>
 								<ul class="reset nolist">
-									<li><span class="no-link">{ANCHOR place="external_document_list" data=$video}</span></li>
+									<li><span class="no-link">{ANCHOR place="externalDocumentList" data=$video}</span></li>
 								</ul>
 							</li>
 							<li>
 								<h5><span class="glyphicon glyphicon glyphicon-link"></span> Liens</h5>
 								<ul class="reset nolist">
-									{ANCHOR place="external_link_list" data=$video}
+									{ANCHOR place="externalLinkList" data=$video}
 								</ul>
 							</li>
 						</ul>
 					</section>
 					<aside id="video-metas" class="col-sm-4 col-xs-12">
-						{if function_exists('speaker_list')}
+						{if function_exists('speakerList')}
 						<div class="entry speakers">
 							<h4>Intervenants</h4>
 							<ul class="list">
-								{ANCHOR place="speaker_list" data=$video}
+								{ANCHOR place="speakerList" data=$video}
 								<!--li><a href="#">???</a><span>?</span></li-->
 							</ul>
 						</div>

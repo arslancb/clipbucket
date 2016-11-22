@@ -2,10 +2,10 @@
 /*
  * This file contains speakerquery class and some usefull functions used in this plugin
  */ 
-
+require_once PLUG_DIR.'/extend_search/extend_video_class.php';
 
 // Global Object $speakerquery is used in the plugin
-$speakerquery = new SpeakerQuery();
+$speakerquery = new Speaker();
 $Smarty->assign_by_ref('speakerquery', $speakerquery);
 
 /**
@@ -59,14 +59,14 @@ function speakerRoleCheck($val) {
 /**
  * Class Containing actions for the speaker plugin 
  */
-class SpeakerQuery extends CBCategory{
+class Speaker extends CBCategory{
 	private $basic_fields = array();
 	private $extra_fields = array();
 	
 	/**
-	 * Constructor for speakerquery's instances
+	 * Constructor for speaker's instances
 	 */
-	function SpeakerQuery()	{
+	function Speaker()	{
 		global $cb_columns;
 		$basic_fields = array('id', 'firstname','lastname', 'slug', 'photo');
 		$cb_columns->object( 'speakers' )->register_columns( $basic_fields );
@@ -202,17 +202,19 @@ class SpeakerQuery extends CBCategory{
 	}
 	
 	/**
-	 *Function used to get speakers 
+	 * Get all speakers speficied by the $param attribute 
 	 *
-	 *@param array $params 
+	 * @param array $params 
 	 *		is a dictionary containing information about the requested speakers :
-	 *			$params['limit'] is for pagination (ie '0.100')
-	 *			$params['order'] is for ordering
-	 *			$params['cond'] is the "where" condition of the sql request
-	 * 			$params['count_only'] used only if we want to retrive number of speakers
-	 * 			$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template
-	 * @return speaker|int 
-	 * 		the specified speakers or the number of spaker if $param["count_only"] is set
+	 *		<ul>
+	 *			<li>$params['limit'] is for pagination (ie '0.100')</li>
+	 *			<li>$params['order'] is for ordering</li>
+	 *			<li>$params['cond'] is the "where" condition of the sql request</li>
+	 * 			<li>$params['count_only'] used only if we want to retrive number of speakers</li>
+	 * 			<li>$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template</li>
+	 * 		</ul>
+	 * @return int|array
+	 * 		the number of speakers if $params['count_only'] is set otherwise an array of all specified speakers objects
 	 */
 	function getSpeakers($params=NULL)	{
 		global $db;
@@ -250,16 +252,18 @@ class SpeakerQuery extends CBCategory{
 	 *
 	 * @param array $params
 	 * 		is a dictionary containing information about the requested speakers
-	 *			$params['limit'] is for pagination (ie '0.100')
-	 *			$params['order'] is for ordering
-	 *			($params['selected'] if =="yes" returns speakers linked to the video
-	 *								 if =="no" returns speakers not linked to the video
-	 *			$params['videoid'] is the video's id
-	 *			$params['cond'] is the "where" condition of the sql request
-	 * 			$params['count_only'] used only if we want to retrive number of speakers
-	 *			$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template
-	 * @return speaker|int 
-	 * 		the specified speakers and roles or the number of spaker if $param["count_only"] is set
+	 *		<ul>
+	 *			<li>$params['limit'] is for pagination (ie '0.100')</li>
+	 *			<li>$params['order'] is for ordering</li>
+	 *			<li>$params['selected'] if =="yes" returns speakers linked to the video, 
+	 *									if =="no" returns speakers not linked to the video</li>
+	 *			<li>$params['videoid'] is the video's id</li>
+	 *			<li>$params['cond'] is the "where" condition of the sql request</li>
+	 * 			<li>$params['count_only'] used only if we want to retrive number of speakers</li>
+	 * 			<li>$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template</li>
+	 * 		</ul>
+	 * @return int|array
+	 * 		the number of speakers if $params['count_only'] is set otherwise an array of all specified speakers objects
 	 */
 	function getSpeakerAndRoles($params=NULL){
 		global $db;
@@ -382,20 +386,20 @@ class SpeakerQuery extends CBCategory{
 	
 	/**
 	 * Remove speaker and speaker's role from the database.
-	 * 
-	 * @param int $id 
-	 * 		the id of ths speaker to be deleted 
-	 * @todo 
+	 *
+	 * @param int $id
+	 * 		the id of ths speaker to be deleted
+	 * @todo
 	 * 		if the speaker is linked to a video, then nothing is done, just an error message appears.
 	 */
 	function deleteSpeaker($id) {
 		global $db;
 		if($this->speakerExists($id)) {
 			$udetails = $this->getSpeakerDetails($id);
-				$test=$db->execute("DELETE FROM ".tbl("speakerfunction")." WHERE speaker_id='$id'");
-				$test2=$db->execute("DELETE FROM ".tbl("speaker")." WHERE id='$id'");
-				if (!$test2)
-					e(lang("cant_del_linked_speaker_msg")." id=".$id,"e");
+			$test=$db->execute("DELETE FROM ".tbl("speakerfunction")." WHERE speaker_id='$id'");
+			$test2=$db->execute("DELETE FROM ".tbl("speaker")." WHERE id='$id'");
+			if (!$test2)
+				e(lang("cant_del_linked_speaker_msg")." id=".$id,"e");
 				else
 					e(lang("speaker_del_msg")." id=".$id,"m");
 		}else{
@@ -404,6 +408,29 @@ class SpeakerQuery extends CBCategory{
 	}
 	
 	/**
+	 * Generate/Regenarate speaker's slug
+	 * 
+	 * @param int $id 
+	 * 		the id of ths speaker to be modified
+	 */
+	function slugifySpeaker($id) {
+		global $db;
+		if($this->speakerExists($id)) {
+			$udetails = $this->getSpeakerDetails($id);
+			$firstname=$udetails['firstname'];
+			$lastname=$udetails['lastname'];
+			$slug=slugify($firstname.'-'.$lastname);
+			$test2=$db->execute("UPDATE ".tbl("speaker")." SET slug='$slug' WHERE `id`=$id");
+			if (!$test2)
+				e(lang("cant_slugify_speaker")." id=".$id,"e");
+			else
+				e(lang("speaker_slugified")." id=".$id,"m");
+		}else{
+			e(lang("speaker_does_not_exist"));
+		}
+	}
+	
+/**
 	 * Associate a speaker's role to video 
 	 *
 	 * @param int $id 
@@ -605,7 +632,82 @@ class SpeakerQuery extends CBCategory{
 	
 		validate_cb_form($fields,$array);
 	}
+
+	/**
+	 * Clone an object
+	 *
+	 * Make a pseudo clone of an object to an other. This method is used to copy all attribute of a source object
+	 * to a destination one. The current use case is copying attribute to an object of a derived class
+	 * of the source object's class
+	 *
+	 * @param object $srcObj
+	 * 		The source object
+	 * @param object $dstObj
+	 * 		The destination object
+	 */
+	function cloneValues($srcObj , $dstObj){
+		foreach (get_object_vars($srcObj) as $key => $val){
+			$dstObj->{$key}=$srcObj->{$key};
+		}
+	}
 	
+	/**
+	 * Array of strings that contains all requiered table names for the search request.
+	 *
+	 * This variable can be extended extrernally
+	 */
+	var $reqTbls=array('video','users', 'speaker', 'speakerfunction', 'video_speaker');
+	
+	/**
+	 * Array that contains all requiered table and fields fo a sql join
+	 * 
+	 * each value of this table is an array like :
+	 * array('table1'=>'table1_name'.'field1' => 'field1_name', 'table2'=>'table2_name'.'field2' => 'field2_name')
+	 *
+	 * This variable can be extended extrernally
+	 */
+	var $reqTblsJoin=array(array('table1'=>'users', 'field1'=>'userid','table2'=>'video','field2'=>'userid'),
+			array('table1'=>'speaker', 'field1'=>'id','table2'=>'speakerfunction','field2'=>'speaker_id'),
+			array('table1'=>'speakerfunction', 'field1'=>'id','table2'=>'video_speaker','field2'=>'speakerfunction_id'),
+			array('table1'=>'video_speaker', 'field1'=>'video_id','table2'=>'video','field2'=>'videoid')
+		);
+	
+	/**
+	 * This method initilize the search engine for this class
+	 */
+	function init_search(){
+		
+		//parent::init_search();
+		$search=new ExtendSearch();
+		$this->cloneValues($this->search,$search);
+		$this->search=$search;
+		$this->search->has_user_id = true;
+		$this->search->results_per_page = config('videos_items_search_page');
+		$this->search->display_template = LAYOUT.'/blocks/video.html';
+		$this->search->template_var = 'video';
+		$this->search->sorting	= array(
+				'date_added'=> " date_added DESC",
+				'datecreated'=> " datecreated DESC",
+				'views'		=> " views DESC",
+				'comments'  => " comments_count DESC ",
+				'rating' 	=> " rating DESC",
+				'favorites'	=> " favorites DeSC"
+		);
+		$this->search->sortby = 'datecreated';
+		$this->search->search_type['speaker'] = array('title'=>lang('speakers'));
+		//set tables for this plugin in extended search plugin
+		$this->search->reqTbls=$this->reqTbls;
+		//set tables associations for this plugin in extended search plugin
+		$this->search->reqTblsJoin =$this->reqTblsJoin;
+		//set search fields for this plugin in extended search plugin
+		$this->search->columns =array(
+			array('table'=>'speaker', 'field'=>'firstname','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR'),
+			array('table'=>'speaker', 'field'=>'lastname','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR'),
+			array('table'=>'speaker', 'field'=>'slug','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR'),
+			array('field'=>'broadcast','type'=>'!=','var'=>'unlisted','op'=>'AND','value'=>'static'),
+			array('field'=>'status','type'=>'=','var'=>'Successful','op'=>'AND','value'=>'static')
+		);
+	}
 	
 }
 

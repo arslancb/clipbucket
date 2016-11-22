@@ -25,14 +25,16 @@
 			</div>
 			<div class="modal-body">
 				<div class="panel-group" id="accountSelect" role="tablist" aria-multiselectable="true">
-					<div class="panel panel-default">
-						<div class="panel-heading" role="tab" id="headingCas">
-							<h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accountSelect" href="#accountCas" aria-expanded="true" aria-controls="accountCas">Université de Lille <span class="caret"></span></a></h4>
+					{if function_exists('is_auth_cas')}
+						<div class="panel panel-default">
+							<div class="panel-heading" role="tab" id="headingCas">
+								<h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accountSelect" href="#accountCas" aria-expanded="true" aria-controls="accountCas">Université de Lille <span class="caret"></span></a></h4>
+							</div>
+							<div id="accountCas" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingCas">
+								<div class="panel-body"> <a href="{ANCHOR place="is_auth_cas" data="true"}" class="btn btn-primary btn-block">Connexion CAS <img src="{$theme}/images/U-lille-16x16.svg" alt="blason Université de Lille"></a> </div>
+							</div>
 						</div>
-						<div id="accountCas" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingCas">
-							<div class="panel-body"> <a href="{ANCHOR place="is_auth_cas" data="true"}" class="btn btn-primary btn-block">Connexion CAS <img src="{$theme}/images/U-lille-16x16.svg" alt="blason Université de Lille"></a> </div>
-						</div>
-					</div>
+					{/if}
 					<div class="panel panel-default">
 						<div class="panel-heading" role="tab" id="headingExt">
 							<h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accountSelect" href="#accountExt" aria-expanded="false" aria-controls="accountExt">Utilisateur externe <span class="caret"></span></a></h4>

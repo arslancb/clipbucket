@@ -1,9 +1,9 @@
 <?php
 require_once LINK_DIR.'/link_class.php';
-// Check if user has admin acces
+/** Check if user has admin acces */
 $userquery->admin_login_check();
-// Check that doesn't work on plugis
-//$userquery->login_check('member_moderation');
+/** Check if user has admin acces to this plugin */
+if ($cbplugin->is_installed('common_library.php'))	$userquery->login_check(getStoredPluginName("links"));
 $pages->page_redir();
 
 /* Assigning page and subpage */
@@ -15,24 +15,24 @@ if(!defined('SUB_PAGE')){
 }
 
 
-// Run after a post action called 'delete_link'
-if (isset($_GET['delete_link'])) {
-	$dellink = mysql_clean($_GET['delete_link']);
-	$linkquery->delete_link($dellink);
+/** Run after a post action called 'deleteLink' */
+if (isset($_GET['deleteLink'])) {
+	$dellink = mysql_clean($_GET['deleteLink']);
+	$linkquery->deleteLink($dellink);
 }
 
-// Run after a post action called 'delete_selected' (Deleting Multiple links)
+/** Run after a post action called 'delete_selected' (Deleting Multiple links) */
 if(isset($_POST['delete_selected'])){
 	$cnt=count($_POST['check_link']);
 	if ($cnt>0){
 		for($id=0;$id<$cnt;$id++)
-			$linkquery->delete_link($_POST['check_link'][$id]);
+			$linkquery->deleteLink($_POST['check_link'][$id]);
 	}
 	else
 		e(lang("no_link_selected"),"w");
 }
 
-// Run after a post action called 'filter' (used to filter list of external links)
+/** Run after a post action called 'filter' (used to filter list of external links) */
 if(isset($_POST['filter'])){
 	$filtercond=" title like '%".$_POST['title']."%'";
 	assign('title',$_POST['title']);
@@ -42,9 +42,9 @@ if(isset($_POST['filter'])){
 	assign('showedit',false);
 }
 
-// Run after a post action called 'add_link' (used to filter list of external links)
-if(isset($_POST['add_link'])){
-	if($linkquery->add_link($_POST))	{
+/** Run after a post action called 'addLink' (used to filter list of external links) */
+if(isset($_POST['addLink'])){
+	if($linkquery->addLink($_POST))	{
 		e(lang("new_link_added"),"m");
 		$_POST = '';
 		assign('showfilter',false);
@@ -53,15 +53,15 @@ if(isset($_POST['add_link'])){
 	}
 }
 
-// Run after a post action called 'edit_link'
-if (isset($_GET['edit_link'])) {
+/** Run after a post action called 'editLink' */
+if (isset($_GET['editLink'])) {
 	if (error()){
 		$details=$_POST;
 		$details['id']=$details['linkid'];
 	}
 	else {
-		$id = $_GET['edit_link'];
-		$details = $linkquery->get_link_details($id);
+		$id = $_GET['editLink'];
+		$details = $linkquery->getLinkDetails($id);
 	}
 
 	if ($details){
@@ -72,9 +72,9 @@ if (isset($_GET['edit_link'])) {
 	assign('showadd',false);
 }
 
-// Run after a post action called 'update_link'
-if(isset($_POST['update_link'])){
-	if ($linkquery->update_link($_POST)) {
+/** Run after a post action called 'updateLink' */
+if(isset($_POST['updateLink'])){
+	if ($linkquery->updateLink($_POST)) {
 		e(lang("update_link"),"m");
 		$_POST = '';
 		assign('showfilter',false);
@@ -86,29 +86,29 @@ if(isset($_POST['update_link'])){
 
 
 
-//Getting link List
+/** Prepare page */
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,RESULTS);
 $array=[];
 
 $result_array = $array;
-//Getting link List
+/** Getting link List */
 $result_array['limit'] = $get_limit;
 if ($filtercond) $result_array['cond']=$filtercond;
 //pr($result_array,true);
-$links = $linkquery->get_links($result_array);
+$links = $linkquery->getLinks($result_array);
 Assign('links', $links);
 
-//Collecting Data for Pagination
+/** Collecting Data for Pagination */
 $mcount = $array;
 $mcount['count_only'] = true;
-$total_rows  = $linkquery->get_links($mcount);
+$total_rows  = $linkquery->getLinks($mcount);
 $total_pages = count_pages($total_rows,RESULTS);
-//Pagination
+/** Pagination */
 $pages->paginate($total_pages,$page);
 
 
-//Set HTML title
+/** Set HTML title */
 subtitle(lang("external_links_manager"));
 
 template_files('manage_links.html',LINK_ADMIN_DIR);

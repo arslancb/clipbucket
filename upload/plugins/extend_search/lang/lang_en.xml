@@ -3,5 +3,6 @@
 	<name>English</name>
 	<iso_code>en</iso_code>
 	<phrases>
+		<multisearch>Multisearch</multisearch>
 	</phrases>
 </clipbucket_language>

@@ -3,5 +3,6 @@
 	<name>Français</name>
 	<iso_code>fr</iso_code>
 	<phrases>
+		<multisearch>Recherche multiple</multisearch>
 	</phrases>
 </clipbucket_language>
