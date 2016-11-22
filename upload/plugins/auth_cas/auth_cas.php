@@ -39,16 +39,16 @@ Version: 1.0
 		// Initialise
 		switch (CAS_VERSION){
 			case "CAS_VERSION_1_0":
-				phpCAS::client(CAS_VERSION_1_0,CAS_BASE,intval(CAS_PORT),'');
+				phpCAS::client(CAS_VERSION_1_0,CAS_BASE,intval(CAS_PORT),CAS_CONTEXT);
 			break;
 			case "CAS_VERSION_2_0":
-				phpCAS::client(CAS_VERSION_2_0,CAS_BASE,intval(CAS_PORT),'');
+				phpCAS::client(CAS_VERSION_2_0,CAS_BASE,intval(CAS_PORT),CAS_CONTEXT);
 			break;
 			case "CAS_VERSION_3_0":
-				phpCAS::client(CAS_VERSION_3_0,CAS_BASE,intval(CAS_PORT),'');
+				phpCAS::client(CAS_VERSION_3_0,CAS_BASE,intval(CAS_PORT),CAS_CONTEXT);
 			break;
 			default:
-				phpCAS::client(CAS_VERSION_2_0,CAS_BASE,intval(CAS_PORT),'');
+				phpCAS::client(CAS_VERSION_2_0,CAS_BASE,intval(CAS_PORT),CAS_CONTEXT);
 			break;
 		}
 
