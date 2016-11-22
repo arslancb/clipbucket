@@ -11,7 +11,6 @@
 		<cas_version>Version CAS</cas_version>
 		<cas_authentication>Authentification CAS</cas_authentication>
 		<cas_central_authentication_service>Central Authentication Service</cas_central_authentication_service>
-		<cas_configuration>Configuration</cas_configuration>
 		<cas_url>URL CAS</cas_url>
 		<cas_port>Port CAS</cas_port>
 		<cas_connexion_link>Connexion CAS</cas_connexion_link>

@@ -24,7 +24,7 @@ Version: 1.0
 	require(PLUG_DIR."/".AUTH_CAS."/CAS-1.3.4/CAS.php");
 	
 
-//	phpCAS::setDebug();			// Enable debugging
+//	phpCAS::setDebug();		// Enable debugging
 //	phpCAS::setVerbose(true);	// Enable verbose error messages. Disable in production!
 
 	/**
