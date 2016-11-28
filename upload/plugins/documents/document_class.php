@@ -140,9 +140,9 @@ class Document extends CBCategory{
 			$documentid=mysql_clean($array['documentid']);
 			$req=" title = '$title' ";
 			$res=$db->select(tbl('documents'),'id',$req,false,false,false);
-			// test document's unicity
-			if (count($res)>0){
-				e(lang("document_already_exists"));
+			// test document's existence
+			if (count($res)==0){
+				e(lang("document_does_not_exist"));
 				return false;
 			}
 			else {
