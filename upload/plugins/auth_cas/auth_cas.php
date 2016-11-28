@@ -129,8 +129,7 @@ Version: 1.0
 		$userquery = new userquery();
 		$pass =  RandomString(10);		// create a random password
 
-
-		if (function_exists('searchLdap')) {
+		if(is_installed('ldap_client')) {
 			e("Les fonctions LDAP sont disponibles.<br />\n", "m");
 			$ldap_corresp = searchLdap($login);
 		}

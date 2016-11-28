@@ -32,8 +32,7 @@ if(!defined('SUB_PAGE')){
 		assign($key, $config[$key]);
 	}
 	
-	
-	if (function_exists('searchLdap')) {
+	if(is_installed('ldap_client')) {
 		e("Les fonctions LDAP sont disponibles.<br />\n", "m");
 	}
 	else {
