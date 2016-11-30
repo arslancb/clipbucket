@@ -291,7 +291,7 @@ class Document extends CBCategory{
 			if ($cond) 
 				$query .= " WHERE ".$cond;
 			if ($order)
-				$quer .= " ORDER BY ".$order;
+				$query .= " ORDER BY ".$order;
 			if ($limit)
 				$query .= " LIMIT  ".$limit;
 			$result = $db->_select($query);
