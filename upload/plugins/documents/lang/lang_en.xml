@@ -17,7 +17,6 @@
 		<document_filter>Filter documents</document_filter>
 		<document_edition>Edit documents</document_edition>
 		<document_updated>Document succesfully updated</document_updated>
-		<document_does_not_exist>Document does not exist</document_does_not_exist>
 		<cant_del_documented_document_msg>Document is documented to almost one video and has not been deleted</cant_del_documented_document_msg>
 		<document_del_msg>Documents(s) succesfully deleted</document_del_msg>
 		<link_document>Link document</link_document>

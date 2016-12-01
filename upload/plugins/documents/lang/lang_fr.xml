@@ -17,7 +17,6 @@
 		<document_filter>Filtrer les documents</document_filter>
 		<document_edition>Editer le documents</document_edition>
 		<document_updated>Le document a été mis à jour</document_updated>
-		<document_does_not_exist>Le document n'existe pas</document_does_not_exist>
 		<cant_del_documented_document_msg>Le document est associé à au moins une vidéo et ne peut être supprimé</cant_del_documented_document_msg>
 		<document_del_msg>Lien(s) supprimé(s) avec succès</document_del_msg>
 		<link_document>Associer un document</link_document>
