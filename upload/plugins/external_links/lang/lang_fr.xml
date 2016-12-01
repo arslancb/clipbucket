@@ -17,7 +17,6 @@
 		<link_filter>Filtrer les liens</link_filter>
 		<link_edition>Edit links</link_edition>
 		<link_updated>Le lien a été mis à jour</link_updated>
-		<link_does_not_exist>Le lien n'existe pas</link_does_not_exist>
 		<cant_del_linked_link_msg>Le lien est associé à au moins une vidéo et ne peut être supprimé</cant_del_linked_link_msg>
 		<link_del_msg>Lien(s) supprimé(s) avec succès</link_del_msg>
 		<link_external_link>Associer un lien externe</link_external_link>

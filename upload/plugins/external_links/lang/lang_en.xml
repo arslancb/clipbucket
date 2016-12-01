@@ -17,7 +17,6 @@
 		<link_filter>Filter links</link_filter>
 		<link_edition>Edit links</link_edition>
 		<link_updated>Link succesfully updated</link_updated>
-		<link_does_not_exist>Link does not exist</link_does_not_exist>
 		<cant_del_linked_link_msg>Link is linked to almost one video and has not been deleted</cant_del_linked_link_msg>
 		<link_del_msg>Links(s) succesfully deleted</link_del_msg>
 		<link_external_link>Link external link</link_external_link>
