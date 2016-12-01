@@ -12,7 +12,6 @@
 		<new_speaker_added>Speaker has been added</new_speaker_added>
 		<speaker_updated>Speaker succesfully updated</speaker_updated>
 		<no_speaker_selected>No speaker has been selected</no_speaker_selected>
-		<speakers>Speakers</speakers>
 		<add_new_speaker>Add new speaker</add_new_speaker>
 		<manage_speakers>Manage speakers</manage_speakers>
 		<add_a_role>Add a role</add_a_role>
