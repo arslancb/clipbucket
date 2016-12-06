@@ -36,7 +36,7 @@ class Discipline extends CBCategory{
 	 *
 	 * This variable can be extended extrernally
 	 */
-	var $reqTbls=array('video','users');
+	var $reqTbls=array('video','users','disciplines');
 	
 	/**
 	 * Array that contains all requiered table and fields fo a sql join
@@ -46,7 +46,17 @@ class Discipline extends CBCategory{
 	 *
 	 * This variable can be extended extrernally
 	 */
-	var $reqTblsJoin=array(array('table1'=>'users', 'field1'=>'userid','table2'=>'video','field2'=>'userid'));
+	var $reqTblsJoin=array(
+			array('table1'=>'users', 'field1'=>'userid','table2'=>'video','field2'=>'userid'),
+			array('table1'=>'disciplines', 'field1'=>'id','table2'=>'video','field2'=>'discipline'));
+
+	/**
+	 * String used to declare all necessary fields the search request should return.
+	 * This string have to contain fields in which we are searching data
+	 * in order to make a post treatment for requests that contains single quotes
+	 *
+	 */
+	var $reqFields="video.*,disciplines.name,users.userid,users.username";
 	
 	/**
 	 * Function used to use to initialize search object for video section
@@ -70,7 +80,6 @@ class Discipline extends CBCategory{
 	
 		$this->search->display_template = LAYOUT.'/blocks/video.html';
 		$this->search->template_var = 'video';
-		$this->search->has_user_id = true;
 	
 		/**
 		 * Setting up the sorting thing
@@ -79,6 +88,7 @@ class Discipline extends CBCategory{
 		$this->search->sorting	= array(
 				'date_added'=> " date_added DESC",
 				'datecreated'=> " datecreated DESC",
+				'most_recent'=> " datecreated DESC",
 				'views'		=> " views DESC",
 				'comments'  => " comments_count DESC ",
 				'rating' 	=> " rating DESC",
@@ -89,13 +99,15 @@ class Discipline extends CBCategory{
 		if(is_array($default['category']))
 			$cat_array = array($default['category']);
 		$uploaded = $default['datemargin'];
-		$this->search->sortby = 'datecreated';
+		$this->search->sort_by = 'datecreated';
 		
 		$this->search->search_type['disciplines'] = array('title'=>lang('discipline'));
 		//set tables for this plugin in extended search plugin
 		$this->search->reqTbls=$this->reqTbls;
 		//set tables associations for this plugin in extended search plugin
 		$this->search->reqTblsJoin =$this->reqTblsJoin;
+		//set return fields  for this plugin in extended search plugin
+		$this->search->searchFields=$this->reqFields;
 		
 		$this->search->results_per_page = config('videos_items_search_page');
 	}
