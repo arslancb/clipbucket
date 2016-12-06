@@ -24,7 +24,7 @@ Version: 1.0
 	require(PLUG_DIR."/".AUTH_CAS."/CAS-1.3.4/CAS.php");
 	
 
-//	phpCAS::setDebug();			// Enable debugging
+//	phpCAS::setDebug();		// Enable debugging
 //	phpCAS::setVerbose(true);	// Enable verbose error messages. Disable in production!
 
 	/**
@@ -39,16 +39,16 @@ Version: 1.0
 		// Initialise
 		switch (CAS_VERSION){
 			case "CAS_VERSION_1_0":
-				phpCAS::client(CAS_VERSION_1_0,CAS_BASE,intval(CAS_PORT),'');
+				phpCAS::client(CAS_VERSION_1_0,CAS_BASE,intval(CAS_PORT),CAS_CONTEXT);
 			break;
 			case "CAS_VERSION_2_0":
-				phpCAS::client(CAS_VERSION_2_0,CAS_BASE,intval(CAS_PORT),'');
+				phpCAS::client(CAS_VERSION_2_0,CAS_BASE,intval(CAS_PORT),CAS_CONTEXT);
 			break;
 			case "CAS_VERSION_3_0":
-				phpCAS::client(CAS_VERSION_3_0,CAS_BASE,intval(CAS_PORT),'');
+				phpCAS::client(CAS_VERSION_3_0,CAS_BASE,intval(CAS_PORT),CAS_CONTEXT);
 			break;
 			default:
-				phpCAS::client(CAS_VERSION_2_0,CAS_BASE,intval(CAS_PORT),'');
+				phpCAS::client(CAS_VERSION_2_0,CAS_BASE,intval(CAS_PORT),CAS_CONTEXT);
 			break;
 		}
 
@@ -129,8 +129,7 @@ Version: 1.0
 		$userquery = new userquery();
 		$pass =  RandomString(10);		// create a random password
 
-
-		if (function_exists('searchLdap')) {
+		if(is_installed('ldap_client')) {
 			e("Les fonctions LDAP sont disponibles.<br />\n", "m");
 			$ldap_corresp = searchLdap($login);
 		}
