@@ -56,6 +56,41 @@ class ExtendSearch extends cbsearch {
 										IN BOOLEAN MODE)";
 	}
 	
+	/**
+	 * Purge the given array from data that don(t have to be in.
+	 * 
+	 * To take in account querries with single quotes. Le SQL request has been modified by replacing single quotes in $this->key by "%" char
+	 * This has a direct impact on the SQL result. SQL will match unnecessary results (strings where there's a quote but where the text after
+	 * contains but doesn't start with the text after the single quote into the requested string. 
+	 * This function uses a regexp to eliminate thoses bad answers.
+	 * 
+	 * @param array $results
+	 * 		The array to purge (comming from a $db->select function)
+	 * @return array
+	 * 		The same array but without the unnecessary rows. 
+	 */
+	 function filterBadResults($results){
+		$filteredResults=array();
+		$regexpchars=array('%','.','*','^','$','(',')','[',']','{','}','<','>','+','|','\\','/');
+		$key="/".strtolower(str_replace($regexpchars,".",$this->key))."/";
+		$escapechars=array('’',"'","\'","\\&#8217;","\&#8217;","&#8217;","#39;");
+			
+		foreach ($results as $r){
+			$found=false;
+			foreach ($this->columns as $c){
+				$str=strtolower($r[$c["field"]]);
+				$str=str_replace($escapechars,".",$str);
+				$str=str_replace($regexpchars,".",$str);
+				if (preg_match($key, $str)){
+					$found=true;
+				}
+			}
+			if ($found){
+				$filteredResults[]=$r;
+			}
+		}
+		return  $filteredResults;
+	}
 	
 	/**
 	 * Run the database search request. 
@@ -65,6 +100,20 @@ class ExtendSearch extends cbsearch {
 	 */
 	 function search(){
 		global $db;
+		/* 	Problem when searching text with a single quote (single quotes may be encoded differntly in the database)
+		 	The solution found is to replace single quotes from the requested text by a % char. 
+			This Have a negative effect because it may return more data than necessary (% char can replace may chars in sql query).
+			So after the request we do a second search path using a regexp on all fields of all sql results to eliminate bad results.
+			All this job is run only in cas of a request containing a single quote
+		*/
+		$flagPass2=false;
+		$escapechars=array('’',"'","\'","\\&#8217;","&amp;#8217;","#39;");
+		$key=str_replace($escapechars,"%",$this->key);
+		if ($key!= $this->key){
+			$this->key=$key;
+			$flagPass2=true;
+		}
+
 		$ma_query = "";
 		#Checking for columns
 		if(!$this->use_match_method)
@@ -103,10 +152,6 @@ class ExtendSearch extends cbsearch {
 		#Sorting
 		if(isset($this->sort_by) && !$sorting) {
 			$sorting = $this->sorting[$this->sort_by];
-		}
-		// Overridde of orginal sorting method by this one in order to allow other sort than thoses predifined
-		if(isset($this->sortby)) {
-			$sorting = $this->sorting[$this->sortby];
 		}
 		
 		$condition = "";
@@ -147,37 +192,45 @@ class ExtendSearch extends cbsearch {
 			$joinCondition.=" ".tbl($join['table1']).".".$join['field1']."=".tbl($join['table2']).".".$join['field2']." AND";
 		}
 		$joinCondition=substr($joinCondition, 0,-3); //remove alrd "AND"
+
+		//default values if $this->searchFields has not been redefined in the init-search function.
+		if (!$this->searchFields)
+			$this->searchFields=$this->db_tbl.'.*,users.userid,users.username';
 		
-		if($this->has_user_id) {
-			$query_cond = "(".$condition.")";
-			if($condition)
-				$query_cond .= " AND ";
-			else
-				$query_cond = $condition;
-			$restrictionCond="";
+		$query_cond = "(".$condition.")";
+		if($condition)
+			$query_cond .= " AND ";
+		else
+			$query_cond = $condition;
+		$restrictionCond="";
+		//only add restrictions for some tables
+		if (in_array ($this->db_tbl,array("video","photos","collections"))){
 			if(!has_access('admin_access',TRUE)){
 				$restrictionCond = " AND ".tbl($this->db_tbl).".active='yes'"."AND".tbl($this->db_tbl).".broadcast='public'";
 			}
 			else{
 				$restrictionCond = " AND ".tbl($this->db_tbl).".active='yes'";
 			}
-			$results = $db->select(tbl($tables),
-					"DISTINCT ".tbl($this->db_tbl.'.*,users.userid,users.username').$add_select_field,
-					$query_cond." ".$joinCondition.$restrictionCond,$this->limit,$sorting);
-				
-		
-			//$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
-			$this->total_results = $db->count(tbl($tables),'*',$query_cond." ".$joinCondition.$restrictionCond);
-				
-		}else {
-			//TODO: Request non modified. If used it should be like the request above but without users table and fields.  
-			$results = $db->select(tbl($this->db_tbl),'*',$condition,$this->limit,$sorting);
-			//echo $db->db_query;
-			$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
 		}
+		$results = $db->select(tbl($tables), "DISTINCT ".tbl($this->searchFields).$add_select_field,
+				$query_cond." ".$joinCondition.$restrictionCond,$this->limit,$sorting);
+		//The same request as above but without the limit restriction. Used to count results. Don't use count function because of the problem og single quote
+		$resultsNoLimit = $db->select(tbl($tables), "DISTINCT ".tbl($this->searchFields).$add_select_field,
+				$query_cond." ".$joinCondition.$restrictionCond,false,false);
+		
+		// Second search pass for single quote treatment (See comments above for more explainations)
+		if ($flagPass2){
+			$results=$this->filterBadResults($results);
+			$resultsNoLimit=$this->filterBadResults($resultsNoLimit);
+		}
+		
+		
+		//$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
+		$this->total_results = count($resultsNoLimit);
+		
 		// Use array_reverse function because search_result.php also use this function and $result is in good order.
 		return array_reverse($results);
-	}
+		}
 	
 }
 
