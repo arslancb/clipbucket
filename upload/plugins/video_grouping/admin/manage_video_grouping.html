@@ -91,6 +91,7 @@
 					<th width="50" class="head">id</th>
 					<th class="head">{lang('name')}</th>
 					<th class="head">{lang('in_thumbnails')}</th>
+					<th class="head">{lang('in_the_menu')}</th>
 					<th>&nbsp;</th>
 				</thead>
 				{foreach from=$groupingTypeList  item=u}
@@ -109,6 +110,13 @@
 					</td>
 					<td class="center-text">
 						{if $u.in_thumb == '1'}
+							<span class="glyphicon glyphicon-ok"></span><span class="sr-only">oui</span>
+						{else}
+							<span class="glyphicon glyphicon-remove"></span><span class="sr-only">non</span>
+						{/if}
+					</td>
+					<td class="center-text">
+						{if $u.in_menu == '1'}
 							<span class="glyphicon glyphicon-ok"></span><span class="sr-only">oui</span>
 						{else}
 							<span class="glyphicon glyphicon-remove"></span><span class="sr-only">non</span>
