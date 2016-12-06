@@ -24,7 +24,7 @@ Go to "Video manager" and in each video "Action" button you'll find a new comman
 ## Use in the front office :
 
 ### Add en menu entry in the front office
-In the front office use the following anchor to display a formatted list of all disciplines that have their flag in_menu set to 1 :
+In header.html front office template page you can add   the following anchor to display a formatted list of all disciplines that have their flag in_menu set to 1 :
 
 	{ANCHOR place="{ANCHOR place="disciplinesMenuOutput"}" data=$video}
 

@@ -85,30 +85,23 @@ if(!function_exists("groupingThumbOutput")) {
 
 
 /**
- * Add a label indicating the discipline of each video in the list of videos displayed in the Video Manager page
+ * Add as many labels as grouping linked to the video to display in the Video Manager page the groupings of a video.
  * 
- * input $vid : the video id
+ * @param array $vid
+ * 		the selected video object 
+ * @return string
+ * 		A concatenated html <span> containing groupings linked to the video
  */
-/*function display_name($vid){
-	global $disciplinequery;
-	$disc = $disciplinequery->get_discipline_of_video($vid['videoid']);
-	return '<span class="label label-default">Discipline : '.$disc[0]['name'].'</span>';
+function display_grouping_name($vid){
+	global $videoGrouping;
+	$grps = $videoGrouping->getGroupingOfVideo($vid['videoid']);
+	$str="";
+	foreach ($grps as $g)
+		$str.='<span class="label label-default">'.$g['vdogroupingtype_name']." : ".$g['name'].'</span> ';
+	return $str;
 }
-$cbvid->video_manager_link_new[] = 'display_name';*/
+$cbvid->video_manager_link_new[] = 'display_grouping_name';
 
-
-/**
- * Add a new entry "Link video grouping" into the video manager menu named "Actions" associated to each video
- *
- *  input $vid : the video id
- *  output : the html string to be inserted into the menu
- */
-function addLinkVideoGroupingMenuEntry($vid){
-	$idtmp=$vid['videoid'];
-	return '<li><a role="menuitem" href="'.VIDEO_GROUPING_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("link_video_grouping").'</a></li>';
-}
-if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("videogrouping")]=='yes')
-	$cbvid->video_manager_link[]='addLinkVideoGroupingMenuEntry';
 
 
 
