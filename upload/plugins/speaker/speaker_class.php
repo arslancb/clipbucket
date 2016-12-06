@@ -671,6 +671,14 @@ class Speaker extends CBCategory{
 			array('table1'=>'speakerfunction', 'field1'=>'id','table2'=>'video_speaker','field2'=>'speakerfunction_id'),
 			array('table1'=>'video_speaker', 'field1'=>'video_id','table2'=>'video','field2'=>'videoid')
 		);
+
+	/**
+	 * String used to declare all necessary fields the search request should return.
+	 * This string have to contain fields in which we are searching data
+	 * in order to make a post treatment for requests that contains single quotes
+	 *
+	 */
+	var $reqFields="video.*,speaker.firstname,speaker.lastname,speaker.slug,users.userid,users.username";
 	
 	/**
 	 * This method initilize the search engine for this class
@@ -681,7 +689,6 @@ class Speaker extends CBCategory{
 		$search=new ExtendSearch();
 		$this->cloneValues($this->search,$search);
 		$this->search=$search;
-		$this->search->has_user_id = true;
 		$this->search->results_per_page = config('videos_items_search_page');
 		$this->search->display_template = LAYOUT.'/blocks/video.html';
 		$this->search->template_var = 'video';
@@ -693,12 +700,14 @@ class Speaker extends CBCategory{
 				'rating' 	=> " rating DESC",
 				'favorites'	=> " favorites DeSC"
 		);
-		$this->search->sortby = 'datecreated';
+		$this->search->sort_by = 'datecreated';
 		$this->search->search_type['speaker'] = array('title'=>lang('speakers'));
 		//set tables for this plugin in extended search plugin
 		$this->search->reqTbls=$this->reqTbls;
 		//set tables associations for this plugin in extended search plugin
 		$this->search->reqTblsJoin =$this->reqTblsJoin;
+		//set return fields  for this plugin in extended search plugin
+		$this->search->searchFields=$this->reqFields;
 		//set search fields for this plugin in extended search plugin
 		$this->search->columns =array(
 			array('table'=>'speaker', 'field'=>'firstname','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR'),
