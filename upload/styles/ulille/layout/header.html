@@ -42,6 +42,15 @@
 						</ul>
 					</li>
 				{/if}
+				{if function_exists('groupingMenuOutput')}
+					{foreach from=$videoGrouping->getAllGroupingTypes(true)  item=gt}
+					<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{$gt.name} <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							{ANCHOR place="groupingMenuOutput" data=$gt.id}
+						</ul>
+					</li>
+					{/foreach}
+				{/if}
 				<li><a href="#">Live !</a></li>
 			</ul>
 			{if userid()} 
