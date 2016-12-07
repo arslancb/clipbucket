@@ -740,6 +740,7 @@ class VideoGrouping extends CBCategory{
 		$this->search->sorting	= array(
 				'date_added'=> " date_added DESC",
 				'datecreated'=> " datecreated DESC",
+				'most_recent' => " datecreated DESC",
 				'views'		=> " views DESC",
 				'comments'  => " comments_count DESC ",
 				'rating' 	=> " rating DESC",
