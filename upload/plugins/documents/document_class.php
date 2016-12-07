@@ -261,8 +261,10 @@ class Document extends CBCategory{
 		if($params['selected']=='yes' && $params['videoid']) {// return only documents that are linked to the specified video
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " video_id = '".$params['videoid']."' ";
-		}
+				$cond .= "  documents.id IN (SELECT documents2.id as id2 FROM ".tbl('documents')." AS documents2 LEFT JOIN "
+						.tbl('video_documents')." AS video_documents2 ON documents2.id=video_documents2.document_id
+					 		WHERE video_id=".$params['videoid'].')';
+				}
 		if($params['selected']=='no' && $params['videoid']) {// return only documents that are not linked to the specified video
 			if($cond!='')
 				$cond .= ' AND ';
@@ -281,10 +283,8 @@ class Document extends CBCategory{
 		if(!$params['count_only']) {
 			$fields = array(
 					'documents' => $cb_columns->object('documents')->get_columns(),
-					'video_documents' => $cb_columns->object('video_documents')->get_columns(),
 			);
-			$query = " SELECT ".tbl_fields($fields)." FROM ".tbl('documents')." AS documents LEFT JOIN " 
-					 .tbl('video_documents')." AS video_documents ON documents.id=video_documents.document_id";
+			$query = " SELECT ".tbl_fields($fields)." FROM ".tbl('documents')." AS documents"; 
 			// add alias on video_documents.id to avoid any conflict between documents.id and video_documents.id
 			$query = str_replace(' video_documents.id',' video_documents.id as vid',$query);
 				

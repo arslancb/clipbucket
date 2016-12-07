@@ -51,13 +51,13 @@ $array=[];
 
 $result_array = $array;
 /** Getting documents List */
-$result_array['limit'] = $get_limit;
 $result_array['videoid'] = $video['videoid'];
 $result_array['selected'] = 'yes';
 $result_array['assign'] = 'linkedDocuments';
 
 $linkedDocuments = $documentquery->getDocumentForVideo($result_array);
 if ($filtercond) $result_array['cond']=$filtercond;
+$result_array['limit'] = $get_limit;
 $result_array['selected'] = 'no';
 $result_array['assign'] = 'unlinkedDocuments';
 $unlinkedDocuments = $documentquery->getDocumentForVideo($result_array);
