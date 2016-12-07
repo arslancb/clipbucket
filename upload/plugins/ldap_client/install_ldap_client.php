@@ -1,9 +1,9 @@
 <?php
 
-if (!extension_loaded('ldap')) {
+/*if (!extension_loaded('ldap')) {
 	e("LDAP module is not installed.","m");
 }
-else{
+else{*/
 
 	require_once('../includes/common.php');
 
@@ -40,5 +40,5 @@ else{
 
 	installLdapClient();
 	
-}
+//}
 ?>
