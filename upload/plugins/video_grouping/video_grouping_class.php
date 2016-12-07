@@ -112,7 +112,7 @@ class VideoGrouping extends CBCategory{
 		$inthumb=0;
 		if(!empty($array['groupingTypeInThumb'])) $inthumb = 1;
 		$inmenu=0;
-		if(!empty($array['groupingTypeInThumb'])) $inthumb = 1;
+		if(!empty($array['groupingTypeInMenu'])) $inmenu = 1;
 		$id=mysql_clean($array['grouptypeid']);
 		$cond=" name = '$name' ";
 		$res=$db->select(tbl('vdogrouping_type'),'id',$cond,false,false,false);

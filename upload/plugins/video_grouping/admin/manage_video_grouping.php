@@ -74,7 +74,7 @@ if(isset($_POST['addGroupingType'])){
 /** Update an existing grouping type */
 elseif(isset($_POST['updateGroupingType'])){
 	if($videoGrouping->updateGroupingType($_POST))	{
-		e(lang("groupingtype_updated"),"m");
+		e(lang("grouping_type_updated"),"m");
 		$_POST = '';
 		assign('showedit',false);
 		assign('groupingtype',false);
