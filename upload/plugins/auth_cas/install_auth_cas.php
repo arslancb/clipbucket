@@ -28,6 +28,7 @@ require_once('../includes/common.php');
 		$folder= PLUG_DIR.'/'.basename(dirname(__FILE__))."/lang";
 		importLangagePack($folder,'en');
 		importLangagePack($folder,'fr');
+		installPluginAdminPermissions("authcas", "CAS Athentication administration", "Allow CAS Authentication management");
 	}
 
 
