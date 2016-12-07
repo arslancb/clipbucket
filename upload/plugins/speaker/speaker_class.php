@@ -274,8 +274,10 @@ class Speaker extends CBCategory{
 		if($params['selected']=='yes' && $params['videoid']) {// return only speaker functions that are linked to the specified video
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " video_id = '".$params['videoid']."' ";
-		}
+			$cond .= "  speakerfunction.id IN (SELECT speakerfunction2.id as id2 FROM ".tbl('speaker')." AS speaker2 LEFT JOIN "
+					.tbl('speakerfunction')." AS speakerfunction2 ON speaker2.id=speakerfunction2.speaker_id LEFT JOIN "
+					.tbl('video_speaker')." AS video_speaker2 ON speakerfunction2.id=video_speaker2.speakerfunction_id WHERE video_id=".$params['videoid'].')';
+				}
 		if($params['selected']=='no' && $params['videoid']) {// return only speakears functions that are not linked to the specified video
 			if($cond!='')
 				$cond .= ' AND ';
@@ -283,7 +285,6 @@ class Speaker extends CBCategory{
 				$cond .= "  speakerfunction.id NOT IN (SELECT speakerfunction2.id as id2 FROM ".tbl('speaker')." AS speaker2 LEFT JOIN " 
 					.tbl('speakerfunction')." AS speakerfunction2 ON speaker2.id=speakerfunction2.speaker_id LEFT JOIN "
 					 .tbl('video_speaker')." AS video_speaker2 ON speakerfunction2.id=video_speaker2.speakerfunction_id WHERE video_id=".$params['videoid'].')'; 
-				//$cond .= "  NOT EXISTS SELECT * FROM tbl('video_speaker') speakerfunction_id <> speakerfunction.id ";
 		}
 		if($params['cond']) {
 			if($cond!='')
@@ -296,11 +297,9 @@ class Speaker extends CBCategory{
 			$fields = array(
 					'speaker' => $cb_columns->object('speakers')->get_columns(),
 					'speakerfunction' => $cb_columns->object('speakerfunction')->get_columns(),
-					'video_speaker' => $cb_columns->object('video_speaker')->get_columns(),
 			);
 			$query = " SELECT ".tbl_fields($fields)." FROM ".tbl('speaker')." AS speaker LEFT JOIN " 
-					.tbl('speakerfunction')." AS speakerfunction ON speaker.id=speakerfunction.speaker_id LEFT JOIN "
-					 .tbl('video_speaker')." AS video_speaker ON speakerfunction.id=video_speaker.speakerfunction_id";
+					.tbl('speakerfunction')." AS speakerfunction ON speaker.id=speakerfunction.speaker_id";
 			// add alias on speaker.id to avoid any conflict between speaker.id and speakerfunction.id
 			$query = str_replace(' speaker.id,',' speaker.id as sid,',$query);
 			$query = str_replace(' video_speaker.id',' video_speaker.id as vid',$query);

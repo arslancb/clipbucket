@@ -49,13 +49,13 @@ $array=[];
 
 $result_array = $array;
 /** Getting speaker List */
-$result_array['limit'] = $get_limit;
 $result_array['videoid'] = $video['videoid'];
 $result_array['selected'] = 'yes';
 $result_array['assign'] = 'linkedspeakers';
 //pr($result_array,true);
 $linkedspeakers = $speakerquery->getSpeakerAndRoles($result_array);
 if ($filtercond) $result_array['cond']=$filtercond;
+$result_array['limit'] = $get_limit;
 $result_array['selected'] = 'no';
 $result_array['assign'] = 'unlinkedspeakers';
 $unlinkedspeakers = $speakerquery->getSpeakerAndRoles($result_array);
