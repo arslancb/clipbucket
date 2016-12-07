@@ -92,7 +92,7 @@ if(!function_exists("groupingThumbOutput")) {
  * @return string
  * 		A concatenated html <span> containing groupings linked to the video
  */
-function display_grouping_name($vid){
+function displayGroupingName($vid){
 	global $videoGrouping;
 	$grps = $videoGrouping->getGroupingOfVideo($vid['videoid']);
 	$str="";
@@ -100,7 +100,7 @@ function display_grouping_name($vid){
 		$str.='<span class="label label-default">'.$g['vdogroupingtype_name']." : ".$g['name'].'</span> ';
 	return $str;
 }
-$cbvid->video_manager_link_new[] = 'display_grouping_name';
+$cbvid->video_manager_link_new[] = 'displayGroupingName';
 
 
 
