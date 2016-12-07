@@ -51,13 +51,13 @@ $array=[];
 
 $result_array = $array;
 /** Getting links List */
-$result_array['limit'] = $get_limit;
 $result_array['videoid'] = $video['videoid'];
 $result_array['selected'] = 'yes';
 $result_array['assign'] = 'linkedLinks';
 //pr($result_array,true);
 $linkedLinks = $linkquery->getLinkForVideo($result_array);
 if ($filtercond) $result_array['cond']=$filtercond;
+$result_array['limit'] = $get_limit;
 $result_array['selected'] = 'no';
 $result_array['assign'] = 'unlinkedLinks';
 $unlinkedLinks = $linkquery->getLinkForVideo($result_array);

@@ -14,10 +14,10 @@
 </form>
   <br/>
 </div>
-
+<hr/>
 <form name="user_manage" method="post">
   <div class="btn-group marginBottomSmall">
-    <input class="btn btn-primary btn-xs" type="submit" name="link_selected" value="{lang('validate')}" onclick="return confirmation(this,'Are you sure you want to validate selected link(s)')"/>
+    <input class="btn btn-primary btn-sm" type="submit" name="link_selected" value="{lang('validate')}" onclick="return confirmation(this,'Are you sure you want to validate selected link(s)')"/>
   </div>
   
   
@@ -69,7 +69,10 @@
 </tbody>
 </table>
 
-<br>
+<hr>
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }
+
 <table class="table table-bordered table-striped manageUsersTable">
 <caption>{lang('list_of_unselected_links')}</caption>
 <thead>
@@ -119,7 +122,7 @@
 </table>
 
 <div class="btn-group">
-    <input class="btn btn-primary btn-xs" type="submit" name="link_selected" value="{lang('validate')}" onclick="return confirmation(this,'Are you sure you want to validate selected link(s)')"/>
+    <input class="btn btn-primary btn-sm" type="submit" name="link_selected" value="{lang('validate')}" onclick="return confirmation(this,'Are you sure you want to validate selected link(s)')"/>
   </div>
 </form>
 {else}

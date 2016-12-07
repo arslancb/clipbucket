@@ -193,8 +193,10 @@ class Link extends CBCategory{
 		if($params['selected']=='yes' && $params['videoid']) {// return only links that are linked to the specified video
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " video_id = '".$params['videoid']."' ";
-		}
+				$cond .= "  links.id IN (SELECT links2.id as id2 FROM ".tbl('links')." AS links2 LEFT JOIN "
+						.tbl('video_links')." AS video_links2 ON links2.id=video_links2.link_id
+					 		WHERE video_id=".$params['videoid'].')';
+				}
 		if($params['selected']=='no' && $params['videoid']) {// return only links that are not linked to the specified video
 			if($cond!='')
 				$cond .= ' AND ';
@@ -213,10 +215,8 @@ class Link extends CBCategory{
 		if(!$params['count_only']) {
 			$fields = array(
 					'links' => $cb_columns->object('external_links')->get_columns(),
-					'video_links' => $cb_columns->object('video_links')->get_columns(),
 			);
-			$query = " SELECT ".tbl_fields($fields)." FROM ".tbl('links')." AS links LEFT JOIN " 
-					 .tbl('video_links')." AS video_links ON links.id=video_links.link_id";
+			$query = " SELECT ".tbl_fields($fields)." FROM ".tbl('links')." AS links"; 
 			// add alias on video_links.id to avoid any conflict between links.id and video_links.id
 			$query = str_replace(' video_links.id',' video_links.id as vid',$query);
 				
