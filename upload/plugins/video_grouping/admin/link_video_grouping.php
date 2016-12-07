@@ -49,13 +49,13 @@ $array=[];
 
 $result_array = $array;
 /** Getting documents List */
-$result_array['limit'] = $get_limit;
 $result_array['videoid'] = $video['videoid'];
 $result_array['selected'] = 'yes';
 $result_array['assign'] = 'linkedGrouping';
 
 $linkedGrouping = $videoGrouping->getGroupingForVideo($result_array);
 if ($filtercond) $result_array['cond']=$filtercond;
+$result_array['limit'] = $get_limit;
 $result_array['selected'] = 'no';
 $result_array['assign'] = 'unlinkedGrouping';
 $unlinkedGrouping = $videoGrouping->getGroupingForVideo($result_array);

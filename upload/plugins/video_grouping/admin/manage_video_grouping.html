@@ -75,7 +75,6 @@
 			</div>
 		</div>
 		<hr/> 
-		
 		{if $groupingTypeList}
 		{* Displaying grouping types *}
 		<form name="manageGroupinfTypes" method="post">
@@ -236,6 +235,8 @@
 		</div>
 		{if $total != 0}
 		<hr/>
+		<!-- DIsplaying Videos Ends-->
+		{include file="$style_dir/blocks/pagination.html" }
 			<form name="groupingList" action="" method="post">
 				<input class="btn btn-primary btn-sm" name="updateOrder" type="submit" value="{lang('reorder')}">
 				<input class="btn btn-danger btn-sm" name="deleteSelected" type="submit" value="{lang('remove')}">
@@ -311,15 +312,13 @@
 				<input class="btn btn-primary btn-sm" name="updateOrder" type="submit" value="{lang('reorder')}">
 				<input class="btn btn-danger btn-sm" name="deleteSelected" type="submit" value="{lang('remove')}">
 			</form>
+			<!-- DIsplaying Videos Ends-->
+			{include file="$style_dir/blocks/pagination.html" }
 		{else}
 			<div align="center"><strong><em>{lang("no_grouping_found")}</em></strong></div>
 		{/if}
 	</div>
 </div>
-<!-- DIsplaying Videos Ends-->
-{include file="$style_dir/blocks/pagination.html" }
-
-
 
 
 

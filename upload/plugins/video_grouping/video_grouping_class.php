@@ -550,7 +550,7 @@ class VideoGrouping extends CBCategory{
 	 * 			<li>$params['assign'] if defined, is used to assign the result to the parameter for use in the HTML template</li>
 	 * 		</ul>
 	 * @return int|array
-	 * 		the number of groupibgs if $params['count_only'] is set otherwise an array of all specified groupings objects
+	 * 		the number of groupings if $params['count_only'] is set otherwise an array of all specified groupings objects
 	 */
 	function getGroupingForVideo($params=NULL){
 		global $db;
@@ -561,15 +561,17 @@ class VideoGrouping extends CBCategory{
 		if($params['selected']=='yes' && $params['videoid']) {// return only groupings that are linked to the specified video
 			if($cond!='')
 				$cond .= ' AND ';
-				$cond .= " video_id = '".$params['videoid']."' ";
-		}
+				$cond .= "  vdogrouping.id IN (SELECT vdogrouping2.id as id2 FROM ".tbl('vdogrouping')." AS vdogrouping2 LEFT JOIN "
+						.tbl('video_grouping')." AS video_grouping2 ON vdogrouping2.id=video_grouping2.vdogrouping_id
+					 	WHERE video_id=".$params['videoid'].')';
+				}
 		if($params['selected']=='no' && $params['videoid']) {// return only groupings that are not linked to the specified video
 			if($cond!='')
 				$cond .= ' AND ';
-				else
-					$cond .= "  vdogrouping.id NOT IN (SELECT vdogrouping2.id as id2 FROM ".tbl('vdogrouping')." AS vdogrouping2 LEFT JOIN "
-						 .tbl('video_grouping')." AS video_grouping2 ON vdogrouping2.id=video_grouping2.vdogrouping_id
-					 		WHERE video_id=".$params['videoid'].')';
+			else
+				$cond .= "  vdogrouping.id NOT IN (SELECT vdogrouping2.id as id2 FROM ".tbl('vdogrouping')." AS vdogrouping2 LEFT JOIN "
+						.tbl('video_grouping')." AS video_grouping2 ON vdogrouping2.id=video_grouping2.vdogrouping_id
+					 	WHERE video_id=".$params['videoid'].')';
 		}
 		if($params['cond']) {
 			if($cond!='')
@@ -581,17 +583,13 @@ class VideoGrouping extends CBCategory{
 		if(!$params['count_only']) {
 
 			$fields = array(
-					'vdogrouping' => array('id', 'grouping_type_id','name','place','description','in_menu','color','thumb_url'),
-					'video_grouping' => array('id', 'video_id','vdogrouping_id'),
-					'vdogrouping_type' => array('name','in_thumb','in_menu'),
+					'vdogrouping' => array('*'),
+					'vdogrouping_type' => array('name'),
 				);
-			$query = " SELECT ".tbl_fields($fields)." FROM ".tbl('vdogrouping')." AS vdogrouping LEFT JOIN "
-					.tbl('video_grouping')." AS video_grouping ON vdogrouping.id=video_grouping.vdogrouping_id"
-					." LEFT JOIN ".tbl('vdogrouping_type')." AS vdogrouping_type ON vdogrouping_type.id=vdogrouping.grouping_type_id ";
+			$query = " SELECT ".tbl_fields($fields)." FROM ".tbl('vdogrouping')." AS vdogrouping  LEFT JOIN ".
+				tbl('vdogrouping_type')." AS vdogrouping_type ON vdogrouping_type.id=vdogrouping.grouping_type_id ";
 					// add alias on video_grouping.id to avoid any conflict between vdogrouping.id and video_grouping.id
-					$query = str_replace(' video_grouping.id',' video_grouping.id as vid',$query);
 					$query = str_replace(' vdogrouping_type.name',' vdogrouping_type.name as vdogroupingtype_name',$query);
-					$query = str_replace(' vdogrouping_type.in_menu',' vdogrouping_type.name as vdogroupingtype_inmenu',$query);
 						
 					if ($cond)
 						$query .= " WHERE ".$cond;

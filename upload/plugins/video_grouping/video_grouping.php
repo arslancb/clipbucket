@@ -104,8 +104,21 @@ $cbvid->video_manager_link_new[] = 'display_grouping_name';
 
 
 
+/**
+ * Add a new entry "Link video grouping" into the video manager menu named "Actions" associated to each video
+ *
+ *  input $vid : the video id
+ *  output : the html string to be inserted into the menu
+ */
+function addLinkVideoGroupingMenuEntry($vid){
+        $idtmp=$vid['videoid'];
+        return '<li><a role="menuitem" href="'.VIDEO_GROUPING_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("link_video_grouping").'</a></li>';
+}
+/** Add the previous function in the list of entries into the video manager "Actions" button */
+if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("videogrouping")]=='yes')
+        $cbvid->video_manager_link[]='addLinkVideoGroupingMenuEntry';
 
-//addadmin menu
+/**Add entries for the plugin in the administration pages */
 if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("videogrouping")]=='yes')
 	add_admin_menu(lang('video_addon'),lang("manage_video_grouping"),'manage_video_grouping.php','video_grouping/admin/');
 ?>
