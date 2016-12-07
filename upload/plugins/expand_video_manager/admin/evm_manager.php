@@ -1,4 +1,8 @@
 <?php
+/** Check if user has admin acces */
+$userquery->admin_login_check();
+/** Check if user has admin acces to this plugin */
+if ($cbplugin->is_installed('common_library.php'))	$userquery->login_check(getStoredPluginName("expandVideoManager"));
 
 // Assigning page and subpage
 if(!defined('MAIN_PAGE')){
