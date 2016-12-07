@@ -17,6 +17,7 @@ else{
 		$folder= PLUG_DIR.'/'.basename(dirname(__FILE__))."/lang";
 		importLangagePack($folder,'en');
 		importLangagePack($folder,'fr');
+		installPluginAdminPermissions("ldap", "LDAP administration", "Allow LDAP management");
 	}
 
 

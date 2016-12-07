@@ -140,6 +140,7 @@ Version: 0.1
 	/**
 	 *	Add entries for the plugin in the administration pages
 	 */
+	if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("ldap")]=='yes')
 	add_admin_menu(lang('Stats And Configurations'),lang('ldap_configuration'),'edit_ldap_client.php',LDAP_CLIENT.'/admin');
 
 ?>
