@@ -24,7 +24,7 @@
 	<div class="details card">
 		<div class="published">
 		</div>
-		<h4 class="reset"><a href="{videoLink($video)}">{$vdogrouping.name|truncate:65}</a></h4>
+		<h4 class="reset"><a href="{$BASEURL}/search_result.php?type=videogrouping&query={$vdogrouping.name}&gtype={$vdogrouping.grouping_type_id}">{$vdogrouping.name|truncate:65}</a></h4>
 		<div class="description">{$vdogrouping.description|truncate:120}</div>
 		<div class="attributes text-right">
 			<div class="topic">
