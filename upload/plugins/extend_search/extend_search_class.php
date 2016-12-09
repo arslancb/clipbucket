@@ -71,7 +71,7 @@ class ExtendSearch extends cbsearch {
 	 */
 	 function filterBadResults($results){
 		$filteredResults=array();
-		$regexpchars=array('%','.','*','^','$','(',')','[',']','{','}','<','>','+','|','\\','/');
+		$regexpchars=array('%','.','*','^','$','(',')','[',']','{','}','<','>','+','|','\\','/','?');
 		$key="/".strtolower(str_replace($regexpchars,".",$this->key))."/";
 		$escapechars=array('’',"'","\'","\\&#8217;","\&#8217;","&#8217;","#39;");
 			
@@ -80,7 +80,7 @@ class ExtendSearch extends cbsearch {
 			foreach ($this->columns as $c){
 				$str=strtolower($r[$c["field"]]);
 				$str=str_replace($escapechars,".",$str);
-				$str=str_replace($regexpchars,".",$str);
+				//$str=str_replace($regexpchars,".",$str);
 				if (preg_match($key, $str)){
 					$found=true;
 				}
@@ -222,6 +222,9 @@ class ExtendSearch extends cbsearch {
 		if ($flagPass2){
 			$results=$this->filterBadResults($results);
 			$resultsNoLimit=$this->filterBadResults($resultsNoLimit);
+			
+			
+			
 		}
 		
 		
