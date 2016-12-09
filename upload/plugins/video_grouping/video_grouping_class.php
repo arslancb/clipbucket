@@ -717,7 +717,8 @@ class VideoGrouping extends CBCategory{
 
 		$this->search->db_tbl = "video";
 		$this->search->columns =array(
-				array('table' => 'vdogrouping', 'field'=>'name','type'=>'LIKE','var'=>'%{KEY}%'),
+				//Warning : Don't use %{KEY}% in this case. We need the exact name
+				array('table' => 'vdogrouping', 'field'=>'name','type'=>'LIKE','var'=>'{KEY}'),
 				array('field'=>'broadcast','type'=>'!=','var'=>'unlisted','op'=>'AND','value'=>'static'),
 				array('field'=>'status','type'=>'=','var'=>'Successful','op'=>'AND','value'=>'static')
 		);
