@@ -63,20 +63,34 @@ $( document ).ready( function() {
 	*/
 	var pointDepart = $("#myTab").parent().parent();
 // 	$("#myTab").parent().parent().className = "plop";
-	var orgData = $("#myTab").parent().parent().children();
+//	var orgData = $("#myTab").parent().parent().children();
 
+	var orgData = document.querySelector('#myTab').parentNode.parentNode.childNodes;	
+	
  	var contenu = '';
 	var data = '';
-
-	$.each( orgData, function( key, value ) {
-		contenu += value.innerHTML;
+	
+	
+	/**
+	*   Using pur javascript instead of jquery
+	*/
+	orgData.forEach(function( element ) {
+		if (element.innerHTML) {
+		  contenu += element.innerHTML;
+		  element.remove();
+		}
+	});	
+	
+	
+//	$.each( orgData, function( key, value ) {
+//		contenu += value.innerHTML;
 		/**
 		 *   value.remove delete the item, 
 		 *   it's more beautiful than empty 
 		 *   the item with : value.innerHTML=''; 
 		 */
-		value.remove();
-	});
+//		value.remove();
+//	});
 	
 	
 	data = '<div id="evmLeft" class="col-md-6">';
@@ -110,19 +124,21 @@ $( document ).ready( function() {
 	*/
 	
 	var pointDepart = $("input[name=title]").parent().parent().parent();
-	var orgData = $("input[name=title]").parent().parent().parent().children();
+	//var orgData = $("input[name=title]").parent().parent().parent().children();
 
+	var orgData = document.querySelector('input[name=title]').parentNode.parentNode.parentNode.childNodes;
+	
 	var contenu = '';
 	var data = '';
 
-	$.each( orgData, function( key, value ) {
-		contenu += value.innerHTML;
-		/**
-		 *   value.remove delete the item, 
-		 *   it's more beautiful than empty 
-		 *   the item with : value.innerHTML=''; 
-		 */
-		value.remove();
+	/**
+	*   Using pur javascript instead of jquery
+	*/
+	orgData.forEach(function( element ) {
+		if (element.innerHTML) {
+		  contenu += element.innerHTML;
+		  element.remove();
+		}
 	});
 	
 	
@@ -148,7 +164,6 @@ $( document ).ready( function() {
 	data += '</div>';
 	
 	data += '<div id="evmRightDebug"></div>';
-	
 	
 	$(data).insertAfter(pointDepart);
 	
