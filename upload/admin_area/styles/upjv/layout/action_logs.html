@@ -1,0 +1,99 @@
+<div class="heading">
+  <h2>Showing <b>{$total_logs}</b> log entries {if $smarty.get.type}for<b> {$smarty.get.type|ucfirst}</b> action{/if}</h2>
+  <div class="btn-group-xs text-center" role="group" aria-label="...">
+  <a href="{$baseurl}/admin_area/action_logs.php?show=all"><button type="button" class="btn btn-primary">All</button></a>
+  <a href="{$baseurl}/admin_area/action_logs.php?type=login"><button type="button" class="btn btn-primary">Login Only</button>
+  <a href="{$baseurl}/admin_area/action_logs.php?type=signup"><button type="button" class="btn btn-primary">Signup Only</button></a>
+  <a href="{$baseurl}/admin_area/action_logs.php?type=upload_video"><button type="button" class="btn btn-primary">Uploads Only</button></a>
+  <a href="{$baseurl}/admin_area/action_logs.php?clean=all"><button type="button" class="btn btn-primary">Clean All</button></a>
+</div>
+</div>
+<table class="table table-bordered table-striped">
+  <tr>
+    <td>User</td>
+    <td>Log ID</td>
+    <td>User Email</td>
+    <td>Action perfomed</td>
+    <td>Action time</td>
+    <td>IP</td>
+   </tr>
+  {if $logs}
+  {foreach from=$logs item=log}
+  {$user.agent|get_browser_details:theBrowser}
+    <tr>
+      <td>
+        {if $log.action_username}
+          <a href="view_user?uid={$log.action_userid}"><label class="label label-{if $log.action_userlevel == '1'}success{elseif $log.action_userlevel == ''}danger{else}primary{/if}">{$log.action_username}</label></a>
+          <br>
+          <a href="view_user.php?uid={$log.action_userid}">
+             <!-- <img src="{$userquery->getUserThumb($log.action_userid,'small')}" class="img-thumbnail oneUserImage" /> -->
+          </a>
+          {else}
+            <label class="label label-danger">No username found</label>
+        {/if}
+      </td>
+      <td>
+        {if $log.action_id}
+            {$log.action_id}
+        {else}
+            No logid
+        {/if}
+      </td>
+      <td>
+        {if $log.action_useremail} 
+            {$log.action_useremail}
+        {else}
+            No useremail found
+        {/if}
+      </td>
+      <td>
+        <label class="label label-{if $log.action_type == 'login'}primary{elseif $log.action_type == 'signup'}warning{else}success{/if}">
+          {if $log.action_type}
+           <b>Action: </b>{$log.action_type}
+          {/if}
+          {if $log.action_details}
+            <b>Details</b>: {$log.action_details}
+          {/if}
+          </label>
+      </td>
+      <td>
+          {if $log.date_added}
+            {$log.date_added}
+          {else}
+            <b>No date found</b>
+          {/if}
+      </td>
+      <td>
+          {if $log.action_ip}
+            {$log.action_ip}
+          {else}
+            No ip
+          {/if}
+      </td>
+    </tr>
+  {/foreach}
+  {/if}
+</table>
+{$type = $smarty.get.type}
+{$nextPage = $smarty.get.page + 1}
+{if $smarty.get.limit}
+  {$limit = $smarty.get.limit}
+{/if}
+{if $type != ''}
+    <a href="{$baseurl}/admin_area/action_logs.php?type={$type}&page={$nextPage}"><button class="col-md-5 btn btn-primary" id="fetch_more_logs" loadHit="1" loadType="{$type}" {if $total_logs < 1}disabled="disabled"{/if}>{if $total_logs < 1}End of results{else}Load More{/if}</button></a>
+{else}
+  <a href="{$baseurl}/admin_area/action_logs.php?page={$nextPage}{if $limit > 1}&limit={$limit}{/if}"><button class="col-md-5 btn btn-primary" id="fetch_more_logs" loadHit="1" loadType="{$type}" {if $total_logs < 1}disabled="disabled"{/if}>{if $total_logs < 1}End of results{else}Load More{/if}</button></a>
+{/if}
+
+<style type="text/css">
+    #fetch_more_logs {
+        margin-bottom: 20px;
+    }
+
+</style>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('dropdown-toggle').dropdown();
+});
+</script>

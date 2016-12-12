@@ -1,0 +1,114 @@
+{assign var='requiredFields' value=$cbgroup->load_required_fields()}
+{assign var='optionFields' value=$cbgroup->load_other_fields()}
+{assign var='customFields' value=$cbgroup->custom_group_fields}
+<div class="heading">
+    <h2>Add Group</h2>
+</div>
+<p class="alert alert-info">Required Member Details</p>
+<form name="upload_form" class="upload_form" method="post" action="">
+    <div class="row">
+        {foreach from=$requiredFields item=field}
+        {$field.class = 'form-control'}
+        {if $field.title == 'Group name'}
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="{$field.id}">{$field.title}</label>
+                {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
+            </div>
+        {/if}
+        {$field.class = 'form-control'}
+        {if $field.title == 'Tags'}
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="{$field.id}">{$field.title}</label>
+            {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
+            </div>
+        {/if}
+        
+        {$field.class = 'form-control'}
+                {if $field.title == 'Choose a unique group name URL:'}
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="{$field.id}">{$field.title}</label>
+                            {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                        </div>
+                    </div>
+                {/if}
+        {/foreach}
+    </div>
+    <div class="row">
+        {foreach from=$requiredFields item=field}
+            {$field.class = 'form-control'}
+            {if $field.title == 'Description'}
+            <div class="col-md-4">
+            <div class="form-group">
+                <label for="{$field.id}">{$field.title}</label>
+                {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
+            </div>
+            {/if}
+            {$field.class = 'form-control'}
+            {if $field.title == 'Group Category:'}
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="{$field.id}">{$field.title}</label><br>
+                        <div class="boxBordered">
+                            {$field.label_class = "checkbox"}
+                            {$field.notShowSeprator = true}
+                            {$formObj->createField($field)}
+                        </div>
+                        <small>{$field.hint_1}</small>
+                    </div>
+            {/if}
+        {/foreach}
+    </div>
+</div>
+
+                <!-- MORE Fields -->
+
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs" id="myTab">
+                            <li class="active">
+                                <a data-toggle="tab" href="#privacy">
+                                    Privacy
+                                </a>
+                            </li>
+                            <li class="">
+                                <a data-toggle="tab" href="#forums">
+                                    Forum Posting
+
+                                </a>
+                            </li>
+                            </ul>
+                        <div class="tab-content">
+                            <div id="privacy" class="tab-pane active">
+                                {foreach from=$optionFields item=field}
+                                {if $field.title == 'Privacy'}
+                                <div class="cb-box">
+                                    <label for="{$field.id}" class="label label-danger">{$field.title}</label><br>
+                                    {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                                </div>
+                                {/if}
+                                {/foreach}
+                                </div>
+                            <div id="forums" class="tab-pane">
+                                {foreach from=$optionFields item=field}
+                                {if $field.title == 'Forum Posting:'}
+                                <div class="cb-box">
+                                    <label for="{$field.id}" class="label label-danger">{$field.title}</label><br>
+                                    {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                                </div>
+                                {/if}
+                                {/foreach}
+                            </div>
+
+                                </div>
+                            </div>
+
+
+                <!-- MORE Fields -->
+
+
+
+            <div align="right" style="margin-top:10px"><input type="submit" name="create_group" value="{lang code='grp_crt_grp'}" class="btn btn-primary btn-sm"></div>
+        </form>
+
