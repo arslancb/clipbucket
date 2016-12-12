@@ -10,7 +10,7 @@
 				<div class="btn-group custom-dropdown"> {if $smarty.get.sort}
 					{foreach from=$sorting_links item=name key=sort}
 					{if $smarty.get.sort==$sort && isset($smarty.get.sort)}
-					<button class="btn btn-link" type="button"> {$name} </button>
+					<button class="btn btn-link" type="button"> {$name}</button>
 					<button data-toggle="dropdown" class="btn btn-link dropdown-toggle" type="button"> <span class="arrow-drop"></span> <span class="sr-only">Toggle Dropdown</span> </button>
 					{/if}
 					{/foreach}

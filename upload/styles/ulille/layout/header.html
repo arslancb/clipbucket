@@ -30,11 +30,11 @@
 			</ul>
 			<!-- Shown to Large displays only Start -->
 			<ul class="nav navbar-nav">
-				<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{lang code="categories"} <span class="caret"></span></a>
-					<ul class="dropdown-menu" role="menu">
-						{$cbvid->cbCategories(["type"=>$type,"echo"=>"TRUE","output"=>"list","with_all"=>"TRUE"]) }
-					</ul>
-				</li>
+				<!-- li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{lang code="categories"} <span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu"-->
+						{*$cbvid->cbCategories(["type"=>$type,"echo"=>"TRUE","output"=>"list","with_all"=>"TRUE"]) *}
+					<!-- /ul>
+				</li-->
 				{if function_exists('disciplinesMenuOutput')}
 					<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{lang code="disciplines"} <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
@@ -51,7 +51,8 @@
 					</li>
 					{/foreach}
 				{/if}
-				<li><a href="#">Live !</a></li>
+				<li><a href="videos.php">Toutes les vidéos</a></li>
+				<!--li><a href="#">Live !</a></li-->
 			</ul>
 			{if userid()} 
 			<!-- if logged -->

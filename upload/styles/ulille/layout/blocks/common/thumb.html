@@ -3,7 +3,7 @@
 	<div class="image-holder">
 		<div class="image"><img nopin="nopin" src="{getThumb vdetails=$video size='768x432'}" alt="alt" class="img-responsive"></div>
 		<div class="image-overlay fade1s"></div>
-		<div class="duration-anchor fade1s">{$video.category|categories:video} | {if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</div>
+		<div class="duration-anchor fade1s">{*$video.category|categories:video*}{* | *}{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</div>
 		{if has_access('admin_access')}
 		<div class="dropdown fade1s"> <a id="video{$video.videoid}" href="#" class="options glyphicon glyphicon-option-vertical text-card" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">menu</span></a>
 			<ul class="dropdown-menu" aria-labelledby="video{$video.videoid}">
