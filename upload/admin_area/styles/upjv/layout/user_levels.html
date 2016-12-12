@@ -1,0 +1,388 @@
+<link href="../theme/stylesheet.css" rel="stylesheet" type="text/css">
+<div class="heading">
+    <h2>User Levels</h2>
+</div>
+{if $view=='view'}
+
+<a class="btn btn-primary btn-sm pull-right" href="?mode=add">Add New Level <b>+</b></a>
+<br><br>
+<table class="table table-bordered table-striped">
+  <tr>
+    <td>ID</td>
+    <td>Name</td>
+    <td>Active</td>
+    <td>Users</td>
+    <td>Actions</td>
+  </tr>
+  {assign var=levels value=$userquery->get_levels()}
+  {section name=l loop=$levels}
+  <tr>
+    <td>{$levels[l].user_level_id}</td>
+    <td>{$levels[l].user_level_name}</td>
+    <td>{$levels[l].user_level_active}</td>
+    <td>{$userquery->get_level_users($levels[l].user_level_id,true)}</td>
+    <td><a href="?mode=edit&lid={$levels[l].user_level_id}">Edit</a>{if $levels[l].user_level_is_default !=yes} | <a href="?action=delete&lid={$levels[l].user_level_id}">Remove</a>{/if}</td>
+  </tr>
+  {sectionelse}
+  <tr>
+    <td>No Levels Were Found</td>
+  </tr>
+  {/section}
+</table>
+
+{elseif $view=='edit'}
+
+<form action="" method="post">
+<h3>Edit {$level_details.user_level_name|form_val} Level Permissions</h3>
+
+<div class="form-group">
+  <label for="level_name2">Level Name</label>
+  <input class="form-control" name="level_name" type="text" id="level_name2" value="{$level_details.user_level_name|form_val}" />
+</div>
+<div class="tabbable">
+<ul class="nav nav-tabs" id="myTab">
+    <li class="active">
+        <a data-toggle="tab" href="#vpermission">
+            Viewing Permission
+
+        </a>
+    </li>
+    <li class="">
+        <a data-toggle="tab" href="#upermission">
+            Uploading Permission
+        </a>
+    </li>
+    <li class="">
+        <a data-toggle="tab" href="#apermission">
+            Administrator Permission
+        </a>
+    </li>
+    <li class="">
+        <a data-toggle="tab" href="#gpermission">
+            General Permission
+        </a>
+    </li>
+</ul>
+<div class="tab-content">
+<div id="vpermission" class="tab-pane active">
+{assign var='types' value=$userquery->get_level_types()}
+{section name=t loop=$types}
+{assign var=perms value=$userquery->get_permissions($types[t].user_permission_type_id)}
+    {if $types[t].user_permission_type_name == 'Viewing Permission'}
+    <h2>Viewing Permission</h2>
+    <div class="row">
+    <div class="well">
+        {foreach from=$perms item=perm}
+        {if $perm.permission_id !=""}
+                <strong>{$perm.permission_name}</strong><br />
+                <em>{$perm.permission_desc}</em>
+
+                {assign var="perm_code" value=$perm.permission_code}
+        <label class="radio">
+            <input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_id}_yes" {if $level_perms.$perm_code=='yes'} checked="checked"{/if}/>
+            Yes</label>
+        <label class="radio">
+            <input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_id}_no" {if $level_perms.$perm_code==no} checked="checked"{/if}/>
+            No</label>
+        {else}
+                <em>No Permission Found</em>
+        {/if}
+        {foreachelse}
+                <em>No Permission Found</em>
+        {/foreach}
+    </div>
+    {/if}
+    {/section}
+</div>
+    </div>
+
+
+<div id="upermission" class="tab-pane">
+    {assign var='types' value=$userquery->get_level_types()}
+    {section name=t loop=$types}
+    {assign var=perms value=$userquery->get_permissions($types[t].user_permission_type_id)}
+    {if $types[t].user_permission_type_name == 'Uploading Permission'}
+    <h2>Uploading Permission</h2>
+    <div class="well">
+        {foreach from=$perms item=perm}
+        {if $perm.permission_id !=""}
+
+
+                <strong>{$perm.permission_name}</strong>
+
+                <em>{$perm.permission_desc}</em>
+
+                {assign var="perm_code" value=$perm.permission_code}
+        <label class="radio">
+            {assign var=perm_plugin_code value=$perm.plugin_code}
+
+            <!-- <input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_code}_yes" {if $plugin_perms.$perm_plugin_code!='no'} checked="checked"{/if}/>
+            Yes</label>
+        <label class="radio">
+            <input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_code}_no" {if $plugin_perms.$perm_plugin_code==no} checked="checked"{/if}/>
+            No</label> -->
+           
+            <input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_code}_yes" {if $level_perms[{$perm.permission_code}]!='no'} checked="checked"{/if}/>
+            Yes</label>
+        <label class="radio">
+            <input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_code}_no" {if $level_perms[{$perm.permission_code}]==no} checked="checked"{/if}/>
+            No</label>
+
+        {else}
+        <tr>
+            <td>
+                <em>No Permission Found</em>
+            </td>
+        </tr>
+        {/if}
+
+        {foreachelse}
+        <tr>
+            <td>
+                <em>No Permission Found</em>
+            </td>
+        </tr>
+        {/foreach}
+    </div>
+    {/if}
+    {/section}
+    </div>
+<div id="apermission" class="tab-pane">
+    {assign var='types' value=$userquery->get_level_types()}
+    {section name=t loop=$types}
+    {assign var=perms value=$userquery->get_permissions($types[t].user_permission_type_id)}
+{if $types[t].user_permission_type_name == 'Administrator Permission'}
+    <h2>Administrator Permission</h2>
+<div class="well">
+    {foreach from=$perms item=perm}
+    {if $perm.permission_id !=""}
+
+    <tr>
+        <td>
+            <strong>{$perm.permission_name}</strong><br />
+
+            <em>{$perm.permission_desc}</em>
+        </td>
+        <td>
+
+            {assign var="perm_code" value=$perm.permission_code}
+            <label class="radio"><input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_id}_yes" {if $level_perms[{$perm.permission_code}]==yes} checked="checked"{/if} />Yes</label>
+            <label class="radio"><input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_id}_no" {if $level_perms[{$perm.permission_code}]==no} checked="checked"{/if} />No</label>
+        </td>
+    </tr>
+    {else}
+    <tr>
+        <td>
+            <em>No Permission Found</em>
+        </td>
+    </tr>
+    {/if}
+
+    {foreachelse}
+    <tr>
+        <td>
+            <em>No Permission Found</em>
+        </td>
+    </tr>
+    {/foreach}
+</div>
+    {/if}
+    {/section}
+    </div>
+<div id="gpermission" class="tab-pane">
+    {assign var='types' value=$userquery->get_level_types()}
+    {section name=t loop=$types}
+    {assign var=perms value=$userquery->get_permissions($types[t].user_permission_type_id)}
+{if $types[t].user_permission_type_name == 'General Permission'}
+    <h2>General Permission</h2>
+<div class="well">
+    {foreach from=$perms item=perm}
+    {if $perm.permission_id !=""}
+
+    <tr>
+        <td>
+            <strong>{$perm.permission_name}</strong><br />
+
+            <em>{$perm.permission_desc}</em>
+        </td>
+        <td>
+            {assign var="perm_code" value=$perm.permission_code}
+            <label class="radio"><input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_id}_yes" {if $level_perms[{$perm.permission_code}]==yes} checked="checked"{/if}/>Yes</label>
+            <label class="radio"><input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_id}_no" {if $level_perms[{$perm.permission_code}]==no} checked="checked"{/if} />No</label>
+        </td>
+    </tr>
+    {else}
+    <tr>
+        <td>
+            <em>No Permission Found</em>
+        </td>
+    </tr>
+    {/if}
+
+    {foreachelse}
+    <tr>
+        <td>
+            <em>No Permission Found</em>
+        </td>
+    </tr>
+    {/foreach}
+</div>
+    {/if}
+    {/section}
+    </div>
+</div>
+</div>
+
+
+<!--<table class="table table-bordered table-striped">-->
+<!--{assign var = bgcolor value = ""}-->
+<!--{foreach from=$perms item=perm}-->
+<!--{if $perm.permission_id !=""}-->
+
+  <!--<tr>-->
+    <!--<td>-->
+      <!--<strong>{$perm.permission_name}</strong><br />-->
+
+      <!--<em>{$perm.permission_desc}</em>-->
+    <!--</td>-->
+    <!--<td>-->
+      <!--{assign var="perm_code" value=$perm.permission_code}-->
+      <!--<label class="radio">-->
+        <!--<input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_id}_yes" {if $level_perms.$perm_code=='yes'} checked="checked"{/if}/>-->
+        <!--Yes-->
+      <!--</label>-->
+      <!--<label class="radio">-->
+        <!--<input type="radio" name="group1{$perm.permission_code}" value="no" id="{$perm.permission_id}_no" {if $level_perms.$perm_code==no} checked="checked"{/if}/>-->
+        <!--No-->
+      <!--</label>-->
+    <!--</td>-->
+  <!--</tr>-->
+<!--{else}-->
+  <!--<tr>-->
+    <!--<td>-->
+      <!--<em>No Permission Found</em>-->
+    <!--</td>-->
+  <!--</tr>-->
+<!--{/if}-->
+
+<!--{foreachelse}-->
+  <!--<tr>-->
+    <!--<td>-->
+      <!--<em>No Permission Found</em>-->
+    <!--</td>-->
+  <!--</tr>-->
+<!--{/foreach}-->
+<!--</table>-->
+
+
+
+
+
+
+{if $Cbucket->plugins_perms}
+<h3>Plugins Permissions</h3>
+
+<table class="table table-bordered table-striped">
+
+{assign var=perms value=$Cbucket->plugins_perms}
+
+
+{assign var = bgcolor value = ""}
+{foreach from=$perms item=perm}
+
+
+
+  <tr>
+    <td>
+      <strong>{$perm.plugin_name}</strong><br />
+      <em>{$perm.plugin_desc}</em>
+    </td>
+    <td>
+      <label class="radio">
+        {assign var=perm_plugin_code value=$perm.plugin_code}
+        <input type="radio" name="plugin_perm[{$perm.plugin_code}]" value="yes" id="{$plugin_perms.plugin_code}_yes" {if $plugin_perms.$perm_plugin_code!='no'} checked="checked"{/if}/>Yes
+      </label>
+      <label class="radio">
+        <input type="radio" name="plugin_perm[{$perm.plugin_code}]" value="no" id="{$plugin_perms.plugin_code}_no" {if $plugin_perms.$perm_plugin_code==no} checked="checked"{/if}/>No
+      </label>
+    </td>
+  </tr>
+
+{foreachelse}
+  <tr>
+    <td>
+      <em>No Permission Found</em>
+    </td>
+  </tr>
+{/foreach}
+</table>
+
+
+
+
+
+
+{/if}
+
+
+
+	 <input class="btn btn-primary btn-sm" type="submit" name="update_level_perms" id="button" value="Update" /></td>
+
+</form>
+{elseif $view=='add'}
+<form action="" method="post">
+<h3>User Level Details</h3>
+<div class="form-group">
+  <label for="level_name2">Level name</label>
+  <input class="form-control" name="level_name" type="text" id="level_name2" value="{$smarty.post.level_name|form_val}" />
+</div>
+
+{assign var='types' value=$userquery->get_level_types()}
+{section name=t loop=$types}
+<h3>{$types[t].user_permission_type_name}</h3>
+
+    {assign var=perms value=$userquery->get_permissions($types[t].user_permission_type_id)}
+    <div class="row">
+    {assign var = bgcolor value = ""}
+    {foreach from=$perms item=perm}
+        {if $perm.permission_id !=""}
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 myWell">
+                    <div class="col-md-8 paddingTop">
+                    <strong>{$perm.permission_name}</strong><br />
+                    <small><em>{$perm.permission_desc}</em></small>
+                  </div>
+                  <div class="col-md-4">
+                        <label class="radio">
+                          <input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_id}_yes" />Yes
+                        </label>
+                        <label class="radio">
+                          <input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_id}_no" />No
+                        </label>
+                  </div>      
+                </div>
+            </div>
+        </div>
+        {else}
+        <div>
+          <div class="col-md-6">
+            <em>No Permission Found</em>
+          </div>
+        </div>
+        {/if}
+
+    {foreachelse}
+    <div>
+      <div>
+        <em>No Permission Found</em>
+      </div>
+    </div>
+    {/foreach}
+    </div>
+
+{/section}
+<input class="btn btn-primary btn-sm" type="submit" name="add_new_level" id="button" value="Add Level" />
+</form>
+{/if}
+

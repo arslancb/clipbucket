@@ -1,0 +1,34 @@
+<div class="heading">
+    <h2>Notification Settings</h2>
+</div>
+<table class="table table-bordered table-striped manageUsersTable">
+        <tr>
+            <td>Videos</td>
+            <td>Users</td>
+            <td>Groups</td>
+            <td>Total</td>
+        </tr>
+    
+ <!-- Admin Todo List -->  
+    <tr>
+    	<td class="item"><a href="video_manager.php?search=search&active=no">Approve Videos ({get_videos active='no' count_only=true})</a>
+    		<br/><a href="flagged_videos.php">Flagged Videos ({$cbvid->action->count_flagged_objects()})</a>
+    	</td>
+    	
+        <td class="item"><a href="members.php?search=yes&amp;status=ToActivate">Approve Members ({get_users status='ToActivate' count_only=true})</a>
+        	<br/><a href="flagged_users.php">Flagged Users ({$userquery->action->count_flagged_objects()})</a>
+        </td>
+        <td class="item"><a href="groups_manager.php?active=no&amp;search=yes">Approve Groups ({get_groups active='no' count_only=true})</a>
+        <br/><a href="flagged_groups.php">Flagged Groupes ({$cbgroup->action->count_flagged_objects()})
+
+         </a>
+        </td>
+        <td>
+            Approve {math equation="x + y + z" x={get_videos active='no' count_only=true} y={get_groups active='no' count_only=true} z={get_users status='ToActivate' count_only=true}}
+            <br/>
+            Flagged {math equation="x + y + z" x=$cbgroup->action->count_flagged_objects() y=$cbvid->action->count_flagged_objects() z=$userquery->action->count_flagged_objects()}</td>
+    </tr>
+    <!-- Admin Todo List -->
+    </table>
+
+    

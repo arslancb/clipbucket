@@ -1,0 +1,94 @@
+<div class="heading">
+    <h2>Editor's Pick</h2>
+</div>
+
+<form name="editors_pick" action="" method="post">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+    <input type="submit" value="Update" name="update_order" class="btn btn-primary btn-xs" />
+    <input type="submit" name="delete_selected" value="Delete"  class="btn btn-primary btn-xs" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
+    
+    </td>
+    </tr>
+</table>
+
+    <table class="table table-bordered table-striped manageUsersTable">
+        <tr>
+            <td>
+                <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+          <!--   <td>Order</td> -->
+            <td>Order</td>
+            <td>Videos Details</td>
+            <td style="width: 200px">&nbsp;</td>
+        </tr>
+        {if $videos}
+        {foreach from=$videos item=video}
+
+        <tr>
+            <td>
+                <input name="check_video[]" type="checkbox" id="check_video" value="{$video.videoid}"/>
+            </td>
+           <td><input name="ep_order_{$video.pick_id}" type="text" id="order" style="border:1px solid #999; padding:2px; width:30px" value="{$video.sort}" size="5" maxlength="5" /></td>
+            <td>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" title=""/>
+                            </div>
+                            <div class="col-md-9">
+                                <a href="edit_video.php?video={$video.videoid}">
+                                    {$video.title|truncate:80} </a>({if
+                                $video.duration>1}{$video.duration|SetTime}{else}00:00{/if})<br>
+                         <span class="labels1"> <strong>{$video.date_added|niceTime}</strong>
+                            {lang code='views'} : <strong>{$video.views|number_format}</strong></span>
+                                <div class="labels">
+                            {if $video.featured=='yes'}<span class="label label-primary">Featured</span>{else}<span class="label label-primary">Unfeatured</span>{/if}
+
+                             <span class="label label-info">
+                                           {$video.featured}</span>
+                                    <span class="label {if $video.active=='yes'}label-success{else}label-warning{/if}">
+                                        {if $video.active=='yes'}Active{else}InActive{/if} </span>
+                                    <span class="label {if $video.status=='Successful'}label-success{else}label-warning{/if}">
+                                        {if $video.status=='Successful'}Successful{else}Processing{/if}</span>
+                                    <span class="label label-info">
+                                       Viewed {$video.last_viewed|niceTime}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="view_user.php?uid={$video.userid}">{$video.username}</a>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="dropdown alignLeft">
+                    <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1">
+                        Actions <i class="caret"></i>
+                    </button>
+                    <ul role="menu" aria-labelledby="dropdownMenu1" class="dropdown-menu">
+                        <li><a class="" href="?remove={$video.videoid}" tabindex="-1" role="menuitem">Remove From Editor's Pick</a></li>
+                    </ul>
+                </div>
+
+            </td>
+        </tr>
+        {/foreach}
+        {/if}
+    </table>
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px"><input type="submit" value="Update" name="update_order" class="btn btn-primary btn-xs" />
+    <input type="submit" name="delete_selected" value="Delete"  class="btn btn-primary btn-xs" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
+    
+    </td>
+    </tr>
+</table>
+</form>
+
+

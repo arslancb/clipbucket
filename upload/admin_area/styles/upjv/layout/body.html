@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		{include file="$layout_dir/global_header.html" }
+	</head>
+	<body>	
+		{include file="$layout_dir/header.html"}
+		<div class="main-container container" id="main-container">
+	        <div class="main-container-inner">
+				<div class="sidebar" id="sidebar">
+					{include file="$layout_dir/left_menu.html"}
+				</div>
+				<div class="main-content">
+					<div id="breadcrumbs" class="breadcrumbs">
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="#">{$smarty.const.MAIN_PAGE}</a>
+							</li>
+							<li class="active"> {$smarty.const.SUB_PAGE}</li>
+						</ul><!-- .breadcrumb -->
+
+						
+					</div>
+					<div class="page-content">
+	                    {include file="$style_dir/msg.html" }
+						<!-- Setting Body File -->
+						{if $Cbucket->show_page}
+	                        {foreach from=$template_files item=file}
+	                            {include_template_file file=$file}
+	                        {/foreach}
+						{/if}
+						<!-- Setting Body File -->
+					</div>
+				</div>
+			</div>
+			{include file="$layout_dir/footer.html" }
+		</div>
+	</body>
+</html>

@@ -1,0 +1,59 @@
+<div class="heading">
+  <h2>{$total} users are online</h2>
+</div>
+<table class="table table-bordered table-striped">
+  <tr>
+    <td width="150">User</td>
+    <td>Details</td>
+    <td width="150">Access time</td>
+    <td width="100">IP</td>
+  </tr>
+  {if $online_users}
+  {foreach from=$online_users item=user}
+  {$user.agent|get_browser_details:theBrowser}
+    <tr>
+      <td width="150">
+        {if $user.username}
+          <a href="view_user?uid={$user.userid}"><label class="label label-success">{$user.username}</label></a>
+          <br>
+          <a href="view_user.php?uid={$u.userid}">
+             <img src="{$userquery->getUserThumb($user,'small')}" class="img-thumbnail oneUserImage" />
+          </a>
+
+        {else}
+        {$user.session_string}
+        {/if}
+        <img class="tipsy_tip browser {$theBrowser.bname}" src="{$imageurl}/dot.gif" title="{$theBrowser.name} {$theBrowser.version} on {$theBrowser.platform}" />
+      </td>
+      <td>
+          <div class="dropdown marginBottom">
+            <button id="hideshow" class="btn btn-primary btn-xs drop" value="See Details">See Details..</button>
+          </div>
+
+          <span class="" title="{$user.referer}">
+              <b>Right Now</b>      <a href="{$user.current_page}">{$user.current_page|truncate:40:'..':false:true}</a>
+              {if $user.referer}
+              <a href="{$user.referer}" target="_blank" ><label class="label label-warning">View Referer</label></a>
+              {/if}
+              </span>
+              <div id="content" style="display: none">
+            <label class="label label-info">{$user.email}</label>
+              <span class="label label-info">
+                                       Viewed <b>{$user.last_active|niceTime}</b></span>
+                     <span class="label label-info">
+                                       Session Started <b>{$user.session_date|niceTime}</b></span>
+                     <span class="label label-danger">
+                                       <b>{$user.agent}</b></span>
+                  </div>
+      </td>
+      <td width="150">
+        <b>{$user.session_date|niceTime}</b><br>
+        <a href="{$queryString}kick={$user.session_id}" class="kick" title="This will make user force logout"><label class="label label-danger">KICK</label></a>
+      </td>
+      <td width="100"><b>{$user.ip}</b></td>
+    </tr>
+  {/foreach}
+  {/if}
+</table>
+
+

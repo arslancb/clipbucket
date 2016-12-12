@@ -1,0 +1,23 @@
+{if $devmsg}<div class="alert alert-success">{$devmsg}</div>{/if}
+{if $deverror}<div class="alert alert-danger">{$deverror}</div>{/if}
+<div>
+  <h1>Development Mode {if $devpower}[enabled, {$devpower}]{/if}</h1>
+  <div class="alert alert-warning">This feature is for developers to speed up their debugging & development process. It must not be activated on live sites</div>
+  {if $devmode == 'yes'}   
+    <a href="{$baseurl}/admin_area/dev_mode.php?enable=no"><button class="btn btn-danger">Disable Dev Mode</button></a>
+  {else}
+
+    <!-- <div class="dropdown">
+      <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Dropup
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <li><a href="{$baseurl}/admin_area/dev_mode.php?enable=yes&devpower=basic">Basic</a></li>
+        <li><a href="{$baseurl}/admin_area/dev_mode.php?enable=yes&devpower=medium">Medium</a></li>
+        <li><a href="{$baseurl}/admin_area/dev_mode.php?enable=yes&devpower=high">High</a></li>
+      </ul>
+    </div> -->
+    <a href="{$baseurl}/admin_area/dev_mode.php?enable=yes&devpower=medium"><button class="btn btn-primary">Enable Development Mode</button></a>
+  {/if}
+</div>

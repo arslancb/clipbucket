@@ -1,0 +1,155 @@
+<div class="heading">
+    <h2>Comments Manager</h2>
+</div>
+<div id="vid_opt-{$groups[gp_list].group_id}" class="dropdown">
+    <button id="dropdownMenu" class="btn btn-primary btn-xs dropdown-toggle pull-right"
+            data-toggle="dropdown">View Comments <i class="caret"></i></button>
+    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="?type=v" title="View Video Comments">View Video Comments</a>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="?type=t">View Topic Posts</a>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="?type=c">View Channel Comments</a>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="?type=cl">View Collection Comments</a>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="?type=p">View Photo Comments</a>
+</ul>
+</div>
+<form name="comments_manager" method="post">
+    <div class="btn-grp formOptions">
+      <input class="btn btn-xs btn-primary" type="submit" name="mark_spam" value="Mark Spam"  class="button" id="mark_spam"/>
+      <input class="btn btn-xs btn-primary" type="submit" name="not_spam" value="Not Spam"  class="button" id="not_spam"/>
+      <input class="btn btn-xs btn-primary" type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected comment(s)')"/>
+    </div>
+<table class="table table-bordered">
+  <tr>
+    <td width="40" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="85" class="head"><strong>CID</strong></td>
+    <td class="head"><strong>Comment</strong></td>
+  </tr>
+</table>
+
+{if $comments}
+
+<table class="table table-bordered">
+{foreach from=$comments item=comment}
+
+{if $comment.anonym_name != ""}
+	{assign var=comment_owner value=$comment.anonym_name}
+{else}
+	{assign var=comment_owner value=$userquery->get_user_details($comment.3)}
+{/if} 
+ 
+<tr>
+<td width="40"><input style="margin-left:5px;margin-top:10px;"name="check_comments[]" type="checkbox" id="check_comments" value="{$comment.comment_id}" /></td>
+<td >{$comment.comment_id}</td>
+<td onmouseover="$('#comm_opt-{$comment.comment_id}').show()" onmouseout="$('#comm_opt-{$comment.comment_id}').hide()" >
+ {if $type == '' || $type == 'v'}
+    {if is_array($comment_owner)} <a href="{$userquery->profile_link($comment_owner)}"><strong>{$comment_owner.username}</strong></a> {else} <span id="{$comment.comment_id}" class="edit_comment"><strong style="margin-left:-10px;">{$comment.comment}</strong></span>
+    <div class="videoTitle row">
+        <div class="col-md-10">
+            <a href="view_user.php?uid={$video.userid}">{$comment_owner}</a>   {/if} commented on a video named  <a href="{videoLink vdetails=$comment}" title="{$comment.title}">{$comment.title|truncate:40}</a>
+            on {$comment.date_added|date_format}
+<div class="clear-fix"></div>
+        </div>
+    </div>
+    <td>
+<div class="dropdown pull-right">
+    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions  <i class="caret"></i></button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="{$cbcollection->collection_links($comment,'vc')}#{if $comment.spam_votes > 0}spam_{/if}comment_{$comment.comment_id}"  target="_blank">{lang code='view'} {lang code='comment'}</a></li>
+
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="spam_comment_{$comment.comment_id}" onclick="admin_spam_comment({$comment.comment_id}); return false;"{if $comment.spam_votes ==0}  style="display:inline"{else} style="display:none;"{/if}>Mark {lang code='spam'}</a> <a href="#" id="remove_spam_comment_{$comment.comment_id}"  onclick="admin_remove_spam({$comment.comment_id}); return false;"
+{if $comment.spam_votes !=0}  style="display:inline"{else} style="display:none;"{/if}>{lang code='remove'} {lang code='spam'}</a> </li>
+
+
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="delete_comment('{$comment.comment_id}','v'); return false;">{lang code='delete'}</a></li>
+        </ul>
+</div>
+</td>	
+</tr>
+{/if}
+{if $type == 't'}
+<span class="vdo_sets">
+ {if is_array($comment_owner)} <a href="{$userquery->profile_link($comment_owner)}"><strong>{$comment_owner.username}</strong></a> {else} <strong>{$comment_owner}</strong> {/if} commented on <strong>{$comment.date_added|date_format}</strong>  on a topic named <span style="text-transform:none"><a href="{$cbgroup->topic_link($comment)}" title="{$comment.topic_title}">{$comment.topic_title|truncate:40}</a></span>
+</span>
+<span style="font-size:11px;" class="edit_comment">{$comment.comment}</span>
+
+<div id="comm_opt-{$comment.comment_id}" class="vid_opts" style="display:none">
+
+<a href="{$cbgroup->topic_link($comment)}#{if $comment.spam_votes > 0}spam_{/if}comment_{$comment.comment_id}" target="_blank">{lang code='view'} {lang code='comment'}</a> |
+
+<a href="#" id="spam_comment_{$comment.comment_id}" onclick="admin_spam_comment({$comment.comment_id}); return false;"{if $comment.spam_votes ==0}  style="display:inline"{else} style="display:none;"{/if}>Mark {lang code='spam'}</a> <a href="#" id="remove_spam_comment_{$comment.comment_id}"  onclick="admin_remove_spam({$comment.comment_id}); return false;"
+{if $comment.spam_votes !=0}  style="display:inline"{else} style="display:none;"{/if}>{lang code='remove'} {lang code='spam'}</a> | 
+
+<a href="#" onclick="delete_comment('{$comment.comment_id}','v'); return false;">{lang code='delete'}</a>
+</div>
+{/if}
+
+{if $type == 'c'}
+<span class="vdo_sets">
+    <span style="font-size:11px;" class="edit_comment"><strong>{$comment.comment}</strong></span><br>
+ {if is_array($comment_owner)} <a href="{$userquery->profile_link($comment_owner)}"><strong>{$comment_owner.username}</strong></a> {else} <strong><a href="{$userquery->profile_link($comment_owner)}">{$comment_owner}</a></strong> {/if} commented on <strong>{$comment.date_added|date_format}</strong>  on a channel named <span style="text-transform:none"><a href="{$userquery->profile_link($comment)}" title="{$comment.username}">{$comment.username|truncate:40}</a></span>
+</span>
+
+    <div class="dropdown pull-right">
+        <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions  <i class="caret"></i></button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href href="{$userquery->profile_link($comment)}#{if $comment.spam_votes > 0}spam_{/if}comment_{$comment.comment_id}" target="_blank">{lang code='view'} {lang code='comment'}</a></li>
+
+            <li role="presentation"><a role="menuitem" tabindex="-1" href href="#" id="spam_comment_{$comment.comment_id}" onclick="admin_spam_comment({$comment.comment_id}); return false;"{if $comment.spam_votes ==0}  style="display:inline"{else} style="display:none;"{/if}>Mark {lang code='spam'}</a> </li>
+                <a href="#" id="remove_spam_comment_{$comment.comment_id}"  onclick="admin_remove_spam({$comment.comment_id}); return false;"
+{if $comment.spam_votes !=0}  style="display:inline"{else} style="display:none;"{/if}>{lang code='remove'} {lang code='spam'}</a>
+
+            <li role="presentation"><a role="menuitem" tabindex="-1" href href="#" onclick="delete_comment('{$comment.comment_id}','v'); return false;">{lang code='delete'}</a></li>
+            </ul>
+        </div>
+{/if}
+
+{if $type == 'cl'}
+<span class="vdo_sets">
+ {if is_array($comment_owner)} <a href="{$userquery->profile_link($comment_owner)}"><strong>{$comment_owner.username}</strong></a> {else} <strong>{$comment_owner}</strong> {/if} commented on <strong>{$comment.date_added|date_format}</strong>  on a collection named <span style="text-transform:none"><a href="{$cbcollection->collection_links($comment,'vc')}" title="{$comment.collection_name}">{$comment.collection_name|truncate:40}</a></span>
+</span>
+<span style="font-size:11px;" class="edit_comment">{$comment.comment}</span>
+
+<div class="labels">
+<a href="{$cbcollection->collection_links($comment,'vc')}#{if $comment.spam_votes > 0}spam_{/if}comment_{$comment.comment_id}" target="_blank">{lang code='view'} {lang code='comment'}</a> |
+
+<a href="#" id="spam_comment_{$comment.comment_id}" onclick="admin_spam_comment({$comment.comment_id}); return false;"{if $comment.spam_votes ==0}  style="display:inline"{else} style="display:none;"{/if}>Mark {lang code='spam'}</a> <a href="#" id="remove_spam_comment_{$comment.comment_id}"  onclick="admin_remove_spam({$comment.comment_id}); return false;"
+{if $comment.spam_votes !=0}  style="display:inline"{else} style="display:none;"{/if}>{lang code='remove'} {lang code='spam'}</a> | 
+
+<a href="#" onclick="delete_comment('{$comment.comment_id}','v'); return false;">{lang code='delete'}</a>
+</div>
+{/if}
+
+{if $type == 'p'}
+<span class="vdo_sets">
+ {if is_array($comment_owner)} <a href="{$userquery->profile_link($comment_owner)}"><strong>{$comment_owner.username}</strong></a> {else} <strong>{$comment_owner}</strong> {/if} commented on <strong>{$comment.date_added|date_format}</strong>  on a photo named <span style="text-transform:none"><a href="{$cbphoto->photo_links($comment,'view_photo')}" title="{$comment.photo_title}">{$comment.photo_title|truncate:40}</a></span>
+</span> 
+
+<span>{$comment.comment}</span>
+
+<div class="labels">
+<a href="{$cbphoto->photo_links($comment,'view_photo')}#{if $comment.spam_votes > 0}spam_{/if}comment_{$comment.comment_id}" target="_blank">{lang code='view'} {lang code='comment'}</a> |
+
+<a href="#" id="spam_comment_{$comment.comment_id}" onclick="admin_spam_comment({$comment.comment_id}); return false;"{if $comment.spam_votes ==0}  style="display:inline"{else} style="display:none;"{/if}>Mark {lang code='spam'}</a> <a href="#" id="remove_spam_comment_{$comment.comment_id}"  onclick="admin_remove_spam({$comment.comment_id}); return false;"
+{if $comment.spam_votes !=0}  style="display:inline"{else} style="display:none;"{/if}>{lang code='remove'} {lang code='spam'}</a> | 
+
+<a href="#" onclick="delete_comment('{$comment.comment_id}','v'); return false;">{lang code='delete'}</a>
+</div></div>
+
+{/if}
+
+{if $bgcolor == ""}
+{assign var = bgcolor value = "#EEE"}
+{else}
+{assign var = bgcolor value = ""}
+{/if}    
+{/foreach}
+</table>
+{else}
+	<div align="center"><em>{lang code='no_comments'}</em></div>
+{/if}
+</form>
+<div style="height:10px; clear:both"></div>
+
+{include file="$style_dir/blocks/pagination.html" }
+

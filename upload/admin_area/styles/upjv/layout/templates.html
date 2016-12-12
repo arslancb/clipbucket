@@ -1,0 +1,66 @@
+<h2>Selected Template</h2>
+
+{assign var="selected" value=$Cbucket->configs.template_dir}
+{assign var="curtpl" value=$cbtpl->get_template_details($selected)}
+
+<div class="selectedTemplate">
+
+    <div class="row">
+        <div class="col-md-4">
+            
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="well alignCenter">
+                        <img src="{$cbtpl->get_preview_thumb($curtpl.dir)}" class="img-thumbnail" >
+                        <h3>{$curtpl.name}</h3>
+                        <em>
+                        <a href="{$curtpl.website.link}"><strong>{$curtpl.author}</strong></a>
+                        </em>
+                        <p>{$curtpl.description}</p>
+                        <p>Version : {$curtpl.version}, Released on {$curtpl.released|date_format}</p>
+                        <p>Website : <a href="{$curtpl.website.link}">{$curtpl.website.title}</a></p>
+                    </div>    
+                </div>
+            </div>
+        </div>
+            
+    </div>
+</div>
+
+{* Listing All Avilable Templates *}    
+{assign var='templates' value=$cbtpl->get_templates()}
+{if $templates} 
+    <h2>Available Templates</h2>
+	  
+
+    <div class="availableTemplates">
+        <div class="">
+            <div class="row">
+                {foreach from=$templates item=template}
+                {if $selected != $template.dir}
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="alignCenter well">
+                                <img src="{$cbtpl->get_preview_thumb($curtpl.dir)}" class="img-thumbnail" >
+                                <h3>{$template.name}</h3>
+                                <em>
+                                    {$template.name} <br /><em>by <strong>{$template.author}</strong></em>
+                                </em>
+                                <p>Website : <a href="{$template.website.link}">{$template.website.title}</a></p>
+                                <a href="templates.php?change={$template.dir}">Activate This Template</a>
+                                <a href="{$baseurl}?template={$template.dir}" target="_blank">Preview</a>
+                                <a href="{$baseurl}?template={$template.dir}&amp;set_template=yes" target="_blank">Preview &amp; Activate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/if}
+                {/foreach}
+            </div>
+        </div>
+{else}
+	<div align="center">No New Template Found</div>
+{/if}
+    </div>
+</div>
