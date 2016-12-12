@@ -1,11 +1,11 @@
 
 <footer id="page-footer">
-        <div class="row col-md-12 clearfix footer-pad">
+        <div class="container-fluid"><div class="row">
             {$Cbucket->footer()}
-			<div class="col-md-2 col-sm-6 col-xs-12 footer-logo">
+			<div class="col-md-2 col-sm-4 col-xs-12 footer-logo">
 				<img nopin="nopin" src="{$theme}/images/logo-semm.svg" alt="logo SEMM" class="img-responsive">
 			</div>
-            <div class="col-md-8 col-sm-6 col-xs-12">
+            <div class="col-md-8 col-sm-4 col-xs-12 footer-list">
                 <ul class="nav list-unstyled pull-left">
                     {$foot_menu=foot_menu()}
                     {foreach from=$foot_menu item=fm}
@@ -15,12 +15,12 @@
                     {/foreach}
                 </ul> 
             </div>
-            <div class="col-md-2 col-sm-6 col-xs-12 forged-by">
+            <div class="col-md-2 col-sm-4 col-xs-12 forged-by footer-list">
                    <ul class="nav list-unstyled pull-right">
                     <li>#ClipBucket#</li>
                 </ul>
             </div>
-        </div><!--//row-->
+        </div></div><!--//row-->
 </footer>
 <a href="#top" class="btn btn-primary btn-lg back-top"><span class="glyphicon glyphicon-chevron-up"></span><span class="sr-only"> haut de page</span> </a>
 <script>

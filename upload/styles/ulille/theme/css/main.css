@@ -3423,6 +3423,7 @@ ul#myTab_home li:first-child + li {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  width: 100%;
 }
 /* Margins */
 .nm {
@@ -4949,24 +4950,34 @@ nav.navbar .container-fluid ul.nav.navbar-nav > li > a:active {
   clear: both;
   content: "";
 }
-#page-footer .footer-pad ul {
-  margin-top: 40px;
+#page-footer .row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-#page-footer .footer-pad ul li {
+#page-footer .footer-list ul {
+  margin: auto;
+}
+#page-footer .footer-list ul li {
   float: left;
   border-right: 1px solid #DDDDDD;
 }
-#page-footer .footer-pad ul li:last-child {
+#page-footer .footer-list ul li:last-child {
   border-right: none;
 }
-#page-footer .footer-pad ul li a {
+#page-footer .footer-list ul li a {
   color: #777777;
   padding: 0px 15px 0px 15px !important;
 }
 #page-footer .footer-logo img {
-  height: auto;
-  width: 100%;
-  max-width: 320px;
+  height: 48px;
+  width: auto;
+}
+@media screen and (min-width: 767px) {
+  #page-footer .footer-logo img {
+    height: 96px;
+    width: auto;
+  }
 }
 #page-footer .forged-by {
   font-size: 9px;
