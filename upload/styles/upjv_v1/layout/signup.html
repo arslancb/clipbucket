@@ -15,7 +15,7 @@
 	<div class="account-container">
 		{if $mode == 'login'}
 			<div class="clearfix signin-block">
-				<div class="account-holder">
+				<div class="account-holder text-center">
 					<form name="login_form" method="post" action="" id="login_form" class="user-form">
 						<h2>{lang code="login"}</h2>
 						<div class="form-group">
@@ -41,11 +41,14 @@
 
 
 
+						
+						{if function_exists('is_auth_cas')}
 						<div class="checkbox custom-elements form-group">
 							<label>
 								<a href="{ANCHOR place="is_auth_cas"}">Connexion CAS</a>
 							</label>
 						</div>
+						{/if}
 
 
 
@@ -63,6 +66,8 @@
 						</div>
 						{/if}
 					</form>
+					
+					{if $allow_registeration eq ''}
 					<div class="side-box">
 						<h2>{lang code='get_your_account'}</h2>
 						<div class="text-box">
@@ -70,6 +75,7 @@
 						</div>
 						<a class="btn btn-default btn-lg" href="{link name='signup'}">{lang code='get_your_account'}</a>
 					</div>
+					{/if}
 				</div>
 			</div>
 		{else}
@@ -178,7 +184,7 @@
 	</div>
 {/if}
 
-<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<!-- <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
 <script>
 
 	$(document).ready(function(){
