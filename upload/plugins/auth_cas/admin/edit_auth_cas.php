@@ -36,7 +36,8 @@ if(!defined('SUB_PAGE')){
 		assign($key, $config[$key]);
 	}
 	
-	if(is_installed('ldap_client')) {
+	
+	if($cbplugin->is_installed('ldap_client.php')) {
 		e("Les fonctions LDAP sont disponibles.<br />\n", "m");
 	}
 	else {
