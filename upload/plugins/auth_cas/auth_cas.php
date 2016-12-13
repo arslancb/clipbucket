@@ -92,6 +92,7 @@ Version: 1.0
 	 *	@param string $login User login
 	 */
 	function loginAndCreate($login){
+		global $cbplugin;
 
 		// Get user information
 		$userquery = new userquery();
