@@ -73,6 +73,7 @@ Version: 1.0
 			$url=BASEURL.'/signup.php?mode=login&auth_cas=bycas';
 			echo $url;
 		}
+		
 	} // End is_auth_cas
 		
 
@@ -126,6 +127,8 @@ Version: 1.0
 	 *	@return string User Id
 	 */
 	function createUser($login){
+		global $cbplugin;
+		
 		$userquery = new userquery();
 		$pass =  RandomString(10);		// create a random password
 
