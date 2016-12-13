@@ -8,7 +8,7 @@
 <tr>
 	<td>
 		<div class="col-md-3">
-			<a class="manageVid_thumb" href="edit_video.php?video={$video.videoid}">
+			<a class="manageVid_thumb" href="edit_video.php?vid={$video.videoid}">
 				<img src="{getThumb vdetails=$video}" class="img-responsive" width="130" height="80" id="thumbs_{$video.videoid}" class="vthumb" title=""/>
 				<span class="duration">({if
 				$video.duration>1}{$video.duration|SetTime}{else}00:00{/if})</span>
