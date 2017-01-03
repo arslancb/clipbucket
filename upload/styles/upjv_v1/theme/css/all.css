@@ -2396,6 +2396,7 @@ h1{
 	z-index:10
 }
 
+/*
 .pagination{
 	background:#fff;
 	font-size:18px
@@ -2419,11 +2420,10 @@ h1{
 	font-size:14px;
 	line-height:26px
 }
+*/
 
 .pagination>li.active>a,.pagination>li.active>a:focus,.pagination>li.active>a:hover,.pagination>li.active>span,.pagination>li.active>span:focus,.pagination>li.active>span:hover{
-	background:#fff;
-	border-color:#fff;
-	color:#148dc8
+	background:#148dc8;
 }
 
 .breadcrumb{
@@ -2433,7 +2433,7 @@ h1{
 	line-height:26px;
 	padding:5px 0 10px;
 	border-bottom:1px solid #d9d9d9;
-	border-radius:0;
+	border-radius:0;r
 	background:#f8f8f8
 }
 

@@ -89,7 +89,6 @@ var flag = 0;
 function responsiveFixes(){
 
 	var WinWidth = $(window).width();
-	console.log("On est dans la fonction !!!");
 	var SearchHtml = $("#header .menu-holder .user_menu").html();
 	var navseach = $('#header .navbar-header');
 	var menuLinks = $("#header .menu-holder");
@@ -115,6 +114,7 @@ function responsiveFixes(){
 		navseach.find('.user_menu').remove();
 
 	}
+	/*
 	if( WinWidth <1280 )
 	{
 		$(".btn-newacc").html("Signup");
@@ -123,6 +123,7 @@ function responsiveFixes(){
 	{
 		$(".btn-newacc").html("Create new account !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	}
+	*/
 
 	if(userid)
 	{
@@ -134,7 +135,7 @@ function responsiveFixes(){
 		$(".user_menu").addClass('logged-out');
 	}
 
-
+/*
 	if( WinWidth <768 )
 	{
 		var length3 = $('.menu-holder').find('.newuser-links').length;
@@ -154,6 +155,7 @@ function responsiveFixes(){
 			$('.newuser-links').remove();
 		}
 	}
+*/
 
 }
 
@@ -181,6 +183,7 @@ function loginHeight(){
 
 
 $(document).ready(function(){
+
 	//footer at bototm
 	headerFooter();
 	if(userid)
@@ -214,7 +217,7 @@ $(document).ready(function(){
 
 
 function homePageVideos(qlist_items) {
-	console.log("Hey there Pumpkin! Looks like you really like what we do, hence trying to look under the hood. Happy sneaking buddy! Drop us an email for any questions : info@clipbucket.com")
+	
 	$('#container').on("click","#recent_load_more, #featured_load_more",function(){
 		var loadLink = baseurl + '/ajax/home.php',
 		main_object = $(this),
@@ -366,7 +369,7 @@ function homePageVideos(qlist_items) {
 $(window).resize(function(){
  	headerFooter();
  	preLoadingBlock();
- 	responsiveFixes();
- 	loginHeight();
+ 	//responsiveFixes();
+ 	//loginHeight();
 });
 //shortKeys();

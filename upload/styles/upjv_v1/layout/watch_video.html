@@ -27,15 +27,22 @@
 <div id="main" class="clearfix container">
 	<div class="clearfix">
 		<section id="content" class="clearfix videos">
+		
 			<div class="clearfix player-holder">
 				<div id="cb_player" class="cb_player">
 					{FlashPlayer vdetails=$video width='100%' height='100%'}
 				</div><!-- cb_player end -->
 			</div>
+
 			<!-- end of player-holder -->
+			
+			<!--
 			<div class="clearfix leaderboard-ad ad">
 				{AD place='ad_728x90'}
 			</div>
+			-->
+			
+			
 			<section class="video-details clearfix">
 				<header class="clearfix details">
 					<h1>{$video.title}</h1>
@@ -253,6 +260,11 @@
 	</div>
 </div>
 
+
+
+
+
+
 <script>
 	$('#playlist-pull').on("click",function(){
 		loadHit = $(this).attr('dataHit');
@@ -354,5 +366,7 @@
 	
 </script>
 
+<!--
 <link rel="stylesheet" href="{$theme}/css/branding-removal.css">
+-->
 
