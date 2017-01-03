@@ -1,0 +1,81 @@
+{
+  "name": "xhr",
+  "version": "2.2.0",
+  "description": "small xhr abstraction",
+  "keywords": [
+    "xhr",
+    "http",
+    "xmlhttprequest",
+    "xhr2",
+    "browserify"
+  ],
+  "author": {
+    "name": "Raynos",
+    "email": "raynos2@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Raynos/xhr.git"
+  },
+  "main": "index",
+  "homepage": "https://github.com/Raynos/xhr",
+  "contributors": [
+    {
+      "name": "Jake Verbaten"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/Raynos/xhr/issues",
+    "email": "raynos2@gmail.com"
+  },
+  "dependencies": {
+    "global": "~4.3.0",
+    "is-function": "^1.0.1",
+    "once": "~1.1.1",
+    "parse-headers": "^2.0.0",
+    "xtend": "^4.0.0"
+  },
+  "devDependencies": {
+    "for-each": "^0.3.2",
+    "pre-commit": "1.0.10",
+    "run-browser": "^2.0.2",
+    "tap-spec": "^4.0.2",
+    "tape": "^4.0.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/Raynos/xhr/raw/master/LICENSE"
+    }
+  ],
+  "scripts": {
+    "test": "run-browser test/index.js -b | tap-spec",
+    "browser": "run-browser test/index.js"
+  },
+  "gitHead": "0dc970078e532f6a74e059a92b2b2d9744e8b324",
+  "_id": "xhr@2.2.0",
+  "_shasum": "70d957d52c49f1bac6a86e14f4e088ecae4040f2",
+  "_from": "xhr@2.2.0",
+  "_npmVersion": "2.14.7",
+  "_nodeVersion": "4.2.2",
+  "_npmUser": {
+    "name": "naugtur",
+    "email": "naugtur@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "raynos",
+      "email": "raynos2@gmail.com"
+    },
+    {
+      "name": "naugtur",
+      "email": "naugtur@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "70d957d52c49f1bac6a86e14f4e088ecae4040f2",
+    "tarball": "https://registry.npmjs.org/xhr/-/xhr-2.2.0.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/xhr/-/xhr-2.2.0.tgz"
+}

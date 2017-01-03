@@ -1,0 +1,162 @@
+{
+  "author": {
+    "name": "Andreas Gal",
+    "email": "gal@mozilla.com"
+  },
+  "name": "videojs-vtt.js",
+  "description": "A JavaScript implementation of the WebVTT specification.",
+  "version": "0.12.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mozilla/vtt.js.git"
+  },
+  "homepage": "https://github.com/mozilla/vtt.js",
+  "devDependencies": {
+    "grunt": "0.4.1",
+    "grunt-cli": "0.1.9",
+    "grunt-contrib-jshint": "0.10.0",
+    "grunt-contrib-uglify": "0.5.0",
+    "grunt-contrib-concat": "0.4.0",
+    "mocha": "1.20.1",
+    "difflet": "git://github.com/humphd/difflet.git#714b82706ad39d75275a886aeff637df5097626f",
+    "underscore": "1.6.0",
+    "optimist": "0.6.1",
+    "dive": "0.3.1",
+    "async": "0.9.0",
+    "grunt-bump": "0.0.14",
+    "json-stable-stringify": "1.0.0",
+    "node-vtt": "1.1.7",
+    "text-encoding": "0.1.0",
+    "grunt-mocha-test": "0.11.0"
+  },
+  "main": "lib/index.js",
+  "files": [
+    "dist/",
+    "lib/browser.js",
+    "lib/index.js",
+    "lib/vtt.js",
+    "lib/vttcue.js",
+    "lib/vttcue-extended.js",
+    "lib/vttregion.js",
+    "lib/vttregion-extended.js"
+  ],
+  "keywords": [
+    "vtt",
+    "webvtt",
+    "track",
+    "captions",
+    "subtitles",
+    "text track"
+  ],
+  "scripts": {
+    "test": "grunt"
+  },
+  "license": {
+    "type": "Apache-2.0",
+    "url": "https://github.com/mozilla/vtt.js/blob/master/LICENSE"
+  },
+  "contributors": [
+    {
+      "name": "This is an",
+      "url": "incomplete"
+    },
+    {
+      "name": "codebase which lives in this repository. If you make a contribution"
+    },
+    {
+      "name": "here, you may add your name and, optionally, email address in the"
+    },
+    {
+      "name": "appropriate place."
+    },
+    {
+      "name": "Andreas Gal",
+      "email": "gal@mozilla.com"
+    },
+    {
+      "name": "Rick Eyre",
+      "email": "rick.eyre@hotmail.com"
+    },
+    {
+      "name": "David Humphrey",
+      "email": "david.humphrey@senecacollege.ca"
+    },
+    {
+      "name": "Jeffrey Espiritu",
+      "email": "jeff_pro3@hotmail.com"
+    },
+    {
+      "name": "Alex Kotliar",
+      "email": "alexkotliar@gmail.com"
+    },
+    {
+      "name": "Ali Al Dallal",
+      "email": "ali@alicoding.com"
+    },
+    {
+      "name": "Edwin Lim",
+      "email": "limed3@gmail.com"
+    },
+    {
+      "name": "Michael Afidchao",
+      "email": "mdafidchao@learn.senecac.on.ca"
+    },
+    {
+      "name": "Shayan Ahmad",
+      "email": "szahmad@learn.senecac.on.ca"
+    },
+    {
+      "name": "Jordan Raffoul",
+      "email": "raffoul.jordan@gmail.com"
+    },
+    {
+      "name": "Vince Lee",
+      "email": "vince.lee.lien@gmail.com"
+    },
+    {
+      "name": "Kyle Barnhart",
+      "email": "kyle@barnhart.ca"
+    },
+    {
+      "name": "Mandeep Garg",
+      "email": "mkgarg1@learn.senecac.on.ca"
+    },
+    {
+      "name": "Dale Karp",
+      "email": "me@dale.io"
+    },
+    {
+      "name": "Marcus Saad",
+      "email": "mv.nsaad@gmail.com"
+    },
+    {
+      "name": "Cyril Concolato",
+      "email": "cyril.concolato@telecom-paristech.fr"
+    }
+  ],
+  "gitHead": "8ea664e257ec7b5c092f58ac989e3134ff536a7a",
+  "bugs": {
+    "url": "https://github.com/mozilla/vtt.js/issues"
+  },
+  "_id": "videojs-vtt.js@0.12.1",
+  "_shasum": "e313896ca8e838c1b2e16df8775c56981ae19f3a",
+  "_from": "videojs-vtt.js@0.12.1",
+  "_npmVersion": "2.13.4",
+  "_nodeVersion": "0.10.39",
+  "_npmUser": {
+    "name": "gkatsev",
+    "email": "me@gkatsev.com"
+  },
+  "maintainers": [
+    {
+      "name": "gkatsev",
+      "email": "me@gkatsev.com"
+    }
+  ],
+  "dist": {
+    "shasum": "e313896ca8e838c1b2e16df8775c56981ae19f3a",
+    "tarball": "https://registry.npmjs.org/videojs-vtt.js/-/videojs-vtt.js-0.12.1.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/videojs-vtt.js/-/videojs-vtt.js-0.12.1.tgz"
+}
