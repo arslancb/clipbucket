@@ -28,10 +28,8 @@
 
 		<link rel="stylesheet" href="{$theme}/css/icon-font.css?cache={$cache_buster}">
 
-		<link rel="stylesheet" href="{$theme}/css/custom-elements.css?cache={$cache_buster}">
-
 		{*if !in_dev()*}
-			<link rel="stylesheet" href="{$theme}/css/all.css?cache={$cache_buster}">
+<!--			<link rel="stylesheet" href="{$theme}/css/all.css?cache={$cache_buster}">-->
 		{*/if*}
 
 		<script src="{$theme}/js/jquery-1.11.3.min.js"></script>
@@ -47,8 +45,13 @@
 		<!-- 	Bootstrap	-->
 		<link href="{$theme}/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<!-- 	Global CSS	-->
-		<link rel="stylesheet" type="text/css" media="all" href="{$theme}/css/global.css">
+		{if $__devmsgs}
+			<link rel="stylesheet" type="text/css" media="all" href="{$theme}/css/css.css">
+		{else}
+			<link rel="stylesheet" type="text/css" media="all" href="{$theme}/css/css.min.css">
+		{/if}
 		<!-- ---------------- FIN STYLE ---------------- -->
+		
 
 
 		<script>
@@ -62,10 +65,9 @@
 			<script src="{$theme}/js/custom.js"></script>
 		{else}
 			<script src="{$theme}/js/custom.js"></script>
-			<!-- <script src="{$theme}/js/custom.min.js"></script> -->
 		{/if}
 
-		<!-- MON BOOTSTRAP et MON FONT AWESOME -->
+		<!-- BOOTSTRAP -->
 		<script type="text/javascript" src="{$theme}/lib/bootstrap/js/bootstrap.js"></script>
 		
 		{if $__devmsgs}
