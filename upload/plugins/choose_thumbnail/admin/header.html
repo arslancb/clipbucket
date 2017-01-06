@@ -22,7 +22,14 @@ function getTimeFromVideo(player) {
 			data		: formData,
 			success : function(q)
 			{
-				location.reload();
+// 				console.log(q);
+				
+				if (q){
+					$("#choose_thumbnail_info").html(q);
+				}
+				else{
+					location.reload();
+				}
 			}
 		});
 	}
