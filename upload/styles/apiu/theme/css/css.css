@@ -2,6 +2,12 @@
 	POLICE
 *************** */
 
+
+h1 {
+	border-bottom: 4px dotted #148cbc;
+	padding: 20px;
+}
+
 body {
 	padding-top: 20px;
 	padding-bottom: 20px;

@@ -45,7 +45,8 @@
 		
 			<div class="collapse navbar-collapse columns" id="menuNavigation">
 				<ul class="nav nav-pills nav-stacked pull-right" id="menu">
-<li role="presentation" class="active"><a href="https://www.u-picardie.fr/apiu/index.php" data-transition="slide">Accueil</a></li><li role="presentation" 1=""><a href="https://www.u-picardie.fr/apiu/actualite.php" data-transition="slide">Actualités</a></li><li role="presentation" 1=""><a href="https://www.u-picardie.fr/apiu/mission-numerique.php" data-transition="slide">Mission numérique</a></li><li role="presentation" 1=""><a href="https://www.u-picardie.fr/apiu/partenaires.php" data-transition="slide">Partenaires</a></li>					</ul>
+<li role="presentation"><a href="https://www.u-picardie.fr/apiu/index.php" data-transition="slide">Accueil</a></li><li role="presentation"><a href="https://www.u-picardie.fr/apiu/actualite.php" data-transition="slide">Actualités</a></li><li role="presentation"><a href="https://www.u-picardie.fr/apiu/mission-numerique.php" data-transition="slide">Mission numérique</a></li><li role="presentation"><a href="https://www.u-picardie.fr/apiu/partenaires.php" data-transition="slide">Partenaires</a></li><li role="presentation" class="active"><a href="https://www.u-picardie.fr/apiu/partenaires.php" data-transition="slide">WebTV</a></li>
+</ul>
 			</div>
 		</nav>
 	</div>
@@ -62,7 +63,7 @@
 					  <!-- <img src="{$userquery->getUserThumb($user_det)}" width="35" height="35"> -->
 					<span>{$userquery->username|truncate:15}</span>
 				</a>
-				
+
 				<ul class="dropdown-menu dropdown-menu-right">
 					{if isSectionEnabled('videos')}
 						<li class="hidden-xs"><a href="{link name='upload'}"><i class="fa fa-upload" aria-hidden="true"></i> {lang code="upload_video"}</a></li>
