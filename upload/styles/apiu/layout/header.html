@@ -50,6 +50,73 @@
 		</nav>
 	</div>
 
+		
+
+
+	<ul class="navbar-nav navbar-right right-menu" id="portails_ent">
+		{if userid()}
+			<li class="dropdown myaccount-dd">
+				Bienvenue
+				<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+					{$user_det = $userquery->get_user_details(userid())}
+					  <!-- <img src="{$userquery->getUserThumb($user_det)}" width="35" height="35"> -->
+					<span>{$userquery->username|truncate:15}</span>
+				</a>
+				
+				<ul class="dropdown-menu dropdown-menu-right">
+					{if isSectionEnabled('videos')}
+						<li class="hidden-xs"><a href="{link name='upload'}"><i class="fa fa-upload" aria-hidden="true"></i> {lang code="upload_video"}</a></li>
+					{/if}
+				
+					{if isSectionEnabled('photos')}
+						<li class="hidden-xs"><a href="{link name='photo_upload'}">{lang code="upload_photo"}</a></li>
+					{/if}
+
+					{if isSectionEnabled('photos') || isSectionEnabled('videos')}
+					<li class="divider"></li>
+					{/if}
+
+					<li class="hidden-xs"><a href="{link name='my_account' }{userid}"><i class="fa fa-user" aria-hidden="true"></i> {lang code="my_account"}</a></li>
+					<li class="hidden-xs"><a href="{link name='my_videos'}"><i class="fa fa-video-camera" aria-hidden="true"></i> {lang code="manage_videos"}</a></li>
+					
+					{ANCHOR place="head_audio_dropdown"}
+					
+					<li><a href="{link name='channels'}"><i class="fa fa-eye" aria-hidden="true"></i> {lang code="view_channels"}</a></li>
+					<li><a href="{$baseurl}/view_channel.php?user={$userquery->username}">{lang code="my_channel"}</a></li>
+					
+					{ANCHOR place='premium_button_link'}
+					
+					{if has_access('admin_access')}
+						<li class="divider"></li>
+						<li class="hidden-xs"><a href="{$admin_baseurl}">{lang code="admin_area"}</a></li>
+					{/if}
+					<li class="divider"></li>
+					<li><a href="{link name='logout'}"><i class="fa fa-power-off" aria-hidden="true"></i> {lang code="logout"}</a></li>
+				</ul>
+			</li>
+			
+			&nbsp;
+			
+<!-- 
+			{ANCHOR place="aud_upload_link"}
+-->
+
+		{else}
+			<li>
+			<!-- <a class="btn btn-default btn-newacc" href="{link name='signup'}">{lang code='create_new_account'}</a>  -->
+				<a href="{link name='signup'}">{lang code='create_new_account'}</a>&nbsp;|&nbsp;
+			</li>
+			<li>
+			<!-- <a class="btn btn-default btn-login" href="{link name='signup'}?mode=login">{lang code='login'}</a> -->
+					<a href="{link name='signup'}?mode=login">{lang code='login'}</a>
+			</li>
+		{/if}
+	</ul>
+
+	
+
+
+
 	<div>
 		<div>
 			{if config("allow_language_change")}
@@ -80,82 +147,13 @@
 
 
 			<a href="{$baseurl}/rss.php?mode=recent">
-				<i class="fa fa-rss fa-3x" aria-hidden="true" alt="RSS" title="RSS"></i>
+				<i class="fa fa-rss fa-2x" aria-hidden="true" alt="RSS" title="RSS"></i>
 			</a>
-
-		
 
 		</div><!-- -->
 	</div> <!-- #profils_preferences -->
 
 		
-		
-
-
-		<ul class="navbar-nav navbar-right right-menu" id="portails_ent">
-			{if userid()}
-				<li class="dropdown myaccount-dd">
-					Bienvenue
-					<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-						{$user_det = $userquery->get_user_details(userid())}
-						 <!-- <img src="{$userquery->getUserThumb($user_det)}" width="35" height="35"> -->
-						<span>{$userquery->username|truncate:15}</span>
-					</a>
-					
-					<ul class="dropdown-menu dropdown-menu-right">
-						{if isSectionEnabled('videos')}
-							<li class="hidden-xs"><a href="{link name='upload'}"><i class="fa fa-upload" aria-hidden="true"></i> {lang code="upload_video"}</a></li>
-						{/if}
-					
-						{if isSectionEnabled('photos')}
-							<li class="hidden-xs"><a href="{link name='photo_upload'}">{lang code="upload_photo"}</a></li>
-						{/if}
-
-						{if isSectionEnabled('photos') || isSectionEnabled('videos')}
-						<li class="divider"></li>
-						{/if}
-
-						<li class="hidden-xs"><a href="{link name='my_account' }{userid}"><i class="fa fa-user" aria-hidden="true"></i> {lang code="my_account"}</a></li>
-						<li class="hidden-xs"><a href="{link name='my_videos'}"><i class="fa fa-video-camera" aria-hidden="true"></i> {lang code="manage_videos"}</a></li>
-						
-						{ANCHOR place="head_audio_dropdown"}
-						
-						<li><a href="{link name='channels'}"><i class="fa fa-eye" aria-hidden="true"></i> {lang code="view_channels"}</a></li>
-						<li><a href="{$baseurl}/view_channel.php?user={$userquery->username}">{lang code="my_channel"}</a></li>
-						
-						{ANCHOR place='premium_button_link'}
-						
-						{if has_access('admin_access')}
-							<li class="divider"></li>
-							<li class="hidden-xs"><a href="{$admin_baseurl}">{lang code="admin_area"}</a></li>
-						{/if}
-						<li class="divider"></li>
-						<li><a href="{link name='logout'}"><i class="fa fa-power-off" aria-hidden="true"></i> {lang code="logout"}</a></li>
-					</ul>
-				</li>
-				
-				&nbsp;
-				
-<!-- 
-				{ANCHOR place="aud_upload_link"}
--->
-
-			{else}
-				<li>
-				<!-- <a class="btn btn-default btn-newacc" href="{link name='signup'}">{lang code='create_new_account'}</a>  -->
-					<a href="{link name='signup'}">{lang code='create_new_account'}</a>&nbsp;|&nbsp;
-				</li>
-				<li>
-				<!-- <a class="btn btn-default btn-login" href="{link name='signup'}?mode=login">{lang code='login'}</a> -->
-						<a href="{link name='signup'}?mode=login">{lang code='login'}</a>
-				</li>
-			{/if}
-		</ul>
-
-	
-
-
-
 
 
 		<div id="menu">
@@ -163,7 +161,7 @@
 			<div id="menu_principal_deco">
 			
 <!--
- 				<button class="icon-menu-2" data-unfold-trigger="menu_principal">
+				<button class="icon-menu-2" data-unfold-trigger="menu_principal">
 					<span>Menu</span>
 				</button>
 -->

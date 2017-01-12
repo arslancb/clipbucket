@@ -4,28 +4,6 @@
 
 ****************************************************************** */
 @charset "UTF-8";
-/*
-h1{
-	background: #148cbc;
-	color: #fff;
-	font: 500 2.14286em/1 arvoregular, Rockwell, rokkittregular, Tahoma, Verdana, Segoe, sans-serif;
-	text-transform: uppercase;
-	padding: .5em;
-	margin: 0 0 .7em;
-	min-height: 3em;
-}
-*/
-
-/*
-
-rokkittregular
-sansationregular
-sansationbold
-sansation_lightlight
-arvoregular
-arvobold
-
-*/
 
 li .active:hover{
 	border:0px;
@@ -316,7 +294,6 @@ button{
 #portails_ent {
 	color: #148cbc;
 	float: right;
-/*	margin: -2.5em 0 0;	*/
 	position: relative;
 	z-index: 50;
 }
@@ -393,15 +370,12 @@ button{
 	text-decoration: none;
 }
 
-/* ---------------------------- */
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #c5dbec; background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #2e6e9e;
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #c5dbec; background: #dfeffc url('images/ui-bg_glass_85_dfeffc_1x400.png') 50% 50% repeat-x; font-weight: bold; color: #2e6e9e;
 }
 
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #2e6e9e;
 text-decoration: none;
 }
-
-/* ---------------------------- */
 
 
 ul#meta_menu_button li {
@@ -419,8 +393,8 @@ ul#meta_menu_button li {
 }
 
 #meta_menu_tabs .meta_menu_contenu {
-    -webkit-column-count: 2; /* Chrome, Safari, Opera */
-    -moz-column-count: 2; /* Firefox */
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
     column-count: 2;
 	border-top: 2px dotted #fff;
 	padding: .5em 1em;
@@ -507,7 +481,6 @@ div.meta_menu_contenu > div > strong {
 	#menu {
 		position: relative;
 		clear: both;
-		/* z-index: 200; */
 	}
 
 	#menu_principal {
@@ -783,14 +756,9 @@ div.meta_menu_contenu > div > strong {
 
 /* ******************************************************************
 
-							CSS
+				CSS
 
 ****************************************************************** */
-/*
-#page{
-	box-shadow:0 0 10px 10px rgba(168,168,183,0.2)
-}
-*/
 
 #profils_preferences{
 	box-shadow:0 0 10px 10px rgba(168,168,183,0.2)
@@ -832,39 +800,14 @@ ul#portails_ent{
 
 /* ******************************************************************
 
-							CSS2
+				CSS2
 
 ****************************************************************** */
-
-
-/* ======================================================= */
-/* Gestion des couleurs dominante & secondaire =========== */
-/* ======================================================= */
-
-::-moz-selection {
-	background-color: #666666;
-}
-
-::-webkit-selection {
-	background-color: #666666;
-}
-
-::selection {
-	background-color: #666666;
-}
-
-/*
-h1, .h1 {
-	background-color: #148dc8;
-}
-*/
-
 a:hover, .plansite3 > li > a, #meta_menu_tabs .meta_menu_contenu ul a:hover, .accueil.portail.avec_carrousel{
 	color: #666666;
 }
 
 #menu_langues {
-	/* #148cbc -> 148dc8 */
 	color: #148cbc;
 }
 

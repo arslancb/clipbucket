@@ -26,11 +26,6 @@
 
 		<!-- ------------------ STYLE ------------------ -->
 		<link rel="stylesheet" href="{$theme}/css/icon-font.css?cache={$cache_buster}">
-		<link rel="stylesheet" href="{$theme}/css/custom-elements.css?cache={$cache_buster}">
-
-		{*if !in_dev()*}
-			<link rel="stylesheet" href="{$theme}/css/all.css?cache={$cache_buster}">
-		{*/if*}
 
 		<script src="{$theme}/js/jquery-1.11.3.min.js"></script>
 		
@@ -45,10 +40,12 @@
 		<!-- 	Bootstrap	-->
 		<link href="{$theme}/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">	
 		<!-- 	Global CSS	-->
-		<link rel="stylesheet" type="text/css" media="all" href="{$theme}/css/global.css">
+		<link rel="stylesheet" type="text/css" media="all" href="{$theme}/css/css.css">
 		<!-- ---------------- FIN STYLE ---------------- -->
 
 
+		
+		
 		<script>
 			var loading = '<i class="glyphicon glyphicon-refresh animate-spin"></i> {lang code="loading"}...';
 			var baseurl = "{$baseurl}";
