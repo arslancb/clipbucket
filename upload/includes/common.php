@@ -13,7 +13,7 @@
 * License First and Agree its
 * Terms of use at http://www.opensource.org/licenses/attribution.php
 *******************************************************************
-* Copyright (c) 2007 - 2016 Clip-Bucket.com. All rights reserved.
+* Copyright (c) 2007 - 2017 Clip-Bucket.com. All rights reserved.
 *******************************************************************
 */
 
@@ -62,6 +62,12 @@
 		
 		//IGNORE CB ERRORS
 		$ignore_cb_errors = FALSE;		
+		$developer_errors = false;
+
+		if (defined('DEVELOPMENT_MODE') && DEVELOPMENT_MODE) {
+			$developer_errors = true;
+		}
+
 		session_start();
 	}
 
@@ -213,7 +219,7 @@
 	$formObj	= new formObj();
 	
 	$cbplugin	= new CBPlugin();
-	$eh			= new EH();
+	$eh			= new errorhandler();
 	
 	$sess		= new Session();
 	$cblog		= new CBLogs();

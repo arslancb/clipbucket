@@ -26,6 +26,10 @@ if(!defined('SUB_PAGE')){
 	define('SUB_PAGE', 'Language Settings');
 }
 
+global $lang_obj;
+$langData = $lang_obj->getPhrasesFromPack('en');
+$langData['last_one'] = "aye";
+assign("langData", $langData);
 
 //Making Language Default
 if(isset($_POST['make_default']))

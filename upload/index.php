@@ -7,7 +7,8 @@
 	* @author: Arslan Hassan
 	* @since: 2007, ClipBucket v2.0
 	* @website: clip-bucket.com
-	* Copyright (c) 2007-2016 Clip-Bucket.com. All rights reserved
+	* Copyright (c) 2007-2017 Clip-Bucket.com. All rights reserved
+	* @modified : { January 10th, 2017 } { Saqib Razzaq } { Updated copyright date }
 	*/
 
 	define('THIS_PAGE','index');

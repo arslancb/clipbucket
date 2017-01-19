@@ -212,13 +212,13 @@
       player.carousel.holderDiv.className = player.carousel.holderDiv.className.replace(/(?:^|\s)vjs-fade-out(?!\S)/g, '');
     });
     player.on('timeupdate', function() {
-      if (player.ended()) {
+      /*if (player.ended()) {
         if (player.carousel.currentVideoIndex === player.carousel.config.length) {
           return;
         }
 
         player.carousel.initiateVideo(player.carousel.currentVideoIndex + 1, player.carousel.config[player.carousel.currentVideoIndex + 1], player);
-      }
+      }*/
     });
   });
 }(videojs));

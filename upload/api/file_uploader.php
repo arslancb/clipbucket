@@ -3,16 +3,19 @@
 /**
  * @Author : Arslan Hassan
  */
-include_once('../includes/config.inc.php');
+include('../includes/config.inc.php');
 
 $request = $_REQUEST;
 
 $file_name = $request['file_name'];
 $file_directory = $request['file_directory'];
+if (!$file_directory) {
+    $file_directory = createDataFolders();
+}
 $video_id = $request['videoid'];
 
 $tempFile = $_FILES['Filedata']['tmp_name'];
-$targetFileName = $file_name . '.' . getExt($request['name']);
+$targetFileName = $file_name . '.' . getExt($_FILES['Filedata']['name']);
 $targetFile = TEMP_DIR . "/" . $targetFileName;
 
 $max_file_size_in_bytes = config('max_upload_size') * 1024 * 1024;
@@ -72,8 +75,7 @@ if (!$file_size || $file_size > $max_file_size_in_bytes)
 //Checking file type
 $types_array = preg_replace('/,/', ' ', $types);
 $types_array = explode(' ', $types_array);
-$file_ext = strtolower(getExt($request['name']));
-
+$file_ext = strtolower(getExt($_FILES['Filedata']['name']));
 if (!in_array($file_ext, $types_array))
 {
     upload_error("Invalid file extension");
@@ -82,8 +84,8 @@ if (!in_array($file_ext, $types_array))
 
 
 move_uploaded_file($tempFile, $targetFile);
-
-$Upload->add_conversion_queue($targetFileName);
+#exit($file_directory);
+$Upload->add_conversion_queue($targetFileName, $file_directory);
             
 //exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 if (stristr(PHP_OS, 'WIN'))
@@ -92,9 +94,7 @@ if (stristr(PHP_OS, 'WIN'))
 }
 else
 {
-    /*exec(php_path() . " -q " . BASEDIR . "/actions/video_convert.php $targetFileName &> /dev/null &");*/
-    $logFile = FILES_DIR.'/logs/'.$file_directory.'/'.$file_name.'.log';
-    exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName $file_name $file_directory $logFile > /dev/null &");
+    exec(php_path()." -q ".BASEDIR."/actions/video_convert.php {$targetFileName} {$file_name} {$file_directory} {$logFile} > /dev/null &");
 }
 
 $status_array['success'] = 'yes';

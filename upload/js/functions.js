@@ -1838,7 +1838,7 @@ function decode64(input) {
 		html += '<textarea name="comment" id="reply_box_'+cid+'" class="form-control" placeholder="Reply to '+replying_to_user+'..."></textarea>';
 		html += '<i class="remove-'+cid+' remove-icon" onclick="remove_reply_box('+cid+')">';
 		html += '<span style="color:#006dcc;cursor:pointer">';
-		html += '<strong>X</strong>';
+		html += '<strong class="icon-close" ></strong>';
 		html += '</span>';
 		html += '</i>';
 		html += '</div>';

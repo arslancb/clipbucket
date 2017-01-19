@@ -79,7 +79,12 @@ if (!function_exists('cb_video_js'))
 	*/
 	function get_cbvjs_quality_type($video_files){
 		if ($video_files){
-			$one_file = get_cbvjs_quality($video_files[0]);
+			if (!empty($video_files[240])){
+				$video_file = $video_files[240];
+			}else{
+				$video_file = $video_files[0];
+			}
+			$one_file = get_cbvjs_quality($video_file);
 			if (is_numeric($one_file)){
 				$cb_combo_res = True;
 			}else{
@@ -166,8 +171,32 @@ if (!function_exists('cb_video_js'))
 					return false;
 				}
 			}
+			case 'get_svg_manager':{
+				if ( IA_ADS_INSTALLED == 'installed' ){
+					$svg_manager = svg_manager();
+					return $svg_manager;
+				}else{
+					return false;
+				}
+			}
 			case 'get_slot':{
-
+				if ( IA_ADS_INSTALLED == 'installed' ){
+					global $ia_ads;
+					$slot_paramas['videoid'] = $videoid;
+					
+					if ( !empty($_GET['slot_id']) ){
+						$slot_paramas['slot_id'] = $_GET['slot_id'];
+					}else{
+						$slot_paramas['state'] = '1';
+					}
+					$slot_id = $ia_ads->get_slot($slot_paramas)[0]['slot_id'];
+					if (!empty($slot_id)){
+						$instances = $ia_ads->get_instance(array("slot_id"=>$slot_id,'order'=>'starttime ASC'));	
+					}
+					return $instances;
+				}else{
+					return false;
+				}
 			}
 			
 			default:

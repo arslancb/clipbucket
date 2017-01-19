@@ -1151,18 +1151,18 @@ class cbactions
             $condition .= ( $condition ) ? " AND " : "";
             $condition .= "playlists.privacy = 'public'";
         } else {
-            if ( $params[ 'privacy' ] ) {
+            if ( isset($params[ 'privacy' ]) ) {
                 $condition .= ( $condition ) ? " AND " : "";
                 $condition .= " playlists.privacy = '".mysql_clean( $params[ 'privacy' ] )."' ";
             }
         }
 
-        if ( $params[ 'category' ] ) {
+        if ( isset($params[ 'category' ]) ) {
             $condition .= ( $condition ) ? " AND " : "";
             $condition .= " playlists.category = '".$params[ 'category' ]."' ";
         }
 
-        if ( $params[ 'include' ] ) {
+        if ( isset($params[ 'include' ]) ) {
             $ids = is_array( $params[ 'include' ] ) ? $params[ 'include' ] : explode( ',', $params[ 'include' ] );
 
             if ( is_array( $ids ) and !empty( $ids ) ) {
@@ -1172,7 +1172,7 @@ class cbactions
             }
         }
 
-        if ( $params[ 'exclude' ] ) {
+        if ( isset($params[ 'exclude' ]) ) {
             $ids = is_array( $params[ 'exclude' ] ) ? $params[ 'exclude' ] : explode( ',', $params[ 'exclude' ] );
 
             if ( is_array( $ids) and !empty( $ids ) ) {
@@ -1182,29 +1182,29 @@ class cbactions
             }
         }
 
-        if ( $params[ 'date_span' ] ) {
+        if ( isset($params[ 'date_span' ]) ) {
             $condition .= ( $condition ) ? " AND " : "";
             $column = ( $params[ 'date_span_column' ] ) ? trim( $params[ 'date_span_column' ] ) : 'playlists.date_added';
 
             $condition .= cbsearch::date_margin( $column, $params['date_span'] );
         }
 
-        if ( $params[ 'last_update' ] ) {
+        if ( isset($params[ 'last_update' ]) ) {
             $condition .= ( $condition ) ? " AND " : "";
             $condition .= cbsearch::date_margin( 'playlists.last_update', $params['last_update'] );
         }
 
-        if( $params[ 'user' ] ) {
+        if( isset($params[ 'user' ]) ) {
             $condition .= ( $condition ) ? " AND " : "";
             $condition .= " playlists.userid = '".$params[ 'user' ]."' ";
         }
 
-        if ( $params[ 'has_items' ] ) {
+        if ( isset($params[ 'has_items' ]) ) {
             $condition .= ( $condition ) ? " AND " : "";
             $condition .= " playlists.total_items > '0' ";
         }
 
-        if($params['count_only']){
+        if(isset($params['count_only'])){
               $result = $db->count( cb_sql_table('playlists') , 'playlist_id'  );
             	return $result;
 		}

@@ -49,7 +49,7 @@ switch($mode)
         die();
     }
     break;
-    case 'update_todo':
+    case 'update_todo': /* Never used yet */
     {
        
         $id = $_POST["pk"];
@@ -61,7 +61,7 @@ switch($mode)
         die();
     }
     break;
-    case 'update_pharse':
+    case 'update_pharse': /* Never used yet */
     {
        
         $id = $_POST["pk"];

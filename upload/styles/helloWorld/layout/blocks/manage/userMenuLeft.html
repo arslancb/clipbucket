@@ -1,0 +1,14 @@
+{*$topMenuLinks = array_slice($myAccountLinks, 0, 5)*}
+{$topMenuLinks = $myAccountLinks}
+<ul class="nav nav-pills nav-stacked">
+{foreach $topMenuLinks as $key => $value}
+	{if $key!='Groups'}
+
+		<li class="active"><a href="#">{$key}</a></li>
+	
+		{foreach $value as $subKey => $subValue}
+			<li><a  href="{$subValue}">{$subKey}</a></li>
+		{/foreach}
+	{/if}    
+{/foreach}
+</ul>

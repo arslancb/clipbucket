@@ -932,20 +932,39 @@ class myquery {
 		//$db->update(tbl("comments"),array("comment"),array($text)," comment_id = $cid");
 	}
         
-        /**
-         * Function used to update comment vote
-         */
-        function update_comment_vote($cid,$text)
-        {
-            global $db;
-            $db->Execute("UPDATE ".tbl("comments")." SET vote='$text' WHERE comment_id='$cid'");
-        }
+	/**
+	 * Function used to update comment vote
+	 */
+	function update_comment_vote($cid,$text)
+	{
+		global $db;
+		$db->Execute("UPDATE ".tbl("comments")." SET vote='$text' WHERE comment_id='$cid'");
+	}
 	
 	function get_todos()
     {
         global $db;
         return $db->select(tbl('admin_todo'),'*'," userid='".userid()."'",NULL," date_added DESC ");
     }
+
+    function insert_todo($text)
+	{
+		global $db;
+		$db->insert(tbl("admin_todo"),array('todo,date_added,userid'), array(mysql_clean($text),NOW(),userid()));
+	}
+
+	function update_todo($id,$text)
+	{
+		global $db;
+		$db->Execute("UPDATE ".tbl("admin_todo")." SET todo='".mysql_clean($text)."' WHERE comment_id='$id'");
+	}
+
+	function delete_todo($id)
+	{
+		global $db;
+		$db->delete(tbl("admin_todo"),array("todo_id"),array($id));
+	}
+
 	/**
 	 * Function used to validate comments
 	 */

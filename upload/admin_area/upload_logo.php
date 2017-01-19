@@ -1,26 +1,31 @@
 <?php
-require_once '../includes/admin_config.php';
-$userquery->admin_login_check();
-$pages->page_redir();
-/* Assigning page and subpage */
-if(!defined('MAIN_PAGE')){
-	define('MAIN_PAGE', 'Stats And Configurations');
-}
-if(!defined('SUB_PAGE')){
-	define('SUB_PAGE', 'Update Logo');
-}
+	/*
+	* File is used for uploading logo in ClipBucket
+	*/
 
-$source = BASEURL.'/styles/cb_28/theme/images/logo.png';
+	require_once '../includes/admin_config.php';
+	$userquery->admin_login_check();
+	$pages->page_redir();
+	/* Assigning page and subpage */
+	if(!defined('MAIN_PAGE')){
+		define('MAIN_PAGE', 'Stats And Configurations');
+	}
+	if(!defined('SUB_PAGE')){
+		define('SUB_PAGE', 'Update Logo');
+	}
 
-// Upload and Rename File
+	$source = BASEURL.'/styles/cb_28/theme/images/logo.png';
 
-if (isset($_POST['submit'])) {
-	// function used to upload site logo.
-	upload_logo() ;
-}
+	// Upload and Rename File
 
-assign('source',$source);
-subtitle("Update Logo");
-template_files('upload_logo.html');
-display_it();
+	if (isset($_POST['submit'])) {
+		// function used to upload site logo.
+		upload_logo() ;
+	}
+
+	assign('source',$source);
+	subtitle("Update Logo");
+	template_files('upload_logo.html');
+	display_it();
+
 ?>

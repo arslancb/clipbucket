@@ -179,13 +179,13 @@ class CBTemplate {
             preg_match('/<smarty_version>(.*)<\/smarty_version>/',$content,$smarty_version);
 
 
-            $name = $name[1];
-			$author = $author[1];
-			$version = $version[1];
-			$released = $released[1];
-			$description = $description[1];
-            $min_version = $min_version[1];
-            $smarty_version = $smarty_version[1];
+            $name = isset($name[1]) ? $name[1] : false;
+			$author = isset($author[1]) ? $author[1] : false;
+			$version = isset($version[1]) ? $version[1] : false;
+			$released = isset($released[1]) ? $released[1] : false;
+			$description = isset($description[1]) ? $description[1] : false;
+            $min_version = isset($min_version[1]) ? $min_version[1] : false;
+            $smarty_version = isset($smarty_version[1]) ? $smarty_version[1] : false;
 
 			$website = array('title'=>$website_arr[1],'link'=>$website_arr[2]);
 			

@@ -44,7 +44,10 @@ if(!function_exists('global_announcement'))
 	function update_announcement($text)
 	{
 		global $db;
-		$text = $text;
+		$textCheck = str_replace(array('<p>','</p>','<br>'), '', $text);
+		if (strlen($textCheck) < 1) {
+			$text = '';
+		}
 		$db->Execute("UPDATE ".tbl("global_announcement")." SET announcement='$text'");
 	}
 	

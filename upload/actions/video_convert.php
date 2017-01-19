@@ -1,7 +1,7 @@
 <?php
 
 	// This script runs only via command line
-
+	sleep(5);
 	include(dirname(__FILE__)."/../includes/config.inc.php");
 	require_once(dirname(dirname(__FILE__))."/includes/classes/sLog.php");
 	define("MP4Box_BINARY",get_binaries('MP4Box'));
@@ -26,6 +26,14 @@
 	$file_directory = $file_directory_.'/';
 	$logFile = (isset($argv[4])) ? $argv[4] : false;
 	logData($logFile,'argvs');
+
+	if (empty($logFile)) {
+		$logFile = LOGS_DIR.'/'.$file_directory.$_filename.'.log';
+	}
+
+	$file = FILES_DIR.'/temp/args.txt';
+	$text = "fileName [".$fileName.'] _filename ['.$_filename.'] file_directory ['.$file_directory.'] logfile ['.$logFile.']';
+	file_put_contents($file, $text);
 
 	$log = new SLog($logFile);
 	

@@ -1,0 +1,18 @@
+	<!-- Pulls in global header file -->
+	{include file="$style_dir/global_header.html"}  
+	<body>
+		<div id="container">
+		<!-- Will help you when you turn on development mdoe -->
+			{showDevWitch()}
+			{include file="$style_dir/header.html"}
+			
+			<!-- Will include file for current page as assigned in template_files -->
+			{foreach from=$template_files item=file}
+				{include_template_file file=$file}
+			{/foreach}
+
+			<!-- Pulls in footer file -->
+			{include file="$style_dir/footer.html" }
+		</div>
+	</body>
+</html>

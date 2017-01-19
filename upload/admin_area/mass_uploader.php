@@ -3,7 +3,7 @@
  **************************************************************
  | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
  | @ Author : ArslanHassan										
- | @ Software : ClipBucket , © PHPBucket.com					
+ | @ Software : ClipBucket , Â© PHPBucket.com
  **************************************************************
 */
 
@@ -12,7 +12,7 @@ require_once(dirname(dirname(__FILE__))."/includes/classes/sLog.php");
 $userquery->admin_login_check();
 $pages->page_redir();
 global $Cbucket;
-$mass_upload_config = config('delete_mass_upload');
+$delMassUpload = config('delete_mass_upload');
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
 	define('MAIN_PAGE', 'Videos');
@@ -34,14 +34,16 @@ assign("cats",$cats);
 assign("cat_values",$category_values);
 assign("total_cats",$total_cats);
 
-
 if(isset($_POST['mass_upload_video']))
 {
 	$files = $cbmass->get_video_files();
 	$vtitle=$_POST['title'];
 	$total = count($_POST['mass_up']);
 	for($i=0;$i<$total;$i++)
-	{	
+	{
+		if( !isset($_POST['filesToImport'][$i]) ) // Check if file is checked for import
+			continue;
+
 		$file_key = time().RandomString(5);
 		$file_arr = $files[$i];
 		$file_path = $files[$i]['path'];
@@ -51,13 +53,66 @@ if(isset($_POST['mass_upload_video']))
 		{
 			$code = $i+1;
 			//Inserting Video Data...
-			$array = array
-			(
-			'title' => $_POST['title'][$i],
-			'description' => $_POST['description'][$i],
-			'tags' => $_POST['tags'][$i],
-			'category' => $_POST['category'.$code],
-			'file_name' => $file_key,
+
+			if (gotPlugin('cb_multiserver.php')) {
+				// multiserver is installed
+
+				$uploadPath = $Cbucket->theUploaderDetails['uploadScriptPath'];
+				$fullFilePath = $file_arr['path'].$file_arr['file'];
+				//Initialise the cURL var
+				$ch = curl_init();
+
+				//Get the response from cURL
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+				//Set the Url
+				curl_setopt($ch, CURLOPT_URL, $uploadPath);
+
+				//Create a POST array with the file in it
+				$postData = array(
+				    'Filedata' => '@'.$fullFilePath,
+				);
+
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+
+				// Execute the request
+				$response = curl_exec($ch);
+				if ($response) {
+					$cleaned = json_decode($response,true);
+					$file_name = $cleaned['file_name'];
+					if (!empty($file_name)) {
+							$vCategory = $_POST['category'.$code];
+							if (empty($vCategory)) {
+								$vCategory = "#1#";
+							}
+							$array = array(
+							'title' => $_POST['title'][$i],
+							'description' => $_POST['description'][$i],
+							'tags' => $_POST['tags'][$i],
+							'category' => array($cbvid->get_default_cid()),
+							'file_name' => $file_name,
+						);
+						
+						$vid = $Upload->submit_upload($array);
+						if ($vid) {
+							goto crapCleanStep;
+						}
+					} else {
+						e("No filename returned from server");
+					}
+				} else {
+					e("Error moving file : ".curl_error($ch));
+				}
+				exit("FAILED");
+				return false;
+			}
+
+			$array = array(
+				'title' => $_POST['title'][$i],
+				'description' => $_POST['description'][$i],
+				'tags' => $_POST['tags'][$i],
+				'category' => $_POST['category'.$code],
+				'file_name' => $file_key,
 			);
 			$vid = $Upload->submit_upload($array);
 		}else{
@@ -80,7 +135,7 @@ if(isset($_POST['mass_upload_video']))
 		{
 			$dosleep=0;
 			//Moving file to temp dir and Inserting in conversion queue..
-			
+
 			$file_name = $cbmass->move_to_temp($file_arr,$file_key);
 			$file_directory = createDataFolders();
 			createDataFolders(LOGS_DIR);
@@ -107,15 +162,9 @@ if(isset($_POST['mass_upload_video']))
 				}
 				
 			}
-			if($mass_upload_config == 'no') {
-				if(!file_exists($file_path.'processed')){
-					$oldmask = umask(0);
-					mkdir($file_path.'processed', 0777);
-					umask($oldmask);
-				}
-				rename($file_path.$file_orgname, $file_path.'processed/'.$file_orgname);
-			}
-			else{
+
+			crapCleanStep:
+			if ($delMassUpload != 'no') {
 				unlink($file_path.$file_orgname);
 			}
 		}

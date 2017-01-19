@@ -99,7 +99,7 @@ subtitle($title);
     ?>
     <item>
         <author><?=$video['username']?></author>
-        <![CDATA[   <title><?=substr($video['title'],0,50)?></title> ]]>        
+        <title><?=substr($video['title'],0,50)?></title>
         <link><?=video_link($video)?></link>
         <description>
         <![CDATA[   

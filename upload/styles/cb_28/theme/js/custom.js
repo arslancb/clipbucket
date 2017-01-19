@@ -7,10 +7,10 @@ function headerFooter()
 	cont_height = $("#container").height();
 	headerheight = $("#header").outerHeight();
 	footerheight = $("#footer").outerHeight();
-	console.log('headerheight=>'+headerheight+',footerheight=>'+footerheight);
-	console.log("cont_height"+cont_height)
+	/*console.log('headerheight=>'+headerheight+',footerheight=>'+footerheight);
+	console.log("cont_height"+cont_height)*/
 	cont_height_new = cont_height - (headerheight + footerheight);
-	console.log("cont_height_new"+cont_height_new)
+	/*console.log("cont_height_new"+cont_height_new)*/
 	$("#container").css('padding-top',headerheight+'px');
 	$("#container").css('padding-bottom',footerheight+'px');
 
@@ -223,7 +223,7 @@ function homePageVideos(qlist_items) {
 		featuredFound = '';
 		if (loadHit == 1) {
 			recentFound = 6;
-			featuredFound = 2;
+			featuredFound = 4;
 		} else {
 			featuredSect = $('#container').find('#total_videos_featured').text();
 			recentSect = $('#container').find('#total_videos_recent').text();
@@ -231,8 +231,8 @@ function homePageVideos(qlist_items) {
 			totalFeaturedVids = featuredSect;
 			totalRecentVids = recentSect;
 
-			featuredShown = loadHit * 2 - 2;
-			recentShown = loadHit * 6 - 6;
+			featuredShown = loadHit * loadHit - loadLimit;
+			recentShown = loadHit * loadHit - loadLimit;
 
 			gotMoreFeatured = parseInt(totalFeaturedVids) - parseInt(featuredShown);
 			gotMoreRecent = parseInt(totalRecentVids) - parseInt(recentShown);
@@ -299,6 +299,7 @@ function homePageVideos(qlist_items) {
 				if (data.length < 10) {
 					$(main_object).remove();
 					if (loadHit == 1) {
+						//alert(loadMode);
 						if (loadMode == 'featured') {
 							$('#featured_load_more').hide();
 							$('#featured_pre').hide();
@@ -331,7 +332,10 @@ function homePageVideos(qlist_items) {
 						$('#featured_pre').html('');
 						$(data).appendTo('#featured_vid_sec').fadeIn('slow');
 						featuredSect = $('#container').find('#total_videos_featured').text();
-						if (loadHit == 1 && featuredSect <= 2) {
+
+						if (loadHit == 1 && loadLimit >= featuredSect) {
+							moreFeatured = false;
+						} else if (loadHit * loadLimit >= featuredSect) {
 							moreFeatured = false;
 						}
 

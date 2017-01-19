@@ -143,53 +143,58 @@
                 <img src="{$userquery->getUserThumb($u,'small')}" class="btn btn-app btn-primary btn-xs" />
             </div>
             <div class="table-responsive">
-                <table class="myTable" width="600px">
+                <table class="myTable">
                     <tr>
                         <td class="first"><label class="">User Id</label></td>
-                        <td class="last"><p>  
-                        <input disabled="disabled" name="uid" type="text" id="uid" value="{$u.userid}"  size="45" />
-                        <input name="userid" type="hidden" id="userid" value="{$u.userid}" />
-                        </p></td>
+                        <td class="last">
+							<p>
+								<input disabled="disabled" name="uid" type="text" id="uid" value="{$u.userid}" max-size="45" />
+								<input name="userid" type="hidden" id="userid" value="{$u.userid}" />
+							</p>
+						</td>
                     </tr>
-
                     <tr>
                         <td class="first"><label class="">User Name</label></td>
-                        <td class="last"><p> 
-                        <input name="username" type="text" id="username" value="{$u.username}" size="45" />
-                        <input name="dusername" type="hidden" id="dusername" value="{$u.username}" />
-                         <input name="admin_manager" type="hidden" value="yes" />
-                        </p></td>
+                        <td class="last">
+							<p>
+								<input name="username" type="text" id="username" value="{$u.username}" max-size="45" />
+								<input name="dusername" type="hidden" id="dusername" value="{$u.username}" />
+								<input name="admin_manager" type="hidden" value="yes" />
+							</p>
+						</td>
                     </tr>
                     <tr>
                         <td class="first"><label class="">Email</label></td>
-                        <td class="last"><p><input name="email" type="text" id="email" value="{$u.email}" size="45"/>
-                            <input name="demail" type="hidden" id="demail" value="{$u.email}" /></p></td>
+                        <td class="last">
+							<p>
+								<input name="email" type="text" id="email" value="{$u.email}" max-size="45"/>
+								<input name="demail" type="hidden" id="demail" value="{$u.email}" />
+							</p>
+						</td>
                     </tr>
-
-                    
                     <tr>
                         <td class="first"> <label for="laevel">User level</label></td>
                         <td class="last">
-                            
-                            
-                            <p><select class="form-control" name="level" id="level" >
-                                {assign var=levels value=$userquery->get_levels()}
-                                {foreach from=$levels item=level}
-                                <option value="{$level.user_level_id}" {if $u.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
-                                {/foreach}
-                            </select></p>
-                            
+                            <p>
+								<select class="form-control" name="level" id="level" >
+									{assign var=levels value=$userquery->get_levels()}
+									{foreach from=$levels item=level}
+									<option value="{$level.user_level_id}" {if $u.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
+									{/foreach}
+								</select>
+							</p>
                         </td>
                     </tr>
                     <tr>
                         <td class="first"> <label for="category">User Category</label></td>
                         <td class="last">
-                            <p><select class="form-control" name="category" id="category" >
-
-                                {foreach from=$thecats item=cat}
-                                <option value="{$cat.category_id}" {if $cat.category_id == $u.category}selected="selected"{/if}>{$cat.category_name}</option>
-                                {/foreach}
-                            </select></p>
+                            <p>
+								<select class="form-control" name="category" id="category" >
+									{foreach from=$thecats item=cat}
+									<option value="{$cat.category_id}" {if $cat.category_id == $u.category}selected="selected"{/if}>{$cat.category_name}</option>
+									{/foreach}
+								</select>
+							</p>
                             
                         </td>
                     </tr>
@@ -197,25 +202,22 @@
                         <td class="first"><label for="country">Country</label></td>
                         <td class="last">
                             <p>
-                            
-                            <select class="form-control" name="country" id="country">
-                                {assign var='countries' value=$Cbucket->get_countries(iso2)}
-                                {foreach from=$countries item=country key=code}
-                                <option value="{$code}" {if $u.country==$code} selected="selected"{/if}>{$country}</option>
-                                {/foreach}
-                            </select> </p>
-                            
+								<select class="form-control" name="country" id="country">
+									{assign var='countries' value=$Cbucket->get_countries(iso2)}
+									{foreach from=$countries item=country key=code}
+									<option value="{$code}" {if $u.country==$code} selected="selected"{/if}>{$country}</option>
+									{/foreach}
+								</select>
+							</p>
                         </td>
                     </tr>
                     <tr>
                         <td class="first"><label for="gender">Gender</label></td>
                         <td class="last">
-                          
                           <p>
-                          <label><input type="radio" name="sex" value="male" id="sex_0" {if $u.sex == male} checked="checked"{/if} />Male</label>
-                          <label><input type="radio" name="sex" value="female" id="sex_1" {if $u.sex == female} checked="checked"{/if}/> Female</label>
+							  <label><input type="radio" name="sex" value="male" id="sex_0" {if $u.sex == male} checked="checked"{/if} />Male</label>
+							  <label><input type="radio" name="sex" value="female" id="sex_1" {if $u.sex == female} checked="checked"{/if}/> Female</label>
                           </p>
-                           
                         </td>
                     </tr>
 
@@ -392,65 +394,71 @@
             <table class="table table-striped table-bordered">
                 <tr>
                     <td class="first"><label for="dob">Date of birth</label></td>
-       <td width="500"> <input name="dob" type="text" id="dob" value="{$u.dob} YYYY-MM-DD" class="form-control" />
-        </td>
+       				<td>
+						<input name="dob" type="text" id="dob" value="{$u.dob}" class="form-control" />
+        			</td>
                 </tr>
 
                 <tr>
-                    <td class="first"> <label for="doj">Joined - IP</label></td>
-                    <td width="500">    <input class="form-control" name="doj" type="text" id="doj" value="{$u.doj}" />
-                        <small>{$u.signup_ip}</small>
-                    </td>
+                    <td class="first">Joined - Date/IP</td>
+                    <td>{$u.doj} - {$u.signup_ip}</td>
                 </tr>
                 <tr>
-                    <td class="first"> <label for="doj">Last-Login IP</label></td>
-                    <td width="500"> {$u.last_logged} - {$u.ip}
-                    </td>
+                    <td class="first">Last-Login Date/IP</td>
+                    <td>{$u.last_logged} - {$u.ip}</td>
                 </tr>
                 <tr>
-                    <td class="first"> <label for="doj">Last-Active Online</label></td>
-                    <td width="500"> {$u.last_active} - {$u.last_active|is_online}
+                    <td class="first">Last-Active Online</td>
+                    <td> {$u.last_active} - {$u.last_active|is_online}
                     </td>
                 </tr>
                 <tr>
                     <td class="first"><label for="profile_hits">Profile Views</label></td>
-                    <td width="500"><input class="form-control" name="profile_hits" type="text" id="profile_hits" value="{$u.profile_hits}" />
+                    <td>
+						<input class="form-control" name="profile_hits" type="text" id="profile_hits" value="{$u.profile_hits}" />
                     </td>
                 </tr>
                 <tr>
                     <td class="first"><label for="total_videos">Total Videos</label></td>
-                    <td width="500">   <input class="form-control" name="total_videos" type="text" id="total_videos" value="{$u.total_videos}" />
+                    <td>
+						<input class="form-control" name="total_videos" type="text" id="total_videos" value="{$u.total_videos}" />
                     </td>
                 </tr>
                 <tr>
                     <td class="first"><label for="total_watched">Videos Watched</label></td>
-                    <td width="500"><input class="form-control" name="total_watched" type="text" id="total_watched" value="{$u.total_watched}" />
+                    <td>
+						<input class="form-control" name="total_watched" type="text" id="total_watched" value="{$u.total_watched}" />
                     </td>
                 </tr>
                 <tr>
                     <td class="first">  <label for="total_watched3">Comments made</label></td>
-                    <td width="500"> <input class="form-control" name="total_comments" type="text" id="total_watched3" value="{$u.total_comments}" />
+                    <td>
+						<input class="form-control" name="total_comments" type="text" id="total_watched3" value="{$u.total_comments}" />
                     </td>
                 </tr>
                 <tr>
                     <td class="first"><label for="comments_count">Profile comments</label></td>
-                    <td width="500">   <input class="form-control" name="comments_count" type="text" id="comments_count" value="{$u.comments_count}" />
+                    <td>
+						<input class="form-control" name="comments_count" type="text" id="comments_count" value="{$u.comments_count}" />
                     </td>
                 </tr>
                 <tr>
-                    <td class="first"><label for="tatal_watched4">Profile rating</label></td>
-                    <td width="500">   <input class="form-control" name="rating" type="text" id="total_watched4" value="{$p.rating}" />
-                        0-10
+                    <td class="first"><label for="total_watched4">Profile rating</label></td>
+                    <td>
+						<input class="form-control" name="rating" type="text" id="total_watched4" value="{$p.rating}" />
+                        <span><i>(0-10)</i></span>
                     </td>
                 </tr>
                 <tr>
                     <td class="first"><label for="total_watched5">Profile rated by</label></td>
-                    <td width="500">    <input class="form-control" name="rated_by" type="text" id="total_watched5" value="{$p.rated_by}" />
+                    <td>
+						<input class="form-control" name="rated_by" type="text" id="total_watched5" value="{$p.rated_by}" />
                     </td>
                 </tr>
                 <tr>
                     <td class="first"><label for="total_watched6">Subscribers</label></td>
-                    <td width="500"> <input class="form-control" name="subscribers" type="text" id="total_watched6" value="{$u.subscribers}" />
+                    <td>
+						<input class="form-control" name="subscribers" type="text" id="total_watched6" value="{$u.subscribers}" />
                     </td>
                 </tr>
                 </table>

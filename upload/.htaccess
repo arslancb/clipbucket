@@ -89,7 +89,7 @@ RewriteRule ^collections/?$ 								collections.php [L]
 RewriteRule ^photos/(.*)/(.*)/(.*)/(.*)/(.*) 			photos.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
 RewriteRule ^photos/([0-9]+) photos.php?page=$1 [L]
 RewriteRule ^photos/?$ 									photos.php [L]
-RewriteRule ^collection/(.*)/(.*)/(.*)					view_collection.php?cid=$1&type=$2&%{QUERY_STRING} [L]
+RewriteRule ^collection/(.*)/(.*)/(.*)					view_collection.php?cid=$1&type=$2&page=$3 [L]
 
 #Photo Section
 RewriteRule ^item/(.*)/(.*)/(.*)/(.*) 					view_item.php?item=$3&type=$1&collection=$2 [L]

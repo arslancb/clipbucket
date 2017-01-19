@@ -1,11 +1,21 @@
 <?php
-define('FFMPEG_BINARY', get_binaries('ffmpeg'));
-define('MP4Box_BINARY', get_binaries('mp4box'));
-define('MEDIAINFO_BINARY', get_binaries('media_info'));
-define('FFPROBE', get_binaries('ffprobe_path'));
 
-define("thumbs_number",config('num_thumbs'));
-define('PROCESSESS_AT_ONCE',config('max_conversion'));
+	/**
+	* File : FFMPEG Conversion Class
+	* Description : Handles all FFMPEG and video conversion related process
+	* like generating video qualities, generating thumbs, extracting meta data etc
+	* @since : ClipBucket 1.0
+	* @author : Arslan Hassan, Awais Tariq, Fawaz Tahir, Fahad Abass
+	* @notice : File to be maintained and only by those who properly understand what they are doing
+	*/
+
+	define('FFMPEG_BINARY', get_binaries('ffmpeg'));
+	define('MP4Box_BINARY', get_binaries('mp4box'));
+	define('MEDIAINFO_BINARY', get_binaries('media_info'));
+	define('FFPROBE', get_binaries('ffprobe_path'));
+
+	define("thumbs_number",config('num_thumbs'));
+	define('PROCESSESS_AT_ONCE',config('max_conversion'));
 
 $size12 = "0";
 class FFMpeg{
@@ -962,12 +972,15 @@ class FFMpeg{
 						{
 							$video_width=(int)$value[0];
 							$video_height=(int)$value[1];
-							
-							if($this->input_details['video_height'] > $video_height-1)
+
+							$bypass = $this->check_threshold($this->input_details['video_height'],$video_height);
+							logData($bypass,'reindex');
+							if($this->input_details['video_height'] > $video_height-1 || $bypass)
 							{
 								$more_res['video_width'] = $video_width;
 								$more_res['video_height'] = $video_height;
 								$more_res['name'] = $video_height;
+								logData($more_res['video_height'],'reindex');
 								$this->convert(NULL,false,$more_res);
 							
 							}
@@ -1020,6 +1033,26 @@ class FFMpeg{
 			}
 		}
 		
+	}
+
+	/**
+    * Used to checks if video is under threshold for conversion 
+    * @param   : { Array } { app_id }
+    * @todo    : This Function checks if video is under threshold 
+    * @example : check_threshold($input_vidoe_height,$current_video_height) { will check the threshold for 240p }
+    * @return  : { Boolean } { True/ False }
+    * @since   : 27th Oct, 2016 Feedback 1.0
+    * @author  : Fahad Abbas
+    */
+	function check_threshold($input_video_height,$current_video_height){
+		
+		$threshold = '200';
+		if ($current_video_height == "240"){
+			if ($input_video_height > $threshold){
+				return True;
+			}
+		}
+		return False;
 	}
 	
 	public function generate_thumbs($input_file,$duration,$dim='120x90',$num=3,$prefix=NULL, $rand=NULL,$gen_thumb=FALSE,$output_file_path=false,$specific_dura=false)
@@ -2035,6 +2068,7 @@ class FFMpeg{
 				}
 				$count = $count+1;
 				if (!$regenerateThumbs){
+					$this->TemplogData .= "\r\n Command : $command ";
 					$this->TemplogData .= "\r\n File : $file_path ";	
 				}
 				
@@ -2051,6 +2085,7 @@ class FFMpeg{
 			$command = $this->ffMpegPath." -i $input_file -an $dimension -y -f image2 -vframes $num $file_path ";
 			$output = $this->executeCommand($command);
 			if (!$regenerateThumbs){
+				$this->TemplogData .= "\r\n Command : $command ";
 				$this->TemplogData .= "\r\n File : $file_path ";
 			}
 		}

@@ -6,9 +6,9 @@
 * @license: Attribution Assurance License
 * @since: ClipBucket 1.0
 * @author[s]: Arslan Hassan, Fawaz Tahir, Fahad Abbass, Awais Tariq, Saqib Razzaq
-* @copyright: (c) 2008 - 2016 ClipBucket / PHPBucket
+* @copyright: (c) 2008 - 2017 ClipBucket / PHPBucket
 * @notice: Please maintain this section
-* @modified: March 4th, 2016 ClipBucket 2.8.1
+* @modified: { January 10th, 2017 } { Saqib Razzaq } { Updated copyright date }
 */
 
 	define("SHOW_COUNTRY_FLAG",TRUE);
@@ -269,8 +269,8 @@
 		}
 		//for srever thumb files 
 		$parts = parse_url($file);
-        parse_str($parts['query'], $query);
-        $get_file_name = $query['src'];
+        $query = isset($query) ? parse_str($parts['query'], $query) : false;
+        $get_file_name = isset($query['src']) ? $query['src'] : false;
         $path = explode('.',$get_file_name);
         $server_thumb_name = $path[0];
         if (!empty($server_thumb_name)) {
@@ -665,10 +665,10 @@
 	function getAd($params) {
 		global $adsObj;
 		$data = '';
-		if($params['style'] || $params['class'] || $params['align'])
+		if(isset($params['style']) || isset($params['class']) || isset($params['align']))
 			$data .= '<div style="'.$params['style'].'" class="'.$params['class'].'" align="'.$params['align'].'">';
 		$data .= ad($adsObj->getAd($params['place']));
-		if($params['style'] || $params['class'] || $params['align'])
+		if(isset($params['style']) || isset($params['class']) || isset($params['align']))
 			$data .= '</div>';
 		return $data;
 	}
@@ -689,7 +689,7 @@
 	*/
 
 	function pullSmartyRating($param) {
-		return pullRating($param['id'],$param['show5'],$param['showPerc'],$aram['showVotes'],$param['static']);	
+		return pullRating($param['id'],$param['show5'],$param['showPerc'],$param['showVotes'],$param['static']);
 	}
 	
 	/**
@@ -867,8 +867,9 @@
 	*/
 
 	function cbRocks() {
-		define("isCBSecured",TRUE); 
-		//echo cbSecured(CB_SIGN);
+		if (!defined('isCBSecured')) {
+			define("isCBSecured",TRUE);
+		}
 	}
 	
 	/**
@@ -917,6 +918,19 @@
 			return $eh->e($msg,$type,$id);
 		}
 	}
+
+	/**
+	* An easy function for developer erorrs and messages
+	* @param { string } { $error } { error to display }
+	* @param { string } { $state } { state for message e.g m : medium, l : low, c : critical }
+	*/
+
+	function deverr($erorr, $state = 'l') {
+		global $eh;
+		if (!empty($erorr)) {
+			return $eh->deverr($erorr, $state);
+		}
+	}
 	
 	/**
 	* Function used to get subscription template
@@ -947,18 +961,12 @@
 	/**
 	* Print an array in pretty way and exit right after
 	* @param : { string / array } { $text } { Element to be printed }
-	* @param : { boolean } { $pretty } { false by default, prnints in pretty way if true }
+	* @param : { string } { $msg } { pex by default, message to exit with }
 	*/
 
-	function pex($text,$pretty=false) {
-		if(!$pretty) {
-			print_r($text);
-		} else {
-			echo "<pre>";
-			print_r($text);
-			echo "</pre>";
-			exit("PEX Ran!");
-		}
+	function pex($text,$msg="PeX") {
+		pr($text,true);
+		exit($msg);
 	}
 	
 	/**
@@ -1456,7 +1464,7 @@
 
 	function error_list() {
 		global $eh;
-		return $eh->error_list;
+		return $eh->error_list();
 	}
 	
 	
@@ -1664,7 +1672,7 @@
 
 	function get_form_val($val,$filter=false) {
 		if($filter) {
-			return form_val($_GET[$val]);
+			return isset($_GET[$val]) ? form_val($_GET[$val]) : false;
 		} else {
 			return $_GET[$val];
 		}
@@ -1705,8 +1713,8 @@
 			return $_REQUEST[$val];
 		}
 	}
-	
-	
+
+
 	/**
 	* Function used to return LANG variable
 	*/
@@ -1714,7 +1722,7 @@
 	function lang($var,$sprintf=false) {
 		global $LANG,$Cbucket;
 		$array_str = array( '{title}');
-		$array_replace = array( $Cbucket->configs['site_title'] );
+		$array_replace = array( "Title" );
 		if(isset($LANG[$var])) {
 			$phrase =  str_replace($array_str,$array_replace,$LANG[$var]);
 		} else {
@@ -1742,7 +1750,7 @@
 		if(getArrayValue($param, 'assign')=='') {
 			return lang($param['code'],getArrayValue($param, 'sprintf'));
 		} else {
-			assign($param['assign'],lang($param['code'],$param['sprintf']));
+			assign($param['assign'],lang($param['code'],isset($param['sprintf']) ? $param['sprintf'] : false));
 		}
 	}
 
@@ -1805,7 +1813,7 @@
 			return BASEURL.'/search_result.php?category[]='.$params['category'].'&type='.$params['type'];
 		}
 		
-		if (SEO!='yes') {
+		if (defined('SEO') && SEO !='yes') {
 			preg_match('/http:\/\//',$ClipBucket->links[$name][0],$matches);
 			if($matches) {
 				$link = $ClipBucket->links[$name][0];
@@ -1813,11 +1821,15 @@
 				$link = BASEURL.'/'.$ClipBucket->links[$name][0];
 			}
 		} else {
-			preg_match('/http:\/\//',$ClipBucket->links[$name][1],$matches);
-			if($matches) {
-				$link = $ClipBucket->links[$name][1];
+			if (isset($ClipBucket->links[$name])) {
+				preg_match('/http:\/\//',$ClipBucket->links[$name][1],$matches);
+				if($matches) {
+					$link = $ClipBucket->links[$name][1];
+				} else {
+					$link = BASEURL.'/'.$ClipBucket->links[$name][1];
+				}
 			} else {
-				$link = BASEURL.'/'.$ClipBucket->links[$name][1];
+				$link = false;
 			}
 		}
 		
@@ -2268,7 +2280,7 @@
 		// depending on the parameters passed to it
 		if (!empty($array['user'])) {
 			$playlists = $cbvid->action->get_playlists($array);
-		} else {
+		} elseif (userid()) {
 			$playlists = $cbvid->action->get_playlists();
 		}
 		assign('playlists',$playlists);
@@ -2378,10 +2390,9 @@
 	function validate_cb_form($input,$array) {
 		//Check the Collpase Category Checkboxes 
 		if($input['cat']['title']=='Video Category') {
-			global $db;
-			$query = "SELECT * FROM ".tbl("config")." WHERE configid=234";
+			$query = "SELECT * FROM ".tbl("config")." WHERE name=234"; // On fresh install, id 234 = max_topic_length, this must be wrong
 			$row = db_select($query);
-			$row[0]['value'].$input['cat']['title'];
+			$row[0]['value'].$input['cat']['title']; // Something must be wrong here
 			if($row[0]['value']=='0') {
 				unset($input['cat']);	
 			}
@@ -2552,7 +2563,10 @@
 		$difference = round($difference);
 	   
 		if($difference != 1) {
-			$periods[$j].= "s";
+			// *** Dont apply plural if terms ending by a "s". Typically, french word for "month" is "mois".
+			if(substr($periods[$j], -1) != "s") {
+				$periods[$j].= "s";
+			}
 		}
 		return sprintf(lang($tense),$difference,$periods[$j]);
 	}
@@ -4307,23 +4321,47 @@
 		if(PHP_OS == "Linux") {
 			$destination.'/'.$dest_name;
 			$saveTo = $destination.'/'.$dest_name;
-			#exit($saveTo);
-			$fp = fopen ($saveTo, 'w+');
 		} elseif (PHP_OS == "WINNT") {
 			$destination.'\\'.$dest_name;
-			$fp = fopen ($destination.'\\'.$dest_name, 'w+');
+			$saveTo = $destination.'/'.$dest_name;
 		}
-
-		$ch = curl_init($snatching_file);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 600);
-		curl_setopt($ch, CURLOPT_FILE, $fp);
-		curl_setopt($ch, CURLOPT_USERAGENT, 
-		'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2) Gecko/20070219 Firefox/2.0.0.2');
-		curl_exec($ch);
-		curl_close($ch);
-		fclose($fp);
+		cURLdownload($snatching_file, $saveTo);
 		return $saveTo;
-	}	
+	}
+
+	/**
+	* This Function gets a file using curl method in php
+	* 
+	* @param : { string } { $url } { file to be downloaded }
+	* @param : { string } { $file } { where to save the downloaded file }
+	*/
+	function cURLdownload($url, $file) { 
+	
+		$ch = curl_init(); 
+		if($ch) 
+		{ 
+		    $fp = fopen($file, "w"); 
+		    if($fp) 
+		    { 
+			    if( !curl_setopt($ch, CURLOPT_URL, $url) ) { 
+			        fclose($fp); // to match fopen() 
+			        curl_close($ch); // to match curl_init() 
+			        return "FAIL: curl_setopt(CURLOPT_URL)"; 
+			    } 
+			    if( !curl_setopt($ch, CURLOPT_FILE, $fp) ) return "FAIL: curl_setopt(CURLOPT_FILE)"; 
+			    if( !curl_setopt($ch, CURLOPT_HEADER, 0) ) return "FAIL: curl_setopt(CURLOPT_HEADER)"; 
+			    if( !curl_exec($ch) ) return "FAIL: curl_exec()"; 
+			    curl_close($ch); 
+			   	fclose($fp); 
+			    return "SUCCESS: $file [$url]"; 
+		    } 
+		    else{
+				return "FAIL: fopen()"; 
+		    }
+		}else{
+			return "FAIL: curl_init()";	
+		}  
+	} 	
 	
 	/**
 	* Checks if CURL is installed on server
@@ -4360,7 +4398,7 @@
 			'uploadSwfPath' => JS_URL.'/uploadify/uploadify.swf',
 			'uploadScriptPath' => BASEURL.'/actions/photo_uploader.php',
 		);
-
+		
 		assign('uploaderDetails',$uploaderDetails);	
 		assign('photoUploaderDetails',$photoUploaderDetails);		
 		//Calling Custom Functions
@@ -5578,6 +5616,11 @@
 		}
 	}
 
+	/**
+	* Assigns smarty values to an array
+	* @param : { array } { $vals } { an associative array to assign vals }
+	*/
+
 	function array_val_assign($vals) {
 		if (is_array($vals)) {
 			$total_vars = count($vals);
@@ -5616,59 +5659,58 @@
 	}
 
 
-		function build_sort_photos($sort, $vid_cond) {
-			if (!empty($sort)) {
-				switch($sort) {
-					case "most_recent":
-					default:
-						$vid_cond['order'] = " date_added DESC ";
-					break;
-					case "most_viewed":
-						$vid_cond['order'] =  " photos.views DESC ";
-						$vid_cond['date_span_column'] = 'last_viewed';
-					break;
-					case "most_viewed":
-						$vid_cond['order'] = " views DESC ";
-					break;
-					case "featured":
-						$vid_cond['featured'] = "yes";
-					break;
-					case "top_rated":
-						$vid_cond['order'] = " photos.rating DESC";
-					break;
-					case "most_commented":
-						$vid_cond['order'] = " comments_count DESC";
-					break;
-				}
-				return $vid_cond;
+	function build_sort_photos($sort, $vid_cond) {
+		if (!empty($sort)) {
+			switch($sort) {
+				case "most_recent":
+				default:
+					$vid_cond['order'] = " date_added DESC ";
+				break;
+				case "most_viewed":
+					$vid_cond['order'] =  " photos.views DESC ";
+					$vid_cond['date_span_column'] = 'last_viewed';
+				break;
+				case "most_viewed":
+					$vid_cond['order'] = " views DESC ";
+				break;
+				case "featured":
+					$vid_cond['featured'] = "yes";
+				break;
+				case "top_rated":
+					$vid_cond['order'] = " photos.rating DESC";
+				break;
+				case "most_commented":
+					$vid_cond['order'] = " comments_count DESC";
+				break;
 			}
+			return $vid_cond;
 		}
+	}
+
+	/**
+	* Allows admin to upload logo via admin area
+	*/
 	
 	function upload_logo() {
-
-	$target_dir = STYLES_DIR."/cb_28/theme/images/";	
-	$filename = $_FILES["fileToUpload"]["name"]; 
-	$file_basename = basename($filename,".png"); 
-	$file_ext = pathinfo($filename, PATHINFO_EXTENSION);
-	$filesize = $_FILES["fileToUpload"]["size"];
-	$allowed_file_types = array('png');	
-	
+		global $Cbucket;
+		$active_template = $Cbucket->configs['template_dir'];
+		$target_dir = STYLES_DIR.'/'.$active_template.'/theme/images/';	
+		$filename = $_FILES["fileToUpload"]["name"]; 
+		$file_basename = basename($filename,".png"); 
+		$file_ext = pathinfo($filename, PATHINFO_EXTENSION);
+		$filesize = $_FILES["fileToUpload"]["size"];
+		$allowed_file_types = array('png');	
+		
 		if (in_array($file_ext,$allowed_file_types) && ($filesize < 4000000)) {	
 		// Rename file
 			$newfilename = 'logo.' . $file_ext;
 			unlink($target_dir."logo.png");
-			if (file_exists($target_dir . $newfilename)) {
-				// file already exists error
-					e(lang("You have already uploaded this file."),"e");
-			}
-			else {		
-				move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_dir . $newfilename);	
+			move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_dir . $newfilename);	
 				e(lang("File uploaded successfully."),"m");
-			}
 		}
 		elseif (empty($file_basename)) {	
 			// file selection error
-			e(lang("Please select a file to upload."),"m");
+			e(lang("Please select a file to upload."));
 		} 
 		elseif ($filesize > 4000000) {	
 			// file size error
@@ -5678,6 +5720,108 @@
 			e(lang("Only these file typs are allowed for upload: ".implode(', ',$allowed_file_types)),"e");
 			unlink($_FILES["fileToUpload"]["tmp_name"]);
 		}
+	}
+
+	function AutoLinkUrls($str,$popup = FALSE) {
+	    if (preg_match_all("#(^|\s|\()((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i", $str, $matches)){
+			$pop = ($popup == TRUE) ? " target=\"_blank\" " : "";
+			for ($i = 0; $i < count($matches['0']); $i++){
+				$period = '';
+				if (preg_match("|\.$|", $matches['6'][$i])){
+					$period = '.';
+					$matches['6'][$i] = substr($matches['6'][$i], 0, -1);
+				}
+				$str = str_replace($matches['0'][$i],
+						$matches['1'][$i].'<a href="http'.
+						$matches['4'][$i].'://'.
+						$matches['5'][$i].
+						$matches['6'][$i].'"'.$pop.'>http'.
+						$matches['4'][$i].'://'.
+						$matches['5'][$i].
+						$matches['6'][$i].'</a>'.
+						$period, $str);
+			}//end for
+	    }//end if
+	    return $str;
+	}//end AutoLinkUrls
+
+
+	/**
+    * Generates a random characters (strings only) string
+    * @param : { integer } { $length } { length of random string to generate }
+    */
+
+    function charsRandomStr($length = 5) {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    /*
+    * Creates an array contains all alphabets and then reverses it with keys
+    */
+
+    function swapedAlphabets() {
+        $alphabets = range('a', 'z');
+        return array_flip($alphabets);
+    }
+
+    function dateStamp() {
+        $date = new DateTime();
+        return $date->getTimestamp();
+    }
+
+    /**
+	* Check if a plugin is installe, active and has main file
+	* @param : { string } { $mainFile } { File to run check against }
+	* @author : Saqib Razzaq
+	* @since : 4th November, 2016
+	*
+	* @return : { boolean } { true or false matching pattern }
+    */
+
+    function gotPlugin($mainFile) {
+    	global $db;
+    	$installCheck = $db->select(tbl('plugins'),'plugin_folder,plugin_active',"plugin_file = '$mainFile'");
+    	$pluginFolder = $installCheck[0]['plugin_folder'];
+    	$pluginStatus = $installCheck[0]['plugin_active'];
+
+    	if (!empty($pluginFolder) && $pluginStatus != 'no') {
+    		return file_exists(PLUG_DIR.'/'.$pluginFolder.'/'.$mainFile);
+    	}
+    }
+
+    /**
+	* Check if a url exists using curl
+	* @param : { string } { $mainFile } { File to run check against }
+	* @author : Fahad Abbas
+	* @since : 14th November, 2016
+	*
+	* @return : { boolean } { true or false matching pattern }
+    */
+
+    function is_url_exist($url) {
+    	try {
+    		$ch = curl_init($url);    
+		    curl_setopt($ch, CURLOPT_NOBODY, true);
+		    curl_exec($ch);
+		    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+		    if($code == 200) {
+		       $status = true;
+		    } else {
+		      $status = false;
+		    }
+
+		    curl_close($ch);
+		   	return $status;
+    	} catch(Exception $e) {
+    		echo 'Caught exception: ',  $e->getMessage(), "\n";
+    	}
 	}
 
 

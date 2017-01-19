@@ -61,7 +61,7 @@ class CBvideo extends CBCategory
             'videoid', 'videokey', 'userid', 'title','server_ip', 'description', 'tags', 'category','file_directory',
             'active', 'date_added', 'broadcast', 'rating', 'file_server_path', 'files_thumbs_path',
             'file_thumbs_count', 'duration', 'has_hq', 'has_mobile', 'views', 'file_name', 'rated_by',
-            'default_thumb', 'comments_count', 'last_viewed', 'featured', 'featured_date', 'status'
+            'default_thumb', 'comments_count', 'last_viewed', 'featured', 'featured_date', 'status','re_conv_status','conv_progress'
         );
 
         $cb_columns->object( 'videos' )->register_columns( $basic_fields );
@@ -469,11 +469,19 @@ class CBvideo extends CBCategory
 					$query_field[] = 'rated_by';
 					$query_val[] = $array['rated_by'];
 				}
+
+				if (!empty($array['embed_code'])) 
+				{
+					$query_field[] = 'embed_code';
+					$query_val[] = $array['embed_code'];
+				}
 			}
 			$query_val[0] = str_replace('&lt;!--', '', $query_val[0]);
 			$query_val[1] = str_replace('&lt;!--', '', $query_val[1]);
 			$query_val[3] = strtolower($query_val[3]);
 
+
+			
 			if(!userid())
 			{
 				e(lang("you_dont_have_permission_to_update_this_video"));
@@ -1054,6 +1062,10 @@ class CBvideo extends CBCategory
            // 'users' => get_user_fields()
                'users' =>  $cb_columns->object('users')->temp_change('featured','user_featured')->get_columns()
         );
+
+        if (!isset($fields['video_users'])) {
+        	$fields[] = 'video_users';
+        }
 
         $fields = tbl_fields( $fields );
 		

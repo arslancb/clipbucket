@@ -7,12 +7,17 @@
 
 {if $vid_files}
 {assign var = i value = 0}
-<h3>Mass Category Selection</h3>
-  {foreach $cats  as $cat}
-    <label>{$cat['category_name']}</br>
-    <input type="checkbox" name="checkall-{$i}" class="checkall" id="checkall-{$cat['category_id']}" value='{$cat['category_id']}' /></label>
-    {$i = $i+1}
-{/foreach}
+<div id="massUploadSelectAll">
+	<h3>Select/Deselect</h3>
+	<input type="checkbox" id="massUploadSelect"/>
+</div>
+<div id="massUploadCategoriesSelection">
+	<h3>Mass Category Selection</h3>
+	{foreach $cats  as $cat}
+	<label><input type="checkbox" class="checkall" value='{$cat['category_id']}'/> {$cat['category_name']}</label>
+	{$i = $i+1}
+	{/foreach}
+</div>
 <form name="mass_upload" method="post" class="cbform">
     {foreach from=$vid_files item=file name=mass_files}
     {assign var='requiredFields' value=$Upload->loadRequiredFields($file)}  
@@ -20,9 +25,9 @@
     {assign var='locationFields' value=$Upload->loadLocationFields($file)}
     {assign var='cust_fields'  value=$Upload->custom_form_fields}
     <input class="lead" type="hidden" name="mass_up[]" value="{$file.title}" />
-    
 
 <div class="well">
+	<input type="checkbox" name="filesToImport[]" class="checkboxMassImport"/>
     <span class="label label-danger" style="cursor: pointer;" onclick="$(this).next().toggle();return false;"><b>{$file.title}</b>{$smarty.foreach.mass_files}</span>
     <div class="" style="display:none">
         {foreach from=$requiredFields item=field}
@@ -51,7 +56,7 @@
             {if $field.title=='Video Category'}
             <div class="col-md-6">
                 <label for="{$field.id}"><b style="color: #000000">{$field.name}</b></label>
-                <div class="scroll">
+                <div class="scroll categories">
                 {$formObj->createField($field, true)}
                 </div>
             </div>
@@ -92,48 +97,26 @@ Uploaded Videos are stored in mass_uploads/processed.
 {include file="$style_dir/blocks/pagination.html" }
 
 <script type="text/javascript">
-    var total_cats = "{$total_cats}";
-    var value;
-    var i = 1;
-    var videoValue = [];
-    var category = '{$cat['category_id']}';
-    $('input:checkbox[name="checkall-0"]').prop('checked', true);
-    for (i = 1; i <= total_cats; i++) { 
-        $('input:checkbox[name="category'+i+'[]"]:first').attr('checked', 'checked');
-    }
+    $(document).ready(function()
+	{
+		$(document).on('change', '.checkall', function()
+		{
+			var id_cat = this.value;
+			var to_check = this.checked;
 
-    $(document).ready(function() {
-        var testdata;
-        var selectedCheckBox; 
-    $(document).on('change', '.checkall', function()
-        {
-            var id  = this.id;
-            
-            selectedCheckBox = $('#'+id).val();  
-       if(this.checked) { // check select status
+			$(".categories input").each(function() {
+				if( this.value == id_cat )
+					this.checked = to_check;
+			});
+		});
 
-            $("input[data-checko]").each(function() { //loop through each checkbox
-                testdata = $(this).data('checko');
-                if(selectedCheckBox == testdata){
-                    this.checked = true;
-                    
-                }               
-            });
-        }
-        else{
+		$(document).on('change', '#massUploadSelect', function()
+		{
+			var to_check = this.checked;
 
-            $("input[data-checko]").each(function() { //loop through each checkbox
-                  testdata = $(this).data('checko');
-                     if(selectedCheckBox == testdata){
-                    this.checked = false;
-                    
-                }                        
-            });         
-       }
-   
-    });
-    
-});
-
-    
+			$(".checkboxMassImport").each(function() {
+				this.checked = to_check;
+			});
+		});
+	});
 </script>

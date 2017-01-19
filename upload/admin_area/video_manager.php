@@ -9,6 +9,7 @@
 
 require_once '../includes/admin_config.php';
 require_once '../api/push.php';
+global $cbvid;
 $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 $pages->page_redir();
@@ -22,6 +23,10 @@ if(!defined('SUB_PAGE')){
 		define('SUB_PAGE', 'List Inactive Videos');
 	else
 		define('SUB_PAGE', 'Videos Manager');
+}
+
+if (isset($_POST['reconvert_selected']) || isset($_GET['reconvert_video'])) {
+	reConvertVideos();
 }
 
 

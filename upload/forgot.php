@@ -27,7 +27,7 @@ require 'includes/config.inc.php';
 	 * Reseting Password
 	 * Real Reseting ;)
 	 */
-	$user = get('user');
+	$user = mysql_clean(get('user'));
 	if($mode =='reset_pass' && $user)
 	{
 		$input = mysql_clean(get('user'));
