@@ -15,7 +15,11 @@
 	</div>
 	<div class="clearfix video-info">
 		<h2 class="title"><a href="{videoLink($video)}">{$video.title|truncate:50}</a></h2>
-		<span class="author">by <a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
+		
+
+		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.category|categories:video}</a></span>
+		
+<!-- 		<span class="author">by <a href="{$userquery->profile_link($video)}">{$video.username}</a></span> -->
 		<div class="clearfix views-date">
 			<span>{prettyNum($video.views)} {if $video.views > 1}{lang code='views'}{else}{lang code="view"}{/if}</span>
 			<time class="date" datetime="2016-15-03">{$video.date_added|niceTime}</time>
@@ -65,7 +69,11 @@
 			<a data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" data-delay="1000" data-close-others="false" onClick="location.href='{videoLink($video)}'" href="{videoLink($video)}">{$video.title|truncate:15} </a>
 		</h5>
 		{$user = $video.username}
-		<h5>by <a href="{$userquery->profile_link($user)}">{$video.username}</a></h5>
+
+		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.category|categories:video}</a></span>
+		
+		
+<!-- 		<h5>by <a href="{$userquery->profile_link($user)}">{$video.username}</a></h5> -->
 	</div>
 </div>
 {/if}
@@ -142,7 +150,14 @@ class="icon-plus2 cb_quickie cb-btn-quick-{$video.videoid} {if in_array($video.v
 </div>
 <div class="clearfix video-info">
 	<h2 class="title"><a href="{videoLink($video)}">{$video.title|truncate:50}</a></h2>
-	<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
+
+	
+<!-- 	<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span> -->
+	
+
+	<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.category|categories:video}</a></span>
+	
+	
 	<div class="clearfix views-date">
 		<span>{prettyNum($video.views)}&nbsp;{if $video.views > 1}{lang code='views'}{else}{lang code="view"}{/if}</span>
 		<time class="date" datetime="2016-15-03">{$video.date_added|niceTime}</time>

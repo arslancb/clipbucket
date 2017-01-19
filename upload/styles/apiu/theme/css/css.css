@@ -3508,6 +3508,7 @@ button{
 	font: 500 1em arvoregular, Tahoma, Verdana, Segoe, sans-serif;
 	list-style: none;
 	margin: 0;
+	margin-top: 20px;
 	padding: 0;
 }
 
@@ -5118,6 +5119,7 @@ a:hover, #meta_menu_tabs .meta_menu_contenu ul a:hover{
 	#menu_principal {
 		padding: 0 0 0 1em;
 		padding-bottom: 20px;
+/* 		margin-top:20px; */
 		text-align: center;
 	}
 
@@ -5125,8 +5127,12 @@ a:hover, #meta_menu_tabs .meta_menu_contenu ul a:hover{
 		font-size: 1.28571em;
 		border-left: 1px solid #148cbc;
 		display: inline-block;
+		/*margin: 0;
+		margin-top:20px;
+		padding:0;*/
 		margin: 0;
 		padding: .75em 0 .25em;
+		
 	}
 
 	#menu_principal > li:first-child {
@@ -5231,6 +5237,7 @@ a:hover, #meta_menu_tabs .meta_menu_contenu ul a:hover{
 		color: #fff;
 	}
 }
+
 
 @media screen and (min-width: 55em) {
 	#bandeau > span {
@@ -6210,3 +6217,47 @@ a:hover, #meta_menu_tabs .meta_menu_contenu ul a:hover{
 		margin:0 0 0 10px;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

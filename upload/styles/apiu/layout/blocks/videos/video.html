@@ -14,6 +14,9 @@
 		<span class="author">{lang code="by"}&nbsp;{$pop_video.username}</span>
 		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($pop_video)}">{$pop_video.username}</a></span>
 -->
+		
+		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.category|categories:video}</a></span>
+
 		<div class="views-date">
 			<span>{prettyNum($pop_video.views)}&nbsp;{if $pop_video.views > 1}{lang|lower code='views'}{else}{lang|lower code="view"}{/if}</span>
 		</div>
@@ -46,6 +49,9 @@
 <!--
 		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
 -->
+
+		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.category|categories:video}</a></span>
+
 
 		<span>{$video.description|truncate:50}</span>
 		
@@ -99,6 +105,7 @@
 		<!--
 		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
 		-->
+		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.category|categories:video}</a></span>
 
 		<span>{$video.description|truncate:80}</span>
 
@@ -129,11 +136,14 @@
 		</div> <!--VIDEO_THUMB END-->
 		
 		<div class="details_block">
+			<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.category|categories:video}</a></span>
+			
 			<strong class="title"><a href="{videoLink($video)}">{$video.title|truncate:50}</a></strong>
 			<!--
 			<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
 			-->
-			<div class="views-date">
+
+		<div class="views-date">
 				<span>{prettyNum($video.views)}&nbsp;{if $video.views > 1}{lang|lower code='views'}{else}{lang|lower code="view"}{/if}</span>
 			</div>
 		</div>
@@ -178,7 +188,11 @@
 	</div>
 	<div class="clearfix video-info">
 		<h2 class="title"><a href="{videoLink($video)}">{$video.title|truncate:50}</a></h2>
-		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
+<!-- 		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span> -->
+		
+		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.category|categories:video}</a></span>
+		
+		
 		<div class="clearfix views-date">
 
 			<span>
