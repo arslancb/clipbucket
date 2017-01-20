@@ -1,7 +1,15 @@
 <?php
+
 /**
- * Very basic error handler
- */
+* File : Error Handler class
+* Description : Class used for handling errors inside ClipBucket. This provides an easy to track and debug
+* interface for developers not only check validation of certain actions, but also helps in
+* debugging issues whenever they arise. It is strongly suggested to use this class to throw
+* errors. Afterall, its it for making your life easier
+* @since : ClipBucket 2
+* @author : Arslan Hassan, Saqib Razzaq
+* @modified : { January 19th, 2017 } { Saqib Razzaq } { Added developer related functions, documented }
+*/
  
 
 class errorhandler extends ClipBucket {
@@ -55,7 +63,7 @@ class errorhandler extends ClipBucket {
 	* Function used to flush errors
 	*/
 	
-	public static function flush_error() {
+	public function flush_error() {
 		$this->error_list = '';
 	}
 	  
@@ -63,7 +71,7 @@ class errorhandler extends ClipBucket {
 	* Functio nused to add message_list
 	*/
 
-	public static function add_message($message=NULL,$id=NULL) {
+	public function add_message($message=NULL,$id=NULL) {
 		global $ignore_cb_errors;
 		//if id is set, error will be generated from error message list
 		if(!$ignore_cb_errors)
@@ -83,7 +91,7 @@ class errorhandler extends ClipBucket {
 	* Function used to flush message
 	*/
 	
-	public static function flush_msg() {
+	public function flush_msg() {
 		$this->message_list = '';
 	}
 	
@@ -91,55 +99,58 @@ class errorhandler extends ClipBucket {
 	* Function used to flush warning
 	*/
 
-	public static function flush_warning() {
+	public function flush_warning() {
 		$this->warning_list = '';
 	}
 	
 	/**
-	* Function used to flush , both message and error
+	* Function used to flush , both messages and error
 	*/
 	
-	public static function flush() {
+	public function flush() {
 		$this->flush_msg();
 		$this->flush_error();
 		$this->flush_warning();
 	}
 	
 	/**
-	* Function used to add error or either message using simple
-	* and small object
-	* @param : message, @param :type,@param:id
+	* Function for throwing errors that users can see
+	* @param : { string } { $message } { error message to throw }
+	* @param : { string } { $type } { type of error message e.g m : message, e : error, w : warning }
+	* @author : Arslan Hassan
+	* 
+	* @return : { array } { $this->error_list } { an array of all currently logged errors }
 	*/
 
-	function e($message=NULL,$type='e',$id=NULL) {
+	function e($message = NULL, $type ='e') {
 		
 		switch($type) {
 			case 'm':
 			case 1:
 			case 'msg':
 			case 'message':
-			$this->add_message($message,$id);
+			$this->add_message($message);
 			break;
 			
 			case 'e':
 			case 'err':
 			case 'error':
-				$this->add_error($message,$id);
+				$this->add_error($message);
 			break;
 			
 			case 'w':
 			case 2:
 			case 'war':
 			case 'warning':
-				$this->add_warning($message,$id);
+				$this->add_warning($message);
 			break;
 			
 			default:
-				$this->error_list($message,$id);
+				$this->error_list($message);
 			break;
 		}
 		
-		return $message;
+		return $this->error_list;
 	}
 
 	/**
