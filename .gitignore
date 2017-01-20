@@ -21,3 +21,6 @@ dbconnect.php
 development.dev
 .directory
 /upload/plugins/cb_server_thumb/cache/*
+
+/upload/files/*
+*kdev4*
