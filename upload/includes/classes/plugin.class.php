@@ -160,7 +160,7 @@ class CBPlugin extends ClipBucket
 			$active_query = " plugin_active='yes' ";
 		else
 			$active_query = NULL;
-		$results = $db->select(tbl("plugins"),"*",$active_query);
+		$results = $db->select(tbl("plugins"),"*",$active_query,false,"plugin_id");
 		
 		if(is_array($results))
 		foreach($results as $result)
