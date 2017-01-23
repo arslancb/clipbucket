@@ -192,7 +192,7 @@ class CBPlugin extends ClipBucket
 			}
 		}*/
 
-		return $plug_array;
+		return isset($plug_array) ? $plug_array : false;
 	}
 	
 	/**

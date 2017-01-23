@@ -1,11 +1,11 @@
 <?php
 
-/* 
+/**
  *************************************************************
- | Copyright (c) 2007-2016 Clip-Bucket.com. All rights reserved.
- | @ Author	   : ArslanHassan								
+ | Copyright (c) 2007-2017 Clip-Bucket.com. All rights reserved.
+ | @ Author	   : Arslan Hassan								
  | @ Software  : ClipBucket
- | @ Modified : June 9, 2016 by Saqib Razzaq			
+ | @ Modified : { January 10th, 2017 } { Saqib Razzaq } { Updated copyright date }
  *************************************************************
 */
 

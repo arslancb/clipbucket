@@ -79,7 +79,12 @@ if (!function_exists('cb_video_js'))
 	*/
 	function get_cbvjs_quality_type($video_files){
 		if ($video_files){
-			$one_file = get_cbvjs_quality($video_files[0]);
+			if (!empty($video_files[240])){
+				$video_file = $video_files[240];
+			}else{
+				$video_file = $video_files[0];
+			}
+			$one_file = get_cbvjs_quality($video_file);
 			if (is_numeric($one_file)){
 				$cb_combo_res = True;
 			}else{
@@ -162,6 +167,14 @@ if (!function_exists('cb_video_js'))
 				if ( IA_ADS_INSTALLED == 'installed' ){
 					$video_editor_enabled = video_editor_enabled();
 					return $video_editor_enabled;
+				}else{
+					return false;
+				}
+			}
+			case 'get_svg_manager':{
+				if ( IA_ADS_INSTALLED == 'installed' ){
+					$svg_manager = svg_manager();
+					return $svg_manager;
 				}else{
 					return false;
 				}

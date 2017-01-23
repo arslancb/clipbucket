@@ -110,7 +110,7 @@
 								</div>
 								<div class="comment-info">
 									<strong  class="commenter">
-										{if $comment.anonym_name != ''}
+										{if $comment.anonym_name != '' && $user.username == ''}
 											{$comment.anonym_name} (Guest)
 										{else}
 										<a href="{$userquery->profile_link($user)}" >

@@ -71,21 +71,21 @@ class cbpage
 		$limit = NULL;
 		$conds = array();
 		$cond = false;
-		if($params['order'])
+		if(isset($params['order']))
 		{
 			$order = $params['order'];
 		}
-		if($params['limit'])
+		if(isset($params['limit']))
 		{
 			$limit = $params['limit'];
 		}
 		
-		if($params['active'])
+		if(isset($params['active']))
 		{
 			$conds[] = " active='".$params['active']."'";
 		}
 		
-		if($params['display_only'])
+		if(isset($params['display_only']))
 		{
 			$conds[] = " display='yes' ";
 		}

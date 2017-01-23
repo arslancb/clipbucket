@@ -100,3 +100,41 @@
         }
     }
 
+    /**
+    * Returns playable video for user's channel page
+    * @param : { array } { $userVideos } { an array user videos }
+    * @return : { string / boolean } { video key if found a video matches pattern else false }
+    * @since : November 17th, 2016 ClipBucket 2.8.2
+    * @author : Saqib Razzaq
+    */
+
+    function userMainVideo($userVideos) {
+        global $userquery;
+        if (is_array($userVideos)) {
+            $userid = $userquery->userid;
+            foreach ($userVideos as $key => $video) {
+                $vBroadcast = trim($video['broadcast']);
+                $vKey = $video['videokey'];
+                switch ($vBroadcast) {
+                    case 'private':
+                        if (is_numeric($userid)) {
+                            $allowedUsers = explode(',', $video['video_users']);
+                            if (in_array($userid, $allowedUsers)) {
+                                return $vKey;
+                            }
+                        }
+                        break;
+                    case 'logged':
+                        if (is_numeric($userid)) {
+                            return $vKey;
+                        }
+                        break;
+                    case 'public':
+                        return $vKey;
+                        break;
+                }
+
+            }
+        }
+    }
+

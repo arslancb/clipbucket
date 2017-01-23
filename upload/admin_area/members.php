@@ -11,7 +11,8 @@ require'../includes/admin_config.php';
 $userquery->admin_login_check();
 $userquery->login_check('member_moderation');
 $pages->page_redir();
-
+$udetails = $userquery->get_user_details(userid());
+$userLevel = $udetails['level'];
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
 	define('MAIN_PAGE', 'Users');
@@ -176,8 +177,15 @@ if(isset($_POST['unban_selected'])){
 		$result_array['order'] = " doj DESC ";
 	#pr($result_array,true);
 	$users = get_users($result_array);
-
+	if ($userLevel > 1) {
+		foreach ($users as $key => $currentUser) {
+			if ($currentUser['level'] == 1) {
+				unset($users[$key]);
+			}
+		}
+	}
 	Assign('users', $users);	
+	Assign("userLevel", (int)$userLevel);
 
 	//Collecting Data for Pagination
 	$mcount = $array;

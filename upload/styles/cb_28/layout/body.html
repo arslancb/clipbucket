@@ -1,5 +1,5 @@
 <!-- This Condition is for view photo ajax mode--> 
-{if ($smarty.get['moto'] != 'ajax')}
+{if (!isset($smarty.get['moto']) || $smarty.get['moto'] != 'ajax')}
 	{include file="$style_dir/global_header.html"}
 {/if}    
 	<body>
@@ -8,7 +8,7 @@
     	{ANCHOR place="cb_floating_box"}
 			{ANCHOR place='premium_button'}
 			<!-- This Condition is added for view photo ajx based request -->
-			{if ($smarty.get['moto'] != 'ajax')}
+			{if (!isset($smarty.get['moto']) || $smarty.get['moto'] != 'ajax')}
            		 {include file="$style_dir/header.html"}
         	{/if}
 			<!-- Message -->
@@ -19,7 +19,7 @@
 			{/foreach}
 
 			<!-- This Condition is for view photo ajax mode--> 
-			{if ($smarty.get['moto'] != 'ajax')}
+			{if (!isset($smarty.get['moto']) || $smarty.get['moto'] != 'ajax')}
 				{include file="$style_dir/footer.html" }
 			{/if}
 		</div>

@@ -10,7 +10,7 @@
 				<div class="progress-container allProgress hidden">  
 					<div class="row">
 						<div class="col-md-2" id="uploadedFilesInfo">
-							<p>{lang code="uploaded"} 0 {lang code="of"} 0</p>
+							<p>{lang code="Inserted"} 0 {lang code="of"} 0</p>
 						</div>
 						<div class="col-md-10">
 							<div class="progress">
@@ -71,7 +71,7 @@
 				   
 					}, 10000);
 
-
+			var totalFiles = 0;
 			var baseurl = '{$baseurl}';
 			var config_for_mp4 = '{$config_for_mp4}';
 			if('{$uploaderDetails.uploadScriptPath}'!=''){
@@ -105,7 +105,6 @@
 				});
 				uploader.init();
 				uploader.bind('FilesAdded', function(up, uploadedFiles) {
-
 					for(var i = 0; i < uploadedFiles.length; i++){
 						files.push(uploadedFiles[i]);
 					}
@@ -140,7 +139,7 @@
 					$("#files").html("");
 					$("#files").append(ul);
 
-					var totalFiles = files.length;
+					totalFiles = files.length;
 					
 					var oneFile = false;
 
@@ -156,17 +155,29 @@
 						}
 						wrapperDiv.id = "tab"+i;
 						oneUploadForm.className = "";
+						$(oneUploadForm).find(".cancel_button").attr('to_cancel',i);
 						$(oneUploadForm).find("input[name='title']").val(files[i].name.slice(0, -4));
-
-						console.log($(oneUploadForm).find("input[name='title']").val(files[0].name.slice(0, -4)));
 
 						$(oneUploadForm).find("textarea#desc").val(files[i].name.slice(0, -4));
 						$(oneUploadForm).find("input[name='category[]']:first").attr('checked', 'checked');
-
-						console.log(oneUploadForm);
 						wrapperDiv.appendChild(oneUploadForm);   
 						uploadForms.push(wrapperDiv);
 					}
+
+					$.each( uploadedFiles, function( key, fileNow ) {
+						console.log("filenow "+fileNow);
+					  	var currentTitle = fileNow.name,
+					  	plFileId = fileNow.id;					   	
+					  	//<button class="clearfix cancel_button btn btn-danger" style="float:right; margin-top: -20px">Cancel Uploading</button>
+
+					  	// appends progress bar along with title
+					  	// this progress bar is later updated on realtime
+					  	// via fileprogress event of pluploader
+
+					    $(".realProgressBars").append('<h5 class="realProgTitle_'+plFileId+'">'+currentTitle+'</h5><button class="clearfix cancel_button btn btn-danger" to_cancel="'+plFileId+'" style="float:right; margin-top: -8px; margin-left:10px;">Cancel Uploading</button><div class="progress"><div class="progress-bar progress-bar_'+plFileId+'" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:0%"><span class="sr-only">70% Complete</span><span class="realProgText_'+plFileId+'">50% completed</span></div></div>');
+
+					    
+					});
 
 					$("#allUploadForms").html("");
 					$("#allUploadForms").append(uploadForms);
@@ -189,6 +200,34 @@
 						}
 					});
 
+
+					/*
+					* Trigger element when "Cancel Uploading" button is clicked
+					* stops uploading
+					* hides uploading div
+					*/
+
+					(function() {
+				        $(".cancel_button").on("click",function(e) {
+					      	e.preventDefault();
+				      		var toCancel = $(this).attr('to_cancel');
+				      		var thecount = 0;
+				      		$(this).attr('disabled',true);
+					        $(this).text("Canceled");
+				      		$.each( uploadedFiles, function( iNow, currentFile ){
+								if (currentFile.id == toCancel) {
+							        uploader.removeFile(uploadedFiles[thecount]);
+							        $(this).unbind().remove();
+							        $(".progress-bar_"+toCancel).addClass('progress-bar-danger');
+							        $(".realProgText_"+toCancel).text("Canceled");
+							        $('li#'+thecount).fadeOut('slow');
+							        totalFiles = totalFiles - 1;
+							    }
+							  	thecount++;
+							});
+					    });
+				    })();
+
 					setTimeout(function(){
 						$("#uploaderContainer").toggleClass("hidden");
 						$("#uploadDataContainer").toggleClass("hidden");
@@ -206,6 +245,8 @@
 					$(".progress-container").removeClass("hidden");
 					
 				});
+
+
 				var totalUploaded = 0;
 				/*
 				This is the event handler for UploadProgress,
@@ -214,19 +255,6 @@
 
 				var filesUploaded = 0;
 				var totalPercentage = 0;
-				uploader.bind('UploadProgress', function(up, file) {
-					// var progressContainer = document.getElementById("fileUploadProgress");
-					// var progressBar = progressContainer.getElementsByTagName("progress")[0];
-					// progressBar.style.display = "block";
-					// var fileName = progressContainer.getElementsByTagName('h5')[0];
-					// fileName.innerHTML = "Uploading "+file.name;
-					// var percent = file.percent/100;
-					// progressBar.value = percent;
-					$("#progressNumber").text(file.percent + "%");
-					$("#videoNumber").text(file.name);
-
-				});
-
 
 				/*
 				This is the event handler for FileUploaded,
@@ -237,8 +265,8 @@
 				var theVideoId = '';
 
 				uploader.bind('FileUploaded', function(plupload, fileDetails, response){
-					$("#overallProgress").css("width", ((100/files.length)*(++filesUploaded))+"%");
-					$("#overallProgress").parents(".row").find("#uploadedFilesInfo").text("Uploaded " + (filesUploaded) + " of " + files.length);
+					$("#overallProgress").css("width", ((100/totalFiles)*(++filesUploaded))+"%");
+					$("#overallProgress").parents(".row").find("#uploadedFilesInfo").text("Inserted " + (filesUploaded) + " of " + totalFiles);
 					var serverResponse = $.parseJSON(response.response);
 						
 					if(serverResponse.extension == 'mp4' && config_for_mp4 == 'yes' ){
@@ -250,7 +278,9 @@
 
 					//enabling savedetails button for Current form 
 					var _upload_form_Div_ = $('#tab'+currentFileIndex);
+					_upload_form_Div_.find('.cancel_button').fadeOut('slow');
 					_upload_form_Div_.find("#saveVideoDetails").attr("disabled",false);
+					_upload_form_Div_.find("#saveVideoDetails").attr("id","uploadCompleted");
 					/*
 					Insert the video in the database and get the video db id from the
 					database which will be sent with the final form
@@ -302,6 +332,7 @@
 					$(uploadForm).on({
 						submit: function(e){
 							e.preventDefault();
+							//window.location.href = baseurl+"/?moreMsg="+theVideoId;
 							var self = this;
 							
 							//var data = new FormData();
@@ -336,6 +367,26 @@
 
 					currentFileIndex++;
 
+				});
+
+				// runs on progress of file uplaoder
+
+				uploader.bind('UploadProgress', function(up, file) {
+					// this the unique ID assigned to each file upload
+					var pluploadFileId = file.id,
+					filePercentage = file.percent;
+					// update progress bar widht
+					$('.progress-bar_'+pluploadFileId).css("width",filePercentage+"%");
+					//updawte progress bar text to show percentage
+					$('.realProgText_'+pluploadFileId).text(filePercentage+"% Completed");
+
+					// meaning file has completely uploaded
+					if (filePercentage == 100) {
+						// remove cancel button
+						$(".cancel_button[to_cancel='" + pluploadFileId + "']").fadeOut('slow');
+						// tunr progress bar into green to show success
+						$('.progress-bar_'+pluploadFileId).addClass('progress-bar-success');
+					}
 				});
 
 				uploader.bind("UploadComplete", function(plupload, files){

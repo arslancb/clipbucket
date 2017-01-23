@@ -289,7 +289,7 @@
 <div class="col-md-12" id="bar" style="display:none; margin-top: 20px">
 <h3>Current Progress</h3>
     <div class="progress">
-        <div class="progress-bar" id="progress-bar"role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:10%">
+        <div class="progress-bar" id="progress-bar"role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
             <span id="loaderVal"></span>
         </div>
     </div>
@@ -421,7 +421,7 @@
     currentKey = 0,
     phrase_code = Object.keys(thePhrases)[0],
     phrase = thePhrases[phrase_code],
-    selectFieldValue = $('select.changeStatus').val(),
+    selectFieldValue = $('.changeStatus').val(),
     langDetect = $('option:selected', '#lang_option').attr('data-check');
     $.each( thePhrases, function( phrase_code, phrase ) {
             totalPhrases = totalPhrases + 1;
@@ -457,8 +457,8 @@
                     phraseNum = phraseNum + 1;
 
                     data = {
-                     'selectFieldValue': selectFieldValue,
-                     'langDetect': langDetect,
+                     'selectFieldValue': $('#lang_option').val(),
+                     'langDetect': $('#lang_option option:selected').attr('data-check'),
                      'phrase_code' : phrase_code,
                      'phrase' : phrase,
                      'totalPhrases' : totalPhrases,
@@ -482,10 +482,11 @@
 
     $(document).on("click", "#submit_lang1", function () {  
         $('#submit_lang1').text("Translating...");
-        
+        $('#lang_option, #submit_lang1').attr("disabled",true);
+
         data = {
-             'selectFieldValue': selectFieldValue,
-             'langDetect': langDetect,
+             'selectFieldValue': $('#lang_option').val(),
+             'langDetect': $('#lang_option option:selected').attr('data-check'),
              'phrase_code' : phrase_code,
              'phrase' : phrase,
              'totalPhrases' : totalPhrases,

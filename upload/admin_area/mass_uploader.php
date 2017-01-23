@@ -34,7 +34,6 @@ assign("cats",$cats);
 assign("cat_values",$category_values);
 assign("total_cats",$total_cats);
 
-
 if(isset($_POST['mass_upload_video']))
 {
 	$files = $cbmass->get_video_files();
@@ -54,6 +53,60 @@ if(isset($_POST['mass_upload_video']))
 		{
 			$code = $i+1;
 			//Inserting Video Data...
+
+			if (gotPlugin('cb_multiserver.php')) {
+				// multiserver is installed
+
+				$uploadPath = $Cbucket->theUploaderDetails['uploadScriptPath'];
+				$fullFilePath = $file_arr['path'].$file_arr['file'];
+				//Initialise the cURL var
+				$ch = curl_init();
+
+				//Get the response from cURL
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+				//Set the Url
+				curl_setopt($ch, CURLOPT_URL, $uploadPath);
+
+				//Create a POST array with the file in it
+				$postData = array(
+				    'Filedata' => '@'.$fullFilePath,
+				);
+
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+
+				// Execute the request
+				$response = curl_exec($ch);
+				if ($response) {
+					$cleaned = json_decode($response,true);
+					$file_name = $cleaned['file_name'];
+					if (!empty($file_name)) {
+							$vCategory = $_POST['category'.$code];
+							if (empty($vCategory)) {
+								$vCategory = "#1#";
+							}
+							$array = array(
+							'title' => $_POST['title'][$i],
+							'description' => $_POST['description'][$i],
+							'tags' => $_POST['tags'][$i],
+							'category' => array($cbvid->get_default_cid()),
+							'file_name' => $file_name,
+						);
+						
+						$vid = $Upload->submit_upload($array);
+						if ($vid) {
+							goto crapCleanStep;
+						}
+					} else {
+						e("No filename returned from server");
+					}
+				} else {
+					e("Error moving file : ".curl_error($ch));
+				}
+				exit("FAILED");
+				return false;
+			}
+
 			$array = array(
 				'title' => $_POST['title'][$i],
 				'description' => $_POST['description'][$i],
@@ -82,7 +135,7 @@ if(isset($_POST['mass_upload_video']))
 		{
 			$dosleep=0;
 			//Moving file to temp dir and Inserting in conversion queue..
-			
+
 			$file_name = $cbmass->move_to_temp($file_arr,$file_key);
 			$file_directory = createDataFolders();
 			createDataFolders(LOGS_DIR);
@@ -109,18 +162,8 @@ if(isset($_POST['mass_upload_video']))
 				}
 				
 			}
-			/*if($delMassUpload != 'no') {
-				if(!file_exists($file_path.'processedmass')){
-					$oldmask = umask(0);
-					mkdir($file_path.'processed', 0777);
-					umask($oldmask);
-				}
-				rename($file_path.$file_orgname, $file_path.'processed/'.$file_orgname);
-			}
-			else{
-				unlink($file_path.$file_orgname);
-			}*/
 
+			crapCleanStep:
 			if ($delMassUpload != 'no') {
 				unlink($file_path.$file_orgname);
 			}

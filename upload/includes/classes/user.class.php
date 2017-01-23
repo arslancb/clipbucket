@@ -84,28 +84,7 @@ class userquery extends CBCategory{
 		{
 			$this->userid = $this->sessions['smart_sess']['session_user'];
 		}
-		//$this->level = $sess->get('level');
-		
-		//Setting Access
-		//Get list Of permission
-		//$perms = $this->get_permissions();
-		//foreach($perms as $perm)
-		//{
-		//	$this->add_access_type($perm['permission_code'],$perm['permission_name']);
-		//}
-		
-		/*$this->add_access_type('admin_access','Admin Access');
-		$this->add_access_type('upload_access','Upload Access');
-		$this->add_access_type('channel_access','Channel Access');
-		$this->add_access_type('mod_access','Moderator Access');*/
-		
-		//Fetching List Of User Levels
-		/*$levels = $this->get_levels();
-		foreach($levels as $level)
-		{
-			$this->usr_levels[$level['user_level_id']]=$level["user_level_name"];
-		}
-		*/
+
 		$udetails = "";
 		
 		if($this->userid)
@@ -124,7 +103,7 @@ class userquery extends CBCategory{
 			//exit();
 
 			//Calling Logout Functions
-			$funcs = $this->init_login_functions;
+			$funcs = isset($this->init_login_functions) ? $this->init_login_functions : false;
 			if(is_array($funcs) && count($funcs)>0)
 			{
 				foreach($funcs as $func)
@@ -295,13 +274,6 @@ class userquery extends CBCategory{
 			
 			$log_array['level'] = $level  = $udetails['level'];
 
-			//Adding Sessing In Database 
-			//$sess->add_session($userid,'logged_in');
-			
-			//$sess->set('username',$username);
-			//$sess->set('userid',$userid);
-			
-			//Setting Timeout
 			if($remember)
 				$sess->timeout = 86400*REMBER_DAYS;
 				
@@ -314,21 +286,6 @@ class userquery extends CBCategory{
 			
 			$db->delete(tbl("sessions"),array("session","session_string"),array($sess->id,"guest"));
 			$sess->add_session($userid,'smart_sess',$smart_sess);
-			
-			//$sess->set('user_sess',$smart_sess);
-			
-			//$sess->set('user_session_key',$udetails['user_session_key']);
-			//$sess->set('user_session_code',$udetails['user_session_code']);
-			
-			//local client ip access - only works on linux : is it really useful ??
-			/*$ip = $cblog->get_local_ipv4();
-
-			if( isset($ip['eth0']) ){
-				$ipv = $ip['eth0'];
-			}
-			if( isset($ip['wlan0']) ){
-				$ipv = $ip['wlan0'];
-			}*/
 
 			$ipv = $_SERVER["REMOTE_ADDR"];
 
@@ -1622,7 +1579,7 @@ class userquery extends CBCategory{
 				$thumb = USER_THUMBS_URL.'/'.$file.'-'.$size.'.'.$ext;
 				$thumb_path = $file.'.'.$ext;
 			}
-			elseif(!$thumb)
+			elseif(!isset($thumb) || !$thumb)
 			{
 				$thumb = USER_THUMBS_URL.'/'.$file.'.'.$ext;
 				$thumb_path = "";
@@ -1802,11 +1759,11 @@ class userquery extends CBCategory{
 		}
 		else
 		{
-			$level = $this->udetails['level'];
+			$level = isset($this->udetails['level']) ? $this->udetails['level'] : false;
 		}
 
         if ( $level == userid() or $level == $this->udetails[ 'level' ] ) {
-            if ( $this->permission ) {
+            if ( isset($this->permission) ) {
                 return $this->permission;
             }
         }
@@ -1831,7 +1788,7 @@ class userquery extends CBCategory{
 		$a_results = $access_results[0];*/
 		
 		//Now Merging the two arrays
-		$user_level = $result[0];
+		$user_level = isset($result[0]) ? $result[0] : false;
 		//pr($user_level);
 		return $user_level;
 	}
@@ -3892,18 +3849,18 @@ class userquery extends CBCategory{
 	{
 		global $db;
 		
-		$limit = $params['limit'];
-		$order = $params['order'];
+		$limit = isset($params['limit']);
+		$order = isset($params['order']);
 		
 		$cond = "";
 		if(!has_access('admin_access',TRUE) && !$force_admin)
 			$cond .= " 	users.usr_status='Ok' AND users.ban_status ='no' ";
 		else
 		{
-			if($params['ban'])
+			if(isset($params['ban']))
 				$cond .= " users.ban_status ='".$params['ban']."'";
 				
-			if($params['status'])
+			if(isset($params['status']))
 			{
 				if($cond!='')
 					$cond .=" AND ";
@@ -3913,17 +3870,17 @@ class userquery extends CBCategory{
 		}
 		
 		//Setting Category Condition
-		if(!is_array($params['category']))
+		if(isset($params['category']) && !is_array($params['category']))
 			$is_all = strtolower($params['category']);
 			
-		if($params['category'] && $is_all!='all')
+		if(isset($params['category']) && $is_all!='all')
 		{
 			if($cond!='')
 				$cond .= ' AND ';
 				
 			$cond .= " (";
 			
-			if(!is_array($params['category']))
+			if(isset($params['category']) && !is_array($params['category']))
 			{
 				$cats = explode(',',$params['category']);
 			}else
@@ -3943,7 +3900,7 @@ class userquery extends CBCategory{
 		}
 		
 		//date span
-		if($params['date_span'])
+		if(isset($params['date_span']))
 		{
 			if($cond!='')
 				$cond .= ' AND ';
@@ -4001,7 +3958,7 @@ class userquery extends CBCategory{
 		}*/
 		
 		//FEATURED
-		if($params['featured'])
+		if(isset($params['featured']))
 		{
 			if($cond!='')
 				$cond .= ' AND ';
@@ -4009,7 +3966,7 @@ class userquery extends CBCategory{
 		}
 		
 		//Email
-		if($params['username'])
+		if(isset($params['username']))
 		{
 			if($cond!='')
 				$cond .= ' AND ';
@@ -4017,7 +3974,7 @@ class userquery extends CBCategory{
 		}
 		
 		//Email
-		if($params['email'])
+		if(isset($params['email']))
 		{
 			if($cond!='')
 				$cond .= ' AND ';
@@ -4025,7 +3982,7 @@ class userquery extends CBCategory{
 		}
 		
 		//Exclude Users
-		if($params['exclude'])
+		if(isset($params['exclude']))
 		{
 			if($cond!='')
 				$cond .= ' AND ';
@@ -4033,7 +3990,7 @@ class userquery extends CBCategory{
 		}
 		
 		//Getting specific User
-		if($params['userid'])
+		if(isset($params['userid']))
 		{
 			if($cond!='')
 				$cond .= ' AND ';
@@ -4041,7 +3998,7 @@ class userquery extends CBCategory{
 		}
 		
 		//Sex
-		if($params['gender'])
+		if(isset($params['gender']))
 		{
 			if($cond!='')
 				$cond .= ' AND ';
@@ -4049,14 +4006,14 @@ class userquery extends CBCategory{
 		}
 		
 		//Level
-		if($params['level'])
+		if(isset($params['level']))
 		{
 			if($cond!='')
 				$cond .= ' AND ';
 			$cond .= " users.level = '".$params['level']."' ";
 		}
 		
-		if($params['cond'])
+		if(isset($params['cond']))
 		{
 			if($cond!='')
 				$cond .= ' AND ';
@@ -4066,7 +4023,7 @@ class userquery extends CBCategory{
 
 
                 
-		if(!$params['count_only'])
+		if(isset($params['count_only']) && !$params['count_only'])
         {
 
             $fields = array(
@@ -4095,17 +4052,17 @@ class userquery extends CBCategory{
         }
 		
 		
-		if($params['count_only']){
+		if(isset($params['count_only'])){
 
             //$cond= substr($cond,8);
 			$result = $db->count(tbl('users')." AS users ",'userid',$cond);
             //echo $cond;
             //return $result;
 		}
-		if($params['assign'])
+		if(isset($params['assign']))
 			assign($params['assign'],$result);
 		else
-			return $result;
+			return isset($result) ? $result : false;
 	}
 	
 	/**
@@ -4114,6 +4071,16 @@ class userquery extends CBCategory{
 	function action($case,$uid)
 	{
 		global $db;
+		$udetails = $this->get_user_details(userid());
+		$logged_user_level = $udetails['level'];
+		if ($logged_user_level > 1) {
+			$data = $this->get_user_details($uid);
+			if ($data['level'] == 1) {
+				e("You do not have sufficient permissions to edit an Admininstrator");
+				return false;
+			}
+		}
+
 		if(!$this->user_exists($uid))
 			return false;
 		//Lets just check weathter user exists or not

@@ -15,7 +15,7 @@
 
 		<!-- RSS FEEDS -->
 		{rss_feeds link_tag=true}
-		{if $ninja_fighting}
+		{if isset($ninja_fighting)}
             {ANCHOR place='seo_ninja'}
         {else}
         	<meta name="keywords" content="{$Cbucket->configs.keywords}">
@@ -39,7 +39,7 @@
 		{*/if*}
 
 		<script src="{$theme}/js/jquery-1.11.3.min.js"></script>
-		{if $__devmsgs}
+		{if isset($__devmsgs)}
 			<link rel="stylesheet" href="{$baseurl}/styles/global/jquery_ui.css">
 		{else}
 			<link rel="stylesheet" href="{$baseurl}/styles/global/jquery_ui.min.css">
@@ -52,7 +52,7 @@
 			userid = "{userid()}",
 			THIS_PAGE = "{$smarty.const.THIS_PAGE}";
 		</script>
-		{if $__devmsgs}
+		{if isset($__devmsgs)}
 			<script src="{$theme}/js/custom.js"></script>
 		{else}
 			<script src="{$theme}/js/custom.min.js"></script>
@@ -61,7 +61,7 @@
 		<script src="{$theme}/js/bootstrap.min.js"></script>
 		
 		<script src="{$theme}/js/ui_plugins.js"></script>
-		{if $__devmsgs}
+		{if isset($__devmsgs)}
 			<script src="{$baseurl}/js/clipbucket.js"></script>
 		{else}
 			<script src="{$baseurl}/js/clipbucket.min.js"></script>
@@ -78,15 +78,17 @@
 		{assign var=qlist_videos value=get_fast_qlist()}
 		{assign var=litems_count value=$qlist_videos|@count}
 		{if $litems_count >= 1} 
-			{assign var=got_qlitems value="yes"}
+			{assign var=got_qlitems value="yes"}	
+		{else}
+			{assign var=got_qlitems value="false"}	
 		{/if}
 
 		<script>
 			var fastQitems = "{$got_qlitems}";
 			$(document).ready(function(){
-				var quicklist_videos = '{$quicklist}';
+				/*var quicklist_videos = '{$quicklist}';
 				if (quicklist_videos)
-				quicklist_videos_check(quicklist_videos);
+				quicklist_videos_check(quicklist_videos);*/
 
 				loading = '<i class="glyphicon glyphicon-refresh animate-spin"></i> {lang code="loading"}...';
 				$( 'ul#photos li:visible' ).each( function( i ){
@@ -96,7 +98,7 @@
 			var pageNow = "{$smarty.const.THIS_PAGE}";
 		</script>
 		{include file="$style_dir/blocks/quicklist/qlist_main.html"}
-		{if $__devmsgs}
+		{if isset($__devmsgs)}
 			<script type="text/javascript" src="{$theme}/js/fast_qlist.js"></script>
 		{else}
 			<script type="text/javascript" src="{$theme}/js/fast_qlist.min.js"></script>

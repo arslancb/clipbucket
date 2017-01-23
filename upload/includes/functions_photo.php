@@ -156,9 +156,9 @@ function get_image_file( $params ) {
     global $cbphoto, $Cbucket;
     //var_dump($params);
     $details = $params[ 'details' ];
-    $output = $params[ 'output' ];
+    $output = isset($params[ 'output' ]) ? $params[ 'output' ] : false;
     $size = $params[ 'size' ];
-    $static = $params['static'];
+    $static = isset($params['static']) ? $params['static'] : false;
     $default = array( 't', 'm', 'l', 'o' );
     $thumbs = array();
     if( !$details ) {
@@ -187,7 +187,7 @@ function get_image_file( $params ) {
 
     $params[ 'photo' ] = $photo;
 
-    if( count( $Cbucket->custom_get_photo_funcs ) > 0 ) {
+    if( isset($Cbucket->custom_get_photo_funcs) && count( $Cbucket->custom_get_photo_funcs ) > 0 ) {
         $functions = $Cbucket->custom_get_photo_funcs;
         foreach( $functions as $func ) {
             if( function_exists( $func ) ) {
@@ -202,7 +202,7 @@ function get_image_file( $params ) {
     $path = PHOTOS_DIR;
     $directory = get_photo_date_folder( $photo );
     $with_path = $params['with_path'] = ( $params['with_path'] === false ) ? false : true;
-    $with_original = $params[ 'with_orig' ];
+    $with_original = isset($params[ 'with_orig' ]) ? $params[ 'with_orig' ] : false;
 
     $size = ( !in_array( $size, $default ) or !$size ) ? 't' : $size;
 
@@ -235,9 +235,9 @@ function get_image_file( $params ) {
 
         if ( empty( $output ) or $output == 'non_html' ) {
 
-            if ( $params[ 'assign' ] and $params[ 'multi' ] ) {
+            if ( isset($params[ 'assign' ]) && isset($params[ 'multi' ]) ) {
                 assign( $params[ 'assign' ], $thumbs );
-            } else if( ( $params[ 'multi' ] ) ) {
+            } else if( ( isset($params[ 'multi' ]) ) ) {
                 return $thumbs;
             } else {
 
@@ -249,7 +249,7 @@ function get_image_file( $params ) {
                     return get_photo_default_thumb( $size, $output );
                 } else {
 
-                    if( $params[ 'assign' ] ) {
+                    if( isset($params[ 'assign' ]) ) {
                         assign( $params[ 'assign' ], $return_thumb );
                     } else {
                         return $return_thumb;

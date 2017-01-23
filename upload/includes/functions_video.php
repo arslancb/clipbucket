@@ -6,9 +6,9 @@
     * @license: Attribution Assurance License
     * @since: ClipBucket 1.0
     * @author[s]: Arslan Hassan, Fawaz Tahir, Fahad Abbass, Saqib Razzaq
-    * @copyright: (c) 2008 - 2016 ClipBucket / PHPBucket
+    * @copyright: (c) 2008 - 2017 ClipBucket / PHPBucket
     * @notice: Please maintain this section
-    * @modified: March 11th, 2016 ClipBucket 2.8.1
+    * @modified: { January 10th, 2017 } { Saqib Razzaq } { Updated copyright date }
     */
 
 
@@ -1913,7 +1913,7 @@
             $cookie = 'fast_qlist';
         }
 
-        $raw_cookies = $_COOKIE[$cookie];
+        $raw_cookies = isset($_COOKIE[$cookie]) ? $_COOKIE[$cookie] : false;
         $clean_cookies = str_replace(array("[","]"), "", $raw_cookies);
         $vids = explode(",", $clean_cookies);
         assign("qlist_vids", $vids);
@@ -1951,4 +1951,262 @@
     
     function dateNow() {
         return date("Y-m-d H:i:s");
+    }
+
+    /**
+    * Set status or reconversion status for any given video
+    * @param : { mixed } { $video } { videoid, videokey or filename }
+    * @param : { string } { $status } { new status to be set }
+    * @param : { boolean } { $reconv } { if you are setting reconversion status, pass this true }
+    * @param : { boolean } { $byFileName } { if you passed file_name in first paramter, you will need to pass this true as well }
+    * @since : 31st October, 2016
+    * @author : Saqib Razzaq
+    *
+    * @action : Updates database
+    */
+
+    // Processing
+    // Successful
+    // Failed
+    # 
+    # For video reconverting
+    #
+    // pending
+    // started
+    // success
+    // failed
+
+    function setVideoStatus($video, $status, $reconv = false, $byFilename = false) {
+        global $db;
+        if ($byFilename) {
+            $type = 'file_name';
+        } else {
+            if (is_numeric($video)) {
+            $type = 'videoid';
+            } else {
+                $type = 'videokey';
+            }
+        }
+
+        if ($reconv) {
+            $field = 're_conv_status';
+        } else {
+            $field = 'status';
+        }
+
+        $db->update(tbl('video'),array($field),array($status),"$type='$video'");          
+    }
+
+
+    /**
+    * Checks current reconversion status of any given video : default is empty
+    * @param : { integer } { $vid } { id of video that we need to check sstatus for }
+    * @return : { string } { reconversion status of video }
+    */
+
+    function checkReConvStatus($vid) {
+        global $db;
+        $data = $db->select(tbl('video'),'re_conv_status','videoid='.$vid);
+        if (isset($data[0]['re_conv_status'])) {
+            return $data[0]['re_conv_status'];
+        }
+    }
+
+    /**
+    * Checks if given video is reconvertable or not
+    * @param : { array } { $vdetails } { an array with all details regarding video }
+    * @since : 14th November October, 2016
+    * @author : Fahad Abbas
+    *
+    * @return : { boolean } { returns true or false depending on matched case }
+    */
+
+    function isReconvertAble($vdetails) {
+        try{
+            global $cbvid;
+            if (is_array($vdetails)  && !empty($vdetails)) {
+        
+                $fileName = $vdetails['file_name'];
+                $fileDirectory = $vdetails['file_directory'];
+                $serverPath = $vdetails['file_server_path'];
+
+                if(empty($vdetails['file_server_path'])){
+                    if(!empty($fileDirectory) ){
+                        $path  = VIDEOS_DIR."/".$fileDirectory .'/'. $fileName."*";
+                        $vid_files = glob($path);
+                    }
+                    else{
+                        $path  = VIDEOS_DIR .'/'. $fileName."*";
+                        $vid_files = glob($path);    
+                    }
+                    if (!empty($vid_files) && is_array($vid_files)){
+                        $is_convertable = true;
+                    }
+                }else{
+                     $is_convertable = true;
+                }
+                if ($is_convertable){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+
+    }
+
+    /**
+    * Reconvert any given video in ClipBucket. It will work fine with flv as well as other older files
+    * as well. You must have at least one video quality available in system for this to work
+    * @param : { array } { $data } { $_POST data to read video ids to run re converter against }
+    * @since : October 28th, 2016
+    * @author : { Saqib Razzaq }
+    */
+
+    function reConvertVideos($data) {
+        global $cbvid,$db,$Upload;
+        $toConvert = 0;
+        // if nothing is passed in data array, read from $_POST
+        if (!is_array($data)) {
+            $data = $_POST;
+        }
+
+        // a list of videos to be reconverted
+        $videos = $data['check_video'];
+
+        if (isset($_GET['reconvert_video'])) {
+            $videos[] = $_GET['reconvert_video'];
+        }
+
+        // Loop through all video ids
+        foreach ($videos as $id => $daVideo) {
+            // get details of single video
+            $vdetails = $cbvid->get_video($daVideo);
+
+            if (!empty($vdetails['file_server_path'])){
+
+                if(empty($vdetails['file_directory'])){
+                    $vdetails['file_directory'] = str_replace('-', '/', $vdetails['datecreated']);
+                }
+                setVideoStatus($daVideo, 'Processing');
+
+                $encoded['file_directory'] = $vdetails['file_directory'];
+                $encoded['file_name'] = $vdetails['file_name'];
+                $encoded['re-encode'] = true;
+
+                $api_path = str_replace('/files', '', $vdetails['file_server_path']);
+                $api_path.= "/actions/re_encode.php";
+
+                $request = curl_init($api_path);
+                curl_setopt($request, CURLOPT_POST, true);
+
+                curl_setopt($request,CURLOPT_POSTFIELDS,$encoded);
+                // output the response
+                curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
+                curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+                $results_curl = curl_exec($request);
+                // pr($results_curl,true);
+                $results_curl_arr = json_decode($results_curl,true);
+                $returnCode = (int)curl_getinfo($request, CURLINFO_HTTP_CODE);
+                curl_close($request);
+                if(isset($results_curl_arr['success'])&&$results_curl_arr['success']=="yes"){
+                    e( lang( 'Your request for re-encoding '.$vdetails[ 'title' ].'  has been queued.' ), 'm'  );
+                }
+               
+                if(isset($results_curl_arr['error'])&&$results_curl_arr['error']=="yes"){
+                    e( lang( $results_curl_arr['msg'] ) );
+                }
+
+            }else{
+                 #pr($vdetails,true);
+                if (!isReconvertAble($vdetails)) {
+                    e("Video with id ".$vdetails['videoid']." is not re-convertable");
+                    continue;
+                } elseif (checkReConvStatus($vdetails['videoid']) == 'started') {
+                    e("Video with id : ".$vdetails['videoid']." is already processing");
+                    continue;
+                } else {
+                    $toConvert++;
+                    e("Started re-conversion process for id ".$vdetails['videoid'],"m");
+                }
+
+                // grab all video files against single video
+                $video_files = get_video_files($vdetails);
+
+                // possible array of video qualities
+                $qualities = array('1080','720','480','360','240','hd','sd');
+
+                // loop though possible qualities, from high res to low
+                foreach ($qualities as $qualNow) {
+
+                    // loop through all video files of current video 
+                    // and match theme with current possible quality
+                    foreach ($video_files as $key => $file) {
+
+                        // get quality of current url
+                        $currentQuality = get_video_file_quality($file, '-', '.');
+                        // pex($currentQuality,true);
+                        // get extension of file
+                        $currentExt = pathinfo($file, PATHINFO_EXTENSION);
+
+                        // if current video file matches with possible quality,
+                        // we have found best quality video
+                        if ($qualNow === $currentQuality || $currentExt == 'flv') {
+                          
+                            // You got best quality here, perform action on video
+                            $subPath = str_replace(BASEURL, '', $video_files[$key]);
+                            $fullPath = BASEDIR.$subPath;
+
+
+                            // change video status to processing
+                            setVideoStatus($daVideo, 'Processing');
+
+                            $file_name = $vdetails['file_name']; // e.g : 147765247515e0e
+                            $targetFileName = $file_name.'.mp4'; // e.g : 147765247515e0e.mp4
+                            $file_directory = $vdetails['file_directory']; // e.g : 2016/10/28
+                            $logFile = LOGS_DIR.'/'.$file_directory.'/'.$file_name.'.log'; // e.g : /var/www/html/cb_root/files/logs/2016/10/28/147765247515e0e.log
+
+                            // remove old log file
+                            unlink($logFile);
+
+                            // path of file in temp dir
+                            $newDest = TEMP_DIR.'/'.$targetFileName;
+
+                            // move file from original source to temp
+                            $toTemp = copy($fullPath, $newDest);
+
+                            // add video in conversion qeue
+                            $Upload->add_conversion_queue($targetFileName);
+
+                            // begin the process of brining back from dead
+                            exec(php_path()." -q ".BASEDIR."/actions/video_convert.php {$targetFileName} {$file_name} {$file_directory} {$logFile} > /dev/null &");
+
+                            // set reconversion status
+                            setVideoStatus($daVideo, 'started',true);
+                            break 2;
+                        }
+                    }
+                }
+            }
+           
+        }
+        if ($toConvert >= 1) {
+            e("Reconversion is underway. Kindly don't run reconversion on videos that are already reconverting. Doing so may cause things to become lunatic fringes :P","w");
+        }
+    }
+
+    /**
+    * Returns cleaned string containing video qualities
+    * @since : 2nd December, 2016
+    */
+
+    function resString($res) {
+        $qual = preg_replace("/[^a-zA-Z0-9-,]+/", "", html_entity_decode($res, ENT_QUOTES));
+        if (!empty($qual)) {
+            return $qual;
+        }
     }

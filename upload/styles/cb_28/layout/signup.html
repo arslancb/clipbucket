@@ -39,10 +39,7 @@
 
 						<input id="login_btn" type="submit" name="login" value="{lang('Login')}" class="btn btn-primary btn-lg btn-block">
 
-						<div class="clearfix links">
-							<a href="{$baseurl}/forgot.php">{lang code='user_forgot_message'}?</a>
-							<a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='com_forgot_username'}?</a>
-						</div>
+						<a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='user_forgot_username'}</a> - <a href="{$baseurl}/forgot.php">{lang code='user_forgot_message'}</a>
 						<input type="hidden" name="login" value="login"></input>
 						{if function_exists('show_all_btns')} 
 						<div class="clearfix social-links">
@@ -255,6 +252,7 @@
 				},
 
 				success: function(data) {
+					data = $.trim(data);
 					if (data == 'NO') {
 						removeErrClass(userSect);	
 					} else {
@@ -289,6 +287,7 @@
 				},
 
 				success: function(data) {
+					data = $.trim(data);
 					if (data == 'NO') {
 						removeErrClass(emailSec);	
 					} else {

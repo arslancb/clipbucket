@@ -1,7 +1,7 @@
 <?php
 
 	// This script runs only via command line
-
+	sleep(5);
 	include(dirname(__FILE__)."/../includes/config.inc.php");
 	require_once(dirname(dirname(__FILE__))."/includes/classes/sLog.php");
 	define("MP4Box_BINARY",get_binaries('MP4Box'));

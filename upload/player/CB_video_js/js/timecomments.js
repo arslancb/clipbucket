@@ -18,8 +18,9 @@ TimeComments.prototype.init = function(){
 	}else{
 		timecomments.comments = timecomments.GetTimeComments(timecomments.settings.dummy);
 	}
-	/*console.log(timecomments.comments);*/
-	timecomments.AddComment();
+	if (timecomments.settings.allowComments){
+		timecomments.AddComment();	
+	}
 	timecomments.AddControlBArMenu();
 	timecomments.Structure();
 	timecomments.playPause();

@@ -5,7 +5,8 @@
 {$curr_photo = $photo|@json_encode}
 {$user_admin = $user|@json_encode}
 {$srcfirst = {get_photo(['details'=>$photo,'size'=>'l'])}}
-
+{$shareableThumb = get_photo_file($photo.photo_id)}
+{$shareableThumb = $shareableThumb.0}
 
 	<div class="clearfix">
 		<section id="content" class="clearfix">
@@ -122,7 +123,7 @@
 						<div class="tab-pane fade in clearfix" id="cb-item-share">
 							<ul class="social-share">
 								<li>
-								 <a class="btn-fb icon-facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($photo)|urlencode}&p[images][0]={get_thumb vdetails=$photo}&p[title]={$photo.photo_title|title|urlencode}&p[summary]={$photo.photo_description|description|urlencode}" target="_blank">
+								 <a class="btn-fb icon-facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($photo)|urlencode}&p[images][0]={$shareableThumb}&p[title]={$photo.photo_title|title|urlencode}&p[summary]={$photo.photo_description|description|urlencode}" target="_blank">
 										<span>Facebook</span>
 									</a>
 								</li>

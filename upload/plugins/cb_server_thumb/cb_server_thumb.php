@@ -244,6 +244,7 @@ if(!function_exists('server_thumb'))
             }
 
             if ( !is_array( $details ) ) {
+                global $cbphoto;
                 $photo = $cbphoto->get_photo( $details, true );
             } else {
                 $photo = $details;

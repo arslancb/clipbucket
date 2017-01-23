@@ -66,14 +66,6 @@ if($udetails)
 $profile = $userquery->get_user_profile($udetails['userid']);
 Assign('u_control', $profile);	
 
-// making sure user can see his private vid tab
-//$user_cond = $userquery->userid != $udetails['userid'];
-//Assign('u_cond', $user_cond);
-
-    $firstVideo = isset($videos[0]) ? $videos[0] : false;
-    $firstVideo = $cbvid->get_video($firstVideo['videoid']);
-    //echo "hm";
-    Assign('firstVideo', $firstVideo);
     //Checking Profile permissions
 	
 	$perms = $p['show_profile'];

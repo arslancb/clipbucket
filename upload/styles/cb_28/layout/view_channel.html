@@ -3,12 +3,16 @@
 {lang code='channel' assign='object_type'}
 {$loadMoreLang ={lang code="load_more"}}
 {$uservideos=get_videos(["user"=>$user.userid, "order"=>"date_added DESC","limit" =>9])}
-{if $uservideos}
-{$first_video = $cbvid->get_video($uservideos.0.videokey)}
-{/if}
 
 {$total_videos = $user.total_videos}
 {$total_photos = $user.total_photos}
+
+{if $uservideos}
+	{$mainVideo = userMainVideo($uservideos)}
+	{$first_video = $cbvid->get_video($mainVideo)}
+{/if}
+
+
 <div id="main" class="container clearfix">
 	<div class="clearfix">
 		{include file="$style_dir/blocks/view_channel/channel_header.html"}

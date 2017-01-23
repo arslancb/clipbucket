@@ -24,7 +24,11 @@ switch($mode)
 	{
 		$title 	= getName($_POST['title']);
 		$file_name	= $_POST['file_name'];
-		$file_directory = createDataFolders();
+		if ($_POST['serverUrl'] && $_POST['serverUrl'] != "none") {
+			$file_directory = date('Y/m/d');
+		} else {
+			$file_directory = createDataFolders();
+		}
 		//dump($file_directory);
 		$vidDetails = array
 		(
@@ -37,10 +41,18 @@ switch($mode)
 			'userid' => userid(),
 			'video_version' => '2.7',
 		);
+
+
+		/*if (isset($_POST['serverUrl'])) {
+			$serverUrl = $_POST['serverUrl'];
+			$thumbsUrl = $_POST['thumbsUrl'];
+			$vidDetails['serverUrl'] = $serverUrl;
+			$vidDetails['thumbsUrl'] = $thumbsUrl;
+		}*/
 		
 		$vid = $Upload->submit_upload($vidDetails);
 		
-		// sending curl request to content .ok 
+		/*// sending curl request to content .ok 
 		$call_bk = PLUG_URL."/cb_multiserver/api/call_back.php";
 		$ch = curl_init($call_bk);
 		$ch_opts = array(
@@ -60,7 +72,7 @@ switch($mode)
 		
 		curl_setopt_array($ch,$charray);		
 		curl_exec($ch);	
-		curl_close($ch);
+		curl_close($ch);*/
 
 		// inserting into video views as well
 		$query = "INSERT INTO " . tbl("video_views") . " (video_id, video_views, last_updated) VALUES({$vid}, 0, " . time() . ")";

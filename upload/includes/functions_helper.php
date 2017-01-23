@@ -32,7 +32,7 @@
 
     function config($input) {
         global $Cbucket;
-        return $Cbucket->configs[$input];
+        return isset($Cbucket->configs[$input]) ? $Cbucket->configs[$input] : false;
     }
 
     function get_config($input){ return config($input); }
