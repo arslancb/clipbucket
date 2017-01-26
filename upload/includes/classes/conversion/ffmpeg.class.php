@@ -2029,7 +2029,9 @@ class FFMpeg{
 		
 
 		if($dim!='original'){
-			$dimension = " -s $dim  ";
+			//$dimension = " -s $dim  "; // 
+			$dimension = "-filter:v \"scale=$width:-1,crop=$width:$height\""; // rescaling the thumbnail conservating the aspect ratio, this fixes the 4:3 video thumbnails
+			
 			//$dimension = " -vf scale='gte(iw/ih\,".$suffix."/".$suffix*0.8.")*".$suffix."+lt(iw/ih\,".$suffix."/".$suffix*0.8.")*((".$suffix*0.8."*iw)/ih):lte(iw/ih\,".$suffix."/".$suffix*0.8.")*".$suffix*0.8."+gt(iw/ih\,".$suffix."/".$suffix*0.8.")*((".$suffix."*ih)/iw)',pad='".$suffix.":".$suffix*0.8.":(".$suffix."-gte(iw/ih\,".$suffix."/".$suffix*0.8.")*".$suffix."-lt(iw/ih\,".$suffix."/".$suffix*0.8.")*((".$suffix*0.8."*iw)/ih))/2:(".$suffix*0.8."-lte(iw/ih\,".$suffix."/".$suffix*0.8.")*".$suffix*0.8."-gt(iw/ih\,".$suffix."/".$suffix*0.8.")*((".$suffix."*ih)/iw))/2:black'";
 		}
 
