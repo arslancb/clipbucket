@@ -1,3 +1,5 @@
+/!\ Not yet finished - please do not install, not working /!\
+
 #Plugin ClipBucket - Import RSS
 
 ## Requirement - *Minimum requis*
