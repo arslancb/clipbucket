@@ -2425,8 +2425,8 @@ textarea#comment_box{
 
 .signup-block .user-form,.forgot-block .user-form,.signin-block .user-form{
 	background:#fff;
-	width:54%;
-	padding:50px 90px;
+	width:80%;
+	padding:50px 0px;
 }
 
 .signup-block .user-form h2,.forgot-block .user-form h2,.signin-block .user-form h2{
