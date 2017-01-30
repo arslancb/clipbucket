@@ -1,0 +1,357 @@
+<h1>Import RSS</h1>
+
+
+
+<button class="btn btn-primary btn-sm" type="button" onclick="toggle_search('adddiv')" data-toggle="collapse" data-target="#addNewDisc" aria-expanded="false" aria-controls="addNewDisc">{if $showedit!=true} <span class="glyphicon glyphicon-plus"></span> {lang("add")}{else}<span class="glyphicon glyphicon-pencil"></span> {lang("edit")}{/if}</button>
+
+<br/>
+
+<div class="add_box" id="adddiv" {if $showadd!=true && $showedit!=true} style="display:none"{/if}>  
+	<div class="well">
+		<form class="form-horizontal" role="form" method="post">
+		
+
+	
+			{if $showedit==true}
+			<input name="rssid" value="{$rss_details.id}" id="rssid" type="hidden">
+			<input name="rsslast_crawl" value="{$rss_details.last_crawl}" id="rsslast_crawl" type="hidden">
+			<input name="rssnb_new_vid_from_last_crawl" value="{$rss_details.nb_new_vid_from_last_crawl}" id="rssnb_new_vid_from_last_crawl" type="hidden">
+			
+			
+			<h3>{lang('edit_link_nb')}{$rss_details.id}</h3>
+			{/if}
+	
+
+			<div class="form-group">
+				<label for="url" class="col-sm-2 control-label">URL RSS</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" name="url_rss" id="url_rss" value="{if $rss_details.url_rss}{$rss_details.url_rss}{/if}" placeholder="http://www.domain.com/rss">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="port" class="col-sm-2 control-label">Frequence</label>
+				<div class="col-sm-8">
+<!-- 					<input type="text" class="form-control" name="frequence" id="frequence" value="" placeholder="{lang('cas_in_example')} 443"> -->
+
+					<select name="frequence" id="frequence">
+						<option value="24"{if $rss_details.crawl_frequence == '24'} selected{/if}>1 jour</option>
+						<option value="12{if $rss_details.crawl_frequence == '12'} selected{/if}">12 heures</option>
+						<option value="6"{if $rss_details.crawl_frequence == '6'} selected{/if}>6 heures</option>
+						<option value="3"{if $rss_details.crawl_frequence == '3'} selected{/if}>3 heures</option>
+						<option value="1"{if $rss_details.crawl_frequence == '1'} selected{/if}>1 heure</option>
+					</select>
+
+				</div>
+			</div>
+			
+
+
+			<div class="form-group">
+				<label for="url" class="col-sm-2 control-label">Catégorie par défaut</label>
+				<div class="col-sm-8">
+				
+					<select name="default_cat" id="default_cat">
+					
+						{foreach from=$videocategorie item=cat}
+							<option value="{$cat.category_id}"{if $rss_details.default_cat == $cat.category_id} selected{/if}>
+							{$cat.category_name}
+							</option>
+						{/foreach}
+				
+					</select>	
+				</div>
+			</div>			
+
+			
+			<div class="form-group">
+				<label for="url" class="col-sm-2 control-label">Qualité par défaut</label>
+				<div class="col-sm-8">
+					<select name="default_quality" id="default_quality">
+						<option value="hd"{if $rss_details.default_quality == 'hd'} selected{/if}>HD</option>
+						<option value="sd"{if $rss_details.default_quality == 'sd'} selected{/if}>SD</option>
+					</select>
+				</div>
+			</div>
+
+			
+<!-- 			<br/> -->
+
+
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-2">
+					<input type="submit" class="btn btn-primary btn-sm" name="import_rss_update" id="import_rss_update" value="Enregistrer" class="button">
+				</div>
+			</div>
+			
+		</form>
+	</div>
+</div>
+
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{php}
+/*
+echo '<pre>';
+print_r($_POST);
+echo '</pre>';
+*/
+
+
+/*
+echo '<pre>';
+print_r($GLOBALS);
+echo '</pre>';
+*/
+{/php}
+
+
+
+
+
+
+
+
+{if $rss}
+
+
+
+
+
+	<!-- Displaying links -->
+	<form name="manage_links" method="post">
+		<div class="btn-group marginBottomSmall">
+	
+			<input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected link(s)')"/>
+		</div>
+
+
+		<table class="table table-bordered table-striped manageUsersTable">
+			<thead>
+				<th width="40" align="center" valign="middle" class="left_head">
+					<input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+				</th>
+				<th width="50" class="head">id</th>
+				<th class="head">Adresse du flux</th>
+				<th class="head">Dernier crawl</th>
+				<th class="head">Fréquence</th>
+				<th>Nouvelle vidéo depuis le dernier crawl</th>
+				<th>&nbsp;</th>
+			</thead>
+			
+			{foreach from=$rss item=u}
+				<tr>
+					<td>
+						<input name="check[]" type="checkbox" id="check" value="{$u.id}" />
+					</td>
+					<td>
+						{$u.id}
+					</td>
+					<td>
+						<div class="col-md-10">
+							<div class="row">
+								<div class="col-md-9">
+									<a href="{$rss_edit}&edit={$u.id}" class="oneUserName">{$u.url_rss}</a>
+								</div>
+							</div>
+						</div>
+					</td>
+					<td>
+						<div class="col-md-10">
+							<div class="row">
+								<div class="col-md-9">
+									<div id="lastcrawl-{$u.id}">{$u.last_crawl}</div>
+								</div>
+							</div>
+						</div>
+					</td>
+					<td>
+						<div class="col-md-10">
+							<div class="row">
+								<div class="col-md-9">
+									{$u.crawl_frequence}
+								</div>
+							</div>
+						</div>
+					</td>
+					<td>
+						<div class="col-md-10">
+							<div class="row">
+								<div class="col-md-9">
+									<div id="nbvid-{$u.id}"><a href="{$rss_view}&id={$u.id}"">{$u.nb_new_vid_from_last_crawl}</a></div>
+								</div>
+							</div>
+						</div>
+					</td>
+
+
+
+
+					
+					<td>
+						<div id="link_opt-{$u.id}" class="dropdown pull-right">
+							<button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+								{lang('actions')}<i class="icon-angle-down icon-on-right"></i>
+							</button>
+							
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+								<li><a role="menuitem" tabindex="-1" href="{$rss_edit}&edit={$u.id}"><span class="glyphicon glyphicon-pencil"></span> {lang('edit')}</a></li>
+								
+								
+								<li><a role="menuitem" tabindex="-1" href="#" onclick="crawlRss('{$u.id}')";><span class="glyphicon glyphicon-refresh"></span> Crawler maintenant</a></li>
+								
+								
+								
+								<li><a role="menuitem" tabindex="-1" href="{$rss_view}&id={$u.id}""><span class="glyphicon glyphicon-list"></span> Liste vidéos</a></li>
+								
+								
+								
+								
+								<li class="divider"></li>
+								<li><a role="menuitem" tabindex="-1" href="{$rss_edit}&delete={$u.id}"><span class="glyphicon glyphicon-trash"></span> {lang('delete')}</a></li>
+							</ul>
+						</div>
+					</td>
+				</tr>
+				{if $bgcolor == ""}
+					{assign var = bgcolor value = "#EEEEEE"}
+				{else}
+					{assign var = bgcolor value = ""}
+				{/if}
+			{/foreach}
+		</table>
+
+		<div class="btn-group">
+			<input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected link(s)')"/>
+		</div>
+
+	</form>
+{else}
+	<div align="center"><strong><em>{lang("no_link_found")}</em></strong></div>
+{/if}
+
+
+<div id="crawl_result"></div>
+
+
+
+<div id="loading">
+	<div class="spinner">
+	  <div class="bounce1"></div>
+	  <div class="bounce2"></div>
+	  <div class="bounce3"></div>
+	</div>
+</div>
+
+
+
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }
+
+
+<script type="text/javascript">
+{literal}
+	function crawlRss(id) {
+
+		var formData = {id:id}; //Array 
+		
+		$( "#choose_thumbnail_spinner" ).show();
+		
+		$.ajax({
+			type	  	: "POST",
+			url 	  	: "../plugins/importRSS/crawlrss.php",
+			data		: formData,
+			success : function(q)
+			{
+//				$("#crawl_result").html(q);
+				
+				var json = JSON.parse(q);
+				$("#lastcrawl-"+id).html(json["last_crawl"]);
+				$("#nbvid-"+id).html(json["nbvid"]);
+				$("#totrssvid").html(json["totvid"]);
+/*				
+				console.log("json : "+json);
+				console.log("last crawl : " + json["last_crawl"]);
+				console.log("nbvid : " + json["nbvid"]);*/
+			}
+		});
+	}
+
+	// if there is any ajax call the loading image will be visible
+	$(document).ajaxStart(function(){
+		$("#loading").show();
+	});
+
+	//if the ajax call stoped hide the loading image
+	$(document).ajaxStop(function(){
+		$("#loading").hide();
+	});
+	
+	$( document ).ready(function() {
+		$( "#loading" ).hide();
+	});	
+	
+{/literal}
+</script>
+
+
+<style>
+.spinner {
+	margin: 100px auto 0;
+	width: 70px;
+	text-align: center;
+}
+
+.spinner > div {
+	width: 18px;
+	height: 18px;
+	background-color: #428bca;;
+	border-radius: 100%;
+	display: inline-block;
+	-webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+	animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+	-webkit-animation-delay: -0.32s;
+	animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+	-webkit-animation-delay: -0.16s;
+	animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+	0%, 80%, 100% { -webkit-transform: scale(0) }
+	40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+	0%, 80%, 100% { 
+		-webkit-transform: scale(0);
+		transform: scale(0);
+	} 40% { 
+		-webkit-transform: scale(1.0);
+		transform: scale(1.0);
+	}
+}
+</style>
