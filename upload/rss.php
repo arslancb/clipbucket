@@ -72,14 +72,6 @@ switch($mode)
 	}
 	break;
 	
-	case 'homepage':
-	{
-			$videos = get_videos(array('limit'=>$limit,'featured'=>'yes', 'order'=>'featured_date DESC', 'tags'=>$tag, 'category'=>$cat));
-			$title  = "Vidéos en page d'Accueil";
-	}
-	break;
-	
-	
 	case 'user':
 	{
 		 $user = mysql_clean($_GET['username']);
