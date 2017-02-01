@@ -9,13 +9,14 @@
 	</div> <!--VIDEO_THUMB END-->
 	
 	<div class="details_block">
-		<strong class="title"><a href="{videoLink($pop_video)}">{$pop_video.title|truncate:50}</a></strong>
-<!--		
+		<br><strong class="title"><a href="{videoLink($pop_video)}">{$pop_video.title|truncate:50}</a></strong>
+		
+		<!--		
 		<span class="author">{lang code="by"}&nbsp;{$pop_video.username}</span>
 		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($pop_video)}">{$pop_video.username}</a></span>
 -->
 		
-		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.category|categories:video}</a></span>
+		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$pop_video.category|categories:video}</a></span>
 
 		<div class="views-date">
 			<span>{prettyNum($pop_video.views)}&nbsp;{if $pop_video.views > 1}{lang|lower code='views'}{else}{lang|lower code="view"}{/if}</span>
@@ -24,13 +25,9 @@
 </div>
 {/if}
 
+
+
 {if $display_type=='homeVideos'}
-
-
-
-
-
-
 	<div class="clearfix thumb-holder userAppending">
 		<a class="video-link" href="{videoLink($video)}" title="{$video.title|title}">
 			<img class="img-responsive" src="{getThumb vdetails=$video size=416x260 }">
@@ -60,13 +57,7 @@
 			<time class="date" datetime="2016-15-03">{$video.date_added|niceTime}</time>
 		</div>
 	</div>
-
-	
 {/if}
-
-
-
-
 
 
 
@@ -217,7 +208,7 @@
 		{/if}
 	</p>
 	<a href="{videoLink($video)}" title="{$video.title|title}"><h5>
-	<b>{$video.title|truncate:25}</b></h5></a>                     
+	<b> {$video.title|truncate:25}</b></h5></a>                     
 	<span class="pull-left"><h5><small>{prettyNum($video.views)}&nbsp;{if $video.views > 1}{lang|lower code='views'}{else}{lang|lower code="view"}{/if}</small></h5></span>
 	<span class="pull-right"><h5><small>{$video.date_added|niceTime}</small></h5></span>
 </div>
