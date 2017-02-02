@@ -16,3 +16,58 @@
 		<cas_connexion_link>Connexion CAS</cas_connexion_link>
 	</phrases>
 </clipbucket_language>
+
+
+
+
+
+<!--
+
+
+
+view_import_rss.html :
+
+	Import RSS
+	Vignette
+	Titre / Description / Mots clés
+	Catégorie
+	Date d'ajout
+	Are you sure you want to delete selected link(s)
+
+
+edit_import_rss.php :
+	Videos
+	Import RSS
+
+edit_import_rss.html :
+	Import RSS
+	URL RSS
+	http://www.domain.com/rss
+	Frequence
+	1 jour
+	12 heures
+	6 heures
+	3 heures
+	1 heure
+	Catégorie par défaut
+	Qualité par défaut
+	HD
+	SD
+	Enregistrer
+	id
+	Adresse du flux
+	Dernier crawl
+	Fréquence
+	Nouvelle vidéo depuis le dernier crawl
+	Crawler maintenant
+	Liste vidéos
+	Are you sure you want to delete selected link(s)
+
+
+
+
+
+
+
+
+-->

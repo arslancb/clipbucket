@@ -33,7 +33,6 @@ if(!defined('SUB_PAGE')){
 			updateImportRssConfig($val);
 			
 			e("Post.<br />\n", "m");
-
 		}
 	}
 
@@ -82,12 +81,7 @@ if(!defined('SUB_PAGE')){
 		assign('showadd',false);
 	}
 
-	if (isset($_GET['id'])) {
-	      $id = $_GET['id'];
-	}
-	else{
-	      $id = 0;
-	}
+	$id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
 
 $rssvideo = getImportRssVideo($id);

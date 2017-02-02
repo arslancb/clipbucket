@@ -5,12 +5,11 @@
 	* Delete database table of CAS configuration.
 	*
 	*/
-// 	function uninstallAuthCas(){
-// 		global $db;
-// 		$db->Execute(
-// 		'DROP TABLE IF EXISTS '.tbl("auth_cas_config").';'
-// 		);
-// 	}
+	function uninstallImportRss(){
+		global $db;
+		$db->Execute('DROP TABLE IF EXISTS '.tbl("import_rss_config").';');
+		$db->Execute('DROP TABLE IF EXISTS '.tbl("import_rss_video_queued").';');
+	}
 
 
 	/**
@@ -25,5 +24,5 @@
 // 	}
 // 
 // 
-// 	uninstallAuthCas();
+ 	uninstallImportRss();
 ?>
