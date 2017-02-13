@@ -400,6 +400,22 @@ class Document extends CBCategory{
 		if ($cnt>0)
 		$db->execute("DELETE FROM ".tbl("video_documents")." WHERE video_id='$videoid' AND document_id='$id'");
 	}
+
+	/**
+	 * Remove associate between any document and a video
+	 *
+	 * @param int $videoid
+	 * 		the video's id
+	 */
+	function unlinkAllDocuments($videoid) {
+		global $db;
+		$cnt= $db->count(tbl('video_documents'),'*',"video_id=".$videoid);
+		if ($cnt>0){
+			$db->execute("DELETE FROM ".tbl("video_documents")." WHERE video_id='$videoid' ");
+			e(lang("documents_have_been_disconected"),'m');
+		}
+	}
+	
 	
 	/**
  	 * Create initial array for document fields 

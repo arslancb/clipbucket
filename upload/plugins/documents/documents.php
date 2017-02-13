@@ -52,6 +52,22 @@ if(!function_exists('externalDocumentList')){
 }	
 
 /**
+ * Remove associate between any documents and a video
+ *
+ * @param int $vid
+ * 		the video's id
+ */
+function unlinksDocuments($vid){
+	global $documentquery;
+	if(is_array($vid))
+		$vid = $vid['videoid'];
+		$documentquery->unlinkAllDocuments($vid);
+}
+
+/** Remove documents associated a video when video is deleted */
+register_action_remove_video("unlinksDocuments");
+
+/**
  * Add a new entry "Link document" into the video manager menu named "Actions" associated to each video
  * 
  * @param int $vid 

@@ -37,5 +37,6 @@
 		<document_not_readable>The document is not accessible</document_not_readable>
 		<document_not_exist>The document doesn't exist</document_not_exist>
 		<actual_document>Actual document</actual_document>
+		<documents_have_been_disconected>Documents have been disconected</documents_have_been_disconected>
 	</phrases>
 </clipbucket_language>
