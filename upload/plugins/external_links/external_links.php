@@ -52,6 +52,23 @@ if(!function_exists('externalLinkList')){
 }	
 
 /**
+ * Remove associate between any external links and a video
+ *
+ * @param int $vid
+ * 		the video's id
+ */
+function unlinksAllLinks($vid){
+	global $linkquery;
+	if(is_array($vid))
+		$vid = $vid['videoid'];
+		$linkquery->unlinkAllLinks($vid);
+}
+
+/** Remove external links associated a video when video is deleted */
+register_action_remove_video("unlinksAllLinks");
+
+
+/**
  * Add a new entry "Link external link" into the video manager menu named "Actions" associated to each video
  * 
  *  @param int $vid 

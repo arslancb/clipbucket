@@ -311,11 +311,11 @@ class Link extends CBCategory{
 	}
 
 	/**
-	 * Remove associate between an external link and a video 
+	 * Remove associate between an external link and a video
 	 *
 	 * @param int $id
 	 * 		link's id
-	 * @param int $videoid 
+	 * @param int $videoid
 	 * 		the video's id
 	 */
 	function unlinkLink($id,$videoid) {
@@ -323,6 +323,21 @@ class Link extends CBCategory{
 		$cnt= $db->count(tbl('video_links'),'*',"link_id=".$id.	" and video_id=".$videoid);
 		if ($cnt>0)
 			$db->execute("DELETE FROM ".tbl("video_links")." WHERE video_id='$videoid' AND link_id='$id'");
+	}
+	
+	/**
+	 * Remove associate between any external link and a video 
+	 *
+	 * @param int $videoid 
+	 * 		the video's id
+	 */
+	function unlinkAllLinks($videoid) {
+		global $db;
+		$cnt= $db->count(tbl('video_links'),'*',"video_id=".$videoid);
+		if ($cnt>0){
+			$db->execute("DELETE FROM ".tbl("video_links")." WHERE video_id='$videoid' ");
+			e(lang("links_have_been_disconected"),'m');
+		}
 	}
 	
 	/**
