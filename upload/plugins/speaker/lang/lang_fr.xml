@@ -37,5 +37,6 @@
 		<slugify>Slugifier</slugify>
 		<cant_slugify_speaker>Impossible de slugifier l'intervenant</cant_slugify_speaker>
 		<speaker_slugified>Intervenant slugifié</speaker_slugified>
+		<speakers_have_been_disconected>Les intervenants ont été dissociés</speakers_have_been_disconected>
 	</phrases>
 </clipbucket_language>

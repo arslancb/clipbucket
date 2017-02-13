@@ -84,6 +84,21 @@ if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[get
 	$cbvid->video_manager_link[]='addLinkSpeakerMenuEntry';
 
 
+/**
+ * Remove associate between any linked speaker's role and a video
+ *
+ * @param int $videoid
+ * 		the video's id
+ */
+function unlinksSpeakers($vid){
+	global $speakerquery;
+	if(is_array($vid))
+		$vid = $vid['videoid'];
+	$speakerquery->unlinkAllSpeaker($vid);
+}
+
+/** Remove speaker's associated a video when video is deleted */
+register_action_remove_video("unlinksSpeakers");
 
 /**Add entries for the plugin in the administration pages */
 if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("speaker")]=='yes')

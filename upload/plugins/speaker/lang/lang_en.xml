@@ -37,5 +37,6 @@
 		<slugify>Slugify</slugify>
 		<cant_slugify_speaker>Can't slugify speaker</cant_slugify_speaker>
 		<speaker_slugified>Speaker slugified</speaker_slugified>
+		<speakers_have_been_disconected>speakers have been disconected</speakers_have_been_disconected>
 	</phrases>
 </clipbucket_language>

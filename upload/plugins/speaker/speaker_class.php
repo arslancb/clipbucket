@@ -445,11 +445,11 @@ class Speaker extends CBCategory{
 	}
 
 	/**
-	 * Remove associate between a speaker's role and a video 
+	 * Remove associate between a speaker's role and a video
 	 *
 	 * @param int $id
 	 * 		speaker role's id
-	 * @param int $videoid 
+	 * @param int $videoid
 	 * 		the video's id
 	 */
 	function unlinkSpeaker($id,$videoid) {
@@ -460,6 +460,20 @@ class Speaker extends CBCategory{
 	}
 	
 	/**
+	 * Remove associate between any linked speaker's role and a video 
+	 *
+	 * @param int $videoid 
+	 * 		the video's id
+	 */
+	function unlinkAllSpeaker($videoid) {
+		global $db;
+		$cnt= $db->count(tbl('video_speaker'),'*'," video_id=".$videoid);
+		if ($cnt>0)
+			$db->execute("DELETE FROM ".tbl("video_speaker")." WHERE video_id='$videoid'");
+			e(lang("speakers_have_been_disconected"),'m');
+	}
+	
+/**
  	 * Create initial array for speaker fields 
  	 *
 	 * this will tell
