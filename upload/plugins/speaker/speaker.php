@@ -87,7 +87,7 @@ if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[get
 /**
  * Remove associate between any linked speaker's role and a video
  *
- * @param int $videoid
+ * @param int $vid
  * 		the video's id
  */
 function unlinksSpeakers($vid){

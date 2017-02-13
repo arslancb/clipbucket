@@ -102,6 +102,21 @@ function displayGroupingName($vid){
 }
 $cbvid->video_manager_link_new[] = 'displayGroupingName';
 
+/**
+ * Remove associate between any grouping and a video
+ *
+ * @param int $vid
+ * 		the video's id
+ */
+function unlinksGroupings($vid){
+	global $videoGrouping;
+	if(is_array($vid))
+		$vid = $vid['videoid'];
+		$videoGrouping->unlinkAllGrouping($vid);
+}
+
+/** Remove all groupings associated a video when video is deleted */
+register_action_remove_video("unlinksGroupings");
 
 
 /**

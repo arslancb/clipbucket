@@ -640,6 +640,21 @@ class VideoGrouping extends CBCategory{
 			$db->execute("DELETE FROM ".tbl("video_grouping")." WHERE video_id='$videoid' AND vdogrouping_id='$id'");
 	}
 	
+	/**
+	 * Remove associate between any grouping and a video
+	 *
+	 * @param int $videoid
+	 * 		the video's id
+	 */
+	function unlinkAllGrouping($videoid) {
+		global $db;
+		$cnt= $db->count(tbl('video_grouping'),'*',"video_id=".$videoid);
+		if ($cnt>0) {
+			$db->execute("DELETE FROM ".tbl("video_grouping")." WHERE video_id='$videoid';");
+			e(lang("grouping_have_been_disconected"),'m');
+		}
+	}
+	
 	
 	/**
 	 * Return all groupings (with their type) linked to a video
