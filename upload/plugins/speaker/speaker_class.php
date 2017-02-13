@@ -468,9 +468,10 @@ class Speaker extends CBCategory{
 	function unlinkAllSpeaker($videoid) {
 		global $db;
 		$cnt= $db->count(tbl('video_speaker'),'*'," video_id=".$videoid);
-		if ($cnt>0)
+		if ($cnt>0){
 			$db->execute("DELETE FROM ".tbl("video_speaker")." WHERE video_id='$videoid'");
 			e(lang("speakers_have_been_disconected"),'m');
+		}
 	}
 	
 /**
