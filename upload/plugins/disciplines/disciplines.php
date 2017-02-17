@@ -91,12 +91,12 @@ function addLinkDisciplineMenuEntry($vid){
 	$idtmp=$vid['videoid'];
 	return '<li><a role="menuitem" href="'.DISCIPLINE_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("link_discipline").'</a></li>';
 }
-if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("discipline")]=='yes')
+if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("discipline")]=='yes')
 	$cbvid->video_manager_link[]='addLinkDisciplineMenuEntry';
 
 
 
 //addadmin menu
-if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("discipline")]=='yes')
+if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("discipline")]=='yes')
 	add_admin_menu(lang('video_addon'),lang("manage_disciplines"),'manage_disciplines.php','disciplines/admin/');
 ?>

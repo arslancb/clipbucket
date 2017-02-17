@@ -130,10 +130,10 @@ function addLinkVideoGroupingMenuEntry($vid){
         return '<li><a role="menuitem" href="'.VIDEO_GROUPING_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("link_video_grouping").'</a></li>';
 }
 /** Add the previous function in the list of entries into the video manager "Actions" button */
-if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("videogrouping")]=='yes')
+if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("videogrouping")]=='yes')
         $cbvid->video_manager_link[]='addLinkVideoGroupingMenuEntry';
 
 /**Add entries for the plugin in the administration pages */
-if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("videogrouping")]=='yes')
+if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("videogrouping")]=='yes')
 	add_admin_menu(lang('video_addon'),lang("manage_video_grouping"),'manage_video_grouping.php','video_grouping/admin/');
 ?>

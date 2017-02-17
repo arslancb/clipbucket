@@ -111,7 +111,7 @@ Version: 0.1
 		/**
 		*	Add entries for the plugin in the administration pages
 		*/
-		if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("expandVideoManager")]=='yes')
+		if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("expandVideoManager")]=='yes')
 		add_admin_menu('Templates And Players','Expand Video Edit','evm_manager.php','expand_video_manager/admin');
 
 	} // EndIf plugin is active

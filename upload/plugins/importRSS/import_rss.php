@@ -192,7 +192,7 @@ assign("rss_view",IMPORT_RSS_VIEWPAGE_URL);
 	/**
 	 *	Add entries for the plugin in the administration pages
 	 */
-//	if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("authcas")]=='yes')
+//	if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("authcas")]=='yes')
 	add_admin_menu('Videos','ImportRSS'.$rss_badge,'edit_import_rss.php',IMPORT_RSS.'/admin');
 
 ?>

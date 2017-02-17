@@ -80,13 +80,13 @@ function addExternalLinkMenuEntry($vid){
 	$idtmp=$vid['videoid'];
 	return '<li><a role="menuitem" href="'.LINK_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("link_external_link").'</a></li>';
 }
-if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("links")]=='yes')
+if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("links")]=='yes')
 	$cbvid->video_manager_link[]='addExternalLinkMenuEntry';
 
 /**
  * Add entries for the plugin in the administration pages
  */
-if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("links")]=='yes')
+if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("links")]=='yes')
 	add_admin_menu(lang('video_addon'),lang('external_links_manager'),'manage_links.php',LINK_BASE.'/admin');
 	
 ?>

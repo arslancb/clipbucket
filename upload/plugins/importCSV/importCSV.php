@@ -27,7 +27,7 @@ define("IMPORTCSV_DOWNLOAD_DIR",BASEDIR."/files/importCSV");
 
 
 /** Add entries for the plugin in the administration pages */
-if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("importCSV")]=='yes')
+if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("importCSV")]=='yes')
 	add_admin_menu('Tool Box',lang('importcsv_manager'),'manage_importCSV.php',IMPORTCSV_BASE.'/admin');
 	
 ?>

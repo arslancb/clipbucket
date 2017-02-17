@@ -79,13 +79,13 @@ function addDocumentMenuEntry($vid){
 	$idtmp=$vid['videoid'];
 	return '<li><a role="menuitem" href="'.DOCUMENT_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("link_document").'</a></li>';
 }
-if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("documents")]=='yes')
+if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("documents")]=='yes')
 	$cbvid->video_manager_link[]='addDocumentMenuEntry';
 
 /**
  * Add entries for the plugin in the administration pages
  */
-if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("documents")]=='yes')
+if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("documents")]=='yes')
 	add_admin_menu(lang('video_addon'),lang('document_manager'),'manage_documents.php',DOCUMENT_BASE.'/admin');
 	
 ?>
