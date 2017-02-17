@@ -80,7 +80,7 @@ function addLinkSpeakerMenuEntry($vid){
 }
 
 /** Add the previous function in the list of entries into the video manager "Actions" button */
-if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("speaker")]=='yes')
+if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("speaker")]=='yes')
 	$cbvid->video_manager_link[]='addLinkSpeakerMenuEntry';
 
 
@@ -101,7 +101,18 @@ function unlinksSpeakers($vid){
 register_action_remove_video("unlinksSpeakers");
 
 /**Add entries for the plugin in the administration pages */
-if (!$cbplugin->is_installed('common_library.php') || $userquery->permission[getStoredPluginName("speaker")]=='yes')
+if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("speaker")]=='yes')
 	add_admin_menu(lang('video_addon'),lang('speaker_manager'),'manage_speakers.php',SPEAKER_BASE.'/admin');
 		
+/**
+ * insert js code into the HEADER of the edit_video.php page
+ */
+if ($cbplugin->is_installed('common_library.php') && 
+		$userquery->permission[getStoredPluginName("speaker")]=='yes' && 
+		substr($_SERVER['SCRIPT_NAME'], -14, 14) == "edit_video.php"){
+	assign("videoid",$_GET['video']);
+	$Cbucket->add_admin_header(PLUG_DIR . '/speaker/admin/header.html', 'global');
+}
+
+	
 ?>
