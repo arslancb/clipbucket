@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>WebTV2</name>
+	<author>Sylvain Tognola</author>
+	<smarty_version>3</smarty_version>
+	<version>1</version>
+	<released>vendredi 4 novembre 2016, 11:47:42 +0100</released>
+	<description>UTC theme for clipbucket</description>
+	<website title="UTC">http://utc.fr</website>
+	<license>Attribute Assurance License</license>
+</template>

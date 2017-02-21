@@ -1,0 +1,59 @@
+<!-- Share This {$type} -->
+{if ($params.type=='v' || $params.type =='video' || $params.type =='Video')}
+	{lang code='share_video_title' assign='share_title'}
+{else}
+	{lang code='share_title' assign='share_title'}
+{/if}
+<div id="share_form" class="action_box share_form clearfix">
+	<div class="action_box_title">{$share_title}</div>
+{if $params.type=='v' || $params.type =='video' || $params.type =='Video'}    
+  <div style="margin:0px 0px 5px 0px">
+    
+    
+
+{if $Cbucket->configs.video_embed==1 && $vdo.allow_embedding=='yes'}
+
+<div class="form_container"><label for="embed_code" style="font-size:12px; font-weight:bold">{lang code='embed_code'}</label>
+<textarea name="embed_code" class="embed_code" id="embed_code" style="margin-bottom:5px; width:99%; height:auto" onclick="this.select()"  class="left_text_area">{if $Cbucket->configs.embed_type=='iframe'}{$cbvid->embed_code($vdo,'iframe')|htmlspecialchars}{else}{$cbvid->embed_code($vdo,'embed_object')|htmlspecialchars}{/if}</textarea>
+
+<input type="hidden" name="alternate_embed_code" class="alternate_embed_code" id="alternate_embed_code" value="{if $Cbucket->configs.embed_type=='iframe'}{$cbvid->embed_code($vdo,'embed_object')|htmlspecialchars}{else}{$cbvid->embed_code($vdo,'iframe')|htmlspecialchars}{/if}" />
+</div>
+
+{lang code='share_player_size'} : 
+
+  <label>
+    <input type="radio" name="player_size" value="default" id="player_size_0" checked="checked"
+    	onclick="{$updateEmbedCode}('{$Cbucket->configs.embed_player_width}'
+        		,'{$Cbucket->configs.embed_player_height}',autoPlayEmbed)"/>
+    {lang code='share_default'} ({$Cbucket->configs.embed_player_width}x{$Cbucket->configs.embed_player_height})</label>
+  
+  <label>
+    <input type="radio" name="player_size" value="small" id="player_size_1" onclick="{$updateEmbedCode}('440','272',autoPlayEmbed)" />
+    {lang code='share_small'} (440x272)
+</label>
+  
+  <label>
+    <input type="radio" name="player_size" value="medium" id="player_size_2"  onclick="{$updateEmbedCode}('540','334',autoPlayEmbed)"/>
+    {lang code='share_medium'} (540x334)
+</label>
+
+  <label>
+    <input type="radio" name="player_size" value="large" id="player_size_3"  onclick="{$updateEmbedCode}('600','370',autoPlayEmbed)"/>
+    {lang code='share_large'} (600x370)</label>
+
+{/if}
+      
+  </div>
+
+    <div class="action_box_title"></div>
+       <div class="form_container"> <label for="link_video"  style="font-size:12px; font-weight:bold">{lang code='link_this_video'}<br />
+      </label>
+      <input type="text" name="link_video" id="link_video" style="width:99%;margin-bottom:5px; " value="{videoLink vdetails=$vdo}"  onclick="this.select()"  class="left_text_area" /></div>
+      
+      {/if}
+    
+    
+    {ANCHOR place="video_sharing_options" data=$vdo}
+    
+</div>
+<!-- Share This {$type} -->

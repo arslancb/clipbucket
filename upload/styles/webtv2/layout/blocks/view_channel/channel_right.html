@@ -1,0 +1,12 @@
+<div id="userFeeds" class="user-activities clearfix">
+	{assign var=userFeeds value=$cbfeeds->getUserFeeds($u)}
+	{if $userFeeds}
+	{foreach from=$userFeeds item=userFeed}
+		{include file="$style_dir/blocks/feed.html" feed=$userFeed}
+	{/foreach}
+	{else}
+	<div class="well well-info clearfix">
+		{lang code='no_activity' assign=no_activity} {$no_activity|sprintf:$u.username}
+	</div>
+	{/if}
+</div>

@@ -1,0 +1,13 @@
+<div class="feed clearfix"  id="feed-{$feed.file}">
+	<a href="{$userquery->profile_link($feed.user)}" class="avatar">
+		<img class="img-circle" src="{avatar details=$feed.user size='55x55'}">
+	</a>
+	<div class="text">
+		{if !$feed.action_title}
+		<a href="{$userquery->profile_link($feed.user)}">{$feed.user.username}</a>
+		{else}
+		<span>{$feed.action_title}</span>
+		{/if}
+		<time datetime="2016-03-31" class="time">{$feed.datetime}</time>
+	</div>
+</div>

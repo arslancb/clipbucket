@@ -1,0 +1,75 @@
+<div id="sidenav">
+	<div class="sidenav-holder clearfix">
+		<!-- <div class="widget clearfix"> -->
+			<!-- <p>Create an account or sign in for a tailor-made video experience</p> -->
+			<!-- <buttun class="btn btn-primary">Sign Up / Sign In</buttun> -->
+		<!-- </div> -->
+		<!-- <div class="widget clearfix">
+			<a href="#">Videos you might like</a>
+		</div> -->
+		<div class="panel-group clearfix widget" id="accordion" role="tablist" aria-multiselectable="true">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><span class="caret"></span>&nbsp;Video Categories</a>
+					</h4>
+				</div>
+				<div id="collapseOne" class="panel-collapse collapse in">
+					{include file="$style_dir/blocks/category_list.html" type='video'}
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a href="{cblink(['name'=>'photos'])}">Photos</a>
+					</h4>
+				</div>
+		  	</div>
+		  	<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a href="{cblink(['name'=>'collections'])}">Collections</a>
+					</h4>
+				</div>
+		  	</div>
+		  	<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a href="{cblink(['name'=>'groups'])}">Groups</a>
+					</h4>
+				</div>
+		  	</div>
+		  	<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a href="{cblink(['name'=>'channels'])}">{lang code="View Channels"}</a>
+					</h4>
+				</div>
+		  	</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseTwo"><span class="caret"></span>&nbsp;Who to Follow</a>
+					</h4>
+				</div>
+				<div id="collapseThree" class="panel-collapse collapse in">
+					<ul class="panel-body">
+						{$users=get_users(["order"=>"subscribers DESC","limit" =>"3"])}
+						{foreach $users as $user}
+						<li>
+							<div class="avatar">
+								<a href="{$userquery->profile_link($user)}">
+									<img src="{avatar details=$user size='58x58'}">
+								</a>
+							</div>
+							<span class="user-name">
+								<a href="{$userquery->profile_link($user)}">{$user.username}</a>
+							</span>
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

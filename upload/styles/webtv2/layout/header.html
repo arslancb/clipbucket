@@ -1,0 +1,41 @@
+<header id="header">
+	<nav class="navbar navbar-default">
+	  <div class="toplinks">
+	    <div class="grid">
+		    <div class="col-1-1 ">
+	                  hello	    
+{if userid()} 
+				            logged in
+                    <a href="{link name='logout'}">{lang code="logout"}</a>
+{else}
+				            <a href="{ANCHOR place="is_auth_cas"}">Connexion CAS</a>
+{/if}  
+{if strpos($smarty.server.REQUEST_URI,"?") != false}
+                    <a href="{$smarty.server.REQUEST_URI}&template=cb_28">cb_28</a>
+{else}  
+                    <a href="?template=cb_28">cb_28</a>
+{/if}  
+                    <a href="{$baseurl}/admin_area">admin</a>
+		    </div>
+	    </div>
+	  </div>
+	  <div class="topheader">
+		  <div class="grid">
+		    <div class="col-6-12 ">
+		      <a class="reseta" href="{$baseurl}"><span class="slogan">Donnons un sens à l'innovation</span></a>  
+		    </div>
+		    <div class="col-5-12 ">
+		      <a class="reseta topheadertab active" href="{$baseurl}">Interactions TV</a>
+		      <a class="reseta topheadertab" href="#">Les Cours</a>
+		    </div>
+		    <div class="col-1-12 "> 
+	        S
+		    </div>
+		  </div>
+		</div>
+	</nav>
+	<div class="shadow" style="display: none;"></div>
+</header>
+<div class="headerpusher"></div>
+
+
