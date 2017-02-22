@@ -92,8 +92,8 @@
             if ($funcs) {
                 foreach($funcs as $func) {
                     $data = $func['func']($vdo);
-                    if ($data) {
-                        return $data;
+                    if (!$data) {
+                        return false;
                     }
                 }
             }
