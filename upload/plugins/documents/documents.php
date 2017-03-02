@@ -87,5 +87,16 @@ if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getS
  */
 if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("documents")]=='yes')
 	add_admin_menu(lang('video_addon'),lang('document_manager'),'manage_documents.php',DOCUMENT_BASE.'/admin');
+
+	
+/**
+ * insert js code into the HEADER of the edit_video.php page
+ */
+if ($cbplugin->is_installed('common_library.php') &&
+		$userquery->permission[getStoredPluginName("documents")]=='yes' &&
+		substr($_SERVER['SCRIPT_NAME'], -14, 14) == "edit_video.php"){
+	assign("videoid",$_GET['video']);
+	$Cbucket->add_admin_header(PLUG_DIR . '/documents/admin/header.html', 'global');
+}
 	
 ?>
