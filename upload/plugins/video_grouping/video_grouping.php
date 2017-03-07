@@ -136,4 +136,15 @@ if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getS
 /**Add entries for the plugin in the administration pages */
 if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("videogrouping")]=='yes')
 	add_admin_menu(lang('video_addon'),lang("manage_video_grouping"),'manage_video_grouping.php','video_grouping/admin/');
+
+/**
+ * insert js code into the HEADER of the edit_video.php page
+ */
+if ($cbplugin->is_installed('common_library.php') &&
+		$userquery->permission[getStoredPluginName("videogrouping")]=='yes' &&
+		substr($_SERVER['SCRIPT_NAME'], -14, 14) == "edit_video.php"){
+	assign("videoid",$_GET['video']);
+	$Cbucket->add_admin_header(PLUG_DIR . '/video_grouping/admin/header2.html', 'global');
+}
+	
 ?>
