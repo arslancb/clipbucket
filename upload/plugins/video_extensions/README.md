@@ -27,4 +27,18 @@ Uninstalling the plugin in the plugin manager will remove the database tables an
 # Use
 The plugin is only used in the site administration.
 
-TODO add use case...
+## Action "add video"
+In the video manager, a new button "add video" near "Video Manager" title is added. This button allow an administrator to add an empty video data (no video file is included)
+
+This action is only possible if the user has the "Allow video donwload" permission defined in the "User Levels" administration page.
+
+## Action "duplicate video"
+This new action is added under the "action" button of each video. executing this action will create a copy of the selected video informations but without any video file linked. The goal is to add multiple video of the same event without being necessary to  edit all identical informations for each video added.   
+
+This action is only possible if the user has the "Allow video donwload" permission defined in the "User Levels" administration page.
+
+## Action "Link video"
+This action is used to link a selected video to a pending vido file stored into  /files/pending_videos subfolder. We suppose here that an external video encoder code will drop the result of it's job into a folder inside pending_videos folder. Ths name of the folder must be identical ti one of the jobset value into the job table created by this plugin. The action "Link Video" will search in th pendiging_videos folder. If there is some subfolder we try to find if there is some job in the "job" table that have a identical jobset value and the idvideo value is NULL then the folder corresponds to a pending video. We then display it and the administator can select it and link it to the specified video. Doing that the idjob in the "job" table will be set to video id and the name of the video stored into that folder will be stored as the original video file name into the video table in a field called "original_videofilename"
+
+This action does nothing more. This mean that before linking it's necessary that an external tool had encoded at most one of the video output format, created that sufolder and put the video encoded into that subfolder. This tool had to insert right informations into the "job" table. This tool may be on the same server or not.
+And a second tool is necessary (run in a cron table) to move the encoded linked file into the folder corresponding to the video data linked to that video file.  

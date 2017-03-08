@@ -54,11 +54,11 @@ function installJobTable() {
 	  		`name` varchar(100) NOT NULL ,
 	  		`priority` int(11) NOT NULL ,
 	  		`jobset` varchar(255) NOT NULL ,
-			`idvideo` int(11) NOT NULL ,
+			`idvideo` int(11) NULL ,
 			`idjobtype` int(11) NOT NULL ,
 	  		`idjobencoder` int(11) NOT NULL ,
 			`status` enum("Standby","Successful","Processing","Failed") NOT NULL DEFAULT "Standby",			
-	  		`progress` int(11) NOT NULL ,
+	  		`progress` int(11) NOT NULL DEFALUT 0,
 			`parameters` varchar(1024) NULL ,
 			`src` varchar(1024) NOT NULL ,
 			`dst` varchar(1024) NOT NULL ,
@@ -75,16 +75,32 @@ function installJobTable() {
  */
 function installVideoExtensions(){
 	/** Create a folder for storing encoded video files that are not yet connected to a video field in video database table */
-	$uploaddir = BASEDIR."/files/pending_videos";
-	if (is_dir($uploaddir)){ 
-		$files = glob($uploaddir.'/*'); // get all file names
+	$folder = BASEDIR."/files/pending_videos";
+	if (is_dir($folder)){ 
+		$folder = BASEDIR."/files/pending_videos";
+		/*$files = glob($uploaddir.'/*'); // get all file names
+		 foreach($files as $file){ // iterate files
+		 if(is_file($file))
+		 	unlink($file); // delete file
+		 	}
+		 	rmdir($uploaddir);*/
+		
+		 $dirIterator = new RecursiveDirectoryIterator($folder);
+		 $iterator = new RecursiveIteratorIterator($dirIterator, RecursiveIteratorIterator::CHILD_FIRST);
+		 foreach($iterator as $fileentry){
+		 	$fileentry->isDir() ? rmdir($fileentry) : unlink($fileentry);
+		 }
+		 rmdir($folder);
+		
+		
+		/*$files = glob($uploaddir.'/*'); // get all file names
 		foreach($files as $file){ // iterate files
 			if(is_file($file))
 				unlink($file); // delete file
 		}
-		rmdir($uploaddir);
+		rmdir($uploaddir);*/
 	}
-	$folder = mkdir($uploaddir,0775);
+	$folder = mkdir($folder,0775);
 }
 
 /**

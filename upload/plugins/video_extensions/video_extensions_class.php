@@ -103,7 +103,51 @@ class VideoExtension extends CBCategory{
 	}
 	
 	
+	/**
+	 * Get a list of all video in /files.pending_videos folder that ar not yet linked to a video data
+	 * This metohd search subfolders of /files.pending_videos. Each of them must be named 
+	 * like a jobset value into the job database table. For each of these folders, the method request the job table
+	 * in order to find if a jobset of the same name exists and if the idvideo of the jobs with this jobset are NULL or not.
+	 * If the idvideo is NULL then the subfolder containing videos is really pending and the returned array is concatenated 
+	 *	@return array
+	 *		An array containing for each pending folder, the corresponding jobset (equal to the folder name) and the original video name.
+	 */
+	function getPendingVideos(){
+		$PendingVideos=array();
+		global $db;
+		$pendingfolders = glob(VIDEO_EXTENSIONS_PENDING_VIDEOS_DIR.'/*'); // get all /files/pendigd_videos subfolders
+		foreach($pendingfolders as $folder){ // iterate on folders
+			if (is_dir($folder)){
+				$jobset=pathinfo($folder,PATHINFO_FILENAME);
+				$query='SELECT * FROM '.table("job").' WHERE jobset="'.$jobset.'" AND idvideo IS NULL';
+				$result=$db->_select($query);
+				if (count($result)>0){
+					$originalVideoName=pathinfo($result[0]["src"],PATHINFO_BASENAME);
+					$data=array("jobset"=> $result[0]["jobset"],
+							"originalVideoName" => $originalVideoName);
+					$PendingVideos[] = $data; 
+				}
+			}
+		}
+		return $PendingVideos;
+	}
 	
+	/**
+	 * 
+	 */
+	function setVideoFile($vid, $jobset){
+		global $db;
+		$query='SELECT * FROM '.table("job").' WHERE jobset="'.$jobset.'" AND idvideo IS NULL';
+		$result=$db->_select($query);
+		if (count($result)>0){
+			$originalVideoName=pathinfo($result[0]["src"],PATHINFO_BASENAME);
+			$query='UPDATE '.table("job").' SET idvideo = '.$vid.' wHERE jobset="'.$jobset.'" AND idvideo IS NULL';
+			$db->Execute($query);
+			$query='UPDATE '.table("video").' SET original_videoname = "'.$originalVideoName.'" WHERE videoid="'.$vid.'"';
+			$db->Execute($query);
+		}
+		
+	}
 }
 
 ?>

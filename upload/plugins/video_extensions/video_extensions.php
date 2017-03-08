@@ -25,9 +25,47 @@ define('VIDEO_EXTENSIONS_ADMIN_URL',VIDEO_EXTENSIONS_URL.'/admin');
 //assign("video_extensions_managepage",VIDEO_EXTENSIONS_MANAGEPAGE_URL);
 define("VIDEO_EXTENSIONS_LINKPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".VIDEO_EXTENSIONS_BASE."/admin&file=link_pending_video.php");
 assign("video_extensions_linkpage",VIDEO_EXTENSIONS_LINKPAGE_URL);
-define("VIDEO_EXTENSIONS_DOWNLOAD_DIR",BASEDIR."/files/documents");
+define("VIDEO_EXTENSIONS_PENDING_VIDEOS_DIR",BASEDIR."/files/pending_videos");
 
 
+/**
+ * Add labels into the Video Manager in a video description block for each video file found in 
+ * the /files/pending_videos folder and corresonding to the video id.
+ *
+ * @param array $vid
+ * 		the selected video object
+ * @return string
+ * 		A concatenated html <span> containing which video file is present in the file system
+ */
+function displayExistingVideoFiles($vid){
+	$str='';
+	global $db;
+	$result = $db->_select("SELECT videoid, file_name, file_directory FROM ".tbl("video")." WHERE videoid = ".$vid["videoid"]);
+
+	if(is_array($result)) {
+		$filename=$result[0]["file_name"];
+		$file_directory=$result[0]["file_directory"];
+		$videodir = BASEDIR."/files/videos/".$file_directory;
+		//$str.='<span class="label label-default">'.$filename.'</span>';
+		$files = glob($videodir.'/'.$filename.'*'); // get all file names
+		foreach($files as $file){ // iterate files
+			$path_parts = pathinfo($file);
+			$ext=$path_parts['extension'];
+			$parts=explode("_",$path_parts['filename']);
+			if (count($parts)>1) {
+				$size=$parts[count($parts)-1];
+			}
+			$str.= '<span  class="label label-success">'.$ext.' '.$size.'</span> ';
+		}
+	}
+	return $str;
+}
+$cbvid->video_manager_link_new[] = 'displayExistingVideoFiles';
+
+
+/**
+ * 
+ */
 if(!function_exists('duplicateVideoData')) {
 	function duplicateVideoData(){
 		global $videoExtension;
@@ -38,19 +76,11 @@ if(!function_exists('duplicateVideoData')) {
 	}
 }
 
-global $videoExtension;
-if ($cbplugin->is_installed('common_library.php') &&
-		$userquery->permission[getStoredPluginName("video_extensions")]=='yes' &&
-		substr($_SERVER['SCRIPT_NAME'], -17, 17) == "video_manager.php" && $_GET['newvideo'])	{
-	$videoExtension->addEmptyVideo();
-}
-
 //Calling Editor Picks Function
 global $cbvid;
 $cbvid->video_manager_funcs[] = 'duplicateVideoData';
 //Adding Anchor Function
 register_anchor_function('duplicateVideoData','duplicateVideoData');
-
 
 /**
  * Add a new entry "Copy Video data" into the video manager menu named "Actions" associated to each video
@@ -63,21 +93,50 @@ register_anchor_function('duplicateVideoData','duplicateVideoData');
 function addCopyVideoMenuEntry($vid){
 	$idtmp=$vid['videoid'];
 	return '<li><a role="menuitem" href="?duplicateVideo='.$vid['videoid'].'">'.lang("duplicate_video").'</a><li>'; 
-			
-			
-//			href="'.VIDEO_EXTENSIONS_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("link_document").'</a></li>';
 }
 if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("video_extensions")]=='yes')
 	$cbvid->video_manager_link[]='addCopyVideoMenuEntry';
 
+	
+	
 /**
-* insert js code into the HEADER of the video_manager.php page
+ * Call of addEmptyVideo function if the user has the admin permissions and "newvideo" is requested
+ */	
+global $videoExtension;
+if ($cbplugin->is_installed('common_library.php') &&
+		$userquery->permission[getStoredPluginName("video_extensions")]=='yes' &&
+		substr($_SERVER['SCRIPT_NAME'], -17, 17) == "video_manager.php" && $_GET['newvideo'])	{
+	$videoExtension->addEmptyVideo();
+}
+	
+/**
+* insert js code into the HEADER of the video_manager.php page.
+* This header will add a button "Add Empty Video" into the Video Manager main page 
 */
 	if ($cbplugin->is_installed('common_library.php') &&
 			$userquery->permission[getStoredPluginName("video_extensions")]=='yes' &&
 			substr($_SERVER['SCRIPT_NAME'], -17, 17) == "video_manager.php"){
 	$Cbucket->add_admin_header(PLUG_DIR . '/video_extensions/admin/header.html', 'global');
 }
-		
+	
+
+/**
+ * Add a new entry "Link Pending video" into the video manager menu named "Actions" associated to each video
+ * This command will search for vidoe file stored into /files/pending_videos subfolders in order to connect this video to an empty
+ * video information data or a duplicated one.
+ *
+ * @param int $vid
+ * 		The video id
+ * @return string
+ *  	the HTML string to be inserted into the menu
+ */
+function addLinkPendingVideoMenuEntry($vid){
+	$idtmp=$vid['videoid'];
+	return '<li><a role="menuitem" href="'.VIDEO_EXTENSIONS_LINKPAGE_URL.'&video='.$idtmp.'">'.lang("link_pending_video").'</a></li>';
+}
+if ($cbplugin->is_installed('common_library.php') && $userquery->permission[getStoredPluginName("video_extensions")]=='yes')
+	$cbvid->video_manager_link[]='addLinkPendingVideoMenuEntry';
+
+
 
 ?>

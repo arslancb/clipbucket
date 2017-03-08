@@ -7,13 +7,20 @@ require_once('../includes/common.php');
  */
 function uninstallVideoExtensions() {
 	/** Remove files and folders stored in the file system */
-	$uploaddir = BASEDIR."/files/pending_videos";
-	$files = glob($uploaddir.'/*'); // get all file names
+	$folder = BASEDIR."/files/pending_videos";
+	/*$files = glob($uploaddir.'/*'); // get all file names
 	foreach($files as $file){ // iterate files
 		if(is_file($file))
 			unlink($file); // delete file
 	}
-	rmdir($uploaddir);
+	rmdir($uploaddir);*/
+	
+	$dirIterator = new RecursiveDirectoryIterator($folder);
+	$iterator = new RecursiveIteratorIterator($dirIterator, RecursiveIteratorIterator::CHILD_FIRST);
+	foreach($iterator as $fileentry){
+		$fileentry->isDir() ? rmdir($fileentry) : unlink($fileentry);
+	}
+	rmdir($folder);
 }
 
 /**
@@ -50,6 +57,7 @@ function uninstallJobEncoderTable() {
  *Remove the field original_videoname from the video table
  */
 function removeOriginalVideoname() {
+	global $db;
 	$db->Execute("ALTER TABLE ".tbl('video')." DROP `original_videoname`");
 }
 

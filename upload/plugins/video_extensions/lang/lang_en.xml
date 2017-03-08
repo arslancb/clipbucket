@@ -3,5 +3,15 @@
 	<name>English</name>
 	<iso_code>en</iso_code>
 	<phrases>
+		<add_video>Add new video</add_video>
+		<link_pending_video_to>Link pending video to </link_pending_video_to>
+		<validate>Validate</validate>
+		<jobset>Jobset id</jobset>
+		<video_name>Video file name</video_name>
+		<no_pending_video_file_found>No pending video file found</no_pending_video_file_found>
+		<link_video>Link a video</link_video>
+		<new_empty_video>New empty video</new_empty_video>
+		<duplicate_video>Duplicate video</duplicate_video>
+		<link_pending_video>Link pending video</link_pending_video>
 	</phrases>
 </clipbucket_language>

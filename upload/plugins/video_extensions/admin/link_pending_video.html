@@ -1,0 +1,60 @@
+<!-- Displaying pending video files -->
+{if $nbPendingFiles>0}
+<!-- Displaying content only if exists -->
+<div class="heading">
+	<h2>{lang('link_pending_video_to')} {$video.videoid}</h2>
+</div>
+<form name="user_manage" method="post">
+  <div class="btn-group marginBottomSmall">
+    <input class="btn btn-primary btn-sm" type="submit" name="validate" value="{lang('validate')}" />
+  </div>
+  
+  
+<table class="table table-bordered table-striped manageUsersTable">
+<thead>
+    <th width="40" align="center" valign="middle" class="left_head">&nbsp;</th>
+    <th width="50" class="head">{lang('jobset')}</th>
+    <th class="head">{lang('video_name')}</th>
+  </thead>
+<tbody>
+{foreach from=$pendingVideos item=u}
+<tr>
+    <td>
+     	<input name="checked_videos[]" type="radio" id="check_video" value="{$u.jobset}" />
+    </td>
+    <td>
+      {$u.jobset}
+    </td>
+    <td>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-9">
+                        <span>{$u.originalVideoName}</span>
+                    </div>
+                </div>
+            </div>
+    </td>
+  </tr>
+{if $bgcolor == ""}
+{assign var = bgcolor value = "#EEEEEE"}
+{else}
+{assign var = bgcolor value = ""}
+{/if}  
+{/foreach}
+</tbody>
+</table>
+
+
+<div class="btn-group">
+    <input class="btn btn-primary btn-sm" type="submit" name="validate" value="{lang('validate')}" />
+  </div>
+</form>
+{else}
+	<div align="center"><strong><em>{lang('no_pending_video_file_found')}</em></strong></div>
+{/if}
+
+
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }

@@ -18,7 +18,7 @@ if(!defined('SUB_PAGE')){
 //get video object
 $video = $cbvid->getVideo($_GET['video']);
 
-// Run after a post action called 'link_selected' (link and unlink multiple speaker to the selectedvideo)
+// Run after a post action called 'validate' (link the selected discipline to the selected video)
 if(isset($_POST['validate'])){
 	$disciplinequery->setDiscipline($video['videoid'],$_POST['checked_discipline'][0]);
 	$video['discipline'] = $_POST['checked_discipline'][0];
