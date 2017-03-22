@@ -115,33 +115,35 @@ class VideoExtension extends CBCategory{
 	function getPendingVideos(){
 		$PendingVideos=array();
 		global $db;
-		$pendingfolders = glob(VIDEO_EXTENSIONS_PENDING_VIDEOS_DIR.'/*'); // get all /files/pendigd_videos subfolders
-		foreach($pendingfolders as $folder){ // iterate on folders
-			if (is_dir($folder)){
-				$jobset=pathinfo($folder,PATHINFO_FILENAME);
-				$query='SELECT * FROM '.table("job").' WHERE jobset="'.$jobset.'" AND idvideo IS NULL';
-				$result=$db->_select($query);
-				if (count($result)>0){
-					$originalVideoName=pathinfo($result[0]["src"],PATHINFO_BASENAME);
-					$data=array("jobset"=> $result[0]["jobset"],
+		$query="SELECT DISTINCT `jobset`,`originalsrc` FROM ".table("job")." WHERE `idvideo` IS NULL OR `idvideo`=0";
+		$result=$db->_select($query);
+		if (count($result)>0){
+			foreach ($result as $res){
+				$originalVideoName=pathinfo($res["originalsrc"],PATHINFO_BASENAME);
+				$data=array("jobset"=> $res["jobset"],
 							"originalVideoName" => $originalVideoName);
-					$PendingVideos[] = $data; 
-				}
+				$PendingVideos[] = $data;
 			}
 		}
 		return $PendingVideos;
 	}
 	
 	/**
+	 * Associate an existing video file found into /pending_videos folder to the selected video data
+	 * The $jobset is used to retrieve the original video filename.
 	 * 
+	 * @param int $vid
+	 * 		The videoid
+	 * @param string $jobset
+	 * 		A string found into the "job" table in the "jobset" field 
 	 */
 	function setVideoFile($vid, $jobset){
 		global $db;
-		$query='SELECT * FROM '.table("job").' WHERE jobset="'.$jobset.'" AND idvideo IS NULL';
+		$query='SELECT * FROM '.table("job").' WHERE jobset="'.$jobset.'" AND (idvideo IS NULL OR idvideo=0)';
 		$result=$db->_select($query);
 		if (count($result)>0){
-			$originalVideoName=pathinfo($result[0]["src"],PATHINFO_BASENAME);
-			$query='UPDATE '.table("job").' SET idvideo = '.$vid.' wHERE jobset="'.$jobset.'" AND idvideo IS NULL';
+			$originalVideoName=pathinfo($result[0]["originalsrc"],PATHINFO_BASENAME);
+			$query='UPDATE '.table("job").' SET idvideo = '.$vid.' wHERE jobset="'.$jobset.'" AND (idvideo IS NULL OR idvideo=0)';
 			$db->Execute($query);
 			$query='UPDATE '.table("video").' SET original_videoname = "'.$originalVideoName.'" WHERE videoid="'.$vid.'"';
 			$db->Execute($query);

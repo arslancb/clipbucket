@@ -21,8 +21,6 @@ define('VIDEO_EXTENSIONS_DIR',PLUG_DIR.'/'.VIDEO_EXTENSIONS_BASE);
 define('VIDEO_EXTENSIONS_URL',PLUG_URL.'/'.VIDEO_EXTENSIONS_BASE);
 define('VIDEO_EXTENSIONS_ADMIN_DIR',VIDEO_EXTENSIONS_DIR.'/admin');
 define('VIDEO_EXTENSIONS_ADMIN_URL',VIDEO_EXTENSIONS_URL.'/admin');
-//define("VIDEO_EXTENSIONS_MANAGEPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".VIDEO_EXTENSIONS_BASE."/admin&file=manage_documents.php");
-//assign("video_extensions_managepage",VIDEO_EXTENSIONS_MANAGEPAGE_URL);
 define("VIDEO_EXTENSIONS_LINKPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".VIDEO_EXTENSIONS_BASE."/admin&file=link_pending_video.php");
 assign("video_extensions_linkpage",VIDEO_EXTENSIONS_LINKPAGE_URL);
 define("VIDEO_EXTENSIONS_PENDING_VIDEOS_DIR",BASEDIR."/files/pending_videos");

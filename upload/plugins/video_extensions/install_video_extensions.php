@@ -52,26 +52,28 @@ function installJobTable() {
 			'CREATE TABLE IF NOT EXISTS '.tbl("job").' (
 	  		`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	  		`name` varchar(100) NOT NULL ,
-	  		`priority` int(11) NOT NULL ,
+	  		`extension` varchar(20) NOT NULL ,
+			`priority` int(11) NOT NULL ,
 	  		`jobset` varchar(255) NOT NULL ,
 			`idvideo` int(11) NULL ,
 			`idjobtype` int(11) NOT NULL ,
 	  		`idjobencoder` int(11) NOT NULL ,
-			`status` enum("Standby","Successful","Processing","Failed") NOT NULL DEFAULT "Standby",			
-	  		`progress` int(11) NOT NULL DEFALUT 0,
+			`status` enum("Standby","Encoded","Processing","Failed","Completed") NOT NULL DEFAULT "Standby",			
+	  		`progress` int(11) NOT NULL DEFAULT 0,
 			`parameters` varchar(1024) NULL ,
-			`src` varchar(1024) NOT NULL ,
-			`dst` varchar(1024) NOT NULL ,
-  			`date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  			`date_started` timestamp NULL ,
-  			`date_ended` timestamp NULL
+			`originalsrc` varchar(1024) NOT NULL ,
+			`encodedsrc` varchar(1024) NOT NULL ,
+  			`dateadded` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  			`datestarted` timestamp NULL ,
+  			`dateended` timestamp NULL
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;'
 			);
 }
 
 
 /**
- * Creating folder for video_extensions if not exists 
+ * Creating folder for video_extensions if not exists
+ * @deprecated 
  */
 function installVideoExtensions(){
 	/** Create a folder for storing encoded video files that are not yet connected to a video field in video database table */
@@ -113,7 +115,7 @@ function addOriginalVideoname(){
 }
 
 /** install the plugin */
-installVideoExtensions();
+//installVideoExtensions();
 installJobEncoderTable();
 installJobTable();
 installJobTypeTable();

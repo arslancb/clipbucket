@@ -4,6 +4,7 @@ require_once('../includes/common.php');
 
 /**
  * Remove folder created for video_extension plugin 
+ * @deprecated
  */
 function uninstallVideoExtensions() {
 	/** Remove files and folders stored in the file system */
@@ -61,7 +62,7 @@ function removeOriginalVideoname() {
 	$db->Execute("ALTER TABLE ".tbl('video')." DROP `original_videoname`");
 }
 
-uninstallVideoExtensions();
+//uninstallVideoExtensions();
 uninstallJobTable();
 uninstallJobTypeTable();
 uninstallJobEncoderTable();
