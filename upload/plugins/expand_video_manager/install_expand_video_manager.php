@@ -10,12 +10,11 @@ function installExpandVideoManager() {
 	global $db;
 	$db->Execute(
 		'CREATE TABLE '.tbl("expand_video_manager").' (
-		  `evm_id` int(11) NOT NULL,
+  		  `evm_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 		  `evm_plugin_url` varchar(255) NOT NULL,
 		  `evm_zone` varchar(255) NOT NULL,
 		  `evm_is_new_tab` tinyint(1) NOT NULL,
-		  `evm_tab_title` varchar(100) NOT NULL,
-		  PRIMARY KEY (`evm_id`)
+		  `evm_tab_title` varchar(100) NOT NULL
 		) 
 		ENGINE=InnoDB DEFAULT CHARSET=utf8;'
 	);
