@@ -104,13 +104,9 @@ class VideoExtension extends CBCategory{
 	
 	
 	/**
-	 * Get a list of all video in /files.pending_videos folder that ar not yet linked to a video data
-	 * This metohd search subfolders of /files.pending_videos. Each of them must be named 
-	 * like a jobset value into the job database table. For each of these folders, the method request the job table
-	 * in order to find if a jobset of the same name exists and if the idvideo of the jobs with this jobset are NULL or not.
-	 * If the idvideo is NULL then the subfolder containing videos is really pending and the returned array is concatenated 
+	 * Get a list of all pending video which ar videos in the job table where no idvideo is set.
 	 *	@return array
-	 *		An array containing for each pending folder, the corresponding jobset (equal to the folder name) and the original video name.
+	 *		An array containing for each pending video, the corresponding jobset and the original video name.
 	 */
 	function getPendingVideos(){
 		$PendingVideos=array();
@@ -129,13 +125,12 @@ class VideoExtension extends CBCategory{
 	}
 	
 	/**
-	 * Associate an existing video file found into /pending_videos folder to the selected video data
-	 * The $jobset is used to retrieve the original video filename.
+	 * Associate a pending video to the selected video data
 	 * 
 	 * @param int $vid
 	 * 		The videoid
 	 * @param string $jobset
-	 * 		A string found into the "job" table in the "jobset" field 
+	 * 		A string found into the "job" table in the "jobset" field. $jobset is used to retrieve the original video filename.
 	 */
 	function setVideoFile($vid, $jobset){
 		global $db;

@@ -23,12 +23,11 @@ define('VIDEO_EXTENSIONS_ADMIN_DIR',VIDEO_EXTENSIONS_DIR.'/admin');
 define('VIDEO_EXTENSIONS_ADMIN_URL',VIDEO_EXTENSIONS_URL.'/admin');
 define("VIDEO_EXTENSIONS_LINKPAGE_URL",BASEURL.SITE_MODE."/plugin.php?folder=".VIDEO_EXTENSIONS_BASE."/admin&file=link_pending_video.php");
 assign("video_extensions_linkpage",VIDEO_EXTENSIONS_LINKPAGE_URL);
-define("VIDEO_EXTENSIONS_PENDING_VIDEOS_DIR",BASEDIR."/files/pending_videos");
 
 
 /**
- * Add labels into the Video Manager in a video description block for each video file found in 
- * the /files/pending_videos folder and corresonding to the video id.
+ * Add labels into the Video Manager next to the video name and indicating which videos are effectivly 
+ * in the video folder. This is usefull to show if all formats are encoded 
  *
  * @param array $vid
  * 		the selected video object
@@ -120,8 +119,7 @@ if ($cbplugin->is_installed('common_library.php') &&
 
 /**
  * Add a new entry "Link Pending video" into the video manager menu named "Actions" associated to each video
- * This command will search for vidoe file stored into /files/pending_videos subfolders in order to connect this video to an empty
- * video information data or a duplicated one.
+ * This command is used to connect a pending video to an existing video data.
  *
  * @param int $vid
  * 		The video id

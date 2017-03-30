@@ -2,27 +2,6 @@
 require_once PLUG_DIR.'/common_library/common_library.php';
 require_once('../includes/common.php');
 
-/**
- * Remove folder created for video_extension plugin 
- * @deprecated
- */
-function uninstallVideoExtensions() {
-	/** Remove files and folders stored in the file system */
-	$folder = BASEDIR."/files/pending_videos";
-	/*$files = glob($uploaddir.'/*'); // get all file names
-	foreach($files as $file){ // iterate files
-		if(is_file($file))
-			unlink($file); // delete file
-	}
-	rmdir($uploaddir);*/
-	
-	$dirIterator = new RecursiveDirectoryIterator($folder);
-	$iterator = new RecursiveIteratorIterator($dirIterator, RecursiveIteratorIterator::CHILD_FIRST);
-	foreach($iterator as $fileentry){
-		$fileentry->isDir() ? rmdir($fileentry) : unlink($fileentry);
-	}
-	rmdir($folder);
-}
 
 /**
  *Remove external encoding job table from the database
@@ -62,7 +41,6 @@ function removeOriginalVideoname() {
 	$db->Execute("ALTER TABLE ".tbl('video')." DROP `original_videoname`");
 }
 
-//uninstallVideoExtensions();
 uninstallJobTable();
 uninstallJobTypeTable();
 uninstallJobEncoderTable();
