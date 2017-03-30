@@ -4149,14 +4149,10 @@ nav.navbar .container-fluid ul.nav.navbar-nav > li > a:active {
 #player-container .video-player {
   position: relative;
   display: block;
-  height: 0;
-  padding: 0;
+  padding: 10.8% 0 0 0;
   overflow: hidden;
   background: #000;
   margin-bottom: 16px;
-}
-#player-container .video-player.wide {
-  padding-bottom: 56.25%;
 }
 #player-container .video-player .video-js {
   position: absolute;
@@ -4950,34 +4946,24 @@ nav.navbar .container-fluid ul.nav.navbar-nav > li > a:active {
   clear: both;
   content: "";
 }
-#page-footer .row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+#page-footer .footer-pad ul {
+  margin-top: 40px;
 }
-#page-footer .footer-list ul {
-  margin: auto;
-}
-#page-footer .footer-list ul li {
+#page-footer .footer-pad ul li {
   float: left;
   border-right: 1px solid #DDDDDD;
 }
-#page-footer .footer-list ul li:last-child {
+#page-footer .footer-pad ul li:last-child {
   border-right: none;
 }
-#page-footer .footer-list ul li a {
+#page-footer .footer-pad ul li a {
   color: #777777;
   padding: 0px 15px 0px 15px !important;
 }
 #page-footer .footer-logo img {
-  height: 48px;
-  width: auto;
-}
-@media screen and (min-width: 767px) {
-  #page-footer .footer-logo img {
-    height: 96px;
-    width: auto;
-  }
+  height: auto;
+  width: 100%;
+  max-width: 320px;
 }
 #page-footer .forged-by {
   font-size: 9px;
