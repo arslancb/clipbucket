@@ -1,19 +1,11 @@
 <?php
 
-/*
-Plugin Name: ClipBucket Helper v1
-Description: This will help you set troubleshoot your problems.
-Author: Arslan Hassan
-Author Website: http://clip-bucket.com/
-ClipBucket Version: 2
-Version: 1.0
-Website: http://clip-bucket.com/
-Plugin Type: global
-*/
 
 
 
-//Adding Admin Menu
+
+
+/*//Adding Admin Menu
 add_admin_menu("ClipBucket Helper","Cron Jobs",'cron_jobs.php','clipbucket_helper/admin');
 
 
@@ -35,7 +27,7 @@ $array = array('video_convert_cron.txt','verify_converted_videos_cron.txt','upda
 //Reading and registering Contentings
 foreach($array as $arr)
 	if(file_exists(TEMP_DIR.'/'.$arr))
-		assign(getName($arr),file_get_contents(TEMP_DIR.'/'.$arr));
+		assign(getName($arr),file_get_contents(TEMP_DIR.'/'.$arr));*/
 
 
 ?>

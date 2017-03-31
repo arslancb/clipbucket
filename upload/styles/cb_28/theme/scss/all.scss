@@ -3681,3 +3681,12 @@ textarea#comment_box{
 		}
 	}
 }
+
+@media only screen and (max-width:360) {
+	.cd-popup{
+		.cb-popup-container {
+			width:90% ;
+		}
+	} 
+
+}

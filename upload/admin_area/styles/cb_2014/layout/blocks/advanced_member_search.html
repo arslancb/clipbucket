@@ -31,8 +31,7 @@
             <div class="form-group">
                 <label for="status">Status</label>
                     <select name="status" id="status" class="form-control">
-                   
-                    <option value="" {if $smarty.get.status==''} selected="selected"{/if}>------</option>
+                    <option value="" >----</option>
                     <option value="Ok" {if $smarty.get.status=='Ok'} selected="selected"{/if}>Active</option>
                     <option value="ToActivate" {if $smarty.get.status=='ToActivate'} selected="selected"{/if}>Inactive</option>
                 </select>
@@ -45,8 +44,7 @@
             <div class="form-group">
             <label for="banned">Banned</label>
                 <select name="ban" id="ban" class="form-control">
-                   
-                    <option value="" {if $smarty.get.status==''} selected="selected"{/if}>------</option>
+                   <option value="" >----</option>
                     <option value="no" {if $smarty.get.ban=='no'} selected="selected"{/if}>No</option>
                      <option value="yes" {if $smarty.get.ban=='yes'} selected="selected"{/if}>Yes</option>
                 </select>
@@ -56,8 +54,7 @@
             <div class="form-group">
                 <label for="featured">Featured</label>
                 <select name="featured" id="featured" class="form-control">
-
-		    <option value="" {if $smarty.get.status==''} selected="selected"{/if}>------</option>
+                   <option value="" >----</option>
                     <option value="No" {if $smarty.get.featured=='No'} selected="selected"{/if}>No</option>
                      <option value="Yes" {if $smarty.get.featured=='Yes'} selected="selected"{/if}>Yes</option>
                 </select>

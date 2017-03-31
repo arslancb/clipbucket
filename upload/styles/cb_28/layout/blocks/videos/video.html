@@ -48,7 +48,13 @@
 {/if}
 <div style="display: none" class="item-video col-lg-4 col-md-4 col-sm-4 col-xs-12 recentAppending">
 	<div class="clearfix thumb-holder">
-		<a class="video-link" href="{videoLink($video)}" title="{$video.title|title}">
+		<!-- <a class="video-link cd-popup-trigger" href="{videoLink($video)}" onclick="_cb.getModalVideo({$video.videoid})" title="{$video.title|title}"> -->
+		<a {if config('popup_video') == 'yes'}
+			class="video-link cd-popup-trigger" onclick="_cb.getModalVideo({$video.videoid})" 
+		{else}
+			class="video-link" 
+		{/if} 
+		href="{videoLink($video)}" title="{$video.title|title}">
 			<img class="lazy img-responsive" src="{getThumb vdetails=$video size=416x260 }">
 		</a>
 		<img src="{$theme}/images/thumb-ratio.png" class="thumb-ratio" alt="">
@@ -98,7 +104,12 @@
 {/if}
 <div style="display: none" class="item-video col-lg-6 col-md-6 col-sm-6 col-xs-12 featAppending">
 	<div class="clearfix thumb-holder">
-		<a class="video-link" href="{videoLink($video)}" title="{$video.title|title}">
+		<a {if config('popup_video') == 'yes'}
+			class="video-link cd-popup-trigger" onclick="_cb.getModalVideo({$video.videoid})" 
+		{else}
+			class="video-link" 
+		{/if} 
+		href="{videoLink($video)}" title="{$video.title|title}">
 			<img class="img-responsive" src="{getThumb vdetails=$video size=632x395 }">
 			<h2 class="title">{$video.title|truncate:50}</h2>
 		</a>

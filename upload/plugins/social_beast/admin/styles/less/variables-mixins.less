@@ -1,0 +1,86 @@
+//variables
+@base-color:#5e696d;
+@border-default:1px solid @greycolor-4;
+@base-font:'Source Sans Pro', sans-serif;
+//grey shade colors
+@greycolor-1:#364347;
+@greycolor-2:#5e696d;
+@greycolor-3:#93a4aa;
+@greycolor-4:#b2c6cd;
+@greycolor-5:#d6e1e5;
+@greycolor-6:#e1eef3;
+@btndefault:#ededed;
+//blue shade colors
+@bluecolor-1:#0d47a1;
+@bluecolor-2:#1565c0;
+@bluecolor-3:#1976d2;
+@bluecolor-4:#1e88e5;
+@bluecolor-5:#2196f3;
+@bluecolor-6:#42a5f5;
+//extra colors
+@greencolor:#4caf50;
+@yellowcolor:#fad46b;
+@redcolor:#f84545;
+@purplecolor:#a88cd5;
+
+//mixins
+.alltransition(@ease-property, @ease-time, @ease){
+	-webkit-transition: @ease-property @ease-time @ease;
+	-moz-transition: @ease-property @ease-time @ease;
+	-ms-transition: @ease-property @ease-time @ease;
+	-o-transition: @ease-property @ease-time @ease;
+	transition: @ease-property @ease-time @ease;
+}
+.multipleTransition(@transition-property, @transition-property2){
+	-webkit-transition: @transition-property, @transition-property2;  
+	-moz-transition:    @transition-property, @transition-property2;
+	-ms-transition:     @transition-property, @transition-property2; 
+	-o-transition:      @transition-property, @transition-property2; 
+}
+.transform(@string){
+	-webkit-transform: @string;
+	-moz-transform: 	 @string;
+	-ms-transform: 		 @string;
+	-o-transform: 		 @string;
+}
+.animation (@name, @duration, @ease) {
+	-webkit-animation: @name @duration @ease;
+	-moz-animation:    @name @duration @ease;
+	-ms-animation:     @name @duration @ease;
+	-o-animation: @name @duration @ease;
+	animation: @name @duration @ease;
+}
+.box-shadow (@string) {
+	-webkit-box-shadow: @string;
+	-moz-box-shadow: @string;
+	box-shadow: @string;
+}
+.scale (@factor) {
+	-webkit-transform: scale(@factor);
+	-moz-transform: 	 scale(@factor);
+	-ms-transform: 		 scale(@factor);
+	-o-transform: 		 scale(@factor);
+}
+.list-style(){
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.boxsizing(){
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.after() {
+	content: '';
+	display: block;
+	clear: both;
+}
+.vertical-middle(){
+	vertical-align:middle;
+	display: inline-block;
+}
+.vertical-top(){
+	vertical-align:top;
+	display: inline-block;
+}

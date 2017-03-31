@@ -2,14 +2,7 @@
 //ini_set('display_errors', true);
 //error_reporting(E_ALL + E_NOTICE);
 /*
-Plugin Name: Custom field for video and signup
-Description: This Plugin will display custom field
-Author: test
-Author Website: http://clip-bucket.com/arslan-hassan
-ClipBucket Version: 2
-Version: 1.0
-Website: http://clip-bucket.com/
-Plugin Type: global
+
 */
 
   define("CB_CUSTOM_FIELDS_DIR_NAME",basename(dirname(__FILE__)));
@@ -170,9 +163,9 @@ foreach($array as $key => $fields) {
      }
      return $new_array;
 }
-register_signup_field(load_custom_fields_signup($data,true));
+/*register_signup_field(load_custom_fields_signup($data,true));
 register_custom_upload_field(load_custom_fields($data,true));
 
-add_admin_menu('Custom Field','Custom Field','add_custom_field.php',CB_CUSTOM_FIELDS_DIR_NAME.'/admin');
+add_admin_menu('Custom Field','Custom Field','add_custom_field.php',CB_CUSTOM_FIELDS_DIR_NAME.'/admin');*/
 
 ?>

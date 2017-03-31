@@ -322,6 +322,7 @@
 	define('FILES_DIR',BASEDIR.'/files');
 	define('VIDEOS_DIR',FILES_DIR.'/videos');
 	define('THUMBS_DIR',FILES_DIR.'/thumbs');
+	define('SPRITES_DIR',FILES_DIR.'/sprites');
 	define('ORIGINAL_DIR',FILES_DIR.'/original');
 	define('TEMP_DIR',FILES_DIR.'/temp');
 	define('CON_DIR',FILES_DIR.'/conversion_queue');
@@ -339,6 +340,7 @@
 	define('FILES_URL',BASEURL.'/files');
 	define('VIDEOS_URL',FILES_URL.'/videos');
 	define('THUMBS_URL',FILES_URL.'/thumbs');
+	define('SPRITES_URL',FILES_URL.'/sprites');
 	define('ORIGINAL_URL',FILES_URL.'/original');
 	define('TEMP_URL',FILES_URL.'/temp');
 	define("PLAYER_DIR",BASEDIR.'/player');

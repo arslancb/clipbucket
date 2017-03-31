@@ -49,6 +49,8 @@
 <link href="{$cb_vjs_player_url}/css/videojs.ads.css" rel="stylesheet">
 <link href="{$cb_vjs_player_url}/css/videojs.ima.css" rel="stylesheet">
 <link href="{$cb_vjs_player_url}/css/cb_vjs_resolution.css" rel="stylesheet">
+<link href="{$cb_vjs_player_url}/css/videojs-chromecast.css" rel="stylesheet">
+<link href="{$cb_vjs_player_url}/css/videojs.thumbnails.css" rel="stylesheet">
 
 {if $development_mode}
 <script src="{$cb_vjs_player_url}/js/video-js.js"></script>
@@ -75,10 +77,13 @@
 <script src="{$cb_vjs_player_url}/js/cb_ultimate_ads.js"></script>
 <script src="{$cb_vjs_player_url}/js/videojs.relatedCarousel.js"></script>
 <script src="{$cb_vjs_player_url}/js/iphone-inline-video.browser.js"></script>
+<script src="http://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+<script src="{$cb_vjs_player_url}/js/videojs-chromecast.js"></script>
+<script src="{$cb_vjs_player_url}/js/videojs.thumbnails.js"></script>
 
 
 {$default_quality = get_cbvjs_quality_type($video_files)}
-<video playsinline id="cb_video_js" class="video-js vjs-default-skin" height="{$height}" width="{$width}" poster="{getThumb vdetails=$vdata size=768x432}" >
+<video playsinline id="cb_video_js_{$vdata.videoid}" class="video-js vjs-default-skin" height="{$height}" width="{$width}" poster="{getThumb vdetails=$vdata size=768x432}" >
 
     {foreach $video_files as $file}
     {$quality = get_cbvjs_quality($file)}
@@ -164,8 +169,23 @@
 			dynamicLabel : false
 		}
 		cb_vjs.videoJsResolutionSwitcher(res_options);
+		var  stateCheck = setInterval(function(){
+		  	if (document.readyState === 'complete') {
+		    	clearInterval(stateCheck);
+		  		var cbVjsMenuBtn = document.querySelector('.vjs-resolution-button');
+		  		if (cbVjsMenuBtn){
+		  			var cbVjsMenu = cbVjsMenuBtn.children[0];
+					var cbVjsMenuContent = cbVjsMenu.children[0];
+					var cbVjsMenuContentRes = cbVjsMenuContent.children;
+					
+					for (var i = 0; i < cbVjsMenuContentRes.length; i++ ){
+						cbVjsMenuContent.insertBefore(cbVjsMenuContentRes[i],cbVjsMenuContent.firstChild);
+					}
+		  		}
+		  	}
+		},100);  
 
-		//Calling Resolution switcher plugin
+		//Calling Ima Ads plugin
 		if (play_ad){
 			var ad_options = {
 			  	ad_id: ad_id,
@@ -224,28 +244,21 @@
 			cb_vjs.interactiveAds(i_instances_settings);	
 		}
 
-		var  stateCheck = setInterval(function(){
-		  	if (document.readyState === 'complete') {
-		    	clearInterval(stateCheck);
-		  		var cbVjsMenuBtn = document.querySelector('.vjs-resolution-button');
-		  		if (cbVjsMenuBtn){
-		  			var cbVjsMenu = cbVjsMenuBtn.children[0];
-					var cbVjsMenuContent = cbVjsMenu.children[0];
-					var cbVjsMenuContentRes = cbVjsMenuContent.children;
-					
-					for (var i = 0; i < cbVjsMenuContentRes.length; i++ ){
-						cbVjsMenuContent.insertBefore(cbVjsMenuContentRes[i],cbVjsMenuContent.firstChild);
-					}
-		  		}
-		  	}
-		},100);  
+		
 
 	}
 	//Initializing
-	var cb_player = videojs('cb_video_js', cb_player_setup , cb_vjs_callback);
-    
+	var cb_player = videojs('cb_video_js_'+vid_id, cb_player_setup , cb_vjs_callback);
 
-    
+	$(document).ready(function() {
+		new_player_height(vid_id);
+		$(".video-js").on("contextmenu",function() {
+	       return false;
+	    }); 	
+	});
+	$(window).resize(function(event) {
+		new_player_height(vid_id);
+	});
 
 </script>
 

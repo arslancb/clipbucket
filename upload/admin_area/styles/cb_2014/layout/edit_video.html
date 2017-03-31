@@ -565,6 +565,19 @@
                 selectOtherMonths: false,
                 dateFormat:"yy-mm-dd"
             });
+
+            tinymce.init({
+                selector: "textarea[name='description']",
+                plugins : "table",
+
+                // Theme options
+
+                setup: function (editor) {
+                    editor.on('change', function () {
+                        tinymce.triggerSave();
+                    });
+                }
+            });
         });
     </script>
 	</div>

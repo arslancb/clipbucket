@@ -15,7 +15,7 @@ $pages->page_redir();
 
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
-	define('MAIN_PAGE', 'Stats And Configurations');
+	define('MAIN_PAGE', 'General Configurations');
 }
 if(!defined('SUB_PAGE')){
 	define('SUB_PAGE', 'Manage Pages');

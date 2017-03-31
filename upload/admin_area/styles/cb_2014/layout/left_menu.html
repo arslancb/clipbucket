@@ -1,6 +1,7 @@
 
 
 {$adminMenu = $Cbucket->AdminMenu}
+
 <ul class="nav nav-list" id="sidebar">
     {if $smarty.const.MAIN_PAGE == 'Dashboard'}
     <li class="active open">
@@ -14,7 +15,7 @@
     </li>
     {foreach from=$adminMenu key=name item=oneMenuItem}
     {$class='glyphicon glyphicon-stats'}
-    {if $name=='Stats And Configurations'}
+    {if $name=='General Configurations'}
     {$class='glyphicon glyphicon-stats'}
     {elseif $name=='Videos'}
     {$class='glyphicon glyphicon-facetime-video'}
@@ -67,7 +68,7 @@
                 {/if}
 
                 {foreach from=$oneMenuItem key=name item=oneSubMenuItem}
-
+                
                 {if $smarty.const.SUB_PAGE == $name}
 
                 <li class="active">
