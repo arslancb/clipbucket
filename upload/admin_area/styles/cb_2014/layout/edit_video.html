@@ -370,7 +370,7 @@
 
     <div class="head col-md-12">
         {foreach from=$video_fields item=field_group}
-        {if $field_group.group_name=='Sharing and privacy options'}
+        {if $field_group.group_name==lang(vdo_share_opt)}
         <div class="tabbable">
             <ul class="nav nav-tabs" id="myTab3">
                 <li class="active">
@@ -407,7 +407,7 @@
                 </div>
                 {continue}
                 {/if}
-                {if $field_group.group_name=='Date recorded &amp; Location'}
+                {if $field_group.group_name==lang('date_recorded_location')}
 
 
                 <div id="datelocation" class="tab-pane">
