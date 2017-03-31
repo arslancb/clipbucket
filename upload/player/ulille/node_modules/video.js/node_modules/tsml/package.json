@@ -1,0 +1,49 @@
+{
+  "name": "tsml",
+  "version": "1.0.1",
+  "description": "ES6 template string tag for multi-line cleaning - squash multi-line strings into a single line",
+  "main": "tsml.js",
+  "scripts": {
+    "test": "node ./test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rvagg/tsml.git"
+  },
+  "keywords": [
+    "template",
+    "templatestring",
+    "es6"
+  ],
+  "author": {
+    "name": "Rod Vagg",
+    "email": "rod@vagg.org"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rvagg/tsml/issues"
+  },
+  "homepage": "https://github.com/rvagg/tsml",
+  "gitHead": "e1ae9e2fe55a2a5fce339895cdc9d63cea3d4f3d",
+  "_id": "tsml@1.0.1",
+  "_shasum": "89f8218b9d9e257f47d7f6b56d01c5a4d2c68fc3",
+  "_from": "tsml@1.0.1",
+  "_npmVersion": "2.9.0",
+  "_nodeVersion": "2.0.1",
+  "_npmUser": {
+    "name": "rvagg",
+    "email": "rod@vagg.org"
+  },
+  "maintainers": [
+    {
+      "name": "rvagg",
+      "email": "rod@vagg.org"
+    }
+  ],
+  "dist": {
+    "shasum": "89f8218b9d9e257f47d7f6b56d01c5a4d2c68fc3",
+    "tarball": "https://registry.npmjs.org/tsml/-/tsml-1.0.1.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/tsml/-/tsml-1.0.1.tgz"
+}

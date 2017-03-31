@@ -1,0 +1,85 @@
+{
+  "name": "videojs-swf",
+  "description": "The Flash-fallback video player for video.js (http://videojs.com)",
+  "version": "5.1.0",
+  "copyright": "Copyright 2014 Brightcove, Inc. https://github.com/videojs/video-js-swf/blob/master/LICENSE",
+  "keywords": [
+    "flash",
+    "video",
+    "player"
+  ],
+  "homepage": "http://videojs.com",
+  "author": {
+    "name": "Brightcove"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/videojs/video-js-swf.git"
+  },
+  "devDependencies": {
+    "async": "~0.2.9",
+    "chg": "^0.3.2",
+    "flex-sdk": "4.6.0-0",
+    "grunt": "~0.4.0",
+    "grunt-bumpup": "~0.5.0",
+    "grunt-cli": "~0.1.0",
+    "grunt-connect": "~0.2.0",
+    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-contrib-qunit": "~0.2.1",
+    "grunt-contrib-watch": "~0.1.4",
+    "grunt-npm": "~0.0.2",
+    "grunt-prompt": "~0.1.2",
+    "grunt-shell": "~0.6.1",
+    "grunt-tagrelease": "~0.3.1",
+    "qunitjs": "~1.12.0",
+    "video.js": "^5.9.2"
+  },
+  "scripts": {
+    "version": "chg release -y && grunt dist && git add -f dist/ && git add CHANGELOG.md"
+  },
+  "gitHead": "8e55ad1eac05dcb6bf8e93d5e8a759f7411a1958",
+  "bugs": {
+    "url": "https://github.com/videojs/video-js-swf/issues"
+  },
+  "_id": "videojs-swf@5.1.0",
+  "_shasum": "7d6b5a78fb36cbf97ed2056d413e8c2012dbbdad",
+  "_from": "videojs-swf@5.1.0",
+  "_npmVersion": "2.15.6",
+  "_nodeVersion": "4.4.3",
+  "_npmUser": {
+    "name": "gkatsev",
+    "email": "me@gkatsev.com"
+  },
+  "dist": {
+    "shasum": "7d6b5a78fb36cbf97ed2056d413e8c2012dbbdad",
+    "tarball": "https://registry.npmjs.org/videojs-swf/-/videojs-swf-5.1.0.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "heff",
+      "email": "npm@heff.me"
+    },
+    {
+      "name": "seniorflexdeveloper",
+      "email": "seniorflexdeveloper@gmail.com"
+    },
+    {
+      "name": "gkatsev",
+      "email": "me@gkatsev.com"
+    },
+    {
+      "name": "dmlap",
+      "email": "dlapalomento@gmail.com"
+    },
+    {
+      "name": "bclwhitaker",
+      "email": "lwhitaker@brightcove.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/videojs-swf-5.1.0.tgz_1468863135735_0.26324023492634296"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/videojs-swf/-/videojs-swf-5.1.0.tgz"
+}
