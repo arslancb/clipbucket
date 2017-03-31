@@ -45,14 +45,16 @@ function displayExistingVideoFiles($vid){
 		$videodir = BASEDIR."/files/videos/".$file_directory;
 		//$str.='<span class="label label-default">'.$filename.'</span>';
 		$files = glob($videodir.'/'.$filename.'*'); // get all file names
+		$files = array_merge($files,glob($videodir.'/track_'.$filename.'*')); // get all file names
 		foreach($files as $file){ // iterate files
 			$path_parts = pathinfo($file);
 			$ext=$path_parts['extension'];
-			$parts=explode("_",$path_parts['filename']);
+			$parts=explode("-",$path_parts['filename']);
+			$size="";
 			if (count($parts)>1) {
 				$size=$parts[count($parts)-1];
 			}
-			$str.= '<span  class="label label-success">'.$ext.' '.$size.'</span> ';
+			$str.= '<span  class="label label-purple">'.$ext.' '.$size.'</span> ';
 		}
 	}
 	return $str;
