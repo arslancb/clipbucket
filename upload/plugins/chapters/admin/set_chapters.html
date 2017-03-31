@@ -43,6 +43,7 @@
 				$k++;
 			}
 		}
+		$number=$k;
 		{literal}var formData = {action:"update", data:$data, video:$video}; //Array 
 		$.ajax({
 			type	  	: "POST",
@@ -67,7 +68,6 @@
 	
 	function setEvents(){
 		var theplayer = videojs("cb_video_js");
-		console.log("setevent",$number)
 		for ($j=0; $j<$number; $j++){
 			$("#chtime_"+$j).on('click', function(){
 				theplayer.currentTime(this.value);
