@@ -46,6 +46,7 @@ function displayExistingVideoFiles($vid){
 		//$str.='<span class="label label-default">'.$filename.'</span>';
 		$files = glob($videodir.'/'.$filename.'*'); // get all file names
 		$files = array_merge($files,glob($videodir.'/track_'.$filename.'*')); // get all file names
+		$files = array_merge($files,glob($videodir.'/audio_'.$filename.'*')); // get all file names
 		foreach($files as $file){ // iterate files
 			$path_parts = pathinfo($file);
 			$ext=$path_parts['extension'];
