@@ -153,8 +153,7 @@
 	}
 	logData($ffmpeg->video_files,'video_files');
 
-	
-
+	/*$sprite_count = $ffmpeg->sprite_count;*/
 	$video_files = json_encode($ffmpeg->video_files);
 	$db->update(tbl('video'), array("video_files"), array($video_files), " file_name = '{$outputFileName}'");
 	

@@ -60,9 +60,10 @@ if($Cbucket->configs['player_file'] !='')
 
 function display_inactive_sign($vdo = array())
 {
+	echo $vdo['active']; 
 	if($vdo['active']=='no')
 	{
-		echo '<div style="position:absolute;top:2px; height:13px; background-color:#ed0000; width:100%; color:#fff; font-size:10px; text-align:center">Video is inactive</div>';
+		echo '<div style="position:absolute;top:2px; height:13px; background-color:#ed0000; width:100%; color:#fff; font-size:10px; text-align:center;z-index:9999;">Video is inactive</div>';
 	}
 }
 
@@ -70,7 +71,7 @@ function show_pending_alert($data = array())
 {
 	if($data['active'] == 'pen')
 	{
-		$out = "<div style='position:absolute; text-align:center; top:0px; left:0px; width:100%; padding:2px 0px; color:#FFF; background:#d40000; font:normal 10px Tahoma;'>";
+		$out = "<div style='position:absolute; text-align:center; top:0px; left:0px; width:100%; padding:2px 0px; color:#FFF; background:#d40000; font:normal 10px Tahoma;z-index:9999;'>";
 		$out .= "Video is pending";
 		$out .= "</div>";
 		

@@ -600,9 +600,7 @@ abstract class CBCategory
 		} elseif ($pcat == $cid){
 			e(lang("You can not make category parent of itself"));
 		} else {
-			$db->update(tbl($this->cat_tbl),array("isdefault"),"no"," category_id!='$cid' ");
 			$db->update(tbl($this->cat_tbl),$flds,$values," category_id='$cid' ");
-			
 			if($default=='yes')
 				$this->make_default_category($cid);
 			e(lang("cat_update_msg"),'m');

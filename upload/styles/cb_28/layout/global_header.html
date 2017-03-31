@@ -46,6 +46,7 @@
 		{/if}
 
 		<script>
+			var loadingImg = '<i class="glyphicon glyphicon-refresh animate-spin"></i>';
 			var loading = '<i class="glyphicon glyphicon-refresh animate-spin"></i> {lang code="loading"}...';
 			var baseurl = "{$baseurl}",
 			imageurl = "{$imageurl}",
@@ -61,11 +62,12 @@
 		<script src="{$theme}/js/bootstrap.min.js"></script>
 		
 		<script src="{$theme}/js/ui_plugins.js"></script>
+		<!-- <script src="{$baseurl}/js/clipbucket.js"></script> -->
 		{if isset($__devmsgs)}
-			<script src="{$baseurl}/js/clipbucket.js"></script>
+		<script src="{$baseurl}/js/clipbucket.js"></script>
 		{else}
-			<script src="{$baseurl}/js/clipbucket.min.js"></script>
-		{/if}
+		<script src="{$baseurl}/js/clipbucket.min.js"></script>
+		{/if} 
 		<script src="{$theme}/js/uslider_js/jquery.mousewheel.js"></script>
 		{if $smarty.const.THIS_PAGE == 'signup'}
 			<script src='https://www.google.com/recaptcha/api.js'></script>

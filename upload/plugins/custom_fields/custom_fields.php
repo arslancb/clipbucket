@@ -1,14 +1,7 @@
 <?php
 
 /*
-Plugin Name: Custom Fields Beta for ClipBucket
-Description: Add custom fields in your video upload form :)
-Author: Arslan Hassan
-Author Website: http://clip-bucket.com/
-ClipBucket Version: 2
-Version: 1.0
-Website: http://clip-bucket.com/
-Plugin Type: global
+
 */
 
 
@@ -31,11 +24,11 @@ include 'customfield.php';
 if(!function_exists('add_custom_field'))
 {
 	//Adding Admin Menu
-	add_admin_menu('Custom Fields','Add New Custom Field','add_custom_field.php',CUSTOM_FIELDS_BASE.'/admin');
+	/*add_admin_menu('Custom Fields','Add New Custom Field','add_custom_field.php',CUSTOM_FIELDS_BASE.'/admin');
 	add_admin_menu('Custom Fields','Manage Custom Fields','manage_custom_fields.php');
 	
 	if(load_form_fields())
-		register_custom_form_field(load_form_fields());
+		register_custom_form_field(load_form_fields());*/
 	
 }
 

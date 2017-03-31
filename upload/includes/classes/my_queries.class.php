@@ -617,6 +617,7 @@ class myquery {
 				$udetails['avatar_url'] = $avatar_url;
 			if($udetails)
 			$result = array_merge($result,$udetails);
+			$result['comment'] = htmlspecialchars_decode($result['comment']);
 			return $result ;
 		}else{
 			return false;
@@ -820,9 +821,15 @@ class myquery {
                        
                         
 			 //Caching comment file
-			 if($file)
+			 if($file){
 			 	file_put_contents(COMM_CACHE_DIR.'/'.$file,json_encode($comment));
-			 return $comment;
+			 }
+			foreach ($comment['comments'] as $key => $c) {
+                $c['comment'] = htmlspecialchars_decode($c['comment']);
+                $tempCom[] = $c;
+            }
+            $comment['comments'] = $tempCom;
+			return $comment;
                          
 			 
 		}else

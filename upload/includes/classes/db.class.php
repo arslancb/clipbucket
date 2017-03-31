@@ -116,7 +116,7 @@ class Clipbucket_db
         if($limit)
             $query_params .= " LIMIT $limit ";
 
-        $query = " SELECT $fields FROM $tbl $query_params $ep ";
+       $query = " SELECT $fields FROM $tbl $query_params $ep ";
         if (is_array($__devmsgs)) {
             $start = microtime();
             $data = $this->_select($query);

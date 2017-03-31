@@ -53,7 +53,7 @@
 			}
 			&.user_menu{
 				text-align: right;
-				width: 650px;
+				width: 655px;
 				.search{
 					width: 320px;
 					@include vertical-middle();
@@ -449,6 +449,65 @@
 		}
 	}
 }
+
+.cd-popup{
+	position:fixed;
+	visibility:hidden;
+	height:100%;
+	width:100%;
+	opacity:0;
+	background:$pop-bg;
+	top:0;
+	.cb-popup-container {
+		position:relative;
+		width:50%;
+		max-width:680;
+		margin:8em auto;
+		text-align:center;
+		background:$black;
+		z-index:1000;
+		padding:0;
+		.modal-inset{
+			.col{
+				padding:0;
+			}
+		}
+	}
+	.cd-popup-close {
+	 	position: absolute;
+	  	top: 8px;
+	  	right: 8px;
+	  	width: 30px;
+	  	height: 30px;
+	  	font-size:0;
+		&:before,
+		&:after {
+			content: '';
+		  	position: absolute;
+		  	top: 12px;
+		  	width: 14px;
+		  	height: 3px;
+		  	background-color:$white;
+		}
+		&:before{
+			-webkit-transform: rotate(45deg);
+			left: 8px;
+		}
+		&:after {
+			-webkit-transform: rotate(-45deg);
+			right: 8px;
+		}
+	}
+}
+.is-visible{
+	visibility:visible;
+	opacity:1;
+	transition:opacity 0.3s 0s, visibility 0s 0s;
+	z-index:100;
+	.cb-popup-container{
+		@include  myanimation ($name:horizontal, $duration:0.6s, $ease:ease);
+	}
+}
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 	/* IE10+ CSS styles go here */
 	#header{
@@ -628,7 +687,13 @@
 	.navbar-collapse.collapse.in {
 		display: block !important;
 	}
+	.cd-popup{
+		.cb-popup-container {
+		    width: 90%;
+		}
+	} 
 }
+
 @media only screen and (max-width: 767px) {
 	.navbar-header{
 		padding: 10px 20px 10px 10px;
@@ -890,5 +955,55 @@
 			}
 		}
 	}
+	.cd-popup{
+		.cb-popup-container {
+		 	margin: 4em auto;
+		    padding: 0;
+		    width: 87%;
+		}
+	} 
+}
+@media only screen and (max-width:640px) {
+	.cd-popup{
+		.cb-popup-container {
+		 	margin: 1em auto;
+		    padding: 0;
+		    width: 86%;
+		}
+	} 
+}
+@media only screen and (max-width:480px) {
+	.cd-popup{
+		.cb-popup-container {
+			width:90%;
+			margin:3em auto;
+		}
+	} 
+}
+@media only screen and (max-width:360px) {
+	.cd-popup{
+		.cb-popup-container {
+			width:90%;
+		}
+	} 
+}
 
+@media only screen and (max-width:320px) {
+	.cd-popup{
+		.cb-popup-container {
+			width:90%;
+			margin:3em auto !important;
+		}
+	} 
+
+}
+@-webkit-keyframes horizontal {
+  0% {
+    transform: scale(0.1);
+    opacity:0;
+  }
+  100% {
+    transform: scale(1.0);
+    opacity:1;
+  }
 }

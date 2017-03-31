@@ -76,6 +76,16 @@
       </strong> - {$pr_msg.date_added|date_format:"%A, %B %e, %Y %I:%M %p"}
     </div>
     <div class="pm_line">
+      {lang code='To'} : 
+      <strong>
+      {$to_id = $pr_msg.message_to}
+      {$trimed_to = str_replace('#','', $to_id)}
+        <a href="{$userquery->profile_link($trimed_to)}"> 
+          {ucfirst(get_username($trimed_to))}
+        </a>
+      </strong> 
+    </div>
+    <div class="pm_line">
       {lang code='Subject'} : <strong>{$pr_msg.message_subject}</strong>
     </div>
   </div>

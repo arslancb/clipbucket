@@ -18,10 +18,11 @@ define("DEFAULT_HEIGHT",120);
 define("CB_SERVER_THUMB_DIR_NAME",basename(__DIR__));
 define("CB_SERVER_THUMB_URL",PLUG_URL.'/'.CB_SERVER_THUMB_DIR_NAME);
 define("CB_SERVER_THUMB_DIR",PLUG_DIR.'/'.CB_SERVER_THUMB_DIR_NAME);
+define ('FILE_CACHE_DIRECTORY', dirname(dirname(dirname(__FILE__))).'/cache');
 
 $__resize_thumbs = true;
 
-if(!is_writable(CB_SERVER_THUMB_DIR.'/cache'))
+if(!is_writable(FILE_CACHE_DIRECTORY))
 {
     $__resize_thumbs  =false;
 

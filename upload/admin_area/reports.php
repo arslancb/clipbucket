@@ -15,7 +15,7 @@ $userquery->login_check('web_config_access');
 
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
-    define('MAIN_PAGE', 'Stats And Configurations');
+    define('MAIN_PAGE', 'General Configurations');
 }
 if(!defined('SUB_PAGE')){
     define('SUB_PAGE', 'Reports &amp; Stats');    
@@ -44,7 +44,7 @@ assign('grp_thumbs',$grp_thumbs);
 assign('cat_thumbs',$cat_thumbs);
 
 if(!defined('MAIN_PAGE')){
-    define('MAIN_PAGE', 'Stats And Configurations');
+    define('MAIN_PAGE', 'General Configurations');
 }
 if(!defined('SUB_PAGE')){
     if($_GET['view'] == 'search')

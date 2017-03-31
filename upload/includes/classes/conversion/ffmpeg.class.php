@@ -46,6 +46,7 @@ class FFMpeg{
 	public $big_thumb_dim = "";
 	public $cb_combo_res = "";
 	public $res_configurations = "";
+	public $sprite_count = 0;
 	public $thumbs_res_settings = array(
 		"original" => "original",
 		'105' => array('168','105'),
@@ -947,7 +948,8 @@ class FFMpeg{
 				}
 				$this->TemplogData .= "\r\n ====== End : Thumbs Generation ======= \r\n";
 				$this->log->writeLine("Thumbs Files", $this->TemplogData , true );
-				
+
+
 				$hr = $this->configs['high_res'];
 				$this->configs['video_width'] = $res[$nr][0];
 				$this->configs['format'] = 'mp4';
@@ -2070,8 +2072,14 @@ class FFMpeg{
 				}
 				$count = $count+1;
 				if (!$regenerateThumbs){
-					$this->TemplogData .= "\r\n Command : $command ";
-					$this->TemplogData .= "\r\n File : $file_path ";	
+					$this->TemplogData .= "\r\n\r\n Command : $command ";
+					$this->TemplogData .= "\r\n\r\n OutPut : $output ";	
+					if (file_exists($file_path)){
+						$output_thumb_file = $file_path;
+					}else{
+						$output_thumb_file = "Oops ! Not Found.. See log";						
+					}
+					$this->TemplogData .= "\r\n\r\n Response : $output_thumb_file ";	
 				}
 				
 			}
@@ -2102,26 +2110,39 @@ class FFMpeg{
 		/**
 	 * Function used to convert seconds into proper time format
 	 * @param : INT duration
-	 * @parma : rand
+	 * @param : rand
+	 * last edited : 23-12-2016
+	 * edited by : Fahad Abbas
+	 * @author : Fahad Abbas
+	 * @edit_reason : date() function was used which was not a good approach
 	 */
 	 
 	private function ChangeTime($duration, $rand = "") {
-		if($rand != "") {
-			if($duration / 3600 > 1) {
-				$time = date("H:i:s", $duration - rand(0,$duration));
-			} else {
-				$time =  "00:";
-				$time .= date("i:s", $duration - rand(0,$duration));
+		try{
+
+			/*Formatting up the duration in seconds for datetime object*/
+			/* desired format ( 00:00:00 ) */
+			if (!empty($duration)){
+				
+				if($rand != "") {
+					$init = $duration - rand(0,$duration);
+				}else{
+					$init = $duration;
+				}
+
+				$hours = floor($init / 3600);
+				$minutes = floor(($init / 60) % 60);
+				$seconds = $init % 60;
+				$d_formatted = "$hours:$minutes:$seconds";
+				$d = new DateTime($d_formatted);
+				$time = $d->format("H:i:s");
+
+				return $time;
+			}else{
+				return false;
 			}
-			return $time;
-		} elseif($rand == "") {
-			if($duration / 3600 > 1 ) {
-				$time = date("H:i:s",$duration);
-			} else {
-				$time = "00:";
-				$time .= date("i:s",$duration);
-			}
-			return $time;
+		} catch (Exception $e){
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
 		}
 	}
 

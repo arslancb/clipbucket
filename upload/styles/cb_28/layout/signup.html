@@ -263,7 +263,7 @@
 	     }
 	});
 
-	$('input#email').on('keyup', function() {
+	$('input#email').on('keyup change', function() {
 	     var emailSec = $('#email'),
 	     email = emailSec.val(),
 	     emailLen = email.length;

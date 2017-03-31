@@ -669,3 +669,40 @@ ul.mainTabs{
 #massUploadCategoriesSelection label{
 	margin-left: 5px;
 }
+
+
+.footer {
+    background: #2b2b2b none repeat scroll 0 0;
+    color: #fff;
+    font-size: 13px;
+    line-height: 20px;
+    padding: 8px 6px;
+    float: left;
+    width: 100%;
+    z-index: 5;
+    position:absolute;
+    bottom:-5%;
+    left:0;
+
+}
+.footer_grey_bar{
+    padding:5px;
+}
+.col {
+    padding:0 !important;
+}
+.col-right a{
+    color:#fff;
+}
+.col-right a:hover{
+    color:#50c1ff;
+    text-decoration:none;
+}
+
+@media only screen and (max-width: 400px) {
+    .col-right {
+        float:none !important;
+        text-align:center;
+        padding:4px 0;
+    }
+}

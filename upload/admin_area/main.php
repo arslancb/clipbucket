@@ -15,7 +15,7 @@ $pages->page_redir();
 
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
-	define('MAIN_PAGE', 'Stats And Configurations');
+	define('MAIN_PAGE', 'General Configurations');
 }
 if(!defined('SUB_PAGE')){
 	define('SUB_PAGE', 'Website Configurations');
@@ -243,7 +243,8 @@ if(isset($_POST['update'])){
 					'vbrate_hd',
 					'store_guest_session',
 					'delete_mass_upload',
-					'stay_mp4'
+					'stay_mp4',
+					'popup_video'
 					
 					);
 	
