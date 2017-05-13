@@ -1,0 +1,35 @@
+
+{$myAccountLinks = $userquery->my_account_links()}
+
+  <div class="grid">
+    <div class="col-1-1">
+      <h1>{$search_type_title}</h1>
+    </div>
+  </div>
+
+{if $results}
+  {$results=array_chunk($results,3)}
+  {foreach item=chunk from=$results}
+    <div class="grid">
+    {foreach item=video from=$chunk}
+      <div class="col-1-3">
+      {include file="$style_dir/blocks/videos/video.html" display_type='videoitem'}
+      </div>
+    {/foreach}    
+    </div>
+  {/foreach}
+{else}
+  <div class="grid">
+    <div class="col-1-1">
+      {lang code='no_results_found'}
+    </div>
+  </div>
+{/if}
+
+  <div class="grid">
+    <div class="col-1-1">
+{include file="$style_dir/blocks/pagination.html"}
+    </div>
+  </div>
+
+

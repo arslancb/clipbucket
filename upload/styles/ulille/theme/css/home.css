@@ -1,0 +1,194 @@
+.nopadding-right.featured-video,
+.nopadding.featured-video{
+	margin: 0 0 17px !important;
+}
+.featured-video a{
+	display: block;
+	height: 100%;
+	position: relative;
+}
+.featured-imglg{min-height: 300px;}
+.tumb-sm{padding-left:15px;}
+.cbHomeVidTitle{margin-bottom:8px;}
+.getThumb{border:1px solid #CCC;}
+.recentcurrent-vdieos .tab-pane{padding: 25px 0 0;}
+.clearfix-hight{ height: 18px;}
+.fill-background.lg-img{
+	display:block;
+	padding:5px;
+}
+.sm-imgs{
+	display:block;
+	border-bottom:1px solid rgb(204, 204, 204);
+}
+.big_img{
+	height: auto !important;
+	padding: 10px 10px 11px !important;
+}
+.sm-imgs div{
+	border-right: 1px solid rgb(204, 204, 204);
+	display: block;
+	padding: 7px;
+	border-top: 1px solid rgb(204, 204, 204);
+}
+.sm-imgs.left-aligned div{
+	border-right:none;
+	border-left: 1px solid rgb(204, 204, 204);
+}
+.editorpick-holder{
+	padding: 0;
+}
+.custom-elements{
+	padding: 15px 0 0;
+}
+.editorpick-holder #slide{
+	width: 100%;
+	overflow-y:auto !important;
+	height: 400px !important;
+}
+.editorpick-holder .featured_vid_con{
+	width: 100%;
+	border: none !important;
+}
+.editorpick-holder .video_thumb{ border:none !important;}
+.next_pre_hold{ display: none;}
+
+.collection_home{
+	text-align: center;
+	overflow: hidden;
+}
+.collection_home a{
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.collection_home .cb_img_thum{ background-size:100% auto !important}
+.collection_home .details{
+	width: 100% !important;
+	left: 0 !important;
+}
+.grid_view.recent-col .cb_img_thum,
+.featured-videos .cb_img_thum{
+	border: none !important;
+}
+.user-view-home{
+	font-size:12px;
+	margin-top:3px;
+}
+/* custome elements style */
+/* hide original element */
+.jcf-hidden {
+	display: block !important;
+	position: absolute !important;
+	left: -9999px !important; /* change to right: -9999px on RTL sites */
+}
+/* custom scrollbars styles */
+.scrollable-area-wrapper {
+	position: relative;
+	overflow: hidden;
+	width: 95% !important;
+}
+.scrollable-area-wrapper .scrollable-area{
+	width: 103% !important;
+}
+.scrollable-area-wrapper .hscrollbar,
+.scrollable-area-wrapper .vscrollbar {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 5px !important;
+	border-radius: 2px;
+	overflow: hidden;
+}
+.scrollable-area-wrapper .hscroll-left,
+.scrollable-area-wrapper .vscroll-up,
+.scrollable-area-wrapper .hscroll-right,
+.scrollable-area-wrapper .vscroll-down {
+	background: #777;
+	width: 5px;
+	height: 20px;
+	float: left;
+	display: none;
+}
+.scrollable-area-wrapper .hscroll-line,
+.scrollable-area-wrapper .vscroll-line {
+	background: #eee;
+	width: 5px;
+	float: left;
+}
+.scrollable-area-wrapper .hscroll-slider,
+.scrollable-area-wrapper .vscroll-slider {
+	background: #428bca;
+	width: 5px;
+	height: 20px;
+	border-radius: 2px;
+}
+.scrollable-area-wrapper .hscrollbar {
+	position: static;
+	height: 20px;
+	top: auto;
+}
+.scrollable-area-wrapper .hscroll-line {
+	height: 20px;
+	width: auto;
+	width: 5px;
+}
+/**/
+.grid_view.recent-col{
+	/*margin:0 0 20px;*/
+	/*padding: 0 15px 0 0 !important;*/
+}
+.grid_view.recent-col a.thumb-holder{
+	display: block;
+	position: relative;
+}
+.grid_view.recent-col a.thumb-holder .duration1{
+	position: absolute;
+	left: auto;
+	top: auto;
+	bottom: 5px;
+	right: 5px;
+	width: auto;
+	background: rgba(0,0,0,0.7);
+	font-size: 12px;
+	line-height: 12px;
+	padding: 2px 5px;
+	color: #fff;
+}
+.grid_view.recent-col a.thumb-holder .duration1:hover{
+	color:#fff;
+}
+.collection_home .details{}
+.grid_view.recent-col h5 a{
+	color: #666;
+}
+.grid_view.recent-col h5 a:hover{
+	color: #000;
+}
+#ep_video_container{
+	margin: 15px 0 0;
+}
+.nopadding.featured-videos{ margin: 0 0 10px !important;}
+.featured_video_details{ width: 100% !important;}
+@media only screen and (max-width: 991px) {
+	.padding-right-10.featuredvideos-wrapper{
+		padding: 0 !important;
+		overflow: hidden;
+	}
+	.nopadding-right.featured-video,
+	.nopadding.featured-video{ padding: 0 !important;}
+	.custom-elements {
+		padding: 15px 15px 0 !important;
+	}
+	.scrollable-area-wrapper {
+		position: relative;
+		overflow: hidden;
+		width: 100% !important;
+	}
+	.sm-imgs div,
+	.sm-imgs.left-aligned div{
+		border-right:1px solid rgb(204, 204, 204);
+		border-left: 1px solid rgb(204, 204, 204);
+	}
+}

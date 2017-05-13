@@ -1,0 +1,54 @@
+{
+	"files": {
+		"main.less": {
+			"engines": [
+				{
+					"compiler": "less",
+					"output": "../css/main.css",
+					"options": {
+						"compress": false,
+						"ieCompat": false,
+						"strictMath": false,
+						"strictUnits": false,
+						"javascriptEnabled": false,
+						"sourcemap": true
+					}
+				}
+			],
+			"sources": [
+				"elements.less",
+				"essentials.less",
+				"footer.less",
+				"form.less",
+				"main.less",
+				"mixins.less",
+				"nav.less",
+				"objects.less",
+				"player.less",
+				"thumbs.less",
+				"upload.less",
+				"vars.less",
+				"video.less"
+			]
+		},
+		"ClipBucket.less": {
+			"engines": [
+				{
+					"compiler": "less",
+					"output": "../css/ClipBucket.css",
+					"options": {
+						"compress": false,
+						"ieCompat": false,
+						"strictMath": false,
+						"strictUnits": false,
+						"javascriptEnabled": false,
+						"sourcemap": true
+					}
+				}
+			],
+			"sources": [
+				"vars.less"
+			]
+		}
+	}
+}

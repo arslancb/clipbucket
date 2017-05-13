@@ -1,0 +1,281 @@
+<h1>Import RSS</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{php}
+/*
+echo '<pre>';
+print_r($_POST);
+echo '</pre>';
+*/
+
+
+/*
+echo '<pre>';
+print_r($GLOBALS);
+echo '</pre>';
+*/
+{/php}
+
+
+
+
+<div id="crawl_result"></div>
+
+
+
+<div id="loading">
+	<div class="spinner">
+		<div class="bounce1"></div>
+		<div class="bounce2"></div>
+		<div class="bounce3"></div>
+	</div>
+</div>
+
+
+
+
+
+
+{if $rssvideo}
+
+
+
+
+
+	<!-- Displaying links -->
+	<form name="manage_links" method="post">
+		<div class="btn-group marginBottomSmall">
+	
+			<input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected link(s)')"/>
+		</div>
+
+
+		<table class="table table-bordered table-striped manageUsersTable">
+			<thead>
+				<th width="40" align="center" valign="middle" class="left_head">
+					<input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+				</th>
+				<th width="50" class="head">id</th>
+				<th class="head">Vignette</th>
+				<th class="head">Titre / Description / Mots clés</th>
+				<th class="head">Catégorie</th>
+				<th>Date d'ajout</th>
+				<th>&nbsp;</th>
+			</thead>
+			
+			{foreach from=$rssvideo item=u}
+
+				<tr id="row-{$u.id}">
+					<td><input name="check_view[]" type="checkbox" id="check" value="{$u.id}" /></td>
+					<td>{$u.id}</td>
+					<td>
+						<a href="{$u.url_cb}" target="_blank">
+							<img src="{$u.url_thumnail}" width="150">
+						</a>
+					</td>
+					<td>
+						<strong>{$u.title}</strong><br>
+						{$u.description}<br>
+						<br>
+						{lang('tags')} : {$u.tags|tags:videos}
+					</td>
+					<td>{lang code='category'} : {$u.category}</td>
+					<td>{$u.date_uploaded}</td>
+
+					
+					
+					
+					
+					<td>
+						<div id="link_opt-{$u.id}" class="dropdown pull-right">
+							<button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+								{lang('actions')}<i class="icon-angle-down icon-on-right"></i>
+							</button>
+							
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+								<li><a role="menuitem" tabindex="-1" href="{$rss_view}&edit={$u.id}"><span class="glyphicon glyphicon-pencil"></span> {lang('edit')}</a></li>
+								
+								
+								<li><a role="menuitem" tabindex="-1" href="#" onclick="validateRssVideo('{$u.id}')";><span class="glyphicon glyphicon-check"></span> Valider la video</a></li>
+								
+								
+								
+								<li class="divider"></li>
+								<li><a role="menuitem" tabindex="-1" href="{$rss_view}&delete={$u.id}"><span class="glyphicon glyphicon-trash"></span> {lang('delete')}</a></li>
+							</ul>
+						</div>
+					</td>
+					
+<!--					<td>
+						{$u.filename}
+						{$u.id_rss_config}
+					</td>
+-->
+					
+					
+					<!--
+					<td>
+						<div class="col-md-10">
+							<div class="row">
+								<div class="col-md-9">
+									<a href="{$rss_edit}&edit={$u.id}" class="oneUserName">{$u.url_rss}</a>
+								</div>
+							</div>
+						</div>
+					</td>
+					<td>
+						<div class="col-md-10">
+							<div class="row">
+								<div class="col-md-9">
+									<div id="lastcrawl-{$u.id}">{$u.last_crawl}</div>
+								</div>
+							</div>
+						</div>
+					</td>
+					<td>
+						<div class="col-md-10">
+							<div class="row">
+								<div class="col-md-9">
+									{$u.crawl_frequence}
+								</div>
+							</div>
+						</div>
+					</td>
+					<td>
+						<div class="col-md-10">
+							<div class="row">
+								<div class="col-md-9">
+									<div id="nbvid-{$u.id}">{$u.nb_new_vid_from_last_crawl}</div>
+								</div>
+							</div>
+						</div>
+					</td>
+
+
+
+
+					
+					
+					-->
+				</tr>
+				{if $bgcolor == ""}
+					{assign var = bgcolor value = "#EEEEEE"}
+				{else}
+					{assign var = bgcolor value = ""}
+				{/if}
+			{/foreach}
+		</table>
+
+		<div class="btn-group">
+			<input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="{lang('delete_selected')}" onclick="return confirm_it('Are you sure you want to delete selected link(s)')"/>
+		</div>
+
+	</form>
+{else}
+	<div align="center"><strong><em>{lang("no_link_found")}</em></strong></div>
+{/if}
+
+
+
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }
+
+
+<script type="text/javascript">
+{literal}
+	function validateRssVideo(id) {
+
+		var formData = {id:id}; //Array 
+		
+		//$( "#choose_thumbnail_spinner" ).show();
+		
+		$.ajax({
+			type	  	: "POST",
+			url 	  	: "../plugins/importRSS/validaterssvideo.php",
+			data		: formData,
+			success : function(q)
+			{
+			
+//				$("#crawl_result").html(q);
+				$('#row-'+id).hide();
+			
+ 				var json = JSON.parse(q);
+// 				$("#lastcrawl-"+id).html(json["last_crawl"]);
+// 				$("#nbvid-"+id).html(json["nbvid"]);
+ 				$("#totrssvid").html(json["totvid"]);
+			}
+		});
+	}
+
+	// if there is any ajax call the loading image will be visible
+	$(document).ajaxStart(function(){
+		$("#loading").show();
+	});
+
+	//if the ajax call stoped hide the loading image
+	$(document).ajaxStop(function(){
+		$("#loading").hide();
+	});
+	
+	$( document ).ready(function() {
+		$( "#loading" ).hide();
+	});	
+	
+{/literal}
+</script>
+
+
+<style>
+.spinner {
+	margin: 100px auto 0;
+	width: 70px;
+	text-align: center;
+}
+
+.spinner > div {
+	width: 18px;
+	height: 18px;
+	background-color: #428bca;;
+	border-radius: 100%;
+	display: inline-block;
+	-webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+	animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+	-webkit-animation-delay: -0.32s;
+	animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+	-webkit-animation-delay: -0.16s;
+	animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+	0%, 80%, 100% { -webkit-transform: scale(0) }
+	40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+	0%, 80%, 100% { 
+		-webkit-transform: scale(0);
+		transform: scale(0);
+	} 40% { 
+		-webkit-transform: scale(1.0);
+		transform: scale(1.0);
+	}
+}
+</style>

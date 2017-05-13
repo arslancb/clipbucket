@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Video.js Resolution Switcher</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="../node_modules/video.js/dist/video-js.css" rel="stylesheet">
+  <link href="../lib/videojs-resolution-switcher.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #777;
+    }
+    .info {
+      background-color: #eee;
+      border: thin solid #333;
+      border-radius: 3px;
+      padding: 0 5px;
+      text-align: center;
+    }
+    .video-js {
+      margin: 40px auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="info">
+    <p>
+      Use flash
+    </p>
+  </div>
+
+  <video id='video_flash' class="video-js vjs-default-skin"></video>
+
+  <script src="../node_modules/video.js/dist/video.js"></script>
+  <script>
+    videojs.options.flash.swf = "../node_modules/video.js/dist/video-js.swf"
+  </script>
+  <script src="../lib/videojs-resolution-switcher.js"></script>
+  <script>
+
+    // Use flash
+    videojs('video_flash', {
+      controls: true,
+      techOrder: ['flash'],
+      preload: 'auto',
+      width: 1000,
+      plugins: {
+        videoJsResolutionSwitcher: {
+          default: 'low', // Default resolution [{Number}, 'low', 'high'],
+          dynamicLabel: true // Display dynamic labels or gear symbol
+        }
+      }
+    }, function(){
+      var player = this;
+      window.player = player
+
+      player.updateSrc([
+        {
+          src: 'https://vjs.zencdn.net/v/oceans.mp4?sd',
+          type: 'video/mp4',
+          label: 'SD',
+          res: 360
+        },
+        {
+          src: 'https://vjs.zencdn.net/v/oceans.mp4?hd',
+          type: 'video/mp4',
+          label: 'HD',
+          res: 720
+        }
+      ])
+
+      player.on('resolutionchange', function(){
+        console.info('Source changed to %s', player.src())
+      })
+
+    })
+    
+  </script>
+</body>
+</html>

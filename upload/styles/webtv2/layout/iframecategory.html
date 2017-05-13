@@ -1,0 +1,14 @@
+<div>
+  yeah
+  {if $iframe_vids}
+		<div>
+			{foreach from=$iframe_vids item=video}
+				<div style="display:inline-block">
+				{include file="$style_dir/blocks/videos/video.html"}
+				</div>
+			{/foreach}
+		</div>
+	{else}
+		<div>No Videos Found !</div>
+	{/if}
+</div>

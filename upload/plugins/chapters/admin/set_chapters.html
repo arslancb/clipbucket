@@ -1,0 +1,119 @@
+<legend>{lang("divide_into_chapters")}</legend>
+	<div id="chmessage"></div>
+	<div class="rien">
+		<span id="duplicate" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span>{lang('add_a_chapter')}</span>
+		<span class="btn btn-primary btn-xs" id="save_chapters"><span class="glyphicon glyphicon-save"></span>{lang('save_chapters')}</span>
+  		
+		<div id="add-before-container">{$storedChapters}</div>
+	</div>
+    		
+<script>
+	var $number = {$number};	// number of chapters
+	$(document).ready(function() {
+		$number = {$number};	// number of chapters
+		setEvents();
+		// Add a new chapter
+		$("#duplicate").on('click', function(){
+			var theplayer = videojs("cb_video_js");
+			var time = theplayer.currentTime(); // ellapsed time
+			var $video="{$video}";
+
+			var $data=new Array();
+			{literal}$data[0]={chtime:time, chid:'', chtitle:''};{/literal}
+			saveChapters($data);
+		});
+		
+		$("#save_chapters").on('click', function(){
+			var $video="{$video}";
+			var $data=new Array();
+			saveChapters($data);
+		});
+
+		
+	});
+	
+	function saveChapters($data){
+		var $video="{$video}";
+		var $k=$data.length;
+		for ($j=0; $j<$number; $j++){
+			var $time=$("#chtime_"+$j).val();
+			var $title=$("#chtitle_"+$j).val();
+			if (typeof($time) != 'undefined'){
+				{literal}$data[$k]={chtime:$time, chid:$("#chid_"+$j).val(), chtitle:$title};{/literal}
+				$k++;
+			}
+		}
+		$number=$k;
+		{literal}var formData = {action:"update", data:$data, video:$video}; //Array 
+		$.ajax({
+			type	  	: "POST",
+			url 	  	: "../plugins/chapters/save_chapters.php",
+			data		: formData,
+			dataType : "html",
+			success : function(q)
+			{
+				if (q){
+					q=$.parseJSON(q);
+					$("#chmessage").html(q.message);
+					$('#add-before-container').html(q.output);
+					setEvents();
+				}
+				else{
+					$("#chmessage").html("{/literal}unable to update chapters{literal}");
+				}
+			}
+		});		
+		{/literal}
+	}
+	
+	function setEvents(){
+		var theplayer = videojs("cb_video_js");
+		for ($j=0; $j<$number; $j++){
+			$("#chtime_"+$j).on('click', function(){
+				theplayer.currentTime(this.value);
+				$("#chmessage").html("");
+			});
+			$("#chtime_"+$j).on('change', function(){
+				theplayer.currentTime(this.value);
+			});
+			$("#chtime_"+$j ).keypress(function( event ) {
+				if ( event.which == 13 ) {
+					event.preventDefault();
+				}
+			});
+			$("#chtitle_"+$j ).keypress(function( event ) {
+				if ( event.which == 13 ) {
+					event.preventDefault();
+				}
+			});
+			$("#chtitle_"+$j).on('click', function(){
+				$("#chmessage").html("");
+			});
+		}
+		
+	}
+
+	function deleteMe(param) {
+		var $video="{$video}";
+		var $chid=$("#chid_"+param).val();
+		{literal}var formData = {action:"remove", chid:$chid, video:$video}; //Array 
+		$.ajax({
+			type	  	: "POST",
+			url 	  	: "../plugins/chapters/save_chapters.php",
+			data		: formData,
+			dataType : "html",
+			success : function(q)
+			{
+				if (q){
+					$("#chmessage").html(q);
+					$("#extra_"+param).remove();
+				}
+				else{
+					$("#chmessage").html("{/literal}unable to remove chapter{literal}");
+				}
+			}
+		});		
+		{/literal}
+	}
+	
+</script>

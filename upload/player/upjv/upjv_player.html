@@ -1,0 +1,132 @@
+<!--
+	  PARAMETRES
+-->
+{$default_quality = get_upjv_quality_type($video_files)}
+{$availablePlaySpeed = "[1, 1.5, 2]"}
+
+<!--    
+	STREAMING INFO
+	Pour une lecture HLS (streaming), le type a indiquer n'est pas le même :
+	    <source src='{$file}' type="application/x-mpegURL">
+
+	Plugin videoJS pour lecture de flux HLS :
+	    <script src="{$baseurl}/player/videojs-contrib-hls.min.js"></script>
+-->
+
+
+  
+
+  
+<!--
+	  PLAYER CSS
+-->
+<link href="{$upjv_player_url}/node_modules/video.js/dist/video-js.min.css" rel="stylesheet">
+
+
+<!--
+	  PLUGIN CSS
+-->
+<link href="{$upjv_player_url}/node_modules/videojs-resolution-switcher/lib/videojs-resolution-switcher.css" rel="stylesheet">
+
+
+
+<!--
+	  PLAYER
+-->
+{if $development_mode}
+<script src="{$upjv_player_url}/node_modules/video.js/dist/video.js"></script>
+{else}
+<script src="{$upjv_player_url}/node_modules/video.js/dist/video.min.js"></script>
+{/if}  
+
+
+<script src="{$upjv_player_url}/video_js_custom.js"></script>
+
+
+
+<!--
+	  PLAYER PLUGIN
+-->
+<script src="{$upjv_player_url}/node_modules/videojs-resolution-switcher/lib/videojs-resolution-switcher.js"></script>
+
+
+
+
+
+<!--
+	  PLAYER FLASH ALTERNATIVE
+-->
+<script>
+	videojs.options.flash.swf = "{$upjv_player_url}/node_modules/video.js/dist/video-js.swf"
+</script>
+
+
+
+
+<!--
+	  BALISE VIDEO HTML 5
+-->
+<video id="cb_video_js" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" height="{$height}" width="{$width}" poster="{getThumb vdetails=$vdata size=768x432}">
+
+    {foreach $video_files as $file}
+	    {$quality = get_upjv_quality($file)}
+
+	    {if $flv_vid == true}
+		<source src='{$file}' type="video/x-flv" />
+	    {else}
+		<source src='{$file}' type="video/mp4" label="{strtoupper($quality)}" res="{$quality}" />
+	    {/if}
+    {/foreach}
+    
+    {ANCHOR place="play_def_sub"}
+
+    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+</video>
+
+
+<!--
+	  CONFIGURATION PLAYER
+-->
+<script type="text/javascript">
+	var default_res = "{$default_quality}";
+	var availablePlaySpeed = {$availablePlaySpeed};
+</script>
+
+{literal}
+<script type="text/javascript">
+	var player = videojs('cb_video_js', {
+		plugins: {
+			videoJsResolutionSwitcher: {
+				default: default_res,
+				dynamicLabel: false
+			}
+		},
+		playbackRates: availablePlaySpeed,
+		LoadingSpinner: true,
+		BigPlayButton: true,
+		controlBar: {
+			muteToggle: false
+		}
+	});
+</script>
+{/literal}
+
+
+
+
+<!--
+	  STYLE PLAYER
+-->
+<style type="text/css">
+	.video-js {
+		width: 100%;
+	}
+	.video-js .vjs-tech {
+		height: 100% !important;
+	}
+	.editorpick .cb_video_js-dimensions{
+		width: 100% !important;
+		height: 100% !important;
+	}
+</style>
+

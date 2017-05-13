@@ -1,0 +1,98 @@
+{$myAccountLinks = $userquery->my_account_links()}
+{assign var='custom_upload_fields' value=$Upload->load_custom_upload_fields($v,TRUE)}
+<div class="container marginBottom">
+    {include file="$style_dir/blocks/manage/account_menu.html"}
+    <div class="row cb-box">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
+            {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+        </div>
+        <div class="mainContent col-md-9">
+            {assign var='video_fields' value=$Upload->load_video_fields($v)}
+            <div class="cb-box marginBottom">
+                <h2>Edit Video</h2>
+                <div class="account_form">
+                    <form method="post" name="edit_video">
+                        {* GETTING THUMBS INFO *}
+                        <h3>Thumbs</h3>
+                        <div class="row">
+                            {assign var=vidthumbs value=get_thumb($v,1,TRUE,false,true,false)}
+                            {foreach from=$vidthumbs item=vid_thumb}
+                            <div class="col-md-3">
+                                <div class="form-group text-center">
+                                    <label class="" for="{$vid_thumb|getname}"><img class="edit-img-thumbnail" src="{$vid_thumb}" />
+                                    <input class="show" style="margin: 5px auto" type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $v.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />{lang code='default'}</label>
+                                </div>
+                            </div>
+                            {/foreach}
+                        </div>
+
+                        {foreach from=$video_fields item=field_group}
+                        <div class="">
+                            <h3>{$field_group.group_name}</h3>
+                            {if $field_group.group_id == 'required_fields'}
+                            <div class="form-group">
+                                <label for="videoLink">{lang code='video_link'}</label>
+                                <textarea class="form-control" onclick="this.select()">{videoLink vdetails=$v}</textarea>
+                            </div>
+                            {/if}
+                            {foreach from=$field_group.fields item=field}
+                            <div class="form-group">
+                                <label for="{$field.id}">{$field.title}</label>
+                                {if $field.title == 'Title' || $field.title == 'Description' || $field.title == 'Tags'}
+                                {$field.class='form-control'}
+                                {$formObj->createField($field)}
+                                {else}
+                                {$field.class = 'form-control'}
+                                <small class="show">{$field.hint_1}</small>
+                                {if $field.type == 'checkbox'}
+                                {$field.class=''}
+                                {$field.label_class='checkbox'}
+                                {$field.notShowSeprator=true}
+                                {/if}
+                                {if $field.type == 'radiobutton'}
+                                {$field.class=''}
+                                {$field.label_class='radio'}
+                                {$field.notShowSeprator=true}
+                                {/if}
+                                {$formObj->createField($field)}
+                                <small class="show">{$field.hint_2}</small>
+                                {/if}
+                            </div>
+                            {if $field.name=='broadcast'}
+                            <div class="form-group">
+                                <label for="videoLink">{lang code='video_link'}</label>
+                                <textarea onclick="this.select()" class="form-control" >{videoLink vdetails=$v}</textarea>
+                            </div>
+                            {/if}
+                            {/foreach}
+                        </div>
+
+                        {/foreach}
+
+ 
+                {foreach from=$custom_upload_fields item=field}
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="rated_by">{$field.title}</label>
+                    </div>
+
+                    <div class="col-md-12">
+                    {$field.class='form-control'}
+                    {$field.hint_1}<br>{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    </div><br>
+                    {$field.hint_2}
+                </div>
+                {/foreach}
+                        <div align="right">
+                            <button name="update_video" id="button" value="submit" class="btn btn-primary">{lang code='update_video'}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

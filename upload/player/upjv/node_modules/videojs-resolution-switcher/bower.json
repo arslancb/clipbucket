@@ -1,0 +1,35 @@
+{
+  "name": "vjs-resolution-switcher",
+  "version": "0.4.2",
+  "authors": [
+    "Kasper Moskwiak <kasper.moskwiak@gmail.com>"
+  ],
+  "description": "Resolution switcher for video.js 5",
+  "main": [
+    "lib/videojs-resolution-switcher.js",
+    "lib/videojs-resolution-switcher.css"
+  ],
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "videojs",
+    "flash",
+    "video",
+    "player",
+    "resolution",
+    "sources",
+    "videojs-plugin"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/kmoskwiak/videojs-resolution-switcher",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

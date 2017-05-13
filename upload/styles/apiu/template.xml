@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>ApiU v0.1</name>
+	<author>Adrien Ponchelet</author>
+	<smarty_version>3</smarty_version>
+	<version>1</version>
+	<released>Sun, 8th October 2016 06:00:00 +0000</released>
+	<description>Theme Picardie Universités pour ClipBucket v2.8 par Picardie Universités</description>
+	<website title="Association Picardie Universités">https://www.u-picardie.fr/apiu</website>
+	<license>Attribute Assurance License</license>
+</template>

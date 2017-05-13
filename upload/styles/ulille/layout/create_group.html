@@ -1,0 +1,84 @@
+{assign var='requiredFields' value=$cbgroup->load_required_fields()}
+{assign var='optionFields' value=$cbgroup->load_other_fields()}
+{assign var='customFields' value=$cbgroup->custom_group_fields}
+
+{$myAccountLinks = $userquery->my_account_links()}
+<div class="container marginBottom">
+    {include file="$style_dir/blocks/manage/account_menu.html"}
+    <div class="row cb-box">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
+            {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+            <div class="cb-box">
+                <div class="upload_info">
+                    <h2>{lang code='grp_crt_grp'}</h2>
+                       <form name="upload_form" class="upload_form" method="post" action="" enctype="multipart/form-data">
+    
+                        
+                        
+                        <fieldset class="fieldset">
+                           <legend>Upload Thumb</legend>
+                            <div style="width:500px; float:left">
+                                <p class="nopadding">{lang code='grp_must_be'} JPG | GIF | PNG</p>
+                                <p class="nopadding">{lang code='grp_90x90'}</p>
+                                <p class="nopadding">{lang code='grp_thumb_warn'}</p>
+                                <input type="file" name="thumb_file" id="thumb_file" class="form-control" style="width: 250px" />
+                            </div>
+                            <div class="clearfix"></div>
+                        </fieldset>
+                        <!-- Required Fields -->
+                        {foreach from=$requiredFields item=field}
+                        <div class="form-group">
+                            <legend>{lang code='grp_info_all_fields_req'}</legend>
+                            <label for="{$field.id}">{$field.title}</label>
+                            {if $field.hint_1}
+                            <p>{$field.hint_1}</p>
+                            {/if}
+                            {$field.class='form-control'}
+                            {if $field.type == 'checkbox'}
+                            {$field.class = ''}
+                            {$field.label_class = 'checkbox'}
+                            {$field.notShowSeprator = true}
+                            {/if}
+                            {$formObj->createField($field)}
+                            {if $field.hint_2}
+                            <p>{$field.hint_2}</p>
+                            {/if}
+                        </div>
+                        {/foreach}
+                        <!-- Required Fields -->
+
+                        <div id="more_fields" style="display:none">
+                            <!-- MORE Fields -->
+
+                            <h4><a href="#">more options</a></h4>
+                            {foreach from=$optionFields item=field}
+                            <div class="field">
+                                <label for="{$field.id}">{$field.title}</label>
+                                {if $field.hint_1}
+                                <p>{$field.hint_1}</p>
+                                {/if}
+                                {$field.label_class='radio'}
+                                {$field.notShowSeprator = true}
+                                {$formObj->createField($field)}
+                                {if $field.hint_2}
+                                <p>{$field.hint_2}</p>
+                                {/if}
+                            </div>
+                            {/foreach}
+                            <!-- MORE Fields -->
+                        </div>
+
+                        <span class="more_button"><a class="btn btn-danger btn-xs" href="javascript:void()" onClick="$('#more_fields').slideToggle();$('.more_button').toggleClass('more_button_up');">{lang code='more_options'}</a></span>
+
+
+                        <div align="right">
+                            <input type="submit" name="create_group" value="{lang code='grp_crt_grp'}" class="btn btn-primary btn-lg">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

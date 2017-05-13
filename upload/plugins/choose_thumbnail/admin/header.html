@@ -1,0 +1,93 @@
+<script type="text/javascript">
+{literal}
+
+$( document ).ready( function() {
+	$("#duration").parent().parent().prev().append("<div class=\"row\"><a class=\"btn btn-primary btn-sm dropdown-toggle pull-right has-spinner\" style=\"margin:30px;\" onclick=\"getTimeFromVideo(\'cb_video_js\');\" title=\"Génére une vignette à partir de l\'emplacement lu dans la vidéo.\">Générer la vignette</a><input type=\"hidden\" name=\"time_for_thumbnail\" id=\"time_for_thumbnail\" value=\"\"><input type=\"hidden\" name=\"video_id_for_thumnail\" id=\"video_id_for_thumnail\" value=\""+$("#videoid").val()+"\"><div id=\"choose_thumbnail_info\"></div><div class=\"spinner\" id=\"choose_thumbnail_spinner\">Génération en cours...<br><div class=\"bounce1\"></div><div class=\"bounce2\"></div><div class=\"bounce3\"></div></div></div>");
+});
+
+
+function getTimeFromVideo(player) {
+
+	theplayer = videojs(player);
+	var time = theplayer.currentTime(); // Temps ecoule
+	$("#time_for_thumbnail").val = time;	// *** On met la valeur de temps dans le champ input caché
+
+	var formData = {thumb_time:time,video_id:$("#video_id_for_thumnail").val()}; //Array 
+	
+	if (confirm("Etes vous sur de vouloir générer cette vignette ?")){
+//		$("#choose_thumbnail_info").html('<p>Génération en cours...</p>');
+		$( "#choose_thumbnail_spinner" ).show();
+		
+		$.ajax({
+			type	  	: "POST",
+			url 	  	: "../plugins/choose_thumbnail/generate_thumbnail.php",
+			data		: formData,
+			success : function(q)
+			{
+// 				console.log(q);
+				
+				if (q){
+					$("#choose_thumbnail_info").html(q);
+				}
+				else{
+					location.reload();
+				}
+			}
+		});
+	}
+}
+
+$( document ).ready(function() {
+	$( "#choose_thumbnail_spinner" ).hide();
+});
+
+{/literal}
+</script>
+
+
+
+
+
+<style>
+.spinner {
+  margin: 100px auto 0;
+  width: 140px;
+  text-align: center;
+}
+
+.spinner > div {
+  width: 20px;
+  height: 20px;
+  background-color: #428bca;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% { 
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% { 
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}
+</style>

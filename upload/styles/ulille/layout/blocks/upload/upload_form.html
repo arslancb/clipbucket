@@ -1,0 +1,163 @@
+{$videoFields = $Upload->load_video_fields($input)}
+{$requiredFields = $videoFields[0]}
+{$sharingOptions = $videoFields[1]}
+{$dateAndLocation = $videoFields[2]}
+
+<form action="#" id="updateVideoInfoFormNew">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="" id="updateVideoInfo">
+                <fieldset class="">
+                    <legend class="">{$requiredFields.group_name}</legend>
+                </fieldset>
+                <div class="requiredFields">
+                  {foreach $requiredFields.fields as $field}
+                        <div class="form-group">
+                        {$field.class='form-control'}
+                        {$field.notShowSeprator='yes'}
+                        {if $field.type == 'radiobutton'}
+                            {$field.label_class='radio'}
+                            {$field.class=''}
+                            {$formObj->createField($field)}
+                        {elseif $field.type == 'checkbox'}
+                            {$categories = $field}
+                        {else}
+                            <label for="{$field.id}">{$field.title}</label>
+                            {$formObj->createField($field)}
+                        {/if}
+                        </div>
+                    {/foreach}
+                </div>
+
+                <div class="formSection clear">
+                    <h4>{$dateAndLocation.group_name} <i class="glyphicon glyphicon-chevron-down pull-right"></i></h4>
+                    <div class="sectionContent hidden">
+                        {foreach $dateAndLocation.fields as $field}
+                        <div class="form-group">
+                        {$field.class='form-control'}
+                            {$field.notShowSeprator='yes'}
+                            {if $field.type == 'radiobutton'}
+                                {$field.label_class='radio'}
+                                {$field.class=''}
+                                {$formObj->createField($field)}
+                            {elseif $field.type == 'checkbox'}
+                                <h4>{$field.title}</h4>
+                                {$field.label_class='checkbox'}
+                                {$field.class='checkbox'}
+                                {$formObj->createField($field)}
+                            {else}
+                                <label for="{$field.id}">{$field.title}</label>
+                                {$formObj->createField($field)}
+                            {/if}
+                            </div>
+                        {/foreach}    
+                    </div>
+                </div>
+  
+                <div class="formSection clear">
+                    <h4>{$sharingOptions.group_name}<i class="glyphicon glyphicon-chevron-down pull-right"></i></h4>
+                    <div class="sectionContent hidden">
+                        {foreach $sharingOptions.fields as $field}
+                            <div class="form-group">
+                            {$field.class='form-control'}
+                            {$field.notShowSeprator='yes'}
+                            {if $field.type == 'radiobutton'}
+                                {$field.label_class='radio'}
+                                {$field.class=''}
+                                {$formObj->createField($field)}
+                            {else}
+                                <label for="{$field.id}">{$field.title}</label>
+                                {$formObj->createField($field)}
+                            {/if}
+                            </div>
+                        {/foreach}
+                    </div>
+                </div>
+
+                <div class="pad-bottom-sm text-right">
+                    <button class="btn btn-primary btn-lg" type="button" id="saveVideoDetailsNew">Submit Now</button>
+                </div>  
+            </div>
+        </div>
+        <div class="col-md-4 uploadFormSidebarDiv">
+            <h4>{$categories.title}</h4>
+            <small>{$categories.hint_1}</small>
+            <div class="categoriesContainer">
+                {$categories.label_class='checkbox'}
+                {$categories.class='checkbox'}
+                {$formObj->createField($categories)}
+            </div>
+            <!-- <div class="cb-box pad-bottom terms-contatiner">
+                <div class="checkbox">
+                    <label class="light">
+                        <input type="checkbox" value="">
+                        I have read and agree to submission policy
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label class="light">
+                        <input type="checkbox" value="">
+                        I have read and agree to terms and conditions
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label class="light">
+                        <input type="checkbox" value="">
+                        Remember these settings
+                    </label>
+                </div>
+            </div> -->
+            <input type="hidden" name="videoid" value="{$videoid}">
+            <input type="hidden" name="updateVideo" value="yes">
+            
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".formSection h4").on({
+        click: function(e){
+            e.preventDefault();
+            if($(this).find("i").hasClass("glyphicon-chevron-down")){
+                $(this).find("i").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+                $(this).next().toggleClass("hidden");
+            }else{
+                $(this).find("i").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+                $(this).next().toggleClass("hidden");
+            }
+        }
+    });
+
+
+    //update form
+    $("#saveVideoDetailsNew").on({
+        click: function(e){
+            e.preventDefault();
+            var data = $("#updateVideoInfoFormNew").serialize();
+            $.ajax({
+                url : baseurl + "/actions/file_uploader.php",
+                type : "post",
+                data : data,
+                dataType : 'json',
+                success: function(msg)
+                {
+               
+                    //msg = $.parseJSON(msg);
+                    console.log(msg);
+                    $("#uploadMessage").removeClass("hidden");
+                    if(msg.error){
+                        $("#uploadMessage").html(msg.error).attr("class", "alert alert-danger");
+                    }else{
+                        $("#uploadMessage").html(msg.msg).attr("class", "alert alert-success");
+                    }
+                    setTimeout(function(){
+                        $("#uploadMessage").addClass("hidden");
+                    }, 5000);
+                }
+            })
+        }
+    });
+})
+
+</script>

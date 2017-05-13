@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>Français</name>
+	<iso_code>fr</iso_code>
+	<phrases>
+		<external_links_manager>Gestion des Liens externes</external_links_manager>
+		<external_links>Liens externes</external_links>
+		<add_new_link>Ajouter un nouveau lien</add_new_link>
+		<manage_links>Gérer les liens externes</manage_links>
+		<add_link>Ajouter le lien</add_link>
+		<search_link>Rechercher</search_link>
+		<title>Titre</title>
+		<link_already_exists>Le lien existe déjà </link_already_exists>
+		<link_does_not_exist>Aucun lien trouvé</link_does_not_exist>
+		<no_link_found>Aucun lien trouvé</no_link_found>
+		<no_link_selected>Aucun lien n'a été sélectionné</no_link_selected>
+		<link_filter>Filtrer les liens</link_filter>
+		<link_edition>Edit links</link_edition>
+		<link_updated>Le lien a été mis à jour</link_updated>
+		<cant_del_linked_link_msg>Le lien est associé à au moins une vidéo et ne peut être supprimé</cant_del_linked_link_msg>
+		<link_del_msg>Lien(s) supprimé(s) avec succès</link_del_msg>
+		<link_external_link>Associer un lien externe</link_external_link>
+		<link_external_links_to_video>Définir les liens externes pour la vidéo N°</link_external_links_to_video>
+		<list_of_selected_links>Liste des liens sélectionnés</list_of_selected_links>
+		<list_of_unselected_links>Liste des liens non sélectionnés</list_of_unselected_links>
+		<new_link_added>Le nouveau lien a été ajouté</new_link_added>
+		<edit_link_nb>Edition du lien N°</edit_link_nb>
+		<update_link>Mettre à jour le lien</update_link>
+		<video_addon>Extensions Vidéo</video_addon>
+		<links_have_been_disconected>Les liens externes ont été dissociés</links_have_been_disconected>
+	</phrases>
+</clipbucket_language>

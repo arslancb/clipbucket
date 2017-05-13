@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>English</name>
+	<iso_code>en</iso_code>
+	<phrases>
+		<speakers>Speakers</speakers>
+		<speaker_manager>Speaker Manager</speaker_manager>
+		<speaker_already_exists>Speaker already exists</speaker_already_exists>
+		<speaker_does_not_exist>Speaker does not exist</speaker_does_not_exist>
+		<cant_del_linked_speaker_msg>Speaker is likned to almost one video and has not been deleted</cant_del_linked_speaker_msg>
+		<speaker_del_msg>Speaker(s) succesfully deleted</speaker_del_msg>
+		<new_speaker_added>Speaker has been added</new_speaker_added>
+		<speaker_updated>Speaker succesfully updated</speaker_updated>
+		<no_speaker_selected>No speaker has been selected</no_speaker_selected>
+		<add_new_speaker>Add new speaker</add_new_speaker>
+		<manage_speakers>Manage speakers</manage_speakers>
+		<add_a_role>Add a role</add_a_role>
+		<add_speaker>Add speaker</add_speaker>
+		<search_speaker>Search</search_speaker>
+		<speaker_filter>Filter speakers</speaker_filter>
+		<speaker_details>Speaker details</speaker_details>
+		<actions>Actions</actions>
+		<edit>Edit</edit>
+		<edit_speaker_nb>Edit speaker N°</edit_speaker_nb>
+		<update_speaker>Update speaker</update_speaker>
+		<link_speakers_to_video>Link speakers to the video N°</link_speakers_to_video>
+		<validate>Validate</validate>
+		<list_of_selected_roles>list of selected speakers</list_of_selected_roles>
+		<list_of_unselected_roles>list of unselected speakers</list_of_unselected_roles>
+		<speaker_link>Link speakers</speaker_link>
+		<speaker_empty_role_err>Please fill empty role</speaker_empty_role_err>
+		<no_speaker_found>No speaker found</no_speaker_found>
+		<speaker_edition>Edit speakers</speaker_edition>
+		<video_addon>Video Addon</video_addon>
+		<allow_video_speaker_management>Allow Video Speaker Management</allow_video_speaker_management>
+		<slugify_selected>Slugify selected</slugify_selected>
+		<slugify>Slugify</slugify>
+		<cant_slugify_speaker>Can't slugify speaker</cant_slugify_speaker>
+		<speaker_slugified>Speaker slugified</speaker_slugified>
+		<speakers_have_been_disconected>speakers have been disconected</speakers_have_been_disconected>
+	</phrases>
+</clipbucket_language>

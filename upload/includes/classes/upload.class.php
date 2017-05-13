@@ -720,8 +720,17 @@ class Upload{
 							'display_function'=>'display_sharing_opt',
 							'default_value'=>'yes',
 							 ),
-		 );
+		);
+    $funcs = cb_get_functions('load_option_fields');
+
+    if ($funcs) {
+        foreach($funcs as $func) {
+            $uploadFormOptionFieldsArray = $func['func']($uploadFormOptionFieldsArray);
+        }
+    }
+    
 		return $uploadFormOptionFieldsArray;
+		
 	}
 	
 	/**

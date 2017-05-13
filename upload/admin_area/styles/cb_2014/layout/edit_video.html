@@ -6,15 +6,15 @@
 <div class="row">
     <div class="heading clearfix">
 
-            <h2 class="pull-left paddingLeftLarge">Editing <small>&gt; {$data.title|truncate:80}</small>
+            <h2 class="pull-left paddingLeftLarge">{lang('edit')} <small>&gt; {$data.title|truncate:80}</small>
 <div class="btn-group">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Actions <span class="caret caret_margin"></span>
+                    {lang("actions")} <span class="caret caret_margin"></span>
                   </button>
                 <ul class="dropdown-menu pull-right" role="menu">
-                <li><a href="{videoLink vdetails=$data}">Watch this video</a></li>
+                <li><a href="{videoLink vdetails=$data}">{lang("vdo_watch_video")}</a></li>
                 {if $data.active!='yes'}
-                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=activate">Activate</a></li>
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=activate">{lang("activate")}</a></li>
                 {else}
                 <li><a href="edit_video.php?video={$data.videoid}&amp;mode=deactivate">Deactivate</a></li>
                 {/if}
@@ -33,11 +33,10 @@
                 <span class="btn btn-app btn-sm btn-light no-hover">
                 <span class="line-height-1 smaller-90 blue">{$data.views|format_number}</span>
                 <br>
-                <span class="line-height-1 smaller-90"> Views </span>
+                <span class="line-height-1 smaller-90"> {lang('views')} </span>
                 </span>
                <!-- <span class="btn btn-app btn-sm btn-yellow no-hover">
                 <span class="line-height-1 smaller-90"> {$data.comments_count} </span>
-
                 <br>
                 <span class="line-height-1 smaller-90"> Comments </span>
                 </span>-->
@@ -46,7 +45,7 @@
                 <span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
                 {else}<span class="glyphicon glyphicon-remove">{/if}</span>
                 <br>
-                <span class="line-height-1 smaller-90"> Active</span>
+                <span class="line-height-1 smaller-90"> {lang('Active')}</span>
                 </span>
                 </span>
             
@@ -61,7 +60,7 @@
                 {else}<span class=" glyphicon glyphicon-ok smaller-90">{/if}</span>
                 <br>
 
-                <span class="line-height-1 smaller-90">Featured</span>
+                <span class="line-height-1 smaller-90">{lang('featured')}</span>
                 </span>
                 </span>
                 <!--
@@ -121,7 +120,6 @@
 <!--
                 <span class="btn btn-app btn-sm btn-primary no-hover">
                 {section name=list loop=$flagedVideos}
-
                 <span class="line-height-1 bigger-170"> {$flagedVideos[list].total_flags} </span>
                 {/section}
                 <br>
@@ -139,7 +137,7 @@
         <ul class="nav nav-tabs" id="myTab">
             <li class="active">
                 <a data-toggle="tab" href="#videodetail">
-                    Video Details
+                    {lang('vdo_video_details')}
                     <span class="glyphicon glyphicon-facetime-video"></span>
                 </a>
             </li>
@@ -168,7 +166,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="first"><label for="filename">File Name</label></td>
+                            <td class="first"><label for="filename">{lang('filename')}</label></td>
                             <td class="last">
                                 <p><span>{$data.file_name}</span></p>
                             </td>
@@ -180,9 +178,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="first"><label for="filename">Duration</label></td>
+                            <td class="first"><label for="filename">{lang('duration')}</label></td>
                             <td class="last">
-                            <p><span>{$data.duration|number_format} seconds</span></p>
+                            <p><span>{$data.duration|number_format} {lang('seconds')}</span></p>
                             </td>
                         </tr>
                         <tr>
@@ -226,25 +224,25 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="first"><label>DOB</label></td>
+                            <td class="first"><label>{lang('user_dob')}</label></td>
                             <td class="last">
                                 <p><span>{$data.dob}</span></p>
                             </td>
                         </tr>
                         <tr>
-                            <td class="first"><label>Email</label></td>
+                            <td class="first"><label>{lang('email')}</label></td>
                             <td class="last">
                             <p><span>{$data.email}</span></p>
                             </td>
                         </tr>
                         <tr>
-                            <td class="first"><label>Gender</label></td>
+                            <td class="first"><label>{lang('gender')}</label></td>
                             <td class="last">
                                 <p><span>{$data.sex}</span></p>
                             </td>
                         </tr>
                         <tr>
-                            <td class="first"><label>Rating</label></td>
+                            <td class="first"><label>{lang('rating')}</label></td>
                             <td class="last">
                                 <p><span>{$data.rating}</span></p>
                             </td>
@@ -298,17 +296,17 @@
             <div class="row">
                 <div class="col-md-6" style="margin-top: 30px">
                     <div class="table">
-                        <label class="status">Status</label>
+                        <label class="status">{lang('vdo_status')}</label>
                         <select class="form-control" name="status">
-                            <option class="form-control" value="Successful" {if $data.status=='Successful'} selected {/if}>Successfull</option>
-                            <option class="form-control" value="processing" {if $data.status=='Processing'} selected {/if}>Processing</option>
+                            <option class="form-control" value="Successful" {if $data.status=='Successful'} selected {/if}>{lang('Successfull')}</option>
+                            <option class="form-control" value="processing" {if $data.status=='Processing'} selected {/if}>{lang('processing')}</option>
                             <option class="form-control" value="Failed"{if $data.status=='Failed'} selected {/if}>Failed</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-md-5" style="margin-top: 30px">
-                    <label for="duration">Duration:</label>
-                    <input  name="duration" type="text" id="duration" class="form-control" value="{$data.duration}    (Seconds) ">
+                    <label for="duration">{lang('duration')}:</label>
+                    <input  name="duration" type="text" id="duration" class="form-control" value="{$data.duration}    ({lang('seconds')}) ">
                         
                 </div>
             </div>
@@ -316,13 +314,13 @@
             <div class="table-responsive">
                 <div class="row">
                     <div class="col-md-1">
-                        <label for="views">Views:</label>
+                        <label for="views">{lang('views')}:</label>
                     </div>
                     <div class="col-md-2">
                         <input class="form-control" name="views" type="text" id="views" value="{$data.views|number_format}" size="45"/>
                     </div>
                     <div class="col-md-1">
-                        <label for="rating">Rating:</label>
+                        <label for="rating">{lang('rating')}:</label>
                     </div>
                     <div class="col-md-2">
                         <input class="form-control" name="rating" type="text" id="rating" value="{$data.rating|number_format}" size="5"/>
@@ -372,17 +370,17 @@
 
     <div class="head col-md-12">
         {foreach from=$video_fields item=field_group}
-        {if $field_group.group_name=='Sharing and privacy options'}
+        {if $field_group.group_name==lang(vdo_share_opt)}
         <div class="tabbable">
             <ul class="nav nav-tabs" id="myTab3">
                 <li class="active">
                     <a data-toggle="tab" href="#privacyoption">
-                        Sharing and Privacy Options
+                        {lang(vdo_share_opt)}
                     </a>
                 </li>
                 <li>
                     <a data-toggle="tab" href="#datelocation">
-                        Date Recorder & Location
+                        {lang('date_recorded_location')}
                     </a>
                 </li>
             </ul>
@@ -409,7 +407,7 @@
                 </div>
                 {continue}
                 {/if}
-                {if $field_group.group_name=='Date recorded &amp; Location'}
+                {if $field_group.group_name==lang('date_recorded_location')}
 
 
                 <div id="datelocation" class="tab-pane">
@@ -497,7 +495,7 @@
 <div class="widget-box" style="margin-top: 30px">
     <div class="widget-header header-color-blue2 fontawesome-icons">
 
-        <h5>{$data.title|truncate:80}- <b>Comments</b></h5>
+        <h5>{$data.title|truncate:80}- <b>{lang('comments')}</b></h5>
 
         <div class="widget-toolbar">
             <a href="#" data-action="reload">

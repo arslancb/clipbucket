@@ -1,0 +1,97 @@
+<!-- Defining object type-->
+{lang code='topic' assign='object_type'}
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
+<div class="container">
+    {include file="$style_dir/blocks/manage/account_menu.html"}
+    <div class="cb-box marginBottom row">
+    <div class="row">
+        <div class="col-md-2">
+            {include file="$style_dir/blocks/group/group_left.html"}
+        </div>
+<div class="col-md-7 nopadding ">
+
+	<div class="well well-sm margin-bottom-10"><a class="theme_color" href="#">{$group.group_name|htmlspecialchars_decode}</a></div>
+   <!--  <div class="btn-group">   
+       <a class="btn btn-primary" {if $mode == "" || $mode == "main"}class="btn btn-primary selected"{/if} href="{group_link details=$group}" onClick="groupsAjax(event,this);" id="gpViewInfo">
+           {lang code="info"}
+       </a>
+       <a class="btn btn-primary" {if $mode == "view_topics"}class="btn btn-primary selected"{/if} href="{group_link details=$group type=view_topics}" onClick="groupsAjax(event,this);" id="gpViewTopics">
+           {lang code="grp_topics_title"}
+       </a>
+       <a class="btn btn-primary" {if $mode == "view_members"}class="btn btn-primary selected"{/if} href="{group_link details=$group type='view_members'}" id="gpAllMembers" onClick="groupsAjax(event,this);">
+           {lang code="members"}
+       </a>
+       <a class="btn btn-primary" {if $mode == "view_videos"}class="btn btn-primary selected"{/if} href="{group_link details=$group type='view_videos'}" id="gpAllVideos" onClick="groupsAjax(event,this);">
+           {lang code="videos"}
+       </a>
+       <a class="btn btn-primary" {if $mode == "view_report_form"}class="btn btn-primary selected"{/if} href="{group_link details=$group}{if config('seo')=='yes'}?{else}&{/if}mode=view_report_form" onClick="groupsAjax(event,this);" id="gpAllReport">
+           {lang code='report'}
+       </a>
+   </div> -->
+    <div id="ajaxGroupResultContainer">   
+        <!-- <div class="groupSep"><span class="SepText"><a href="{group_link details=$group type='view_topics'}" >Back To Topics</a></span></div> -->
+
+        <a href="{group_link details=$group type='view_topics'}" class="btn btn-primary">Back To Topics</a>
+
+        <div style="height:5px;"></div>
+        <div class="topic_post clearfix">
+            <h3 class="topic_title">{$topic.topic_title}</h3>
+            {*assign var=topic_starter value=$userquery->get_user_details($topic.userid)}
+            {include file="$style_dir/blocks/user.html" user=$topic_starter block_type="topic_view"*}
+            {$user=$userquery->get_user_details($topic.userid)}
+            <!-- <div class="itemdiv">
+                <div class="user">
+                    <a href="{$userquery->profile_link($user)}">
+                        <span>{$user.username}</span>
+                        <img src="{avatar details=$user }" class="img-circle">
+                    </a>
+                </div>
+            </div> -->
+
+            <div class="moveR topic_content" style="width:88%">
+            	{$topic.topic_post|description}
+                <div style="height:5px"></div>
+                <div style="font:normal 10px Tahoma; color:#787878">{lang code="Added"}: {$topic.date_added|niceTime} &ndash; Added By: <a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
+            </div>    
+        </div>
+
+        <div class="clearfix" style="height:10px"></div>
+        
+
+        <div id="reply" class="clearfix"> 
+          <div class="pad-bottom">
+              <div  class="addComment clearfix">
+                  <div class="com_count" id="com_count">
+                    <span>{lang('Comments')}: </span> 
+                    {$topic.total_replies}
+                  </div>
+                  {include file="$style_dir/blocks/comments/add_comment.html" id=$topic.topic_id type=t}
+              </div>
+              <script>
+                $(document).ready(function(){
+                  _cb.getAllComments(
+                    't','{$topic.topic_id}','{$topic.last_post_time}',1,'{$topic.total_replies}','{$object_type}'
+                  );
+                });
+              </script>
+              <div id="comments">
+                <ul class="list-unstyled" id="userCommentsList"></ul>
+              </div>
+
+              
+          </div>
+        </div> 
+ 
+    </div>
+    </div>
+
+
+<div class="col-md-3">
+    {include file="$style_dir/blocks/group/group_right.html" group=$groups}
+    <div style="height:20px"> </div>
+</div>
+
+</div>
+</div>
+</div>

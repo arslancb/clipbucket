@@ -1,0 +1,404 @@
+<h2>WaveForm</h2>
+
+{if $waveform neq ''}
+<div id="pointer_div" onclick="point_it(event)" style="width:100%;">
+	<canvas id="waveformImg"></canvas>
+</div>
+<div class="pull-right" id="temps">00:00:00</div>
+
+
+<div id="silenceFinder">
+	<a class="btn btn-primary" onclick="silenceFinder();" title="Silence Finder">Silence Finder</a>
+	Seuil : <input type="text" name="seuil" id="seuil" size="2" value="0">
+</div>
+
+<div id="silenceFinderResult" style="overflow:scroll; overflow-x:hidden; display:none; height:200px;"></div>
+
+{/if}
+
+
+
+{literal}
+<script language="JavaScript">
+
+	/**
+	*	MAIN PROGRAM
+	*	
+	*	Generate the image
+	*	
+	*	TODO: Convert the canvas system to SVG for more 
+	*	interaction and accessibility
+	*	
+	*/
+
+
+
+	/**
+	*	GENERAL VAR
+	*	
+	*	canva = l'élément <canvas>
+	*	ctx = le contexte : "la boite à outils"
+	*	line = objet ligne
+	*	img = object image
+	*/
+	var canvas = document.getElementById('waveformImg'),
+	    ctx = canvas.getContext('2d'),
+	    line = new Line(ctx),
+	    img = new Image;
+	    
+	ctx.strokeStyle = '#2d608b';
+	
+	img.onload = start;
+	img.src = '{/literal}{$waveform}{literal}';
+
+	var video = document.getElementById("cb_video_js_html5_api");
+	var duration = {/literal}{$duration}{literal}
+
+	/**
+	*	Function to init the size of the canva, because his parent 
+	*	is 100 percent width and a canvas must be defined with pixel value.
+	*/
+	function init() {
+		if (canvas.getContext) {
+
+			width = $(canvas).parent().width();
+			canvas.width = (width-2);
+
+			console.log('New width : ' + width);
+			
+			start();
+		}
+	}
+
+	
+	/**
+	*	Class Line
+	*	@param object ctx
+	*/
+	function Line(ctx) {
+	    
+		var me = this;
+	    
+		this.x1 = 0;
+		this.x2 = 0;
+		this.y1 = 0;
+		this.y2 = 0;
+	    
+		this.draw = function() {
+			ctx.beginPath();
+			ctx.moveTo(me.x1, me.y1);
+			ctx.lineTo(me.x2, me.y2);
+			ctx.stroke();
+		}
+	}
+
+
+	function start() {
+		ctx.drawImage(img, 0, 0, waveformImg.width, waveformImg.height);
+		canvas.onmousemove = updateLine;
+	}
+
+	function updateLine(e) {
+	    var r = canvas.getBoundingClientRect(),
+		x = e.clientX - r.left,
+		y = e.clientY - r.top;
+	    
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+		line.x1 = x;
+		line.y1 = 0;
+		line.x2 = x;
+		line.y2 = canvas.height;
+		line.draw();
+	}
+
+	/**
+	*	@param object event The click event
+	*/
+	function point_it(event){
+		// Canvas Width
+		var width = canvas.clientWidth;
+		
+		// Click position
+		pos_x = event.offsetX?(event.offsetX):event.pageX-document.getElementById("pointer_div").offsetLeft;
+		
+		var debut = pixelToTime(pos_x, duration, width);
+
+		video.play();
+		video.currentTime = debut;
+	}
+	
+	/**
+	*	@param integer pixelEnCours
+	*	@param float dureeTotal
+	*	@param float pixelTotal
+	*	@return integer
+	*/
+	function pixelToTime(pixelEnCours, dureeTotal, pixelTotal){
+		
+		var debut = Math.ceil(parseFloat((pixelEnCours*dureeTotal)/pixelTotal));
+		return debut;
+	}
+
+	/**
+	*	@param float dureeEnCours
+	*	@param float dureeTotal
+	*	@param integer pixelTotal
+	*	@return integer
+	*/
+	function timeToPixel(dureeEnCours, dureeTotal, pixelTotal){
+	
+		var pixelEnCours = Math.ceil(parseFloat((pixelTotal*dureeEnCours)/dureeTotal));
+		return pixelEnCours;
+	}
+
+	
+	/**
+	* Convert number of seconds into time object
+	* Source : http://codeaid.net/javascript/convert-seconds-to-hours-minutes-and-seconds-(javascript)
+	*
+	* @param integer secs Number of seconds to convert
+	* @return object
+	*/
+	function secondsToTime(secs)
+	{
+		var hours = Math.floor(secs / (60 * 60));
+
+		var divisor_for_minutes = secs % (60 * 60);
+		var minutes = Math.floor(divisor_for_minutes / 60);
+
+		var divisor_for_seconds = divisor_for_minutes % 60;
+		var seconds = Math.ceil(divisor_for_seconds);
+
+		var obj = {
+			"h": hours,
+			"m": minutes,
+			"s": seconds
+		};
+		return obj;
+	}
+
+
+	/**
+	*	redraw the canvas and draw line at X
+	*	@param integer GrandX
+	*/
+	function moveLine(GrandX) {
+	    var r = canvas.getBoundingClientRect(),
+		x = GrandX - r.left;
+		
+		// Init canvas
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+		line.x1 = GrandX;
+		line.y1 = 0;
+		line.x2 = GrandX;
+		line.y2 = canvas.height;
+		line.draw();
+	}
+
+
+	/**
+	*	Convert the div area and update the div area
+	*	@param float secondes
+	*/
+	function updateTimeArea(secondes){
+	  //console.log(secondes);
+		hms = secondsToTime(secondes);
+			
+		if (hms.h < 10){hms.h = "0"+hms.h;}
+		if (hms.m < 10){hms.m = "0"+hms.m;}
+		if (hms.s < 10){hms.s = "0"+hms.s;}
+		
+		
+		document.getElementById("temps").innerHTML = hms.h + ':' + hms.m + ':' + hms.s;
+	}
+
+
+
+	/**
+	*	SILENCE FINDER
+	*	
+	*	Here the three function of silence finder system.
+	*	
+	*	Principle :
+	*		- silenceFinder() : Execute silence_finder.php script. 
+	*		Get a JSON dictionnary of first pixel (white or gray)
+	*		
+	*		- jsonToLink(data) : Convert the JSON dictionnary to HTML link
+	*		and populate the silenceFinderResult DIV
+	*		
+	*		- convertOrgPixelToClientPixelView(pixel, targetWidth) : 
+	*		Make the correspondance of original pixel to the client size view
+	*/
+
+
+	/**
+	*	AJAX call the php script that will work on image file
+	*	PHP script return a JSON.
+	*/
+	function silenceFinder(){
+	  
+		var formData = {video_id:{/literal}{$video_id}{literal},seuil:$("#seuil").val(),duration:duration}; //Array 
+		
+			$("#silenceFinderResult").html('<p>Recherche en cours...</p>');
+			$.ajax({
+				type	  	: "POST",
+				url 	  	: "../plugins/waveform/silence_finder.php",
+				data		: formData,
+				dataType	: "json",
+				success : function(q)
+				{	
+					jsonToLink(q);
+					// Debug
+					//$("#silenceFinderResult").html(q);
+					
+				}
+			});
+	}
+
+
+	/**
+	*	Create the link from JSON source
+	*	
+	*	@param string data The JSON string
+	*/
+	function jsonToLink(data){
+		var txt = '';
+		var cpt = 1;
+	
+		var json = eval(data);
+		
+		for (var i in json)
+		{
+			var pix = json[i].pixel;
+			var duree = json[i].duree;
+		
+			clientPixel = convertOrgPixelToClientPixelView(pix, canvas.width);
+				
+			console.log('clientPixel : ' + clientPixel + ' org pixel : ' + pix);
+			
+			temps = pixelToTime(parseInt(clientPixel), duration, canvas.width);
+			
+			hms = secondsToTime(temps);
+				
+			if (hms.h < 10){hms.h = "0"+hms.h;}
+			if (hms.m < 10){hms.m = "0"+hms.m;}
+			if (hms.s < 10){hms.s = "0"+hms.s;}
+			
+			formattedTime = hms.h + ':' + hms.m + ':' + hms.s;
+			txt += '<a href="javascript:;" onclick="video.play();video.currentTime='+(temps-0.5)+';" onmouseover="moveLine('+clientPixel+');updateTimeArea('+temps+')">Silence n°' + cpt + ' ('+formattedTime+' / Durée : '+duree+' sec';
+			if (duree > 1){ txt += 's';}
+			txt += ')</a><br>';
+			
+			cpt++;
+	
+		}
+
+		$("#silenceFinderResult").show();
+		$("#silenceFinderResult").html(txt);
+	}
+
+
+	/**
+	*	Because the size of image generated always have a 
+	*	width of 640px. We must convert the pixel to the 
+	*	new view (the client side was in a 100% div).
+	*	
+	*	@param integer pixel the org pixel
+	*	@param integer targetWidth the final size corresponding
+	*	
+	*/
+	function convertOrgPixelToClientPixelView(pixel, targetWidth){
+
+		  var clientPixel = Math.ceil(parseFloat((targetWidth*pixel)/duration));
+		  return clientPixel;
+
+	}
+
+
+
+	/**
+	*	LISTENER EVENT
+	*	
+	*	All functions here wait for event.
+	*	 
+	*	clik = when mouse click on tab corresponding
+	*	resize = when window resize
+	*	play, pause, ended = video player event
+	*	ready = when page load is terminated
+	*/
+
+
+
+	/**
+	*	When tab link is clicked, resize the canvas to target 
+	*	his parent size.
+	*	
+	*/
+	$(document).on("click", "#Waveform-link", function(evt) {
+		console.log("Resize when appear");
+		init();
+	});
+
+
+	/**
+	*	When windows is resize, resize the canva to match 
+	*	his parent size.
+	*/
+	$(window).resize(function () {
+		init();
+	});
+
+
+	/**
+	*	Ecoute evenement lecture
+	*/
+	video.addEventListener('play',function() {
+			i=window.setInterval(function() {
+				var pixelEnCours = timeToPixel(video.currentTime, duration, canvas.width);
+				moveLine(pixelEnCours);
+				updateTimeArea(video.currentTime);
+			},1100);
+		},false
+	);
+
+
+	/**
+	*	Ecoute evenement pause
+	*/
+	video.addEventListener('pause',function() {
+			window.clearInterval(i);
+		},false
+	);
+
+
+	/**
+	*	Ecoute evenement fin de video
+	*/
+	video.addEventListener('ended',function() {
+			clearInterval(i);
+		}
+		,false
+	);
+
+
+	/**
+	*	Ecoute evenement souris au dessus
+	*/
+	$(document).ready(function(){
+		$("#waveformImg").bind("mousemove",function(e){
+		
+			var width = canvas.clientWidth;
+		
+			var offset = $("#waveformImg").offset();
+			var clickX=e.clientX - offset.left;
+			var clickY=e.clientY - offset.top;
+			
+			var debut = pixelToTime(clickX, duration, width);
+			updateTimeArea(debut);
+		});
+	});
+	
+</script>
+{/literal}

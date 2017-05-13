@@ -1,0 +1,15 @@
+<div class="view-channel-playlist-holder">
+    <img src="{get_playlist_thumb($playlist)}" />   
+        
+    <span >{$playlist.playlist_name}</span>
+
+    {$list_id=$playlist.playlist_id}
+    {$first=get_playlist_items($list_id,1)}
+    {if $first}
+    <a href="{videoLink vdetails=$first[0]}" >{lang code='play_now'}</a>
+    {/if}
+
+    <p>{$playlist.date_added|niceTime}</p>
+</div>
+
+        

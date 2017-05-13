@@ -1,0 +1,22 @@
+{include file="$style_dir/global_header.html"}
+    <body>
+	<!-- premium -->
+    {ANCHOR place='premium_button'}
+	<!-- /premium -->
+	<!--<div class="iron">-->
+    {include file="$style_dir/header.html" }
+	
+    <div id="content" class="container clearfix yb-body" role="main">
+
+        <!-- Message -->
+        {include file="$style_dir/message.html"}
+
+        {foreach from=$template_files item=file}
+            {include_template_file file=$file}
+        {/foreach}
+    </div>
+	<!--</div>-->
+	{ANCHOR place='foobar'}
+    {include file="$style_dir/footer.html" }
+    </body>
+</html>                                

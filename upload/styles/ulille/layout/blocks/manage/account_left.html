@@ -1,0 +1,14 @@
+<div class="my_account_left">
+<ul>
+    {foreach from=$userquery->my_account_links() item=link key=name}
+    <li class="li">
+    	<span class="heading">{$name}</span>
+        <ul>
+        {foreach from=$link item=alink key=link_name}
+        	<li><a href="{$alink}">{$link_name}</a></li>
+        {/foreach}
+        </ul>
+    </li>
+    {/foreach}
+</ul>
+</div>

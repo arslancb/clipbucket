@@ -1,0 +1,184 @@
+{if marked_spammed($comment)}
+    {assign var='comment_attr' value='style="display:none"'}
+    {assign var='spam_attr' value='style="display:block"'}
+{else}
+{assign var='comment_attr' value=''}
+    {assign var='spam_attr' value='style="display:none"'}
+{/if}
+
+{if $rep_mode}
+<li id="reply-{$comment.comment_id}" class="commentBox clearfix reply-{$comment.comment_id}">
+    <div class="replay-holder">
+        <div class="comments-box clearfix">
+            {$user_id = $comment.userid}
+            {$user=$userquery->get_user_details($user_id)}
+            <div class="comment-avatar">
+                <img src="{avatar details=$user}" alt="" class="reply_pic">
+            </div>
+            <div class="comment-info">
+                 <a href="{$userquery->profile_link($user)}">
+                    <span>{name($user)}</span>
+                </a>
+                <p>{$comment.comment|comment}</p>
+                <div class="view-date clearfix">
+                    <span>
+                        <i class="glyphicon glyphicon-time"></i>
+                        {$comment.date_added|niceTime}
+                    </span>
+                </div>
+            </div>
+           
+            <!-- <i class="text-muted">- {$reply.date_added|niceTime}</i> -->
+        </div>
+        <div class="reply">
+            <div class="sizeSmaller bold" style="font-size:12px;">
+                {if !$comment.userid==userid() || has_access('admin_access',true)}
+                <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}','{$type}','{$type_id}')">{lang code='spam'}</a>
+                {/if}
+                {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} &middot; <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">{lang code='delete'}</a>{/if}
+            </div>
+        </div>
+    </div>
+</li>
+
+
+{else}
+
+<li id="comment_{$comment.comment_id}" class="clearfix"  {$comment_attr}>
+    <div class="comments-box clearfix">
+        {$user_id=$comment.userid}
+        {$user=$userquery->get_user_details($user_id)}
+        <div class="comment-avatar">
+            <img src="{avatar details=$user}" alt="" class="comnt_pic">
+        </div>
+        <div class="comment-info">
+            <a href="{$userquery->profile_link($user)}" >
+                {name($user)}
+            </a>
+             <!-- <i class="text-muted">- {$comment.date_added|niceTime}</i> -->
+            <p>{$comment.comment|comment}</p>
+            <div class="view-date clearfix">
+                <span>
+                    <i class="glyphicon glyphicon-time"></i>
+                    {$comment.date_added|niceTime}
+                </span>
+            </div>
+        </div>
+       <!--  <div class="clearfix text-right">
+            <i class="text-muted">{$comment.date_added|niceTime}</i>
+        </div> -->
+        <div class="reply">
+            <div class="sizeSmaller bold" style="font-size:12px;">
+              
+                {if $userquery->login_check('',true)}
+                
+                <a href="javascript:void(0)" onclick="reply_box('{$comment.comment_id}','{$comment.type}','{$comment.type_id}')">{lang code='reply'}</a>
+                {/if}
+                {if !$comment.userid==userid() || has_access('admin_access',true)}
+                &middot; <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}','{$type}','{$type_id}')">{lang code='spam'}</a>
+                {/if}
+                {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} &middot; <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">{lang code='delete'}</a>{/if}
+            </div>
+        </div>
+    </div>
+    <div class="reply-box-{$comment.comment_id} clearfix" style="display:none;">
+    </div>
+    <ul class="comments-reply-{$comment.comment_id}">
+
+    {if $comment.children}
+        {$child_comment = $comment.children}
+        {foreach from=$child_comment item=replies}
+            {foreach from=$replies|@array_reverse item=reply}
+                {if $reply@iteration < 4}
+              
+                    <li id="reply-{$comment.comment_id}" class="commentBox clearfix reply-{$reply.comment_id}">
+                        <div class="replay-holder">
+                            <div class="comments-box clearfix">
+                                {$user_id = $reply.userid}
+                                {$user=$userquery->get_user_details($user_id)}
+                                <div class="comment-avatar">
+                                    <img src="{avatar details=$user}" alt="" class="reply_pic">
+                                </div>
+                                <div class="comment-info">
+                                     <a href="{$userquery->profile_link($user)}">
+                                        <span>{name($user)}</span>
+                                    </a>
+                                    <p>{$reply.comment|comment}</p>
+                                    <div class="view-date clearfix">
+                                        <span>
+                                            <i class="glyphicon glyphicon-time"></i>
+                                            {$reply.date_added|niceTime}
+                                        </span>
+                                    </div>
+                                </div>
+                               
+                                <!-- <i class="text-muted">- {$reply.date_added|niceTime}</i> -->
+                            </div>
+                            <div class="reply">
+                                <div class="sizeSmaller bold" style="font-size:12px;">
+                                     {if !$comment.userid==userid() || has_access('admin_access',true)}
+                                     <a href="javascript:void(0)" onclick="spam_comment('{$reply.comment_id}','{$type}','{$type_id}')">{lang code='spam'}</a>
+                                     {/if}
+                                    {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} &middot; <a href="javascript:void(0)" onclick="delete_comment('{$reply.comment_id}','{$type}')">{lang code='delete'}</a>{/if}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                {else}
+                {$flag = $comment.comment_id}
+                <div class="more-comments-{$comment.comment_id}" style="display:none;">
+                    <li id="reply-{$comment.comment_id}" class="commentBox clearfix reply-{$reply.comment_id}">
+                        <div class="replay-holder">
+                            <div class="comments-box clearfix">
+                                {$user_id = $reply.userid}
+                                {$user=$userquery->get_user_details($user_id)}
+                                <div class="comment-avatar">
+                                    <img src="{avatar details=$user}" alt="" class="reply_pic">
+                                </div>
+                                <div class="comment-info">
+                                     <a href="{$userquery->profile_link($user)}">
+                                        <span>{name($user)}</span>
+                                    </a>
+                                    <p>{$reply.comment|comment}</p>
+                                    <div class="view-date clearfix">
+                                        <span>
+                                            <i class="glyphicon glyphicon-time"></i>
+                                            {$reply.date_added|niceTime}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="reply">
+                                <div class="sizeSmaller bold" style="font-size:12px;">
+                                     <a href="javascript:void(0)" onclick="spam_comment('{$reply.comment_id}','{$type}','{$type_id}')">{lang code='spam'}</a>
+                                    {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} &middot; <a href="javascript:void(0)" onclick="delete_comment('{$reply.comment_id}','{$type}')">{lang code='delete'}</a>{/if}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                </div>
+
+                {/if} 
+            
+            {/foreach}
+        {/foreach}
+           
+            
+
+
+    {/if}
+    </ul>
+    {if $flag}
+    <div class="comments-load-more moad-more-btn-{$flag} clearfix" data-flag="{$flag}">
+        <span class="btn btn-sm btn-danger">More Replies...</span>
+    </div>
+    {/if}
+  
+</li>
+{/if}
+
+
+
+
+

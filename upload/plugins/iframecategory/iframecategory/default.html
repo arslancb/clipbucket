@@ -1,0 +1,14 @@
+<div>
+  This is the default template for demonstration purpose, please, create the file /styles/YOURSTYLE/iframecategory.html  
+	{if $iframe_vids}
+		<div>
+			{foreach from=$iframe_vids item=video}
+				<div style="display:inline-block">
+				{include file="$style_dir/blocks/videos/video.html"}
+				</div>
+			{/foreach}
+		</div>
+	{else}
+		<div>No Videos Found !</div>
+	{/if}
+</div>

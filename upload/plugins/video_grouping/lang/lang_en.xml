@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>English</name>
+	<iso_code>en</iso_code>
+	<phrases>
+		<allow_video_grouping_management>Allow Video grouping management</allow_video_grouping_management>
+		<manage_video_grouping>Manage video grouping</manage_video_grouping>
+		<link_video_grouping>Link video grouping</link_video_grouping>
+		<name_is_required>Name field is required</name_is_required>
+		<grouping_updated>Grouping updated</grouping_updated>
+		<upload_failed>Upload failed</upload_failed>
+		<file_is_too_big>File is too big</file_is_too_big>
+		<unable_to_copy_file>Unable to copy file</unable_to_copy_file>
+		<grouping_already_exists>grouping with the same name still exists</grouping_already_exists>
+		<grouping_deleted_succesfully>Grouping deleted</grouping_deleted_succesfully>
+		<please_modify_the_following_videos_before_deleting>Please modify the following videos before deleting</please_modify_the_following_videos_before_deleting>
+		<videos_use_the_grouping>Videos use the grouping</videos_use_the_grouping>
+		<grouping_added>Grouping added</grouping_added>
+		<groupingtype_does_not_exist>Grouping type does not exist</groupingtype_does_not_exist>
+		<groupingtype_deleted>Groupingtype deleted</groupingtype_deleted>
+		<cant_del_linked_groupingtype>Can't delete linked groupingtype</cant_del_linked_groupingtype>
+		<grouping_type_already_exists>Grouping type already exists</grouping_type_already_exists>
+		<unable_to_create_folder>Unable to create folder</unable_to_create_folder>
+		<unable_to_copy_default_image>Unable to copy default image</unable_to_copy_default_image>
+		<no_grouping_selected>No grouping selected</no_grouping_selected>
+		<grouping_reorder_done>grouping reorder done</grouping_reorder_done>
+		<new_grouping_added>New grouping added</new_grouping_added>
+		<no_grouping_type_selected>no grouping type selected</no_grouping_type_selected>
+		<grouping_type_updated>Grouping type updated</grouping_type_updated>
+		<new_grouping_type_added>New grouping type added</new_grouping_type_added>
+		<no_grouping_found>No grouping found</no_grouping_found>
+		<reorder>Reorder</reorder>
+		<hide_from_menu>Hide from menu</hide_from_menu>
+		<show_in_menu>Show in menu</show_in_menu>
+		<none>none</none>
+		<color>Color</color>
+		<thumbnail>Thumbnail</thumbnail>
+		<grouping_type>Grouping type</grouping_type>		
+		<in_the_menu>In the menu</in_the_menu>
+		<description>Description</description>
+		<order>Order</order>
+		<filter>Filter</filter>
+		<reset>Reset</reset>
+		<add>Add</add>
+		<recommanded_size>Recommanded size </recommanded_size>
+		<ratio_w_h>Ratio width / height</ratio_w_h>
+		<replace_the_current_thumbnail>Replace the current thumbnail</replace_the_current_thumbnail>
+		<show_in_the_main_menu>Show in the main menu</show_in_the_main_menu>
+		<type>Type</type>
+		<edit>edit</edit>
+		<no_grouping_type_found>No grouping type found</no_grouping_type_found>
+		<edit_grouping_type_nb>Edit grouping type nb </edit_grouping_type_nb>
+		<link_grouping>Link grouping</link_grouping>
+		<grouping>Grouping</grouping>
+		<validate>Validate</validate>
+		<list_of_unselected_groupings>List of unselected groupings</list_of_unselected_groupings>
+		<list_of_selected_groupings>List of selected groupings</list_of_selected_groupings>
+		<link_groupings_to_video>Link groupings to video</link_groupings_to_video>
+		<show_in_video_thumbnails>Show in video thumbnails</show_in_video_thumbnails>
+		<in_thumbnails>In thumbnails </in_thumbnails>
+		<grouping_have_been_disconected>Grouping have been disconected</grouping_have_been_disconected>
+		
+	</phrases>
+</clipbucket_language>

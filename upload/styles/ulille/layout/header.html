@@ -1,0 +1,124 @@
+ {if $userquery->udetails['soclid'] != ''}
+		{assign var="usr_head_thumb" value="{$userquery->getUserThumb('','',userid())}"}
+		{else}
+		{assign var="usr_head_thumb" value="{$userquery->getUserThumb('','small',userid())}"}
+	{/if}
+		<div id="quick_container">
+	<div id="quicklist_box"> </div>
+</div>
+{$logged_in_user = $userquery->get_user_details(userid())}
+{$searchPage = $smarty.get.query}
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#webtv-main-navbar"> <span class="sr-only">Navigation</span> <span class="glyphicon glyphicon-menu-hamburger"></span> menu</button>
+			<a class="navbar-brand" href="{$baseurl}"><img nopin="nopin" src="{$theme}/images/logo.svg" alt="logo" class="img-responsive-vert"></a> </div>
+		<!-- YB {ANCHOR place='mature_content'}
+		
+		{$head_menu=cb_menu()}--> 
+		<div class="collapse navbar-collapse" id="webtv-main-navbar">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="search" role="search">
+					<form class="form-inline" action="{link name='search_result'}">
+						<label class="sr-only" for="query">Termes de recherche</label>
+						<input type="text" class="reset" name="query" placeholder="rechercher..."  value="{'query'|get_form_val:true}" id="query">
+						<input type="hidden" name="type" class="type" value="multisearch" id="type">
+						<button role="search" tabindex="-1" type="submit" name="cbsearch" id="cbsearch" title="{lang code='Go'}" value="{lang code='Go'}" class="submit btn btn-default"><span class="glyphicon glyphicon-search"></span><span class="sr-only">Valider</span></button>
+					</form>
+				</li>
+			</ul>
+			<!-- Shown to Large displays only Start -->
+			<ul class="nav navbar-nav">
+				<!-- li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{lang code="categories"} <span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu"-->
+						{*$cbvid->cbCategories(["type"=>$type,"echo"=>"TRUE","output"=>"list","with_all"=>"TRUE"]) *}
+					<!-- /ul>
+				</li-->
+				{if function_exists('disciplinesMenuOutput')}
+					<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{lang code="disciplines"} <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							{ANCHOR place="disciplinesMenuOutput"}
+						</ul>
+					</li>
+				{/if}
+				{if function_exists('groupingMenuOutput')}
+					{foreach from=$videoGrouping->getAllGroupingTypes(true)  item=gt}
+					<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{$gt.name} <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							{ANCHOR place="groupingMenuOutput" data=$gt.id}
+						</ul>
+					</li>
+					{/foreach}
+				{/if}
+				<li><a href="{$BASEURL}/videos.php">Toutes les vidéos</a></li>
+				<!--li><a href="#">Live !</a></li-->
+			</ul>
+			{if userid()} 
+			<!-- if logged -->
+			<ul class="nav navbar-nav navbar-right">
+				<li class="user"><a href="{link name='logout'}" title='{lang("logout")} : {$logged_in_user.username}'><span class="glyphicon glyphicon-remove-circle"></span>&nbsp;{lang code="logout"}</a></li>
+				{if has_access('admin_access')}
+				<li class="admin"><a href="{$admin_baseurl}" title="{lang code="Admin area"}"><span class="glyphicon glyphicon-cog"></span>&nbsp;{lang code="Admin area"}</a></li>
+				{/if}
+			</ul>
+			{else}
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="{link name='signup'}?mode=login"><span class="glyphicon glyphicon-user"></span>&nbsp;{lang code='login'}</a></li>
+				</ul>
+			{/if} </div>
+		<!-- Ends --> 
+		
+	</div>
+</nav>
+<a id="top"></a>
+
+<script>
+function rm_hvr() {
+	if ( $(window).width() > 767 )
+	{
+		$(".dropdown.hvr").on("mouseenter",function(){
+			$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
+		});
+		$(".dropdown.hvr").on("mouseleave",function(){
+			$('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
+		});
+	}
+	else
+	{
+		
+	}
+}
+//header menu-width function
+function headerMenuWidth(){
+	var headerWidth = $(window).width();
+	$(".mega-dropdown-menu .col:nth-child(2)").css("width",headerWidth-350+"px");
+}
+$(window).resize(function(){
+	rm_hvr();
+	headerMenuWidth();
+});
+	$(document).ready(function(){
+		rm_hvr();
+		headerMenuWidth();
+		$(".cbsearchtype a").on({
+			click: function(e){
+				e.preventDefault();
+				var prent_li = $(this).parents();
+				$('.type').val($(this).html());
+				$('.cbsearchtype li').removeClass('active');
+				prent_li.addClass('active');
+			}
+			});
+		
+		$('.show-small-form').click(function() {
+			$('.form-small').toggleClass('show');   
+		});
+
+		$('.s-types').on("click", function(){
+			var _this = $(this);
+			var text = _this.html();
+			$('.search-type').html(text);
+		});
+	});
+</script>

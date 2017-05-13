@@ -1,0 +1,51 @@
+<h1>Sign up</h1>
+<form name="login_form" method="post" action="" id="login_form" class="user-form">
+    <h2>{lang code="login"}</h2>
+    <div class="form-group">
+        {*<label for="login_username_sp">{lang code="Username"}</label>*}
+        <input type="text" id="login_username_sp" placeholder="{lang code='type_username_here'}"
+        class="form-control" name="username">
+    </div>
+
+    <div class="form-group">
+        <input type="password" id="login_password_sp" placeholder="{lang code='type_password_here'}"
+        class="form-control" name="password">
+    </div>
+
+    <div class="checkbox custom-elements form-group">
+        <label>
+            <input type="checkbox" name="remember_me" value="yes">
+            {lang code="remember_me"}
+        </label>
+    </div>
+
+    <input id="login_btn" type="submit" name="login" value="{lang('Login')}" class="btn btn-primary btn-lg btn-block">
+
+    <div class="clearfix links">
+        <a href="{$baseurl}/forgot.php">{lang code='user_forgot_message'}?</a>
+        <a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='com_forgot_username'}?</a>
+    </div>
+    <input type="hidden" name="login" value="login"></input>
+    {if function_exists('show_all_btns')} 
+    <div class="clearfix social-links">
+        <span>or login with</span>
+        <div id="social_buttons">
+            {ANCHOR place="show_all_btns"}
+        </div>
+    </div>
+    {/if}
+</form>
+                            
+                                            
+{*                 
+	{if function_exists('is_auth_cas')}
+        <div class="panel panel-defaultlocal">
+            <div class="panel-heading" role="tab" id="headingCas">
+                <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accountSelect" href="#accountCas" aria-expanded="true" aria-controls="accountCas">Université de Lille <span class="caret"></span></a></h4>
+            </div>
+            <div id="accountCas" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingCas">
+                <div class="panel-body"> <a href="{ANCHOR place="is_auth_cas" data="true"}" class="btn btn-primary btn-block">Connexion CAS <img src="{$theme}/images/U-lille-16x16.svg" alt="blason Université de Lille"></a> </div>
+            </div>
+        </div>
+    {/if}
+*}

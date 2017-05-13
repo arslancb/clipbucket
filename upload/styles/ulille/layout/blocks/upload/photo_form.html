@@ -1,0 +1,46 @@
+{assign var='reqFields'  value=$cbphoto->load_required_forms($photoArray)}
+{assign var='otherFields'  value=$cbphoto->load_other_forms($photoArray)}
+<div id="uploadFormContainer0" class="uploadFormContainer">
+    <form action="#" method="post" id="Form{$uniqueID}"> 
+        <div class="row">
+            <div class="col-md-8">
+              <div>
+                {foreach from=$reqFields item=item}
+                    <div class="form-group">
+                        <label>{$item.title}</label>
+                        {$item.class='form-control'}
+                        {$formObj->createField($item)}
+                        {if $item.hint_1}
+                            <span class="hint">{$item.hint_1}</span>
+                        {/if}
+                    </div>
+                {/foreach}
+            </div>
+            <div class="">
+                <div class="photoOptionalSettings">
+                    <div class="">
+                        {foreach from=$otherFields item=field}
+                            <div class="form-group">
+                            <label class="show">{$field.title}</label>
+                            {$field.label_class='radio-inline'}
+                            {$field.notShowSeprator=true}
+                            {$formObj->createField($field)}
+                            </div>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>   
+            <div class="form-group">
+                <button disabled class="btn btn-primary submitPhoto">
+                    Save Details
+                </button>
+            </div>  
+            </div>
+            <div class="col-md-4">
+                <div class="img-thumbnail" id="photoPreview">
+                     <img src="{get_photo details=$photoArray size='m'}" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

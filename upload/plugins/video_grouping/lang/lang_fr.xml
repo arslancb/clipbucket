@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>Français</name>
+	<iso_code>fr</iso_code>
+	<phrases>
+		<allow_video_grouping_management>Autoriser la gestion des groupements de vidéos</allow_video_grouping_management>
+		<manage_video_grouping>Gérer les groupements de vidéos</manage_video_grouping>
+		<link_video_grouping>Associer un groupement</link_video_grouping>
+		<name_is_required>le nom est nécessaire.</name_is_required>
+		<grouping_updated>Groupement mis à jour</grouping_updated>
+		<upload_failed>L'upload à échoué</upload_failed>
+		<file_is_too_big>Fichier trop gros</file_is_too_big>
+		<unable_to_copy_file>Copie de fichier impossible</unable_to_copy_file>
+		<grouping_already_exists>Un groupement de même nom existe déjà</grouping_already_exists>
+		<grouping_deleted_succesfully>Groupement supprimé</grouping_deleted_succesfully>
+		<please_modify_the_following_videos_before_deleting>Veuillez modifier les vidéos suivantes avant d'effacer</please_modify_the_following_videos_before_deleting>
+		<videos_use_the_grouping>Des vidéos utilisent le groupement</videos_use_the_grouping>
+		<grouping_added>Groupement ajouté</grouping_added>
+		<groupingtype_does_not_exist>Le type de groupement n'existe pas</groupingtype_does_not_exist>
+		<groupingtype_deleted>Type de groupement supprimé</groupingtype_deleted>
+		<cant_del_linked_groupingtype>Impossible de supprimer. Ce type de groupement est utilisé.</cant_del_linked_groupingtype>
+		<grouping_type_already_exists>Type de groupement déjà existant)</grouping_type_already_exists>
+		<unable_to_create_folder>Création du dossier impossible</unable_to_create_folder>
+		<unable_to_copy_default_image>Impossible de copier l'image par défaut</unable_to_copy_default_image>
+		<no_grouping_selected>Pas de groupement sélectionné</no_grouping_selected>
+		<grouping_reorder_done>Groupements réordonnés</grouping_reorder_done>
+		<new_grouping_added>Groupement ajouté</new_grouping_added>
+		<no_grouping_type_selected>Pas de type de groupement sélectionné</no_grouping_type_selected>
+		<grouping_type_updated>Type de groupement mis à jour</grouping_type_updated>
+		<new_grouping_type_added>Type de groupement ajouté</new_grouping_type_added>
+		<no_grouping_found>Aucun groupement trouvé</no_grouping_found>
+		<reorder>Mettre à jour l'ordre</reorder>
+		<hide_from_menu>Masquer du menu</hide_from_menu>
+		<show_in_menu>Afficher dans le menu</show_in_menu>
+		<none>Aucune</none>
+		<color>Couleur</color>
+		<thumbnail>Vignette</thumbnail>
+		<grouping_type>Type de groupement</grouping_type>
+		<type>Type</type>
+		<in_the_menu>Dans le menu</in_the_menu>
+		<description>Description</description>
+		<order>Ordre</order>
+		<filter>Filtrer</filter>
+		<reset>Réinitialiser</reset>
+		<add>Ajouter</add>
+		<recommanded_size>Dimension recommandée </recommanded_size>
+		<ratio_w_h>Rapport largeur / hauteur</ratio_w_h>
+		<replace_the_current_thumbnail>Remplacer la vignette actuelle</replace_the_current_thumbnail>
+		<show_in_the_main_menu>Afficher dans le menu principal</show_in_the_main_menu>
+		<type>Type</type>
+		<edit>Editer</edit>
+		<no_grouping_type_found>Aucun type de groupement trouvé</no_grouping_type_found>
+		<edit_grouping_type_nb>Edition du type de groupement n° </edit_grouping_type_nb>
+		<link_grouping>Associer un groupement</link_grouping>
+		<grouping>Groupement</grouping>
+		<validate>Valider</validate>
+		<list_of_unselected_groupings>Liste des groupements non sélectionnés</list_of_unselected_groupings>
+		<list_of_selected_groupings>Liste des groupements sélectionnés</list_of_selected_groupings>
+		<link_groupings_to_video>Associer les groupements pour la video </link_groupings_to_video>
+		<show_in_video_thumbnails>Afficher dans les vignettes des vidéos</show_in_video_thumbnails>
+		<in_thumbnails>Dans les vignettes</in_thumbnails>
+		<grouping_have_been_disconected>Les groupements ont été dissociés</grouping_have_been_disconected>
+	</phrases>
+</clipbucket_language>

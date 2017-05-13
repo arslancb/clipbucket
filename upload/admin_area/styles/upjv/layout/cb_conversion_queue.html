@@ -1,0 +1,68 @@
+<div class="heading">
+  <h2>ClipBucket Queue Manager</h2> 
+</div>
+{if conv_lock_exists()}
+<span class="btn btn-primary" onclick="window.location='?delete_lock=yes'">
+    Delete Conversion Lock
+</span>
+{/if}
+<p class="alert alert-info">
+    do not try to change the things here, can cause problems to your Clipbucket conversion system.
+</p>
+
+
+<!-- DIsplaying Videos -->
+<form name="video_manage" method="post">
+
+<div class="btn-group marginBottomSmall">
+    <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-xs" onclick="return confirm_it('Are your sure you want to remove these items')"/>
+    <input name="processed" type="submit"class="btn btn-primary btn-xs" id="processed" value="Set as processed" />
+    <input name="pending" type="submit"class="btn btn-primary btn-xs" id="pending" value="Set as pending" /></td>
+</div>
+
+
+<table class="table table-bordered table-striped">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="50" class="head">ID</td>
+    <td class="head">Details</td>
+  </tr>
+{if $queues}
+
+{foreach from=$queues item=queue}
+<tr bgcolor="{$bgcolor}">
+	<td width="30">
+        <input name="check_queue[]" type="checkbox"  value="{$queue.cqueue_id}" />
+    </td>
+    <td width="50">
+    	{$queue.cqueue_id}
+    </td>
+    <td class="video_opt_td">
+        <a class="block" href="{$baseurl}/{$smarty.const.ADMINDIR}/view_conversion_log.php?file_name={$queue.cqueue_name}" target="_blank">
+        {$queue.cqueue_name}
+        </a>
+        <br>
+        <span class="vdo_sets">
+           <label class="label label-primary"> File Type :<strong>{$queue.cqueue_ext}</strong> &#8226;</label>
+             <label class="label label-danger">Temp Ext : <strong>{$queue.cqueue_tmp_ext}</strong> &#8226;</label>
+             <label class="label {if $queue.cqueue_conversion=='yes'}label-success{elseif $queue.cqueue_conversion=='no'}label-info{else}label-warning{/if}">Conversion Process :
+                 {if $queue.cqueue_conversion=='yes'}Proccessed{elseif $queue.cqueue_conversion=='no'}Pending{else}Processing{/if}</label>
+
+            {if $queue.time_started}
+             <label class="label label-info">Started : <strong>{"Y-m-d H:i:s"|date:$queue.time_started|niceTime}</strong> &#8226;</label>
+            {/if}
+            {if $queue.time_completed}
+            <label class="label label-default"> Completed : <strong>{"Y-m-d H:i:s"|date:$queue.time_completed|niceTime}</strong></label>
+            {/if}
+        </span>
+    </td>
+</tr>
+{/foreach}
+</table>
+{else}
+	<div align="center"><strong>No Conversion Queue File Found</strong></div>
+{/if}
+</form>
+
+{include file="$style_dir/blocks/pagination.html" }

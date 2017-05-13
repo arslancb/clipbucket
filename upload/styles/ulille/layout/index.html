@@ -1,0 +1,73 @@
+<!-- YB annonce / plugin global announcement -->
+<div class="global-announcement">{ANCHOR place='global'}</div>
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) return;
+	    js = d.createElement(s); js.id = id;
+	    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=120542078043680";
+	    fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+	</script>
+		{$row = $myquery->Get_Website_Details()}
+		<!-- YB home selection -->
+		<div class="row">
+			<div class="col-xs-12">
+			<div id="videolist-container" class="clearfix grid videos">
+				<div class="grid-sizer"></div>
+				{if $editor_picks}
+					{section name=ep_list loop=$editor_picks}
+						{include file="$style_dir/blocks/videos/video-index.html" video=$editor_picks[ep_list] order="RAND()"}
+					{/section}
+				{/if}
+				</div>
+			</div>
+		</div>
+		<!-- /YB home selection -->
+<script type="text/javascript">
+	$(function() {
+				
+	    $('#slide').ulslide({
+	        width: 350,
+	        height: 88,
+			effect: {
+				type: 'carousel', // slide or fade
+	            axis: 'y',        // x, y
+				showCount: 5
+			},
+	        nextButton: '#slide_next',
+	        prevButton: '#slide_prev',
+	        duration: 800,
+	        /*autoslide: 2000*/
+			easing: 'easeOutBounce'
+	    });
+	    $('#slide1').ulslide({
+	        width: 150,
+	        height: 80,
+			effect: {
+				type: 'carousel', // slide or fade
+	            axis: 'x',        // x, y
+				showCount: 5
+			},
+	        nextButton: '#slide_next1',
+	        prevButton: '#slide_prev1',
+	        duration: 800,
+	        autoslide: 2000
+			/*easing: 'easeOutBounce'*/
+	    });
+	    $('#slide3').ulslide({
+	        width: 150,
+	        height: 80,
+			effect: {
+				type: 'carousel', // slide or fade
+	            axis: 'x',        // x, y
+				showCount: 5
+			},
+	        nextButton: '#slide_next3',
+	        prevButton: '#slide_prev3',
+	        duration: 800,
+	        autoslide: 2000,
+			easing: 'easeOutBounce'
+	    });
+	});
+</script>

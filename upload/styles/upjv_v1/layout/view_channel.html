@@ -1,0 +1,488 @@
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
+{lang code='channel' assign='object_type'}
+{$loadMoreLang ={lang code="load_more"}}
+{$uservideos=get_videos(["user"=>$user.userid, "order"=>"date_added DESC","limit" =>9])}
+{if $uservideos}
+{$first_video = $cbvid->get_video($uservideos.0.videokey)}
+{/if}
+
+{$total_videos = $user.total_videos}
+{$total_photos = $user.total_photos}
+<div id="main" class="container clearfix">
+	<div class="clearfix">
+		{include file="$style_dir/blocks/view_channel/channel_header.html"}
+	</div>
+	<div class="clearfix report-block" id="report-user-form" style="display:none">
+		{show_flag_form id=$user.userid type=user}	
+	</div>
+	<div class="clearfix">
+		<section id="content" class="clearfix">
+			{if $uservideos}
+			<div class="player-items">
+				<div class="clearfix player-holder">
+					<div id="cb_player" class="clearfix cb_player">
+						{FlashPlayer vdetails=$first_video width='100%' height='355'}
+					</div>
+				</div>
+				<img src="{$theme}/images/player-ratio.png" class="playerRatio">
+			</div>
+			{/if}
+			<div id="messageFav" class="alert alert-info marginTop" style="display:none"></div>
+			<div class="channel-tabs flat-tabs clearfix">
+				<ul class="clearfix nav nav-tabs">
+					<li>
+						<a href="#user-info" data-toggle="tab">{lang code='info'}</a>
+					</li>
+					{if isSectionEnabled('videos') && $u_control.show_my_videos != 'no'}
+					<li class="active">
+						<a href="#user-videos" data-toggle="tab">{lang code='videos'}</a>
+					</li>
+					{/if}
+					{if isSectionEnabled('photos') && $u_control.show_my_photos != 'no'}
+					<li {if $u_control.show_my_videos == 'no' || !isSectionEnabled('videos')}class="active"{/if}>
+						<a href="#user-photos" data-toggle="tab">{lang code='photos'}</a>
+					</li>
+					<li>
+					{/if}
+					<li>
+						<a href="#user-playlist" data-toggle="tab">{lang code='playlists'}</a>
+					</li>
+				</ul>
+				<div class="tab-content clearfix">
+					<div class="tab-pane fade in clearfix {if $u_control.show_my_videos == 'no' && $u_control.show_my_photos == 'no'}active{/if}}" id="user-info">
+						<div class="clearfix watch-vid-details">
+							<h2>{lang code='user_activity'}</h2>
+							<ul class="clearfix desc-list">
+								<li>
+									<strong>{lang code='joined'}</strong>:&nbsp;{$u.doj|niceTime}
+								</li>
+								<li>
+									<strong>{lang code='user_last_login'}</strong>:{$u.last_logged|niceTime}
+								</li>
+								<li>
+									<strong>{lang code='online_status'}</strong>:&nbsp;
+									{if $userquery->isOnline($u.last_active,$p.online_status)}
+										<span style="color:#060">{lang code='online'}</span>
+									{else}
+										<span style="color:#ed0000">{lang code='offline'}</span>
+									{/if}
+								</li>
+							</ul>
+							{assign var='channel_profile_fields' value=$userquery->load_user_fields($p,'profile')}
+							{foreach from=$channel_profile_fields item=field_group name=profile_groups}
+							{if $smarty.foreach.profile_groups.iteration==2}
+							<div id="moreDetailsDIV" style="display:none">
+							{/if}
+							{if $field_group.channel_view !='no'}     
+								<div class="clearfix">
+									<h2>{$field_group.group_name}</h2>
+									<ul class="clearfix desc-list">
+										{if $field_group.group_id=='profile_location'}
+										<li>
+											<strong>{lang code='country'}</strong>:&nbsp;{$u.country|country}
+										</li>
+										{/if}
+
+										{foreach from=$field_group.fields item=field}
+										{if $field.auto_view=='yes' && $field.value}
+										<li>
+										{if $field.type !='textarea' && $field.type !='text' && $field.type !='textfield'}
+											<strong>{$field.title}</strong>:&nbsp;{input_value input=$field}
+											{elseif $field.type =='textarea'}
+											<strong>{$field.title}</strong>:&nbsp;{$field.value|nl2br}
+											{else}
+											<strong>{$field.title}</strong>:&nbsp;{input_value input=$field}
+										{/if}
+										</li>
+										{/if}
+										{if $field_group.group_id=='profile_basic_info' 
+											  && $field.name=='relation_status'
+												  && $p.show_dob!='no'}
+										<li>
+											<strong>{lang code='user_date_of_birth'}</strong>:&nbsp;{$u.dob}
+										</li>
+										{/if}
+										{/foreach}
+									</ul>
+								</div>
+							{/if}
+							{if $smarty.foreach.profile_groups.last}
+							</div>
+							{/if}
+							{/foreach}
+							<div id="moreDetails" class="channelFieldset">
+								<a class="btn btn-primary btn-sm channelLegend" href="javascript:void(0)" onClick="$('#moreDetails').hide(); $('#moreDetailsDIV').show();">{lang code='more'}</a>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane videos fade in clearfix {if $u_control.show_my_videos != 'no'}active{/if}" id="user-videos">
+						<div class="clearfix row user_vids">
+							{if $uservideos}
+								<div id="usr-vids" class="clearfix">
+								{foreach $uservideos as $video}
+
+									{$cpt = {counter}}
+									{if $cpt eq 1 or ($cpt%3 == 1)}
+										<div class="row" style="padding:8px;">
+									{/if}
+				
+									<div class="item-video col-lg-4 col-md-4 col-sm-4 col-xs-12">
+									{include file="$style_dir/blocks/videos/video.html" display_type='homeVideos'}
+									</div>
+					
+
+									{if $cpt%3 == 0}
+										</div>
+									{/if}
+									
+									<!--
+									<div class="item-video col-lg-4 col-md-4 col-sm-6 col-xs-12">
+									{*include file="$style_dir/blocks/videos/video.html" display_type='homeVideos'*}
+									</div>
+									-->
+								{/foreach}
+								</div>
+
+								{if $total_videos > 9}
+									<div class="clearfix text-center">
+										<button id="more-view-channel" class="btn btn-loadmore" dataLimit="9" dataHit="2">{lang code='load_more'}</button>
+									</div>
+								{/if}
+							{else}
+								<div class="well well-info">{lang code='no_results_found'}</div>
+							{/if}
+						</div>
+					</div>
+					<div class="tab-pane fade in clearfix {if $u_control.show_my_videos == 'no'}active{/if}" id="user-photos">
+						<div id="usr-photos" class="clearfix row user_photos">
+						{$photos=get_photos(["user"=>$user.userid,"limit" =>9])}
+							{if $photos}
+								{foreach from=$photos item=p_list}
+								<div class="item-photo col-lg-4 col-md-4 col-sm-6 col-xs-12">
+									{include file="$style_dir/blocks/photo.html" photo=$p_list display_type = "default_photo"}
+								</div>
+								{/foreach}
+								{if $user.total_photos > 9} 
+									<div class="clearfix text-center">
+										<button id="more-channel-photos" class="btn btn-loadmore" dataLimit="9" dataHit="2">{lang code='load_more'}</button>
+									</div>
+								{/if}
+							{else}
+								<div class="well well-info">{lang code='no_results_found'}</div>
+							{/if}
+						</div>
+					</div>
+					<div class="tab-pane fade in clearfix" id="user-playlist">
+						{*$u.userid*}
+						{$playlists = $cbvid->action->get_playlists(["user"=>$u.userid,"order"=>"date_added DESC","limit"=>""])}
+						
+						{if $playlists}
+						{*pr($playlists,true)*}
+						<div class="clearfix row ch-playlists">
+						
+						{foreach $playlists as $playlist}
+							<div class="playlist-item col-lg-4 col-md-4 col-sm-6 col-xs-12">
+							{include file="$style_dir/blocks/playlist/playlist-block.html"}
+							</div>
+						{/foreach}
+						
+						</div>
+						{else}
+							<div class="well well-info">{lang code='no_playlists'}</div>
+						{/if}
+					</div>
+				</div>
+			</div>
+		</section>
+		<aside id="sidebar">
+			{assign var=userFeeds value=$cbfeeds->getUserFeeds($u)}
+			{if $userFeeds && userid()}
+			<h2>{lang code="user_activity"}</h2>
+			<div id="userFeeds" class="user-activities clearfix sidebar-items">
+				{foreach from=$userFeeds item=userFeed}
+					{include file="$style_dir/blocks/feed.html" feed=$userFeed}
+				{/foreach}
+			</div>
+			{/if}
+			{$popular_users = get_users(['order'=>'profile_hits DESC limit 5'])}
+			{if $popular_users}
+			<h2>{lang code="Popular Users"}</h2>
+			<div class="clearfix sidebar-channels">
+				{foreach $popular_users as $popular}
+				{if $popular.username == $smarty.get.user} 
+					{continue}
+				{/if}
+				<div class="clearfix channel-item">
+					<a href="{$userquery->profile_link($popular)}" class="avatar">
+						<img src="{$userquery->getuserthumb($popular,'small')}" width="50" height="50" class="img-circle">
+					</a>
+					<div class="channel-info">
+						<h3><a href="{$userquery->profile_link($popular)}">{$popular.username}</a></h3>
+						<div class="clearfix views-videos">
+							<span>{$popular.profile_hits|number_format} {lang code='views'}</span>
+							<span>{$popular.total_videos|number_format} {lang code='videos'}</span>
+						</div>
+					</div>
+				</div>
+				{/foreach}
+			</div>
+			{/if}
+		</aside>
+	</div>
+	
+		
+</div>
+<script>
+/*$('#changeCover').on("click", function(){
+
+$('#cover_info').show();
+
+});*/
+
+
+(function(window){
+  $(document).ready(function(){
+	$("#report-user").on("click",function(){
+		$("#report-user-form").toggle();
+	});
+	var extensions = "{$extensions}";
+	var baseurl = '{$baseurl}';
+	var channelId = "{$user['userid']}";
+	extensions = (extensions.substring(0, extensions.length - 1)) + ",png,jpeg";
+	$.get("{$theme}/js/plupload/js/plupload.full.min.js", function(e){
+	  var uploader = new plupload.Uploader({
+		  browse_button: 'changeCover',
+		  runtimes : 'html5,flash,silverlight,html4',
+		  url : baseurl + "/edit_account.php?mode=avatar_bg",
+		  file_data_name : "coverPhoto",
+		  filters: {
+			mime_types : [
+			  { title : "Image files", extensions : extensions },
+			],
+			max_file_size: "2mb",
+			prevent_duplicates: false,
+		  }
+	  });
+	  window.uploader = uploader;
+	  uploader.init();
+	  uploader.bind("FilesAdded", function(up, uploadedFiles){
+		$(".cb-live-background").attr("src",baseurl+'/images/loading.png');
+		up.start();
+	  });
+	  uploader.bind('UploadComplete', function(plupload, files, response){
+		
+	  });
+
+	  uploader.bind("FileUploaded", function(plupload, files, response){
+		var response = $.parseJSON(response.response);
+		if(response.status == true){
+		  $(".cb-live-background").attr("src",response.url);
+		}else{
+		  $(".cb-live-background").attr("src",response.url);
+		  alert(response.msg);
+		}
+	  });
+
+	  uploader.bind("Error", function(plupload, error){
+		alert(error.message);
+	  });
+	});
+	$("#coverContainer").hover(function(e){
+		//$("#changeCover").removeClass("sr-only");
+		$("#changeCover").show();
+	}, function(e){
+	  // $("#changeCover").addClass("sr-only");
+		$("#changeCover").hide();
+	});
+	$("#channelVoteUp, #channelVoteDown").one({
+	  click: function(e){
+		var vote = "";
+		var id = "" + this.id;
+		var likes = parseInt($("#likes").text());
+		var totalVotes = parseInt($("#totalVotes").text()) + 1;
+		if(this.id == "channelVoteDown"){
+		  vote  = "no";
+		   likes = likes - 1;
+
+		}else{
+		  vote = "yes";
+		  likes = likes + 1;
+		}
+		$.ajax({
+		  type: "POST",
+		  url: "{$baseurl}/actions/vote_channel.php",
+		  data: { vote: vote, channelId : channelId}
+		}).success(function(data){
+		  $("#likes").text(likes);
+		  $("#totalVotes").text(totalVotes);
+		});
+	  }
+	})
+  });
+})(window);
+
+/* player height and editerpick activities height */
+	var WinWidHome = "";
+	function editpickVideos(){
+		WinWidHome = $(window).width();
+		if(WinWidHome > 991)
+		{
+			console.log("height "+WinWidHome);
+			var bannerHeight = $(".player-items").height();
+			bannerHeight = bannerHeight - 43;
+			console.log("height "+bannerHeight);
+			$(".user-activities").css({
+				"max-height" : bannerHeight+"px",
+				"overflow-y" : "auto"
+			});
+		}
+		else
+		{
+			console.log("height "+WinWidHome);
+			
+			$(".user-activities").css("max-height","auto");
+		}
+	}
+/* */
+	$(document).ready(function (){
+		editpickVideos();
+		var id ='{$user.userid}';
+		$('#subscribe_channel').on({
+		click: function(e){
+			e.preventDefault();
+		   _cb.subscribeToChannelNew(id,'subscribe_user');
+		   
+		 }
+		});
+
+	});
+
+	$('#myTab a, #reportTab a').click(function (e) {
+		e.preventDefault()
+		$(this).tab('show')
+	});
+	$('#load_more_playlist').click(function() 
+	 { 
+	  var limit = $(this).attr("limit");
+	  var mode = 'load_more';
+	  var inner_mode = 'load_more_playlist';
+	  var append_id = 'load_more_channel_playlist';
+	  var attrb = $(this);
+	  var cat_id = $(this).attr("cat-id");
+	  var total = $(this).attr("total");
+	  load_more(limit,mode,inner_mode,append_id,attrb,cat_id,total);
+	 });
+
+	var loadMoreLang = "{$loadMoreLang}";
+	$('#container').on("click","#more-view-channel",function(){
+		loadHit = $(this).attr('dataHit');
+		loadLimit = $(this).attr('dataLimit');
+		user = "{$smarty.get.user}";
+		totalVids = "{$total_videos}";
+		totalShown = loadHit * 9 - 9;
+		if (totalVids - totalShown <= 9) {
+			loadMore = false;
+		} else {
+			loadMore = true;
+		}
+
+		nextHit = parseInt(loadHit) + 1;
+		$.ajax({
+			url: baseurl + "/ajax/view_channel.php",
+			type: "post",
+			dataType: "html",
+			data: {
+				"mode":'channelMore',
+				"loadHit":loadHit,
+				"loadLimit":loadLimit,
+				"totalVids":totalVids,
+				"userid":{$user.userid},
+			},
+			beforeSend: function() {
+				$(document).find('#more-view-channel').text('Loading videos..')
+			},
+
+			success: function(data) {
+				alert(data);
+				$('#more-view-channel').remove();
+				if (data.length > 1) {
+					$(data).appendTo('#usr-vids').fadeIn('slow');
+					if (loadMore == true) {
+						$('<div class="clearfix text-center"><button id="more-view-channel" class="btn btn-loadmore" dataLimit="'+loadLimit+'" dataHit="'+nextHit+'">'+loadMoreLang+'</button></div>').appendTo('.user_vids').fadeIn('slow');
+					}
+					var moveTo = $( ".recentAppending" ).last().offset().top,
+					currWidth = $(window).width();
+					moveTo = moveTo - 630;
+					if (currWidth > 767) {
+						thakkiLoading(moveTo);
+					}
+				} else {
+					$('<div class="clearfix text-center"><button id="more-view-channel" class="btn btn-loadmore" disabled="disabled">Unable to fetch more</button></div>').appendTo('.user_vids').fadeIn('slow');
+				}
+
+				
+			}
+		});
+	});
+
+	$('#container').on("click","#more-channel-photos",function(){
+		loadHit = $(this).attr('dataHit');
+		loadLimit = $(this).attr('dataLimit');
+		user = "{$smarty.get.user}";
+		totalPhotos = "{$total_photos}";
+		totalShown = loadHit * 9 - 9;
+		if (totalPhotos - totalShown <= 9) {
+			loadMore = false;
+		} else {
+			loadMore = true;
+		}
+
+		nextHit = parseInt(loadHit) + 1;
+		$.ajax({
+			url: baseurl + "/ajax/view_channel.php",
+			type: "post",
+			dataType: "html",
+			data: {
+				"mode":'channelMorePhotos',
+				"loadHit":loadHit,
+				"loadLimit":loadLimit,
+				"totalPhotos":totalPhotos,
+				"userid":user,
+			},
+			beforeSend: function() {
+				$(document).find('#more-channel-photos').text('Loading photos..')
+			},
+
+			success: function(data) {
+				$('#more-channel-photos').remove();
+				if (data.length > 1) {
+					$(data).appendTo('#usr-photos').fadeIn('slow');
+					if (loadMore == true) {
+						$('<div class="clearfix text-center"><button id="more-channel-photos" class="btn btn-loadmore" dataLimit="'+loadLimit+'" dataHit="'+nextHit+'">Load More</button></div>').appendTo('.user_photos').fadeIn('slow');
+					}
+
+					var moveTo = $( ".photoAppending" ).last().offset().top,
+					currWidth = $(window).width();
+					moveTo = moveTo + 240;
+					if (currWidth > 767) {
+						thakkiLoading(moveTo);
+					}
+				} else {
+					$('<div class="clearfix text-center"><button id="more-view-channel" class="btn btn-loadmore" disabled="disabled">Unable to fetch more</button></div>').appendTo('.user_vids').fadeIn('slow');
+				}
+
+				
+			}
+		});
+	});
+	/**/
+	
+	
+	$('.playerRatio').load(function(){
+		editpickVideos();
+	});
+	$(window).resize(function() {
+		editpickVideos();
+	});
+</script>

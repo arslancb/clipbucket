@@ -1,0 +1,16 @@
+<script type="text/javascript">
+{literal}
+
+/**
+ *	When document is loaded :
+ *		modify the DOM of the Video Manager main faile to add a button for nex Video
+ */
+$( document ).ready( function() {
+	var advanceSearchDiv = $(".advanceSearchButton");
+ 	var addVideoButton = '&nbsp;<a href="?newvideo=1" class="btn btn-primary btn-sm  current after" style="margin-bottom: 0px;position: relative; top: 15px;">{/literal}{lang("add_video")}{literal}</a>';
+	var data = advanceSearchDiv.html();
+	advanceSearchDiv.html(data+addVideoButton);
+});
+
+{/literal}
+</script>

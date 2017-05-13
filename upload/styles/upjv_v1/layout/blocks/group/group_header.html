@@ -1,0 +1,156 @@
+<!-- GROUP HEADER STARTS HERE -->
+
+<div class="group_top_cont clearfix">
+	<!-- Group Left Column -->
+    <div class="grp_left_column">
+    	<div class="group_thumb_cont" > <a href="{group_link details=$group}"><img src="{$cbgroup->get_group_thumb($group)}" border="0" /></a>
+    </div>        
+        <div class="group_option_container">
+        <span class="grp_opt_title">{lang code='group_options'}</span>
+          <ul>
+          	{assign var=join_link value=$cbgroup->group_opt_link($group,'join')}
+            {if $join_link}<li>{$join_link}</li>{/if}
+            
+            {assign var=invite_link value=$cbgroup->group_opt_link($group,'invite')}
+            {if $invite_link}<li>{$invite_link}</li>{/if}
+            
+            {assign var=leave_link value=$cbgroup->group_opt_link($group,'leave')}
+            {if $leave_link}<li>{$leave_link}</li>{/if}
+            
+            {if isSectionEnabled('videos')}
+            {assign var=add_videos_link value=$cbgroup->group_opt_link($group,'add_videos')}
+            {if $add_videos_link}<li>{$add_videos_link}</li>{/if}
+            {/if}
+            
+            {if isSectionEnabled('videos')}
+            {assign var=manage_videos_link value=$cbgroup->group_opt_link($group,'manage_videos')}
+            {if $manage_videos_link}<li>{$manage_videos_link}</li>{/if}
+            {/if}
+            
+            {if isSectionEnabled('channels')}
+            {assign var=manage_members_link value=$cbgroup->group_opt_link($group,'manage_members')}
+            {if $manage_members_link}<li>{$manage_members_link}</li>{/if}
+            {/if}
+            
+            {assign var=edit_group_link value=$cbgroup->group_opt_link($group,'edit_group')}
+            {if $edit_group_link}<li>{$edit_group_link}</li>{/if}
+            
+            {assign var=remove_group_link value=$cbgroup->group_opt_link($group,'remove_group')}
+            {if $remove_group_link}<li>{$remove_group_link}</li>{/if}
+
+          </ul>
+        </div>
+        
+    </div>
+    <!-- Group Left Column End-->
+    <!-- Group Right Column -->
+    <div class="grp_right_column">
+    	<div class="group_title">
+        <div class="group_detail_tabs clearfix">
+    	  <ul>
+    	    <li class="selected" onclick="get_group_info('#info',this)">{lang code='info'}</li>
+            {if isSectionEnabled('channels') && $isviewable}
+    	    <li onclick="get_group_info('#members',this)">{lang code='members'}</li>
+            {/if}
+            {if isSectionEnabled('videos') && $isviewable}
+    	    <li onclick="get_group_info('#gpvideos',this)">{lang code='videos'}</li>
+            {/if}
+            <li onclick="get_group_info('#flag_group',this); $('#flag_item').slideDown()">{lang code='report_this'}</li>
+  	      </ul>
+          
+       	</div>
+        </div>
+    	<div class="group_details">
+        
+        
+        <div id="group_info_cont">
+        	<!-- Group Information-->
+            	<div id="info" class="grp_info">
+                
+                	<div class="info_cont clearfix">
+                    	<div class="info_title"><span onclick="$('#basic_info').slideToggle()">{lang code='basic_info'}</span></div>
+                        <div id="basic_info">
+                    	<span><span>{lang code='grp_name_title'} </span> <span>{$group.group_name}</span></span>
+                        <div class="clear"></div>
+						{assign var=owner value=$userquery->get_user_details($group.userid)}
+                    	<span><span>{lang code='group_owner'} </span> <span><a href="{$userquery->profile_link($owner)}">{$owner.username}</a></span></span>
+                        <div class="clear"></div>
+                        
+                        <span><span>{lang code='total_mems'} </span> <span>{$group.total_members|number_format}</span></span>
+                        <div class="clear"></div>
+                        
+                        <span><span>{lang code='com_total_vids'} </span> <span>{$group.total_videos|number_format}</span></span>
+                        <div class="clear"></div>
+                        
+                        <span><span>{lang code='total_topics'} </span> <span>{$group.total_topics|number_format}</span></span>
+                        <div class="clear"></div>
+                        
+                        <span><span>{lang code='views'} </span> <span>{$group.total_views|number_format}</span></span>
+                        <div class="clear"></div>
+                                        
+                        <span><span>{lang code='grp_url'}</span> <span>
+                        <input type="text" value="{group_link details=$group}" class="grp_url" onclick="this.select()"/></span></span>
+                        <div class="clear"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="info_cont">
+                    	<div class="info_title"><span onclick="$('#more_details').slideToggle()">{lang code='more_details'}</span></div>
+                        <div id="more_details" style="display:none">
+                    	<span><span>{lang code='vdo_desc'} </span> <span>{$group.group_description}</span></span>
+                        <div class="clear"></div>
+                        
+                        <span><span>{lang code='tags'} </span> <span>{$group.group_tags|tags:group}</span></span>
+                        <div class="clear"></div>
+                        
+                        <span><span>{lang code='category'} </span> <span>{$group.category|categories:group}</span></span>
+                        <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            <!-- Group Information-->
+                        
+            <!-- Group members-->
+            	<div id="members" class="grp_info" style="display:none">
+                	{assign var=users_items_group_page value=func->config(users_items_group_page)}
+                	{assign var=members value=$cbgroup->get_members($group.group_id,"yes",$users_items_group_page)}
+                    {if $members}
+                        {foreach from=$members item=member}
+                            {include file="$style_dir/blocks/user.html" user=$member block_type='medium'}
+                        {/foreach}
+                    {/if}
+                    <div class="clear"></div>
+                    <div align="right"><a href="{group_link details=$group type='view_members'}">{lang code='view_all_mems'}</a></div>
+          </div>
+            <!-- Group members-->
+            
+             <!-- Group videos-->
+            	<div id="gpvideos" class="grp_info" style="display:none">
+                	{assign var=gpvidlimit value=func->config(videos_items_grp_page)}
+                	{assign var=gpvids value=$cbgroup->get_group_videos($group.group_id,'yes',$gpvidlimit)}
+                    {if $gpvids}
+                    {foreach from=$gpvids item=video}
+								{include file="$style_dir/blocks/video.html" video=$video video_view="grid_view"}
+                    {/foreach}
+                    {/if}
+                    <div class="clear"></div>
+                    <div align="right"><a href="{group_link details=$group type='view_videos'}">{lang code='view_all_vids'}</a></div>
+                </div>
+            <!-- Group videos-->
+            
+            <!-- Report This Group -->
+            <div id="flag_group" class="grp_info" style="display:none">
+             {show_flag_form id=$group.group_id type=Group}
+            </div> 
+            <!-- Report This Group -->
+        </div>
+    	</div>
+    </div>
+    <!-- Group Right Column Ends-->
+    
+ 
+</div>
+
+
+
+<!-- GROUP HEADER ENDS HERE -->

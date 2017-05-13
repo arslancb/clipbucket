@@ -1,0 +1,236 @@
+
+{$video=$vdo}
+{$type='video'}
+{$channel = $userquery->get_user_details($video.userid)}
+<div class="alaunecont">
+  <div class="grid">
+    <div class="col-1-1">
+        <h1 style="margin-top:0em;">{$video.title|title|urlencode}</h1></div></div>
+            
+  <div class="alaunebigcont">
+    <div class="grid">
+      <div class="col-1-1">
+        <div class="playercont">
+{FlashPlayer vdetails=$video width='100%' height='100%'}</div></div></div></div>
+  
+  <div class="watchdetailscont">
+    <div class="grid">
+      <div class="col-1-1">
+        <span class="social">
+          <a href="#"><img src="{$baseurl}/styles/webtv2/theme/images/thumbup.png"/></a>
+          <span class="nblikes">0</span>
+          <a data-featherlight="#mylightbox" data-featherlight-persist="shared" href="#">
+            <img src="{$baseurl}/styles/webtv2/theme/images/share.png"/></a>
+          <a href="https://facebook.com/sharer/sharer.php?u=https%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$smarty.server.REQUEST_URI|escape:'url'}" target="_blank"> 
+            <img src="{$baseurl}/styles/webtv2/theme/images/fb.png"/></a>
+          <a href="https://twitter.com/intent/tweet/?text={$vdo.title|escape:'url'}%20%23Tv_utc&amp;url=https%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$smarty.server.REQUEST_URI|escape:'url'}" target="_blank">
+            <img src="{$baseurl}/styles/webtv2/theme/images/twi.png"/></a>
+          <a href="https://plus.google.com/share?url=https%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$smarty.server.REQUEST_URI|escape:'url'}" target="_blank"><img src="{$baseurl}/styles/webtv2/theme/images/gplus.png"/></a>
+          <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$smarty.server.REQUEST_URI|escape:'url'}&amp;title={$vdo.title|escape:'url'}%20%23Tv_utc&amp;summary={$vdo.title|escape:'url'}%20%23Tv_utc&amp;source=https%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$smarty.server.REQUEST_URI|escape:'url'}" target="_blank" ><img src="{$baseurl}/styles/webtv2/theme/images/lkin.png"/></a></span>
+        <span class="cat">
+          Abécédaire de l'innovation</span></div></div>
+            
+
+  <!--TODO mettre en local-->
+  <link href="//cdn.rawgit.com/noelboss/featherlight/1.7.0/release/featherlight.min.css" type="text/css" rel="stylesheet" />
+  <script src="//code.jquery.com/jquery-latest.js"></script>
+  <script src="//cdn.rawgit.com/noelboss/featherlight/1.7.0/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+  <div style="display:none">
+    <div id="mylightbox">
+      {show_share_form id=$video.videoid type=Video}</div></div>
+  <!---->
+  
+    
+  <div class="watchdescriptioncont">
+    <div class="grid">
+      <div class="col-1-1">
+        <div class="watchdescription">{description(AutoLinkUrls($video.description))|unescape:"html"}</div>
+      </div>
+      &nbsp;
+      <div class="grid">
+        <div class="col-1-2">
+          <div class="details">Mis en ligne par <strong>{$video.username}</strong></div>
+        </div>
+        <div class="col-1-2">
+          <div class="details">{prettyNum($vdo.views)} {if $vdo.views > 1}{lang code='views'}{else}{lang code="view"}{/if}</div>
+        </div>
+      </div>
+      <div class="grid watchdescriptionclasscont">
+        <div class="col-1-2 categories">
+          <strong>{lang code='category'}</strong>:&nbsp;{$vdo.category|categories:video}
+          
+        </div>
+<!--        <div class="col-1-2 tags">-->
+          <strong>{lang('tags')}&nbsp;&nbsp;</strong><span >
+          {$vtags=","|explode:$vdo.tags}
+          {foreach $vtags as $tag}
+            <!--TODO: bonne url avec une recherche sur le tag-->
+            <a class="tag" href="{$baseurl}/search_result.php?query={$tag|escape}&type=videos">{$tag}</a>
+          {/foreach}
+          <!--{$vdo.tags|tags:videos}--></span>
+        </div>
+      </div>
+        
+    </div>
+  </div>
+  
+      </div>
+    </div>
+  </div>		    
+      </div>  {* col *}
+    </div>    {* row *} 
+			  
+  </div>      {*grid*}
+</div>        {*watchcont*}
+
+
+{ANCHOR place="after_watch_video"}
+<script>
+
+
+
+	/*Cookie based comments backup start*/
+	var current_video = "{$video.videoid}",
+	cookieToSave = 'comment_data_u'+userid+"v"+current_video,
+	commentDataCheck = $.cookie(cookieToSave);
+
+	if (commentDataCheck !== null) {
+		$('#comment_box').val(commentDataCheck);
+	}
+	$('#comment_box').on('keyup', function() {
+	    var comment_data = $('#comment_box').val();
+	    $.cookie(cookieToSave, comment_data, { expires : 10, path : "/" });
+	});
+
+	$('#add_comment_button').on("click",function(){
+		$.cookie(cookieToSave, null, { path : "/" });
+	});
+	/*Cookie based comments backup end*/
+
+	var playlist_total = "{$total_items}";
+	$('#ShareUsers').on("keyup",function(){
+		var typed = $(this).val();
+		$.ajax({
+			url: baseurl+'/ajax.php',
+			type: 'post',
+			dataType: 'html',
+			data: {
+				"mode":'user_suggest',
+				"typed": typed
+			},
+			beforeSend: function() {
+			},
+
+			success: function(data) {
+				$('#suggested_users').html('');
+				var jsoned = $.parseJSON(data);
+				$( jsoned.matching_users ).each(function( index, element ) {
+					$('#suggested_users').append("<option label='"+element+"' value='"+element+"'>");
+			  	});
+			}
+		});
+	});
+
+	/*Playlist load more start*/
+	var playlist_total = "{$total_items}";
+	$('#playlist-pull').on("click",function(){
+		var __this = $(this);
+		loadHit = $(this).attr('dataHit');
+		loadLimit = $(this).attr('dataLimit');
+		playlist = $(this).attr('dataList');
+
+		$.ajax({
+			url: baseurl+'/ajax/watch.php',
+			type: 'post',
+			dataType: 'html',
+			data: {
+				"mode":'playlistMore',
+				"loadHit":loadHit,
+				"loadLimit":loadLimit,
+				"playlist": playlist
+			},
+			beforeSend: function() {
+				$(__this).text("loading");
+			},
+
+			success: function(data) {
+				var loaded = loadLimit * loadHit;
+				if (playlist_total <= loaded) {
+					$(__this).remove();
+				} else {
+					$(__this).text("Load More");
+				}
+				if (data == 'none') {
+					$('#playlist-pull').remove();
+				}
+				$(data).appendTo('#playlist_items').fadeIn('slow');
+				$('#playlist-pull').attr('dataHit', parseInt(loadHit) + 1);
+			}
+		});
+	});
+	/*Playlist load more end*/
+
+	var aspect_ratio = 1.77778
+	var $cb_player = $("#cb_player");
+
+	$(document).ready(function(){
+		$cb_player.height( $cb_player.width() / aspect_ratio );
+
+		var videoInfo = $("#videoDescription").text();
+		var newInfo = videoInfo.replace(/(((https?:\/\/)|([\s\t]))(www.)?([a-z0-9]+)\.[a-z]+)/g, '<a href="$1">$1</a>');
+		$("#videoDescription").html(newInfo);
+
+		comments_voting = '{$vdo.comment_voting}';
+		_cb.getCommentsNew(
+			'{$type}',
+			'{$vdo.videoid}',
+			'{$vdo.last_commented}',1,
+			'{$vdo.comments_count}',
+			'{$object_type}'
+		);
+
+
+		$("#subscribeUser").on({
+			click: function(e){
+				e.preventDefault();
+				_cb.subscribeToChannelNew('{$video.userid}','subscribe_user');
+			}
+		});
+		var adHtml = $('.ad-holder').html();
+		if(adHtml<1){
+			$('.ad-holder').remove();
+		}
+		/*//Progress Bar
+		  $( '#circle' ).progressCircle();
+		  $( '#circle' ).progressCircle({
+			nPercent        : nPercent,
+			showPercentText : showPercentText,
+			thickness       : thickness,
+			circleSize      : circleSize
+		  });*/
+	});
+
+	$(document).on('click','#load-more-comments',function(){
+		var page = $(this).attr('page');
+		page = parseInt(page);
+		nextPage = page + 1;
+		$(this).text("Loading comments..")
+		_cb.getCommentsNew(
+			'{$type}',
+			'{$vdo.videoid}',
+			'{$vdo.last_commented}',page,
+			'{$vdo.comments_count}',
+			'{$object_type}'
+		);
+		$(this).attr('page', nextPage);
+		$(this).text("Load More")
+	})
+
+	var resizePlayer =  _cb.debounce(function() {
+		$cb_player.height( $cb_player.width() / aspect_ratio );
+	}, 500, false);
+
+	$(window).resize(resizePlayer);
+
+</script>

@@ -1,0 +1,101 @@
+			{$category = $smarty.get.cat}
+			{if $category != 'All' && is_numeric($category)} 
+				{if $smarty.const.THIS_PAGE == 'videos'}
+					{$catname = $cbvid->get_category_name($category)}
+					{$nowdo = "videos"}
+				{else}
+					{$catname = $userquery->get_category_name($category)}
+				{/if}
+				{$catname = $catname.category_name}
+			{else}
+				{$catname = 'All'}
+			{/if}
+			{if $smarty.const.BEATSLIST}
+				{$cats_array = $beats->get_categories()}
+				{$categories = $cats_array}
+				{$type = 'beats'}
+			{/if}
+			<span class="lastclicked" style="display:none;"></span>
+			<span class="lastlevel" style="display:none;"></span>
+			<div class="dropdown"> <!-- Start of category code -->
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{$catname}<span class="icon-down-arrow"></span></a>
+				<ul class="dropdown-menu">
+				<li>
+					<div>
+						<a href="{$baseurl}/{if $smarty.const.THIS_PAGE == 'videos'}videos.php{else}channels.php{/if}">All</a>
+					</div>
+				</li>
+					{$level = '1'}
+					{foreach from=$categories item=maincat}
+						<li>
+							<div>
+								<a href="{cblink(['name'=>'category','data'=>$maincat,'type'=>$type])}" class="">{$maincat.category_name}</a>
+								{if $maincat.children}<i class="icon-right-arrow trigger" data-level="1"></i>{/if}
+							</div>
+							{if $maincat.children} 
+								<ul class="dropdown-menu sub-menu">
+								{$level = '2'}
+								{foreach from=$maincat.children item=sub1}
+									<li>
+										<div>
+											<a href="{cblink(['name'=>'category','data'=>$sub1,'type'=>$type])}" class="">{$sub1.category_name} </a>
+											{if $sub1.children}<i class="icon-right-arrow trigger" data-level="2" ></i>{/if}
+										</div>
+										{if $sub1.children}
+											<ul class="dropdown-menu sub-menu"> 
+											{$level = '3'}
+											{foreach from=$sub1.children item=sub2}
+											<li>
+												<div>
+													<a href="{cblink(['name'=>'category','data'=>$sub2,'type'=>$type])}" class="">{$sub2.category_name} </a>
+													{if $sub2.children}<i class="icon-right-arrow trigger"data-level="3" ></i>{/if}
+												</div>
+												{if $sub2.children}
+													<ul class="dropdown-menu sub-menu">
+													{$level = '4'}
+													{foreach from=$sub2.children item=sub3}
+													<li>
+														<div>
+															<a href="{cblink(['name'=>'category','data'=>$sub3,'type'=>$type])}"  class="">{$sub3.category_name} </a>
+															{if $sub3.children}<i class="icon-right-arrow trigger" data-level="4" ></i>{/if}
+														</div>
+													
+														{if $sub3.children}
+															<ul class="dropdown-menu sub-menu">
+																{$level = '5'}
+																{foreach from=$sub3.children item=sub4}
+																	<li>
+																		<div>
+																			<a class="">{$sub4.category_name}</a>
+																			{if $sub4.children}<i class="icon-right-arrow trigger" data-level="5" ></i>{/if}
+																		</div>
+																	</li>
+																{/foreach}
+															</ul>
+														{/if}
+														</li>
+													{/foreach}
+													</ul>
+												{/if}
+												</li>
+											{/foreach}
+											</ul>
+										{/if}
+									</li>
+								{/foreach}
+								</ul>
+							{/if}
+						</li>
+					{/foreach}
+				</ul>
+				
+			</div> <!-- End of category code -->
+		
+
+<script type="text/javascript">
+	//$(document).ready(function(){
+			var level = '{$level}';
+	//});
+	
+
+</script>

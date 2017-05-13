@@ -1,0 +1,159 @@
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
+<div class="container">
+    {include file="$style_dir/blocks/manage/account_menu.html"}
+    <div class="cb-box marginBottom row">
+        
+        <div class="row">
+            <div class="col-md-2">
+               {include file="$style_dir/blocks/group/group_left.html"}
+            </div>
+            <div class="col-md-7 nopadding ">
+                <div class="well well-sm margin-bottom-10"><a class="theme_color" href="#">{$group.group_name|htmlspecialchars_decode}</a></div>
+                <div class="btn-group">   
+                    <a class="btn btn-primary" {if $mode == "" || $mode == "main"}class="btn btn-primary selected"{/if} href="{group_link details=$group}" onClick="groupsAjax(event,this);" id="gpViewInfo">
+                        {lang code="info"}
+                    </a>
+                    <a class="btn btn-primary" {if $mode == "view_topics"}class="btn btn-primary selected"{/if} href="{group_link details=$group type=view_topics}" onClick="groupsAjax(event,this);" id="gpViewTopics">
+                        {lang code="grp_topics_title"}
+                    </a>
+                    <a class="btn btn-primary" {if $mode == "view_members"}class="btn btn-primary selected"{/if} href="{group_link details=$group type='view_members'}" id="gpAllMembers" onClick="groupsAjax(event,this);">
+                        {lang code="members"}
+                    </a>
+                    <a class="btn btn-primary" {if $mode == "view_videos"}class="btn btn-primary selected"{/if} href="{group_link details=$group type='view_videos'}" id="gpAllVideos" onClick="groupsAjax(event,this);">
+                        {lang code="videos"}
+                    </a>
+                    <a class="btn btn-primary" {if $mode == "view_report_form"}class="btn btn-primary selected"{/if} href="{group_link details=$group}{if config('seo')=='yes'}?{else}&{/if}mode=view_report_form" onClick="groupsAjax(event,this);" id="gpAllReport">
+                        {lang code='Report'}
+                    </a>
+                </div>
+                <div id="ajaxGroupResultContainer" class="margin-top-25 basic-color"> <!-- dont you dare touch this. If you did Zeus will personally kick your ASS --> 
+                    {if $mode == "" || $mode == "main"}
+                        <h3>{lang code="basic_info"}</h3>
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td>{lang code="Group name"}</td>
+                                <td>{$group.group_name}</td>    
+                            </tr>
+                            <tr>
+                                <td>{lang code="vdo_desc"}</td>
+                                <td>{$group.group_description}</td>
+                            </tr>
+                            <tr>
+                                <td>{lang code="category"}</td>
+                                <td class="theme_color">{$group.category|categories:group}</td>
+                            </tr> 
+                            <tr>
+                                <td>{lang code="tags"}</td>
+                                <td>{$group.group_tags|tags:group}</td>
+                            </tr>
+                            <tr>
+                                <td>{lang code="privacy"}</td>
+                                <td>{$group.group_privacy|getGroupPrivacy}</td>
+                            </tr>
+                        </table>
+                        
+
+                        <h3>{lang code="Group Stats"}</h3>
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td>{lang code="Since"}</td>
+                                <td>{$group.date_added|date_format:"%B %e, %Y"}</td>
+                            </tr>
+                            <tr>
+                                <td>{lang code="total_mems"}</td>
+                                <td>{$group.total_members|number_format} {lang code="members"}</td>
+                            </tr>
+                            <tr>
+                                <td>{lang code="com_total_vids"}</td>
+                                <td>{$group.total_videos|number_format} {lang code="videos"}</td>
+                            </tr>
+                            <tr>
+                                <td>{lang code="total_topics"}</td>
+                                <td>{$group.total_topics|number_format} {lang code="grp_topics_title"}</td>
+                            </tr>
+                            <tr>
+                                <td>{lang code="viewed"}</td>
+                                <td>{$group.total_views|number_format} {lang code="user_times"}</td>
+                            </tr>
+                        </table>
+                    {/if}
+
+                    {if $mode=='invite_group'}
+                        <h3>{lang code='grp_invite_grp_title'}</h3>
+                         {if $friends}
+                             <form name="invite_friends" id="invite_friends" action="" method="post">
+                                <table class="table table-bordered table-striped">
+                                    <tr>
+                                        <td width="15"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+                                        <td width="50">&nbsp;</td>
+                                        <td>Username</td>
+                                        <td width="100">views</td>
+                                    </tr>
+                                </table>
+                                    {foreach from=$friends item=friend}
+                                        {if userid()!=$friend.userid}
+                                            {assign var=user_detail value=$userquery->get_user_details($friend.userid)}
+                                        {else}
+                                            {assign var=user_detail value=$userquery->get_user_details($friend.contact_userid)}
+                                        {/if}
+                                        
+                                        <div class="manage_contacts_tbl">
+                                        <table class="table table-bordered table-striped">
+                                        <tr>
+                                        <td width="15"><input type="checkbox" name="friend[]" id="check_userd-{$user_detail.userid}" value="{$user_detail.userid}" /></td>
+                                        <td width="50" height="50" align="center" valign="middle"><a href="{$userquery->profile_link($user_detail)}"><img src="{$userquery->getUserThumb($user_detail)}" alt="{$user_detail.username}" width="40" height="40" border="0"></a></td>
+                                        <td><a href="{$userquery->profile_link($user_detail)}">{$user_detail.username}</a></td>
+                                        <td width="100">{$user_detail.profile_hits|number_format}</td>
+                                        </tr>
+                                        </table>
+                                        </div>
+                                    {/foreach}
+                                    <div align="left" style="margin-top:10px"><input type="submit" name="invite_friends" class="cb_button" value="{lang code='invite'}"></div>                                  
+                             </form>
+                         {else}
+                            No Contact
+                         {/if}
+                    {/if}
+
+                    {if $mode == "view_members"}
+                        <h3>{lang code="group"} {lang code="members"}</h3>
+                        {section name=u_list loop=$users}
+                            {include file="$style_dir/blocks/user.html" user=$users[u_list]}
+                        {/section}
+                    {/if}
+                    
+                    {if $mode == "view_videos"}
+                        <h3>{lang code="group"} {lang code="videos"}</span></h3>
+                        {section name=v_list loop=$videos}
+                            {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
+                        {/section}           
+                    {/if}
+                    
+                    {if $mode == "view_topics"}
+                        <div class="groupSep">
+                            <h3>{lang code="group"} {lang code="grp_topics_title"}</h3>
+                            <span>
+                                <a class="btn btn-primary" href="#" onclick="$('#groupAddNewTopic').toggle();return false;">{lang code="grp_add_new_topic"}</a>
+                            </span>
+                        </div>
+                        <div id="groupAddNewTopic"  {if $smarty.post.add_topic && error()}{else}style="display:none"{/if}>
+                            {include file="$style_dir/blocks/group/add_topic.html"}
+                        </div>
+                        {include file="$style_dir/blocks/group/group_topics.html" group=$group}
+                    {/if}
+                    
+                    {if $mode == "view_report_form"}
+                        <div class="groupSep"><span class="SepText">{lang code="Report"} {lang code="group"}</span></div>
+                        {show_flag_form id=$group.group_id type=Group display="block"}
+                    {/if}
+                </div>                                    
+            </div>
+            <div class="col-md-3">
+                {include file="$style_dir/blocks/group/group_right.html" group=$groups}
+                <div style="height:20px"> </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height:20px"> </div>

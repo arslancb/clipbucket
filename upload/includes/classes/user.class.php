@@ -4020,8 +4020,6 @@ class userquery extends CBCategory{
 			$cond .= " ".$params['cond']." ";
 		}
                 
-
-
                 
 		if(!!empty($params['count_only']) && !$params['count_only'])
         {
@@ -4050,7 +4048,6 @@ class userquery extends CBCategory{
             //echo $query;
             $result = select( $query );
         }
-		
 		
 		if(!empty($params['count_only'])){
 

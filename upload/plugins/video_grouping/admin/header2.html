@@ -1,0 +1,16 @@
+<script type="text/javascript">
+{literal}
+
+/**
+ *	When document is loaded :
+ *		modify the DOM to add an action into the dropdown menu
+ */
+$( document ).ready( function() {
+
+	var obj=$(".btn-group").find(".dropdown-menu");
+	var data="<li><a href='{/literal}{$video_grouping_linkpage}{literal}&video={/literal}{$videoid}{literal}'>{/literal}{lang('link_video_grouping')}{literal}</a></li>"
+	obj.html(obj.html()+data);
+});
+
+{/literal}
+</script>

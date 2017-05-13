@@ -1,0 +1,285 @@
+{$currentPage = $smarty.const.THIS_PAGE|lower}
+
+{if $currentPage == 'view_channel' || $currentPage == 'channels'}
+	{$currentPage = 'channels'}
+	{$toSearch = 'channels'}
+{elseif $currentPage == 'view_item' || $currentPage == 'photos'}
+	{$currentPage = 'photos'}
+	{$toSearch = 'photos'}
+{elseif $currentPage == 'collections' || $currentPage == 'view_collection'}
+	{$currentPage = 'collections'}
+	{$toSearch = 'collections'}
+{elseif $currentPage == 'watch_video' || $currentPage == 'videos'}
+	{$currentPage = 'videos'}
+	{$toSearch = 'videos'}
+{elseif $currentPage == 'list'}
+	{$currentPage = 'audios'}
+{/if}
+
+{$vidMode = {lang code="videos"}}
+{$photoMode = {lang code="photos"}}
+{$channelsMode = {lang code="channels"}}
+{$pageType = $smarty.get.type|lower}
+
+<div id="quick_container">
+	<div id="quicklist_box">
+	</div>
+</div> 
+
+{$searchPage = $smarty.get.query}
+	
+<!--
+<header id="header">
+-->
+	<div class="header clearfix">
+		<a href="https://www.u-picardie.fr/apiu/index.php">
+		<img src="{$theme}/images/partenaires/logo_apiu_v1.png" class="img-responsive" style="float:left;" width="200">
+		</a>
+		<nav role="navigation">
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuNavigation">
+					<i class="glyphicon glyphicon-menu-hamburger"></i>
+				</button>
+			</div>
+		
+			<div class="collapse navbar-collapse columns" id="menuNavigation">
+				<ul class="nav nav-pills nav-stacked pull-right" id="menu">
+<li role="presentation"><a href="https://www.u-picardie.fr/apiu/index.php" data-transition="slide">Accueil</a></li><li role="presentation"><a href="https://www.u-picardie.fr/apiu/actualite.php" data-transition="slide">Actualités</a></li><li role="presentation"><a href="https://www.u-picardie.fr/apiu/mission-numerique.php" data-transition="slide">Mission numérique</a></li><li role="presentation"><a href="https://www.u-picardie.fr/apiu/partenaires.php" data-transition="slide">Partenaires</a></li><li role="presentation" class="active"><a href="https://www.u-picardie.fr/apiu/partenaires.php" data-transition="slide">WebTV</a></li>
+</ul>
+			</div>
+		</nav>
+	</div>
+
+		
+
+
+	<ul class="navbar-nav navbar-right right-menu" id="portails_ent">
+		{if userid()}
+			<li class="dropdown myaccount-dd">
+				Bienvenue
+				<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+					{$user_det = $userquery->get_user_details(userid())}
+					  <!-- <img src="{$userquery->getUserThumb($user_det)}" width="35" height="35"> -->
+					<span>{$userquery->username|truncate:15}</span>
+				</a>
+
+				<ul class="dropdown-menu dropdown-menu-right">
+					{if isSectionEnabled('videos')}
+						<li class="hidden-xs"><a href="{link name='upload'}"><i class="fa fa-upload" aria-hidden="true"></i> {lang code="upload_video"}</a></li>
+					{/if}
+				
+					{if isSectionEnabled('photos')}
+						<li class="hidden-xs"><a href="{link name='photo_upload'}">{lang code="upload_photo"}</a></li>
+					{/if}
+
+					{if isSectionEnabled('photos') || isSectionEnabled('videos')}
+					<li class="divider"></li>
+					{/if}
+
+					<li class="hidden-xs"><a href="{link name='my_account' }{userid}"><i class="fa fa-user" aria-hidden="true"></i> {lang code="my_account"}</a></li>
+					<li class="hidden-xs"><a href="{link name='my_videos'}"><i class="fa fa-video-camera" aria-hidden="true"></i> {lang code="manage_videos"}</a></li>
+					
+					{ANCHOR place="head_audio_dropdown"}
+					
+					<li><a href="{link name='channels'}"><i class="fa fa-eye" aria-hidden="true"></i> {lang code="view_channels"}</a></li>
+					<li><a href="{$baseurl}/view_channel.php?user={$userquery->username}">{lang code="my_channel"}</a></li>
+					
+					{ANCHOR place='premium_button_link'}
+					
+					{if has_access('admin_access')}
+						<li class="divider"></li>
+						<li class="hidden-xs"><a href="{$admin_baseurl}">{lang code="admin_area"}</a></li>
+					{/if}
+					<li class="divider"></li>
+					<li><a href="{link name='logout'}"><i class="fa fa-power-off" aria-hidden="true"></i> {lang code="logout"}</a></li>
+				</ul>
+			</li>
+			
+			&nbsp;
+			
+<!-- 
+			{ANCHOR place="aud_upload_link"}
+-->
+
+		{else}
+			<li>
+			<!-- <a class="btn btn-default btn-newacc" href="{link name='signup'}">{lang code='create_new_account'}</a>  -->
+				<a href="{link name='signup'}">{lang code='create_new_account'}</a>&nbsp;|&nbsp;
+			</li>
+			<li>
+			<!-- <a class="btn btn-default btn-login" href="{link name='signup'}?mode=login">{lang code='login'}</a> -->
+					<a href="{link name='signup'}?mode=login">{lang code='login'}</a>
+			</li>
+		{/if}
+	</ul>
+
+	
+
+
+
+	<div>
+		<div>
+			{if config("allow_language_change")}
+				{$langs = $lang_obj->get_langs('yes')}
+				{$total_langs = count($langs)}
+				
+				{if $total_langs >= 2}
+					<ul id="menu_langues">
+						{foreach $langs as $lang}
+							<li data-lang="{$lang.language_code}" hreflang="{$lang.language_code}" lang="{$lang.language_code}" class="pick-lang">
+								<a href="javascript:void(0);">
+								{$lang.language_code|upper}
+								</a>
+							</li>
+						{/foreach}
+					</ul>
+				{/if}
+			{/if}
+
+			<!-- <a href="https://www.u-picardie.fr/" class="icon-home"><span>Accueil</span></a> -->
+
+			<form id="recherche_simple" action="{link name='search_result'}">
+				<div data-unfold-target="recherche_simple">
+					<input tabindex="2" name="query" id="query" placeholder="{lang code='search_keyword_feed'}" value="{'query'|get_form_val:true}" title="Rechercher par mots-clés" type="text">
+					<button class="glyphicon glyphicon-search" title="Valider"><span>Valider</span></button>
+				</div>
+			</form>
+
+
+			<a href="{$baseurl}/rss.php?mode=recent">
+				<i class="fa fa-rss fa-2x" aria-hidden="true" alt="RSS" title="RSS"></i>
+			</a>
+
+		</div><!-- -->
+	</div> <!-- #profils_preferences -->
+
+		
+
+		<div id="menu">
+<!--
+			<div id="menu_principal_deco">
+-->
+
+
+<!-- ------------- Menu des categories -------------------------------- -->
+{$catname = $cbvid->get_categories()}
+
+<ul id="menu_principal" data-unfold-target="menu_principal">
+	<li>
+		<a href="{$baseurl}">Accueil</a>
+	</li>
+
+	{foreach from=$catname item=main}
+		{if $catname[$main@key].parent_id eq 0}
+			<li><a href="{cblink(['name'=>'category','data'=>$catname[$main@key],'type'=>'video'])}">{$catname[$main@key].category_name}</a>
+				<ul>
+					{foreach from=$catname item=sub}
+						{if $catname[$sub@key].parent_id eq $catname[$main@key].category_id}
+							<li><a href="{cblink(['name'=>'category','data'=>$catname[$sub@key],'type'=>'video'])}">{$catname[$sub@key].category_name}</a></li>
+						{/if}
+					{/foreach}
+				</ul>
+			</li>
+		{/if}
+	{/foreach}
+</ul>
+<!-- ------------------------------------------------ -->
+
+				
+			<!-- #menu_principal -->
+<!--
+			</div>
+-->
+			<!-- #menu_principal_deco -->
+<!--
+-->
+		</div>
+		<!-- #menu -->	
+
+<!--
+</header>
+-->
+
+
+
+<!--
+<ul class="nav nav-pills nav-justified">
+  <li role="presentation" class="active"><a href="#">Home</a></li>
+  <li role="presentation"><a href="#">Profile</a></li>
+  <li role="presentation"><a href="#">Messages</a></li>
+</ul>
+-->
+
+
+
+
+			<!-- Message -->
+
+<script>
+
+	/* ***
+	*	FONCTION DE CHANGEMENT DE LANGUE
+	*/
+	$(document).on('click','.pick-lang',function(){
+		var _this = $(this);
+		var lang_code = _this.data('lang');
+		var $currentLocation = window.location.href,
+		matchedElement = $currentLocation.match(/\?/);
+			  
+		if(matchedElement == null)
+		{
+			window.location = "?set_site_lang="+lang_code;    
+		} else {
+			window.location = window.location+"&set_site_lang="+lang_code;    
+		}
+	});
+
+	/* ***
+	*	FONCTION DE CLICK POUR OUVERTURE/FERMETURE DU MENU
+	*/
+	$("#meta_menu_button li a").click(function() {
+		var el = $("div[aria-labelledby='"+this.id+"']");
+		if (el.hasClass( "visible" )) {
+			el.removeClass( "visible" );
+		}
+		else {
+			$(".meta_menu_contenu").removeClass( "visible" );
+			el.addClass( "visible" );
+		}
+		
+	});
+
+	$(document).ready(function(){
+		var vidMode = "{$vidMode}",
+		photoMode = "{$photoMode}",
+		channelsMode = "{$channelsMode}",
+		currentDisplay = $('span.search-type').text();
+		if (currentDisplay == 'Videos') {
+			$('span.search-type').text(vidMode);
+		}
+		else if (currentDisplay == 'Channels') {
+			$('span.search-type').text(channelsMode);
+		}
+		else if (currentDisplay == 'Photos') {
+			$('span.search-type').text(photoMode);
+		}
+
+		$(".cbsearchtype a").on({
+			click: function(e){
+				e.preventDefault();
+				var prent_li = $(this).parents();
+				var theNewVal = $(this).attr('valNow');
+				$('.type').val(theNewVal);
+				$('.cbsearchtype li').removeClass('active');
+				prent_li.addClass('active');
+			}
+		});
+
+		$('.s-types').on("click", function(){
+			var _this = $(this);
+			var text = _this.html();
+			$('.search-type').html(text);
+		});
+	});
+</script>

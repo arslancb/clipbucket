@@ -458,8 +458,8 @@ class Clipbucket_db
      * @todo : Write method to clean stuff otherwise SQL injection is easily achievable
      */
     function clean_var($var)
-    {
-        return mysql_clean($var);
+    {	
+		return mysql_clean($var);
     }
 
     /**

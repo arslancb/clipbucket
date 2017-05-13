@@ -1,0 +1,250 @@
+<div class="row message">
+    <div class="row accountprofile">
+    <div class="col-md-10">
+        <div class="media">
+            <a class="pull-left" href="#">
+                <img class="media-object imgobject" src="{$userquery->getUserThumb($user)}" width="142" alt="...">
+            </a>
+            <div class="media-body">
+                <div class="row">
+                    <div class="col-md-6 procolor">
+                        <h4 class="media-heading headcolor">{$user.username}  ({assign var=category value=$userquery->get_category($user.category)}
+                            {$category.category_name})</h4>
+                        <b>{lang code='Since:'}</b> ({$user.doj|date_format})
+                               <b>{lang code='last Login:'}</b> ({$user.last_logged|nicetime})
+
+                    </div>
+                    <!--<div class="col-md-4 procolor">-->
+                        <!--({assign var=category value=$userquery->get_category($user.category)}-->
+                        <!--{$category.category_name})<br>-->
+                        <!--{$user.doj|date_format}<br>-->
+                        <!--{$user.last_logged|nicetime}-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+
+                <!--{lang code='username:'}<br>-->
+                <!--{lang code='joined:'}<br>-->
+                <!--{lang code='last logged in:'}<br>-->
+                <!--{lang code='category:'}<br>-->
+            <!--</div>-->
+            <!--<div class="col-md-6">-->
+                <!--{$user.username}<br>-->
+                <!--{$user.doj|date_format}<br>-->
+                <!--{$user.last_logged|nicetime}<br>-->
+                <!--{assign var=category value=$userquery->get_category($user.category)}-->
+                <!--{$category.category_name}-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+        </div>
+</div>
+        <hr class="newhr1">
+        <div class="mvideo accountprofile">
+            <span class="lead">
+                {lang code='Latest Videos'}
+            </span>
+<table class="table table-bordered table-striped manageUsersTable">
+    <tr>
+        <td><i class="icon-facetime-video"></i> Videos Details</td>
+        <td>Option</td>
+    </tr>
+    {if $videos}
+    
+    {foreach from=$videos item=video}
+
+    <tr>
+        <td>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-3">
+                          <a href="{$baseurl}/edit_video.php?vid={$video.videoid}">
+                            <img src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" class="vthumb" title=""/>
+                            <span class="duration">({if
+                                $video.duration>1}{$video.duration|SetTime}{else}00:00{/if})</span>
+                           </a>     
+                        </div>
+                        <div class="col-md-9">
+                            <a href="edit_video.php?vid={$video.videoid}">
+                                {$video.title|truncate:80} </a><br>
+                         <span class="maccountlabels"> <strong>{$video.date_added|niceTime}</strong>
+                            {lang code='views'} : <strong>{$video.views|number_format}</strong></span>
+                            <div class="labels">
+                                {if $video.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
+                                    <span class="label {if $video.active=='yes'}label-success{else}label-warning{/if} mlabel">
+                                        {if $video.active=='yes'}Active{else}InActive{/if}</span>
+                                    <span class="label {if $video.status=='Successful'}label-success{else}label-warning{/if}">
+                                        {if $video.status=='Successful'}Successful{else}Processing{/if}</span>
+                                    <span class="label label-info">
+                                       Viewed {$video.last_viewed|niceTime}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="row">
+                        {if $video.broadcast=='public'}
+                        <div class="col-md-1"><i class="icon-globe"></i></div>
+                        {elseif $video.broadcast!='public'}
+                        <div class="col-md-1"><i class="icon-lock"></i></div>
+                        {/if}
+                    </div>
+                    <a href="view_user.php?uid={$video.userid}">{$video.username}</a>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="dropdown">
+                <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                    Actions <i class="caret"></i></button>
+                <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
+                    <li><a role="menuitem" tabindex="-1"
+                           href="{$baseurl}/edit_video.php?vid={$video.videoid}" class="">Edit</a></li>
+                    <li><a role="menuitem" tabindex="-1"
+                           href="{$baseurl}/watch_video.php?v={$video.videokey}"target="_blank">Watch</a>
+                     
+                   
+                    
+                    <li class="divider"></li>
+                    <li><a role="menuitem" tabindex="-1" href="{$baseurl}/myaccount.php?delete_video={$video.videoid}">Delete</a>
+                    </li>
+                    {foreach from=$cbvid->video_manager_links item=links}
+                    {$cbvid->video_manager_link($links,$video)}
+                    {/foreach}
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {/foreach}
+</table>
+{else}
+<div align="center"><strong><em>No Video Found</em></strong></div>
+{/if}
+</div>
+<div class="flaggedtable accountprofile1">
+    <table class="table table-bordered table-striped">
+        <div id="fobjects" class="tab-pane" >
+            <div class="widget-box">
+                <td>
+                    <div class="widget-header">
+                        <h5><i class="glyphicon glyphicon-flag"></i>Flagged Objects</h5>
+                    </div>
+
+                    <div class="widget-body">
+
+                        <div class="tabbable tabs-left">
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#fvideos">Videos</a>
+                                </li>
+
+                                <li class="photos">
+                                    <a data-toggle="tab" href="#fphotos">Photos</a>
+                                </li>
+                            </ul>
+                            <br>
+                            <div class="tab-content">
+                                <div id="fvideos" class="tab-pane active">
+                                    {section name=list loop=$flagedVideos}
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <img src="{getThumb vdetails=$flagedVideos[list]}" width="85" height="70" id="thumbs_{$flagedVideos[list].videoid}" title=""/>
+                                        </div>
+                                        <div class="col-md-6 fvideos">
+                                            {$flagedVideos[list].title|truncate:50}
+                                        </div>
+
+                                        <div class="col-md-7 fvideos">
+                                            <label class="label label-danger">Uploaded  {$flagedVideos[list].date_added|niceTime}</label>
+                                            <label class="label label-default"> {lang code='views'} : {$flagedVideos.views|number_format}</label>
+                                            <label class="label label-primary"> Flags:{$flagedVideos[list].total_flags}</label>
+                                        </div>
+                                    </div>
+                                    <hr class="newhr">
+                                    {/section}
+                                </div>
+                                <div id="fphotos" class="tab-pane">
+                                    {section name=list loop=$flagedPhotos}
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <img src="{getThumb vdetails=$flagedPhotos[list]}" width="85" height="70" id="thumbs_{$flagedPhotos[list].photoid}" title=""/>
+                                        </div>
+                                        <div class="col-md-6 fusers">
+                                            {$flagedphotos[list].title|truncate:50}
+                                        </div>
+                                        <div class="col-md-2">
+                                            <strong class="btn btn-primary btn-xs pull-right"> Flags:{$flagedPhotos[list].total_flags}</strong>
+                                        </div>
+                                        <div class="col-md-7 fusers">
+                                            <label class="label label-danger">Uploaded  {$flagedPhotos[list].date_added|niceTime}</label>
+                                            <label class="label label-default"> {lang code='views'} : {$flagedPhotos.views|number_format}</label>
+
+                                        </div>
+                                    </div>
+                                    {/section}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /widget-main -->
+                    </div><!-- /widget-body -->
+            </div>
+        </div>
+    </table>
+</div>
+
+
+
+
+<div class="col-md-12">
+    <div class="padding38">
+        {if $user.userid == userid()}
+        <button class="btn btn-primary new1" style="background-color: #000000;color: white">
+            <span class="line-height-1 bigger-170 blue">{$user.total_videos}</span>
+            <br>
+            <span class="line-height-1 smaller-90 new1"> {lang code='Videos'} </span>
+        </button>
+            <span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
+													<span class="line-height-1 bigger-170 blue">{$user.total_photos}</span>
+													<br>
+													<span class="line-height-1 smaller-90 new1"> Photos </span>
+												</span>
+    <span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
+													<span class="line-height-1 bigger-170 blue">{$user.num_visits|number_format}</span>
+													<br>
+													<span class="line-height-1 smaller-90 new1"> {lang code='total_logins'} </span>
+												</span>
+    <span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
+													<span class="line-height-1 bigger-170 blue">{$user.total_watched|number_format}</span>
+													<br>
+													<span class="line-height-1 smaller-90 new1"> {lang code='Watched'} </span>
+												</span>
+    <span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
+													<span class="line-height-1 bigger-170 blue">{$user.total_comments|number_format}</span>
+													<br>
+													<span class="line-height-1 smaller-90 new1"> {lang code='Comments'} </span>
+												</span>
+    <span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
+													<span class="line-height-1 bigger-170 blue">{$user.total_collections|number_format}</span>
+													<br>
+													<span class="line-height-1 smaller-90 new1"> {lang code='Collections'} </span>
+												</span>
+            <span class="btn btn-primary new1" style="background-color: #000000; color: #ffffff">
+													<span class="line-height-1 bigger-170 blue">{$user.profile_hits}</span>
+													<br>
+													<span class="line-height-1 smaller-90 new1"> {lang code='Views'} </span>
+												</span>
+            <span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
+													<span class="line-height-1 bigger-170 blue">{$user.subscribers}</span>
+													<br>
+													<span class="line-height-1 smaller-90 new1"> {lang code='Subscribers'} </span>
+												</span>
+        {/if}
+    </div>
+</div>

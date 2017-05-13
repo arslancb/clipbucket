@@ -1,0 +1,112 @@
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
+
+<div class="container marginBottom">
+    {*include file="$style_dir/blocks/manage/account_menu.html"*}
+    <div class="row cb-box">
+
+        {include file="$style_dir/blocks/category_list.html" type='collections'}
+        <div class="col-md-9 nopadding">
+          	<div class="page-hidding clearfix">
+            	{assign var=sorting_links value=sorting_links()}
+            	<h4 class="smaller lighter pull-left mrs">Browsing All Collections: </h4>
+				<div class="pull-left">
+				    <div class="btn-group custom-dropdown">
+                        {if $smarty.get.sort}
+                        {foreach from=$sorting_links item=name key=sort}
+                            {if $smarty.get.sort==$sort && isset($smarty.get.sort)} 
+                            <button class="btn btn-default" type="button">
+                            {$name}
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                          
+                            {/if}
+                        {/foreach}
+                        {else}
+                            <button class="btn btn-default" type="button">
+                            Recent
+                            </button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                <span class="arrow-drop"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                        {/if}    
+
+                        <ul role="menu" class="dropdown-menu">
+                            {foreach from=$sorting_links item=name key=sort}
+                            <li><a href="{link name=time sort=$sort type=collections}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+                            {/foreach}
+                        </ul>
+
+
+
+                        <ul role="menu" class="dropdown-menu">
+                            {foreach from=$sorting_links item=name key=sort}
+                            <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=collections}">{$name}</a></li>
+                            <li role="presentation" class="divider"></li>
+                            {/foreach}
+                        </ul>
+                    </div>
+
+				    <!--Sorting By time-->
+				    {assign var=time_links value=time_links()}
+				    <div class="btn-group custom-dropdown">
+				        {if $smarty.get.timing}
+
+				        {foreach from=$time_links item=name key=sort name=times}
+				        {if $smarty.get.time==$sort && isset($smarty.get.time)}
+
+				        <button class="btn btn-default" type="button">
+				            {$name}
+				        </button>
+				        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+				            <span class="arrow-drop"></span>
+				            <span class="sr-only">Toggle Dropdown</span>
+				        </button><!--<span class="glyphicon glyphicon-sort"></span> Most {$name}-->
+				        {/if}
+				        {/foreach}
+				        {else}
+				        <button class="btn btn-default" type="button">
+				            All Time
+				        </button>
+				        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+				            <span class="arrow-drop"></span>
+				            <span class="sr-only">Toggle Dropdown</span>
+				        </button>
+				        {/if}
+				        <ul role="menu" class="dropdown-menu">
+				            {foreach from=$time_links item=name key=sort name=times}
+				            <li><a href="{link name=time sort=$sort type=collections}&timing=time" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+				            <li class="divider" role="presentation"></li>
+				            {/foreach}
+				        </ul>
+				    </div>
+				</div>
+				<div class="pull-right">
+					<a class="btn btn-primary pull-right" href="{$baseurl}/manage_collections.php?mode=add_new">{lang code='add_new_collection'}</a>
+				</div>
+        	</div><!-- end of page heading -->
+            
+            <div class="col-md-12">
+                <ul class="list-unstyled row collections">
+	                {section name=c_list loop=$collections}
+	                	{include file="$style_dir/blocks/collection.html" collection=$collections[c_list]}
+	                    {sectionelse}
+	                    {lang code='no_results_found'}
+	                {/section}
+                </ul>
+            </div>
+            
+            <!--Pagination-->
+			<div align="center">
+			    {include file="$style_dir/blocks/pagination.html"}
+			</div> 
+			<!-- Pagination-->
+        	{*include file="$style_dir/blocks/pagination.html"*}
+        </div>
+    </div>
+</div>
+<div style="height:20px"> </div>

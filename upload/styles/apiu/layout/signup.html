@@ -1,0 +1,178 @@
+
+	{$mode = $smarty.get.mode}
+	<div class="account-container">
+		{if $mode == 'login'}
+			<div class="clearfix signin-block">
+				<div class="account-holder text-center">
+					<form name="login_form" method="post" action="" id="login_form" class="user-form">
+						<h2>{lang code="login"}</h2>
+						<div class="form-group">
+							{*<label for="login_username_sp">{lang code="Username"}</label>*}
+							<input type="text" id="login_username_sp" placeholder="{lang code='type_username_here'}"
+							class="form-control" name="username">
+						</div>
+
+						<div class="form-group">
+							{*<label for="login_password_sp">{lang code="Password"}</label>*}
+							<input type="password" id="login_password_sp" placeholder="{lang code='type_password_here'}"
+							class="form-control" name="password">
+						</div>
+
+						<div class="checkbox custom-elements form-group">
+							<label>
+								<input type="checkbox" name="remember_me" value="yes">
+								{lang code="remember_me"}
+							</label>
+						</div>
+
+						<input id="login_btn" type="submit" name="login" value="{lang('Login')}" class="btn btn-primary btn-lg btn-block">
+
+						
+						<div class="checkbox custom-elements form-group">
+							<label>
+								<a href='{ANCHOR place="is_auth_cas"}'>Connexion CAS</a>
+							</label>
+						</div>
+
+						<div class="clearfix links">
+							<a href="{$baseurl}/forgot.php">{lang code='user_forgot_message'}?</a>
+							<a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='com_forgot_username'}?</a>
+						</div>
+						<input type="hidden" name="login" value="login"></input>
+					</form>
+
+				</div>
+			</div>
+		{/if}
+	</div>
+
+	
+<script>
+
+	$(document).ready(function(){
+		var pageMode = "{$smarty.get.mode}";
+		if (pageMode == 'login') {
+			document.title = 'Login - {$Cbucket->configs.site_title}';
+		}
+		
+		$('.simple_container').addClass('alert-success alert container');
+	 });
+	
+	var errors = {
+		"empty_name" : "{lang code='usr_uname_err'}", 
+		"name_length" : "{lang code='user_name_invalid_len'}", 
+		"name_invalid_chars" : "{lang code='usr_uname_err3'}",
+		"pass_mismatch" : "{lang code='usr_pass_err3'}", 
+		"empty_pass" : "{lang code='usr_pass_err2'}", 
+		"empty_email" : "{lang code='usr_email_err1'}" , 
+		"invalid_email":"{lang code='usr_email_err2'}",
+		"user_exists":"{lang code='usr_uname_err2'}",
+		"email_exists":"{lang code='usr_email_err3'}",
+		"weak_pass":"{lang code='weak_pass'}",
+		"username_spaces":"{lang code='username_spaces'}",
+	};
+	
+	function removeErrClass(obj, passSec = false) {
+		$(obj).closest('.form-group').removeClass('invalid-error');
+		$(obj).closest('.form-group').removeClass('warning-ind');
+		$(obj).closest('.form-group').addClass('success-ind');
+		$(obj).next('span').remove();
+		if (passSec == true) {
+			theVal = 'password';
+		} else {
+			theVal = $(obj).val();
+		}
+		$('<span class="help-block"><strong>'+theVal+'</strong> seems good to go</span>').insertAfter(obj);
+	}
+
+	function addErrClass(obj, msg, override = false, scroll = true, tclass = false) {
+		$(obj).closest('.form-group').removeClass('success-ind');
+		if (tclass != false) {
+			$(obj).closest('.form-group').removeClass('invalid-error');
+			$(obj).closest('.form-group').addClass(tclass);
+		} else {
+			$(obj).closest('.form-group').removeClass('warning-ind');
+			$(obj).closest('.form-group').addClass('invalid-error');
+		}
+		if (override == true) {
+			$(obj).next('span').remove();
+		}
+		$('<span class="help-block">'+msg+"</span>").insertAfter(obj);
+		if (scroll == true) {
+			$("html, body").animate({ scrollTop: 0 }, "slow");
+		}
+	}
+/*
+	$('input#username').on('keyup', function() {
+	     var userSect = $('#username'),
+	     usernameVal = userSect.val(),
+	     usernameLen = usernameVal.length;
+	     if (usernameVal == '') {
+	     	addErrClass(userSect, errors["empty_name"], true, false);
+	     }
+		 else if (usernameLen <= 2 || usernameLen >= 50) {
+	     	addErrClass(userSect, errors["name_length"], true, false);
+	     }
+		 else {
+	     	$.ajax({
+				url: baseurl + "/ajax/commonAjax.php",
+				type: "post",
+				dataType: "html",
+				data: {
+					"mode":'userExists',
+					"username":usernameVal,
+				},
+				beforeSend: function() {
+					$(document).find('#more-view-channel').text('Loading videos..')
+				},
+
+				success: function(data) {
+					if (data == 'NO') {
+						removeErrClass(userSect);	
+					} else {
+						addErrClass(userSect, errors['user_exists'], true, false)
+					}
+				}
+			});
+	     }
+	});
+*/
+	$('input#password').on('keyup', function() {
+	     var passSec = $('#password'),
+	     passVal = passSec.val(),
+	     passLen = passVal.length;
+	     if (passLen == 0 || passVal == '') {
+	     	addErrClass(passSec, errors["empty_pass"], true, false);
+	     }
+		 else{
+		 /*
+	     	if (passLen < 8){
+	     		addErrClass(passSec,errors["weak_pass"],true, false ,'warning-ind');
+	     	}
+			else{
+			*/
+	     		removeErrClass(passSec,true);
+	     	//}
+	     }
+	});
+
+	/*
+	$('input#cpassword').on('keyup', function() {
+	     var cPassSec = $('#cpassword'),
+	     cPassVal = cPassSec.val();
+	     passVal = $('#password').val();
+	     if (cPassVal != passVal) {
+	     	addErrClass(cPassSec, errors["pass_mismatch"], true, false);
+	     } else {
+	     	removeErrClass(cPassSec,true);
+	     }
+	});
+	*/
+
+
+	$('#login_btn').on("click",function(e){
+		e.preventDefault();
+		$('#login_form').submit();
+	});
+
+</script>

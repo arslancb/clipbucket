@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>Français</name>
+	<iso_code>fr</iso_code>
+	<phrases>
+		<speakers>Intervenants</speakers>
+		<speaker_manager>Gestion des intervenants</speaker_manager>
+		<speaker_already_exists>L'intervenant existe déjà</speaker_already_exists>
+		<speaker_does_not_exist>L'intervenant n'existe pas</speaker_does_not_exist>
+		<cant_del_linked_speaker_msg>L'intervenant est associé avec au moins une vidéo et n'a pas été supprimé.</cant_del_linked_speaker_msg>
+		<speaker_del_msg>Intervenant(s) supprimé(s) avec succès</speaker_del_msg>
+		<new_speaker_added>Intervenant ajouté</new_speaker_added>
+		<speaker_updated>Intervenant mis à jour avec succès</speaker_updated>
+		<no_speaker_selected>Aucun intervenant n'a été sélectionné</no_speaker_selected>
+		<add_new_speaker>Ajouter un intervenant</add_new_speaker>
+		<manage_speakers>Gérer les intervenants</manage_speakers>
+		<add_a_role>Ajouter un profil</add_a_role>
+		<add_speaker>Ajouter l'intervenant</add_speaker>
+		<search_speaker>Rechercher</search_speaker>
+		<speaker_filter>Filter les intervenants</speaker_filter>
+		<speaker_details>Détails intervenant</speaker_details>
+		<actions>Actions</actions>
+		<edit>Editer</edit>
+		<edit_speaker_nb>Editer l'intervenant N°</edit_speaker_nb>
+		<update_speaker>Mettre à jour l'intervenant</update_speaker>
+		<link_speakers_to_video>Définir les intervenants pour la vidéo N°</link_speakers_to_video>
+		<validate>Valider</validate>
+		<list_of_selected_roles>Liste des intervenants sélectionnés</list_of_selected_roles>
+		<list_of_unselected_roles>Liste des intervenants non sélectionnés</list_of_unselected_roles>
+		<speaker_link>Associer les intervenants</speaker_link>
+		<speaker_empty_role_err>Veuillez renseigner le profil vide</speaker_empty_role_err>
+		<no_speaker_found>Aucun intervenant trouvé</no_speaker_found>
+		<speaker_edition>Edition des intervenants</speaker_edition>
+		<video_addon>Extensions Vidéo</video_addon>
+		<allow_video_speaker_management>Autoriser la gestion des intervenants</allow_video_speaker_management>
+		<slugify_selected>Slugifier la sélection</slugify_selected>
+		<slugify>Slugifier</slugify>
+		<cant_slugify_speaker>Impossible de slugifier l'intervenant</cant_slugify_speaker>
+		<speaker_slugified>Intervenant slugifié</speaker_slugified>
+		<speakers_have_been_disconected>Les intervenants ont été dissociés</speakers_have_been_disconected>
+	</phrases>
+</clipbucket_language>

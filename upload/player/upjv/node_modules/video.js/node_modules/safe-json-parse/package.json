@@ -1,0 +1,77 @@
+{
+  "name": "safe-json-parse",
+  "version": "4.0.0",
+  "description": "Parse JSON safely without throwing",
+  "keywords": [],
+  "author": {
+    "name": "Raynos",
+    "email": "raynos2@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Raynos/safe-json-parse.git"
+  },
+  "main": "callback",
+  "homepage": "https://github.com/Raynos/safe-json-parse",
+  "contributors": [
+    {
+      "name": "Raynos"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/Raynos/safe-json-parse/issues",
+    "email": "raynos2@gmail.com"
+  },
+  "dependencies": {
+    "rust-result": "^1.0.0"
+  },
+  "devDependencies": {
+    "tape": "~1.0.2"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/Raynos/safe-json-parse/raw/master/LICENSE"
+    }
+  ],
+  "scripts": {
+    "test": "node ./test/index.js"
+  },
+  "testling": {
+    "files": "test/index.js",
+    "browsers": [
+      "ie/8..latest",
+      "firefox/16..latest",
+      "firefox/nightly",
+      "chrome/22..latest",
+      "chrome/canary",
+      "opera/12..latest",
+      "opera/next",
+      "safari/5.1..latest",
+      "ipad/6.0..latest",
+      "iphone/6.0..latest",
+      "android-browser/4.2..latest"
+    ]
+  },
+  "gitHead": "eae0a47f0588949bb11c0e2c414fbc664c3f7f05",
+  "_id": "safe-json-parse@4.0.0",
+  "_shasum": "7c0f578cfccd12d33a71c0e05413e2eca171eaac",
+  "_from": "safe-json-parse@4.0.0",
+  "_npmVersion": "1.4.28",
+  "_npmUser": {
+    "name": "raynos",
+    "email": "raynos2@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "raynos",
+      "email": "raynos2@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "7c0f578cfccd12d33a71c0e05413e2eca171eaac",
+    "tarball": "https://registry.npmjs.org/safe-json-parse/-/safe-json-parse-4.0.0.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/safe-json-parse/-/safe-json-parse-4.0.0.tgz"
+}

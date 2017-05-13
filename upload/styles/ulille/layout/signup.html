@@ -1,0 +1,207 @@
+{$required_fields=$userquery->load_signup_fields()}
+{$cutom_fields=$userquery->custom_signup_fields}
+
+{ANCHOR place="all_conn_btns"}
+
+{if $mode == 'signup_success'}
+<div class="simple_container">
+        {if $udetails.usr_status !='Ok'}
+            {lang code='signup_success_usr_ok'}
+        {else}
+            {lang code='signup_success_usr_emailverify' assign='signupsuccessusremailverify'}
+            {link name='login' assign='login_link'}
+            {$signupsuccessusremailverify|sprintf:$login_link}
+{/if} </div>
+{else}    
+
+
+
+<div class="container">
+	<div class="modal-dialog"> 
+		<!--<form name="login-form" role="form" action="{link name='signup'}" method="post">-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">{lang code="Login"}</h4>
+			</div>
+			<div class="modal-body">
+				<div class="panel-group" id="accountSelect" role="tablist" aria-multiselectable="true">
+					{if function_exists('is_auth_cas')}
+						<div class="panel panel-default">
+							<div class="panel-heading" role="tab" id="headingCas">
+								<h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accountSelect" href="#accountCas" aria-expanded="true" aria-controls="accountCas">Université de Lille <span class="caret"></span></a></h4>
+							</div>
+							<div id="accountCas" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingCas">
+								<div class="panel-body"> <a href="{ANCHOR place="is_auth_cas" data="true"}" class="btn btn-primary btn-block">Connexion CAS <img src="{$theme}/images/U-lille-16x16.svg" alt="blason Université de Lille"></a> </div>
+							</div>
+						</div>
+					{/if}
+					<div class="panel panel-default">
+						<div class="panel-heading" role="tab" id="headingExt">
+							<h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accountSelect" href="#accountExt" aria-expanded="false" aria-controls="accountExt">Utilisateur externe <span class="caret"></span></a></h4>
+						</div>
+						<div id="accountExt" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingExt">
+							<div class="panel-body">
+								<form name="login-form" role="form" action="{link name='signup'}" method="post">
+									<div class="form-group">
+										<label for="login_username">{lang code="Username"}</label>
+										<input type="text" class="form-control" id="login_username"  name="username">
+									</div>
+									<div class="form-group">
+										<label for="login_password">{lang code="Password"}</label>
+										<input type="password" class="form-control" id="login_password" name="password">
+									</div>
+									<input type="submit" class="btn btn-primary pull-right" value="{lang code='Login'}" name="login">
+									<button type="button" class="btn btn-link pull-right" data-dismiss="modal">{lang code="Cancel"}</button>
+									<a href="{$baseurl}/forgot.php"  class="btn btn-link btn-sm pull-left">{lang code='user_forgot_password'}</a> <a  class="btn btn-link btn-sm pull-left" href="{$baseurl}/forgot.php?mode=recover_username">{lang code='user_forgot_username'}</a>
+								</form>
+							</div>
+						</div>
+					</div>
+                {if $allow_registeration}
+                    {*$allow_registeration*}
+                {else}
+					<div class="panel panel-default">
+						<div class="panel-heading" role="tab" id="headingSignup">
+							<h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accountSelect" href="#signup" aria-expanded="false" aria-controls="signup">{lang('signup')} <span class="caret"></span></a></h4>
+						</div>
+						<div id="signup" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSignup">
+							<div class="panel-body">
+			                <form name="signup_form" id="signup_form" method="post" action="" >
+			                    {foreach from=$required_fields item=field}
+			                        {if $field.type!='checkbox' && $field.type!='radiobutton'}
+			                            {$field.class='form-control'}
+			                        {/if}
+			                        <div class="form-group">
+			                            <label for="{$field.id}">{$field.title}</label>
+			                            {if $field.type=='radiobutton'}
+			                                {$field.label_class="radio-inline"}
+			                                {$field.sep=" "}
+			                                <div></div>
+			                            {/if}
+			
+			                            {if $field.type=='checkbox'}
+			                                {$field.label_class="checkbox-inline"}
+			                                {$field.sep=" "}
+			                                <div></div>
+			                            {/if}
+			
+			                            {if $field.hint_before}
+			                            <span class="help-block">{$field.hint_before}</span>
+			                            {/if}
+			                            {ANCHOR place=$field.anchor_before}
+			
+			                            {$formObj->createField($field)}
+			                            {ANCHOR place=$field.anchor_after}
+			                            {if $field.hint_after}
+			                            <span class="help-block">{$field.hint_after}</span>
+			                            {/if}
+			                        </div>
+			                    {/foreach}
+			                    <!-- Loading Custom Fields -->
+			                    {foreach from=$custom_field item=field}
+			                        <div class="form-group">
+			                            <label for="{$field.id}">{$field.title}</label>
+			                            {if $field.type=='radiobutton'}
+			                            {$field.label_class="radio-inline"}
+			                            {$field.sep=" "}
+			                            <div></div>
+			                            {/if}
+			
+			                            {if $field.type=='checkbox'}
+			                            {$field.label_class="checkbox-inline"}
+			                            {$field.sep=" "}
+			                            <div></div>
+			                            {/if}
+			
+			
+			                            {if $field.hint_before}
+			                            <span class="help-block">{$field.hint_before}</span>
+			                            {/if}
+			                            {ANCHOR place=$field.anchor_before}
+			
+			                            {$formObj->createField($field)}
+			                            {ANCHOR place=$field.anchor_after}
+			                            {if $field.hint_after}
+			                            <span class="help-block">{$field.hint_after}</span>
+			                            {/if}
+			                        </div>
+			                    {/foreach}
+			
+			                     {$captcha = get_captcha()}
+			                     {if $captcha} 
+			                     {if $captcha.show_field}
+			
+			                     <label class="label" for="verification_code">Verification Code</label>
+			                        {load_captcha captcha=$captcha load=field field_params = ' id="verification_code" '}
+			                     <div class="clearfix"></div>
+			                     {/if}
+			
+			                     <div align="center">{load_captcha captcha=$captcha load=function}</div>
+			
+			                     {/if}
+			               <!--{$captcha|@print_r}-->
+			
+			                    <div class="checkbox">
+			                        <label>
+			                            <input name="agree" type="checkbox" id="agree" value="yes" />
+			                            {sprintf(lang(user_i_agree_to_the),$cbpage->get_page_link(3),$cbpage->get_page_link(2))}
+			
+			                        </label>
+			                    </div>
+			                    {ANCHOR place="the_form"}
+			                    <input type="submit" name="signup" class="btn btn-primary btn-block" value="{lang code='signup'}"  />
+			                    {ANCHOR place='signup_form'}
+			                </form>
+							</div>
+						</div>
+					</div>
+					{/if}
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+		</form>
+	</div>
+	<!-- /.modal-dialog --> 
+</div>
+<!-- /.modal --> 
+
+
+
+
+
+{/if}
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<script>
+    $(document).ready(function(){
+        jQuery('#dob').datepicker({
+          
+            showOtherMonths: true,
+            selectOtherMonths: false,
+            changeMonth: true,
+            dateFormat:"yy-mm-dd",
+            changeYear: true
+       
+        });
+
+       $('.simple_container').addClass('alert-success alert');
+      
+     });
+
+
+
+</script>
+
+                     {literal}
+                    <style>
+                   .ui-datepicker {
+                    background: #fff;
+                    border: 1px solid #357EBD;
+                    width: 140px;
+                    vertical-align: center;
+                    }
+
+                    
+                    </style>
+                    {/literal}

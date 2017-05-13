@@ -1,0 +1,10 @@
+{if $display_type == ""}
+<div class="show-image">
+	<div class="col-md-6 col-sm-6 col-xs-6">
+		<a href="{$cbphoto->photo_links($photo,'view_item')}" title="Tolpis barbata (mariluzpicado)">
+			<span class="photoname">{$photo.photo_title|truncate:15}</span>
+			{get_photo details=$photo size='l' class='Pphotos img-responsive' output='html'}
+		</a>
+	</div>
+</div>
+{/if}

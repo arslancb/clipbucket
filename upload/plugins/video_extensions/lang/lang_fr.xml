@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>Français</name>
+	<iso_code>fr</iso_code>
+	<phrases>
+		<add_video>Ajouter une nouvelle vidéo</add_video>
+		<link_pending_video_to>Associer une nouvelle en attente à la fiche </link_pending_video_to>
+		<validate>Valider</validate>
+		<jobset>Groupe de tâches</jobset>
+		<video_name>Nom du fichier vidéo</video_name>
+		<no_pending_video_file_found>Aucune vidéo en attente</no_pending_video_file_found>
+		<link_video>Associer une vidéo</link_video>
+		<new_empty_video>Nouvelle vidéo vierge</new_empty_video>
+		<duplicate_video>Dupliquer la fiche</duplicate_video>
+		<link_pending_video>Associer une vidéo en attente</link_pending_video>
+	</phrases>
+</clipbucket_language>

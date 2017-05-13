@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>Français</name>
+	<iso_code>fr</iso_code>
+	<phrases>
+		<document_manager>Gestion des documents</document_manager>
+		<document>Documents</document>
+		<add_new_document>Ajouter un nouveau Document</add_new_document>
+		<manage_documents>Gérer les documents</manage_documents>
+		<add_document>Ajouter le document</add_document>
+		<search_document>Rechercher</search_document>
+		<title>Titre</title>
+		<document_already_exists>Le document existe déjà </document_already_exists>
+		<document_does_not_exist>Aucun document trouvé</document_does_not_exist>
+		<no_document_found>Aucun document trouvé</no_document_found>
+		<no_document_selected>Aucun document n'a été sélectionné</no_document_selected>
+		<document_filter>Filtrer les documents</document_filter>
+		<document_edition>Editer le documents</document_edition>
+		<document_updated>Le document a été mis à jour</document_updated>
+		<cant_del_documented_document_msg>Le document est associé à au moins une vidéo et ne peut être supprimé</cant_del_documented_document_msg>
+		<document_del_msg>Lien(s) supprimé(s) avec succès</document_del_msg>
+		<link_document>Associer un document</link_document>
+		<link_document_to_video>Définir les documents externes pour la vidéo N°</link_document_to_video>
+		<list_of_selected_documents>Liste des documents sélectionnés</list_of_selected_documents>
+		<list_of_unselected_documents>Liste des documents non sélectionnés</list_of_unselected_documents>
+		<new_document_added>Le nouveau document a été ajouté</new_document_added>
+		<edit_document_nb>Edition du document N°</edit_document_nb>
+		<update_document>Mettre à jour le document</update_document>
+		<video_addon>Extensions Vidéo</video_addon>
+		<filetype_not_allowed>Type de fichier non autorisé</filetype_not_allowed>
+		<mimetype>mimetype</mimetype>
+		<file_is_too_big>Fichier trop volumineux</file_is_too_big>
+		<size>Taille</size>
+		<storedfilename>Nom du fichier stocké</storedfilename>
+		<filename_on_disk>Nom du fichier sur le disque</filename_on_disk>
+		<filename>Nom du fichier</filename>
+		<document_not_readable>Le document n'est pas accessible</document_not_readable>
+		<document_not_exist>Le document n'existe pas</document_not_exist>
+		<actual_document>Document actuel</actual_document>
+		<documents_have_been_disconected>Les documents ont été dissociés</documents_have_been_disconected>
+	</phrases>
+</clipbucket_language>

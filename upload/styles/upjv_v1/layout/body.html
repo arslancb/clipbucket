@@ -1,0 +1,40 @@
+<!-- This Condition is for view photo ajax mode--> 
+{if ($smarty.get['moto'] != 'ajax')}
+	{include file="$style_dir/global_header.html"}
+{/if}    
+	<body>
+	
+		{if ($smarty.get['moto'] != 'ajax')}
+			<div id="page">
+		{/if}    
+    	
+    	<div id="container">
+			{showDevWitch()}
+			
+			{ANCHOR place="cb_floating_box"}
+			{ANCHOR place='premium_button'}
+			
+			<!-- This Condition is added for view photo ajx based request -->
+			{if ($smarty.get['moto'] != 'ajax')}
+           		 {include file="$style_dir/header.html"}
+        	{/if}
+			
+			{include file="$style_dir/message.html"}
+			<main role="main">
+			{foreach from=$template_files item=file}
+			    {include_template_file file=$file}
+			{/foreach}
+			</main>
+			
+			<!-- This Condition is for view photo ajax mode--> 
+			{if ($smarty.get['moto'] != 'ajax')}
+				{include file="$style_dir/footer.html" }
+			{/if}
+			
+		</div>
+		
+		{if ($smarty.get['moto'] != 'ajax')}
+			</div>
+		{/if}
+    </body>
+</html>

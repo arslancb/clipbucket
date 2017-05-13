@@ -1,0 +1,97 @@
+{ANCHOR place="play_front_anchor"}
+
+<footer id="footer" class="clearfix">
+	{$Cbucket->footer()}
+
+	
+	<div id="pied_page">
+
+		<div id="pied_page_rubriques">
+
+			<div>
+				<h3 data-unfold-trigger="1409658933682">WebTV</h3>
+				<ul data-unfold-target="1409658933682">
+				<!-- <ul class="footer-links column"> -->
+					{$foot_menu=foot_menu()}
+					{foreach from=$foot_menu item=fm}
+					{if $fm.name!=''}
+						<li><a href="{$fm.link}" {if $fm.target} target="{$fm.target}"{/if} {if $fm.onclick} onclick="{$fm.onclick}" {/if}>{$fm.name}</a></li>
+					{/if}
+					{/foreach}
+				</ul>
+			</div>
+
+		</div>
+		<!-- #pied_page_rubriques -->
+
+		<p id="pied_page_logos">
+			<a title="(Nouvelle fenêtre)" href="https://www.u-picardie.fr/">
+				<img src="{$theme}/images/logo-UPJV.png">
+			</a>
+		</p>
+
+
+		<ul id="menu_pied_page">
+			<li><address>Université de Picardie Jules Verne – Chemin du Thil, 80000 Amiens</address></li>
+			<li><a href="https://www.u-picardie.fr/mentions-legales/">mentions légales</a></li>
+			<li><a href="{$baseurl}/admin_area">privé</a></li>
+			<li><a href="https://www.u-picardie.fr/nous-contacter/">nous contacter</a></li>
+			<li>Tél. : 03 22 82 89 89</li>
+		</ul>
+
+		<div id="pied_page_retour">
+			<span aria-hidden="true" class="glyphicon glyphicon-arrow-up"></span> <a href="#page">Haut de page</a>
+		</div>
+		<!-- #retour_debut_ecran -->
+
+	</div>
+	<!-- #pied_page -->
+
+</footer>
+<!--
+#ClipBucket#
+-->
+
+
+<script type="text/javascript" src="{$baseurl}/js/photos.js"></script>
+<script>
+	$(document).on('click','.pick-lang',function(){
+		var _this = $(this);
+		var lang_code = _this.data('lang');
+		var $currentLocation = window.location.href,
+		matchedElement = $currentLocation.match(/\?/);
+			  
+		if(matchedElement == null)
+		{
+			window.location = "?set_site_lang="+lang_code;    
+		} else {
+			window.location = window.location+"&set_site_lang="+lang_code;    
+		}
+	});
+
+	$(document).on('click','#cbsearch',function(e){
+		e.preventDefault();
+		searchForm = $('.search-form');
+		searchQuery = $('#query').val();
+		queryLen = searchQuery.length;
+		if (queryLen <= 2) {
+			msg = 'Search query<strong> '+searchQuery+'</strong> is too short. Open up!';
+			_cb.throwHeadMsg('warning', msg, 3000,true);
+			//alert("Search term is too short");
+		} else {
+			$('.search-form').submit();
+		}
+	});
+
+	$('.dropdown-menu li').on('click',function(){
+		var searchType = $('#searchTypes').find('span.search-type').html();
+		var searchQuery = $('input#query').val();
+		if (searchQuery.length > 1) {
+			$('#cbsearch').trigger('click');
+		}
+	});
+
+
+
+</script>
+{$Cbucket->footer()}

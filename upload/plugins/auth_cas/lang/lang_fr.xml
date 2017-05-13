@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clipbucket_language>
+	<name>Français</name>
+	<iso_code>fr</iso_code>
+	<phrases>
+		<cas_configuration>Configuration CAS</cas_configuration>
+		<cas_context>Contexte CAS</cas_context>
+		<cas_create_user>Créer l'utilisateur s'il n'existe pas ?</cas_create_user>
+		<cas_in_example>Ex :</cas_in_example>
+		<cas_update_config>Enregistrer</cas_update_config>
+		<cas_version>Version CAS</cas_version>
+		<cas_authentication>Authentification CAS</cas_authentication>
+		<cas_central_authentication_service>Central Authentication Service</cas_central_authentication_service>
+		<cas_url>URL CAS</cas_url>
+		<cas_port>Port CAS</cas_port>
+		<cas_connexion_link>Connexion CAS</cas_connexion_link>
+	</phrases>
+</clipbucket_language>

@@ -1,0 +1,150 @@
+//.is-sticky {
+//  z-index: 99999;
+//  position: absolute;
+//}
+nav.navbar {
+    border-radius: 0;
+    margin-bottom: 0;
+        input, button {
+            line-height: normal;
+        }
+        .caret {
+          border-top-color: #FFF !important;
+          border-bottom-color: #FFF !important;
+        }
+        //flex:1;
+        background-color: @main-color;
+        border: none;
+        //min-height: 3*@unit-xlarge;
+        .container-fluid {
+            //padding-left: 0;
+            //padding-right: 0;
+            .navbar-toggle {
+                border: none;
+                color: #fff;
+                background: @dark-color;
+                span.glyphicon {
+                    top: 3px;
+                }
+                &.collapsed {
+                     //float: left;
+                     border: none;
+                     color: #fff;
+                     background: none;
+                }
+            }
+            .navbar-brand {
+                padding: @unit-large;
+                height: 3*@unit-xlarge;
+                width: 150px;
+            }
+            ul.nav.navbar-nav {
+                li.dropdown {
+                    a.dropdown-toggle {
+                        text-shadow: 0px 0px 10px @dark-color;
+                        &:link, &:visited {
+                            color: @menu;
+                        }
+                        &:hover, &:active {
+                            color: #fff;
+                            background-color: @dark-color;
+                        }
+                        //background-color: transparent;
+                        text-transform: uppercase;
+                    }
+                    &.open {
+                        a.dropdown-toggle {
+                            color: @menu;
+                            background-color: @dark-color;
+                        }
+                    }
+                }
+                & > li > a:link, & > li > a:visited {
+                    color: @menu;
+                    text-transform: uppercase;
+                }
+                & > li > a:hover, & > li > a:active {
+                    color: #fff;
+                    background-color: @dark-color;
+                }
+            }
+            @media screen and (max-width: @mobile-breakpoint) {
+             .navbar-collapse {
+                background: @main-color;
+                border: none;
+                overflow-x: hidden;
+                ul.dropdown-menu {
+                    a {
+                        color: #fff;
+                    }
+                }
+                .admin .hide {
+                    display: inline-block !important;
+                }
+            }
+            }
+        }
+    }
+.navbar-right {
+        .search {
+            //justify-content: center;
+            //align-items: center;
+            form {
+                //min-width: 200px;
+                display: flex;
+                //align-items: stretch;
+                //height: 3*@unit-xlarge;
+                input{
+                    flex:1;
+                    padding: @unit-large;
+                    border: none;
+                    background: @dark-color;
+                    color: #fff;
+                    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+                      color: #fff;
+                    }
+                    &::-moz-placeholder { /* Firefox 19+ */
+                      color: #fff;
+                    }
+                    &:-ms-input-placeholder { /* IE 10+ */
+                      color: #fff;
+                    }
+                    &:-moz-placeholder { /* Firefox 18- */
+                      color: #fff;
+                    }
+                }
+                .submit {
+                    padding: @unit-xlarge;
+                    margin: 0;
+                    box-shadow: none;
+                    border-radius: 0;
+                    border: none;
+                    color: #fff;
+                    background: lighten(@main-color,8%);
+                    font-size: 15px;
+                    font-size: 1.5rem;
+                    &:hover {
+                        background: @dark-color;
+                    }
+                }
+            }
+        }
+        .user, .admin {
+            a {
+                &:link, &:visited {
+                    color: @menu;
+                }
+                &:hover, &:active {
+                    color: @menu-hover;
+                }
+                display:block;
+                margin: 0;
+            }
+        }
+        .admin 
+    }
+.global-announcement .alert {
+    p {
+        text-align: center;
+    }
+}
