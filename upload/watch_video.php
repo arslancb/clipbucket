@@ -1,5 +1,4 @@
 <?php
-
 	/**
 	* File: watch_video
 	* Description: FIle used to display watch video page
@@ -21,7 +20,7 @@
 	$vdo = $cbvid->get_video($vkey);
 	$cbvid->update_comments_count($vdo['videoid']);
 	$assign_arry['vdo'] = $vdo;
-	if(video_playable($vdo)) {	
+	if(video_playable($vdo)) {
 		//Checking for playlist
 		$pid = $_GET['play_list'];
 		if(!empty($pid)) {
@@ -67,4 +66,3 @@
 	array_val_assign($assign_arry);
 	template_files('watch_video.html');
 	display_it();
-?> 
