@@ -1,0 +1,1415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<clipbucket_language>
+		<name>Русский</name>
+		<iso_code>ru</iso_code>
+		<phrases>
+			<ad_name_error>Пожалуйста, введите название рекламы</ad_name_error>
+			<ad_code_error>Ошибка: Введите код рекламы</ad_code_error>
+			<ad_exists_error1>Рекламы не существует</ad_exists_error1>
+			<ad_exists_error2>Ошибка: Реклама с таким названием уже существует</ad_exists_error2>
+			<ad_add_msg>Реклама добавлена успешно</ad_add_msg>
+			<ad_msg>Баннер был</ad_msg>
+			<ad_update_msg>Реклама была добавлена</ad_update_msg>
+			<ad_del_msg>Реклама была удалена</ad_del_msg>
+			<ad_deactive>Отключено</ad_deactive>
+			<ad_active>Включено</ad_active>
+			<ad_placment_delete_msg>Расположение было удалено</ad_placment_delete_msg>
+			<ad_placement_err1>Расположение уже есть</ad_placement_err1>
+			<ad_placement_err2>Введите имя расположения</ad_placement_err2>
+			<ad_placement_err3>Введите код расположения</ad_placement_err3>
+			<ad_placement_msg>Расположение было добавлено</ad_placement_msg>
+			<cat_img_error>Пожалуста загружайте JPEG, GIF или PNG изображения</cat_img_error>
+			<cat_exist_error><![CDATA[Категория не существует]]></cat_exist_error>
+			<cat_add_msg>Категория была добавлена успешно</cat_add_msg>
+			<cat_update_msg>Категория была обновлена</cat_update_msg>
+			<grp_err><![CDATA[Группа не существует]]></grp_err>
+			<grp_fr_msg>Группа была выбрана как избранная</grp_fr_msg>
+			<grp_fr_msg1>Выбранные группы были удалены из избранного</grp_fr_msg1>
+			<grp_ac_msg>Выбранные группы были активированы</grp_ac_msg>
+			<grp_dac_msg>Выбранные группы были отключены</grp_dac_msg>
+			<grp_del_msg>Группа была удалена</grp_del_msg>
+			<editor_pic_up>Видео было перемещено наверх</editor_pic_up>
+			<editor_pic_down>Видео было перемещено вниз</editor_pic_down>
+			<plugin_install_msg>Плагин был установлен</plugin_install_msg>
+	<plugin_no_file_err>Файл не найден</plugin_no_file_err>
+	<plugin_file_detail_err>Найдены неизвестные данные о плагине</plugin_file_detail_err>
+	<plugin_installed_err>Плагин уже установлен</plugin_installed_err>
+	<plugin_no_install_err>Плагин не установлен</plugin_no_install_err>
+	<grp_name_error>Введите название группы</grp_name_error>
+	<grp_name_error1>Группа уже существует</grp_name_error1>
+	<grp_des_error>Введите краткое описание группы</grp_des_error>
+	<grp_tags_error>Введите теги группы</grp_tags_error>
+	<grp_url_error>Введите URL группы</grp_url_error>
+	<grp_url_error1>Введите правильный URL</grp_url_error1>
+	<grp_url_error2>URL группы уже существует, введите другой URL</grp_url_error2>
+	<grp_tpc_error>Введите тему для добавления</grp_tpc_error>
+	<grp_comment_error>Вы должны ввести комментарий</grp_comment_error>
+	<grp_join_error>Вы уже вступили в группу</grp_join_error>
+	<grp_prvt_error>Эта группа закрыта, войдите под своим логином, чтобы просматривать её</grp_prvt_error>
+	<grp_inact_error>Данная группа неактивна, свяжитесь с Администратором для решения проблемы</grp_inact_error>
+	<grp_join_error1>Вы ещё не вошли в группу</grp_join_error1>
+	<grp_exist_error><![CDATA[Извините, группа не существует]]></grp_exist_error>
+	<grp_tpc_error1>Эта тема не подтверждена владельцем Группы</grp_tpc_error1>
+	<grp_cat_error>Выберите категорию для своей группы</grp_cat_error>
+	<grp_tpc_error2>Введите тему для добавления</grp_tpc_error2>
+	<grp_tpc_error3>Ваша тема должна быть подтверждена владельцем этой группы</grp_tpc_error3>
+	<grp_tpc_msg>Тема была добавлена</grp_tpc_msg>
+	<grp_comment_msg>Комментарий был добавлен</grp_comment_msg>
+	<grp_vdo_msg>Видео было удалено</grp_vdo_msg>
+	<grp_vdo_msg1>Видео было добавлено</grp_vdo_msg1>
+	<grp_vdo_msg2>Видео было подтверждено</grp_vdo_msg2>
+	<grp_mem_msg>Пользователь был удален</grp_mem_msg>
+	<grp_mem_msg1>Пользователь был подтвержден</grp_mem_msg1>
+	<grp_inv_msg>Ваше приглашение было отправлено</grp_inv_msg>
+	<grp_tpc_msg1>Тема была удалена</grp_tpc_msg1>
+	<grp_tpc_msg2>Тема была подтверждена</grp_tpc_msg2>
+	<grp_fr_msg2>Группа была удалена из списка избранных</grp_fr_msg2>
+	<grp_inv_msg1>Пригласил вас </grp_inv_msg1>
+	<grp_av_msg>Группа была активирована</grp_av_msg>
+	<grp_da_msg>Группа была деактивирована</grp_da_msg>
+	<grp_post_msg>Пост был удален</grp_post_msg>
+	<grp_update_msg>Группа была обновлена</grp_update_msg>
+	<grp_owner_err>Только владелец группы может добавлять видео</grp_owner_err>
+	<grp_owner_err1>Вы не владелец данной группы</grp_owner_err1>
+	<grp_owner_err2>Вы владелец данной группы, вы не можете покинуть её.</grp_owner_err2>
+	<grp_prvt_err1>Это закрытая группа, вам нужно приглашение от владельца группы чтобы вступить в неё.</grp_prvt_err1>
+	<grp_rmv_msg>Выбранные группы были удалены из вашего аккаунта</grp_rmv_msg>
+	<grp_tpc_err4><![CDATA[К сожалению, темы не существует]]></grp_tpc_err4>
+	<grp_title_topic>Группы - Тема - </grp_title_topic>
+	<grp_add_title>- Добавить видео</grp_add_title>
+	<usr_sadmin_err>Вы не можете сделать имя Суперадмина пустым</usr_sadmin_err>
+	<usr_cpass_err><![CDATA[Подтверждение пароля не совпадает]]></usr_cpass_err>
+	<usr_pass_err>Старый пароль неверный</usr_pass_err>
+	<usr_email_err>Введите правильный e-mail</usr_email_err>
+	<usr_cpass_err1>Подтверждение пароля некорректное</usr_cpass_err1>
+	<usr_pass_err1>Пароль некорректный</usr_pass_err1>
+	<usr_cmt_err>Вы должны войти прежде чем написать комментарий</usr_cmt_err>
+	<usr_cmt_err1>Введите текст в поле для комментария</usr_cmt_err1>
+	<usr_cmt_err2>Вы не можете комментировать своё видео</usr_cmt_err2>
+	<usr_cmt_err3>Вы уже оставили комментарий в этом канале</usr_cmt_err3>
+	<usr_cmt_err4>Комментарий был добавлен</usr_cmt_err4>
+	<usr_cmt_del_msg>Комментарий был удален</usr_cmt_del_msg>
+	<usr_cmt_del_err>Произошла ошибка во время удаления комментария</usr_cmt_del_err>
+	<usr_cnt_err>Вы не можете сами себя добавлять в контакты</usr_cnt_err>
+	<usr_cnt_err1>Вы уже добавили этого пользователя в список контактов</usr_cnt_err1>
+	<usr_sub_err>Вы уже подписаны на %s</usr_sub_err>
+	<usr_exist_err>Пользователь не существует</usr_exist_err>
+	<usr_ccode_err>Вы ввели неправильный проверочный код</usr_ccode_err>
+	<usr_exist_err1><![CDATA[Извините, пользователя с данным e-mail\&#8217;ом не существует]]></usr_exist_err1>
+	<usr_exist_err2>Извините, пользователь не существует</usr_exist_err2>
+	<usr_uname_err>Имя пользователя пусто</usr_uname_err>
+	<usr_uname_err2>Пользователь уже существует</usr_uname_err2>
+	<usr_pass_err2>Пароль не введен</usr_pass_err2>
+	<usr_email_err1>Email не введен</usr_email_err1>
+	<usr_email_err2>Введите правильный email</usr_email_err2>
+	<usr_email_err3>Email уже используется</usr_email_err3>
+	<usr_pcode_err>Почтовые коды должны содержать только цифры</usr_pcode_err>
+	<usr_fname_err>Имя не введено</usr_fname_err>
+	<usr_lname_err>Фамилия не введена</usr_lname_err>
+	<usr_uname_err3>Имя пользователя содержит недопустимые символы</usr_uname_err3>
+	<usr_pass_err3>Пароли не совпадают</usr_pass_err3>
+	<usr_dob_err>Выберите дату рождения</usr_dob_err>
+	<usr_ament_err>Извините, вы должны согласиться с лицензионным соглашением, чтобы создать аккаунт</usr_ament_err>
+	<usr_reg_err>Извините, регистрация временно отключена, попробуйте попозже</usr_reg_err>
+	<usr_ban_err>Пользователь заблокирован. Пожалуйста свяжитесь с администратором сайта</usr_ban_err>
+	<usr_login_err>Имя пользователя и пароль не совпадают</usr_login_err>
+	<usr_sadmin_msg>Суперадмин был обновлен</usr_sadmin_msg>
+	<usr_pass_msg>Ваш пароль был изменен</usr_pass_msg>
+	<usr_cnt_msg>Этот пользователь был добавлен в ваш список контактов</usr_cnt_msg>
+	<usr_sub_msg>Вы подписались на %s</usr_sub_msg>
+	<usr_uname_email_msg>Мы отправили вам сообщение содержащее ваше имя пользователя. Проверьте почтовый ящик.</usr_uname_email_msg>
+	<usr_rpass_email_msg>Вам было отправлено сообщение. Следуйте инструкциям, чтобы сбросить пароль.</usr_rpass_email_msg>
+	<usr_pass_email_msg>Пароль был изменен успешно.</usr_pass_email_msg>
+	<usr_email_msg>Настройки Email были изменены успешно</usr_email_msg>
+	<usr_del_msg>Пользователь удален.</usr_del_msg>
+	<usr_dels_msg>Выбранные пользователы были удалены.</usr_dels_msg>
+	<usr_ac_msg>Пользовател активирован</usr_ac_msg>
+	<usr_dac_msg>Пользователь деактивирован</usr_dac_msg>
+	<usr_mem_ac>Выбранные пользователи были активированы</usr_mem_ac>
+	<usr_mems_ac>Выбранные пользователи были деактивированы</usr_mems_ac>
+	<usr_fr_msg>Пользователь был выбран как избранный</usr_fr_msg>
+	<usr_ufr_msg>Пользователь теперь не избранный</usr_ufr_msg>
+	<usr_frs_msg>Выбранные пользователи были отмечены как избранные</usr_frs_msg>
+	<usr_ufrs_msg>Выбранные пользователи были удалены из списка избранных</usr_ufrs_msg>
+	<usr_uban_msg>Пользователь заблокирован</usr_uban_msg>
+	<usr_uuban_msg>Пользователь разблокирован</usr_uuban_msg>
+	<usr_ubans_msg>Выбранные пользователи заблокированы</usr_ubans_msg>
+	<usr_uubans_msg>Выбранные пользователи разблокированы</usr_uubans_msg>
+	<usr_pass_reset_conf>Подтверждение сброса пароля</usr_pass_reset_conf>
+	<usr_dear_user>Дорогой Пользователь</usr_dear_user>
+	<usr_pass_reset_msg>Вы запросили сброс пароля, проследуйте по ссылке чтобы сбросить пароль</usr_pass_reset_msg>
+	<usr_rpass_msg>Пароль был сброшен</usr_rpass_msg>
+	<usr_rpass_req_msg>Вы запросили сброс пароля, ваш новый пароль: </usr_rpass_req_msg>
+	<usr_uname_req_msg>Вы запросили восстановление имя пользователя, Ваше имя пользователя: </usr_uname_req_msg>
+	<usr_uname_recovery>Email для восстановления имени пользователя</usr_uname_recovery>
+	<usr_add_succ_msg>Пользователь добавлен</usr_add_succ_msg>
+	<usr_upd_succ_msg>Пользователь обновлен</usr_upd_succ_msg>
+	<usr_activation_msg>Ваш аккаунт был активирован. Теперь вы можете войти в свой аккаунт, и загружать видео.</usr_activation_msg>
+	<usr_activation_err>Этот пользователь уже активирован</usr_activation_err>
+	<usr_activation_em_msg>Мы отправили на ваш email код активации. Проверьте свой почтовый ящик.</usr_activation_em_msg>
+	<usr_activation_em_err>Email не существует или пользователь с этим email уже активирован.</usr_activation_em_err>
+	<usr_no_msg_del_err>Не выбрано сообщение для удаления</usr_no_msg_del_err>
+	<usr_sel_msg_del_msg>Выбранные сообщения были удалены</usr_sel_msg_del_msg>
+	<usr_pof_upd_msg>Профиль был обновлен</usr_pof_upd_msg>
+	<usr_arr_no_ans>нет ответа</usr_arr_no_ans>
+	<usr_arr_elementary>Средняя школа</usr_arr_elementary>
+	<usr_arr_hi_school>ПТУ/Колледж</usr_arr_hi_school>
+	<usr_arr_some_colg>Высшее</usr_arr_some_colg>
+	<usr_arr_assoc_deg>Присвоенные степени</usr_arr_assoc_deg>
+	<usr_arr_bach_deg>Бакалавр</usr_arr_bach_deg>
+	<usr_arr_mast_deg>Магистр</usr_arr_mast_deg>
+	<usr_arr_phd>Профессорская степень</usr_arr_phd>
+	<usr_arr_post_doc>Доктор наук</usr_arr_post_doc>
+	<usr_arr_single>Свободен(на)</usr_arr_single>
+	<usr_arr_married>В браке</usr_arr_married>
+	<usr_arr_comitted>Помолвлен(а)</usr_arr_comitted>
+	<usr_arr_open_marriage>Гражданский брак</usr_arr_open_marriage>
+	<usr_arr_open_relate>Свободные отношения</usr_arr_open_relate>
+	<title_crt_new_msg>Написать новое сообщение</title_crt_new_msg>
+	<title_forgot>Забыли что-то? Найдите это сейчас!</title_forgot>
+	<title_inbox> - Входящие</title_inbox>
+	<title_sent> - Отправленные</title_sent>
+	<title_usr_contact> Список контактов</title_usr_contact>
+	<title_usr_fav_vids>% избранное видео</title_usr_fav_vids>
+	<title_view_channel> канал</title_view_channel>
+	<title_edit_video>Редактировать видео - </title_edit_video>
+	<vdo_title_err>Введите название видео</vdo_title_err>
+	<vdo_des_err>Введите описание видео</vdo_des_err>
+	<vdo_tags_err>Введите теги к видео</vdo_tags_err>
+	<vdo_cat_err>Выберите как минимум одну категорию</vdo_cat_err>
+	<vdo_cat_err1>Вы можете выбрать только 3 категории</vdo_cat_err1>
+	<vdo_sub_email_msg> и сообщение было отправлено вам автоматически</vdo_sub_email_msg>
+	<vdo_has_upload_nv>загрузил(а) новое видео</vdo_has_upload_nv>
+	<vdo_del_selected>Выбранные видеоролики были удалены</vdo_del_selected>
+	<vdo_cheat_msg>Пожалуйста не пытайтесь обмануть</vdo_cheat_msg>
+	<vdo_limits_warn_msg>Пожалуйста не пытайтесь превышать ваши лимиты</vdo_limits_warn_msg>
+	<vdo_cmt_del_msg>Комментарий был удален</vdo_cmt_del_msg>
+	<vdo_iac_msg>Видео не активно - Свяжитесь с Администратором для информации.</vdo_iac_msg>
+	<vdo_is_in_process>Видео в обработке</vdo_is_in_process>
+	<vdo_upload_allow_err>Загрузка запрещена владельцем сайта</vdo_upload_allow_err>
+	<vdo_download_allow_err>Скачивание видеороликов запрещено</vdo_download_allow_err>
+	<vdo_edit_owner_err>Вы не владелец видео,</vdo_edit_owner_err>
+	<vdo_embed_code_wrong>Код не верен</vdo_embed_code_wrong>
+	<vdo_seconds_err>Неправильно введено значние в поле секунд</vdo_seconds_err>
+	<vdo_mins_err>Неправильное введено значние в поле минут</vdo_mins_err>
+	<vdo_thumb_up_err>Ошибка во время загрузки эскиза</vdo_thumb_up_err>
+	<class_error_occured>Извините, произошла ошибка</class_error_occured>
+	<class_cat_del_msg>Категория была удалена</class_cat_del_msg>
+	<class_vdo_del_msg>Видео было удалено</class_vdo_del_msg>
+	<class_vdo_fr_msg><![CDATA[Видео было отмечено как &#8220;Избранное видео&#8221;]]></class_vdo_fr_msg>
+	<class_fr_msg1><![CDATA[Видео было удалено из &#8220;Избранного видео&#8221;]]></class_fr_msg1>
+	<class_vdo_act_msg>Видео было активировано</class_vdo_act_msg>
+	<class_vdo_act_msg1>Видео было деактивировано</class_vdo_act_msg1>
+	<class_vdo_update_msg>Детали видеоролика были обновлены</class_vdo_update_msg>
+	<class_comment_err>Вы должны войти на сайт, прежде чем написать комментарий</class_comment_err>
+	<class_comment_err1>Пожайлуста введите что-нибудь в поле для комментариев.</class_comment_err1>
+	<class_comment_err2>Вы не можете комментировать своё собственное видео</class_comment_err2>
+	<class_comment_err3>Вы уже написали комментарий, подождите когда ответят другие.</class_comment_err3>
+	<class_comment_err4>Вы уже ответили на этот комментарий, подожите пока ответят другие.</class_comment_err4>
+	<class_comment_err5>Вы не можете отвечать сами себе</class_comment_err5>
+	<class_comment_msg>Комментарий был добавлен</class_comment_msg>
+	<class_comment_err6>Войдите под своим логином, чтобы Вы могли оценить комментарий</class_comment_err6>
+	<class_comment_err7>Вы уже оценили этот комментарий</class_comment_err7>
+	<class_vdo_fav_err>Это видео уже добавлено в избранное</class_vdo_fav_err>
+	<class_vdo_fav_msg>Это видео добавлено в избранное</class_vdo_fav_msg>
+	<class_vdo_flag_err>Вы уже отметили это видео</class_vdo_flag_err>
+	<class_vdo_flag_msg>Это видео было отмечено как неуместное</class_vdo_flag_msg>
+	<class_vdo_flag_rm>Флаг(и) был(и) убраны</class_vdo_flag_rm>
+	<class_send_msg_err>Введите имя пользователя или Выберите пользователя чтобы отправить сообщение</class_send_msg_err>
+	<class_invalid_user>Неправильное имя пользователя</class_invalid_user>
+	<class_subj_err>Не указана тема сообщения</class_subj_err>
+	<class_msg_err>Введите что-нибудь в поле сообщения</class_msg_err>
+	<class_sent_you_msg>отправил(а) вам сообщение</class_sent_you_msg>
+	<class_sent_prvt_msg>отправил вам личное сообщение на </class_sent_prvt_msg>
+	<class_click_inbox>Нажмите здесь для просмотра входящих сообщений</class_click_inbox>
+	<class_click_login>Нажмите здесь чтобы войти</class_click_login>
+	<class_email_notify>уведомление по Email</class_email_notify>
+	<class_msg_has_sent_to>Сообщение было отправлено </class_msg_has_sent_to>
+	<class_inbox_del_msg>Сообщение было удалено из входящих</class_inbox_del_msg>
+	<class_sent_del_msg>Сообщение было отправлено из папки отправленных</class_sent_del_msg>
+	<class_msg_exist_err>Сообщение не существует</class_msg_exist_err>
+	<class_vdo_del_err>Видео не существует</class_vdo_del_err>
+	<class_unsub_msg>Вы успешно отписались</class_unsub_msg>
+	<class_sub_exist_err>Подписка не существует</class_sub_exist_err>
+	<class_vdo_rm_fav_msg>Видео было удалено из избранных</class_vdo_rm_fav_msg>
+	<class_vdo_fav_err1>Это видео не в списке избранных</class_vdo_fav_err1>
+	<class_cont_del_msg>Контакт был удален</class_cont_del_msg>
+	<class_cot_err>Извините, этот контакт не в Вашем списке контактов</class_cot_err>
+	<class_vdo_ep_add_msg><![CDATA[Видео было добавлено в \&quot;Выбор редактора\&quot;]]></class_vdo_ep_add_msg>
+	<class_vdo_ep_err><![CDATA[Видео уже добавлено в \&quot;Выбор редактора\&quot;]]></class_vdo_ep_err>
+	<class_vdo_ep_err1>Вы уже добавили 10 видеороликов, удалите как минимум один, и добавьте другие.</class_vdo_ep_err1>
+	<class_vdo_ep_msg><![CDATA[Видео было удалено из \&quot;Выбора редактора\&quot;]]></class_vdo_ep_msg>
+	<class_vdo_exist_err>Извините, видео не существует</class_vdo_exist_err>
+	<class_img_gif_err>Пожалуйста загружайте Gif изображения</class_img_gif_err>
+	<class_img_png_err>Пожалуйста загружайте PNG изображения</class_img_png_err>
+	<class_img_jpg_err>Пожалуйста загружайте JPG изображения</class_img_jpg_err>
+	<class_logo_msg>Логотип был изменен. Очистите кэш, если Вы не видите измененный логотип.</class_logo_msg>
+	<com_forgot_username>Забыли логин | Пароль</com_forgot_username>
+	<com_join_now>Вступить сейчас</com_join_now>
+	<com_my_account>Мой аккаунт</com_my_account>
+	<com_manage_vids>Управление видео</com_manage_vids>
+	<com_view_channel>Посмотреть мой канал</com_view_channel>
+	<com_my_inbox>Мои сообщения</com_my_inbox>
+	<com_welcome>Добро пожаловать</com_welcome>
+	<com_top_mem>Лучшие пользователи</com_top_mem>
+	<com_vidz>Видео</com_vidz>
+	<com_sign_up_now>Вступить сейчас</com_sign_up_now>
+	<com_my_videos>Мои видео</com_my_videos>
+	<com_my_channel>Мой канал</com_my_channel>
+	<com_my_subs>Подписки</com_my_subs>
+	<com_user_no_contacts>У пользователя нет контактов</com_user_no_contacts>
+	<com_user_no_vides>У пользователя нет избранного видео</com_user_no_vides>
+	<com_user_no_vid_com>У пользователя нет комментариев к видео</com_user_no_vid_com>
+	<com_view_all_contacts>Посмотреть все контакты </com_view_all_contacts>
+	<com_view_fav_all_videos>Посмотреть все избранные видео </com_view_fav_all_videos>
+	<com_login_success_msg>Вы успешно вошли</com_login_success_msg>
+	<com_logout_success_msg>Вы успешно вышли</com_logout_success_msg>
+	<com_not_redirecting>Сейчас Вы будете переадресованы</com_not_redirecting>
+	<com_not_redirecting_msg>если не происходит переадресация</com_not_redirecting_msg>
+	<com_manage_contacts>Управление контактами </com_manage_contacts>
+	<com_send_message>Отправить сообщение</com_send_message>
+	<com_manage_fav>Управление избранным</com_manage_fav>
+	<com_manage_subs>Управление подписками</com_manage_subs>
+	<com_subscribe_to><![CDATA[Подписаться на %s&#8217; канал]]></com_subscribe_to>
+	<com_total_subs>Всего подписок</com_total_subs>
+	<com_total_vids>Всего видео</com_total_vids>
+	<com_date_subscribed>Дата подписки</com_date_subscribed>
+	<com_search_results>Результаты поиска</com_search_results>
+	<com_advance_results>Расширенный поиск</com_advance_results>
+	<com_search_results_in>Искать результаты в </com_search_results_in>
+	<videos_being_watched>Больше просмотров...</videos_being_watched>
+	<latest_added_videos>Последние добавления</latest_added_videos>
+	<most_viewed>Больше всего просмотров</most_viewed>
+	<recently_added>Последние добавленные</recently_added>
+	<featured>Избранные</featured>
+	<highest_rated>Самые рейтинговые</highest_rated>
+	<most_discussed>Самые обсуждаемые</most_discussed>
+	<style_change>Изменить стиль</style_change>
+	<rss_feed_latest_title>RSS подписка на самые последние видео</rss_feed_latest_title>
+	<rss_feed_featured_title>RSS подписка на избранное видео</rss_feed_featured_title>
+	<rss_feed_most_viewed_title>RSS подписка на самое популярное</rss_feed_most_viewed_title>
+	<lang_folder>ru</lang_folder>
+	<reg_closed>Регистрация закрыта</reg_closed>
+	<reg_for>Регистрация для </reg_for>
+	<is_currently_closed>сейчас закрыта</is_currently_closed>
+	<about_us>О нас</about_us>
+	<account>Аккаунт</account>
+	<added>Добавлено</added>
+	<advertisements>Реклама</advertisements>
+	<all>Все</all>
+	<active>Активно</active>
+	<activate>Активировать</activate>
+	<age>Возраст</age>
+	<approve>Подтвердить</approve>
+	<approved>Подтверждено</approved>
+	<approval>Подтверждение</approval>
+	<books>Книги</books>
+	<browse>Обзор</browse>
+	<by>by</by>
+	<cancel>Отмена</cancel>
+	<categories>Категории</categories>
+	<category>Категория</category>
+	<channels>каналы</channels>
+	<check_all>Проверить все</check_all>
+	<click_here>Нажмите здесь</click_here>
+	<comments>Комментарии</comments>
+	<community>Сообщество</community>
+	<companies>Компании</companies>
+	<contacts>Контакты</contacts>
+	<contact_us>Связь с нами</contact_us>
+	<country>Страна</country>
+	<created>Создано</created>
+	<date>Дата</date>
+	<date_added>Добавлено</date_added>
+	<date_joined>Дата подключения</date_joined>
+	<dear>Дорогой</dear>
+	<delete>Удалить</delete>
+	<delete_selected>Удалить выбранное</delete_selected>
+	<des_title>Описание:</des_title>
+	<duration>Длительность</duration>
+	<education>Образование</education>
+	<email>email</email>
+	<embed>Embed</embed>
+	<embed_code>Embed код</embed_code>
+	<favourite>Избранный</favourite>
+	<favourited>Избранное</favourited>
+	<favourites>Избранные</favourites>
+	<female>Женщина</female>
+	<filter>Фильтр</filter>
+	<forgot>Забыл(а)</forgot>
+	<friends>Друзья</friends>
+	<from>От</from>
+	<gender>Пол</gender>
+	<groups>Группы</groups>
+	<hello>Приветствуем</hello>
+	<help>Помощь</help>
+	<hi>Привет</hi>
+	<hobbies>Хобби</hobbies>
+	<Home>Главная</Home>
+	<inbox>Входящие</inbox>
+	<interests>Интересы</interests>
+	<join_now>Вступить сейчас</join_now>
+	<joined>Подключился</joined>
+	<join>Подключение</join>
+	<keywords>Ключевые слова</keywords>
+	<latest>Последние</latest>
+	<leave>Покинуть</leave>
+	<location>Местоположение</location>
+	<login>Войти</login>
+	<logout>Выйти</logout>
+	<male>Мужчина</male>
+	<members>Участники</members>
+	<messages>Сообщения</messages>
+	<message>Сообщение</message>
+	<minutes>минуты</minutes>
+	<most_members>Больше всего участников</most_members>
+	<most_recent>Самые последние</most_recent>
+	<most_videos>Больше всего видео</most_videos>
+	<music>Музыка</music>
+	<my_account>Мой аккаунт</my_account>
+	<next>Дальше</next>
+	<no>Нет</no>
+	<no_user_exists>Не существует пользователя</no_user_exists>
+	<no_video_exists>Не существует видео</no_video_exists>
+	<occupations>Профессии</occupations>
+	<optional>опционально</optional>
+	<owner>Хозяин</owner>
+	<password>Пароль</password>
+	<please>Пожалуйста</please>
+	<privacy>Конфиденциальность</privacy>
+	<privacy_policy>Политика кониденциальности</privacy_policy>
+	<random>Случайно</random>
+	<rate>Оценить</rate>
+	<request>Запрос</request>
+	<related>Связанный</related>
+	<reply>Ответ</reply>
+	<results>Результаты</results>
+	<relationship>Связь</relationship>
+	<seconds>секунды</seconds>
+	<select>Выбрать</select>
+	<send>Отправить</send>
+	<sent>Отправлено</sent>
+	<signup>Регистрация</signup>
+	<subject>Тема</subject>
+	<tags>Теги</tags>
+	<times>Раз</times>
+	<to>к</to>
+	<type>Тип</type>
+	<update>Обновить</update>
+	<upload>Загрузить</upload>
+	<url>URL</url>
+	<verification>Подтверждение</verification>
+	<videos>Видео</videos>
+	<viewing>Просмотр</viewing>
+	<welcome>Добро пожаловать</welcome>
+	<website>Вебсайт</website>
+	<yes>Да</yes>
+	<of>of</of>
+	<on>on</on>
+	<previous>Предыдущий</previous>
+	<rating>Рейтинг</rating>
+	<ratings>Рейтинги</ratings>
+	<remote_upload>Удаленная загрузка</remote_upload>
+	<remove>Удалить</remove>
+	<search>Поиск</search>
+	<services>Сервисы</services>
+	<show_all>Показать всё</show_all>
+	<signupup>Подключиться</signupup>
+	<sort_by>Сортировать</sort_by>
+	<subscriptions>Подписки</subscriptions>
+	<subscribers>Подписчики</subscribers>
+	<tag_title>Теги</tag_title>
+	<time>время</time>
+	<top>Вверх</top>
+	<tos_title>Условия использования</tos_title>
+	<username>Имя пользователя</username>
+	<views>Просмотры</views>
+	<proccession_wait>Обработка, подождите...</proccession_wait>
+	<mostly_viewed>Самые просматриваемые</mostly_viewed>
+	<most_comments>Больше всего комментариев</most_comments>
+	<group>Группа</group>
+	<not_logged_in>Вы не вошли или у Вас нет прав доступа к этой странице. Это могло произойти по следующим причинам: </not_logged_in>
+	<fill_auth_form>Если вы не зашли, то попробуйте войти через форму ниже и попробовать опять.</fill_auth_form>
+	<insufficient_privileges>У вас недостаточно привилегий на доступ к странице</insufficient_privileges>
+	<admin_disabled_you>Администратор сайта мог отключить ваш аккаунт или он ожидает активации</admin_disabled_you>
+	<Recover_Password>Восстановить пароль</Recover_Password>
+	<Submit>Отправить</Submit>
+	<Reset_Fields>Сбросить поля</Reset_Fields>
+	<admin_reg_req>Администратор может требовать зарегистрироваться, прежде чем вы сможете посмотреть данную страницу</admin_reg_req>
+	<lang_change>Смена языка</lang_change>
+	<lang_changed>Ваш язык был изменен</lang_changed>
+	<lang_choice>Язык</lang_choice>
+	<if_not_redir>Нажмите здесь если переадресация не произошла автоматически.</if_not_redir>
+	<style_changed>Ваш стиль был изменен</style_changed>
+	<style_choice>Стиль</style_choice>
+	<vdo_edit_vdo>Редактировать видео</vdo_edit_vdo>
+	<vdo_stills>Видеокадры</vdo_stills>
+	<vdo_watch_video>Смотреть видео</vdo_watch_video>
+	<vdo_video_details>Детали видео</vdo_video_details>
+	<vdo_title>Название</vdo_title>
+	<vdo_desc>Описание</vdo_desc>
+	<vdo_cat>Категория</vdo_cat>
+	<vdo_cat_msg>Вы можете выбрать до  %s категорий</vdo_cat_msg>
+	<vdo_tags_msg>Теги разделяются через запятые, например: Мир, Труд, skripter.info</vdo_tags_msg>
+	<vdo_br_opt>Опции просмотра</vdo_br_opt>
+	<vdo_br_opt1>Общедоступное (доступно всем для поиска и просмотра – рекомендуется)</vdo_br_opt1>
+	<vdo_br_opt2>Частное - (доступно только вашим друзьям)</vdo_br_opt2>
+	<vdo_date_loc>Дата и местоположение</vdo_date_loc>
+	<vdo_date_rec>Дата записи</vdo_date_rec>
+	<vdo_for_date>формат ММ/ДД/ГГГГ </vdo_for_date>
+	<vdo_add_eg>например: Московская область, Красногорский р-он, Красногорск, Зоркий.</vdo_add_eg>
+	<vdo_share_opt>Опции доступа</vdo_share_opt>
+	<vdo_allow_comm>Разрешить комментарии</vdo_allow_comm>
+	<vdo_dallow_comm>Запретить комментарии</vdo_dallow_comm>
+	<vdo_comm_vote>Голосование за комментарии</vdo_comm_vote>
+	<vdo_allow_com_vote>Разрешить голосование за комментарии</vdo_allow_com_vote>
+	<vdo_dallow_com_vote>Запретить голосование за комментарии</vdo_dallow_com_vote>
+	<vdo_allow_rating>Да, разрешить оценивать это видео</vdo_allow_rating>
+	<vdo_dallow_ratig>Нет, не запретить оценивать это видео</vdo_dallow_ratig>
+	<vdo_embedding>Вставка</vdo_embedding>
+	<vdo_embed_opt1>Да, это видео можно показывать на внешних сайтах</vdo_embed_opt1>
+	<vdo_embed_opt2>Воспроизведение этого видео на внешних сайтах ЗАПРЕЩЕНО</vdo_embed_opt2>
+	<vdo_update_title>Обновить</vdo_update_title>
+	<vdo_inactive_msg>Ваш аккаунт неактивен. Активируйте его чтобы, Вы могли загружать видеоролики. Чтобы активировать пожалуйста </vdo_inactive_msg>
+	<vdo_click_here>Нажмите здесь</vdo_click_here>
+	<vdo_continue_upload>Продолжить загрузку</vdo_continue_upload>
+	<vdo_upload_step1>Добавление видео</vdo_upload_step1>
+	<vdo_upload_step2>Видео шаг %s/2</vdo_upload_step2>
+	<vdo_upload_step3>(Шаг 2/2)</vdo_upload_step3>
+	<vdo_select_vdo>Выберите видео для загрузки</vdo_select_vdo>
+	<vdo_enter_remote_url>Введите URL видео</vdo_enter_remote_url>
+	<vdo_enter_embed_code_msg>Введите встариваемый код из других сайтов, например с Youtube или Metacafe</vdo_enter_embed_code_msg>
+	<vdo_enter_embed_code>Введите встраиваемый код</vdo_enter_embed_code>
+	<vdo_enter_druation>Введите продолжительность</vdo_enter_druation>
+	<vdo_select_vdo_thumb>Выберите эскиз ролика</vdo_select_vdo_thumb>
+	<vdo_having_trouble>Проблемы?</vdo_having_trouble>
+	<vdo_if_having_problem>если у вас проблемы с загрузкой </vdo_if_having_problem>
+	<vdo_clic_to_manage_all>Нажмите здесь, чтобы управлять всеми видео</vdo_clic_to_manage_all>
+	<vdo_manage_vdeos>Управление видео</vdo_manage_vdeos>
+	<vdo_status>Статус</vdo_status>
+	<vdo_rawfile>Необработанный файл</vdo_rawfile>
+	<vdo_video_upload_complete>Добавление видео - Загрузка завершена</vdo_video_upload_complete>
+	<vdo_thanks_you_upload_complete_1>Спасибо! Ваша загрузка завершена</vdo_thanks_you_upload_complete_1>
+	<vdo_thanks_you_upload_complete_2>Это видео будет доступно в</vdo_thanks_you_upload_complete_2>
+	<vdo_after_it_has_process>после завершения обработки.</vdo_after_it_has_process>
+	<vdo_embed_this_video_on_web>Вставить это видео на свой сайт.</vdo_embed_this_video_on_web>
+	<vdo_copy_and_paste_the_code>Скопируйте и вставьте следующий код для встраивания видео.</vdo_copy_and_paste_the_code>
+	<vdo_upload_another_video>Загрузить другое видео</vdo_upload_another_video>
+	<vdo_goto_my_videos>Перейти в мои видео</vdo_goto_my_videos>
+	<vdo_sperate_emails_by>разделите email адреса через запятую</vdo_sperate_emails_by>
+	<vdo_personal_msg>Личное сообщение</vdo_personal_msg>
+	<vdo_related_tags>Последние теги</vdo_related_tags>
+	<vdo_reply_to_this>Ответить на этот</vdo_reply_to_this>
+	<vdo_add_reply>Добавить ответ</vdo_add_reply>
+	<vdo_share_video>Поделиться видео</vdo_share_video>
+	<vdo_about_this_video>Об этом видео</vdo_about_this_video>
+	<vdo_post_to_a_services>Написать в сервис сбора</vdo_post_to_a_services>
+	<vdo_commentary>Комментарий</vdo_commentary>
+	<vdo_post_a_comment>Отправить комментарий</vdo_post_a_comment>
+	<grp_add_vdo_msg>Добавить видео в группу</grp_add_vdo_msg>
+	<grp_no_vdo_msg>У вас нет ещё видео</grp_no_vdo_msg>
+	<grp_add_to>Добавить в группу</grp_add_to>
+	<grp_add_vdos>Добавить видео</grp_add_vdos>
+	<grp_name_title>Имя группы</grp_name_title>
+	<grp_tag_title>Теги:</grp_tag_title>
+	<grp_des_title>Описание:</grp_des_title>
+	<grp_tags_msg>Введите один или более тегов, разделенных через пробел.</grp_tags_msg>
+	<grp_tags_msg1>Введите один или несколько тегов, разделенных пробелами. Теги это ключевые слова, используемые для описания Вашей группы, чтобы её могли легко найти другие пользователи. Например, если у Вас есть группа пользователей серфинг, можно обозначить так: серфинг, пляж, волны.</grp_tags_msg1>
+	<grp_url_title>Укажите уникальный URL группы:</grp_url_title>
+	<grp_url_msg>Введите 3-18 символов без пробелов на английском языке(например, hiv_aids), который станет частью веб-адреса Вашей группы. Обратите внимание, что URL названия группы которое Вы укажете, является постоянным и не может быть изменено. Ссылка на Вашу группу будет выглядеть примерно так: http://skripter.info/group/hiv_aids</grp_url_msg>
+	<grp_cat_tile>Категории групп:</grp_cat_tile>
+	<grp_vdo_uploads>Закачки видео:</grp_vdo_uploads>
+	<grp_forum_posting>Постинг на форум:</grp_forum_posting>
+	<grp_join_opt1>Общая, может вступать любой желающий</grp_join_opt1>
+	<grp_join_opt2>Частная, на вступление требуется подтверждение владельца группы</grp_join_opt2>
+	<grp_join_opt3>Закрытая, только по приглашениями владельца и только члены группы могут просматривать её</grp_join_opt3>
+	<grp_vdo_opt1>Отображать видео немедленно</grp_vdo_opt1>
+	<grp_vdo_opt2>Владелец группы должен подтвердить видео, прежде чем оно станет доступно</grp_vdo_opt2>
+	<grp_vdo_opt3>Только владелец может загружать новые видеоролики</grp_vdo_opt3>
+	<grp_post_opt1>Добавлять темы немедленно</grp_post_opt1>
+	<grp_post_opt2>Владелец должен проверить тему перед добавлением</grp_post_opt2>
+	<grp_post_opt3>Только владелец может добавлять новые темы</grp_post_opt3>
+	<grp_crt_grp>Создать группу</grp_crt_grp>
+	<grp_thumb_title>Логотип группы</grp_thumb_title>
+	<grp_upl_thumb>Загрузить логотип группы</grp_upl_thumb>
+	<grp_must_be>Должно быть</grp_must_be>
+	<grp_90x90>размер 90x90 будет самым лучшим</grp_90x90>
+	<grp_thumb_warn>Не загружайте вульгарный или защищенный правами материал</grp_thumb_warn>
+	<grp_del_confirm>Вы уверены что хотите удалить группу?</grp_del_confirm>
+	<grp_del_success>Вы успешно удалили группу</grp_del_success>
+	<grp_click_go_grps>Нажмите здесь чтобы перейти к группам</grp_click_go_grps>
+	<grp_edit_grp_title>Редактировать группу</grp_edit_grp_title>
+	<grp_manage_vdos>Управление видео</grp_manage_vdos>
+	<grp_manage_mems>Управлять участниками</grp_manage_mems>
+	<grp_del_group_title>Удалить группу</grp_del_group_title>
+	<grp_add_vdos_title>Добавить видео</grp_add_vdos_title>
+	<grp_join_grp_title>Вступить в группу</grp_join_grp_title>
+	<grp_leave_group_title>Покинуть группу</grp_leave_group_title>
+	<grp_invite_grp_title>Пригласить людей</grp_invite_grp_title>
+	<grp_view_mems>Просмотр участников</grp_view_mems>
+	<grp_view_vdos>Посмотреть видео</grp_view_vdos>
+	<grp_create_grp_title>Создать новую группу</grp_create_grp_title>
+	<grp_most_members>Больше всего участников</grp_most_members>
+	<grp_most_discussed>Самые обсуждаемые</grp_most_discussed>
+	<grp_invite_msg>Пригласить пользователей в эту группу</grp_invite_msg>
+	<grp_invite_msg1>Пригласил вас вступить</grp_invite_msg1>
+	<grp_invite_msg2>Введите email адреса или имена пользователей (разделенные запятыми)</grp_invite_msg2>
+	<grp_url_title1>Ссылка на группу</grp_url_title1>
+	<grp_invite_msg3>Отправить приглашение</grp_invite_msg3>
+	<grp_join_confirm_msg>Вы уверены, что хотите вступить в эту группу?</grp_join_confirm_msg>
+	<grp_join_msg_succ>Вы успешно вступили в группу</grp_join_msg_succ>
+	<grp_click_here_to_go>Нажмите здесь чтобы продолжить</grp_click_here_to_go>
+	<grp_leave_confirm>Вы уверены что хотите покинуть группу?</grp_leave_confirm>
+	<grp_leave_succ_msg>Вы покинули группу</grp_leave_succ_msg>
+	<grp_manage_members_title>Управление участниками </grp_manage_members_title>
+	<grp_for_approval>На подтверждение</grp_for_approval>
+	<grp_rm_videos>Удалить видео</grp_rm_videos>
+	<grp_rm_mems>Удалить участников</grp_rm_mems>
+	<grp_groups_title>Управлять группами</grp_groups_title>
+	<grp_remove_group>Удалить группу</grp_remove_group>
+	<grp_bo_grp_found>Не найдена группа</grp_bo_grp_found>
+	<grp_joined_groups>В каких группах принимает участие</grp_joined_groups>
+	<grp_owned_groups>Является владельцем групп</grp_owned_groups>
+	<grp_edit_this_grp>Редактировать эту группу</grp_edit_this_grp>
+	<grp_topics_title>Темы</grp_topics_title>
+	<grp_topic_title>Тема</grp_topic_title>
+	<grp_posts_title>Сообщения</grp_posts_title>
+	<grp_discus_title>Обсуждения</grp_discus_title>
+	<grp_author_title>Автор</grp_author_title>
+	<grp_replies_title>Ответов</grp_replies_title>
+	<grp_last_post_title>Последнее сообщение </grp_last_post_title>
+	<grp_viewl_all_videos>Просмотреть все видео этой группы</grp_viewl_all_videos>
+	<grp_add_new_topic>Добавить новую тему</grp_add_new_topic>
+	<grp_attach_video>Приложить видео </grp_attach_video>
+	<grp_add_topic>Добавить тему</grp_add_topic>
+	<grp_please_login>Войдите под вашим логином, чтобы создавать темы</grp_please_login>
+	<grp_please_join>Вступите в эту группу, прежде чем создавать в ней темы</grp_please_join>
+	<grp_inactive_account>Ваш аккаунт неактивен или требует активации владельцем группы</grp_inactive_account>
+	<grp_about_this_grp>Об этой группе </grp_about_this_grp>
+	<grp_no_vdo_err>В этой группе нет видео</grp_no_vdo_err>
+	<grp_posted_by>Отправил(а)</grp_posted_by>
+	<grp_add_new_comment>Добавить новый комментарий</grp_add_new_comment>
+	<grp_add_comment>Добавить комментарий</grp_add_comment>
+	<grp_pls_login_comment>Войдите прежде чем написать комментарий</grp_pls_login_comment>
+	<grp_pls_join_comment>Вступите в группу, чтобы писать комментарии</grp_pls_join_comment>
+	<usr_activation_title>Активация пользователя</usr_activation_title>
+	<usr_actiavation_msg>Введите свое имя пользователя и код активации отправленный Вам на email</usr_actiavation_msg>
+	<usr_actiavation_msg1>Требуется код активации</usr_actiavation_msg1>
+	<usr_activation_code_tl>Код активации</usr_activation_code_tl>
+	<usr_compose_msg>Написать сообщение</usr_compose_msg>
+	<usr_inbox_title>Входящие</usr_inbox_title>
+	<usr_sent_title>Исходящие</usr_sent_title>
+	<usr_to_title>Кому: (Введите имя пользователя)</usr_to_title>
+	<usr_or_select_frm_list>или выберите из списа контактов</usr_or_select_frm_list>
+	<usr_attach_video>Добавить видео</usr_attach_video>
+	<user_attached_video>Добавленные видео</user_attached_video>
+	<usr_send_message>Отправить сообщение</usr_send_message>
+	<user_no_message>Нет сообщений</user_no_message>
+	<user_delete_message_msg>Удалить это сообщение</user_delete_message_msg>
+	<user_forgot_message>Забыли пароль</user_forgot_message>
+	<user_forgot_message_2>Не беспокойтесь, можете его восстановить</user_forgot_message_2>
+	<user_pass_reset_msg>Сброс пароля</user_pass_reset_msg>
+	<user_pass_forgot_msg>Если вы забыли свой пароль, пожалуйста, введите Ваше Имя пользователя и проверочный код в поля, а потом инструкции по восстановлению пароля будет отправлено на Ваш почтовый ящик.</user_pass_forgot_msg>
+	<user_veri_code>Проверочный код</user_veri_code>
+	<user_reocover_user>Восстановить имя пользователя</user_reocover_user>
+	<user_user_forgot_msg>Забыли имя пользователя?</user_user_forgot_msg>
+	<user_recover>Восстановление</user_recover>
+	<user_reset>Сброс</user_reset>
+	<user_inactive_msg><![CDATA[Ваш аккаунт неактивен, пожалуйста активируйте свою учетную запись, перейдя на <a href="./activation.php">страницу активации</a>]]></user_inactive_msg>
+	<user_dashboard>Панель управления</user_dashboard>
+	<user_manage_prof_chnnl>Управление Профилем и Каналом</user_manage_prof_chnnl>
+	<user_manage_friends>Управление Друзьями и Контактами</user_manage_friends>
+	<user_prof_channel>Профиль/Канал</user_prof_channel>
+	<user_message_box>Личные сообщения</user_message_box>
+	<user_new_messages>Новые сообщения</user_new_messages>
+	<user_goto_inbox>Входящие</user_goto_inbox>
+	<user_goto_sentbox>Исхоящие</user_goto_sentbox>
+	<user_compose_new>Написать новое сообщение</user_compose_new>
+	<user_total_subs_users>Всего подписчиков</user_total_subs_users>
+	<user_you_have>У вас</user_you_have>
+	<user_fav_videos>Избранное видео</user_fav_videos>
+	<user_your_vids_watched>Вы просмотрели видео</user_your_vids_watched>
+	<user_times>Раз</user_times>
+	<user_you_have_watched>Вы просмотрели</user_you_have_watched>
+	<user_channel_profiles>Канал и Профиль</user_channel_profiles>
+	<user_channel_views>Просмотров канала</user_channel_views>
+	<user_channel_comm>Комментариев канала</user_channel_comm>
+	<user_manage_prof>Управление Профилем / Каналом</user_manage_prof>
+	<user_you_created>Вы создали</user_you_created>
+	<user_you_joined>Вы вступили</user_you_joined>
+	<user_create_group>Создать новую группу</user_create_group>
+	<user_manage_my_account>Управление моим аккаунтом</user_manage_my_account>
+	<user_manage_my_videos>Управление моими видео</user_manage_my_videos>
+	<user_manage_my_channel>Управление моим каналом</user_manage_my_channel>
+	<user_sent_box>Мои отправленные</user_sent_box>
+	<user_manage_channel>Управление каналом</user_manage_channel>
+	<user_manage_my_contacts>Управление моими контактами</user_manage_my_contacts>
+	<user_manage_contacts>Управление контактами</user_manage_contacts>
+	<user_manage_favourites>Управление избранным видео</user_manage_favourites>
+	<user_mem_login>Логины пользователей</user_mem_login>
+	<user_already_have>Войдите под своим логином если он у вас есть </user_already_have>
+	<user_forgot_username>Забыли имя пользователя</user_forgot_username>
+	<user_forgot_password>Забыли пароль</user_forgot_password>
+	<user_create_your>Создайте свой</user_create_your>
+	<user_all_fields_req>Все поля обязательны</user_all_fields_req>
+	<user_valid_email_addr>Правильный email</user_valid_email_addr>
+	<user_allowed_format>Символы A-Z или a-z, Цифры 0-9 и подчеркивания _</user_allowed_format>
+	<user_confirm_pass>Подтверждение пароля</user_confirm_pass>
+	<user_reg_msg_0>Зарегестрироваться как </user_reg_msg_0>
+	<user_reg_msg_1>пользователь, это доступно и легко, заполните все поля ниже</user_reg_msg_1>
+	<user_date_of_birth>Дата рождения</user_date_of_birth>
+	<user_enter_text_as_img>Введите текст, который видите на картинке</user_enter_text_as_img>
+	<user_refresh_img>Обновить изображение</user_refresh_img>
+	<user_i_agree_to_the><![CDATA[Я согласен с  <a href="%s" target="_blank">Правилами</a> и <a href="%s" target="_blank" >Политикой конфиденциальности]]></user_i_agree_to_the>
+	<user_thanks_for_reg>Спасибо за регистрацию на </user_thanks_for_reg>
+	<user_email_has_sent>На ваш e-mail было отправлено сообщение содержащее информацию о вашем аккаунте</user_email_has_sent>
+	<user_and_activation>И активации</user_and_activation>
+	<user_details_you_now>Детали. Сейчас в нашей сети вы можете </user_details_you_now>
+	<user_upload_share_vds>Закачивать, делиться видеороликами</user_upload_share_vds>
+	<user_make_friends>Заводить друзей</user_make_friends>
+	<user_send_messages>Отправлять сообщения</user_send_messages>
+	<user_grow_your_network>Создавайте свои сети, приглашая больше друзей</user_grow_your_network>
+	<user_rate_comment>Оценивайте и комментриуйте видео</user_rate_comment>
+	<user_make_customize>Создайте и настройте свой канал</user_make_customize>
+	<user_to_upload_vid>Чтобы загружать видео, вы должны активировать ваш аккаунт, для этого вам были отправлены инструкции по активации на ваш почтовый ящик.</user_to_upload_vid>
+	<user_click_to_login>Нажмите сюда, чтобы войти под вашим логином</user_click_to_login>
+	<user_view_my_channel>Посмотреть мой канал</user_view_my_channel>
+	<user_change_pass>Сменить пароль</user_change_pass>
+	<user_email_settings>Настройки Email</user_email_settings>
+	<user_profile_settings>Настройки профиля</user_profile_settings>
+	<user_usr_prof_chnl_edit>Пользовательский профиль и редактирование канала</user_usr_prof_chnl_edit>
+	<user_personal_info>Персональная информация</user_personal_info>
+	<user_fname>Имя</user_fname>
+	<user_lname>Фамилия</user_lname>
+	<user_gender>Пол</user_gender>
+	<user_relat_status>Семейное положение</user_relat_status>
+	<user_display_age>Показывать возраст</user_display_age>
+	<user_about_me>Обо мне</user_about_me>
+	<user_website_url>Ссылка на сайт</user_website_url>
+	<user_eg_website>например www.skripter.info</user_eg_website>
+	<user_prof_info>Профессиональная информация</user_prof_info>
+	<user_education>Образование</user_education>
+	<user_school_colleges>Школы / ВУЗы</user_school_colleges>
+	<user_occupations>Профессия</user_occupations>
+	<user_companies>Компании</user_companies>
+	<user_sperate_by_commas>разделяйте запятыми</user_sperate_by_commas>
+	<user_interests_hobbies>Интересы и хобби</user_interests_hobbies>
+	<user_fav_movs_shows>Любимые фильмы и передачи</user_fav_movs_shows>
+	<user_fav_music>Любимая музыка</user_fav_music>
+	<user_fav_books>Любимые книги</user_fav_books>
+	<user_user_avatar>Аватар</user_user_avatar>
+	<user_upload_avatar>Загрузить аватар</user_upload_avatar>
+	<user_channel_info>Информация о канале</user_channel_info>
+	<user_channel_title>Название канала</user_channel_title>
+	<user_channel_description>Описание канала</user_channel_description>
+	<user_channel_permission>Права доступа к каналу</user_channel_permission>
+	<user_allow_comments_msg>пользователи могут комментировать</user_allow_comments_msg>
+	<user_dallow_comments_msg>пользователи не могут комментировать</user_dallow_comments_msg>
+	<user_allow_rating>Могут оценивать</user_allow_rating>
+	<user_dallow_rating>Не могут оценивать</user_dallow_rating>
+	<user_allow_rating_msg1>пользователи могут оценивать</user_allow_rating_msg1>
+	<user_dallow_rating_msg1>пользователи не могут оценивать</user_dallow_rating_msg1>
+	<user_channel_feature_vid>Избранное видео канала</user_channel_feature_vid>
+	<user_select_vid_for_fr>Выберите видео чтобы сделать его избранным</user_select_vid_for_fr>
+	<user_chane_channel_bg>Изменить фон канала</user_chane_channel_bg>
+	<user_remove_bg>Remove Background</user_remove_bg>
+	<user_currently_you_d_have_pic>Сейчас у вас нету фоновой картинки</user_currently_you_d_have_pic>
+	<user_change_email>Изменить e-mail</user_change_email>
+	<user_email_address>адрес e-mail</user_email_address>
+	<user_new_email>новый e-mail</user_new_email>
+	<user_notify_me>Оповещать меня, когда пользователи пишут мне сообщения</user_notify_me>
+	<user_old_pass>Старый пароль</user_old_pass>
+	<user_new_pass>Новый пароль</user_new_pass>
+	<user_c_new_pass>Подтверждение нового пароля</user_c_new_pass>
+	<user_doesnt_exist>Пользователь не существует</user_doesnt_exist>
+	<user_do_not_have_contact>У пользователя нету контактов</user_do_not_have_contact>
+	<user_no_fav_video_exist>Пользователь не отметил ни одного видео как избранное</user_no_fav_video_exist>
+	<user_have_no_vide>У пользователя нет видео</user_have_no_vide>
+	<user_s_channel>Канал %s</user_s_channel>
+	<user_last_login>Последний вход</user_last_login>
+	<user_send_message>Отправить сообщение</user_send_message>
+	<user_add_contact>Добавить контакт</user_add_contact>
+	<user_dob>DoB</user_dob>
+	<user_movies_shows>Фильмы и Передачи</user_movies_shows>
+	<user_add_comment>Комментировать</user_add_comment>
+	<user_view_all_comments>Посмотреть все комментарии</user_view_all_comments>
+	<user_no_fr_video>Пользователь не отметил ни одного видео как рекомендуемое</user_no_fr_video>
+	<user_view_all_video_of>Посмотреть все видео </user_view_all_video_of>
+	<menu_home>Главная</menu_home>
+	<menu_videos>Видео</menu_videos>
+	<menu_upload>Загрузить</menu_upload>
+	<menu_signup>Регистрация</menu_signup>
+	<menu_account>Аккаунт</menu_account>
+	<menu_groups>Группы</menu_groups>
+	<menu_channels>Каналы</menu_channels>
+	<menu_community>Сообщество</menu_community>
+	<menu_inbox>Входящие</menu_inbox>
+	<vdo_cat_err2>Вы не можете выбирать больше %d категорий</vdo_cat_err2>
+	<user_subscribe_message>Здравствуйте %subscriber%
+Вы подписались на рассылку %user% и поэтому это сообщение отправлено Вам автоматически, потому что пользователь %user% загрузил новое видео
+
+%website_title%</user_subscribe_message>
+	<user_subscribe_subject>%user% добавил новое видео</user_subscribe_subject>
+	<you_already_logged>You are already logged in</you_already_logged>
+	<you_not_logged_in>You are not logged in</you_not_logged_in>
+	<invalid_user>Invalid User</invalid_user>
+	<vdo_cat_err3>Выберите хотя бы 1 категорию</vdo_cat_err3>
+	<embed_code_invalid_err>Invalid video embed code</embed_code_invalid_err>
+	<invalid_duration>Invalid duration</invalid_duration>
+	<vid_thumb_changed>Video default thumb has been changed</vid_thumb_changed>
+	<vid_thumb_change_err>Video thumbnail was not found</vid_thumb_change_err>
+	<upload_vid_thumbs_msg>All video thumbs have been uploaded</upload_vid_thumbs_msg>
+	<video_thumb_delete_msg>Video thumb has been deleted</video_thumb_delete_msg>
+	<video_thumb_delete_err>Could not delete video thumb</video_thumb_delete_err>
+	<no_comment_del_perm>You dont have permission to delete this comment</no_comment_del_perm>
+	<my_text_context>My test context</my_text_context>
+	<user_contains_disallow_err>Username contains disallowed characters</user_contains_disallow_err>
+	<add_cat_erro>Category already exists</add_cat_erro>
+	<add_cat_no_name_err>Please enter a name for the category</add_cat_no_name_err>
+	<cat_default_err><![CDATA[По умолчанию не может быть удалена, пожалуйста, выберите другую категорию, как &#8220;по умолчанию&#8221; а затем удалите эту]]></cat_default_err>
+	<pic_upload_vali_err>Закачивайте правильные JPG, GIF или PNG изображения</pic_upload_vali_err>
+	<cat_dir_make_err>Невозможно создать эскиз категории</cat_dir_make_err>
+	<cat_set_default_ok>Категория была установлена по умолчанию.</cat_set_default_ok>
+	<vid_thumb_removed_msg>Эскизы видео былиу удалены</vid_thumb_removed_msg>
+	<vid_files_removed_msg>Видеофайлы были удалены</vid_files_removed_msg>
+	<vid_log_delete_msg>Логи видео были удалены</vid_log_delete_msg>
+	<vdo_multi_del_erro>Видео были удалены</vdo_multi_del_erro>
+	<add_fav_message>%s было добавлено в избранное</add_fav_message>
+	<obj_not_exists>%s не существует</obj_not_exists>
+	<already_fav_message>%s уже добавлены в избранное</already_fav_message>
+	<obj_report_msg>%s сообщил </obj_report_msg>
+	<obj_report_err>Вы уже сообщили о %s</obj_report_err>
+	<user_no_exist_wid_username><![CDATA[&#8216;%s&#8217; не существует]]></user_no_exist_wid_username>
+	<share_video_no_user_err>Пожалуйста, введите имена пользователей или почтовые ящики для %s</share_video_no_user_err>
+	<uploaded>Закачано</uploaded>
+	<today>Сегодня</today>
+	<yesterday>Вчера</yesterday>
+	<thisweek>За неделю</thisweek>
+	<lastweek>За прошлую неделю</lastweek>
+	<thismonth>За месяц</thismonth>
+	<lastmonth>За прошлый месяц</lastmonth>
+	<thisyear>За год</thisyear>
+	<lastyear>За прошлый год</lastyear>
+	<favorites>Избранное</favorites>
+	<alltime>За всё время</alltime>
+	<insufficient_privileges_loggin>Вы не можете просматривать данную страницу, Нажмите сюда, чтобы войти или зарегистрироваться </insufficient_privileges_loggin>
+	<profile_title>Название профиля</profile_title>
+	<show_dob>Показывать дату рождения</show_dob>
+	<profile_tags>Теги профиля</profile_tags>
+	<profile_desc>Описание профиля</profile_desc>
+	<online_status>Статус</online_status>
+	<show_profile>Показать профиль</show_profile>
+	<allow_ratings>Разрешено оценивать профиль</allow_ratings>
+	<postal_code>Индекс</postal_code>
+	<temp_file_load_err><![CDATA[Не удалось загрузить файл шаблона &#8216;%s&#8217; в папку &#8216;%s&#8217;]]></temp_file_load_err>
+	<no_date_provided>Нет даты</no_date_provided>
+	<second>секунд</second>
+	<minute>минут</minute>
+	<bad_date>Никогда</bad_date>
+	<users_videos><![CDATA[Видео %s&#8217;]]></users_videos>
+	<please_login_subscribe>Войдите чтобы подисаться на %s</please_login_subscribe>
+	<users_subscribers><![CDATA[Подписки %s&#8217;]]></users_subscribers>
+	<user_no_subscribers>%s не имеет подписчиков</user_no_subscribers>
+	<user_subscriptions>Подписчики %s</user_subscriptions>
+	<user_no_subscriptions>%s не имеет подписчиков</user_no_subscriptions>
+	<usr_avatar_bg_update>Пользовательский аватар и фоновая картинка были обновлены</usr_avatar_bg_update>
+	<user_email_confirm_email_err>E-mail подтверждения не совпадает</user_email_confirm_email_err>
+	<email_change_msg>E-mail был изменен успешно</email_change_msg>
+	<no_edit_video>Вы не можете редактировать это видео</no_edit_video>
+	<confirm_del_video>Вы уверены что хотите удалить это видео ?</confirm_del_video>
+	<remove_fav_video_confirm>Вы уверены что хотите удалить это видео из избранного ?</remove_fav_video_confirm>
+	<fav_remove_msg>%s было удалено из избранного</fav_remove_msg>
+	<unknown_favorite>Неизвестное избранное %s</unknown_favorite>
+	<vdo_multi_del_fav_msg>Видеоролики были удалены из избранного</vdo_multi_del_fav_msg>
+	<unknown_sender>Неизвестный отправитель</unknown_sender>
+	<please_enter_message>Введите что-нибудь в сообщение</please_enter_message>
+	<unknown_reciever>Неизвестный получатель</unknown_reciever>
+	<no_pm_exist>Личное сообщение не существует</no_pm_exist>
+	<pm_sent_success>Личное сообщенеи было отправлено успешно</pm_sent_success>
+	<msg_delete_inbox>Сообщение было удалено из входящих</msg_delete_inbox>
+	<msg_delete_outbox>Сообщение было удалено из исходящих</msg_delete_outbox>
+	<private_messags_deleted>Личные сообщения были удалены</private_messags_deleted>
+	<ban_users>Забанить пользователей</ban_users>
+	<spe_users_by_comma>разделяйте имена пользователей через запятые</spe_users_by_comma>
+	<user_ban_msg>Пользователи были забанены успешно</user_ban_msg>
+	<no_user_ban_msg>Никто не забанен вами.</no_user_ban_msg>
+	<thnx_sharing_msg>Спасибо за %s</thnx_sharing_msg>
+	<no_own_commen_rate>Вы не можете оценивать свой собственный комментарий</no_own_commen_rate>
+	<no_comment_exists>Комментарий не существует</no_comment_exists>
+	<thanks_rating_comment>Спасибо за оценку комментария</thanks_rating_comment>
+	<please_login_create_playlist>Войдите чтобы создавать плейлисты</please_login_create_playlist>
+	<play_list_with_this_name_arlready_exists><![CDATA[Плейлист с названием  &#8216;%s&#8217; уже существует]]></play_list_with_this_name_arlready_exists>
+	<please_enter_playlist_name>Введите название плейлиста</please_enter_playlist_name>
+	<new_playlist_created>Новый плейлист создан</new_playlist_created>
+	<playlist_not_exist>Плейлист не существует</playlist_not_exist>
+	<playlist_item_not_exist>Запись плейлиста не сущестует</playlist_item_not_exist>
+	<playlist_item_delete>Запись в плейлисте была удалена</playlist_item_delete>
+	<play_list_updated>Плейлист обновлен</play_list_updated>
+	<you_dont_hv_permission_del_playlist>У вас нет прав на удаление плейлиста</you_dont_hv_permission_del_playlist>
+	<playlist_delete_msg>Плейлист был удален</playlist_delete_msg>
+	<playlist_name>Имя плейлиста</playlist_name>
+	<add_new_playlist>Добавить плейлист</add_new_playlist>
+	<this_thing_added_playlist>%s был добавлен в плейлист</this_thing_added_playlist>
+	<this_already_exist_in_pl>%s уже есть в плейлисте</this_already_exist_in_pl>
+	<edit_playlist>Редактировать плейлист</edit_playlist>
+	<remove_playlist_item_confirm>Вы уверены что хотите удалить это из плейлиста?</remove_playlist_item_confirm>
+	<remove_playlist_confirm>Вы уверены что хотите удалить плейлист?</remove_playlist_confirm>
+	<avcode_incorrect>Код активации некорректен</avcode_incorrect>
+	<group_join_login_err>Войдите чтобы вступить в группу</group_join_login_err>
+	<manage_playlist>Управление плейлистом</manage_playlist>
+	<my_notifications>Мои оповещения</my_notifications>
+	<users_contacts><![CDATA[Контакты %s&#8217;]]></users_contacts>
+	<type_flags_removed>%s флаги были удалены</type_flags_removed>
+	<terms_of_serivce>Условия использования</terms_of_serivce>
+	<users>Пользователи</users>
+	<login_to_mark_as_spam>Войдите чтобы помемить как спам</login_to_mark_as_spam>
+	<no_own_commen_spam>Вы не можете пометить свой собственный комментарий как спам</no_own_commen_spam>
+	<already_spammed_comment>Вы уже пометили этот комментарий как спам</already_spammed_comment>
+	<spam_comment_ok>Комментарий был помечен как спам</spam_comment_ok>
+	<arslan_hassan>Arslan Hassan</arslan_hassan>
+	<you_not_allowed_add_grp_vids>Вы не участник этой группы, поэтому вы не сможете добавить в неё видео.</you_not_allowed_add_grp_vids>
+	<sel_vids_updated>Выбранные видео были обновлены</sel_vids_updated>
+	<unable_find_download_file>Невозможно найти скачанный файл</unable_find_download_file>
+	<you_cant_edit_group>Вы не можете редактировать группу</you_cant_edit_group>
+	<you_cant_invite_mems>Вы не можете приглашать участников</you_cant_invite_mems>
+	<you_cant_moderate_group>Вы не можете модерировать эту группу</you_cant_moderate_group>
+	<page_doesnt_exist>Страница не существует</page_doesnt_exist>
+	<pelase_select_img_file_for_vdo>Выберите картинку для эскиза видео</pelase_select_img_file_for_vdo>
+	<new_mem_added>Новый участник был добавлен</new_mem_added>
+	<this_vdo_not_working>Это видео может не работать нормально</this_vdo_not_working>
+	<email_template_not_exist>шабло Email не существует</email_template_not_exist>
+	<email_subj_empty>Тема сообщения пуста</email_subj_empty>
+	<email_msg_empty>Текст сообщения пуст</email_msg_empty>
+	<email_tpl_has_updated>Email шаблон был обновлен</email_tpl_has_updated>
+	<page_name_empty>Имя страницы пустое</page_name_empty>
+	<page_title_empty>Заголовок страницы пуст</page_title_empty>
+	<page_content_empty>Содержимое страницы пустое</page_content_empty>
+	<new_page_added_successfully>Новая страница была добавлена успешна</new_page_added_successfully>
+	<page_updated>Страница была обновлена</page_updated>
+	<page_deleted>Страница была удалена успешно</page_deleted>
+	<page_activated>Страница была активирована</page_activated>
+	<page_deactivated>Страница была отключена</page_deactivated>
+	<you_cant_delete_this_page>Вы не можете удалить эту страницу</you_cant_delete_this_page>
+	<ad_placement_err4>Расположение не существует</ad_placement_err4>
+	<grp_details_updated>Детали группы были обновлены</grp_details_updated>
+	<you_cant_del_topic>Вы не можете удалить эту тему</you_cant_del_topic>
+	<you_cant_del_user_topics>Вы не можете удалять темы пользователей</you_cant_del_user_topics>
+	<topics_deleted>Темы были удалены</topics_deleted>
+	<you_cant_delete_grp_topics>Вы не можете удалять темы групп</you_cant_delete_grp_topics>
+	<you_not_allowed_post_topics>Вам не разрешено писать темы</you_not_allowed_post_topics>
+	<you_cant_add_this_vdo>Вы не можете добавить видео</you_cant_add_this_vdo>
+	<video_added>Видео было добавлено</video_added>
+	<you_cant_del_this_vdo>Вы не можете удалить это видео</you_cant_del_this_vdo>
+	<video_removed>Видео было удалено</video_removed>
+	<user_not_grp_mem>Пользователь не участник группы</user_not_grp_mem>
+	<user_already_group_mem>Пользователь уже является участником группы</user_already_group_mem>
+	<invitations_sent>Приглашения были отправлены</invitations_sent>
+	<you_not_grp_mem>Вы не участник этой группы</you_not_grp_mem>
+	<you_cant_delete_this_grp>Вы не можете удалить эту группу</you_cant_delete_this_grp>
+	<grp_deleted>Группа была удалена</grp_deleted>
+	<you_cant_del_grp_mems>Вы не можете удалять участников группы</you_cant_del_grp_mems>
+	<mems_deleted>Участники были удалены</mems_deleted>
+	<you_cant_del_grp_vdos>Вы не может удалять видео группы</you_cant_del_grp_vdos>
+	<thnx_for_voting>Спасибо за голосование</thnx_for_voting>
+	<you_hv_already_rated_vdo>Вы уже проголосовали за это видео</you_hv_already_rated_vdo>
+	<please_login_to_rate>Войдите чтобы оценить</please_login_to_rate>
+	<you_not_subscribed>Вы не подписаны</you_not_subscribed>
+	<you_cant_delete_this_user><![CDATA[Вы не можете удалить этого пользователя&#8221;]]></you_cant_delete_this_user>
+	<you_dont_hv_perms>У вас недостаточно прав</you_dont_hv_perms>
+	<user_subs_hv_been_removed>Подписки пользователя были удалены</user_subs_hv_been_removed>
+	<user_subsers_hv_removed>Подписки пользователя были удалены</user_subsers_hv_removed>
+	<you_already_sent_frend_request>Вы уже отправили предложение о дружбе</you_already_sent_frend_request>
+	<friend_added>Друг был добавлен</friend_added>
+	<friend_request_sent>Предложение о дружбе отправлено</friend_request_sent>
+	<friend_confirm_error>Введите пользователя, который не предлагал дружбу или  вы уже подтвердили её</friend_confirm_error>
+	<friend_confirmed>Друг был подтвержден</friend_confirmed>
+	<friend_request_not_found>Не найдено предложений о дружбе</friend_request_not_found>
+	<you_cant_confirm_this_request>Вы не можете подтвердить запрос</you_cant_confirm_this_request>
+	<friend_request_already_confirmed>Предложение о дружбе уже подтверждено</friend_request_already_confirmed>
+	<user_no_in_contact_list>Пользователь не в вашем контакт листе</user_no_in_contact_list>
+	<user_removed_from_contact_list>Пользователь был удален из вашего списка контактов</user_removed_from_contact_list>
+	<cant_find_level>Невозможно найти уровень</cant_find_level>
+	<please_enter_level_name>Введите название уровня</please_enter_level_name>
+	<level_updated>Уровень был обновлен</level_updated>
+	<level_del_sucess>Пользовательский уровень был удален. Все пользователи этого уровня были перемещены на %s </level_del_sucess>
+	<level_not_deleteable>Этот уровень неудаляемый</level_not_deleteable>
+	<pass_mismatched>Пароли не совпадают</pass_mismatched>
+	<user_blocked>Пользователь был заблокирован</user_blocked>
+	<user_already_blocked>Пользователь уже заблокирован</user_already_blocked>
+	<you_cant_del_user>Вы не можете заблокировать этого пользователя</you_cant_del_user>
+	<user_vids_hv_deleted>Видеоролики пользователя были удалены</user_vids_hv_deleted>
+	<user_contacts_hv_removed>Контакты пользователя были удалены</user_contacts_hv_removed>
+	<all_user_inbox_deleted>Все входящие сообщения пользователя были удалены</all_user_inbox_deleted>
+	<all_user_sent_messages_deleted>Все исходящие сообщения пользователя были удалены.</all_user_sent_messages_deleted>
+	<pelase_enter_something_for_comment>Введите что-нибудь поле для комментария</pelase_enter_something_for_comment>
+	<please_enter_your_name>Введите ваше имя</please_enter_your_name>
+	<please_enter_your_email>Введите ваш e-mail</please_enter_your_email>
+	<template_activated>Шаблон был активирован</template_activated>
+	<error_occured_changing_template>Произошла ошибка, во время смены шаблона</error_occured_changing_template>
+	<phrase_code_empty>Код фразы пустой</phrase_code_empty>
+	<phrase_text_empty>Текст фразы пустой</phrase_text_empty>
+	<language_does_not_exist>Язык не существует</language_does_not_exist>
+	<name_has_been_added>%s был добавлен</name_has_been_added>
+	<name_already_exists><![CDATA[&#8216;%s&#8217; уже существует]]></name_already_exists>
+	<lang_doesnt_exist>язык не существует</lang_doesnt_exist>
+	<no_file_was_selected>Не выбран файл</no_file_was_selected>
+	<err_reading_file_content>Ошибка чтения содержимого</err_reading_file_content>
+	<cant_find_lang_name>Невозможно найти имя языка</cant_find_lang_name>
+	<cant_find_lang_code>Невозможно найти код языка</cant_find_lang_code>
+	<no_phrases_found>Не найдкены фразы</no_phrases_found>
+	<language_already_exists>Язык уже существует</language_already_exists>
+	<lang_added>Язык был добавлен успешно</lang_added>
+	<error_while_upload_file>Произошла ошибка во время загрузки языка</error_while_upload_file>
+	<default_lang_del_error><![CDATA[Этот язык используется по умолчанию, пожалуйста выберите другой язык, как &#8220;по умолчанию&#8221; а затем удалите этот]]></default_lang_del_error>
+	<lang_deleted>Язык был удален успешно</lang_deleted>
+	<lang_name_empty>Имя языка пустое</lang_name_empty>
+	<lang_code_empty>Код языка пустой</lang_code_empty>
+	<lang_regex_empty>Регулярное выражение языка пустое</lang_regex_empty>
+	<lang_code_already_exist>Код языка уже существует</lang_code_already_exist>
+	<lang_updated>Язык был обновлен</lang_updated>
+	<player_activated>Плеер был активирован</player_activated>
+	<error_occured_while_activating_player>Произошла ошибка во время активации плеера</error_occured_while_activating_player>
+	<plugin_has_been_s>Плагин был %s</plugin_has_been_s>
+	<plugin_uninstalled>Плагин был удален</plugin_uninstalled>
+	<perm_code_empty>Код доступа пустой</perm_code_empty>
+	<perm_name_empty>Имя доступа пустое</perm_name_empty>
+	<perm_already_exist>Доступ уже существует</perm_already_exist>
+	<perm_type_not_valid>Тип доступа не правильный</perm_type_not_valid>
+	<perm_added>Новый доступ был добавлен</perm_added>
+	<perm_deleted>Доступ был удален</perm_deleted>
+	<perm_doesnt_exist>Доступ не существует</perm_doesnt_exist>
+	<acitvation_html_message>Пожалуйста, введите имя пользователя и код активации для того, чтобы активировать учетную запись, пожалуйста, проверьте ваш почтовый ящик для получения кода активации, если вы не получите, пожалуйста, сделайте повторный запрос, заполнив следующую форму</acitvation_html_message>
+	<acitvation_html_message2>Введите ваш e-mail, чтобы запросить код активации</acitvation_html_message2>
+	<admin_panel>Панель администратора</admin_panel>
+	<moderate_videos>Модерирование Видео</moderate_videos>
+	<moderate_users>Модерирование пользователей</moderate_users>
+	<revert_back_to_admin>Возвратить администратору</revert_back_to_admin>
+	<more_options>Больше опций</more_options>
+	<downloading_string>Скачивание %s ...</downloading_string>
+	<download_redirect_msg><![CDATA[<a href="%s">Нажмите здесь, если перенаправление не произошло автоматически</a> - <a href="%s"> Нажмите здесь, чтобы вернуться на страницу видео</a>]]></download_redirect_msg>
+	<account_details>Детали аккаунта</account_details>
+	<profile_details>Детали профиля</profile_details>
+	<update_profile>Обновить профиль</update_profile>
+	<please_select_img_file>Пожалуйста выберите изображение c компьютера</please_select_img_file>
+	<or>или</or>
+	<pelase_enter_image_url>Введите URL на изображние</pelase_enter_image_url>
+	<user_bg>Фон каналана</user_bg>
+	<user_bg_img>Изображение фона канала</user_bg_img>
+	<please_enter_bg_color>Введите цвет фона</please_enter_bg_color>
+	<bg_repeat_type>Тип повторения фона (Если не используете изображение как фон)</bg_repeat_type>
+	<fix_bg>Исправить фон</fix_bg>
+	<delete_this_img>Удалить это изображение</delete_this_img>
+	<current_email>Текущий e-mail</current_email>
+	<confirm_new_email>Подтвердите новый e-mail</confirm_new_email>
+	<no_subs_found>Подписки не найдены</no_subs_found>
+	<video_info_all_fields_req>Информация о видео - Все поля обязательны</video_info_all_fields_req>
+	<update_group>Обновить группу</update_group>
+	<default>По умолчанию</default>
+	<grp_info_all_fields_req>Информация о группе - Все поля обязательны</grp_info_all_fields_req>
+	<date_recorded_location>Дата и место записи</date_recorded_location>
+	<update_video>Обновить видео</update_video>
+	<click_here_to_recover_user>Нажмите тут чтобы восстановить имя пользователя</click_here_to_recover_user>
+	<click_here_reset_pass>Нажмите тут чтобы сбросить пароль</click_here_reset_pass>
+	<remember_me>Запомнить меня</remember_me>
+	<howdy_user>Привет %s</howdy_user>
+	<notifications>Оповещения</notifications>
+	<playlists>Плейлисты</playlists>
+	<friend_requests>Запросы дружбы</friend_requests>
+	<after_meny_guest_msg><![CDATA[Добро пожаловать Гость! Пожалуста <a href="%s">Войдите</a> или <a href="%s">Зарегистрируйтесь</a>]]></after_meny_guest_msg>
+	<being_watched>Смотрят</being_watched>
+	<change_style_of_listing>Изменить стиль списка</change_style_of_listing>
+	<website_members>%s пользователей</website_members>
+	<guest_homeright_msg>Смотрите, Закачивайте, Делитесь и другое</guest_homeright_msg>
+	<reg_for_free>Регистрация</reg_for_free>
+	<rand_vids>Случайное видео</rand_vids>
+	<t_10_users>10 лучших пользователей</t_10_users>
+	<pending>Ожидают</pending>
+	<confirm>Подтвердить</confirm>
+	<no_contacts>Нет контактов</no_contacts>
+	<you_dont_hv_any_grp>У вас нету групп</you_dont_hv_any_grp>
+	<leave_groups>Покинуть группы</leave_groups>
+	<manage_grp_mems>Управление участниками группы</manage_grp_mems>
+	<pending_mems>Ожидающие активации</pending_mems>
+	<active_mems>Активные участники</active_mems>
+	<disapprove>Не одобрить</disapprove>
+	<manage_grp_vids>Управление видео группы</manage_grp_vids>
+	<pending_vids>Ожидающие видео</pending_vids>
+	<no_pending_vids>Нет ожидающих видео</no_pending_vids>
+	<no_active_videos>Нет активных видео</no_active_videos>
+	<active_videos>Активные видео</active_videos>
+	<manage_playlists>Управление плейлистами</manage_playlists>
+	<total_items>Всего объектов</total_items>
+	<play_now>ИГРАТЬ СЕЙЧАС</play_now>
+	<no_video_in_playlist>В этом плейлисте нет видео</no_video_in_playlist>
+	<view>Смотреть</view>
+	<you_dont_hv_fav_vids>У вас нет избранного видео</you_dont_hv_fav_vids>
+	<private_messages>Личные сообщения</private_messages>
+	<new_private_msg>Новое личное сообщение</new_private_msg>
+	<search_for_s>Поиск в %s</search_for_s>
+	<signup_success_usr_ok><![CDATA[<h2 style="margin: 5px 5px 8px; font-family: Arial,Verdana,sans-serif;">Ещё один шаг</h2>     	<p style="margin: 0px 5px; line-height: 18px; font-size: 11px;">Вы находитесь в одном шаге от того чтобы стать пользователем нашего сайта. Пожалуйста, проверьте свою электронную почту, мы отправили по электронной почте подтверждение, которое содержит ссылку для подтверждения  регистрации на нашем сайте, пожалуйста, нажмите ее, чтобы завершить регистрацию.</p>]]></signup_success_usr_ok>
+	<signup_success_usr_emailverify><![CDATA[<h2 style="font-family:Arial,Verdana,sans-serif; margin:5px 5px 8px;">Добро пожаловать в наше сообщество</h2>
+    	<p style="margin:0px 5px; line-height:18px; font-size:11px;">Ваш e-mail был подтвержден. Пожалуйста <strong><a href="%s">Нажмите, чтобы войти</a></strong> и продолжить как зарегистрированный пользователь.</p>]]></signup_success_usr_emailverify>
+	<if_you_already_hv_account>если у вас уже есть аккаунт, войдите тут </if_you_already_hv_account>
+	<signup_message_under_login><![CDATA[ <p>Наш сайт содержит много видео и позволяет просматривать его онлайн:</p>
+
+            <ul><li><strong>Смотрите</strong> сотни видеороликов</li><li><strong>Делитесь ими</strong> с друзьями и семьей</li>
+            <li><strong>Общайтесь с другими людьми</strong> с общими интересами</li><li><strong>Добавляйте ваше видео</strong> которое будет доступно всем
+
+</li></ul>]]></signup_message_under_login>
+	<new_mems_signup_here>Регистрация новых пользователей здесь</new_mems_signup_here>
+	<register_as_our_website_member>Регистрация в качестве пользователя, это просто и совершенно бесплатно </register_as_our_website_member>
+	<video_complete_msg><![CDATA[<h2>Добавление видео было завершено</h2>
+<span class="header1">Спасибо! Загрузка завершена.</span><br>
+<span class="tips">Это видео будет доступно в <a href="%s"><strong>Моём видео</strong></a> после того как будет обработано.</span>
+<div class="upload_link_button" align="center">
+    <ul>
+        <li><a href="%s" >Загрузить ещё видео</a></li>
+        <li><a href="%s" >Перейти в Мое видео</a></li>
+    </ul>
+<div class='clearfix'></div>
+</div>
+]]></video_complete_msg>
+	<upload_right_guide><![CDATA[ <div>
+            <div>
+              <p>
+                <strong>
+                <strong>Важно:</strong>
+                Не загружайте ТВ передачи, музыкальное видео, музыкальные концерты или коммерческое видео без разрешения владельцев, если только это не ваше собственное видео.</strong></p>
+                <p>
+                <a href="#">Страница советов по авторскому праву</a> и
+                <a href="#">Правила сообщества</a> помогут вам определить не нарушает ли ваш видеоролик чьи-либо права.</p>
+                <p>Нажав на кнопку "Добавить видео", вы соглашаетесь с тем, что это видео не нарушает
+                <a id="terms-of-use-link" href="#">Условия использования</a>
+                и у вас есть все авторские права на этот ролик или вам разрешили его опубликовать.</p>
+            </div>
+        </div>]]></upload_right_guide>
+	<report_this_user>Сообщить об этом пользователе</report_this_user>
+	<add_to_favs>В избранные!</add_to_favs>
+	<report_this>Пожаловаться</report_this>
+	<share_this>Поделиться </share_this>
+	<add_to_playlist>Плейлисты</add_to_playlist>
+	<view_profile>Посмотреть профиль</view_profile>
+	<subscribe>Подписаться</subscribe>
+	<uploaded_by_s>добавил %s</uploaded_by_s>
+	<more>Больше</more>
+	<link_this_video>Ссылка на это видео</link_this_video>
+	<click_to_download_video>Нажмите сюда чтобы скачать видео</click_to_download_video>
+	<name>Имя</name>
+	<email_wont_display>E-mail (не показывается)</email_wont_display>
+	<please_login_to_comment>Войдите чтобы комментировать</please_login_to_comment>
+	<marked_as_spam_comment_by_user><![CDATA[Помечено как спам, прокомментировал(а) <em>%s</em>]]></marked_as_spam_comment_by_user>
+	<spam>Спам</spam>
+	<user_commented_time><![CDATA[<a href="%s">%s</a> прокомментировал(а) %s]]></user_commented_time>
+	<no_comments>Никто еще не прокомментировал %s</no_comments>
+	<view_video>Посмотреть видео</view_video>
+	<topic_icon>Значек темы</topic_icon>
+	<group_options>Групповые опции</group_options>
+	<info>Инфо</info>
+	<basic_info>Общая информация</basic_info>
+	<group_owner>Владелец группы</group_owner>
+	<total_mems>Всего участников</total_mems>
+	<total_topics>Всего тем</total_topics>
+	<grp_url>Ссылка на группу</grp_url>
+	<more_details>Подробнее</more_details>
+	<view_all_mems>Посмотреть всех участников</view_all_mems>
+	<view_all_vids>Посмотреть все видео</view_all_vids>
+	<topic_title>Название темы</topic_title>
+	<last_reply>Последний ответ</last_reply>
+	<topic_by_user><![CDATA[<a href="%s">%s</a></span> Автор: <a href="%s">%s</a>]]></topic_by_user>
+	<no_topics>Нет тем</no_topics>
+	<last_post_time_by_user><![CDATA[%s<br />
+Автор: <a href="%s">%s]]></last_post_time_by_user>
+	<profile_views>Просмотров профиля</profile_views>
+	<last_logged_in>Последний вход</last_logged_in>
+	<last_active>Последняя активность</last_active>
+	<total_logins>Всего логинов</total_logins>
+	<total_videos_watched>Всего просмотров видео</total_videos_watched>
+	<view_group>Посмотреть группу</view_group>
+	<you_dont_hv_any_pm>Нет сообщений</you_dont_hv_any_pm>
+	<date_sent>Дата отправки</date_sent>
+	<show_hide>показать - скрыть</show_hide>
+	<quicklists>Быстрые списки</quicklists>
+	<are_you_sure_rm_grp>Вы уверены что хотите удалить группу ?</are_you_sure_rm_grp>
+	<are_you_sure_del_grp>Вы уверены что хотите удалить группу?</are_you_sure_del_grp>
+	<change_avatar>Изменить аватар</change_avatar>
+	<change_bg>Изменить фон</change_bg>
+	<uploaded_videos>Закачанные видео</uploaded_videos>
+	<video_playlists>Видео плейлисты</video_playlists>
+	<add_contact_list>Добавить список контактов</add_contact_list>
+	<topic_post>Отправить тему</topic_post>
+	<invite>Пригласить</invite>
+	<time_ago> назад</time_ago>
+	<from_now> назад</from_now>
+	<lang_has_been_activated>Язык был активирован</lang_has_been_activated>
+	<lang_has_been_deactivated>Язык был деактивирован</lang_has_been_deactivated>
+	<lang_default_no_actions>Язык выбран по умолчанию, поэтому вы не можете выполнять действия над ним</lang_default_no_actions>
+	<private_video_error>Это видео закрытое, только друзья того, кто закачал могут просматривать это видео</private_video_error>
+	<email_send_confirm>e-mail был отправлен нашему администратору сайта, мы скоро вам ответим.</email_send_confirm>
+	<name_was_empty>Имя пустое</name_was_empty>
+	<invalid_email>Неправильный E-mail</invalid_email>
+	<pelase_enter_reason>Введите причину для контакта</pelase_enter_reason>
+	<please_enter_something_for_message>Введите что-нибудь в текстовое поле</please_enter_something_for_message>
+	<comm_disabled_for_vid>Комментарии отключены для этого видео</comm_disabled_for_vid>
+	<coments_disabled_profile>Комментарии отключены для этого пользователя</coments_disabled_profile>
+	<file_size_exceeds>Размер файла превышает '%s кбайт'</file_size_exceeds>
+	<vid_rate_disabled>Оценка видео отключена</vid_rate_disabled>
+	<chane_lang>- Выбрать язык -</chane_lang>
+	<recent>Последнее</recent>
+	<viewed>Просмотров</viewed>
+	<top_rated>Самые оцениваемые</top_rated>
+	<commented>Комментариев</commented>
+	<searching_keyword_in_obj>Поиск '%s' в %s</searching_keyword_in_obj>
+	<no_results_found>Ничего не найдено</no_results_found>
+	<please_enter_val_bw_min_max>Введите значение '%s' между'%s' и '%s'</please_enter_val_bw_min_max>
+    <no_new_subs_video>Нет новых видео в подписках</no_new_subs_video>
+	<inapp_content>Недопустимое содержимое</inapp_content>
+	<copyright_infring>Нарушение авторских прав</copyright_infring>
+	<sexual_content>Эротическое содержание</sexual_content>
+	<violence_replusive_content>Насилие и подобное содержимое</violence_replusive_content>
+	<disturbing>Тревожное</disturbing>
+	<other>Другое</other>
+	<pending_requests>Ожидание запроса</pending_requests>
+	<friend_add_himself_error>Вы не можете добавить самого себя в качестве друга</friend_add_himself_error>
+	<contact_us_msg>Ваши комментарии важны для нас, и мы рассмотрим их как можно быстрее. Предоставление информации, запрашиваемой в этой форме является добровольной. Информация собирается для предоставления дополнительной информации, запрошенной вами и помогает нам в улучшении наших услуг.</contact_us_msg>
+	<Successful>Успешно</Successful>
+	<required_fields>Обязательные поля</required_fields>
+	<more_fields>Дополнительные поля</more_fields>
+	<remote_upload_file><![CDATA[Подождите, пожалуйста... идет загрузка файла <span id=\"remoteFileName\"></span>]]></remote_upload_file>
+	<please_enter_remote_file_url>Please enter remote file url</please_enter_remote_file_url>
+	<remoteDownloadStatusDiv><![CDATA[<div class="remoteDownloadStatus" id="remoteDownloadStatus" >Downloaded
+                <span id="status">-- из --</span> @
+                <span id="dspeed">-- Кбит/Сек</span>, EST
+                <span id="eta">--:--</span>, Time took
+                <span id="time_took">--:--</span>
+            </div>]]></remoteDownloadStatusDiv>
+	<upload_data_now>Загрузить данные сейчас!</upload_data_now>
+	<save_data>Сохранение данных</save_data>
+	<saving>Сохранение...</saving>
+	<upload_file>Добавить файл</upload_file>
+	<grab_from_youtube>Захват с YouTube</grab_from_youtube>
+	<upload_video_button>Обзор видео</upload_video_button>
+	<upload_videos_can_be><![CDATA[<span style=\"font-weight: bold; font-size: 13px;\">Видео может быть</span>     <ul>         <li>Высокого разрешения</li>         <li>До %s размером</li>         <li>До %s в длину</li>         <li>Разных форматах</li>     </ul>]]></upload_videos_can_be>
+	<photo_not_exist>Фотография не существует.</photo_not_exist>
+	<photo_not_exists>Фотография не существует.</photo_not_exists>
+	<photo_success_deleted>Фотография была успешно удалена.</photo_success_deleted>
+	<cant_edit_photo>Вы не можете редактировать фотографии.</cant_edit_photo>
+	<you_hv_already_rated_photo>Вы уже оценили эту фотографию.</you_hv_already_rated_photo>
+	<photo_rate_disabled>Фоторейтинг отключен.</photo_rate_disabled>
+	<need_photo_details>Need photo details.</need_photo_details>
+	<embedding_is_disabled>Embedding is disabled by user.</embedding_is_disabled>
+	<photo_activated>Photo is activated.</photo_activated>
+	<photo_deactivated>Photo is deactivated.</photo_deactivated>
+	<photo_featured>Photo is marked featured.</photo_featured>
+	<photo_unfeatured>Photo is marked unfeatured.</photo_unfeatured>
+	<photo_updated_successfully>Photo is updated successfully.</photo_updated_successfully>
+	<success_delete_file>%s files has been deleted successfully.</success_delete_file>
+	<no_watermark_found>Can not find watermark file.</no_watermark_found>
+	<watermark_updated>Watermark is updated</watermark_updated>
+	<upload_png_watermark>Please upload 24-bit PNG file.</upload_png_watermark>
+	<photo_non_readable>Photo is not readable.</photo_non_readable>
+	<wrong_mime_type>Wrong MIME type provided.</wrong_mime_type>
+	<you_dont_have_photos>You dont have any photos</you_dont_have_photos>
+	<you_dont_have_fav_photos>You dont have any favorite photos</you_dont_have_fav_photos>
+	<manage_orphan_photos>Manage Orphan Photos</manage_orphan_photos>
+	<manage_favorite_photos>Управление избранными</manage_favorite_photos>
+	<manage_photos>Управление фотографиями</manage_photos>
+	<you_dont_have_orphan_photos>You dont have any orphan photos</you_dont_have_orphan_photos>
+	<item_not_exist>Пункт не существует.</item_not_exist>
+	<collection_not_exist>Коллекции не существует</collection_not_exist>
+	<selected_collects_del>Выбранные коллекции были удалены.</selected_collects_del>
+	<manage_collections>Управление коллекциями</manage_collections>
+	<create_collection>Создать коллекцию</create_collection>
+	<selected_items_removed>Выбранные %s были удалены.</selected_items_removed>
+	<edit_collection>Изменить коллекцию</edit_collection>
+	<manage_collection_items>Manage Collection Items</manage_collection_items>
+	<manage_favorite_collections>Manage Favorite Collections</manage_favorite_collections>
+	<total_fav_collection_removed>Коллекции %s были удалены из закладок.</total_fav_collection_removed>
+	<total_photos_deleted>%s фотографии были успешно удалены.</total_photos_deleted>
+	<total_fav_photos_removed>%s фотографии были удалены из закладок.</total_fav_photos_removed>
+	<photos_upload>Загрузить фото</photos_upload>
+	<no_items_found_in_collect>Ни один пункт не найден в этой коллекции</no_items_found_in_collect>
+	<you_dont_have_any_favorite_collection>You dont have any favorite collections</you_dont_have_any_favorite_collection>
+	<manage_items>Управление элементами</manage_items>
+	<add_new_collection>Добавить новую коллекцию</add_new_collection>
+	<update_collection>Обновление коллекции</update_collection>
+	<update_photo>Обновление фото</update_photo>
+	<no_collection_found>Вы не имеете коллекции</no_collection_found>
+	<photo_title>Название фотографии</photo_title>
+	<photo_caption>Подпись к фотографии</photo_caption>
+	<photo_tags>Теги фотографии</photo_tags>
+	<collection>Коллекция</collection>
+	<photo>Фото</photo>
+	<pic_allow_embed>Enable photo embedding</pic_allow_embed>
+	<pic_dallow_embed>Disable photo embedding</pic_dallow_embed>
+	<pic_allow_rating>Включить рейтинг фото</pic_allow_rating>
+	<pic_dallow_rating>Отключить рейтинг фото</pic_dallow_rating>
+	<add_more>Добавить еще</add_more>
+	<download_photo>Загрузить фото</download_photo>
+	<collect_name_er>Collection name is empty</collect_name_er>
+	<collect_descp_er>Collection description is empty</collect_descp_er>
+	<collect_tag_er>Collection tags are empty</collect_tag_er>
+	<collect_cat_er>Выберите категорию коллекции</collect_cat_er>
+	<collect_borad_pub>Сделать коллекцию общественной</collect_borad_pub>
+	<collect_allow_public_up>Публичная загрузка</collect_allow_public_up>
+	<collect_pub_up_dallow>Запретить другим пользователям для добавлять элементы</collect_pub_up_dallow>
+	<collect_pub_up_allow>Разрешить другим пользователям добавлять элементы</collect_pub_up_allow>
+	<collection_name>Название коллекции</collection_name>
+	<collection_description>Описание коллекции</collection_description>
+	<collection_tags>Теги коллекции</collection_tags>
+	<collect_category>Категория коллекции</collect_category>
+	<collect_added_msg>Коллекция была добавлена</collect_added_msg>
+	<collect_not_exist>Коллекция не существует</collect_not_exist>
+	<no_upload_opt>Загрузка видео на {title} отключена, пожалуйста, свяжитесь с администратором сайта.</no_upload_opt>
+	<uploaded_photos>Загруженные фото</uploaded_photos>
+	<favorite_photos>Избранные фотографии</favorite_photos>
+	<orphan_photos>Orphan photos</orphan_photos>
+	<photos>Фотографии</photos>
+	<cat_all>Все</cat_all>
+	<upload_desktop_msg>Загрузить видео напрямую с рабочего стола и поделиться им с нашим онлайн сообществом </upload_desktop_msg>
+	<upload_remote_video_msg>Загрузить видео с других сайтов или сервера, просто введите его URL и нажмите на кнопку Загрузить или вы можете ввести ссылку Youtube и нажмите Захват с YouTube для загрузки видео непосредственно с YouTube без ввода его деталей</upload_remote_video_msg>
+	<embed_video_msg><![CDATA[Добавить видео с другого сайта, используя их "видео embed код", просто введите код вставки, введите продолжительность видео и заполните необходимые данные и нажмите на кнопку загрузить.]]></embed_video_msg>
+	<link_video_msg>If you have video link and dont want it to upload and convert, simply plugin and play then enter its URL, duration, select its thumb, fill in the required details and click on upload.</link_video_msg>
+	<browse_photos>Browse photos</browse_photos>
+	<photo_is_saved_now>Коллекция фотографий была сохранена</photo_is_saved_now>
+	<photo_success_heading>Коллекция фотографий была успешно обновлена</photo_success_heading>
+	<share_embed>Отправить</share_embed>
+	<item_added_in_collection>%s успешно добавлено в коллекцию.</item_added_in_collection>
+	<object_exists_collection>%s уже существует в коллекции.</object_exists_collection>
+	<collect_tag_hint>alpha bravo charlie, ptv classics, hasb-e-haal</collect_tag_hint>
+	<collect_broad_pri>Сделать коллекцию частной</collect_broad_pri>
+	<collect_item_removed>%s удален из коллекции.</collect_item_removed>
+	<most_downloaded>Самые скачиваемые</most_downloaded>
+	<total_videos>Всего видео</total_videos>
+	<collection_featured>Рекомендуемые коллекции.</collection_featured>
+	<collection_unfeatured>Нефункциональная коллекция.</collection_unfeatured>
+	<upload_right_guide_photo><![CDATA[<strong>Важно: не загружать любые фотографии, может быть истолковано как порно, защищенный авторским правом материал, притеснения, или спам.</strong>
+<p>Продолжая "Вашу Закачку", вы уверены, что эти фотографии не нарушают <a id="terms-of-use-link" href="%s">Условия использования</a> и что вы владеете авторскими правами на эти фотографии или разрешение, чтобы загрузить их.</p>]]></upload_right_guide_photo>
+	<collection_deactivated>Коллекция отключена.</collection_deactivated>
+	<collection_activated>Коллекция активирована.</collection_activated>
+	<collection_updated>Коллекция обновлена.</collection_updated>
+	<cant_edit_collection>Вы не можете отредактировать эту коллекцию</cant_edit_collection>
+	<object_not_in_collect>%s не существует в этой коллекции</object_not_in_collect>
+	<object_does_not_exists>%s не существует.</object_does_not_exists>
+	<cant_perform_action_collect>Вы не можете выполнять такие действия над этой коллекцией.</cant_perform_action_collect>
+	<collection_deleted>Коллекция успешно удалена.</collection_deleted>
+	<collection_not_exists>Коллекция не существует.</collection_not_exists>
+	<collect_items_deleted>Элементы коллекции успешно удалены.</collect_items_deleted>
+	<photo_title_err>Пожалуйста, введите правильный заголовок фотографии</photo_title_err>
+	<rand_photos>Случайные фото</rand_photos>
+	<this_has_set_profile_item>This %s has been set as your profile item</this_has_set_profile_item>
+	<profile_item_removed>Пункт профиля был удален</profile_item_removed>
+	<make_profile_item>Сделать пункт профиля</make_profile_item>
+	<remove_profile_item>Удалить пункт профиля</remove_profile_item>
+	<content_type_empty>Content Type is empty. Please tell us what type of content you want.</content_type_empty>
+	<watch_video_page>Смотреть на странице видео</watch_video_page>
+	<watch_on_photo_page>Watch this on photo page</watch_on_photo_page>
+	<found_no_videos>Видеоклипов не найдено</found_no_videos>
+	<found_no_photos>Фотографий не найдено</found_no_photos>
+	<collections>Коллекции</collections>
+	<related_videos>Похожие видео</related_videos>
+	<this_video_found_in_no_collection>Это видео можно найти в следующих коллекциях</this_video_found_in_no_collection>
+	<more_from>More from %s</more_from>
+	<this_collection>Коллекция: %s</this_collection>
+	<vdo_broadcast_unlisted>Не включено в список (все обладатели ссылки и/или пароля могут просматрвать)</vdo_broadcast_unlisted>
+	<video_link>Video link</video_link>
+	<channel_settings>Настройка канала</channel_settings>
+	<channel_account_settings><![CDATA[Канал и Настройка аккаунта]]></channel_account_settings>
+	<account_settings>Настройки аккаунта</account_settings>
+	<allow_subscription>Разрешить подписку</allow_subscription>
+	<allow_subscription_hint>Разрешить пользователям подписываться на ваш канал?</allow_subscription_hint>
+	<channel_title>Название канала</channel_title>
+	<channel_desc>Описание канала</channel_desc>
+	<show_my_friends>Показать моих друзей</show_my_friends>
+	<show_my_videos>Показать мое видео</show_my_videos>
+	<show_my_photos>Показать мое фото</show_my_photos>
+	<show_my_subscriptions>Показать мои подписки</show_my_subscriptions>
+	<show_my_subscribers>Показать моих подписчиков</show_my_subscribers>
+	<profile_basic_info>Общая информация</profile_basic_info>
+	<profile_education_interests>Образование, Хобби, и т.д.</profile_education_interests>
+	<channel_profile_settings><![CDATA[Канал и Настройка профиля]]></channel_profile_settings>
+	<show_my_collections>Показать мои коллекции</show_my_collections>
+	<user_doesnt_any_collection>Пользователь не имеет коллекции</user_doesnt_any_collection>
+	<unsubscribe>Отписаться</unsubscribe>
+	<you_have_already_voted_channel>Вы уже голосовали за этот канал</you_have_already_voted_channel>
+	<channel_rating_disabled>Канал голосования отключен</channel_rating_disabled>
+	<user_activity>Активность пользователя</user_activity>
+	<you_cant_view_profile>У вас нет прав для просмотра этого канала:/</you_cant_view_profile>
+	<only_friends_view_channel>Только друзья %s могут просматривать этот канал</only_friends_view_channel>
+	<collect_type>Тип коллекции</collect_type>
+	<add_to_my_collection>Добавить в мою коллекцию</add_to_my_collection>
+	<total_collections>Всего коллекций</total_collections>
+	<total_photos>Всего фото</total_photos>
+	<comments_made>Комментарии</comments_made>
+	<block_users>Заблокированные</block_users>
+	<tp_del_confirm>Вы действительно хотите удалить эту тему?</tp_del_confirm>
+	<you_need_owners_approval_to_view_group>You need owners approval in order to view this group</you_need_owners_approval_to_view_group>
+	<you_cannot_rate_own_collection>Вы не можете оценить свою собственную коллекцию</you_cannot_rate_own_collection>
+	<collection_rating_not_allowed>Оценка коллекции теперь разрешена</collection_rating_not_allowed>
+	<you_cant_rate_own_video>Вы не можете оценить свое собственное видео</you_cant_rate_own_video>
+	<you_cant_rate_own_channel>Вы не можете оценивать собственный канал</you_cant_rate_own_channel>
+	<you_cannot_rate_own_photo>Вы не можете оценить свою собственную фотографию</you_cannot_rate_own_photo>
+	<cant_pm_banned_user>Вы не можете отправить личное сообщение %s</cant_pm_banned_user>
+	<you_are_not_allowed_to_view_user_channel>У вас нет прав для просмотра %s канала</you_are_not_allowed_to_view_user_channel>
+	<you_cant_send_pm_yourself>Вы не можете отправить личное сообщение самому себе</you_cant_send_pm_yourself>
+	<please_enter_confimation_ode>Пожалуйста, введите проверочный код</please_enter_confimation_ode>
+	<vdo_brd_confidential>Конфиденциально (только для определенных пользователей)</vdo_brd_confidential>
+	<video_password>Пароль видео</video_password>
+	<set_video_password><![CDATA[Введите пароль на видео чтобы сделать его "под паролем"]]></set_video_password>
+	<video_pass_protected>Это видео защищено паролем, необходимо ввести правильный пароль для просмотра этого видео</video_pass_protected>
+	<please_enter_video_password>Пожалуйста, введите правильный пароль для того, чтобы смотреть это видео</please_enter_video_password>
+	<video_is_password_protected>%s защищено паролем</video_is_password_protected>
+	<invalid_video_password>Недопустимый пароль видео</invalid_video_password>
+	<logged_users_only>Пользовательское (только зарегистрированным пользователям можно смотреть)</logged_users_only>
+	<specify_video_users>Введите имена пользователей через запятую, которые могут смотреть это видео</specify_video_users>
+	<video_users>Разрешённые пользователи</video_users>
+	<not_logged_video_error>Вы не можете смотреть это видео, потому что Вы не авторизованы</not_logged_video_error>
+	<no_user_subscribed_to_uploader>No user has subscribed to %s</no_user_subscribed_to_uploader>
+	<subs_email_sent_to_users>Subscription email has been sent to %s user%s</subs_email_sent_to_users>
+	<user_has_uploaded_new_photo>%s загрузил(а) новую фотографию</user_has_uploaded_new_photo>
+	<please_provide_valid_userid>пожалуйста, предоставьте действительный userid</please_provide_valid_userid>
+	<user_joined_us>%s присоединился к %s , поздоровайтесь с %s</user_joined_us>
+	<user_has_uploaded_new_video>%s загрузил(а) новое видео</user_has_uploaded_new_video>
+	<user_has_created_new_group>%s создал(а) новую группу</user_has_created_new_group>
+	<total_members>Пользователей</total_members>
+	<watch_video>Смотреть видео</watch_video>
+	<view_photo>Просмотр фотографии</view_photo>
+	<user_has_joined_group>%s присоединился к новой группе</user_has_joined_group>
+	<user_is_now_friend_with_other>%s и %s теперь друзья</user_is_now_friend_with_other>
+	<user_has_created_new_collection>%s создал(а) новую коллекцию</user_has_created_new_collection>
+	<view_collection>Посмотреть коллекцию</view_collection>
+	<user_has_favorited_video>%s добавил(а) видео в избранное</user_has_favorited_video>
+	<activity>Активность</activity>
+	<no_activity>%s не имеет последних действий</no_activity>
+	<feed_has_been_deleted>Activity feed has been deleted</feed_has_been_deleted>
+	<you_cant_del_this_feed>You cannot delete this feed</you_cant_del_this_feed>
+	<you_cant_sub_yourself>You cannot subscribe yourself</you_cant_sub_yourself>
+	<manage_my_album>Управление альбомами</manage_my_album>
+	<you_dont_have_permission_to_update_this_video>You don't have permission to update this video</you_dont_have_permission_to_update_this_video>
+	<group_is_public>Group is public</group_is_public>
+	<collection_thumb>Collection thumb</collection_thumb>
+	<collection_is_private>Collction is private</collection_is_private>
+	<edit_type_collection>Редактировать %s</edit_type_collection>
+	<comm_disabled_for_collection>Комментарии отключены для этой коллекции</comm_disabled_for_collection>
+	<share_this_type>Поделиться этим %s</share_this_type>
+	<seperate_usernames_with_comma>Seperate usernames with comma</seperate_usernames_with_comma>
+	<view_all>Смотреть все</view_all>
+	<album_privacy_updated>Album privacy has been updated</album_privacy_updated>
+	<you_dont_have_any_videos>You do not have any videos</you_dont_have_any_videos>
+	<update_blocked_use>Blocked user-list has been updated</update_blocked_use>
+	<you_dont_have_fav_collections>You do not have any favorite collection</you_dont_have_fav_collections>
+	<remote_play>Remote play</remote_play>
+	<remote_upload_example>e.g http://clipbucket.com/sample.flv http://www.youtube.com/watch?v=QfRAHfquzM0</remote_upload_example>
+	<update_blocked_user_list>Update blocked users list</update_blocked_user_list>
+	<group_is_private>Group is private</group_is_private>
+	<no_user_associated_with_email>No user is associated with this email address</no_user_associated_with_email>
+	<pass_changed_success><![CDATA[<div class="simple_container">
+    	<h2 style="margin: 5px 5px 8px; font-family: Arial,Verdana,sans-serif;">Password has been changed, please check your email</h2>     	<p style="margin: 0px 5px; line-height: 18px; font-size: 11px;">You password has been successfully changed, please check your inbox for the newly generated password, once you login please change it accordingly by going to your account and click on change password.</p>
+ </div>]]></pass_changed_success>
+		<add_as_friend>Добавить в друзья</add_as_friend>
+		<block_user>Заблокировать</block_user>
+		<send_message>Отправить сообщение</send_message>
+		<no_item_was_selected_to_delete>No item was selected to delete</no_item_was_selected_to_delete>
+		<playlist_items_have_been_removed>Playlist items have been removed</playlist_items_have_been_removed>
+		<you_not_grp_mem_or_approved>You have not joined or an approved member of this group</you_not_grp_mem_or_approved>
+	</phrases>
+</clipbucket_language>
