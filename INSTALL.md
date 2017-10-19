@@ -32,3 +32,47 @@ Install ffmpeg from this repo:
 Confirm it’s working:
 
     ffmpeg
+
+
+### flvtool2
+
+This is easiest to grab via RubyGems.
+
+Install Ruby and RubyGems
+
+    yum install -y ruby rubygems
+
+And then it’s a simple gem install:
+
+    gem install flvtool2
+
+
+### mp4box (GPAC)
+
+This one is quite easy on CentOS 7:
+
+    yum install -y gpac mediainfo
+
+### imagemagick
+
+This package is much more common, so the install is also more straightforward.
+
+Install any prerequisites:
+
+    yum install -y gcc php-devel php-pear
+
+Install the package itself:
+
+    yum install -y ImageMagick ImageMagick-devel
+
+Install it into PHP:
+
+    pecl install imagick
+    echo "extension=imagick.so" > /etc/php.d/imagick.ini
+
+
+Finishing up.
+
+Last, but not least:
+
+    service httpd restart
