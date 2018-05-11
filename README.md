@@ -32,7 +32,7 @@ Installation of ClipBucket is simple and straight forward. Click the link below 
 <a href="http://clip-bucket.com/index.php?mode=guides&action=list">View All Video Guides</a>
 
 # ClipBucket Themes
-ClipBucket comes with various themes to help you set a tone for your website according to your Niche. These themes include originals as well as clones of popular websites such as YouTube. 
+ClipBucket comes with various themes to help you set a tone for your website according to your Niche. These themes include originals as well as clones of popular websites such as YouTube.
 
 <a href="http://clip-bucket.com/products/list/themes-/">ClipBucket Themes</a>
 
@@ -43,8 +43,8 @@ ClipBucket core features aren't enough for you? We got plugins. Yeah, we got awe
 <a href="http://clip-bucket.com/products/list/plugins/">ClipBucket Plugins</a>
 
 # ClipBucket Discourse (Forum)
-We have a very active community that is always there for your help. Interact with people, get your problems solved, learn new things, have fun. 
+We have a very active community that is always there for your help. Interact with people, get your problems solved, learn new things, have fun.
 
 <a href="http://discourse.clipbucket.com/">ClipBucket Discourse</a>
 
-If you need to know anything else, have an idea to discuss or just some suggestions to drop, <a href="http://clip-bucket.com/contact">Contact Us</a> here or find us on live chat at <a href="http://clip-bucket.com">Our Website</a>
+If you need to know anything else, have an idea to discuss or just some suggestions to drop, <a href="http://clip-bucket.com/contact">Contact Us</a> here or find us on live chat at <a href="http://clip-bucket.com
