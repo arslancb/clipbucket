@@ -16,6 +16,14 @@
 		$argv = convertWithCron();
 	}
 
+	/**
+	 * If array index 1 and 3 is empty so the file is
+	 * written anyway (with empty data in files/log/.log)
+	 */
+	if ( (empty($argv[1])) and (empty($argv[3])) ){
+		die();
+	}
+
 	//error_reporting(E_ALL);
 	#file_put_contents('__argv__', $argv[1]."\n".$argv[2]."\n".$argv[3]."\n".$argv[4]."\n");
 	logData(json_encode($argv),"argvs");
@@ -36,7 +44,7 @@
 	file_put_contents($file, $text);
 
 	$log = new SLog($logFile);
-	
+
 	$log->newSection("Starting Conversion Log");
 	$TempLogData = "Filename : {$fileName}\n";
 	$TempLogData .= "File directory : {$file_directory_}\n";
@@ -79,10 +87,10 @@
 	$orig_file 	= CON_DIR.'/'.$tmp_file.'.'.$ext;
 
 	/*
-		Delete the uploaded file from temp directory 
+		Delete the uploaded file from temp directory
 		and move it into the conversion queue directory for conversion
 	*/
-	
+
 
 	if(isset($_GET['test']))
 		$renamed = copy($temp_file,$orig_file);
@@ -137,7 +145,7 @@
 
 	logData('Inlcuding FFmpeg Class','checkpoints');
 	require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
-	
+
 	$ffmpeg = new FFMpeg($configs, $log);
 	$ffmpeg->ffmpeg($orig_file);
 	$ffmpeg->configs = $configs;
@@ -146,7 +154,7 @@
 	$ffmpeg->raw_path = VIDEOS_DIR.'/'.$file_directory.$_filename;
 	//$ffmpeg->logs = $log;
 
-	
+
 	$ffmpeg->ClipBucket();
 	if ($ffmpeg->lock_file && file_exists($ffmpeg->lock_file)){
 		unlink($ffmpeg->lock_file);
@@ -156,7 +164,7 @@
 	/*$sprite_count = $ffmpeg->sprite_count;*/
 	$video_files = json_encode($ffmpeg->video_files);
 	$db->update(tbl('video'), array("video_files"), array($video_files), " file_name = '{$outputFileName}'");
-	
+
 
 
 	if (stristr(PHP_OS, 'WIN'))
@@ -165,7 +173,7 @@
 	}elseif(stristr(PHP_OS, 'darwin'))
 	{
 		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $orig_file $dosleep </dev/null >/dev/null &");
-		
+
 	} else {
 		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $orig_file $dosleep &> /dev/null &");
 	}
@@ -189,9 +197,9 @@ if($orig_file1)
 		$ffMpegPath = FFMPEG_BINARY;
 		file_put_contents('test.txt', $ffMpegPath." -i ".$orig_file1." -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
 		$out = shell_exec($ffMpegPath." -i ".$orig_file1." -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
-		
+
 		sleep(1);
-		
+
 		$log->writeLog();
 		$len = strlen($out);
 		$findme = 'Duration';
@@ -206,10 +214,10 @@ if($orig_file1)
 		$hours = $duration[0];
 		$minutes = $duration[1];
 		$seconds = $duration[2];
-			
+
 		$hours = $hours * 60 * 60;
 		$minutes = $minutes * 60;
-					
+
 		$duration = $hours+$minutes+$seconds;
 		//$duration =  (int) $ffmpeg->videoDetails['duration'];
 		if($duration > 0)
@@ -229,7 +237,7 @@ if($orig_file1)
 		$ffMpegPath = FFMPEG_BINARY;
 		$out = shell_exec($ffMpegPath." -i ".$orig_file1." -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
 		sleep(1);
-		
+
 		$log->writeLog();
 		$len = strlen($out);
 		$findme = 'Duration';
@@ -244,20 +252,20 @@ if($orig_file1)
 		$hours = $duration[0];
 		$minutes = $duration[1];
 		$seconds = $duration[2];
-			
+
 		$hours = $hours * 60 * 60;
 		$minutes = $minutes * 60;
-					
+
 		$duration = $hours+$minutes+$seconds;
 		//$duration =  (int) $ffmpeg->videoDetails['size'];
 		if($duration > "0")
 		{
 
 				$status = "Successful";
-				
+
 				$db->update(tbl('video'), array("duration"), array($duration), " file_name = '{$outputFileName}'");
 				$db->update(tbl('video'), array("status"), array($status), " file_name = '{$outputFileName}'");
-			
+
 				$log->writeLine("Conversion Result", "Successful");
 		}
 		else
