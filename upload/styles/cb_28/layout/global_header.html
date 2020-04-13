@@ -19,7 +19,7 @@
             {ANCHOR place='seo_ninja'}
         {else}
         	
-		<link rel="canonical" href="{$baseurl}{$smarty.server.REQUEST_URI}" />
+		<link rel="canonical" href="{$baseurl}{$smarty.server.REQUEST_URI}">
 		{if $this_page == 'index'}<meta name="description" content="{$Cbucket->configs.description}">{/if}
   		{if $this_page == 'watch_video'}<meta name="description" content="{$vdo.description}">{/if}
 		{if $this_page == 'videos'}<meta name="description" content="Description for videos page.">{/if}
