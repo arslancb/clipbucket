@@ -18,12 +18,14 @@
 		{if isset($ninja_fighting)}
             {ANCHOR place='seo_ninja'}
         {else}
-        	<meta name="keywords" content="{$Cbucket->configs.keywords}">
-			<meta name="description" content="{$Cbucket->configs.description}">
-			<meta name="distribution" content="global">
-
-
-			<title>{cbtitle}</title>
+        	
+		<link rel="canonical" href="{$baseurl}{$smarty.server.REQUEST_URI}" />
+		{if $this_page == 'index'}<meta name="description" content="{$Cbucket->configs.description}">{/if}
+  		{if $this_page == 'watch_video'}<meta name="description" content="{$vdo.description}">{/if}
+		{if $this_page == 'videos'}<meta name="description" content="Description for videos page.">{/if}
+		{if $this_page == 'channels'}<meta name="description" content="Description for channels page.">{/if}
+		
+		<title>{cbtitle}</title>
         {/if}
 
 		<link rel="stylesheet" href="{$theme}/css/bootstrap.min.css?cache={$cache_buster}">
