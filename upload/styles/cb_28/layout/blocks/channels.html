@@ -54,7 +54,7 @@
 {assign var='user_cover_tune' value=$userquery->getCover($user.userid)}
 
 <div class="channel-holder">
-	<a href="{$userquery->profile_link($user)}" id="user-{$user.userid}" class="user-block">
+	<a href="{$userquery->profile_link($user)}" id="user-{$user.userid}" class="user-block" title="{$user.username}">
 		<img class="avatar" src="{avatar details=$user size='m'}">
 		<h2>{$user.username}</h2>
 	</a>
