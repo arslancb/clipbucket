@@ -2,7 +2,7 @@
 <div class="item-video col-lg-3 col-md-3 col-sm-4 col-xs-6">
 	<div class="clearfix thumb-holder">
 		<a class="video-link" href="{videoLink($video)}" title="{$video.title|title}">
-			<img class="img-responsive" src="{getThumb vdetails=$video size=416x260 }">
+			<img class="img-responsive" src="{getThumb vdetails=$video size=416x260 }" alt="{$video.title|title}">
 		</a>
 		<img src="{$theme}/images/thumb-ratio.png" class="thumb-ratio" alt="">
 		<div class="item-footer">
@@ -14,7 +14,7 @@
 		</div>
 	</div>
 	<div class="clearfix video-info">
-		<h2 class="title"><a href="{videoLink($video)}">{$video.title|truncate:50}</a></h2>
+		<h2 class="title"><a href="{videoLink($video)}" title="{$video.title|title}">{$video.title|truncate:50}</a></h2>
 		<span class="author">by <a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
 		<div class="clearfix views-date">
 			<span>{$video.views}&nbsp;views</span>
