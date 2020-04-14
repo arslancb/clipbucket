@@ -15,7 +15,7 @@
 	</div>
 	<div class="clearfix video-info">
 		<h2 class="title"><a href="{videoLink($video)}" title="{$video.title|title}">{$video.title|truncate:50}</a></h2>
-		<span class="author">by <a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
+		<span class="author">by <a href="{$userquery->profile_link($video)}" title="{$video.username}">{$video.username}</a></span>
 		<div class="clearfix views-date">
 			<span>{$video.views}&nbsp;views</span>
 			<time class="date" datetime="2016-15-03">{$video.date_added|niceTime}</time>
