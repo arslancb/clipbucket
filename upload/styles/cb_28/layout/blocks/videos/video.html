@@ -21,7 +21,7 @@
 {if $display_type=='homeVideos'}
 	<div class="clearfix thumb-holder userAppending">
 		<a class="video-link" href="{videoLink($video)}" title="{$video.title|title}">
-			<img class="img-responsive" src="{getThumb vdetails=$video size=416x260 }">
+			<img class="img-responsive" src="{getThumb vdetails=$video size=416x260 }" alt="{$video.title|title}">
 		</a>
 		<img src="{$theme}/images/thumb-ratio.png" class="thumb-ratio" alt="{$video.broadcast}">
 
@@ -33,7 +33,7 @@
 		
 	</div>
 	<div class="clearfix video-info">
-		<h2 class="title"><a href="{videoLink($video)}">{$video.title|truncate:50}</a></h2>
+		<h2 class="title"><a href="{videoLink($video)}" title="{$video.title|title}">{$video.title|truncate:50}</a></h2>
 		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($video)}">{$video.username}</a></span>
 		<div class="clearfix views-date">
 			<span>{$video.views}&nbsp;{lang code="views"}</span>
