@@ -27,7 +27,7 @@
 {if $display_type=='user_videos'}
 <div class="col-md-3  col-sm-4  col-xs-6">
     <a href="{videoLink($video)}" title="{$video.title|title}">
-        <img alt="{$video.title|title}" src="{getThumb vdetails=$video size='171x120'}" id="thumbs_{$video.videoid}"  title="{$video.title|title}"/>
+        <img src="{getThumb vdetails=$video size='171x120'}" id="thumbs_{$video.videoid}" alt="{$video.title|title}">
     </a>
     <p class="cbHomeVidDuration duration_view">
         {if $video.duration>1}
