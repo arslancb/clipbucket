@@ -9,7 +9,7 @@
 	</div> <!--VIDEO_THUMB END-->
 	
 	<div class="details_block">
-		<strong class="title"><a href="{videoLink($pop_video)}">{$pop_video.title|truncate:50}</a></strong>
+		<strong class="title"><a href="{videoLink($pop_video)}" title="{$video.title|title}">{$pop_video.title|truncate:50}</a></strong>
 		<span class="author">{lang code="by"}&nbsp;<a href="{$userquery->profile_link($pop_video)}">{$pop_video.username}</a></span>
 		<div class="views-date">
 			<span>{$pop_video.views}&nbsp;{lang code="views"}</span>
@@ -81,8 +81,8 @@
 {if $display_type=='featuredVideos_sidebar'}
 	<div class="featured-video clearfix">
 		<div class="video_thumb">
-			<a href="{videoLink($video)}">
-				<img src="{getThumb vdetails=$video size=168x105}" {ANCHOR place="video_thumb" data=$video} class="img-responsive">
+			<a href="{videoLink($video)}" title="{$video.title|title}">
+				<img src="{getThumb vdetails=$video size=168x105}" alt="{$video.title|title}" {ANCHOR place="video_thumb" data=$video} class="img-responsive">
 				<time datetime="2016-15-03" class="duration">{if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</time>
 			</a>
 			<img src="{$theme}/images/thumb-ratio.png" class="thumb-ratio" alt="">
