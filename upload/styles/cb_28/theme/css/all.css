@@ -396,6 +396,10 @@ h1 {
   margin: 0 0 20px;
   color: #000; }
 
+h2{
+  font-size: 20px;
+}
+
 .banner-popular {
   padding: 0 0 5px;
   border-bottom: 1px solid #d9d9d9;
