@@ -73,6 +73,8 @@
 			$sort_time = $time_links[$na_me];
 	}
 
+	if (!$_GET['seo_cat_name']) $_GET['seo_cat_name']='All Category';
+
 	$subtitle = $_GET['seo_cat_name'] .' &raquo; '. $sort_name .' &raquo; '. $sort_time;
 
 	subtitle(lang($subtitle));
