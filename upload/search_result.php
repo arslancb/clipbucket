@@ -78,10 +78,13 @@
 
 	if(mysql_clean(get('query'))) {
 		$squery = get('query');
+		$squery = strtolower($squery);
+		$squery = ucwords($squery);
+		assign("search_result", $squery);
 		if ($squery == 'clipbucket') {
 			subtitle("Awesomeness...!!");
 		} else {
-			subtitle($search->search_type[$type]['title'].' &raquo; '.mysql_clean(get('query')));
+			subtitle($search->search_type[$type]['title'].' &raquo; '.$squery);
 		}
 	}
 
