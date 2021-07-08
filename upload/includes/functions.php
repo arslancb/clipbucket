@@ -413,7 +413,7 @@
     */
 
     function is_valid_email($email) {
-	    $pattern = "/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/";
+	    $pattern = "/^([\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4})?$/";
 	    if(preg_match($pattern, $email)) {
 	        return true;
 	    } else {
