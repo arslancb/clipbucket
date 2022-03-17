@@ -2724,9 +2724,9 @@
 			case 'video':case 'videos':case 'v':
 			{
 				if(SEO=='yes') {
-					return BASEURL.'/videos/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.$_GET['sort'].'/'.$_GET['time'].'/';
+					return BASEURL.'/videos/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.htmlspecialchars($_GET['sort']).'/'.htmlspecialchars($_GET['time']).'/';
 				} else {
-					return BASEURL.'/videos.php?cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&seo_cat_name='.$_GET['seo_cat_name'];
+					return BASEURL.'/videos.php?cat='.$data['category_id'].'&sort='. htmlspecialchars($_GET['sort']).'&time='.htmlspecialchars($_GET['time']).'&seo_cat_name='.htmlspecialchars($_GET['seo_cat_name']);
 				}
 			}
 			break;
@@ -2734,9 +2734,9 @@
 			case 'channels':case 'channel':case'c':case'user':
 			{
 				if(SEO=='yes') {
-					return BASEURL.'/channels/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.$_GET['sort'].'/'.$_GET['time'].'/';
+					return BASEURL.'/channels/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.htmlspecialchars($_GET['sort']).'/'.htmlspecialchars($_GET['time']).'/';
 				} else {
-					return BASEURL.'/channels.php?cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&seo_cat_name='.$_GET['seo_cat_name'];
+					return BASEURL.'/channels.php?cat='.$data['category_id'].'&sort='.htmlspecialchars($_GET['sort']).'&time='.htmlspecialchars($_GET['time']).'&seo_cat_name='.htmlspecialchars($_GET['seo_cat_name']);
 				}
 			}
 			break;
@@ -2749,7 +2749,7 @@
 
 				if(defined("IN_MODULE")) {
 					global $prefix_catlink;
-					$url = 'cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
+					$url = 'cat='.$data['category_id'].'&sort='.htmlspecialchars($_GET['sort']).'&time='.htmlspecialchars($_GET['time']).'&page='.htmlspecialchars($_GET['page']).'&seo_cat_name='.htmlspecialchars($_GET['seo_cat_name']);
 					$url = $prefix_catlink.$url;
 					$rm_array = array("cat","sort","time","page","seo_cat_name");
 					$p = "";
@@ -2761,9 +2761,9 @@
 				}
 								
 				if(SEO=='yes') {
-					return BASEURL.'/'.$type.'/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.$_GET['sort'].'/'.$_GET['time'].'/';
+					return BASEURL.'/'.$type.'/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.htmlspecialchars($_GET['sort']).'/'.htmlspecialchars($_GET['time']).'/';
 				} else {
-					return BASEURL.'/'.$type.'.php?cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&seo_cat_name='.$_GET['seo_cat_name'];
+					return BASEURL.'/'.$type.'.php?cat='.$data['category_id'].'&sort='.htmlspecialchars($_GET['sort']).'&time='.htmlspecialchars($_GET['time']).'&seo_cat_name='.htmlspecialchars($_GET['seo_cat_name']);
 				}
 			}
 			break;
@@ -2800,18 +2800,18 @@
 				if($mode == 'sort') {
 					$sorting = $sort;
 				} else {
-					$sorting = $_GET['sort'];
+					$sorting = htmlspecialchars($_GET['sort']);
 				}
 				if($mode == 'time') {
 					$time = $sort;
 				} else {
-					$time = $_GET['time'];
+					$time = htmlspecialchars($_GET['time']);
 				}
 					
 				if (SEO=='yes') {
-					return BASEURL.'/videos/'.$_GET['cat'].'/'.$_GET['seo_cat_name'].'/'.$sorting.'/'.$time.'/'.$_GET['page'];
+					return BASEURL.'/videos/'.htmlspecialchars($_GET['cat']).'/'.htmlspecialchars($_GET['seo_cat_name']).'/'.$sorting.'/'.$time.'/'.htmlspecialchars($_GET['page']);
 				} else {
-					return BASEURL.'/videos.php?cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
+					return BASEURL.'/videos.php?cat='.htmlspecialchars($_GET['cat']).'&sort='.$sorting.'&time='.$time.'&page='.htmlspecialchars($_GET['page']).'&seo_cat_name='.htmlspecialchars($_GET['seo_cat_name']);
 				}
 			}
 			break;
@@ -2833,18 +2833,18 @@
 				if($mode == 'sort') {
 					$sorting = $sort;
 				} else {
-					$sorting = $_GET['sort'];
+					$sorting = htmlspecialchars($_GET['sort']);
 				}
 				if($mode == 'time') {
 					$time = $sort;
 				} else {
-					$time = $_GET['time'];
+					$time = htmlspecialchars($_GET['time']);
 				}
 					
 				if(SEO=='yes') {
-					return BASEURL.'/channels/'.$_GET['cat'].'/'.$_GET['seo_cat_name'].'/'.$sorting.'/'.$time.'/'.$_GET['page'];
+					return BASEURL.'/channels/'.htmlspecialchars($_GET['cat']).'/'.htmlspecialchars($_GET['seo_cat_name']).'/'.$sorting.'/'.$time.'/'.htmlspecialchars($_GET['page']);
 				} else {
-					return BASEURL.'/channels.php?cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
+					return BASEURL.'/channels.php?cat='.htmlspecialchars($_GET['cat']).'&sort='.$sorting.'&time='.$time.'&page='.htmlspecialchars($_GET['page']).'&seo_cat_name='.htmlspecialchars($_GET['seo_cat_name']);
 				}
 			}
 			break;
@@ -2866,12 +2866,12 @@
 				if($mode == 'sort') {
 					$sorting = $sort;
 				} else {
-					$sorting = $_GET['sort'];
+					$sorting = htmlspecialchars($_GET['sort']);
 				}
 				if($mode == 'time') {
 					$time = $sort;
 				} else {
-					$time = $_GET['time'];
+					$time = htmlspecialchars($_GET['time']);
 				}
 				
 				if(THIS_PAGE=='photos') {
@@ -2879,15 +2879,15 @@
 				}
 				
 				if(defined("IN_MODULE")) {
-					$url = 'cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
+					$url = 'cat='.htmlspecialchars($_GET['cat']).'&sort='.$sorting.'&time='.$time.'&page='.htmlspecialchars($_GET['page']).'&seo_cat_name='.htmlspecialchars($_GET['seo_cat_name']);
 					$plugURL = queryString($url,array("cat","sort","time","page","seo_cat_name"));
 					return $plugURL;
 				}
 				
 				if(SEO=='yes') {
-					return BASEURL.'/'.$type.'/'.$_GET['cat'].'/'.$_GET['seo_cat_name'].'/'.$sorting.'/'.$time.'/'.$_GET['page'];
+					return BASEURL.'/'.$type.'/'.htmlspecialchars($_GET['cat']).'/'.htmlspecialchars($_GET['seo_cat_name']).'/'.$sorting.'/'.$time.'/'.htmlspecialchars($_GET['page']);
 				} else {
-					return BASEURL.'/'.$type.'.php?cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
+					return BASEURL.'/'.$type.'.php?cat='.htmlspecialchars($_GET['cat']).'&sort='.$sorting.'&time='.$time.'&page='.htmlspecialchars($_GET['page']).'&seo_cat_name='.htmlspecialchars($_GET['seo_cat_name']);
 				}
 			}
 			break;		
