@@ -24,6 +24,7 @@ class errorhandler extends ClipBucket {
 	private function add_error($message=NULL,$id=NULL) {
 		global $ignore_cb_errors;
 		//if id is set, error will be generated from error message list
+        $this->error_list = [];
 		if(!$ignore_cb_errors)
 			$this->error_list[] = $message;
 			//$this->error_list['all_errors']['user_error']['critical_priority'][] = $message;

@@ -593,7 +593,7 @@ class myquery {
 	 * @param VID
 	 * @param THUMB NUM
 	 */
-	function set_default_thumb($vid,$thumb,$version)
+	function set_default_thumb($vid,$thumb,$version = '')
 	{
 		global $cbvid;
 		return $cbvid->set_default_thumb($vid,$thumb,$version);

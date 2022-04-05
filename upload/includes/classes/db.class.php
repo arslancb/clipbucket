@@ -64,7 +64,7 @@ class Clipbucket_db
             $start = microtime();
             $result = $this->mysqli->query($query);
             $end = microtime();
-            $timetook = $end - $start;
+            $timetook = (int) $end - (int) $start;
             devWitch($query, 'select', $timetook);
         } else {
             $result = $this->mysqli->query($query);
