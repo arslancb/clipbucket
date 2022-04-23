@@ -128,7 +128,7 @@
 				if(!$version)
 					$return['err'] = _("Unable to find ffmpeg");
 				else
-					$return['msg'] = sprintf(_("Found FFMPEG %s : %s"),$version,$$ffmpeg_path);
+					$return['msg'] = sprintf(_("Found FFMPEG %s : %s"),$version,$ffmpeg_path);
 			}
 			break;
 			
