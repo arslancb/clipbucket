@@ -1,76 +1,4 @@
-{$secret_Id = $secret_Id|@json_encode}
 {if $edit_lang != 'yes'}
-<h3>API KEYS</h3>
-<div class="row">
-    <div class="col-md-6">
-        <form name="lang_ids" method="post" action="?default">
-            <label>ClientID :</label> <input type="text" name="client_id" value={$client_id}></br></br>
-            <label> SecretID :</label> <input type="text" name="sec_id" value={$secret_Id}></br></br>
-            <input type="submit" name="set_language" id="set_language" value="Set Language Ids" class="btn btn-primary" />
-        </form>
-    </div>
-    <div class="col-md-6" style="float:right;">
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">How to get API Keys</button>
-    </div>
-</div>
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Bing API</h4>
-            </div>
-            <div class="modal-body">
-                <p><strong>Step 1. Sign in and Register.</strong></br>
-                    Sign-in to Windows Azure Marketplace. If this is your first time, you’ll likely see this registration page.
-                    Fill out your details, and press the ‘Continue’ button. 
-                    You’ll be taken to the Terms of Use page. Read it carefully, and if you accept it, check the box at the bottom of the screen that says ‘I accept the Terms of Use’, and press the ‘Register’ button.
-                </p>
-                <p><strong>Step 2. Subscribe to the Microsoft Translator API.</strong></br>
-                    In this section you’ll subscribe to the Microsoft Translator API in the Windows Azure Marketplace. There are a number of service options you can choose, and in this walkthrough you’ll see how to use the free one.
-                </p>
-                <p><strong>Step 2.1. Find the Microsoft Translator API service in the Windows Azure Marketplace
-                    </strong></br>
-                    If you’ve completed the Windows Azure Marketplace registration (Step 1), then visit <a href="https://datamarket.azure.com/home/">https://datamarket.azure.com/home/</a> to see the main Marketplace home page. At the top of the screen, you’ll see a ‘Search’ box.
-                    Type ‘translator’ into this box and press enter, or click the button on the right that is shaped like a magnifying glass.
-                </p>
-                <p><strong>Step 2.2. Subscribe to the Translator API service.
-                    </strong></br>
-                    Click on ’Microsoft Translator’ and you’ll be taken to the Microsoft Translator API Offer page on Windows Azure Marketplace.
-                    (Note: For a short cut, you can also go directly to the screen by visiting this URL: <a href="https://datamarket.azure.com/dataset/bing/microsofttranslator">https://datamarket.azure.com/dataset/bing/microsofttranslator</a>
-                    On the right hand side of the screen, you’ll see a number of different monthly volume offers. Choose the one that meets your monthly volume usage needs. For this guide, you’ll use the free 2 million characters per month subscription offer, which you can find at the bottom of the list.
-                    Press the ‘Sign Up’ link on your chosen offer and you’ll be taken to a page where you are asked to confirm and agree that you will adhere to the Translator API ‘Offer Terms and Privacy Policy’.
-                    If you agree, check the box and press the Sign Up button.
-                    You’ll then be taken to the page confirming that you’ve successfully subscribed to the service and the volume goes into effect at that time. In the next step, you’ll get your developer credentials from Windows Azure Marketplace, and you’ll use these when building your apps.
-                </p>
-                <p><strong>Step 3. Getting your Developer Credentials</strong></br>
-                    This step assumes that you have:
-                    · Completed Steps 1 and 2
-                    · You have registered for a Windows Azure Marketplace account
-                    · You have used your Marketplace account to subscribe to the Microsoft Translator API service.
-                </p>
-                <p><strong>Step 3.1. Registering your application on the Windows Azure Marketplace.</strong></br>
-                    Sign in to <a href= "https://datamarket.azure.com/home/">https://datamarket.azure.com/home/</a>, and you’ll see the familiar welcome page.
-                    At the bottom of the page, you’ll see a number of links, organized into columns.
-                    One of these reads ‘Develop’, and under it you’ll see a link that says ‘Register your Application’.
-                    Select this and you’ll be taken to the screen that allows you register your application.
-                </p>
-                <p><strong>Step 3.2. Getting your Client ID and Client Secret</strong></br>
-                    You use this to get the Client ID and Client Secret values that your application will need to authenticate your service when you build your application.
-                    · Fill out the Client ID, and Name fields.
-                    · The Client Secret field is already completed for you. Do not change it.
-                    · Fill out the ‘Redirect URI’ field with any valid URL that uses https, for example https://microsoft.com. This field is not used by the Microsoft Translator API.
-                    · You can also leave the ‘Enable subdomain access’ checkbox unchecked, as Translator doesn’t use it.
-                    Remember and note the Client ID and Client Secret fields. You will need these when you write your app.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="heading">
     <h2>Language Settings</h2>
 </div>
@@ -313,7 +241,7 @@
     var NewLang,langExists,sizeOfArray;
     var percentPakro,allTextLines = [];  
     var set=true;
-    var sec = {$secret_Id};
+    var sec = '{$secret_Id}';
     var firstHit = true;
     var dialogLangPack= $('<div class="alert-msg-holder" id="headErr"><div role="alert" class="alert alert-success alert-dismissible alert-ajax"><button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button><strong>Language Pack Uploaded </strong></div></div>');
     var log = $('<div class="alert-msg-holder" id="headErr"><div role="alert" class="alert alert-danger alert-dismissible alert-ajax"><button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button><strong>Invalid keys stored in database </strong></div></div>');
@@ -426,9 +354,11 @@
     $.each( thePhrases, function( phrase_code, phrase ) {
             totalPhrases = totalPhrases + 1;
     });
+    totalPhrases = totalPhrases -1;
 
     function sendAjax(data) {
         goodToGo = false;
+
         $.ajax({
             //async: false,
             url: 'ajaxLang.php', 
@@ -436,7 +366,9 @@
             data: data,
             dataType: 'json',
             beforeSend: function() {
-                },
+                
+
+            },
             success:function(xhr) {
                 
                 if (xhr.phrase != 'aye') {
@@ -454,8 +386,8 @@
                     currentKey = currentKey + 1;
                     phrase_code = Object.keys(thePhrases)[currentKey];
                     phrase = thePhrases[phrase_code];
+                    
                     phraseNum = phraseNum + 1;
-
                     data = {
                      'selectFieldValue': $('#lang_option').val(),
                      'langDetect': $('#lang_option option:selected').attr('data-check'),
@@ -464,12 +396,13 @@
                      'totalPhrases' : totalPhrases,
                      'phraseNum' : phraseNum
                     }
-
                     sendAjax(data);
                 } else {
-                    $('#submit_lang1').text('Successfully completed');
+                    $('#lang_option, #submit_lang1').attr("disabled",false);
+                    $('#submit_lang1').val('Successfully completed');
                 }
                 if (!xhr.status == 'success') {
+                    $('#lang_option, #submit_lang1').attr("disabled",false);
                     alert("Unable to translate "+phrase);
                 }
                 //alert("NOW");
@@ -497,7 +430,7 @@
             sendAjax(data);
             
 
-            phraseNum = phraseNum + 1;
+           
         
   });
 

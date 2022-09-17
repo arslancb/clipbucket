@@ -28,7 +28,7 @@ function install_custom_fields()
 `custom_field_anchor_after` TEXT NOT NULL ,
 `custom_field_hint_2` TEXT NOT NULL ,
 `date_added` DATETIME NOT NULL
-) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;");
+) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;");
 	
 	
 }

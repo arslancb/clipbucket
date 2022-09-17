@@ -123,7 +123,7 @@ TimeComments.prototype.AddComment = function(){
 		var message = document.createElement('p');
 		message.className = "message-show";
 		message.id = "message-show";
-		message.innerHTML = "Warning ! Fuck Off ";
+		message.innerHTML = "Warning ! ";
 		alertDismissable.appendChild(dismissBtn);
 		alertDismissable.appendChild(message);
 

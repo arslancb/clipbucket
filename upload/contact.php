@@ -30,7 +30,7 @@ if(isset($_POST['contact']))
 	elseif(empty($message))
 		e(lang("please_enter_something_for_message"));
 	elseif(!verify_captcha())
-		e(lang('usr_ccode_err'));
+		e(lang('recap_verify_failed'));
 	else
 	{
 		$tpl = $cbemail->get_template('contact_form');

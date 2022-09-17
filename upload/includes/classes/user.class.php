@@ -54,7 +54,7 @@ class userquery extends CBCategory{
     private $basic_fields = array();
     private $extra_fields = array();
 
-	function userquery()
+	function __construct()
 	{
         global $cb_columns;
        
@@ -87,8 +87,13 @@ class userquery extends CBCategory{
 
 		$udetails = "";
 		
-		if($this->userid)
+		if($this->userid){
 			$udetails = $this->get_user_details($this->userid,true);
+			$user_profile = $this->get_user_profile($this->userid);
+			if ($udetails && $user_profile){
+				$udetails['profile'] = $user_profile;
+			}
+		}
 
 
 
@@ -1387,7 +1392,7 @@ class userquery extends CBCategory{
 					e(lang('usr_exist_err'));
 				 //verifying captcha...
 				elseif(!verify_captcha())
-					e(lang('usr_ccode_err'));
+					e(lang('recap_verify_failed'));
 				else
 				{
 					//Sending confirmation email
@@ -1426,7 +1431,7 @@ class userquery extends CBCategory{
 					e(lang('usr_exist_err'));
 				 //verifying captcha...
 				elseif($udetails['avcode'] !=$code)
-					e(lang('usr_ccode_err'));
+					e(lang('recap_verify_failed'));
 				else
 				{
 					$newpass = RandomString(6);
@@ -1469,7 +1474,7 @@ class userquery extends CBCategory{
 		if(!$udetails)
 			e(lang('no_user_associated_with_email'));
 		elseif(!verify_captcha())
-			e(lang('usr_ccode_err'));
+			e(lang('recap_verify_failed'));
 		else
 		{
 			$tpl = $cbemail->get_template('forgot_username_request');
@@ -1604,9 +1609,19 @@ class userquery extends CBCategory{
 				'is_remote' => $remote,
 			);
 
+			//pr($Cbucket->custom_user_thumb,true);
 			if( count( $Cbucket->custom_user_thumb ) > 0 ) {
 				
 		        $functions = $Cbucket->custom_user_thumb;
+
+		        if (in_array("social_app_avatar", $functions)) {
+				    $params["thumb_name"] = $udetails["avatar"];
+				    if ( empty($params["thumb_name"]) ){
+				    	$params["thumb_name"] = "no_avatar.png";
+				    }else{
+				    	$params["thumb_path"] = $params["thumb_path"].$udetails['userid']."/"; 
+				    }
+				}
 		        foreach( $functions as $func ) {
 		            if( function_exists( $func ) ) {
 		                $func_data = $func( $params );
@@ -2770,18 +2785,30 @@ class userquery extends CBCategory{
 				$uquery_val[] = mysql_clean($file);
 			}
 		}
-		
-		$log_array = array
-			(
-			 'success'=>'yes',
-			 'details'=> "updated profile"
-			);
 
-			//Login Upload
-			insert_log('profile_update',$log_array);
-			
-		$db->update(tbl($this->dbtbl['users']),$uquery_field,$uquery_val," userid='".mysql_clean($array['userid'])."'");
-		e(lang("usr_avatar_bg_update"),'m');
+		foreach ($uquery_val as $key => $value) {
+		    $value = trim($value);
+		    if (empty($value)){
+		        $validate_empty_array=0;
+		    }else{
+		    	$validate_empty_array=1;
+		    	break;
+		    }
+		}
+		
+		if($validate_empty_array){
+			$log_array = array
+				(
+				 'success'=>'yes',
+				 'details'=> "updated profile"
+				);
+
+				//Login Upload
+				insert_log('profile_update',$log_array);
+				
+			$db->update(tbl($this->dbtbl['users']),$uquery_field,$uquery_val," userid='".mysql_clean($array['userid'])."'");
+			e(lang("usr_avatar_bg_update"),'m');
+		}
 
 	}
 
@@ -3385,16 +3412,22 @@ class userquery extends CBCategory{
 			 $dob =  $dob ? date(config("date_format"),strtotime($dob)) : date(config("date_format"),strtotime('14-10-1989'));
 			
 			$countries = $Cbucket->get_countries(iso2);
-			$user_ip = $_SERVER['REMOTE_ADDR']; // getting user's ip
-			$user_country = ip_info($user_ip, 'country'); // get country using IP
-			foreach ($countries as $code => $name) {
-				$name = strtolower($name);
-				$user_country = strtolower($user_country);
-				if ($name == $user_country) {
-					$selected_cont = $code;
+			
+			$pick_geo_country = config('pick_geo_country');
+			if($pick_geo_country=='yes'){
+				$user_ip = $_SERVER['REMOTE_ADDR']; // getting user's ip
+				$user_country = ip_info($user_ip, 'country'); // get country using IP
+				foreach ($countries as $code => $name) {
+					$name = strtolower($name);
+					$user_country = strtolower($user_country);
+					if ($name == $user_country) {
+						$selected_cont = $code;
+					}
 				}
+			}else{
+				$selected_cont = config('default_country_iso2'); 
 			}
-
+			
 			if (strlen($selected_cont) != 2) {
 				$selected_cont = "PK";
 			}
@@ -3587,11 +3620,11 @@ class userquery extends CBCategory{
 		if(get_captcha() && !$userquery->admin_login_check(true) && !$isSocial){
 			// now checking if the user posted captha value is not empty and cb_captcha_enabled == yes
 			if(!isset($array['cb_captcha_enabled']) || $array['cb_captcha_enabled'] == 'no'){
-				e(lang('usr_ccode_err'));
+				e(lang('recap_verify_failed'));
 				//echo "wrong captha input";
 			}
 			if(!verify_captcha()){
-				e(lang('usr_ccode_err'));
+				e(lang('recap_verify_failed'));
 			}
 		}
 		if(!error())
@@ -4035,7 +4068,7 @@ class userquery extends CBCategory{
 
             $fields = array(
                 'users' => get_user_fields(),
-                'profile' => array( 'rating', 'rated_by', 'voters', 'first_name', 'last_name', 'profile_title', 'profile_desc'),
+                'profile' => array( 'rating', 'rated_by', 'voters', 'first_name', 'last_name', 'profile_title', 'profile_desc','city','hometown'),
             );
             $fields['users'][] = 'last_active';
             $fields['users'][] = 'total_collections';

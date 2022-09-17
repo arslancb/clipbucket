@@ -4,7 +4,7 @@
  * @Author : Arslan Hassan
  */
 include('../includes/config.inc.php');
-
+exit(json_encode(array("Alert"=>"This is deprectaed ! ")));
 $request = $_REQUEST;
 
 $file_name = $request['file_name'];

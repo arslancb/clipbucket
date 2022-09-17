@@ -33,21 +33,44 @@ if(isset($_POST['update_avatar_bg']))
 	$array['userid'] = userid();
 	$userquery->update_user_avatar_bg($array);
 }
-
 if(isset($_FILES["coverPhoto"])){
-	$array = $_FILES;
-	$array['userid'] = userid();
-	$coverUpload = $userquery->updateCover($array);
-	$timeStamp = time();
-	$response = array(
-		"status" => $coverUpload["status"],
-		"msg" => $coverUpload["msg"],
-		"url" => $userquery->getCover(userid()) . "?{$timeStamp}",
-		);
-	echo json_encode($response);
-	die();
-}
+	if(isset($_FILES["coverPhoto"]) && get_mime_type($_FILES["coverPhoto"]['tmp_name']) == 'image'){
+		$array = $_FILES;
 
+		$extension = getExt( $_FILES['coverPhoto']['name']);
+	   	$types = strtolower(config('allowed_types'));
+	    $supported_extensions = explode(',', $types);
+
+	    if (!in_array($extension, $supported_extensions)) {
+	        $response = array(
+				"status" => false,
+				"msg" => "Invalid extension provided",
+				"url" => false,
+				);
+			echo json_encode($response);
+			die();
+	    }
+
+		$array['userid'] = userid();
+		$coverUpload = $userquery->updateCover($array);
+		$timeStamp = time();
+		$response = array(
+			"status" => $coverUpload["status"],
+			"msg" => $coverUpload["msg"],
+			"url" => $userquery->getCover(userid()) . "?{$timeStamp}",
+			);
+		echo json_encode($response);
+		die();
+	}else{
+		$response = array(
+			"status" => false,
+			"msg" => "Invalid Image provided",
+			"url" => false,
+			);
+		echo json_encode($response);
+		die();
+	}
+}
 if(isset($_FILES["avatar_file"]) && $_GET['ajax'] == true){
 	$array = $_FILES;
 	$array['userid'] = userid();

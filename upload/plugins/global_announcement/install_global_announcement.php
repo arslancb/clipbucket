@@ -9,7 +9,7 @@ function install_global_announcement()
 	$db->Execute(
 	'CREATE TABLE IF NOT EXISTS '.tbl("global_announcement").' (
 	  `announcement` text NOT NULL
-	) ENGINE=MyISAM DEFAULT CHARSET=utf8;;'
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;;'
 	);
 	
 	//inserting new announcment

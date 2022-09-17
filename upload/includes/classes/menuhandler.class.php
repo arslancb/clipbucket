@@ -15,7 +15,7 @@ class MenuHandler
 	var $displayTypes = array();
 	
 	
-	function MenuHandler()
+	function __construct()
 	{					
 		$this->setDisplayTypes();								
 	}

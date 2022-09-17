@@ -68,7 +68,7 @@
 {assign var='types' value=$userquery->get_level_types()}
 {section name=t loop=$types}
 {assign var=perms value=$userquery->get_permissions($types[t].user_permission_type_id)}
-{pr($perms,true)}
+<!-- {pr($perms,true)} -->
     {if $types[t].user_permission_type_name == 'Viewing Permission'}
     <h2>Viewing Permission</h2>
     <div class="row">

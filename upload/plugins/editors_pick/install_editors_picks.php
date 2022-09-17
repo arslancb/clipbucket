@@ -13,7 +13,7 @@ function install_editors_pick()
   `sort` bigint(5) NOT NULL DEFAULT '1',
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`pick_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
 	);
 	
 	//inserting new announcment

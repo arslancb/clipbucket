@@ -20,6 +20,7 @@
             </a>
           </li>
         </ul>
+        <br>
         <form method="post" class="accountForm">
           <div class="tab-content clearfix">
             <div id="cpsetting" class="tab-pane {if $mode=='profile_settings'}active{/if}">
@@ -27,7 +28,7 @@
               <div class="channelSettings col-md-10">
                 {$channel_profile_fields = $userquery->load_user_fields($p)}
                 {foreach from=$channel_profile_fields item=field_group}
-                <p>{$field_group.group_name}</p>
+                <h2>{$field_group.group_name}</h2>
                 {foreach from=$field_group.fields item=field}
                 <div class="form-group">
                   {if $field.type == 'radiobutton'}
@@ -221,6 +222,7 @@
         </a>
       </li>
     </ul>
+    <br>
     <div class="tab-content clearfix">
       <div id="busers" class="tab-pane {if $mode =='block_users'}active {/if}">
 

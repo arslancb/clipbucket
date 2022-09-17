@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS `cb_counters` (
   `date_added` varchar(200) NOT NULL,
   PRIMARY KEY (`counter_id`),
   UNIQUE KEY `query_md5` (`query_md5`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

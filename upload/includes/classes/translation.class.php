@@ -1,34 +1,19 @@
 <?php
 
 global $lang_obj;
-$cl = $Cbucket->configs['clientid'];
-$sc = $Cbucket->configs['secretId'];
-define('BING_CLIENT_ID',$cl);
-define('BING_CLIENT_SEC', $sc);
+require_once 'GTvendor/autoload.php';
+use Stichoza\GoogleTranslate\TranslateClient;
+$transClient = new TranslateClient(); // Default is from 'auto' to 'en'
 
-class MrsTranslator
+class GoogleTranslator
 {
     /**
      * Get access token
      *
      * @return string 
      */
-    public function get_access_token() {	
-     
-        # Get a 10-minute access token for Microsoft Translator API.
-        $url = 'https://datamarket.accesscontrol.windows.net/v2/OAuth2-13';
-        $postParams = 'grant_type=client_credentials&client_id='.urlencode(BING_CLIENT_ID).
-        '&client_secret='.urlencode(BING_CLIENT_SEC).'&scope=http://api.microsofttranslator.com';
-        
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url); 
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postParams);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);  
-        $rsp = curl_exec($ch); 
-        $rsp = json_decode($rsp);
-        $access_token = $rsp->access_token;
-        
-        return $access_token;
+    public function get_access_token() {    
+        return false;
     }
     /**
      * Translate text to a specified language
@@ -38,25 +23,17 @@ class MrsTranslator
      * @param string $from  language of text   
      * @return string       Translated text
      */
-    public function translate($text, $to, $from = null) {
-        $access_token = $this->get_access_token();
-
-        if (is_null($from)) {
-            $from = $this->detectLang($text);
-        }
-
-        $url = 'http://api.microsofttranslator.com/V2/Http.svc/Translate?text='.urlencode($text).'&from='.$from.'&to='.$to;
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url); 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization:bearer '.$access_token));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);  
-        $rsp = curl_exec($ch); 
-        
-        preg_match_all('/<string (.*?)>(.*?)<\/string>/s', $rsp, $matches);
-	
-        return $matches[2][0];
-        //unset($_COOKIE['bing_access_token']);
+    public function translate($text, $to, $from = 'en') {
+        global $transClient;
+        $transClient->setSource($from); // Translate from English
+        $transClient->setTarget($to); // Translate to Georgian
+        $transClient->setUrlBase('http://translate.google.cn/translate_a/single'); // Set Google Translate URL base (This is not necessary, only for some countries)
+        // checkmate
+        $text=str_replace("%s","_c_b_",$text);
+        $phraseTranslated = $transClient->translate($text);
+        $phraseTranslated=str_replace("_c_b_","%s",$phraseTranslated);
+        // checkmate
+        return $phraseTranslated;
     }
             
     /**
@@ -68,25 +45,7 @@ class MrsTranslator
      * @return array        Translations of the text to given languages
      */
     public function multiTranslate($text, $from, $tos) {        
-        $access_token = $this->get_access_token();
-        $result = array();        
-        $result[$from] = $text;
-        
-        foreach($tos as $to) {
-            $url = 'http://api.microsofttranslator.com/V2/Http.svc/Translate?text='.urlencode($text).'&from='.$from.'&to='.$to;
-            
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url); 
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization:bearer '.$access_token));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);  
-            $rsp = curl_exec($ch); 
-            
-            preg_match_all('/<string (.*?)>(.*?)<\/string>/s', $rsp, $matches);
-
-            $result[$to] = $matches[2][0];
-        }
-        
-        return $result;
+       return false;
     }
 
     /**
@@ -96,18 +55,7 @@ class MrsTranslator
      * @return String           Language of text
      */
     public function detectLang($text) {
-        $access_token = $this->get_access_token();
-
-        $url = "http://api.microsofttranslator.com/V2/Http.svc/Detect?text=".urlencode($text);
-
-         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url); 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization:bearer '.$access_token));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);  
-        $rsp = curl_exec($ch); 
-        
-        preg_match_all('/<string (.*?)>(.*?)<\/string>/s', $rsp, $matches);
-        return $matches[2][0];
+        return false;
     }
 }
 

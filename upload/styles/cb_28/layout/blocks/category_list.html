@@ -68,7 +68,7 @@
 																{foreach from=$sub3.children item=sub4}
 																	<li>
 																		<div>
-																			<a class="">{$sub4.category_name}</a>
+																			<a href="{cblink(['name'=>'category','data'=>$sub4,'type'=>$type])}">{$sub4.category_name}</a>
 																			{if $sub4.children}<i class="icon-right-arrow trigger" data-level="5" ></i>{/if}
 																		</div>
 																	</li>

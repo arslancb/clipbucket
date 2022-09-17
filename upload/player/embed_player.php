@@ -15,11 +15,11 @@
  define("THIS_PAGE","watch_video");
 
 include("../includes/config.inc.php"); 
- 
-$vid = $_GET['vid'];
-//gettin video details
-$vdetails = get_video_details($vid);
-increment_views_new($vid, 'video');
+
+$vkey = $_GET['vid'];
+//gettin video details by key
+$vdetails = $cbvid->get_video($vkey);
+increment_views_new($vkey, 'video');
 $width = @$_GET['width'];
 $height = @$_GET['height'];
 $autoplay = @$_GET['autoplay'];

@@ -167,7 +167,7 @@ class curl
 	 
 	var $file_size;
 
-	function curl($theURL=null)
+	function __construct($theURL=null)
 	  {
 		if (!function_exists('curl_init'))
 		  {

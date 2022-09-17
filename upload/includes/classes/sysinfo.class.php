@@ -85,8 +85,8 @@ function sys_net_devices ()    {
 
     // gather net device information
     for ($i = 0, $index = 0; $proc_net_dev[$i] != NULL; $i++)   {
-        if (ereg(":", $proc_net_dev[$i]))   {
-            $clean = ereg_replace (' +', ' ', $proc_net_dev[$i]);   // compact whitespace
+        if (preg_match(":", $proc_net_dev[$i]))   {
+            $clean = preg_replace (' +', ' ', $proc_net_dev[$i]);   // compact whitespace
             $device[$index] = explode (" ", $clean);
             $index++;
         }
@@ -140,12 +140,12 @@ function sys_memory () {
 
     // gather system memory information
     for ($i = 0; $proc_meminfo[$i] != NULL; $i++)   {
-        if (ereg("Mem:", $proc_meminfo[$i]))    {
-            $clean = ereg_replace (' +', ' ', $proc_meminfo[$i]);   // compact whitespace
+        if (preg_match("Mem:", $proc_meminfo[$i]))    {
+            $clean = preg_replace (' +', ' ', $proc_meminfo[$i]);   // compact whitespace
             $mem   = explode (" ", $clean);
         }
-        if (ereg("Swap:", $proc_meminfo[$i]))   {
-            $clean = ereg_replace (' +', ' ', $proc_meminfo[$i]);   // compact whitespace
+        if (preg_match("Swap:", $proc_meminfo[$i]))   {
+            $clean = preg_replace (' +', ' ', $proc_meminfo[$i]);   // compact whitespace
             $swap  = explode (" ", $clean);
         }
     }
@@ -203,7 +203,7 @@ function sys_login_stats ()  {
     $login_count = `last | grep / | cut -d' ' -f1 | sort | uniq -c`;
 
     // compact whitespace, remove leading/trailing whitespace
-    $login_count = trim(ereg_replace("[[:space:]]+", ' ', $login_count));
+    $login_count = trim(preg_replace("[[:space:]]+", ' ', $login_count));
 
     // convert to array, format:
     // odds = login name, evens = login count (2, pedram, 5, shawn, ...)
@@ -216,7 +216,7 @@ function sys_login_stats ()  {
         // strip out the login duration (not including those currently logged in)
         // XXX - add support for users still logged in.
         $login_time = `last | grep -e ^{$login_count[$i+1]} | grep -v still | cut -d'(' -f2`;
-        $login_time = ereg_replace("[[:space:]]+", "", str_replace("\n", "", $login_time));
+        $login_time = preg_replace("[[:space:]]+", "", str_replace("\n", "", $login_time));
         $login_time = explode(")", $login_time);
 
         // determine the login durations

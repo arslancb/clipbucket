@@ -14,6 +14,7 @@ include('common.php');
 
 include('plugins.php');		
 
+
 define('TEMPLATEDIR',BASEDIR.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template);
 define('TEMPLATEURL',BASEURL.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template);
 define('LAYOUT',TEMPLATEDIR.'/layout');
@@ -29,7 +30,7 @@ Assign('template_dir',TEMPLATEDIR);
 Assign('style_dir',LAYOUT);
 Assign('covers_dir', COVERS_DIR);
 
-assign('admin_baseurl',BASEURL.'/'.ADMINDIR);
+assign('admin_baseurl',BASEURL.'/'.ADMINDIR.'/');
 
 //Assigning JS Files
 Assign('jsArray',$Cbucket->JSArray);
@@ -59,4 +60,11 @@ isSectionEnabled(PARENT_PAGE,true);
 assign('total_quicklist',$cbvid->total_quicklist());
 
 cb_call_functions( 'clipbucket_init_completed' );
+
+if (!$in_bg_cron && !in_array(THIS_PAGE, $ClipBucket->public_pages)){
+	if($Cbucket->configs['access_to_logged_in']=='yes'){
+		$userquery->logincheck();
+	}
+}
+
 ?>

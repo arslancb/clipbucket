@@ -2246,6 +2246,96 @@
 				return false;
 			}
 		}
+
+		this.unsubscribeToChannel = function(user,type){
+		   	curObj = this;
+		   	var elems = document.getElementsByClassName("unsubs_"+user);
+			if(elems.length>0){
+				Array.prototype.forEach.call(elems, function(el) {
+					el.disabled = true;
+				});
+			}
+	       	$.post(page, {mode : type,subscribe_to : user},function(data){
+	           if(!data){
+	               alert("No data");
+	           }
+	           else{
+	           		curObj.showMeTheMsg(data);
+					// for view channels
+	           		var els = document.getElementsByClassName("unsubs_"+user);
+					if(els.length>0){
+						Array.prototype.forEach.call(els, function(el) {
+						    el.innerHTML="Subscribe";
+						    el.setAttribute("onclick","_cb.subscribeToChannelNew("+user+",'subscribe_user');");
+							el.id = "subs_"+user;
+							el.disabled = false;
+							curObj.updateSubscribersCount(user);
+						});
+					}
+	           }
+	       	},'text');
+	   	};
+
+	   	this.subscribeToChannelNew = function(user,type){
+			var curObj = this;
+			
+			var elems = document.getElementsByClassName("subs_"+user);
+			if(elems.length>0){
+				Array.prototype.forEach.call(elems, function(el) {
+					el.disabled = true;
+				});
+			}
+			$.post(page, { mode : type,subscribe_to : user },function(data){
+	           	if(!data){
+	               alert("No data");
+	           	}
+	           	else{
+	           	   data = JSON.parse(data);
+	           	   if(data.typ == 'err')
+	               	curObj.showMeTheMsg('<div class="error">'+data.msg+'</div>');
+	               else
+	               	curObj.showMeTheMsg('<div class="msg">'+data.msg+'</div>');
+	               	
+	               	if(data.severity<2){
+		                // for channels page
+		                var els = document.getElementsByClassName("subs_"+user);
+						if(els.length>0){
+							Array.prototype.forEach.call(els, function(el) {
+								el.innerHTML="Unsubscribe";
+							    el.setAttribute("onclick","_cb.unsubscribeToChannel("+user+",'unsubscribe_user');");
+								el.id = "unsubs_"+user;
+								el.disabled = false;
+								curObj.updateSubscribersCount(user);
+							});
+						}
+					}else{
+						var els = document.getElementsByClassName("subs_"+user);
+						Array.prototype.forEach.call(els, function(el) {
+							el.disabled = false;
+						});
+					}
+	           	}
+	       	},'text');
+	   	};
+
+	   	this.updateSubscribersCount = function(userid){
+			var curObj = this;
+			$.post(page, 
+			{ 	
+				mode : 'get_subscribers_count',
+				userid : userid
+			},
+			function(data)
+			{
+				if(!data)
+					alert("No data");
+				else
+				{
+					subsObj = JSON.parse(data);
+					$("#user_subscribers_"+userid).html(subsObj.subscriber_count);
+				}
+			},'text');
+		};
 	};
 
 	window._cb = new _cb();

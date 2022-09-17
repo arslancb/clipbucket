@@ -6,7 +6,7 @@ CREATE TABLE `user_levels` (
   `user_level_name` varchar(100) CHARACTER SET latin1 NOT NULL,
   `user_level_is_default` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`user_level_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `user_levels`
@@ -50,7 +50,7 @@ CREATE TABLE `user_levels_permissions` (
   `edit_video` enum('yes','no') NOT NULL DEFAULT 'yes',
   `admin_del_access` enum('yes','no') NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`user_level_permission_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `user_levels_permissions`
@@ -79,7 +79,7 @@ CREATE TABLE `user_permissions` (
   `permission_default` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`permission_id`),
   UNIQUE KEY `permission_code` (`permission_code`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
 
 --
 -- Dumping data for table `user_permissions`

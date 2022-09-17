@@ -27,7 +27,7 @@ class CBTemplate {
         $Smarty->compile_check = true;
         $Smarty->debugging = false;
         $Smarty->template_dir = BASEDIR."/styles";
-        $Smarty->compile_dir  = BASEDIR."/cache";
+        $Smarty->compile_dir  = BASEDIR."/cache/views";
 
     }
 

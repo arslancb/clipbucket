@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}admin_todo` (
   `date_added` datetime NOT NULL,
   `userid` int(225) NOT NULL,
   PRIMARY KEY (`todo_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;

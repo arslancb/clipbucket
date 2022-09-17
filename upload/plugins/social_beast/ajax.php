@@ -13,6 +13,8 @@
 
 			if (!empty($link)) {
 				$vals[] = $link;
+			}else{
+				$vals[] = "";
 			}
 		}
 

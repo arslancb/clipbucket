@@ -1,0 +1,26 @@
+<div class="heading">
+	<h2>reCaptcha V2 configurations</h2>
+</div>
+<div class="row" style="margin-left:20px;">
+	<p class="grey-text font-size" style="margin-top:0px;">Google's recaptcha v2 won't work unless you provide these configurations to get your website's configurations<a href='https://www.google.com/recaptcha/admin' target="blank"> Click here</a>.</p>
+	<form id="special-thumb" class="clearfix" method="post" enctype="multipart/form-data">
+		<div class="row">
+			<div class="col-md-4">  
+              <label for="recaptcha_v2_site_key">Site key *</label>
+              <input name="recaptcha_v2_site_key" type="text" id="recaptcha_v2_site_key" value="{$rec_config.recaptcha_v2_site_key}" class="form-control"/>
+              <p class="grey-text font-size" style="margin-top:0px;">Enter your google's recaptcha v2 site key</p>
+            </div>
+            <div class="col-md-4">  
+              <label for="recaptcha_v2_secret_key">Secret key *</label>
+              <input name="recaptcha_v2_secret_key" type="text" id="recaptcha_v2_secret_key" value="{$rec_config.recaptcha_v2_secret_key}" class="form-control"/>
+              <p class="grey-text font-size" style="margin-top:0px;">Enter your google's recaptcha v2 secret key</p>
+            </div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-4 col-lg-4 form-group">
+				<input type="submit" name="recaptcha_v2_update" class="form-control btn btn-primary btn-block" value="Update configurations"  />
+			</div>
+		</div>
+	</form>
+</div>

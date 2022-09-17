@@ -51,7 +51,7 @@ class CBPlugin extends ClipBucket
 {
 	//var $admin_plug_menu = CBucket::AdminMenu;
 	
-	function CBPlugin()
+	function __construct()
 	{
 		
 	}

@@ -231,6 +231,13 @@
 					{/foreach}
           </select>
         </div>
+        <div class="col-md-4">
+          <label for="pick_geo_country">Pick signup country geologically(if yes default country won't work)</label>
+          <select name="pick_geo_country" id="pick_geo_country" class="form-control">
+            <option value="yes" {if $row.pick_geo_country!='no'} selected="selected"{/if}>Yes</option>
+            <option value="no" {if $row.pick_geo_country=='no'} selected="selected"{/if}>No</option>
+          </select>
+        </div>
 
         </div>
       <hr>
@@ -624,7 +631,7 @@
     </div>
 
 
-    <div class="col-md-4">
+   <!--  <div class="col-md-4">
       <h5>Use Crons</h5>
       <label class="radio-inline">
         <input type="radio" name="use_crons" value="yes" id="use_crons_0" {if $row.use_crons =='yes'} checked="checked"{/if} />Yes
@@ -633,7 +640,7 @@
       <label class="radio-inline">
         <input type="radio" name="use_crons" value="no" id="use_crons_1" {if $row.use_crons =='no'} checked="checked"{/if} />No    
       </label>
-    </div>
+    </div> -->
 
     <div class="col-md-4">
       <label for="ffmpegpath">FFMPEG Path</label>
@@ -760,14 +767,14 @@
   </div>
   <div class="row"> 
 
-    <div class="col-md-4">
+    <!-- <div class="col-md-4">
       <h5>Quick Conversion</h5>
       <label class="checkbox" for="quick_conv">
         <input type="checkbox" name="quick_conv" id="quick_conv" value="yes" {if $row.quick_conv=='yes'} checked="checked"{/if}/>
         Turn on Quick Conversion
         <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" alt="info" border="0" class="tipsy_tip" title="If you check this option, videos will be converted as soon as uploading is complete, make sure your php path is correct before enabling this option otherwise may cause your website inaccessible" /></a>
       </label>
-    </div>
+    </div> -->
 
 <!--
     <div class="col-md-4">
@@ -1365,7 +1372,7 @@
       </label>
     </div>
 
-    <div class="col-md-4">
+ <!--    <div class="col-md-4">
       <label for="varification_captcha">Image verification (captcha)</label>
       <select class="form-control" name="captcha_type">
         <option value="0" {if $row.captcha_type == 0}
@@ -1378,7 +1385,7 @@
         selected="selected"
         {/if}>Secured</option>
       </select>
-    </div>
+    </div> -->
           </div>
       <div class="row">
 
@@ -1481,9 +1488,10 @@
     </div>
 
     <div class="col-md-4">
-      <label for="max_profile_pic_width">Max profile pic dimension</label>
-      <input class="form-control" name="max_profile_pic_width" type="text" id="max_profile_pic_width" value="{$row.max_profile_pic_width}" size="6" maxlength="10" />
-    <br>
+        <label for="max_profile_pic_width">Max profile pic dimension</label>
+        <input class="form-control" name="max_profile_pic_width" type="text" id="max_profile_pic_width" value="{$row.max_profile_pic_width}" size="6" maxlength="10" />
+        Pixels
+        <br>
         <label for="max_bg_width">Max Background Dimension</label>
         <input class="form-control" name="max_bg_width" type="text" id="max_bg_width" value="{$row.max_bg_width}" size="6" maxlength="10" />
         Pixels

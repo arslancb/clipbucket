@@ -1071,6 +1071,7 @@ class Upload{
 		global $db,$userquery,$cbphoto,$imgObj;
 		$avatar_dir = BASEDIR.'/images/avatars/';
 		$bg_dir		= BASEDIR.'/images/backgrounds/';
+		$av_details = getimagesize($file['tmp_name']);
 		
 		if($userquery->user_exists($uid))
 		{
@@ -1080,9 +1081,15 @@ class Upload{
 				case 'avatar':
 				{
 					
-					if($file['size']/1024 > config('max_profile_pic_size'))
+					if($file['size']/1024 > config('max_profile_pic_size')){
+
 						e(sprintf(lang('file_size_exceeds'),config('max_profile_pic_size')));
-					elseif(file_exists($file['tmp_name']))
+					
+					}elseif($av_details[0] > config('max_profile_pic_width')){
+
+						e(lang('File width exeeds')." ".config('max_profile_pic_width').'px');
+					
+					}elseif(file_exists($file['tmp_name']))
 					{
 						$ext = getext($file['name']);
 						$file_name = $uid.'.'.$ext;

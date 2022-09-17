@@ -12,6 +12,6 @@ CREATE TABLE `{tbl_prefix}sessions` (
   `agent` text NOT NULL,
   `last_active` datetime NOT NULL,
   PRIMARY KEY (`session_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `{tbl_prefix}users` ADD `album_privacy` ENUM( 'public', 'private', 'friends' ) NOT NULL DEFAULT 'private' ;

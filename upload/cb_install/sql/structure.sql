@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}action_log` (
   `action_obj_id` int(255) NOT NULL,
   `action_done_id` int(255) NOT NULL,
   PRIMARY KEY (`action_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2687 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2687 ;
 
 -- --------------------------------------------------------
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}admin_notes` (
   `date_added` datetime NOT NULL,
   `userid` int(225) NOT NULL,
   PRIMARY KEY (`note_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=84 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=84 ;
 
 -- --------------------------------------------------------
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}ads_data` (
   `last_viewed` datetime NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`ad_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}ads_placements` (
   `placement_name` varchar(50) NOT NULL,
   `disable` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`placement_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 -- --------------------------------------------------------
 
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}collections` (
   `public_upload` varchar(4) NOT NULL,
   `type` varchar(10) NOT NULL,
   PRIMARY KEY (`collection_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}collection_categories` (
   `category_thumb` mediumint(9) NOT NULL,
   `isdefault` enum('yes','no') NOT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}collection_items` (
   `type` varchar(10) NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`ci_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
 
 -- --------------------------------------------------------
 
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}comments` (
   `date_added` datetime NOT NULL,
   `comment_ip` text NOT NULL,
   PRIMARY KEY (`comment_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=535 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=535 ;
 
 -- --------------------------------------------------------
 
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}config` (
   `name` varchar(100) NOT NULL DEFAULT '',
   `value` mediumtext NOT NULL,
   PRIMARY KEY (`configid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=225 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=225 ;
 
 -- --------------------------------------------------------
 
@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}contacts` (
   `request_type` enum('in','out') NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`contact_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 -- --------------------------------------------------------
 
@@ -204,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}conversion_queue` (
   `time_started` varchar(32) NOT NULL DEFAULT 0,
   `time_completed` varchar(32) NOT NULL DEFAULT 0,
   PRIMARY KEY (`cqueue_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=262 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=262 ;
 
 -- --------------------------------------------------------
 
@@ -219,8 +219,9 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}countries` (
   `name_en` varchar(80) CHARACTER SET utf8 NOT NULL,
   `iso3` char(3) CHARACTER SET utf8 DEFAULT NULL,
   `numcode` smallint(6) DEFAULT NULL,
+  `is_blocked` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`country_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=240 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=240 ;
 
 -- --------------------------------------------------------
 
@@ -234,7 +235,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}editors_picks` (
   `sort` bigint(5) NOT NULL DEFAULT '1',
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`pick_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 -- --------------------------------------------------------
 
@@ -251,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}email_templates` (
   `email_template_allowed_tags` mediumtext CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`email_template_id`),
   UNIQUE KEY `email_template_code` (`email_template_code`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 -- --------------------------------------------------------
 
@@ -266,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}favorites` (
   `userid` int(225) NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`favorite_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
 
 -- --------------------------------------------------------
 
@@ -282,7 +283,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}flags` (
   `flag_type` bigint(25) NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`flag_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -309,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}groups` (
   `total_members` int(225) NOT NULL,
   `total_topics` int(225) NOT NULL,
   PRIMARY KEY (`group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -326,7 +327,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}group_categories` (
   `category_thumb` mediumtext NOT NULL,
   `isdefault` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -341,7 +342,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}group_invitations` (
   `invited` int(225) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`invitation_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -356,7 +357,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}group_members` (
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `active` enum('yes','no') NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`group_mid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 -- --------------------------------------------------------
 
@@ -371,7 +372,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}group_posts` (
   `post_content` text NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`post_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -393,7 +394,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}group_topics` (
   `topic_icon` varchar(225) NOT NULL,
   `approved` enum('yes','no') NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`topic_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 
@@ -409,7 +410,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}group_videos` (
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `approved` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`group_video_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 -- --------------------------------------------------------
 
@@ -425,7 +426,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}languages` (
   `language_active` enum('yes','no') NOT NULL DEFAULT 'yes',
   `language_default` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -446,7 +447,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}messages` (
   `reply_to` int(225) NOT NULL DEFAULT '0',
   `message_box` enum('in','out') NOT NULL DEFAULT 'in',
   PRIMARY KEY (`message_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=53 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=53 ;
 
 -- --------------------------------------------------------
 
@@ -461,7 +462,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}modules` (
   `active` varchar(5) NOT NULL,
   `module_include_file` text NOT NULL,
   PRIMARY KEY (`module_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -479,7 +480,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}pages` (
   `delete_able` enum('yes','no') NOT NULL DEFAULT 'yes',
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`page_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 -- --------------------------------------------------------
 
@@ -519,7 +520,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}photos` (
   `server_url` text NOT NULL,
   `owner_ip` varchar(20) NOT NULL,
   PRIMARY KEY (`photo_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 -- --------------------------------------------------------
 
@@ -533,7 +534,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}phrases` (
   `varname` varchar(250) NOT NULL DEFAULT '',
   `text` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9392 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9392 ;
 
 -- --------------------------------------------------------
 
@@ -548,7 +549,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}playlists` (
   `playlist_type` varchar(10) CHARACTER SET utf8 NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`playlist_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -564,7 +565,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}playlist_items` (
   `userid` int(255) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`playlist_item_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
 
 -- --------------------------------------------------------
 
@@ -582,7 +583,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}plugins` (
   `plugin_license_code` text NOT NULL,
   `plugin_active` enum('yes','no') NOT NULL,
   PRIMARY KEY (`plugin_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=78 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=78 ;
 
 -- --------------------------------------------------------
 
@@ -599,14 +600,14 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}plugin_config` (
   `player_admin_file` text CHARACTER SET utf8 NOT NULL,
   `player_include_file` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`plugin_config_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `sessions`
 --
-CREATE TABLE `{tbl_prefix}sessions` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}sessions` (
   `session_id` int(11) NOT NULL AUTO_INCREMENT,
   `session` varchar(100) NOT NULL,
   `session_user` int(11) NOT NULL,
@@ -619,7 +620,7 @@ CREATE TABLE `{tbl_prefix}sessions` (
   `agent` text NOT NULL,
   `last_active` datetime NOT NULL,
   PRIMARY KEY (`session_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -634,7 +635,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}stats` (
   `user_stats` text NOT NULL,
   `group_stats` text NOT NULL,
   PRIMARY KEY (`stat_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -648,7 +649,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}subscriptions` (
   `subscribed_to` mediumtext NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`subscription_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
 
 -- --------------------------------------------------------
 
@@ -661,7 +662,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}template` (
   `template_name` varchar(25) NOT NULL,
   `template_dir` varchar(30) NOT NULL,
   PRIMARY KEY (`template_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -722,7 +723,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}users` (
   KEY `ind_status_doj` (`doj`),
   KEY `ind_status_id` (`userid`),
   KEY `ind_hits_doj` (`profile_hits`,`doj`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
 ALTER TABLE `{tbl_prefix}users` ADD `album_privacy` ENUM( 'public', 'private', 'friends' ) NOT NULL DEFAULT 'private' ;
 -- --------------------------------------------------------
 
@@ -739,7 +740,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_categories` (
   `category_thumb` mediumtext NOT NULL,
   `isdefault` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -753,7 +754,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_levels` (
   `user_level_name` varchar(100) CHARACTER SET utf8 NOT NULL,
   `user_level_is_default` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`user_level_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 -- --------------------------------------------------------
 
@@ -786,7 +787,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_levels_permissions` (
   `download_video` enum('yes','no') NOT NULL DEFAULT 'yes',
   `admin_del_access` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`user_level_permission_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 -- --------------------------------------------------------
 
@@ -803,7 +804,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_permissions` (
   `permission_default` enum('yes','no') CHARACTER SET utf8 NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`permission_id`),
   UNIQUE KEY `permission_code` (`permission_code`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
 -- --------------------------------------------------------
 
@@ -816,7 +817,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_permission_types` (
   `user_permission_type_name` varchar(225) CHARACTER SET utf8 NOT NULL,
   `user_permission_type_desc` mediumtext CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`user_permission_type_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -871,9 +872,8 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_profile` (
   `show_my_subscribers` enum('yes','no') NOT NULL DEFAULT 'yes',
   `show_my_friends` enum('yes','no') NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`user_profile_id`),
-  KEY `ind_status_id` (`userid`),
-  FULLTEXT KEY `profile_tags` (`profile_tags`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  KEY `ind_status_id` (`userid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -887,7 +887,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}validation_re` (
   `re_code` varchar(60) NOT NULL,
   `re_syntax` text NOT NULL,
   PRIMARY KEY (`re_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -955,9 +955,8 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video` (
   `has_hd` enum('yes','no') NOT NULL DEFAULT 'no',
   `video_version` varchar(30) NOT NULL DEFAULT '2.6',
   `extras` varchar(225) NOT NULL,
-  PRIMARY KEY (`videoid`),
-  FULLTEXT KEY `description` (`description`,`title`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=960 ;
+  PRIMARY KEY (`videoid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=960 ;
 
 -- --------------------------------------------------------
 
@@ -975,7 +974,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_categories` (
   `category_thumb` mediumtext NOT NULL,
   `isdefault` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 -- --------------------------------------------------------
 
@@ -989,7 +988,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_favourites` (
   `userid` int(11) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`fav_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1039,9 +1038,8 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_files` (
   `output_audio_channels` char(16) CHARACTER SET utf8 NOT NULL,
   `hd` enum('yes','no') CHARACTER SET utf8 NOT NULL DEFAULT 'no',
   `hq` enum('yes','no') CHARACTER SET utf8 NOT NULL DEFAULT 'no',
-  PRIMARY KEY (`id`),
-  FULLTEXT KEY `src_bitrate` (`src_bitrate`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 -- Alterations
@@ -1050,8 +1048,8 @@ ALTER TABLE `{tbl_prefix}video` ADD `video_password` VARCHAR( 255 ) NOT NULL AFT
 ALTER TABLE `{tbl_prefix}video` ADD `video_users` TEXT NOT NULL AFTER `video_password`;
 ALTER TABLE `{tbl_prefix}video` ADD `category_parents` TEXT NOT NULL AFTER `category` ;
 
-ALTER TABLE `{tbl_prefix}_video` ADD `subscription_email` ENUM( "pending", "sent" ) NOT NULL DEFAULT 'pending' AFTER `last_commented` ;
-ALTER TABLE `{tbl_prefix}_groups` ADD `group_admins` TEXT NOT NULL AFTER `userid` ;
+ALTER TABLE `{tbl_prefix}video` ADD `subscription_email` ENUM( "pending", "sent" ) NOT NULL DEFAULT 'pending' AFTER `last_commented` ;
+
 
 -- Alterations for 2.4.5
 
@@ -1075,14 +1073,14 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}counters` (
   `date_added` varchar(200) NOT NULL,
   PRIMARY KEY (`counter_id`),
   UNIQUE KEY `query_md5` (`query_md5`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
 ALTER TABLE `{tbl_prefix}user_levels_permissions` ADD `photos_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no',
 ADD `collection_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `photos_moderation` ,
 ADD `plugins_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `collection_moderation` ,
 ADD `tool_box` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `plugins_moderation` ,
-ADD `plugins_perms` varchar(20) NOT NULL DEFAULT 'none'  AFTER `tool_box` ;
+ADD `plugins_perms` text NOT NULL AFTER `tool_box` ;
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}mass_emails` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
@@ -1099,12 +1097,12 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}mass_emails` (
   `date_added` datetime NOT NULL,
   `last_update` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
 -- naveed
 -- added photo_details
-ALTER TABLE `photos` ADD `{tbl_prefix}photo_details` TEXT NOT NULL AFTER `photo_id`;
+ALTER TABLE `{tbl_prefix}photos` ADD `{tbl_prefix}photo_details` TEXT NOT NULL AFTER `photo_id`;
 
 -- 2.7
 -- Added Collection contributors
@@ -1137,16 +1135,6 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_views` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- Adding File Directory for Photos and videos
-ALTER TABLE  `{tbl_prefix}photos` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `filename`;
-ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `file_name`;
-
-
---
--- cb_video video table change
---
-ALTER TABLE  `{tbl_prefix}video` ADD  `video_version` varchar(30)  NOT NULL DEFAULT  "2.6";
-ALTER TABLE  `{tbl_prefix}video` ADD  `extras` varchar(225)  NOT NULL;
 
 
 -- Updating playlist tables
@@ -1168,6 +1156,8 @@ ALTER TABLE  `{tbl_prefix}playlists` ADD  `first_item` text CHARACTER SET utf8 N
 ALTER TABLE  `{tbl_prefix}playlists` ADD  `cover` text CHARACTER SET utf8 NOT NULL AFTER  `first_item`;
 
 ALTER TABLE `{tbl_prefix}users` ADD `likes` INT( 11 ) NOT NULL DEFAULT '0';
+-- Alterations for 4.0
+ALTER TABLE `{tbl_prefix}users` ADD `is_live` enum('yes','no') NOT NULL DEFAULT 'no' AFTER `likes`;
 ALTER TABLE `{tbl_prefix}users` CHANGE `voted` `voted` INT( 11 ) NOT NULL DEFAULT '0';
 
 ALTER TABLE `{tbl_prefix}photos` ADD `photo_details` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
@@ -1185,7 +1175,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}admin_todo` (
   `date_added` datetime NOT NULL,
   `userid` int(225) NOT NULL,
   PRIMARY KEY (`todo_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 ALTER TABLE `{tbl_prefix}action_log` DROP `action_link`; 
 ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 10 ) NOT NULL AFTER  `file_server_path`;
@@ -1198,7 +1188,6 @@ INSERT INTO `{tbl_prefix}config` (`name`, `value`) VALUES ('clientid', 'your_cli
 INSERT INTO `{tbl_prefix}config` (`name`, `value`) VALUES ('secretId', 'your_client_secret_here');
 UPDATE `{tbl_prefix}config` SET value = 'cb_28' WHERE name = 'template_dir';
 
-ALTER TABLE `{tbl_prefix}collection_categories` ADD `parent_id` int DEFAULT 1;
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'youtube_api_key', 'key_here');
 /*Indexing of following tables*/
 /*Author: Sikander Ali  */
@@ -1226,10 +1215,16 @@ ALTER TABLE `{tbl_prefix}video` ADD INDEX(`last_viewed`);
 ALTER TABLE `{tbl_prefix}video` ADD INDEX(`rating`);
 ALTER TABLE `{tbl_prefix}video` ADD INDEX(`comments_count`);
 ALTER TABLE `{tbl_prefix}video` ADD INDEX(`last_viewed`);
-ALTER TABLE `{tbl_prefix}video` ADD `video_files` text(33) NOT NULL;
 ALTER TABLE `{tbl_prefix}video` ADD `re_conv_status` text(33) NOT NULL;
 ALTER TABLE `{tbl_prefix}video` ADD `conv_progress` TEXT NOT NULL;
-
+-- Alterations for 4.0
+ALTER TABLE `{tbl_prefix}video` ADD `file_type` INT( 10 ) NOT NULL DEFAULT '0' AFTER  `file_name`;
+ALTER TABLE `{tbl_prefix}video` ADD `blocked_countries` TEXT( 255 ) NOT NULL AFTER `country`;
+ALTER TABLE `{tbl_prefix}video` ADD `sprite_count` INT(11) NOT NULL DEFAULT '0' AFTER `blocked_countries`;
+ALTER TABLE `{tbl_prefix}video` ADD FULLTEXT INDEX (`title`,`tags`);
+ALTER TABLE `{tbl_prefix}photos` ADD FULLTEXT INDEX (`photo_title`,`photo_tags`);
+/*Cb_user_profile_info*/
+ALTER TABLE `{tbl_prefix}user_profile` ADD `fb_url` VARCHAR(200) NOT NULL AFTER `web_url`, ADD `twitter_url` VARCHAR(200) NOT NULL AFTER `fb_url`, ADD `insta_url` VARCHAR(200) NOT NULL AFTER `twitter_url`;
 
 
 

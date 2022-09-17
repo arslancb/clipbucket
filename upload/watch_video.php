@@ -23,7 +23,7 @@
 	$assign_arry['vdo'] = $vdo;
 	if(video_playable($vdo)) {	
 		//Checking for playlist
-		$pid = $_GET['play_list'];
+		$pid = (int)$_GET['play_list'];
 		if(!empty($pid)) {
 			$plist = get_playlist( $pid );
 			if ( $plist ) {
@@ -51,7 +51,7 @@
 	$tags = $vdo['tags'];
 	$videoid = $vdo['videoid'];
 	$related_videos = get_videos(array('title'=>$title,'tags'=>$tags,
-	'exclude'=>$videoid,'show_related'=>'yes','limit'=>12,'order'=>'date_added DESC'));
+	'exclude'=>$videoid,'show_related'=>'yes','limit'=>12,'order'=>'RAND()'));
 	if(!$related_videos){
 		$relMode = "ono";
 		$related_videos  = get_videos(array('exclude'=>$videoid,'limit'=>12,'order'=>'date_added DESC'));

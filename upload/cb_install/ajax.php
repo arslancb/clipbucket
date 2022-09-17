@@ -21,15 +21,15 @@ include('clipbucket.php');
 	 $dbuser = $_POST['dbuser'];
 	 $dbname = $_POST['dbname'];
 	 
-	 $cnnct = @mysql_connect($dbhost,$dbuser,$dbpass);
+	 $cnnct = @mysqli_connect($dbhost,$dbuser,$dbpass);
 	 
 	if(!$cnnct)
-	 	$result['err'] = "<span class='alert'>Unable to connect to mysql : ".mysql_error().'</span>';
+	 	$result['err'] = "<span class='alert'>Unable to connect to mysql : ".mysqli_connect_error().'</span>';
 	else
 	{
-		$dbselect = @mysql_select_db($dbname,$cnnct);
+		$dbselect = @mysqli_select_db($cnnct,$dbname);
 		if(!$dbselect)
-			$result['err'] = "<span class='alert'>Unable to select database : ".mysql_error().'</span>';
+			$result['err'] = "<span class='alert'>Unable to select database : ".mysqli_error($cnnct).'</span>';
 	}
 	echo json_encode($result);
  }
@@ -59,15 +59,15 @@ include('clipbucket.php');
 	 $dbname = $_POST['dbname'];
 	 $dbprefix = $_POST['dbprefix'];
 	 
-	 $cnnct = @mysql_connect($dbhost,$dbuser,$dbpass);
+	 $cnnct = @mysqli_connect($dbhost,$dbuser,$dbpass);
 	  
 	if(!$cnnct)
-	 	$result['err'] = "<span class='alert'>Unable to connect to mysql : ".mysql_error().'</span>';
+	 	$result['err'] = "<span class='alert'>Unable to connect to mysql : ".mysqli_connect_error().'</span>';
 	else
 	{
-		$dbselect = @mysql_select_db($dbname,$cnnct);
+		$dbselect = @mysqli_select_db($cnnct,$dbname);
 		if(!$dbselect)
-			$result['err'] = "<span class='alert'>Unable to select database : ".mysql_error().'</span>';
+			$result['err'] = "<span class='alert'>Unable to select database : ".mysqli_error($cnnct).'</span>';
 	}
 	
 	if(@$result['err'])
@@ -125,7 +125,7 @@ include('clipbucket.php');
 					if (substr(trim($line), -1, 1) == ';') 
 					{
 						@$templine = preg_replace("/{tbl_prefix}/",$dbprefix,$templine);
-						mysql_query($templine);
+						mysqli_query($cnnct,$templine);
 						$templine = '';
 					}
 				}
@@ -156,7 +156,7 @@ include('clipbucket.php');
 						if (substr(trim($line), -1, 1) == ';') 
 						{
 							@$templine = preg_replace("/{tbl_prefix}/",$dbprefix,$templine);
-							mysql_query($templine);
+							mysqli_query($cnnct,$templine);
 							$templine = '';
 						}
 					}
@@ -180,7 +180,7 @@ include('clipbucket.php');
 						if (substr(trim($line), -1, 1) == ';') 
 						{
 							@$templine = preg_replace("/{tbl_prefix}/",$dbprefix,$templine);
-							mysql_query($templine);
+							mysqli_query($cnnct,$templine);
 							$templine = '';
 						}
 					}
@@ -193,7 +193,7 @@ include('clipbucket.php');
 			 
 			 case "create_files":
 			 {
-				 mysql_close($cnnct);
+				 mysqli_close($cnnct);
 				 $dbconnect = file_get_contents(BASEDIR.'/cb_install/dbconnect.php');
                  $dbconnect = str_replace('_DB_HOST_', $dbhost, $dbconnect);
                  $dbconnect = str_replace('_DB_NAME_', $dbname, $dbconnect);
@@ -269,7 +269,7 @@ include('clipbucket.php');
 					{
 						@$templine = preg_replace("/{tbl_prefix}/",TABLE_PREFIX,$templine);
 						$templine;
-						$db->execute($templine);//mysql_query($templine);
+						$db->execute($templine);//mysqli_query($templine);
 						$templine = '';
 					}
 				}
@@ -280,7 +280,7 @@ include('clipbucket.php');
 		 //therefore we are dumping all existing email templates and re-import them
 		 if($upgrade<'2.4.5')
 		 {
-			 mysql_query('TRUNCATE '.TABLE_PREFIX.'email_templates');
+			 mysqli_query($cnnct,'TRUNCATE '.TABLE_PREFIX.'email_templates');
 			 //Dumping
 			 $sqlfile = BASEDIR."/cb_install/sql/email_templates.sql";
 			 if(file_exists($sqlfile))
@@ -296,7 +296,7 @@ include('clipbucket.php');
 						{
 							@$templine = preg_replace("/{tbl_prefix}/",TABLE_PREFIX,$templine);
 							$templine;
-							$db->execute($templine);//mysql_query($templine);
+							$db->execute($templine);//mysqli_query($templine);
 							$templine = '';
 						}
 					}

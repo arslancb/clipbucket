@@ -3,6 +3,7 @@
 {$no_recent = {lang code="no_recent_videos_found"}}
 {$loadMoreLang ={lang code="load_more"}}
 {ANCHOR place="display_head_sec"}
+{ANCHOR place="video_head_player"}
 <div id="main" class="clearfix container">
 	<div id="messageFav" class="alert alert-info marginTop" style="display:none; height:66px;"></div>
 	<div class="clearfix">
@@ -127,8 +128,8 @@
 				<h2 title="Playlists with most videos">{lang code="top_playlists"}</h2>
 				{foreach $playlists as $playlist}
 				<div class="playlist clearfix"> 
-					<a href="{videoLink vdetails=$playlist['first_item']|@json_decode}{if $Cbucket->configs.seo == 'no'}&{else}?{/if}play_list={$playlist.playlist_id}"><h3>{$playlist.playlist_name}</h3></a>
 					{$items = get_playlist_items($playlist.playlist_id)}
+					<a href="{VideoLink($items[0])}"><h3>{$playlist.playlist_name}</h3></a>
 					<div class="clearfix row">
 					{foreach $items as $item}
 						{if $item@iteration == 5}

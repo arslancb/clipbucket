@@ -716,8 +716,11 @@
                 //dump($vdetails['file_name']);
 
         #Now there is no function so lets continue as
-        if(isset($vdetails['file_name']))
+        if(isset($vdetails['file_name'])  && !empty($vdetails['file_name'])){
             $vid_files = glob(VIDEOS_DIR."/".$fileDirectory . $vdetails['file_name']."*");
+        }else{
+            return false;
+        }
         // if($hq){
         //     var_dump(glob(VIDEOS_DIR."/".$fileDirectory . $vdetails['file_name']."*"));
         // }
@@ -1055,7 +1058,7 @@
             }
         }
 
-        increment_views_new($vdo['videoid'],'video');
+        increment_views_new($vdo['videokey'],'video');
 
         if(userid())
             $userquery->increment_watched_vides(userid());
@@ -1127,7 +1130,9 @@
     function video_users($users)
     {
         global $userquery;
-        $users_array = explode(',',$users);
+        if (!empty($users)){
+            $users_array = explode(',',$users);
+        }
         $new_users = array();
         foreach($users_array as $user)
         {

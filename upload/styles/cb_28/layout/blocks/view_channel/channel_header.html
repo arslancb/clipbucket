@@ -28,7 +28,7 @@
 					<i class="icon-views"></i>{prettyNum($user.profile_hits)} &nbsp;<span>{lang code='views'}</span>
 				</li>
 				<li>
-					<i class="icon-subscribers"></i>{prettyNum($user.subscribers)} &nbsp;<span>{if $user.subscribers <= 1}{lang code='Subscriber'}{else}{lang code='Subscribers'}{/if}</span>
+					<i class="icon-subscribers"></i><span id="user_subscribers_{$user.userid}">{prettyNum($user.subscribers)}</span> &nbsp;<span>{lang code='Subscribers'}</span>
 				
 				</li>
 			</ul>
@@ -70,7 +70,15 @@
 				<a href="{$baseurl}/private_message.php?mode=new_msg&to={$user.username}" class="btn btn-default">
 					{lang code="user_send_message"}
 				</a>
-				<button id="subscribe_channel" class="btn btn-default">{lang code="subscribe"}</button>
+				{if $userquery->is_subscribed($user.userid,userid())}
+					<button class="btn btn-default subs_{$user.userid} unsubs_{$user.userid}" onclick="_cb.unsubscribeToChannel({$user.userid},'unsubscribe_user');">
+						{lang code="unsubscribe"}
+					</button>
+				{else}
+					<button class="btn btn-default subs_{$user.userid} unsubs_{$user.userid}" onclick="_cb.subscribeToChannelNew({$user.userid},'subscribe_user');">
+						{lang code="subscribe"}
+					</button>
+				{/if}
 			{/if}
 		</div>
 	</div>

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `active` enum('yes','no') NOT NULL,
   PRIMARY KEY (`group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 CREATE TABLE IF NOT EXISTS `group_categories` (
   `category_id` int(225) NOT NULL AUTO_INCREMENT,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `group_categories` (
   `category_thumb` mediumtext NOT NULL,
   `isdefault` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 CREATE TABLE IF NOT EXISTS `group_members` (
   `group_mid` int(225) NOT NULL AUTO_INCREMENT,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `group_members` (
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `active` enum('yes','no') NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`group_mid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 CREATE TABLE IF NOT EXISTS `group_stats` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
@@ -40,4 +40,4 @@ CREATE TABLE IF NOT EXISTS `group_stats` (
   `total_topics` int(255) NOT NULL,
   `total_posts` int(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;

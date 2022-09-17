@@ -25,7 +25,7 @@ class AdsManager
 			$array = $_POST;
 		 
 		$name		= $array['name'];
-		// $code		= mysql_real_escape_string(htmlspecialchars($array['code']));
+		// $code		= mysqli_real_escape_string(htmlspecialchars($array['code']));
 		$code		= $array['code'];
 		$placement 	= mysql_clean($array['placement']);
 		$category  	= $array['category'];
@@ -90,7 +90,7 @@ class AdsManager
 			
 		$placement 	= mysql_clean($array['placement']);
 		$name	= mysql_clean($array['name']);
-		// $code	= mysql_real_escape_string(htmlspecialchars($array['code']));
+		// $code	= mysqli_real_escape_string(htmlspecialchars($array['code']));
 		$code = $array['code'];
 		$category = mysql_clean(@$array['category']);
 		$id = $array['ad_id'];

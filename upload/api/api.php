@@ -21,9 +21,9 @@ class API extends REST
 	//Database connection
 	private function dbConnect()
 	{
-	  $this->db = mysql_connect(self::DB_SERVER,self::DB_USER,self::DB_PASSWORD);
+	  $this->db = mysqli_connect(self::DB_SERVER,self::DB_USER,self::DB_PASSWORD);
 	  if($this->db)
-	  mysql_select_db(self::DB,$this->db);
+	  mysqli_select_db($this->db,self::DB);
 	}
 	
 	//Public method for access api.
@@ -47,11 +47,11 @@ class API extends REST
 		{
 		   $this->response('',406);
 		}
-		$sql = mysql_query("SELECT user_id, user_fullname, user_email FROM users WHERE user_status = 1", $this->db);
-		if(mysql_num_rows($sql) > 0)
+		$sql = mysqli_query($this->db ,"SELECT user_id, user_fullname, user_email FROM users WHERE user_status = 1");
+		if(mysqli_num_rows($sql) > 0)
 		{
 		$result = array();
-		while($rlt = mysql_fetch_array($sql,MYSQL_ASSOC))
+		while($rlt = mysqli_fetch_array($sql,MYSQLI_ASSOC))
 		{
 		$result[] = $rlt;
 		}
@@ -70,9 +70,9 @@ class API extends REST
 		if($id > 0)
 		{
 		
-		  mysql_query("DELETE FROM users WHERE user_id = $id");
+		  mysqli_query($this->db,"DELETE FROM users WHERE user_id = $id");
 		  
-		  if (mysql_affected_rows() > 0) 
+		  if (mysqli_affected_rows($this->db) > 0) 
           $success = array('status' => "Success", "msg" => "Successfully one record deleted.");
 		  else
 		  $success = array('status' => "Failure", "msg" => "No such id exist in database");

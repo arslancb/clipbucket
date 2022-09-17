@@ -37,7 +37,7 @@ function db_update($tbl, $fields, $cond)
 
     //Complete Query
     $query = "UPDATE $tbl SET $fields_query WHERE $cond $ep";
-    //if(!mysql_query($query)) die($query.'<br>'.mysql_error());
+    //if(!mysqli_query($query)) die($query.'<br>'.mysqli_error());
     //$db->total_queries++;
     //$db->total_queries_sql[] = $query;
     //$db->Execute($query);
@@ -98,7 +98,7 @@ function db_insert($tbl, $fields)
     //Complete Query
     $query = "INSERT INTO $tbl ($fields_query) VALUES ($values_query) $ep";
 
-    //if(!mysql_query($query)) die($query.'<br>'.mysql_error());
+    //if(!mysqli_query($query)) die($query.'<br>'.mysqli_error());
     $db->total_queries++;
     $db->total_queries_sql[] = $query;
     try

@@ -14,7 +14,7 @@ CREATE TABLE `phrases` (
   `varname` varchar(250) NOT NULL DEFAULT '',
   `text` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=860 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=860 ;
 
 --
 -- Dumping data for table `phrases`
@@ -891,6 +891,6 @@ CREATE TABLE `cb_stats` (
   `user_stats` text NOT NULL,
   `group_stats` text NOT NULL,
   PRIMARY KEY (`stat_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 

@@ -55,7 +55,7 @@ class ffmpeg
 	/**
 	 * Initiating Class
 	 */
-	function ffmpeg($file)
+	function __construct($file)
 	{
 		global $Cbucket;
 		$this->ffmpeg = FFMPEG_BINARY;

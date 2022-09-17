@@ -91,7 +91,7 @@ class img_validator extends files
     * Checks if the system has GD support
     *
     */
-    function img_validator($folder = false, $img_folder = false)
+    function __construct($folder = false, $img_folder = false)
     {
         // If doesn't given, uses the default fonts folder
         if(!$folder)
@@ -156,7 +156,7 @@ class img_validator extends files
 		$recorded = base64_decode($_COOKIE["word_validator"]);
 		}
 		$given    = $this->encrypts_word($word);
-        if(ereg($given, $recorded))
+        if(preg_match($given, $recorded))
         {
             $msg = true;
         }

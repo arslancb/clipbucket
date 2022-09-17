@@ -1,0 +1,110 @@
+<span class="page_title">ElasticSearch </span>
+<div class="row">
+    <div class="col-lg-12 mrgnt15">
+        <span class="mandtory"><h3>Configurations</h3></span>
+    </div>
+    <div class="col-lg-11">
+   		<div class="row">
+   			<form id="index" method="post">
+   			<div class="col-md-4">
+   				<label for="elastic_server_ip">Elastic Server IP</label>
+   				<input type="text" name="elastic_server_ip" class="form-control" value="{config('elastic_server_ip')}">
+               <p>e.g the URL on which elastic server is listening</p>
+   			</div>
+        <!-- <div class="col-md-4">
+           <label for="elastic_server_port">Elastic Server Port</label>
+           <input type="text" name="elastic_server_port" class="form-control" value="{config('elastic_server_port')}">
+           <p>e.g the port on which elastic server is listening</p>
+        </div> -->
+   			<div class="col-md-2" style="margin-top: 25px;">
+   				<input type="submit" name="submit" id="submit" class="btn btn-md btn-success" value="Update">
+   			</div>
+        <div class="col-md-6">
+          {if is_es_server_running()}
+            <span class="alert alert-success"> Elastic Server is running Up !
+            <i class="glyphicon glyphicon-ok"></i>
+            </span>
+          {else}
+            <span class="alert alert-warning"> Elastic Server not running or configured !
+            <i class="glyphicon glyphicon-warning-sign"></i>
+            </span>
+          {/if}
+        </div>
+   			</form>
+   		</div>
+   		<div class="row" style="margin-top: 25px;margin-left: 15px;" >
+   		 	<div class="col-lg-12 results" style="background: #f8f8f8;border: 1px solid #d4d4d4"></div>
+   		</div>
+    </div>
+</div>
+<div class="row">
+   <div class="col-lg-12 mrgnt15">   
+      <section class="clearfix form-elements cb-uikit">
+         <header class="clearfix">
+           <h2 class="">Documentation</h2>
+         </header>
+         <div class="clearfix">
+           <h3 class="greycolor text_cent">Information About Plugin</h3>
+           <ul>
+               <li><strong>Last update:</strong> Jan, 2019</li>
+               <li><strong>Authors:</strong>Fahad abbas</li>
+               <li><strong>Author Website:</strong> http://clipbucket.com</li>
+               <li><strong>Version:</strong> 1.0</li>
+               <li><strong>ClipBucket Version:</strong> 4.2.x</li>
+           </ul>
+         </div>
+         <div class="clearfix" style="margin-bottom: 20px;">
+           <h3 class="greycolor text_cent">Why You Need Elastic Search module?</h3>
+           <p>To simply make website search more efficient for users. A full text search Engine which will make clipbucket's Search Experience a way better ! </p>
+         </div>
+         <div class="clearfix" style="margin-bottom: 20px;">
+           <span class="alert alert-info" style="margin-top: 50px;"><strong>Note : </strong> To Run this plugin make sure your elastic server is running up ! </span>
+         </div>
+
+         <div class="clearfix">
+            <div class="clearfix">
+               <h3>Indexer</h3>
+               <pre>Elastic Search Indexer helps you Index your Videos,Channels and Photos with Elastic Search Server.</pre>
+               <h4>Request</h4>
+               <pre>Update,Select,Delete,Add This menu lets you select the request type for Mapping and Indexing. <strong>`Update` </strong>is used to add and update both.</pre>
+               <h4>Type</h4>
+               <pre>This menu lets you decide wheather Map or Index, <strong>Note : Indexing is always done after Mapping.</strong>  </pre>
+               <h4>Offset</h4>
+               <pre >It is used to specify the offset of the first row to be returned.</pre>
+               <h4>Count</h4>
+               <pre >It is used to specify the maximum number of rows to be returned. </pre>
+               <h4>Id</h4>
+               <pre>To Index Specific Id , it will ignore Offset and Count Parameter and it is only used while indexing.</pre>
+               <h4>Mode</h4>
+               <pre >This lets you decide between Videos,Channels and Photos.   
+               </pre>
+            </div>
+         </div>
+      </section>
+   </div>
+</div>
+
+
+<style>
+    pre {
+        word-wrap: break-word;
+        padding: 6px 10px;
+        line-height: 4px;
+        margin-bottom: 20px;
+        width: 100%
+    }
+    .code{
+      font-family: Consolas,'Liberation Mono',Courier,monospace;
+      border: 1px solid #ccc;
+      color: #333;
+      background: #e4e4e4;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+        /*border: 1px solid #001;
+        width: auto*/
+    }
+</style>
+
+

@@ -176,7 +176,7 @@
                         <tr>
                             <td class="first"><label for="filename">Uploaded Date</label></td>
                             <td class="last">
-                                <p><span>{$data.datecreated|nicetime}</span></p>
+                                <p><span>{$data.date_added|date_only}</span></p>
                             </td>
                         </tr>
                         <tr>
@@ -345,7 +345,24 @@
 
                     <div class="col-md-12">
                     {$field.class='form-control'}
-                    {$field.hint_1}<br>{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    {$field.hint_1}<br>
+                    {ANCHOR place=$field.anchor_before}
+                    
+                    <!-- checkmate -->
+                    {if $field.name=='embed_code'}
+                        {if ($data.embed_code == '' || $data.embed_code == 'none' || $data.embed_code ==NULL)}
+                            {$field.extra_tags='disabled="disabled"'} 
+                        {/if}
+                    {/if}
+
+                    {if $field.name=='remote_play_url'}
+                        {if ($data.remote_play_url == '' || $data.remote_play_url == 'none' || $data.remote_play_url ==NULL)}
+                            {$field.extra_tags=' disabled="disabled"'} 
+                        {/if}
+                    {/if}
+                    <!-- checkmate -->
+
+                    {$formObj->createField($field)}
                     </div><br>
                     {$field.hint_2}
                 </div>

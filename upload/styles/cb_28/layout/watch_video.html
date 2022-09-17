@@ -47,9 +47,16 @@
 						</div>
 						<div class="clearfix subscribe-col col-lg-6 col-md-6 col-sm-6 col-xs-12">
 							{if $video.userid != userid()}
-							<a id="subscribeUser" class="btn btn-subscribe btn-primary" href="javascript:void(0)">
-								<span>{lang code='subscribe'}</span>
-							</a>
+								{if $userquery->is_subscribed($video.userid,userid())}
+									<button id="{$video.userid}" onclick="_cb.unsubscribeToChannel({$video.userid},'unsubscribe_user');" class="btn btn-subscribe btn-primary subs_{$video.userid} unsubs_{$video.userid}"><i class="icon-rss2"></i>
+										{lang code="unsubscribe"}
+									</button>
+										
+								{else}
+									<button id="subs_{$video.userid}" onclick="_cb.subscribeToChannelNew({$video.userid},'subscribe_user');" class="btn btn-subscribe btn-primary subs_{$video.userid} unsubs_{$video.userid}"><i class="icon-rss2"></i>
+										{lang code="subscribe"}
+									</button>
+								{/if}
 							{/if}
 							{if $Cbucket->configs.video_download==1 && $cbvid->downloadable($vdo)}
 							<div class="dropdown">
@@ -215,8 +222,11 @@
 					{/if}
 
 					<div class="clearfix" style="padding-bottom:10px;">
-						<a href="{$prev_videoLink }"  id="" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-step-backward"></span> Previous </a>
-						<a href="{$next_videoLink }"  id=""  class="btn btn-primary btn-xs"> Next <span class="glyphicon glyphicon-step-forward"></span></a>
+						
+						<a href="{$prev_videoLink}" id="" class="btn btn-primary btn-xs" {if $prev_videoLink=='#'} onclick="_cb.throwHeadMsg('warning','{lang code=empty_next}', 3000, true)" {/if}><span class="glyphicon glyphicon-step-backward"></span> {lang code=previous} </a>
+						
+						<a href="{$next_videoLink}"  id=""  class="btn btn-primary btn-xs" {if $next_videoLink=='#'} onclick="_cb.throwHeadMsg('warning','{lang code=empty_next}', 3000, true)" {/if}> {lang code=next} <span class="glyphicon glyphicon-step-forward"></span></a>
+					
 					</div>
 
 

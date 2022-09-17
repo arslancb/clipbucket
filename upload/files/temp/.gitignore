@@ -1,0 +1,4 @@
+/*
+# But not these files...
+!.gitignore
+!install.me

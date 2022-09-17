@@ -35,9 +35,9 @@ class API extends REST
     //Database connection
     private function dbConnect()
     {
-      $this->db = mysql_connect(self::DB_SERVER,self::DB_USER,self::DB_PASSWORD);
+      $this->db = mysqli_connect(self::DB_SERVER,self::DB_USER,self::DB_PASSWORD);
       if($this->db)
-      mysql_select_db(self::DB,$this->db);
+      mysqli_select_db($this->db,self::DB);
     }
     
     //Public method for access api.

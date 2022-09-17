@@ -1119,7 +1119,7 @@ class CBvideo extends CBCategory
 				$cond = $superCond." AND ";
 			
 			$cond .= "MATCH(".("video.title,video.tags").")
-			AGAINST ('".$params['title']."' IN BOOLEAN MODE) ";
+			AGAINST ('".$params['title']."' IN NATURAL LANGUAGE MODE) ";
 
 			if($params['exclude'])
 			{
@@ -1151,7 +1151,7 @@ class CBvideo extends CBCategory
 					$cond = $superCond." AND ";
 				//Try Finding videos via tags
 				$cond .= "MATCH(".("video.title,video.tags").")
-				AGAINST ('".($params['tags'])."' IN BOOLEAN MODE) ";
+				AGAINST ('".($params['tags'])."' IN NATURAL LANGUAGE MODE) ";
 				if($params['exclude'])
 				{
 					if($cond!='')
@@ -1302,7 +1302,7 @@ class CBvideo extends CBCategory
 		if($type=='iframe')
 		{
 			$embed_code = '<iframe width="'.config('embed_player_width').'" height="'.config('embed_player_height').'" ';
-			$embed_code .= 'src="'.BASEURL.'/player/embed_player.php?vid='.$vdetails['videoid'].'&width='.
+			$embed_code .= 'src="'.BASEURL.'/player/embed_player.php?vid='.$vdetails['videokey'].'&width='.
 			config('embed_player_width').'&height='.config('embed_player_height').
 			'&autoplay='.config('autoplay_embed').'" frameborder="0" allowfullscreen></iframe>';
 		}
@@ -1612,6 +1612,7 @@ class CBvideo extends CBCategory
 		$total 		= $params['total'];
 		$id 			= $params['id'];
 		$type 		= $params['type'];
+		$data_only 		= $params['data_only'];
 		
 		if (empty($ratings)) {
 			$ratings = $params['rated_by'];
@@ -1644,7 +1645,21 @@ class CBvideo extends CBCategory
 				$rating_msg = '<span class="msg">'.$rating_msg[0].'</span>';
 			}
 		}
-		
+			
+		if($data_only){
+			$data = array(
+					'perc'=>$perc,
+					'disperc'=>$disperc,
+					'id'=>$id,
+					'type'=>$type,
+					'id'=>$id,
+					'rating_msg'=>$rating_msg,
+					'likes'=>$likes,
+					'dislikes'=>($ratings-$likes),
+					'disable'=>$params['disable']
+				);
+			return $data;	
+		}
 		assign('perc',$perc);
 		assign('disperc',$disperc);
 		assign('id',$id);

@@ -61,7 +61,7 @@ define('STATIC_COMM',false);
 class myquery {
 
 	function Set_Website_Details($name,$value){
-		//mysql_query("UPDATE config SET value = '".$value."' WHERE name ='".$name."'");
+		//mysqli_query("UPDATE config SET value = '".$value."' WHERE name ='".$name."'");
 		global $db,$Cbucket;
 		$db->update(tbl("config"),array('value'),array($value)," name = '".$name."'");
 		//echo $db->db_query."<br/><br/>";
@@ -71,13 +71,13 @@ class myquery {
 	function Get_Website_Details()
 	{
 		
-		//$query = mysql_query("SELECT * FROM ".tbl("config"));
+		//$query = mysqli_query("SELECT * FROM ".tbl("config"));
 		$query = ("SELECT * FROM ".tbl("config"));
 		$data = db_select($query);
 
 		if($data)
 			foreach($data as $row)
-			//while($row = mysql_fetch_array($query))
+			//while($row = mysqli_fetch_array($query))
 			{
 				$name = $row['name'];
 				$data[$name] = $row['value'];
@@ -445,7 +445,7 @@ class myquery {
 			}
 		}
 		if(!verify_captcha())
-			e(lang('usr_ccode_err'));
+			e(lang('recap_verify_failed'));
 		if(empty($comment))
 			e(lang("pelase_enter_something_for_comment"));
 		
@@ -540,6 +540,30 @@ class myquery {
 				
 				//Now Finally Sending Email
 				cbmail(array('to'=>$own_details,'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+
+				if($reply_to!=0){
+
+					$tpl = $cbemail->get_template('user_reply_email');
+					
+					$more_var = array
+					('{username}'	=> $username,
+	                                 '{fullname}' => $fullname,
+					 '{obj_link}' => $obj_link.'#comment_'.$cid,
+					 '{comment}' => $comment,
+					 '{obj}'	=> get_obj_type($type)
+					);
+					if(!is_array($var))
+						$var = array();
+					$var = array_merge($more_var,$var);
+					$subj = $cbemail->replace($tpl['email_template_subject'],$var);
+					$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
+
+
+					$cd = $this->get_comment($reply_to);
+					$replying_to_email = $cd['email'];
+					cbmail(array('to'=>$replying_to_email,'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+				}
+				
 			}
 			
 			//Adding Video Feed

@@ -1,0 +1,126 @@
+
+
+
+<span class="page_title">ElasticSearch Indexer</span>
+
+
+<div class="row">
+    <div class="col-lg-12 mrgnt15">
+        <span class="mandtory"><h1></h1></span>
+    </div>
+    <div class="col-lg-11">
+   		<div class="row">
+   			<form id="index" method="post">
+   			<!-- <input type="hidden" name="type" value="index"> -->
+   			<!-- <input type="hidden" name="method" value="put"> -->
+   			<div class="col-md-2">
+   			<label for="offset">Request</label>
+   			<select class="form-control" name="method">
+   				<option value="put" selected>Update</option>
+   				<option value="get">List</option>
+   				<option value="delete">Delete</option>
+   				<option value="post">Add</option>
+   			</select>
+   			</div>
+   			<div class="col-md-2">
+   			<label for="offset">Type</label>
+   			<select class="form-control" name="type">
+   				<option value="map">MAP</option>
+   				<option value="index" selected>INDEX</option>
+   			</select>
+   			</div>
+   			<div class="col-md-2">
+   				<label for="offset">Offset</label>
+   				<input type="text" name="offset" class="form-control" value="0">
+   			</div>
+   			<div class="col-md-2">
+   				<label for="count">Count</label>
+   				<input type="text" name="count" class="form-control" value="1">
+   			</div>
+            <div class="col-md-2">
+               <label for="count">Id</label>
+               <input type="text" name="id" class="form-control" value="0">
+            </div>
+   			<div class="col-md-2">
+   				<label for="offset">Mode</label>
+   				<select class="form-control" name="mode">
+   					<option value="videos" selected>Videos</option>
+   					<option value="users">Users</option>
+   					<option value="photos">Photos</option>
+   					<!-- <option value="collections">Collections</option> -->
+   				</select>
+   				
+   			</div>
+   			<div class="col-md-2" style="margin-top: 25px;">
+   				<input type="submit" name="submit" id="submit" class="btn btn-md btn-success" value="Index">
+   			</div>
+   			<!-- <div class="col-md-4" style="margin-top: 25px;">
+   				<span class="alert alert-info  load-msg hide">
+				This may take few minutes.... 		
+   				</span>
+   			</div> -->
+   			</form>
+   			
+   		</div>
+   		
+   		<div class="row" style="margin-top: 25px;margin-left: 15px;" >
+   		 	<div class="col-lg-12 results" style="background: #f8f8f8;border: 1px solid #d4d4d4"></div>
+   		</div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+	var ElasticScript = '{$cb_es_ajax_url}';
+	$(document).ready(function(){
+		$("#index").on("submit",function(e){
+			e.preventDefault();
+
+			var formData_ = new FormData(this);
+
+			$.ajax({
+				url: ElasticScript,
+				data: formData_,
+				processData: false,
+				contentType: false,
+				type: 'POST',
+
+				beforeSend : function(data){
+					$(".load-msg").removeClass("hide");
+					$("#submit").attr("disabled",true);
+					$("#submit").val("..Indexing");
+					$(".results").html("");
+				},
+				success: function(data){
+				    
+				    var results = $.parseJSON(data);
+				    var dataResults = results.data;
+				    console.log(dataResults);
+				    var html = "<ul style='margin-top:20px'>";
+				    if (typeof dataResults.length !== 'undefined'){
+					    for (var i = 0; i < dataResults.length ; i ++){
+					    	if (dataResults[i].code == '400'){
+					    		html += "<li style='color:red'>";
+					    	}else{
+					    		html += "<li style='color:green'>";
+					    	}
+					    	html += "<strong>Status Code : </strong>"+dataResults[i].code
+					    	html += "  <strong>Result : </strong>"+dataResults[i].result
+					    	html += "</li>"
+					    }
+				    }else{
+				    	html += dataResults.data.result;
+				    }
+
+				    html += "</ul>";
+			
+				    $(".results").html(html);
+
+				    $(".load-msg").addClass("hide");
+				    $("#submit").attr("disabled",false);
+					$("#submit").val("Index");
+				}
+			});
+		})
+	});
+</script>

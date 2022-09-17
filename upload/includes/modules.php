@@ -15,8 +15,8 @@ class Modules
 
 	//Used To Get Details Of Modules
 	function GetModuleDetails($module){
-	$query = mysql_query("SELECT * FROM modules WHERE module_name = '".$module."'");
-	$data = mysql_fetch_array($query);
+	$query = mysqli_query("SELECT * FROM modules WHERE module_name = '".$module."'");
+	$data = mysqli_fetch_array($query);
 	return $data;
 	}
 	
@@ -35,7 +35,7 @@ class Modules
 	function ActivateModule($module){
 		$data = $this->GetModuleDetails($module);
 		if(!empty($data['module_name'])){
-		mysql_query("UPDATE modules SET active = '".yes."' WHERE module_name = '".$module."'");
+		mysqli_query("UPDATE modules SET active = '".yes."' WHERE module_name = '".$module."'");
 		$msg = "Module Has Been Activated";
 		}else{
 		$msg = "Module Doesnt Exist";
@@ -48,7 +48,7 @@ class Modules
 	function DeActivateModule($module){
 		$data = $this->GetModuleDetails($module);
 		if(!empty($data['module_name'])){
-		mysql_query("UPDATE modules SET active = '".no."' WHERE module_name = '".$module."'");
+		mysqli_query("UPDATE modules SET active = '".no."' WHERE module_name = '".$module."'");
 		$msg = "Module Has Been DeActivated";
 		}else{
 		$msg = "Module Doesnt Exist";
@@ -60,7 +60,7 @@ class Modules
 	function DeleteModule($module){
 	$data = $this->GetModuleDetails($module);
 		if(!empty($data['module_name'])){
-		mysql_query("DELETE FROM modules WHERE module_name = '".$module."'");
+		mysqli_query("DELETE FROM modules WHERE module_name = '".$module."'");
 		$msg = "Module Has Been Deleted";
 		}else{
 		$msg = "Sorry File Doesnt Exist";
@@ -89,7 +89,7 @@ class Modules
 	$msg[] = "Specified File Does not Exists";
 	}
 		if(empty($msg)){	
-		mysql_query("INSERT INTO modules(module_name,module_file,active)VALUES('".$name."','".$file."','".$active."')");
+		mysqli_query("INSERT INTO modules(module_name,module_file,active)VALUES('".$name."','".$file."','".$active."')");
 		$msg="Module Has Been Added";
 		}
 	return $msg;
@@ -101,8 +101,8 @@ $Modules = new Modules();
 
 	//Ading and Displaying Module
 	$module_list = array();
-	$moduleQuery = @mysql_query("SELECT * FROM modules  WHERE active ='yes'");
-	while($moduleData = @mysql_fetch_array($moduleQuery)){
+	$moduleQuery = @mysqli_query("SELECT * FROM modules  WHERE active ='yes'");
+	while($moduleData = @mysqli_fetch_array($moduleQuery)){
 		$module = $Modules->GetModuleDetails($moduleData['module_name']);
 		if($module['active'] == 'yes'){
 			include(MODULEDIR.'/'.$moduleData['module_file']);

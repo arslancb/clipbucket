@@ -68,7 +68,10 @@ class ClipBucket
      */
     var $on_delete_video = array();
 
-    function ClipBucket()
+    //This array contains the public pages name for private access to website 
+    var $public_pages = array("signup","view_page");
+
+    function __construct()
     {
         global $pages;
         //Assign Configs

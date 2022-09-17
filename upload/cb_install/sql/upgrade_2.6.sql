@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}counters` (
   `date_added` varchar(200) NOT NULL,
   PRIMARY KEY (`counter_id`),
   UNIQUE KEY `query_md5` (`query_md5`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
 ALTER TABLE `{tbl_prefix}user_levels_permissions` ADD `photos_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' ,
@@ -59,6 +59,6 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}mass_emails` (
   `date_added` datetime NOT NULL,
   `last_update` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 ALTER TABLE  `{tbl_prefix}photos` ADD  `photo_details` TEXT NOT NULL AFTER  `photo_tags`;

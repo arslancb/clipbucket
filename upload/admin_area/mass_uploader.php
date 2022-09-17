@@ -48,7 +48,7 @@ if(isset($_POST['mass_upload_video']))
 		$file_arr = $files[$i];
 		$file_path = $files[$i]['path'];
 		$file_orgname = $files[$i]['file'];
-	
+	    
 		if($cbmass->is_mass_file($file_arr))
 		{
 			$code = $i+1;
@@ -91,6 +91,7 @@ if(isset($_POST['mass_upload_video']))
 							'tags' => $_POST['tags'][$i],
 							'category' => array($cbvid->get_default_cid()),
 							'file_name' => $file_name,
+							'file_directory' => $file_directory,
 						);
 						
 						$vid = $Upload->submit_upload($array);
@@ -107,13 +108,16 @@ if(isset($_POST['mass_upload_video']))
 				return false;
 			}
 
+			$file_directory = createDataFolders();
 			$array = array(
 				'title' => $_POST['title'][$i],
 				'description' => $_POST['description'][$i],
 				'tags' => $_POST['tags'][$i],
 				'category' => $_POST['category'.$code],
 				'file_name' => $file_key,
+				'file_directory' => $file_directory,
 			);
+			//pex($array,true);
 			$vid = $Upload->submit_upload($array);
 		}else{
 			e("\"".$file_arr['title']."\" is not available");
@@ -137,11 +141,23 @@ if(isset($_POST['mass_upload_video']))
 			//Moving file to temp dir and Inserting in conversion queue..
 
 			$file_name = $cbmass->move_to_temp($file_arr,$file_key);
-			$file_directory = createDataFolders();
+			
 			createDataFolders(LOGS_DIR);
 			$logFile = LOGS_DIR.'/'.$file_directory.'/'.$file_key.'.log';
 			//pex($logFile,true);
 			$log = new SLog($logFile);
+
+			$log->newSection("Pre-Check Configurations");
+			$log->writeLine("File to be converted", 'Initializing File <strong>'.$file_name.'.mp4</strong> and pre checking configurations...', true);
+			$hardware = shell_exec('lshw -short');
+			if ($hardware){
+				$log->writeLine("System hardware Information", $hardware, true);	
+			}else{
+				$log->writeLine('System hardware Information', 'Unable log System hardware information, plaese install "lshw" ', true);	
+			}
+
+
+
 			$results=$Upload->add_conversion_queue($file_name);
 			$str = "/".date("Y")."/".date("m")."/".date("d")."/";
 			$str1 = date("Y")."/".date("m")."/".date("d");

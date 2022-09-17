@@ -19,7 +19,7 @@ class Session
 	/**
 	 * offcourse, its a constructor
 	 */
-	function session()
+	function __construct()
 	{
 		$this->id = session_id() ;
 		$this->timeout  = COOKIE_TIMEOUT;

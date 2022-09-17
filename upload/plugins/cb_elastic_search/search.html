@@ -1,0 +1,304 @@
+<div class="container clearfix" style="padding-top: 50px;">
+	<div class="row cb-box">
+		<ul class="nav nav-tabs">
+			<li class="{if $mode == 'all'}active{/if}">
+				<a href="?type=all&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$smarty.get.author|form_val}&search_by={$smarty.get.search_by|form_val}&s=elastic&p=search" >
+					All 
+				</a>
+			</li>
+			<li class="{if $mode == 'videos'}active{/if}" >
+				<a href="?type=videos&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$smarty.get.author|form_val}&search_by={$smarty.get.search_by|form_val}&s=elastic&p=search" >
+					Videos
+				</a>
+			</li>
+			<li class="{if $mode == 'photos'}active{/if}" >
+				<a href="?type=photos&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$smarty.get.author|form_val}&search_by={$smarty.get.search_by|form_val}&s=elastic&p=search">
+				Photos
+			</a>
+			</li>
+			<li class="{if $mode == 'channels'}active{/if}" >
+				<a href="?type=channels&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$smarty.get.author|form_val}&search_by={$smarty.get.search_by|form_val}&s=elastic&p=search" >
+				Channels</a>
+			</li>
+		</ul>
+	</div>
+
+	<div class="row cb-box">
+		<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane {if $mode == 'all'}active{/if}" id="all-tab">
+					{if $videos}
+					<div class="search-sec clearfix">
+                        <h4>
+                        	Videos
+                        	<span class="pull-right"><a href="{link name='videos'}">See All</a></span>
+                        </h4>
+                        <div class="all-search-holder clearfix">
+                        {foreach $videos as $video}
+                            {include file="$style_dir/blocks/video.html" display_type='normal'}
+                        {/foreach}
+                        </div>
+                    </div><!-- videos -->
+                    {/if}
+                    {if $photos}
+					<div class="search-sec clearfix">
+                        <h4>
+                        	Photos
+                        	<span class="pull-right"><a href="{link name='photos'}">See All</a></span>
+                        </h4>
+                        <div class="all-search-holder clearfix">
+                        {foreach $photos as $photo}
+                            {include file="$style_dir/blocks/photo.html" }
+                            
+                        {/foreach}
+                        </div>
+                    </div><!-- videos -->
+                    {/if}
+                    {if $users}
+					<div class="search-sec clearfix">
+                        <h4>
+                        	Users
+                        	<span class="pull-right"><a href="{link name='channels'}">See All</a></span>
+                        </h4>
+                        <div class="row">
+                         
+                        {foreach $users as $user}
+                            {$user_details = $userquery->get_user_details($user.userid)}
+                                {include file="$style_dir/blocks/user.html" display_type='normal'}
+                        {/foreach}
+                         </div><!-- users list -->
+                    </div><!-- users -->
+                    {/if}
+                    <div class="pagination-holder clearfix">
+						<div class="pagination-holder clearfix">
+				            {include file="$style_dir/blocks/pagination.html"} 
+				        </div>
+					</div>
+					{if !$videos && !$photos  && !$users }
+					   <span class="well well-info btn-block">{lang code="no_search_results"}</span>
+					{/if}
+
+				</div><!-- all users -->
+				<div role="tabpanel" class="tab-pane {if $mode == 'videos'}active{/if}" id="videos-tab">
+					<div class="search-sec clearfix visible-xs">
+						<button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#filters-modal">Filters</button>
+					</div>
+					<div class="search-sec clearfix">
+                        <h4>
+                        	Videos
+                        	<span class="pull-right"><a href="{link name='videos'}">See All</a></span>
+                        </h4>
+                        <div class="all-search-holder clearfix">
+                        	{if $videos}
+                            {foreach $videos as $video}
+                                {include file="$style_dir/blocks/video.html" display_type='normal'}
+                            {/foreach}
+                        	<div class="pagination-holder clearfix">
+								<div class="pagination-holder clearfix">
+						            {include file="$style_dir/blocks/pagination.html"} 
+						        </div>
+							</div>
+                        	{else}
+								<span class="well well-info btn-block">{lang code="no_search_results"}</span>
+                        	{/if}
+                        </div>
+                    </div><!-- videos -->
+				</div><!-- all videos -->
+				<div role="tabpanel" class="tab-pane {if $mode == 'photos'}active{/if}" id="photos-tab">
+					<div class="search-sec clearfix visible-xs">
+						<button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#filters-modal">Filters</button>
+					</div>
+					<div class="search-sec clearfix">
+                        <h4>
+                        	photos
+                        	<span class="pull-right"><a href="{link name='photos'}">See All</a></span>
+                        </h4>
+                        <div class="all-search-holder clearfix">
+                        	{if $photos}
+                            {foreach $photos as $photo}
+                               {include file="$style_dir/blocks/photo.html"}
+                        	{/foreach}
+                        	<div class="pagination-holder clearfix">
+								<div class="pagination-holder clearfix">
+						            {include file="$style_dir/blocks/pagination.html"} 
+						        </div>
+							</div>
+                        	{else}
+								<span class="well well-info btn-block">{lang code="no_search_results"}</span>
+                        	{/if}
+                        </div>
+                    </div><!-- photos -->
+				</div><!-- all photos -->
+				<div role="tabpanel" class="tab-pane {if $mode == 'channels'}active{/if}" id="users-tab">
+					<div class="search-sec clearfix visible-xs">
+						<button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#filters-modal">Filters</button>
+					</div>
+					<div class="search-sec clearfix">
+                        <h4>
+                        	Users
+                        	<span class="pull-right"><a href="{link name='channels'}">See All</a></span>
+                        </h4>
+                        <div class="row">
+                            {if $users}
+                            {foreach $users as $user}
+                                {$user_details = $userquery->get_user_details($user.userid)}
+                                {include file="$style_dir/blocks/user.html" display_type='normal'}
+                            {/foreach}
+                            <div class="pagination-holder clearfix">
+								<div class="pagination-holder clearfix">
+						            {include file="$style_dir/blocks/pagination.html"} 
+						        </div>
+							</div>
+                            {else}
+                                	<span class="well well-info btn-block">{lang code="no_search_results"}</span>
+                            {/if}
+                        </div><!-- users list -->
+                    </div>
+				</div><!-- users -->
+			</div><!-- tab content -->
+		</div><!-- left column -->
+		<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 hidden-xs">
+			<div class="search-sort-by clearfix">
+				<div class="sortby-holder">
+					<span>Sort by:</span>
+					<div class="dropdown">
+						<button aria-expanded="true" data-toggle="dropdown" id="dropdownMenu1" type="button" class="btn btn-default dropdown-toggle">
+							{if $smarty.get.search_by=='rel'} 
+								Relevance
+							{elseif $smarty.get.search_by=='date'}
+								Date
+							{elseif $smarty.get.search_by=='views'}
+								Popularity
+							{else}
+								Relevance
+							{/if}
+							<span class="caret-arrow"></span>
+						</button>
+						<ul aria-labelledby="dropdownMenu1" role="menu" class="dropdown-menu">
+							<li role="presentation">
+								<a href="?type={$smarty.get.type|form_val}&query={$smarty.get.query|form_val}&category={$category}&author={$smarty.get.author|form_val}&search_by=rel&s=elastic&p=search">Relevance</a>
+							</li>
+							<li role="presentation">
+								<a href="?type={$smarty.get.type|form_val}&query={$smarty.get.query|form_val}&category={$category}&author={$smarty.get.author|form_val}&search_by=date&s=elastic&p=search">Date</a>
+							</li>
+							<li role="presentation">
+								<a href="?type={$smarty.get.type|form_val}&query={$smarty.get.query|form_val}&category={$category}&author={$smarty.get.author|form_val}&search_by=views&s=elastic&p=search">Popularity</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="search-filter clearfix">
+			{foreach $filter_results as $key => $filter}
+				<div class="filter-col clearfix">
+				{if $filter.0 != ''}
+				
+				
+					<h4>{$key}</h4>
+					<ul>
+						{foreach $filter as $final}
+							{if $final@iteration < 5}
+							<li class="display">
+								{if $key == 'CATEGORY' }
+								{$category = $final}
+								<a href="?type=videos&query={$smarty.get.query|form_val}&category={$category.id}&author={$smarty.get.author|form_val}&s=elastic&p=search">
+
+								{cleanString($final.source)} ( {$final.counts} )
+								</a>
+								{elseif $key == 'AUTHOR'}
+								{$author =  $final}
+								<a href="?type=videos&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$author.id}&s=elastic&p=search">{cleanString(name($final.source))} ( {$final.counts} )</a>
+								{elseif $key == 'VIDEO' }
+								{$video_name = $final}
+								<a href="?type=videos&query={$smarty.get.query|form_val}&object={$video_name}&object_type=video&s=elastic&p=search">{cleanString($final)}</a>
+								{elseif $key == 'GROUP' }
+								{$group_name = $final}
+								<a href="?type=groups&query={$smarty.get.query|form_val}&object={$group_name.id}&object_type=group&s=elastic&p=search">{cleanString($group_name.source)}</a>
+								{elseif $key =='COLLECTION' }
+								{$collection_name = $final}
+								<a href="?type=collections&query={$smarty.get.query|form_val}&object={$collection_name.id}&object_type=collection&s=elastic&p=search">{cleanString($collection_name.source)}</a>
+								{elseif $key == 'USER' }
+								{$user_name = $final}
+								<a href="?type=channels&query={$smarty.get.query|form_val}&object={$user_name}&object_type=user&s=elastic&p=search">{cleanString($final)}</a>
+								{elseif $key == 'SOURCE' }
+								<a href="?type={$final.key}&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$smarty.get.author|form_val}&s=elastic&p=search">{cleanString($final.key)} ( {$final.doc_count} )</a>
+								{else}
+								<a href="javascript:void(0)">{cleanString($final)}</a>
+								{/if}
+								
+							</li>
+							{else}
+							{$flag = true}
+							<li class="no-display hide" >
+								{if $key == 'CATEGORY' }
+								{$category = $final}
+								<a href="?type=videos&query={$smarty.get.query|form_val}&category={$category.id}&author={$smarty.get.author|form_val}&s=elastic&p=search">{cleanString($final.source)} ( {$final.counts} )
+								{elseif $key == 'AUTHOR'}
+								{$author =  $final}
+								<a href="?type=videos&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$author}&s=elastic&p=search">{cleanString($final)}</a>
+								{elseif $key == 'VIDEO' }
+								{$video_name = $final}
+								<a href="?type=videos&query={$smarty.get.query|form_val}&object={$video_name}&object_type=video&s=elastic&p=search">{cleanString($final)}</a>
+								{elseif $key == 'GROUP' }
+								{$group_name = $final}
+								<a href="?type=groups&query={$smarty.get.query|form_val}&object={$group_name.id}&object_type=group&s=elastic&p=search">{cleanString($final.source)} ( {$final.counts} )</a>
+								{elseif $key =='COLLECTION' }
+								{$collection_name = $final}
+								<a href="?type=collections&query={$smarty.get.query|form_val}&object={$collection_name.id}&object_type=collection&s=elastic&p=search">{cleanString($final.source)} ( {$final.counts} )</a>
+								{elseif $key == 'USER' }
+								{$user_name = $final}
+								<a href="?type=channels&query={$smarty.get.query|form_val}&object={$user_name}&object_type=user&s=elastic&p=search">{cleanString($final)}</a>
+								{elseif $key == 'SOURCE' }
+								{$source = explode(' ',$final)}
+								{$source = $source.1}
+								
+								<a href="?type={$source}&query={$smarty.get.query|form_val}&category={$smarty.get.author|form_val}&author={$smarty.get.author|form_val}&s=elastic&p=search">{cleanString($final)}</a>
+								{else}
+								<a href="javascript:void(0)">{cleanString($final)}</a>
+								{/if}
+							</li>
+							{/if}
+						{/foreach}
+					</ul>
+					{if $flag}
+						<a href="javascript:void(0)" class="more" >More...</a>
+					{/if}
+					{/if}
+				</div>
+			{/foreach}
+			</div>
+		</div><!-- right column -->
+	</div>
+
+
+</div>
+
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+	var more = true;
+	$('.more').on("click",function(){
+		if (more)
+		{
+			$(this).parent().find('.no-display').removeClass('hide');
+			$(this).html("Less");
+			
+			more = false;
+		}
+		else
+		{
+			$(this).parent().find('.no-display').addClass('hide');
+			$(this).html("More...");
+		
+			more = true;
+		}
+
+		
+	});
+
+});	
+
+</script>

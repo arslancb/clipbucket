@@ -119,10 +119,11 @@
 									<li class="active">
 										<a data-toggle="tab" href="#fvideos">{lang code="videos"}</a>
 									</li>
-
+									{if $Cbucket->configs['photosSection']==yes}
 									<li class="photos">
 										<a data-toggle="tab" href="#fphotos">{lang code="photos"}</a>
 									</li>
+									{/if}
 								</ul>
 								<br>
 								<div class="tab-content">
@@ -145,6 +146,7 @@
 										<hr class="newhr">
 										{/section}
 									</div>
+									{if $Cbucket->configs['photosSection']==yes}
 									<div id="fphotos" class="tab-pane">
 										{section name=list loop=$flagedPhotos}
 										<div class="row">
@@ -165,6 +167,7 @@
 										</div>
 										{/section}
 									</div>
+									{/if}
 								</div>
 							</div>
 							<!-- /widget-main -->
@@ -186,41 +189,43 @@
 			<br>
 			<span class="line-height-1 smaller-90 new1"> {lang code='Videos'} </span>
 		</button>
+			{if $Cbucket->configs['photosSection']==yes}
 			<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
-													<span class="line-height-1 bigger-170 blue">{$user.total_photos}</span>
-													<br>
-													<span class="line-height-1 smaller-90 new1"> {lang code="photos"} </span>
-												</span>
-	<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
-													<span class="line-height-1 bigger-170 blue">{$user.num_visits|number_format}</span>
-													<br>
-													<span class="line-height-1 smaller-90 new1"> {lang code='total_logins'} </span>
-												</span>
-	<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
-													<span class="line-height-1 bigger-170 blue">{$user.total_watched|number_format}</span>
-													<br>
-													<span class="line-height-1 smaller-90 new1"> {lang code='Watched'} </span>
-												</span>
-	<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
-													<span class="line-height-1 bigger-170 blue">{$user.total_comments|number_format}</span>
-													<br>
-													<span class="line-height-1 smaller-90 new1"> {lang code='comments'} </span>
-												</span>
-	<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
-													<span class="line-height-1 bigger-170 blue">{$user.total_collections|number_format}</span>
-													<br>
-													<span class="line-height-1 smaller-90 new1"> {lang code='collections'} </span>
-												</span>
+				<span class="line-height-1 bigger-170 blue">{$user.total_photos}</span>
+				<br>
+				<span class="line-height-1 smaller-90 new1"> {lang code="photos"} </span>
+			</span>
+			{/if}
+			<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
+				<span class="line-height-1 bigger-170 blue">{$user.num_visits|number_format}</span>
+				<br>
+				<span class="line-height-1 smaller-90 new1"> {lang code='total_logins'} </span>
+			</span>
+			<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
+				<span class="line-height-1 bigger-170 blue">{$user.total_watched|number_format}</span>
+				<br>
+				<span class="line-height-1 smaller-90 new1"> {lang code='Watched'} </span>
+			</span>
+			<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
+				<span class="line-height-1 bigger-170 blue">{$user.total_comments|number_format}</span>
+				<br>
+				<span class="line-height-1 smaller-90 new1"> {lang code='comments'} </span>
+			</span>
+			<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
+				<span class="line-height-1 bigger-170 blue">{$user.total_collections|number_format}</span>
+				<br>
+				<span class="line-height-1 smaller-90 new1"> {lang code='collections'} </span>
+			</span>
 			<span class="btn btn-primary new1" style="background-color: #000000; color: #ffffff">
-													<span class="line-height-1 bigger-170 blue">{$user.profile_hits}</span>
-													<br>
-													<span class="line-height-1 smaller-90 new1"> {lang code='views'} </span>
-												</span>
+				<span class="line-height-1 bigger-170 blue">{$user.profile_hits}</span>
+				<br>
+				<span class="line-height-1 smaller-90 new1"> {lang code='views'} </span>
+			</span>
 			<span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
-													<span class="line-height-1 bigger-170 blue">{$user.subscribers}</span>
-													<br>
-													<span class="line-height-1 smaller-90 new1"> {lang code='subscribers'} </span>
-												</span>
+				<span class="line-height-1 bigger-170 blue">{$user.subscribers}</span>
+				<br>
+				<span class="line-height-1 smaller-90 new1"> {lang code='subscribers'} </span>
+			</span>
 		{/if}
 	</div>
 </div>

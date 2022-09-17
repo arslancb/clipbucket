@@ -118,8 +118,10 @@
 										</li>
 										{/if}
 										{/foreach}
-										{$usercat = $userquery->get_category_name($user.category)}
-										<li><strong>Category: </strong>{$usercat.category_name}</li>
+										{if $smarty.foreach.profile_groups.iteration==1}
+											{$usercat = $userquery->get_category_name($user.category)}
+											<li><strong>Category: </strong>{$usercat.category_name}</li>
+										{/if}
 									</ul>
 								</div>
 							{/if}

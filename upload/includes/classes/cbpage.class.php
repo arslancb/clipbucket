@@ -14,7 +14,7 @@ class cbpage
 	/**
 	 * _CONTRUCTOR
 	 */
-	function cbpage()
+	function __construct()
 	{
 		$this->page_tbl = 'pages';
 	}

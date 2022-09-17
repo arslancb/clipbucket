@@ -19,7 +19,7 @@
 		`dropbox` TEXT NOT NULL,
 		`stumbleupon` TEXT NOT NULL,
 		 PRIMARY KEY (id)
-		) ENGINE=MyISAM DEFAULT CHARSET=utf8;;'
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;;'
 		);
 
 		$db->Execute("INSERT INTO  ".tbl('social_beast_links')." (`id`, `facebook`, `twitter`, `google`, `linkedin`, `pinterest`, `reddit`, `youtube`, `vine`, `rss`, `github`, `dropbox`, `stumbleupon`) VALUES (NULL, '', '', '', '', '', '', '', '', '', '', '', '');");

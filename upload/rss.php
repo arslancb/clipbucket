@@ -30,7 +30,7 @@ switch($mode)
 	case 'recent':
 	default:
 	{
-		 $videos = get_videos(array('limit'=>$limit,'order'=>'date_added DESC'));
+		 $videos = get_videos(array('limit'=>$limit,'broadcast'=>'public','order'=>'date_added DESC'));
 		 $title  = "Recently Added Videos";
 	}
 	break;
@@ -38,21 +38,21 @@ switch($mode)
 	case 'views':
 	{
 		
-		 $videos = get_videos(array('limit'=>$limit,'order'=>'views DESC'));
+		 $videos = get_videos(array('limit'=>$limit,'broadcast'=>'public','order'=>'views DESC'));
 		 $title = "Most Viewed Videos";
 	}
 	break;
 	
 	case 'rating':
 	{
-		 $videos = get_videos(array('limit'=>$limit,'order'=>'rating DESC'));
+		 $videos = get_videos(array('limit'=>$limit,'broadcast'=>'public','order'=>'rating DESC'));
 		 $title = "Top Rated Videos";
 	}
 	break;
 	
 	case 'watching':
 	{
-		 $videos = get_videos(array('limit'=>$limit,'order'=>'last_viewed DESC'));
+		 $videos = get_videos(array('limit'=>$limit,'broadcast'=>'public','order'=>'last_viewed DESC'));
 		 $title = "Videos Being Watched";
 	}
 	break;
@@ -99,7 +99,7 @@ subtitle($title);
     ?>
     <item>
         <author><?=$video['username']?></author>
-        <title><?=substr($video['title'],0,50)?></title>
+        <title><?=substr($video['title'],0,500)?></title>
         <link><?=video_link($video)?></link>
         <description>
         <![CDATA[   
@@ -126,7 +126,7 @@ subtitle($title);
         <pubDate><?=$video['date_added']?></pubDate>
         <media:player url="<?=video_link($video)?>" />
         <media:thumbnail url="<?=get_thumb($video)?>" width="120" height="90" />
-        <![CDATA[<media:title><?=substr($video['title'],0,50)?></media:title> 
+        <![CDATA[<media:title><?=substr($video['title'],0,500)?></media:title> 
         <media:category label="Tags"><?=strip_tags(tags($video['tags'],'video'))?></media:category>]]>
         <media:credit><?=$video['username']?></media:credit>
         <enclosure url="<?=video_link($video)?>" type="application/x-shockwave-flash" />

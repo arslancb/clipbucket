@@ -20,7 +20,7 @@ var $PlayerVer = '7';
 var $bgcolor = '#FFFFFF';
 var $playerVar = 'player';
 
-	function SWFObject()
+	function __construct()
 	{
 		$this->width = config('player_width');
 		$this->height = config('player_height');

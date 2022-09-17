@@ -443,13 +443,13 @@ abstract class CBCategory
 	{
 		global $db;
 		$html = "";
-		$query = mysql_query("SELECT * FROM ".tbl($this->cat_tbl)." WHERE parent_id = $cid");
+		$query = mysqli_query($db,"SELECT * FROM ".tbl($this->cat_tbl)." WHERE parent_id = $cid");
 
 		if(!empty($query))
 		{
 			
 			$html .= "<ul id='".$cid."_subs' class='sub_categories'>";
-			while($result = mysql_fetch_array($query))
+			while($result = mysqli_fetch_array($query))
 			{	
 				if($_GET['cat'] == $result['category_id'])
 					$selected = "selected";
@@ -583,14 +583,14 @@ abstract class CBCategory
 		$pcat = mysql_clean($array['parent_cat']);
 
 		#exit($pcat);
-		$flds = array("category_name","category_desc","isdefault","parent_id");
+		$flds = array("category_name","category_desc","isdefault");
 		$values = array($name,$desc, $default, $pcat);
 		$cur_name = mysql_clean($array['cur_name']);
 		$cid = mysql_clean($array['cid']);
-		if(!empty($this->use_sub_cats)) {
-			$flds[] = "parent_id";
-			$values[] = $pcat;	
-		}
+		// if(!empty($this->use_sub_cats)) {
+		// 	$flds[] = "parent_id";
+		// 	$values[] = $pcat;	
+		// }
 		
 		if($this->get_cat_by_name($name) && $cur_name !=$name) {
 			e(lang("add_cat_erro"));
@@ -873,6 +873,29 @@ abstract class CBCategory
 		else
 			return false;
 	}
+
+	/**
+     * Function used to get multiple category names
+     */
+    function get_category_names($cid_array)
+    {
+        global $db;
+       
+        $cat_name = array();
+        $cid = explode(' ', $cid_array);
+        $cid = array_slice($cid,0,-1);
+        $test = '';
+        foreach ($cid as $key => $value) 
+        {      
+            $cat_id = str_replace('#','', $value);
+            $results = $this->get_category($cat_id);
+            
+                $cat_name[]= $results;
+        
+        }
+        return $cat_name;
+
+    }
 	
 	
 	

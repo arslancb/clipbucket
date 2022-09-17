@@ -1,0 +1,442 @@
+
+
+
+<div class="content-holder clearfix">
+	<div class="right-section padding-left">
+		<div class="content clearfix">
+			<div class="main-container">
+				<div class="search-nav-holder groups-nav clearfix">
+					<ul class="search-nav nav nav-tabs" role="tablist">
+						<li class="{if $mode == 'all'}active{/if}">
+							<a href="?search_mode=all&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$smarty.get.author|form_val}&search_by={$smarty.get.search_by|form_val}" >
+								All 
+							</a>
+						</li>
+						<li class="{if $mode == 'videos'}active{/if}" >
+							<a href="?search_mode=videos&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$smarty.get.author|form_val}&search_by={$smarty.get.search_by|form_val}" >
+								Videos
+							</a>
+						</li>
+						<li class="{if $mode == 'groups'}active{/if}" >
+							<a href="?search_mode=groups&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$smarty.get.author|form_val}&search_by={$smarty.get.search_by|form_val}">
+							Groups
+						</a>
+						</li>
+						<li class="{if $mode == 'collections'}active{/if}" >
+							<a href="?search_mode=collections&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$smarty.get.author|form_val}&search_by={$smarty.get.search_by|form_val}" >
+							Collections</a>
+						</li>
+						<li class="{if $mode == 'users'}active{/if}" >
+							<a href="?search_mode=users&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$smarty.get.author|form_val}&search_by={$smarty.get.search_by|form_val}" >
+							Users</a>
+						</li>
+					</ul>
+					{if $time_took}
+					<span class="pull-right label label label-info">
+						{$time_took} seconds
+					</span>
+					{/if}
+					
+				</div><!-- search Nav -->
+
+				<div class="row clearfix">
+					<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+						<div class="search-sec clearfix visible-xs">
+							<button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#filters-modal">Filters</button>
+						</div>
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane {if $mode == 'all'}active{/if}" id="all-tab">
+								{if $videos}
+								<div class="search-sec clearfix">
+	                                <h3>
+	                                	Videos
+	                                	<span class="pull-right"><a href="{link name='videos'}">See All</a></span>
+	                                </h3>
+                                    <div class="all-search-holder clearfix">
+                                    {foreach $videos as $video}
+	                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 category-col">
+	                                        <div class="category-box">
+	                                            <a href="{$video.video_link}"> 
+													<!-- <img src="{get_thumb vdetails=$video size='320x200'}" alt="" class="img-responsive"> -->
+													<img src="{get_thumb vdetails=$video.videoid size='320x200'}" alt="" class="img-responsive">
+	                                                <div class="like-comments">
+	                                                    <span><i class="like"></i>{$video.likes}</span>
+	                                                    <span><i class="comments"></i>{$video.comments_count}</span>
+	                                                </div>
+	                                            </a>
+	                                            <a href="{$video.video_link}" class="mask-icon">
+	                                                <span class="video-icon"></span>
+	                                            </a>
+	                                        </div>
+	                                        <h4>{$video.title}</h4>
+	                                        <p>{name($video)}</p>
+	                                        <div class="view-date clearfix">
+	                                            <span><i class="view"></i>{$video.views} views</span>
+	                                            <span><i class="date"></i>{$video.date_added|date_format} </span>
+	                                        </div>
+	                                    </div>
+	                                {/foreach}
+                                    </div>
+	                            </div><!-- videos -->
+	                            {/if}
+	                            {if $groups}
+								<div class="search-sec clearfix">
+	                                <h3>
+	                                	Groups
+	                                	<span class="pull-right"><a href="{link name='groups'}">See All</a></span>
+	                                </h3>
+                                    <div class="all-search-holder clearfix">
+                                  	{foreach $groups as $group}
+                                    	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 category-col">
+	                                            <div class="category-box">
+	                                                <a href="{$group.group_url}">    
+	                                                    <img src="{$cbgroup->get_group_thumb($group,'110')}" alt="" class="img-responsive">
+	                                                    <div class="search-group-circle">{$group.total_videos}<span>Videos</span></div>
+	                                                </a>
+	                                            </div>
+	                                            <h4 class="search-heading">{$group.group_name} </h4>
+	                                            <p class="search-para">{$group.ATCategory}</p>
+                                        </div>
+                                    {/foreach}
+                                    </div>
+                                </div><!-- Groups -->
+                                {/if}
+                                {if $collections}
+								<div class="search-sec clearfix">
+	                                <h3>
+	                                	Collection
+	                                	<span class="pull-right"><a href="{link name='collections'}">See All</a></span>
+	                                </h3>
+                                    <div class="all-search-holder clearfix">
+                                    	{foreach $collections as $collection}
+                                    	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 category-col">
+	                                            <div class="category-box">
+	                                                <a href="{$collection.U}">    
+	                                                    <img src="{$cbgroup->get_group_thumb($collection,'110')}" alt="" class="img-responsive">
+	                                                    <div class="search-group-circle">{$collection.total_videos}<span>Videos</span></div>
+	                                                </a>
+	                                            </div>
+	                                            <h4 class="search-heading">{$collection.group_name}</h4>
+	                                            <p class="search-para">{$collection.ATCategory}</p>
+                                        </div>
+                                    {/foreach}
+                                    </div>
+	                            </div><!-- Collections -->
+	                            {/if}
+	                            {if $users}
+								<div class="search-sec clearfix">
+	                                <h3>
+	                                	Users
+	                                	<span class="pull-right"><a href="{link name='channels'}">See All</a></span>
+	                                </h3>
+                                    <div class="row">
+                                     
+                                     {foreach $users as $user}
+	                                    {$user_details = $userquery->get_user_details($user.userid)}
+	                                        <div class="user-col">
+	                                            <a href="{$userquery->profile_link($user_details)}" {ANCHOR place='lync_info' data=$user_details} >
+	                                                <img src="{avatar details=$user_details}" alt="" class="img-responsive">
+	                                            </a>
+	                                            <div class="popper-content clearfix hide">
+	                                                <div class="img-holder">
+	                                                    <img src="{avatar details=$user_details}" alt="" class="img-responsive">
+	                                                </div>
+	                                                <div class="content-user">
+	                                                    <h4>{name($user_details)}</h4>
+	                                                    <p><span>{$user.total_videos} {if $user.total_videos > 1}videos {else} video {/if}</span> | <span>{$user.views} Views</span>
+	                                                    </p>
+	                                                </div>
+	                                            </div><!-- popper-content -->
+	                                            <h4>{name($user_details)}</h4>
+	                                            <p><span>{$user.total_videos} {if $user.total_videos > 1}videos {else}
+	                                            video {/if}</span> | <span>{$user.views} Views</span></p>
+	                                        </div><!-- user-col -->
+	                                    {/foreach}
+                                     </div><!-- users list -->
+	                            </div><!-- users -->
+	                            {/if}
+	                            <div class="pagination-holder clearfix">
+									<div class="pagination-holder clearfix">
+							            {include file="$style_dir/blocks/pagination.html"} 
+							        </div>
+								</div>
+								
+								{if !$videos && !$groups && !$collections && !$users }
+								<span class="well well-info btn-block">{lang code="no_search_results"}</span>
+								{/if}
+
+							</div><!-- all users -->
+							<div role="tabpanel" class="tab-pane {if $mode == 'videos'}active{/if}" id="videos-tab">
+								<div class="search-sec clearfix visible-xs">
+									<button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#filters-modal">Filters</button>
+								</div>
+								<div class="search-sec clearfix">
+	                                <h3>
+	                                	Videos
+	                                	<span class="pull-right"><a href="{link name='videos'}">See All</a></span>
+	                                </h3>
+                                    <div class="all-search-holder clearfix">
+                                    	{if $videos}
+                                        {foreach $videos as $video}
+	                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 category-col">
+	                                            <div class="category-box">
+	                                                <a href="{$video.video_link}"> 
+														<!-- <img src="{get_thumb vdetails=$video size='320x200'}" alt="" class="img-responsive"> -->
+														<img src="{get_thumb vdetails=$video.videoid size='320x200'}" alt="" class="img-responsive">
+	                                                    <div class="like-comments">
+	                                                        <span><i class="like"></i>{$video.likes}</span>
+	                                                        <span><i class="comments"></i>{$video.comments_count}</span>
+	                                                    </div>
+	                                                </a>
+	                                                <a href="{$video.video_link}" class="mask-icon">
+	                                                    <span class="video-icon"></span>
+	                                                </a>
+	                                            </div>
+	                                            <h4>{$video.title}</h4>
+	                                            <p>{name($video)}</p>
+	                                            <div class="view-date clearfix">
+	                                                <span><i class="view"></i>{$video.views} views</span>
+	                                                <span><i class="date"></i>{$video.date_added|date_format} </span>
+	                                            </div>
+	                                        </div>
+	                                	{/foreach}
+	                                	<div class="pagination-holder clearfix">
+											<div class="pagination-holder clearfix">
+									            {include file="$style_dir/blocks/pagination.html"} 
+									        </div>
+										</div>
+	                                	{else}
+											<span class="well well-info btn-block">{lang code="no_search_results"}</span>
+	                                	{/if}
+                                    </div>
+	                            </div><!-- videos -->
+							</div><!-- all videos -->
+							<div role="tabpanel" class="tab-pane {if $mode == 'groups'}active{/if}" id="groups-tab">
+								<div class="search-sec clearfix visible-xs">
+									<button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#filters-modal">Filters</button>
+								</div>
+								<div class="search-sec clearfix">
+	                                <h3>
+	                                	Groups
+	                                	<span class="pull-right"><a href="{link name='groups'}">See All</a></span>
+	                                </h3>
+                                    <div class="all-search-holder clearfix">
+                                    {if $groups}
+                                    {foreach $groups as $group}
+                                    	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 category-col">
+	                                            <div class="category-box">
+	                                                <a href="{$group.group_url}">    
+	                                                    <img src="{$cbgroup->get_group_thumb($group,'110')}" alt="" class="img-responsive">
+	                                                    <div class="search-group-circle">{$group.total_videos}<span>Videos</span></div>
+	                                                </a>
+	                                            </div>
+	                                            <h4 class="search-heading">{$group.group_name} </h4>
+	                                            <p class="search-para">{$group.ATCategory}</p>
+                                        </div>
+                                    {/foreach}
+                                    <div class="pagination-holder clearfix">
+										<div class="pagination-holder clearfix">
+								            {include file="$style_dir/blocks/pagination.html"} 
+								        </div>
+									</div>
+                                    {else}
+                                    	<span class="well well-info btn-block">{lang code="no_search_results"}</span>
+                                    {/if}
+                                    </div>
+	                            </div>
+							</div><!-- Groups -->
+							<div role="tabpanel" class="tab-pane {if $mode == 'collections'}active{/if}" id="collections-tab">
+								<div class="search-sec clearfix visible-xs">
+									<button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#filters-modal">Filters</button>
+								</div>
+								<div class="search-sec clearfix">
+	                                <h3>
+	                                	Collections
+	                                	<span class="pull-right"><a href="{link name='collections'}">See All</a></span>
+	                                </h3>
+                                    <div class="all-search-holder clearfix">
+                                    {if $collections}
+                                    {foreach $collections as $collection}
+                         				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 category-col">
+	                                            <div class="category-box">
+	                                                <a href="{$collection.U}">    
+	                                                    <img src="{$cbgroup->get_group_thumb($collection,'110')}" alt="" class="img-responsive">
+	                                                    <div class="search-group-circle">{$collection.total_videos}<span>Videos</span></div>
+	                                                </a>
+	                                            </div>
+	                                            <h4 class="search-heading">{$collection.group_name}</h4>
+	                                            <p class="search-para">{$collection.ATCategory}</p>
+                                        </div>
+                                    {/foreach}
+                                    <div class="pagination-holder clearfix">
+										<div class="pagination-holder clearfix">
+								            {include file="$style_dir/blocks/pagination.html"} 
+								        </div>
+									</div>
+                                    {else}
+                                    	<span class="well well-info btn-block">{lang code="no_search_results"}</span>
+                                    {/if}
+                                    </div>
+	                            </div>
+							</div><!-- Collections -->
+							<div role="tabpanel" class="tab-pane {if $mode == 'users'}active{/if}" id="users-tab">
+								<div class="search-sec clearfix visible-xs">
+									<button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#filters-modal">Filters</button>
+								</div>
+								<div class="search-sec clearfix">
+	                                <h3>
+	                                	Users
+	                                	<span class="pull-right"><a href="{link name='channels'}">See All</a></span>
+	                                </h3>
+                                    <div class="row">
+                                        {if $users}
+	                                    {foreach $users as $user}
+	                                    {$user_details = $userquery->get_user_details($user.userid)}
+	                                        <div class="user-col">
+	                                            <a href="{$userquery->profile_link($user_details)}" {ANCHOR place='lync_info' data=$user_details} >
+	                                                <img src="{avatar details=$user_details}" alt="" class="img-responsive">
+	                                            </a>
+	                                            <div class="popper-content clearfix hide">
+	                                                <div class="img-holder">
+	                                                    <img src="{avatar details=$user_details}" alt="" class="img-responsive">
+	                                                </div>
+	                                                <div class="content-user">
+	                                                    <h4>{name($user_details)}</h4>
+	                                                    <p><span>{$user.total_videos} {if $user.total_videos > 1}videos {else} video {/if}</span> | <span>{$user.views} Views</span>
+	                                                    </p>
+	                                                </div>
+	                                            </div><!-- popper-content -->
+	                                            <h4>{name($user_details)}</h4>
+	                                            <p><span>{$user.total_videos} {if $user.total_videos > 1}videos {else}
+	                                            video {/if}</span> | <span>{$user.views} Views</span></p>
+	                                        </div><!-- user-col -->
+	                                    {/foreach}
+	                                    <div class="pagination-holder clearfix">
+											<div class="pagination-holder clearfix">
+									            {include file="$style_dir/blocks/pagination.html"} 
+									        </div>
+										</div>
+	                                    {else}
+	                                        	<span class="well well-info btn-block">{lang code="no_search_results"}</span>
+	                                    {/if}
+                                    </div><!-- users list -->
+	                            </div>
+							</div><!-- users -->
+						</div><!-- tab content -->
+					</div><!-- left column -->
+					<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 hidden-xs">
+						<div class="search-sort-by clearfix">
+							<div class="sortby-holder">
+								<span>Sort by:</span>
+								<div class="dropdown">
+									<button aria-expanded="true" data-toggle="dropdown" id="dropdownMenu1" type="button" class="btn btn-default dropdown-toggle">
+										{if $smarty.get.search_by=='rel'} 
+											Relevance
+										{elseif $smarty.get.search_by=='date'}
+											Date
+										{elseif $smarty.get.search_by=='views'}
+											Popularity
+										{else}
+											Relevance
+										{/if}
+										<span class="caret-arrow"></span>
+									</button>
+									<ul aria-labelledby="dropdownMenu1" role="menu" class="dropdown-menu">
+										<li role="presentation">
+											<a href="?search_mode={$smarty.get.search_mode|form_val}&query={$smarty.get.query|form_val}&category={$category}&author={$smarty.get.author|form_val}&search_by=rel">Relevance</a>
+										</li>
+										<li role="presentation">
+											<a href="?search_mode={$smarty.get.search_mode|form_val}&query={$smarty.get.query|form_val}&category={$category}&author={$smarty.get.author|form_val}&search_by=date">Date</a>
+										</li>
+										<li role="presentation">
+											<a href="?search_mode={$smarty.get.search_mode|form_val}&query={$smarty.get.query|form_val}&category={$category}&author={$smarty.get.author|form_val}&search_by=views">Popularity</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="search-filter clearfix">
+						{foreach $filter_results as $key => $filter}
+							<div class="filter-col clearfix">
+							{if $filter.0 != ''}
+							
+							
+								<h4>{$key}</h4>
+								<ul>
+									{foreach $filter as $final}
+										{if $final@iteration < 5}
+										<li class="display">
+											{if $key == 'CATEGORY' }
+											{$category = $final}
+											<a href="?search_mode=videos&query={$smarty.get.query|form_val}&category={$category.id}&author={$smarty.get.author|form_val}">
+
+											{cleanString($final.source)} ( {$final.counts} )
+											</a>
+											{elseif $key == 'AUTHOR'}
+											{$author =  $final}
+											<a href="?search_mode=videos&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$author.id}">{cleanString(name($final.source))} ( {$final.counts} )</a>
+											{elseif $key == 'VIDEO' }
+											{$video_name = $final}
+											<a href="?search_mode=videos&query={$smarty.get.query|form_val}&object={$video_name}&object_type=video">{cleanString($final)}</a>
+											{elseif $key == 'GROUP' }
+											{$group_name = $final}
+											<a href="?search_mode=groups&query={$smarty.get.query|form_val}&object={$group_name.id}&object_type=group">{cleanString($group_name.source)}</a>
+											{elseif $key =='COLLECTION' }
+											{$collection_name = $final}
+											<a href="?search_mode=collections&query={$smarty.get.query|form_val}&object={$collection_name.id}&object_type=collection">{cleanString($collection_name.source)}</a>
+											{elseif $key == 'USER' }
+											{$user_name = $final}
+											<a href="?search_mode=users&query={$smarty.get.query|form_val}&object={$user_name}&object_type=user">{cleanString($final)}</a>
+											{elseif $key == 'SOURCE' }
+											<a href="?search_mode={$final.key}&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$smarty.get.author|form_val}">{cleanString($final.key)} ( {$final.doc_count} )</a>
+											{else}
+											<a href="javascript:void(0)">{cleanString($final)}</a>
+											{/if}
+											
+										</li>
+										{else}
+										{$flag = true}
+										<li class="no-display hide" >
+											{if $key == 'CATEGORY' }
+											{$category = $final}
+											<a href="?search_mode=videos&query={$smarty.get.query|form_val}&category={$category.id}&author={$smarty.get.author|form_val}">{cleanString($final.source)} ( {$final.counts} )
+											{elseif $key == 'AUTHOR'}
+											{$author =  $final}
+											<a href="?search_mode=videos&query={$smarty.get.query|form_val}&category={$smarty.get.category|form_val}&author={$author}">{cleanString($final)}</a>
+											{elseif $key == 'VIDEO' }
+											{$video_name = $final}
+											<a href="?search_mode=videos&query={$smarty.get.query|form_val}&object={$video_name}&object_type=video">{cleanString($final)}</a>
+											{elseif $key == 'GROUP' }
+											{$group_name = $final}
+											<a href="?search_mode=groups&query={$smarty.get.query|form_val}&object={$group_name.id}&object_type=group">{cleanString($final.source)} ( {$final.counts} )</a>
+											{elseif $key =='COLLECTION' }
+											{$collection_name = $final}
+											<a href="?search_mode=collections&query={$smarty.get.query|form_val}&object={$collection_name.id}&object_type=collection">{cleanString($final.source)} ( {$final.counts} )</a>
+											{elseif $key == 'USER' }
+											{$user_name = $final}
+											<a href="?search_mode=users&query={$smarty.get.query|form_val}&object={$user_name}&object_type=user">{cleanString($final)}</a>
+											{elseif $key == 'SOURCE' }
+											{$source = explode(' ',$final)}
+											{$source = $source.1}
+											
+											<a href="?search_mode={$source}&query={$smarty.get.query|form_val}&category={$smarty.get.author|form_val}&author={$smarty.get.author|form_val}">{cleanString($final)}</a>
+											{else}
+											<a href="javascript:void(0)">{cleanString($final)}</a>
+											{/if}
+										</li>
+										{/if}
+									{/foreach}
+								</ul>
+								{if $flag}
+									<a href="javascript:void(0)" class="more" >More...</a>
+								{/if}
+								{/if}
+							</div>
+						{/foreach}
+						</div>
+					</div><!-- right column -->
+				</div>
+			</div><!-- content -->
+		</div><!-- content -->
+	</div>
+</div><!-- content -->

@@ -6,7 +6,7 @@ CREATE TABLE  `clipbucket_svn`.`cb_collection_cateogries` (
 `date_added` MEDIUMTEXT NOT NULL ,
 `category_thumb` MEDIUMINT NOT NULL ,
 `isdefault` ENUM(  'yes',  'no' ) NOT NULL
-) ENGINE = MYISAM ;
+) ENGINE = InnoDB ;
 
 
 CREATE TABLE IF NOT EXISTS `cb_collections` (
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `cb_collections` (
   `public_upload` varchar(4) NOT NULL,
   `type` varchar(10) NOT NULL,
   PRIMARY KEY (`collection_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 ALTER TABLE  `cb_collections` CHANGE  `broadcast`  `broadcast` VARCHAR( 10 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  'public',
 CHANGE  `allow_comments`  `allow_comments` VARCHAR( 4 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  'yes',
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `cb_collection_items` (
   `type` varchar(10) NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`ci_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 INSERT INTO `cb_email_templates` (`email_template_id`, `email_template_name`, `email_template_code`, `email_template_subject`, `email_template`, `email_template_allowed_tags`) VALUES (NULL, 'Collection Share Template', 'collection_share_template', '{username} wants to share collection with you', '<html>
 <head>

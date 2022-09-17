@@ -32,6 +32,7 @@
 				<!-- Add new playlist -->
 
 				<hr>
+				
 				<!-- Getting List of Playlist -->
 				<form class="marginTop" name="manage_playlists" method="post">
 					<div>
@@ -48,6 +49,8 @@
 								<td width="130" class="last_td"><strong>{lang code='total_items'}</strong></td>
 							</tr>
 							{section name=plist loop=$playlists}
+							{assign var=playlist_items value=$cbvid->get_playlist_items($playlists[plist].playlist_id, 'playlist_items.date_added DESC')}
+							
 							<tr>
 								<td>
 									<input type="checkbox" name="check_playlist[]" id="check_playlist-{$playlists[plist].playlist_id}" value="{$playlists[plist].playlist_id}" />
@@ -57,9 +60,9 @@
 									<span class="video_control">
 										- <a class="btn btn-primary btn-xs" href="?mode=edit_playlist&amp;pid={$playlists[plist].playlist_id}">{lang code='view'}</a> 
 										<!-- changes made -->
-										{assign var=firstitem value=$playlists[plist].first_item|json_decode:1}
+										{assign var=firstitem value=$playlist_items[0]}
 										{if $firstitem}
-										<a class="btn btn-success btn-xs" href="{$baseurl}/watch_video.php?v={$firstitem->videokey}&play_list={$playlists[plist].playlist_id}" target="_blank">{lang code='play'}</a> 
+										<a class="btn btn-success btn-xs" href="{videoLink($firstitem)}" target="_blank">{lang code='play'}</a> 
 										{else}
 										<a class="btn btn-success btn-xs" onclick="_cb.throwHeadMsg('danger','{lang code=no_vid_in_playlist}', 5000, true);">{lang code='play'}</a> 
 										{/if}

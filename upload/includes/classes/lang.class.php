@@ -30,7 +30,7 @@ class language
 	/** 
 	 * __Constructor
 	 */
-	function language()
+	function __construct()
 	{
 		$this->lang = $this->lang_iso = 'en';
 	}

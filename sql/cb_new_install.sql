@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `action_log` (
   `action_success` enum('yes','no') CHARACTER SET latin1 NOT NULL,
   `action_details` text CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`action_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `action_log`
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `ads_data` (
   `ad_impressions` bigint(255) NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`ad_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `ads_data`
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `ads_placements` (
   `placement_name` varchar(50) NOT NULL,
   `disable` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`placement_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `ads_placements`
@@ -107,7 +107,7 @@ INSERT INTO `ads_placements` (`placement_id`, `placement`, `placement_name`, `di
 
 CREATE TABLE IF NOT EXISTS `cb_global_announcement` (
   `announcement` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cb_global_announcement`
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `voters` text NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`comment_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `comments`
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `config` (
   `name` varchar(100) NOT NULL DEFAULT '',
   `value` mediumtext NOT NULL,
   PRIMARY KEY (`configid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=84 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=84 ;
 
 --
 -- Dumping data for table `config`
@@ -253,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `contacts` (
   `userid` int(225) NOT NULL,
   `contact_userid` int(225) NOT NULL,
   PRIMARY KEY (`contact_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `contacts`
@@ -274,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `conversion_queue` (
   `cqueue_conversion` enum('yes','no','p') NOT NULL DEFAULT 'no',
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`cqueue_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `conversion_queue`
@@ -293,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `countries` (
   `iso3` char(3) CHARACTER SET latin1 DEFAULT NULL,
   `name_en` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `countries`
@@ -555,7 +555,7 @@ CREATE TABLE IF NOT EXISTS `custom_fields` (
   `custom_field_hint_2` text NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`custom_field_list_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `custom_fields`
@@ -575,7 +575,7 @@ CREATE TABLE IF NOT EXISTS `editors_picks` (
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` enum('0','1') NOT NULL DEFAULT '1',
   PRIMARY KEY (`pick_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `editors_picks`
@@ -594,7 +594,7 @@ CREATE TABLE IF NOT EXISTS `email_settings` (
   `email_settings_value` mediumtext NOT NULL,
   `email_settings_headers` mediumtext NOT NULL,
   PRIMARY KEY (`email_settings_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `email_settings`
@@ -625,7 +625,7 @@ CREATE TABLE IF NOT EXISTS `email_templates` (
   `email_template_allowed_tags` mediumtext NOT NULL,
   PRIMARY KEY (`email_template_id`),
   UNIQUE KEY `email_template_code` (`email_template_code`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `email_templates`
@@ -649,7 +649,7 @@ CREATE TABLE IF NOT EXISTS `favorites` (
   `userid` int(225) NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`favorite_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `favorites`
@@ -668,7 +668,7 @@ CREATE TABLE IF NOT EXISTS `flagged_videos` (
   `username` varchar(20) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`flagged_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `flagged_videos`
@@ -689,7 +689,7 @@ CREATE TABLE IF NOT EXISTS `flags` (
   `flag_type` bigint(25) NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`flag_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `flags`
@@ -722,7 +722,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `total_members` int(225) NOT NULL,
   `total_topics` int(225) NOT NULL,
   PRIMARY KEY (`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `groups`
@@ -742,7 +742,7 @@ CREATE TABLE IF NOT EXISTS `group_invitations` (
   `invited_by` varchar(16) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`invitation_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `group_invitations`
@@ -763,7 +763,7 @@ CREATE TABLE IF NOT EXISTS `group_members` (
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `active` enum('yes','no') NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`group_mid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `group_members`
@@ -785,7 +785,7 @@ CREATE TABLE IF NOT EXISTS `group_posts` (
   `reply_to` int(225) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`post_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `group_posts`
@@ -809,7 +809,7 @@ CREATE TABLE IF NOT EXISTS `group_topics` (
   `videokey` mediumtext NOT NULL,
   `approved` enum('yes','no') NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`topic_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `group_topics`
@@ -831,7 +831,7 @@ CREATE TABLE IF NOT EXISTS `group_videos` (
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `approved` enum('yes','no') NOT NULL,
   PRIMARY KEY (`group_vid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `group_videos`
@@ -851,7 +851,7 @@ CREATE TABLE IF NOT EXISTS `languages` (
   `language_regex` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `language_default` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `languages`
@@ -879,7 +879,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `reply_to` int(225) NOT NULL DEFAULT '0',
   `message_box` enum('in','out') NOT NULL DEFAULT 'in',
   PRIMARY KEY (`message_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `messages`
@@ -899,7 +899,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `active` varchar(5) NOT NULL,
   `module_include_file` text NOT NULL,
   PRIMARY KEY (`module_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `modules`
@@ -918,7 +918,7 @@ CREATE TABLE IF NOT EXISTS `phrases` (
   `varname` varchar(250) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `text` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=839 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=839 ;
 
 --
 -- Dumping data for table `phrases`
@@ -1771,7 +1771,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   `player_file` varchar(30) NOT NULL,
   `template_id` varchar(15) NOT NULL,
   PRIMARY KEY (`player_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `players`
@@ -1791,7 +1791,7 @@ CREATE TABLE IF NOT EXISTS `player_skins` (
   `player_skin_file` text CHARACTER SET latin1 NOT NULL,
   `player_skin_type` enum('name','file') CHARACTER SET latin1 NOT NULL DEFAULT 'file',
   PRIMARY KEY (`player_skins_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `player_skins`
@@ -1814,7 +1814,7 @@ CREATE TABLE IF NOT EXISTS `plugins` (
   `plugin_license_code` text NOT NULL,
   `plugin_active` enum('yes','no') NOT NULL,
   PRIMARY KEY (`plugin_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `plugins`
@@ -1836,7 +1836,7 @@ CREATE TABLE IF NOT EXISTS `plugin_config` (
   `player_admin_file` text CHARACTER SET latin1 NOT NULL,
   `player_include_file` text CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`plugin_config_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `plugin_config`
@@ -1856,7 +1856,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   `session_value` varchar(32) NOT NULL,
   `session_date` datetime NOT NULL,
   PRIMARY KEY (`session_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `sessions`
@@ -1874,7 +1874,7 @@ CREATE TABLE IF NOT EXISTS `stats` (
   `name` varchar(60) NOT NULL,
   `value` varchar(60) NOT NULL,
   PRIMARY KEY (`stat_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `stats`
@@ -1893,7 +1893,7 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
   `subscribed_to` mediumtext NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`subscription_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `subscriptions`
@@ -1911,7 +1911,7 @@ CREATE TABLE IF NOT EXISTS `template` (
   `template_name` varchar(25) NOT NULL,
   `template_dir` varchar(30) NOT NULL,
   PRIMARY KEY (`template_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `template`
@@ -1973,7 +1973,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `ind_status_doj` (`doj`),
   KEY `ind_status_id` (`userid`),
   KEY `ind_hits_doj` (`profile_hits`,`doj`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `users`
@@ -1994,7 +1994,7 @@ CREATE TABLE IF NOT EXISTS `user_levels` (
   `user_level_name` varchar(100) CHARACTER SET latin1 NOT NULL,
   `user_level_is_default` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`user_level_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `user_levels`
@@ -2026,7 +2026,7 @@ CREATE TABLE IF NOT EXISTS `user_levels_permissions` (
   `video_moderation` enum('yes','no') NOT NULL DEFAULT 'no',
   `member_moderation` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`user_level_permission_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `user_levels_permissions`
@@ -2054,7 +2054,7 @@ CREATE TABLE IF NOT EXISTS `user_permissions` (
   `permission_default` enum('yes','no') NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`permission_id`),
   UNIQUE KEY `permission_code` (`permission_code`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `user_permissions`
@@ -2082,7 +2082,7 @@ CREATE TABLE IF NOT EXISTS `user_permission_types` (
   `user_permission_type_name` varchar(225) NOT NULL,
   `user_permission_type_desc` mediumtext NOT NULL,
   PRIMARY KEY (`user_permission_type_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `user_permission_types`
@@ -2138,7 +2138,7 @@ CREATE TABLE IF NOT EXISTS `user_profile` (
   PRIMARY KEY (`user_profile_id`),
   KEY `ind_status_id` (`userid`),
   FULLTEXT KEY `profile_tags` (`profile_tags`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `user_profile`
@@ -2160,7 +2160,7 @@ CREATE TABLE IF NOT EXISTS `validation_re` (
   `re_code` varchar(60) CHARACTER SET utf8 NOT NULL,
   `re_syntax` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`re_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `validation_re`
@@ -2215,7 +2215,7 @@ CREATE TABLE IF NOT EXISTS `video` (
   `default_thumb` int(3) NOT NULL DEFAULT '1',
   `embed_code` text NOT NULL,
   PRIMARY KEY (`videoid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `video`
@@ -2236,7 +2236,7 @@ CREATE TABLE IF NOT EXISTS `video_categories` (
   `category_thumb` mediumtext NOT NULL,
   `isdefault` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `video_categories`
@@ -2255,7 +2255,7 @@ CREATE TABLE IF NOT EXISTS `video_favourites` (
   `userid` int(11) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`fav_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `video_favourites`
@@ -2312,7 +2312,7 @@ CREATE TABLE IF NOT EXISTS `video_files` (
   `hq` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
   FULLTEXT KEY `src_bitrate` (`src_bitrate`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `video_files`

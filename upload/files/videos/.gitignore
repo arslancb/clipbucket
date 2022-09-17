@@ -1,0 +1,5 @@
+/*
+# But not these files...
+!.gitignore
+!no_video.flv
+!no_video.mp4

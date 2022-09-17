@@ -47,7 +47,7 @@
     */
 
     function translate_phrase($phrase, $phrase_code, $to, $total, $current) {
-        global $MrsTranslator;
+        global $GoogleTranslator;
         /**
         * There is no point in starting with empty phrase
         * or invalid language code
@@ -55,11 +55,11 @@
 
         if (!empty($phrase) && strlen($to) == 2)  {
             # Feed file to Bing API for translation
-            $translation = $MrsTranslator->translate($phrase,$to,'en',"text/html");
+            $translation = $GoogleTranslator->translate($phrase,$to,'en',"text/html");
 
             # In case, it failed in translation, lets give it another try
             if (!$translation) {
-               $translation = $MrsTranslator->translate($phrase,$to,'en',"text/html"); 
+               $translation = $GoogleTranslator->translate($phrase,$to,'en',"text/html"); 
             }
 
             if (!empty($translation)) {

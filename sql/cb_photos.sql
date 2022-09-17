@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `cb_photos` (
   `downloaded` bigint(255) NOT NULL,
   `owner_ip` varchar(20) NOT NULL,
   PRIMARY KEY (`photo_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `cb_photos`

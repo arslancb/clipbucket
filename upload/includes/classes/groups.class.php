@@ -20,7 +20,7 @@ class CBGroups extends CBCategory
 	/**
 	 * Constructor function to set values of tables
 	 */
-	function CBGroups()
+	function __construct()
 	{
 		global $Cbucket;
 		$this->cat_tbl = 'group_categories';

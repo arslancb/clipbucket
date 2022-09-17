@@ -16,7 +16,7 @@ class CBEmail
 	var $smtp = false;
 	var $db_tpl = 'email_templates';
 	
-	function cbemail()
+	function __construct()
 	{
 		//Constructor - do nothing
 	}
@@ -110,7 +110,7 @@ class CBEmail
 		global $db;
 		$id = mysql_clean($params['id']);
 		$subj = mysql_clean($params['subj']);
-		$msg = mysql_escape_string($params['msg']);
+		$msg = mysqli_real_escape_string($db->mysqli,$params['msg']);
 		
 		if(!$this->template_exists($id))
 			e(lang("email_template_not_exist"));

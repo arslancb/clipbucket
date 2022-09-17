@@ -269,24 +269,16 @@ function homePageVideos(qlist_items) {
 				$(main_object).text("Loading..");
 				if (loadType != 'count') {
 					if (loadMode == 'featured') {
-						for (var i = 0; i < featuredFound; i++) {
-							$(document).find('#featured_pre').append('<div class="item-video col-lg-6 col-md-6 col-sm-6 col-xs-12"><div style="height:200px" class="thumb-video background-masker clearfix"></div></div>');
-						}
 						var currWidth = $(window).width();
 						if (loadHit >= 2 && currWidth > 767) {
 							var moveTo = $( ".featAppending" ).last().offset().top;
-							moveTo = moveTo;
 							thakkiLoading(moveTo);
 						}
 					} else {
-						for (var i = 0; i < recentFound; i++) {
-							$(document).find('#recent_pre').append('<div class="item-video col-lg-4 col-md-4 col-sm-4 col-xs-6"><div class="thumb-video background-masker clearfix"></div><div class="loadingInfo video-info relative clearfix"><div class="background-masker heading clearfix"></div><div class="background-masker paragraph clearfix"></div><div class="background-masker clearfix views-date"></div></div></div>');
-						}
 						preLoadingBlock();
 						var currWidth = $(window).width();
 						if (loadHit >= 2 && currWidth > 767) {
 							var moveTo = $( "#recent_pre" ).last().offset().top;
-							moveTo = moveTo;
 							thakkiLoading(moveTo);
 						}
 					}
@@ -301,11 +293,17 @@ function homePageVideos(qlist_items) {
 					if (loadHit == 1) {
 						//alert(loadMode);
 						if (loadMode == 'featured') {
+							for (var i = 0; i < featuredFound; i++) {
+								$(document).find('#featured_pre').append('<div class="item-video col-lg-6 col-md-6 col-sm-6 col-xs-12"><div style="height:200px" class="thumb-video background-masker clearfix"></div></div>');
+							}
 							$('#featured_load_more').hide();
 							$('#featured_pre').hide();
 							$("#featured_vid_sec").html('<div class="break2"></div><span class="well well-info btn-block">'+langCo+'</span>');
 							return false;
 						} else if (loadMode == 'recent') {
+							for (var i = 0; i < recentFound; i++) {
+								$(document).find('#recent_pre').append('<div class="item-video col-lg-4 col-md-4 col-sm-4 col-xs-6"><div class="thumb-video background-masker clearfix"></div><div class="loadingInfo video-info relative clearfix"><div class="background-masker heading clearfix"></div><div class="background-masker paragraph clearfix"></div><div class="background-masker clearfix views-date"></div></div></div>');
+							}
 							$('#recent_load_more').remove();
 							$('#recent_pre').remove();
 							$("#recent_vids_sec").html('<div class="break2"></div><span class="well well-info btn-block">'+noRecent+'</span>');
@@ -320,9 +318,16 @@ function homePageVideos(qlist_items) {
 						$('#recent_pre').html('');
 						$(data).appendTo('#recent_vids_sec').fadeIn('slow');
 						recentSect = $('#container').find('#total_videos_recent').text();
-						if (loadHit == 1 && recentSect <= 2) {
+						recentSect = parseInt(recentSect);
+						loadHit = parseInt(loadHit);
+						loadLimit = parseInt(loadLimit);
+						
+						if (loadHit == 1 && loadLimit >= recentSect) {
+							moreRecent = false;
+						}else if (loadHit * loadLimit >= recentSect) {
 							moreRecent = false;
 						}
+
 						if (moreRecent == true) {
 							$(document).find('#recent-loadmore').append('<div class="clearfix text-center"><button id="recent_load_more" class="btn btn-loadmore" loadtype="video" loadmode="recent" loadlimit="'+loadLimit+'" loadhit="'+newloadHit+'">'+loadMoreLang+'</button></div>');
 						}
@@ -333,12 +338,16 @@ function homePageVideos(qlist_items) {
 						$(data).appendTo('#featured_vid_sec').fadeIn('slow');
 						featuredSect = $('#container').find('#total_videos_featured').text();
 
+						loadLimit = parseInt(loadLimit);
+						featuredSect = parseInt(featuredSect);
+						loadHit = parseInt(loadHit);
+						
 						if (loadHit == 1 && loadLimit >= featuredSect) {
 							moreFeatured = false;
 						} else if (loadHit * loadLimit >= featuredSect) {
 							moreFeatured = false;
 						}
-
+						
 						if (moreFeatured == true) {
 							$(document).find('#featured-loadmore').append('<div class="clearfix text-center"><button id="featured_load_more" class="btn btn-loadmore" loadtype="video" loadmode="featured" loadlimit="'+loadLimit+'" loadhit="'+newloadHit+'">'+loadMoreLang+'</button></div>');
 						}

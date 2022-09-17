@@ -13,7 +13,7 @@
   `default_value` text NOT NULL,
   `customfields_flag` text NOT NULL,
   `date_added` DATETIME NOT NULL
-  ) ENGINE=MyISAM;'
+  ) ENGINE=InnoDB;'
   );
    //inserting new announcement
   //$db->Execute("INSERT INTO  ".tbl('custom_field')." (field_name,field_title,) VALUES ('Hello World!')");

@@ -8,7 +8,7 @@
 <tr>
 	<td>
 		<div class="col-md-3">
-			<a class="manageVid_thumb" href="edit_video.php?video={$video.videoid}">
+			<a class="manageVid_thumb" href="edit_video.php?vid={$video.videoid}">
 				<img src="{getThumb vdetails=$video}" class="img-responsive" width="130" height="80" id="thumbs_{$video.videoid}" class="vthumb" title=""/>
 				<span class="duration">({if
 					$video.duration>1}{$video.duration|SetTime}{else}00:00{/if})</span>
@@ -119,9 +119,8 @@
 	{/if}
 <!-- changes made -->
 	{if $control=='onWatch'}
-	<div class="featured-video clearfix" {if $ajax_load == "yes"} style="display: none" {/if} id="{videoLink($video)}">
+	<div class="featured-video clearfix" {if $ajax_load == "yes"} style="display: none" {/if} id="{$video.videoid}">
 		<a href="{videoLink($video)}">
-			<!-- {pr(videoLink($video),true)} -->
 			<div class="video_thumb">
 				<img src="{getThumb vdetails=$video size=128x80}" {ANCHOR place="video_thumb" data=$video} class="img-responsive">
 				<img src="{$theme}/images/thumb-ratio.png" alt="" class="thumb-ratio">
@@ -137,20 +136,10 @@
 			</div>
 		</div>
 	</div>
-	<script>
-//getting url of all videos
-var url = "{videoLink($video)}";
-var params = url.split("?")[1].split("&");
-
-//getting url of current
-var secondUrl=window.location.href ;
-var secondParam = secondUrl.split("?")[1].split("&");
-
-// styling according to parameter
-if(params[0]==secondParam[0]){
-	document.getElementById("{videoLink($video)}").style.background = "#f1ecec";
-}
-
+<script>
+	if('{$video.videoid}'=='{$vdo.videoid}'){
+		$("#{$video.videoid}").css("background", "#f1ecec");
+	}
 </script>
 {/if}	
 <!-- changes made -->

@@ -12,7 +12,7 @@ define("PARENT_PAGE",'collections');
 require 'includes/config.inc.php';
 $pages->page_redir();
 
-$c = mysql_clean($_GET['cid']);
+$c = mysql_clean((int)$_GET['cid']);
 $type = mysql_clean($_GET['type']);
 
 $page = mysql_clean($_GET['page']);

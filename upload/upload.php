@@ -43,12 +43,12 @@
 				$vid = $Upload->submit_upload();
 				$Upload->do_after_video_upload($vid);
 
-				echo '<div class="alert alert-success embed_video">
-	   			Video has been Embeded succesfully ..
-	    			</div>';
+				
 	    			
-				if(!error())
-				$step=3;
+				if(!error()){
+					e('Video has been Embeded succesfully ..','m');
+					$step=3;
+				}
 			}
 		}
 		

@@ -34,15 +34,6 @@
 {/if}
 <!-- End -->
 
-<!-- This code is added for Related Videos carousel plugin-->
-{foreach $videos as $video}
-	{$related['imageSrc'] = get_thumb($video,1,FALSE,FALSE,TRUE,FALSE,'168x105')}
-	{$related['url'] = video_link($video)}
-	{$related['title'] = $video.title|truncate:30}
-	{$related_videos[] = $related}
-{/foreach}
-{$related_videos = json_encode($related_videos)}
-<!-- End -->
 
 <link rel="stylesheet" href="{$cb_vjs_player_url}/css/video-js.min.css">
 <link href="{$cb_vjs_player_url}/css/cb_vjs_plugin.css" rel="stylesheet">
@@ -75,7 +66,6 @@
 <script src="{$cb_vjs_player_url}/js/videojs.ads.js"></script>
 <script src="{$cb_vjs_player_url}/js/videojs.ima.js"></script>
 <script src="{$cb_vjs_player_url}/js/cb_ultimate_ads.js"></script>
-<script src="{$cb_vjs_player_url}/js/videojs.relatedCarousel.js"></script>
 <script src="{$cb_vjs_player_url}/js/iphone-inline-video.browser.js"></script>
 
 <script src="{$cb_vjs_player_url}/js/videojs.thumbnails.js"></script>
@@ -93,10 +83,9 @@
     	<source src='{$file}' type="video/mp4" label="{strtoupper($quality)}" res="{$quality}"  />
     {/if}
     {/foreach}
-    {ANCHOR place="play_def_sub"}
+    {ANCHOR place="play_def_sub" data=$vdata.videoid }
     <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
 </video>
-
 
 
 <script type="text/javascript">
@@ -106,9 +95,8 @@
 	var branding_logo  = "{$cb_logo}";
 	var product_link = "{$player_config.player_logo_url}";
 	var show_logo = true;
-	var autoplay = "{$player_config.autoplay}";
 	var default_res = "{$default_quality}";
-	console.log("Fuck : "+navigator.userAgent);
+	var autoplay = "{$player_config.autoplay}";
 
 
 	if (autoplay == 'no' || navigator.userAgent.match(/Android/i) ){
@@ -116,13 +104,28 @@
 	}else{
 		autoplay = true;
 	}
+
+	//this condition is added for video head control advanced plugin
+	var video_head = "{$vdata.video_head}";
+	var controls = true;
+	var loop = false;
+	var muted = false;
+	if (video_head == true){
+		controls = false;
+		muted = true; 
+		autoplay = true;
+		loop = true;
+	}
+
 	//player settings
 	var cb_player_setup = {
 		plugins : { }, 
 		"techOrder" : ['html5', 'flash'],
-		"controls": true,
+		"controls": controls,
 		"autoplay": autoplay,
 		"preload": "auto",
+		"muted": muted,
+		"loop" : loop
 	};
 
 	var cb_timecomments_plugin = "{$cb_timecomments_plugin}"; // timecomments settings
@@ -139,9 +142,7 @@
 		var ad_id = "{$current_ad.ad_id}";
 	}
 
-	var related_videos = '{$related_videos}'; // Related videos plugin settings
-	var slot_id = "{$smarty.get.slot_id}";
-	related_videos_active= true;
+
 
 	var video_editor_enabled = "{$video_editor_enabled}"; // Interactive Ads plugin settings
 	var i_instances = '{$active_instances}';
@@ -219,12 +220,6 @@
 			
 		}
 
-		//Calling related Videos Plugin  
-		if ( related_videos != "" && typeof related_videos != 'undefined' && related_videos_active &&   
-			!video_editor_enabled ){
-			related_videos = JSON.parse(related_videos);
-			cb_vjs.relatedCarousel(related_videos);
-		}
 
 		//Calling instance manager plugin for backend
 		if ( video_editor_enabled && typeof video_editor_enabled != 'undefined'){

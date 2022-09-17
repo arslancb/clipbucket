@@ -298,7 +298,7 @@
                         },
                         {
                             "category": "Videos",
-                            "column-1": '{get_videos|number_format count_only=yes}'
+                            "column-1": '{get_videos count_only=yes}'
                         },
                         {
                             "category": "Collections",
@@ -357,6 +357,7 @@
             AmCharts.makeChart("ubarchart",
                 {
                     "type": "serial",
+                    "pathToImages": "https://www.amcharts.com/lib/3/images/",
                     "categoryField": "category",
                     "startDuration": 1,
                     "mouseWheelZoomEnabled": true,
@@ -417,6 +418,7 @@
             AmCharts.makeChart("vbarchart",
                 {
                     "type": "serial",
+                    "pathToImages": "https://www.amcharts.com/lib/3/images/",
                     "categoryField": "category",
                     "startDuration": 1,
                     "mouseWheelZoomEnabled": true,

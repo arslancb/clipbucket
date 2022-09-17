@@ -238,28 +238,34 @@
 	     	addErrClass(userSect, errors["empty_name"], true, false);
 	     } else if (usernameLen <= 2 || usernameLen >= 50) {
 	     	addErrClass(userSect, errors["name_length"], true, false);
+	     } else if (userSect.val().indexOf(' ') >= 0) {
+	     	addErrClass(userSect, errors["username_spaces"], true, false);
 	     } else {
-	     	$.ajax({
-				url: baseurl + "/ajax/commonAjax.php",
-				type: "post",
-				dataType: "html",
-				data: {
-					"mode":'userExists',
-					"username":usernameVal,
-				},
-				beforeSend: function() {
-					$(document).find('#more-view-channel').text('Loading videos..')
-				},
+	     	if(!userSect.val().match(/^[A-Za-z0-9_.]+$/)){
+	     		addErrClass(userSect, errors["name_invalid_chars"], true, false);
+	     	}else{
+		     	$.ajax({
+					url: baseurl + "/ajax/commonAjax.php",
+					type: "post",
+					dataType: "html",
+					data: {
+						"mode":'userExists',
+						"username":usernameVal,
+					},
+					beforeSend: function() {
+						$(document).find('#more-view-channel').text('Loading videos..')
+					},
 
-				success: function(data) {
-					data = $.trim(data);
-					if (data == 'NO') {
-						removeErrClass(userSect);	
-					} else {
-						addErrClass(userSect, errors['user_exists'], true, false)
+					success: function(data) {
+						data = $.trim(data);
+						if (data == 'NO') {
+							removeErrClass(userSect);	
+						} else {
+							addErrClass(userSect, errors['user_exists'], true, false)
+						}
 					}
-				}
-			});
+				});
+		     }
 	     }
 	});
 
@@ -367,7 +373,13 @@
 		} else if (username.length < 2 || username.length > 50) {
 			addErrClass(usernameSect, errors["name_length"]);
 			goodToGo = false;
-		} 
+		} else if (username.indexOf(' ') >= 0) {
+			addErrClass(usernameSect, errors["username_spaces"]);
+			goodToGo = false;
+		} else if(!username.match(/^[A-Za-z0-9_.]+$/)){
+	     	addErrClass(usernameSect, errors["name_invalid_chars"], true, false);
+	    	goodToGo = false;
+	    }  
 
 		/*if (gotNums != null) {
 			addErrClass(usernameSect, errors["name_invalid_chars"]);

@@ -1576,6 +1576,9 @@
 		if(!is_valid_syntax('username',$username) && $multi!='yes' || $matches) {
 			e(lang("class_invalid_user"));
 		}
+		if(!preg_match('/^[A-Za-z0-9_.]+$/', $username)){
+			return false;
+		}
 		return true;
 	}
 	
@@ -2181,8 +2184,11 @@
 			{	
 				if(!isset($_COOKIE['video_'.$id])) {
 					$currentTime = time();
+					$vdetails = get_video_details($id);
+					// Cookie life time at least 1 hour else if video duration is bigger set at video time.
+					$cookieTime = ($vdetails['duration'] > 3600) ? $vdetails['duration'] : $cookieTime = 3600;
 					$db->update(tbl("video"),array("views", "last_viewed"),array("|f|views+1",$currentTime)," videoid='$id' OR videokey='$id'");
-					setcookie('video_'.$id,'watched',time()+3600);
+					setcookie('video_'.$id,'watched',time()+$cookieTime);
 				}
 			}
 			break;
@@ -2542,6 +2548,7 @@
 	*/
 
 	function nicetime($date,$istime=false) {
+		global $lang_obj;
 		if(empty($date)) {
 			return lang('no_date_provided');
 		}
@@ -2576,7 +2583,10 @@
 		if($difference != 1) {
 			// *** Dont apply plural if terms ending by a "s". Typically, french word for "month" is "mois".
 			if(substr($periods[$j], -1) != "s") {
-				$periods[$j].= "s";
+				$periods[$j]= $periods[$j];
+				if($lang_obj->lang=='en'){
+					$periods[$j].= 's';
+				}
 			}
 		}
 		return sprintf(lang($tense),$difference,$periods[$j]);
@@ -4184,6 +4194,8 @@
 			}
 		} elseif ( isset($_SERVER['SERVER_PORT']) && ( '443' == $_SERVER['SERVER_PORT'] ) ) {
 			return true;
+		} elseif(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+			return true;
 		}
 		return false;
 	}
@@ -5427,7 +5439,7 @@
 	        "SA" => "South America"
 	    );
 	    if (filter_var($ip, FILTER_VALIDATE_IP) && in_array($purpose, $support)) {
-	        $ipdat = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip));
+	        $ipdat = @json_decode(cb_curl("http://www.geoplugin.net/json.gp?ip=" . $ip));
 	        if (@strlen(trim($ipdat->geoplugin_countryCode)) == 2) {
 	            switch ($purpose) {
 	                case "location":
@@ -5848,7 +5860,189 @@
     	}
 	}
 
+
+	function cb_curl($url)
+	{
+	  $ch = curl_init();
+	  $timeout = 5;
+	  curl_setopt($ch,CURLOPT_URL,$url);
+	  curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+	  curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+	  $data = curl_exec($ch);
+	  curl_close($ch);
+	  return $data;
+	}
+
+	/**
+		* Check for the content mime type of a file provided
+		* @param : { FILE } { $mainFile } { File to run check against }
+		* @author : Fahad Abbas
+		* @since : 10 January, 2018
+		* @todo : will Check for the content mime type of a file provided
+		* @return : { string/boolean } { type or false }
+		* @example : N/A
+    */
+	function get_mime_type($file){
+		
+		$raw_content_type = mime_content_type($file);
+        $cont_type = substr($raw_content_type, 0,strpos($raw_content_type, '/'));
+        if ($cont_type){
+        	return $cont_type;
+        }else{
+        	return false;
+        }
+	}
 	
+	/**
+		* Trims the date added to date only
+		* @param : { $date_time }
+		* @author : Awais Fiaz
+		* @since : 5 March, 2018
+		* @todo : will trim the date and time to date only
+		* @return : { Date }
+		* @example : N/A
+    */
+	function date_only($date_time)
+	{
+       $arr=explode(" ",$date_time);
+       return $arr[0];
+	}
+
+
+	function isset_check($input_arr=array(),$key_name,$mysql_clean=false)
+	{
+
+	    if(isset($input_arr[$key_name])&&!empty($input_arr[$key_name]))
+	    {
+	        
+	        if(!is_array($input_arr[$key_name])&&!is_numeric($input_arr[$key_name])&&$mysql_clean)
+	            $input_arr[$key_name] = mysql_clean($input_arr[$key_name]);
+	        
+	        return $input_arr[$key_name]; 
+	    }
+	    else
+	        return false;
+
+	}
+	
+
+	/**
+	* [generic_curl use to send curl with post method]
+	* @author Awais Tariq
+	* @param [string] $call_bk [url where curl will be sent]
+	* @param [array] $array [date to be send ]
+	* @param [string] $follow_redirect [ redirect follow option for 301 status ]
+	* @param [array] $header_arr [ header's parameters are sent through this array ]
+	* @param [bool] $read_response_headers [ parse/fetch the response headers ]
+	* @return [array] [return code and result of curl]
+	*/
+	function generic_curl($input_arr = array())
+	{
+		$call_bk = isset_check($input_arr,'url');
+		
+		$array = isset_check($input_arr,'post_arr'); 
+		$file = isset_check($input_arr,'file');
+		$follow_redirect = isset_check($input_arr,'redirect');
+		$full_return_info = isset_check($input_arr,'full_return_info');
+		$header_arr = isset_check($input_arr,'headers');
+		$curl_timeout = isset_check($input_arr,'curl_timeout');
+		$methods = strtoupper(isset_check($input_arr,'method'));
+		$curl_connect_timeout = isset_check($input_arr,'curl_connect_timeout');
+		$curl_connect_timeout = (int)trim($curl_connect_timeout);
+		$curl_timeout = (int)trim($curl_timeout);
+		$read_response_headers = isset_check($input_arr,'response_headers');
+		$return_arr = array();
+		if(!empty($call_bk))
+		{
+			$ch = curl_init($call_bk);
+
+			if(!empty($file))
+			{
+				foreach ($file as $key => $value) 
+				{
+					if(file_exists($value))
+						$array[$key] = curl_file_create( $value, mime_content_type($value), basename($value));
+				}
+			}
+
+			if($methods)
+				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "{$methods}");
+
+			if(!empty($array))
+			{
+
+				curl_setopt($ch,CURLOPT_POST,true);
+				curl_setopt($ch,CURLOPT_POSTFIELDS,$array);
+			}
+
+			if($read_response_headers===true)
+			{
+				curl_setopt($ch, CURLOPT_VERBOSE, 1);
+				curl_setopt($ch, CURLOPT_HEADER, 1);
+			}
+
+			if(empty($header_arr))
+				$header_arr = array("Expect:");
+
+			if(empty($curl_timeout)||$curl_timeout==0)
+				$curl_timeout = 3;
+			
+			if($curl_timeout>0)
+				curl_setopt($ch, CURLOPT_TIMEOUT, $curl_timeout);
+			
+			if(empty($curl_connect_timeout)||$curl_connect_timeout==0)
+				$curl_connect_timeout = 2;
+
+			if($curl_connect_timeout>0)
+				curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $curl_connect_timeout);
+
+			curl_setopt($ch,CURLOPT_HTTPHEADER,$header_arr);
+
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+			if($follow_redirect)
+				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+			
+			$result = curl_exec($ch); 
+			$error_msg = curl_error($ch); 
+			$returnCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+			if($full_return_info)
+				$return_arr['full_info'] = curl_getinfo($ch);
+
+			$return_arr['code'] = $returnCode;
+			$errorNO = curl_errno($ch);
+			if($errorNO)
+			{
+				$return_arr['curl_error_no'] = $errorNO;
+			}
+			if(!empty($error_msg))
+			{
+				$return_arr['error_curl'] = $error_msg;
+			}
+			$return_arr['result'] = $result;
+			curl_close($ch);
+		}
+		else{
+			$return_arr['error'] = "False no callback url present! {$call_bk}";
+		}
+
+		return $return_arr;
+
+	}
+
+
+	/**
+	* This function is used to clean a string removing all special chars
+	* @author Mohammad Shoaib
+	* @param string
+	* @return cleaned string
+	*/ 
+	function cleanString($string) {
+		$string = str_replace("â€™", "'", $string);
+	    return preg_replace('/[^A-Za-z0-9 !@#$%^&*()_?<>|{}\[\].,+-;\/:"\'\-]/', "'", $string);
+	}
 
 
     include( 'functions_db.php' );

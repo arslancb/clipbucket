@@ -1,6 +1,9 @@
-#ClipBucket - Broadcasting like a boss!
-!['ClipBucket Screenshot'](http://clip-bucket.com/styles/default/images/laptop-large2.png)
-</br>
+# ClipBucket - Open Source Video Streaming Platform
+
+## Read the Developer Guides here
+https://docs.clipbucket.com/
+
+Should have added years ago, but...well now atleast its here
 
 <div align="center">
 <a href="http://demo.clipbucket.com/">View Demo</a> | <a href="http://clip-bucket.com/download">Download</a>
@@ -16,7 +19,7 @@ You can start a fully dedicated video sharing website or photo sharing websites 
 </br>
 <a href="http://clip-bucket.com">ClipBucket Official Website </a>
 </br>
-<a href="http://docs.clip-bucket.com">ClipBucket Documentation</a>
+<a href="https://docs.clipbucket.com/">ClipBucket Documentation</a>
 
 # Server Requirements
 

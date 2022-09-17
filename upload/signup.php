@@ -92,6 +92,6 @@
 	subtitle(lang("signup"));
 	//Displaying The Template
 	template_files('signup.html');
-	display_it()
+	display_it();
 
 ?>

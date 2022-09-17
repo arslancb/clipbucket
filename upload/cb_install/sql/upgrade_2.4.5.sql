@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}collections` (
   `public_upload` varchar(4) NOT NULL,
   `type` varchar(10) NOT NULL,
   PRIMARY KEY (`collection_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}collection_categories` (
   `category_id` int(255) NOT NULL AUTO_INCREMENT,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}collection_categories` (
   `category_thumb` mediumint(9) NOT NULL,
   `isdefault` enum('yes','no') NOT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}collection_items` (
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}collection_items` (
   `type` varchar(10) NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`ci_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}photos` (
   `photo_id` bigint(255) NOT NULL AUTO_INCREMENT,
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}photos` (
   `server_url` text NOT NULL,
   `owner_ip` varchar(20) NOT NULL,
   PRIMARY KEY (`photo_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 
