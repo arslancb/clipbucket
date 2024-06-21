@@ -17,7 +17,7 @@
 			<div class="clearfix signin-block">
 				<div class="account-holder">
 					<form name="login_form" method="post" action="" id="login_form" class="user-form">
-						<h2>{lang code="login"}</h2>
+						<h1>{lang code="login"}</h1>
 						<div class="form-group">
 							{*<label for="login_username_sp">{lang code="Username"}</label>*}
 							<input type="text" id="login_username_sp" placeholder="{lang code='type_username_here'}"
@@ -66,7 +66,7 @@
 						{$allow_registeration}
 					{else}
 					<form name="signup_form" id="signup_form" method="post" action="{$baseurl}/signup.php"  class="user-form custom-elements">
-						<h2>Signup!</h2>
+						<h1>Signup!</h1>
 						{foreach from=$required_fields item=field}
 							{if $field.type!='checkbox' && $field.type!='radiobutton'}
 								{$field.class='form-control'}
